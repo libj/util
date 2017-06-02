@@ -56,6 +56,308 @@ public final class Collections {
   }
 
   /**
+   * Searches a range of the specified list for the specified object
+   * using the binary search algorithm. The range must be sorted into
+   * ascending order according to the
+   * {@linkplain Comparable natural ordering} of its elements (as by the
+   * {@link #sort(List<T>, int, int)} method) prior to making this
+   * call.  If it is not sorted, the results are undefined.
+   * (If the range contains elements that are not mutually comparable (for
+   * example, strings and integers), it <i>cannot</i> be sorted according
+   * to the natural ordering of its elements, hence results are undefined.)
+   * If the range contains multiple elements equal to the specified object,
+   * there is no guarantee which one will be found.
+   *
+   * @param a the list to be searched
+   * @param fromIndex the index of the first element (inclusive) to be
+   *          searched
+   * @param toIndex the index of the last element (exclusive) to be searched
+   * @param key the value to be searched for
+   * @return index of the search key, if it is contained in the list
+   *         within the specified range;
+   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
+   *         <i>insertion point</i> is defined as the point at which the
+   *         key would be inserted into the list: the index of the first
+   *         element in the range greater than the key,
+   *         or <tt>toIndex</tt> if all
+   *         elements in the range are less than the specified key.  Note
+   *         that this guarantees that the return value will be &gt;= 0 if
+   *         and only if the key is found.
+   * @throws ClassCastException if the search key is not comparable to the
+   *         elements of the list within the specified range.
+   * @throws IllegalArgumentException
+   *         if {@code fromIndex > toIndex}
+   * @throws ArrayIndexOutOfBoundsException
+   *         if {@code fromIndex < 0 or toIndex > a.length}
+   */
+  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
+    rangeCheck(a.size(), fromIndex, toIndex);
+    return binarySearch0(a, fromIndex, toIndex, key);
+  }
+
+  /**
+   * Searches the specified list for the specified object using the binary
+   * search algorithm. The list must be sorted into ascending order
+   * according to the {@linkplain Comparable natural ordering}
+   * of its elements (as by the {@link #sort(List<T>)} method) prior to
+   * making this call. If it is not sorted, the results are undefined.
+   * (If the list contains elements that are not mutually comparable (for
+   * example, strings and integers), it <i>cannot</i> be sorted according
+   * to the natural ordering of its elements, hence results are undefined.)
+   * If the list contains multiple
+   * elements equal to the specified object, there is no guarantee which
+   * one will be found.
+   *
+   * @param a the list to be searched
+   * @param key the value to be searched for
+   * @return index of the search key, if it is contained in the list;
+   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
+   *         <i>insertion point</i> is defined as the point at which the
+   *         key would be inserted into the list: the index of the first
+   *         element greater than the key, or <tt>a.length</tt> if all
+   *         elements in the list are less than the specified key.  Note
+   *         that this guarantees that the return value will be &gt;= 0 if
+   *         and only if the key is found.
+   * @throws ClassCastException if the search key is not comparable to the
+   *         elements of the array.
+   */
+  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key) {
+    return binarySearch0(a, 0, a.size(), key);
+  }
+
+  /**
+   * Searches a range of the specified list for the specified object using
+   * the binary search algorithm. The range must be sorted into ascending
+   * order according to the specified comparator (as by the
+   * {@link #sort(List<T>, int, int, Comparator)
+   * sort(List<T>, int, int, Comparator)} method) prior to making this call.
+   * If it is not sorted, the results are undefined.
+   * If the range contains multiple elements equal to the specified object,
+   * there is no guarantee which one will be found.
+   *
+   * @param <T> the class of the objects in the list
+   * @param a the list to be searched
+   * @param fromIndex the index of the first element (inclusive) to be
+   *          searched
+   * @param toIndex the index of the last element (exclusive) to be searched
+   * @param key the value to be searched for
+   * @param c the comparator by which the list is ordered.  A
+   *        <tt>null</tt> value indicates that the elements'
+   *        {@linkplain Comparable natural ordering} should be used.
+   * @return index of the search key, if it is contained in the list
+   *         within the specified range;
+   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
+   *         <i>insertion point</i> is defined as the point at which the
+   *         key would be inserted into the list: the index of the first
+   *         element in the range greater than the key,
+   *         or <tt>toIndex</tt> if all
+   *         elements in the range are less than the specified key.  Note
+   *         that this guarantees that the return value will be &gt;= 0 if
+   *         and only if the key is found.
+   * @throws ClassCastException if the range contains elements that are not
+   *         <i>mutually comparable</i> using the specified comparator,
+   *         or the search key is not comparable to the
+   *         elements in the range using this comparator.
+   * @throws IllegalArgumentException
+   *         if {@code fromIndex > toIndex}
+   * @throws ArrayIndexOutOfBoundsException
+   *         if {@code fromIndex < 0 or toIndex > a.length}
+   */
+  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+    rangeCheck(a.size(), fromIndex, toIndex);
+    return binarySearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  /**
+   * Searches the specified list for the specified object using the binary
+   * search algorithm.  The list must be sorted into ascending order
+   * according to the specified comparator (as by the
+   * {@link #sort(List<T>, Comparator) sort(List<T>, Comparator)}
+   * method) prior to making this call.  If it is not sorted, the results
+   * are undefined. If the list contains multiple elements equal to the
+   * specified object, there is no guarantee which one will be found.
+   *
+   * @param <T> the class of the objects in the list
+   * @param a the list to be searched
+   * @param key the value to be searched for
+   * @param c the comparator by which the list is ordered.  A
+   *        <tt>null</tt> value indicates that the elements'
+   *        {@linkplain Comparable natural ordering} should be used.
+   * @return index of the search key, if it is contained in the list;
+   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
+   *         <i>insertion point</i> is defined as the point at which the
+   *         key would be inserted into the list: the index of the first
+   *         element greater than the key, or <tt>a.length</tt> if all
+   *         elements in the list are less than the specified key.  Note
+   *         that this guarantees that the return value will be &gt;= 0 if
+   *         and only if the key is found.
+   * @throws ClassCastException if the list contains elements that are not
+   *         <i>mutually comparable</i> using the specified comparator,
+   *         or the search key is not comparable to the
+   *         elements of the list using this comparator.
+   */
+  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key, final Comparator<? super T> c) {
+    return binarySearch0(a, 0, a.size(), key, c);
+  }
+
+  /**
+   * Checks that {@code fromIndex} and {@code toIndex} are in
+   * the range and throws an exception if they aren't.
+   */
+  private static void rangeCheck(final int arrayLength, final int fromIndex, final int toIndex) {
+    if (fromIndex > toIndex)
+      throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
+
+    if (fromIndex < 0)
+      throw new ArrayIndexOutOfBoundsException(fromIndex);
+
+    if (toIndex > arrayLength)
+      throw new ArrayIndexOutOfBoundsException(toIndex);
+  }
+
+  private static <T extends Comparable<? super T>>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key) {
+    int low = fromIndex;
+    int high = toIndex - 1;
+
+    while (low <= high) {
+      int mid = (low + high) >>> 1;
+      final Comparable<? super T> midVal = a.get(mid);
+      int cmp = midVal.compareTo(key);
+
+      if (cmp < 0)
+        low = mid + 1;
+      else if (cmp > 0)
+        high = mid - 1;
+      else
+        return mid; // key found
+    }
+
+    return -(low + 1); // key not found.
+  }
+
+  private static <T extends Comparable<? super T>>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+    if (c == null)
+      return binarySearch(a, fromIndex, toIndex, key);
+
+    int low = fromIndex;
+    int high = toIndex - 1;
+
+    while (low <= high) {
+      int mid = (low + high) >>> 1;
+      T midVal = a.get(mid);
+      int cmp = c.compare(midVal, key);
+      if (cmp < 0)
+        low = mid + 1;
+      else if (cmp > 0)
+        high = mid - 1;
+      else
+        return mid; // key found
+    }
+
+    return -(low + 1); // key not found.
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches
+   * the value provided.
+   *
+   * @param a The sorted array.
+   * @param key The value to match.
+   *
+   * @return The closest index of the sorted array matching the desired value.
+   */
+  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final T key) {
+    return binaryClosestSearch0(a, 0, a.size(), key);
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches
+   * the value provided.
+   *
+   * @param a The sorted array.
+   * @param from The starting index of the sorted array to search from.
+   * @param to The ending index of the sorted array to search to.
+   * @param key The value to match.
+   *
+   * @return The closest index of the sorted array matching the desired value.
+   */
+  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key) {
+    rangeCheck(a.size(), from, to);
+    return binaryClosestSearch0(a, from, to, key);
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches
+   * the value provided.
+   *
+   * @param a The sorted array.
+   * @param key The value to match.
+   *
+   * @return The closest index of the sorted array matching the desired value.
+   */
+  public static <T>int binaryClosestSearch(final List<T> a, final T key, final Comparator<T> comparator) {
+    return binaryClosestSearch0(a, 0, a.size(), key, comparator);
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches
+   * the value provided.
+   *
+   * @param a The sorted array.
+   * @param from The starting index of the sorted array to search from.
+   * @param to The ending index of the sorted array to search to.
+   * @param key The value to match.
+   *
+   * @return The closest index of the sorted array matching the desired value.
+   */
+  public static <T>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key, final Comparator<T> comparator) {
+    rangeCheck(a.size(), from, to);
+    return binaryClosestSearch0(a, from, to, key, comparator);
+  }
+
+  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<T> a, final int from, final int to, final T key) {
+    if (to == 0)
+      return 0;
+
+    int first = 0;
+    int upto = to;
+    int mid = -1;
+    while (first < upto) {
+      mid = (first + upto) / 2;    // Compute mid point.
+      final int comparison = key.compareTo(a.get(mid));
+      if (comparison < 0)
+        upto = mid;        // repeat search in bottom half.
+      else if (comparison > 0)
+        first = mid + 1;      // Repeat search in top half.
+      else
+        return mid;
+    }
+
+    return first == to - 1 && key.compareTo(a.get(first)) > 0 ? first + 1 : (first + upto) / 2;
+  }
+
+  private static <T>int binaryClosestSearch0(final List<T> a, final int from, final int to, final T key, final Comparator<T> comparator) {
+    if (to == 0)
+      return 0;
+
+    int first = 0;
+    int upto = to;
+    int mid = -1;
+    while (first < upto) {
+      mid = (first + upto) / 2;    // Compute mid point.
+      final int comparison = comparator.compare(key, a.get(mid));
+      if (comparison < 0)
+        upto = mid;        // repeat search in bottom half.
+      else if (comparison > 0)
+        first = mid + 1;      // Repeat search in top half.
+      else
+        return mid;
+    }
+
+    return first == to - 1 && comparator.compare(key, a.get(first)) > 0 ? first + 1 : (first + upto) / 2;
+  }
+
+  /**
    * Sorts the specified list into ascending order, according to the
    * <i>natural ordering</i> of its elements.  This implementation differs
    * from the one in java.util.Collections in that it allows null entries to
