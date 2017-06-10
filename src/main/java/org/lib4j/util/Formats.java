@@ -19,19 +19,32 @@ package org.lib4j.util;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public final class Formats {
-  public static ThreadLocal<SimpleDateFormat> createSimpleDateFormat(final String pattern, final Locale locale) {
+  public static ThreadLocal<SimpleDateFormat> createSimpleDateFormat(final String pattern, final Locale locale, final TimeZone timeZone) {
     return new ThreadLocal<SimpleDateFormat>() {
       @Override
       protected SimpleDateFormat initialValue() {
-        return new SimpleDateFormat(pattern, locale);
+        final SimpleDateFormat format = locale != null ? new SimpleDateFormat(pattern, locale) : new SimpleDateFormat(pattern);
+        if (timeZone != null)
+          format.setTimeZone(timeZone);
+
+        return format;
       }
     };
   }
 
+  public static ThreadLocal<SimpleDateFormat> createSimpleDateFormat(final String pattern, final Locale locale) {
+    return createSimpleDateFormat(pattern, locale, null);
+  }
+
+  public static ThreadLocal<SimpleDateFormat> createSimpleDateFormat(final String pattern, final TimeZone timeZone) {
+    return createSimpleDateFormat(pattern, null, timeZone);
+  }
+
   public static ThreadLocal<SimpleDateFormat> createSimpleDateFormat(final String pattern) {
-    return createSimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT));
+    return createSimpleDateFormat(pattern, null, null);
   }
 
   public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {
