@@ -24,10 +24,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Level;
-
 public class SynchronizingExecutorServiceTest {
   private static final Logger logger = LoggerFactory.getLogger(SynchronizingExecutorServiceTest.class);
+
+  private static final boolean showDebugLog = false;
 
   private static final int threadRuntime = 500;
 
@@ -43,8 +43,10 @@ public class SynchronizingExecutorServiceTest {
 
   @Test
   public void test() throws InterruptedException {
-    final ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-    root.setLevel(Level.ALL);
+    if (!showDebugLog) {
+      final ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+      root.setLevel(ch.qos.logback.classic.Level.ALL);
+    }
 
     final SynchronizingExecutorService executorService = new SynchronizingExecutorService(Executors.newFixedThreadPool(testConsumerThreads / 4)) {
       @Override
