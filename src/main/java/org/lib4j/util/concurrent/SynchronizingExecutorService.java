@@ -1,3 +1,19 @@
+/* Copyright (c) 2017 lib4j
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.lib4j.util.concurrent;
 
 import java.util.List;
@@ -12,8 +28,8 @@ import org.slf4j.LoggerFactory;
 public abstract class SynchronizingExecutorService extends AbstractExecutorService {
   private static final Logger logger = LoggerFactory.getLogger(SynchronizingExecutorService.class);
 
-  private final Object mergeLock = new Object();
-  private final Object lockObject = new Object();
+  private final Object startLock = new Object();
+  private final Object finishLock = new Object();
   private volatile boolean synchronizing;
   private volatile int runningThreadCount;
 
@@ -50,16 +66,16 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
     if (synchronizing)
       return;
 
-    synchronized (lockObject) {
+    synchronized (startLock) {
       if (synchronizing)
         return;
 
       logger.debug("Starting sync....");
       if (runningThreadCount > 0) {
-        synchronized (mergeLock) {
+        synchronized (finishLock) {
           synchronizing = true;
           logger.debug("wait() for threads to finish...");
-          mergeLock.wait();
+          finishLock.wait();
         }
       }
       else {
@@ -96,9 +112,9 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         finally {
           logger.debug("Remaining threads: " + (runningThreadCount - 1));
           if (--runningThreadCount == 0 && synchronizing) {
-            synchronized (mergeLock) {
+            synchronized (finishLock) {
               logger.debug("notify() synchronize to continue...");
-              mergeLock.notify();
+              finishLock.notify();
             }
           }
         }
@@ -112,7 +128,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
     }
 
     logger.debug("Waiting for unlock to exec new threads...");
-    synchronized (lockObject) {
+    synchronized (startLock) {
       ++runningThreadCount;
       executorService.execute(wrapper);
     }
