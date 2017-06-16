@@ -17,6 +17,7 @@
 package org.lib4j.util.concurrent;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,13 +29,15 @@ import ch.qos.logback.classic.Level;
 public class SynchronizingExecutorServiceTest {
   private static final Logger logger = LoggerFactory.getLogger(SynchronizingExecutorServiceTest.class);
 
-  private static final int threadRuntime = 2000;
+  private static final int threadRuntime = 500;
 
-  private final int testConsumerThreads = 200;
+  private final int testConsumerThreads = 3000;
   private volatile int testConsumerCounter = 0;
   private volatile Integer testLastConsumerCountAllowed = null;
   private long lastSync = System.currentTimeMillis();
-  private long syncPeriod = 3000;
+  private long syncPeriod = 500;
+  private volatile long syncTs;
+  private volatile long consumerTs;
 
   private volatile String error;
 
@@ -47,7 +50,6 @@ public class SynchronizingExecutorServiceTest {
       @Override
       public void onSynchronize() {
         testLastConsumerCountAllowed = testConsumerCounter;
-        lastSync = System.currentTimeMillis();
 
         try {
           // Check against the executor's count...
@@ -57,19 +59,20 @@ public class SynchronizingExecutorServiceTest {
           }
 
           // Check against our own count...
-          if (consumerCount != 0) {
-            SynchronizingExecutorServiceTest.this.error = "consumerCount = " + consumerCount;
+          if (consumerCount.get() != 0) {
+            SynchronizingExecutorServiceTest.this.error = "consumerCount = " + consumerCount + ", testLastConsumerCountAllowed = " + testLastConsumerCountAllowed + ", (syncTs - consumerTs) = " + (syncTs - consumerTs);
             return;
           }
 
-          logger.info("Syncing with " + consumerCount + " running consumers...");
-          Thread.sleep(1000);
+          logger.debug("Syncing with " + consumerCount + " running consumers...");
+          Thread.sleep(10);
         }
         catch (final InterruptedException e) {
           error = e.getMessage();
         }
 
         testLastConsumerCountAllowed = null;
+        lastSync = System.currentTimeMillis();
       }
     };
 
@@ -83,8 +86,9 @@ public class SynchronizingExecutorServiceTest {
         new Thread() {
           @Override
           public void run() {
-            logger.info("Starting sync with " + consumerCount + " running consumers");
+            logger.debug("Starting sync with " + consumerCount + " running consumers");
             try {
+              syncTs = System.currentTimeMillis();
               executorService.synchronize();
             }
             catch (final InterruptedException e) {
@@ -94,11 +98,11 @@ public class SynchronizingExecutorServiceTest {
         }.start();
       }
 
-      Thread.sleep((long)(Math.random() * 100));
+      Thread.sleep((long)(Math.random() * 10));
     }
   }
 
-  private volatile int consumerCount = 0;
+  private final AtomicInteger consumerCount = new AtomicInteger();
 
   private class Consumer implements Runnable {
     private final int id;
@@ -109,8 +113,9 @@ public class SynchronizingExecutorServiceTest {
 
     @Override
     public void run() {
-      ++consumerCount;
-      logger.info("    Starting " + Thread.currentThread().getName());
+      consumerCount.incrementAndGet();
+      consumerTs = System.currentTimeMillis();
+      logger.debug("    Starting new Consumer(" + id + ")");
       try {
         // Check whether this thread should have been executed
         if (testLastConsumerCountAllowed != null && testLastConsumerCountAllowed < id) {
@@ -128,10 +133,10 @@ public class SynchronizingExecutorServiceTest {
           throw new RuntimeException(e);
         }
 
-        logger.info("    Finished " + Thread.currentThread().getName());
+        logger.debug("    Finished " + id);
       }
       finally {
-        --consumerCount;
+        consumerCount.decrementAndGet();
       }
     }
   }

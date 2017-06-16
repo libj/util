@@ -21,6 +21,7 @@ import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,10 @@ import org.slf4j.LoggerFactory;
 public abstract class SynchronizingExecutorService extends AbstractExecutorService {
   private static final Logger logger = LoggerFactory.getLogger(SynchronizingExecutorService.class);
 
+  private final AtomicInteger runningThreadCount = new AtomicInteger();
   private final Object startLock = new Object();
   private final Object finishLock = new Object();
   private volatile boolean synchronizing;
-  private volatile int runningThreadCount;
 
   private final ExecutorService executorService;
 
@@ -51,7 +52,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
    * @return current count of running threads in this service.
    */
   public int getRunningThreadCount() {
-    return runningThreadCount;
+    return runningThreadCount.get();
   }
 
   /**
@@ -71,15 +72,21 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         return;
 
       logger.debug("Starting sync....");
-      if (runningThreadCount > 0) {
+      if (runningThreadCount.get() > 0) {
         synchronized (finishLock) {
           synchronizing = true;
-          logger.debug("wait() for threads to finish...");
+          logger.debug("wait() [1] for threads to finish...");
           finishLock.wait();
         }
       }
       else {
         synchronizing = true;
+        if (runningThreadCount.get() > 0) {
+          synchronized (finishLock) {
+            logger.debug("wait() [2] for threads to finish...");
+            finishLock.wait();
+          }
+        }
       }
 
       onSynchronize();
@@ -110,8 +117,8 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
           command.run();
         }
         finally {
-          logger.debug("Remaining threads: " + (runningThreadCount - 1));
-          if (--runningThreadCount == 0 && synchronizing) {
+          logger.debug("Remaining threads: " + (runningThreadCount.get() - 1));
+          if (runningThreadCount.decrementAndGet() == 0 && synchronizing) {
             synchronized (finishLock) {
               logger.debug("notify() synchronize to continue...");
               finishLock.notify();
@@ -122,15 +129,28 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
     };
 
     if (!synchronizing) {
-      ++runningThreadCount;
-      executorService.execute(wrapper);
+      runningThreadCount.incrementAndGet();
+      try {
+        executorService.execute(wrapper);
+      }
+      catch (final Throwable e) {
+        runningThreadCount.decrementAndGet();
+        throw e;
+      }
+
       return;
     }
 
     logger.debug("Waiting for unlock to exec new threads...");
     synchronized (startLock) {
-      ++runningThreadCount;
-      executorService.execute(wrapper);
+      runningThreadCount.incrementAndGet();
+      try {
+        executorService.execute(wrapper);
+      }
+      catch (final Throwable e) {
+        runningThreadCount.decrementAndGet();
+        throw e;
+      }
     }
   }
 
