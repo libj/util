@@ -55,10 +55,10 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Stop execution of new threads, and merge all running threads. Once
-   * merged, <code>onSynchronize()</code> is called. If this method's
-   * thread is interrupted waiting for threads to finish, it throws a
-   * <code>InterruptedException</code>
+   * Stop execution of new threads, and wait for all running threads to finish.
+   * Once all threads have finished, <code>onSynchronize()</code> is called. If
+   * this method's thread is interrupted waiting for threads to finish, it
+   * throws a <code>InterruptedException</code>
    * @throws InterruptedException Thrown if this method's thread is interrupted
    * waiting for its threads to finish.
    */
