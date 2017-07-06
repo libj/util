@@ -43,7 +43,7 @@ public class SynchronizingExecutorServiceTest {
 
   @Test
   public void test() throws InterruptedException {
-    if (!showDebugLog) {
+    if (showDebugLog) {
       final ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
       root.setLevel(ch.qos.logback.classic.Level.ALL);
     }
