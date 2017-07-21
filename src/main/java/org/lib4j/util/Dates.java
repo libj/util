@@ -16,16 +16,46 @@
 
 package org.lib4j.util;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
-public final class DateUtil {
-  public static final int NANOSECONDS_IN_MILLISECONDS = 1000000;
+public final class Dates {
+  public static final byte DAYS_IN_WEEK = 7;
+  public static final byte HOURS_IN_DAY = 24;
+  public static final byte MINUTES_IN_HOUR = 60;
+  public static final byte SECONDS_IN_MINUTE = 60;
+  public static final short MILLISECONDS_IN_SECOND = 1000;
 
-  public static final short MINUTES_IN_DAY = 24 * 60;
-  public static final int MILLISECONDS_IN_MINUTE = 60 * 1000;
-  public static final int MILLISECONDS_IN_HOUR = 60 * MILLISECONDS_IN_MINUTE;
-  public static final int MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
+  public static final short HOURS_IN_WEEK = HOURS_IN_DAY * DAYS_IN_WEEK;
+  public static final short MINUTES_IN_WEEK = MINUTES_IN_HOUR * HOURS_IN_WEEK;
+  public static final int SECONDS_IN_WEEK = SECONDS_IN_MINUTE * MINUTES_IN_WEEK;
+  public static final int MILLISECONDS_IN_WEEK = MILLISECONDS_IN_SECOND * SECONDS_IN_WEEK;
+
+  public static final short MINUTES_IN_DAY = MINUTES_IN_HOUR * HOURS_IN_DAY;
+  public static final int SECONDS_IN_DAY = SECONDS_IN_MINUTE * MINUTES_IN_DAY;
+  public static final int MILLISECONDS_IN_DAY = MILLISECONDS_IN_SECOND * SECONDS_IN_DAY;
+
+  public static final int SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
+  public static final int MILLISECONDS_IN_HOUR = MILLISECONDS_IN_SECOND * SECONDS_IN_HOUR;
+
+  public static final int MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * SECONDS_IN_MINUTE;
+
+  private static class Date2 extends Date {
+    private static final long serialVersionUID = -3516661689900839721L;
+    protected Date2(final long time) {
+      super(time);
+    }
+
+    @Override
+    public String toString() {
+      return DateTimeFormatter.ISO_INSTANT.format(toInstant());
+    }
+  }
+
+  public static Date newDate(final long time) {
+    return new Date2(time);
+  }
 
   public static String getTimeZoneShortName(final String id, final Date date) {
     final TimeZone timezone = TimeZone.getTimeZone(id);
@@ -47,7 +77,7 @@ public final class DateUtil {
   @SuppressWarnings("deprecation")
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final int timeZoneOffset = date.getTimezoneOffset();
-    date.setTime((date.getTime() / 1000) * 1000 + milliseconds);
+    date.setTime((date.getTime() / MILLISECONDS_IN_SECOND) * MILLISECONDS_IN_SECOND + milliseconds);
     date.setHours(hours);
     date.setMinutes(minutes);
     date.setSeconds(seconds);
@@ -111,13 +141,31 @@ public final class DateUtil {
     return update;
   }
 
-  @SuppressWarnings("deprecation")
+  public static short getMilliOfSecond(final Date dateTime) {
+    return (short)(dateTime.getTime() % 1000);
+  }
+
+  public static Date dropDatePart(final Date dateTime) {
+    return new Date(dropDatePart(dateTime.getTime()));
+  }
+
+  public static long dropDatePart(long dateTime) {
+    if (dateTime < 0)
+      dateTime = MILLISECONDS_IN_DAY + dateTime % MILLISECONDS_IN_DAY;
+
+    return dateTime % MILLISECONDS_IN_DAY;
+  }
+
   public static Date dropTimePart(final Date dateTime) {
-    return dateTime != null ? new Date(dateTime.getYear(), dateTime.getMonth(), dateTime.getDate()) : null;
+    return new Date(dropTimePart(dateTime.getTime()));
+  }
+
+  public static long dropTimePart(final long dateTime) {
+    return dateTime - dropDatePart(dateTime);
   }
 
   public static long dropMilliseconds(final long time) {
-    return 1000 * (time / 1000);
+    return MILLISECONDS_IN_SECOND * (time / MILLISECONDS_IN_SECOND);
   }
 
   public static Date dropMilliseconds(final Date dateTime) {
@@ -125,16 +173,14 @@ public final class DateUtil {
     return dateTime;
   }
 
-  public static Date setTimeZone(final Date date, final TimeZone timeZone) {
-    return setTimeZoneInPlace(new Date(date.getTime()), timeZone);
+  public static String getTimeZoneISO8601(final TimeZone timeZone) {
+    final int absOffset = Math.abs(timeZone.getRawOffset());
+    final int hours = absOffset / MILLISECONDS_IN_HOUR;
+    final int minutes = absOffset / MILLISECONDS_IN_MINUTE % MINUTES_IN_HOUR;
+    final String sign = timeZone.getRawOffset() >= 0 ? "+" : "-";
+    return sign + (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes);
   }
 
-  @SuppressWarnings("deprecation")
-  public static Date setTimeZoneInPlace(final Date date, final TimeZone timeZone) {
-    date.setTime(date.getTime() + (timeZone.getOffset(date.getTime()) - date.getTimezoneOffset()) * 60000);
-    return date;
-  }
-
-  private DateUtil() {
+  private Dates() {
   }
 }

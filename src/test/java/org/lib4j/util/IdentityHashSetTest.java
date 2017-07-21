@@ -16,16 +16,16 @@
 
 package org.lib4j.util;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-public class IdentityArrayListTest {
+public class IdentityHashSetTest {
   @Test
   public void test() {
-    final ArrayList<String> regularSet = new ArrayList<String>();
-    final IdentityArrayList<String> identitySet = new IdentityArrayList<String>();
+    final HashSet<String> regularSet = new HashSet<String>();
+    final IdentityHashSet<String> identitySet = new IdentityHashSet<String>();
 
     final String a = "a";
     regularSet.add(a);
@@ -35,7 +35,7 @@ public class IdentityArrayListTest {
     Assert.assertTrue(identitySet.contains(a));
     Assert.assertFalse(identitySet.contains(new String("a")));
 
-    final IdentityArrayList<String> cloneIdentitySet = identitySet.clone();
+    final IdentityHashSet<String> cloneIdentitySet = identitySet.clone();
     Assert.assertFalse(cloneIdentitySet.contains(new String("a")));
     Assert.assertTrue(cloneIdentitySet.contains(a));
   }

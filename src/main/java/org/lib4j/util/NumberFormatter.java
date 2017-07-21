@@ -16,27 +16,18 @@
 
 package org.lib4j.util;
 
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 
-import org.junit.Assert;
-import org.junit.Test;
+public class NumberFormatter {
+  public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {
+    return new ThreadLocal<DecimalFormat>() {
+      @Override
+      protected DecimalFormat initialValue() {
+        return new DecimalFormat(pattern);
+      }
+    };
+  }
 
-public class IdentityArrayListTest {
-  @Test
-  public void test() {
-    final ArrayList<String> regularSet = new ArrayList<String>();
-    final IdentityArrayList<String> identitySet = new IdentityArrayList<String>();
-
-    final String a = "a";
-    regularSet.add(a);
-    identitySet.add(a);
-
-    Assert.assertTrue(regularSet.contains(new String("a")));
-    Assert.assertTrue(identitySet.contains(a));
-    Assert.assertFalse(identitySet.contains(new String("a")));
-
-    final IdentityArrayList<String> cloneIdentitySet = identitySet.clone();
-    Assert.assertFalse(cloneIdentitySet.contains(new String("a")));
-    Assert.assertTrue(cloneIdentitySet.contains(a));
+  private NumberFormatter() {
   }
 }

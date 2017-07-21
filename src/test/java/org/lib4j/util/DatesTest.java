@@ -16,27 +16,14 @@
 
 package org.lib4j.util;
 
-import java.util.ArrayList;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-public class IdentityArrayListTest {
+public class DatesTest {
   @Test
-  public void test() {
-    final ArrayList<String> regularSet = new ArrayList<String>();
-    final IdentityArrayList<String> identitySet = new IdentityArrayList<String>();
-
-    final String a = "a";
-    regularSet.add(a);
-    identitySet.add(a);
-
-    Assert.assertTrue(regularSet.contains(new String("a")));
-    Assert.assertTrue(identitySet.contains(a));
-    Assert.assertFalse(identitySet.contains(new String("a")));
-
-    final IdentityArrayList<String> cloneIdentitySet = identitySet.clone();
-    Assert.assertFalse(cloneIdentitySet.contains(new String("a")));
-    Assert.assertTrue(cloneIdentitySet.contains(a));
+  public void testDatePart() {
+    for (long i = -50; i <= 50; i++)
+      for (long j = 0; j < Dates.MILLISECONDS_IN_DAY; j += 997)
+        Assert.assertEquals("Iteration: " + i + " " + j, j, Dates.dropDatePart(Dates.MILLISECONDS_IN_DAY * i + j));
   }
 }

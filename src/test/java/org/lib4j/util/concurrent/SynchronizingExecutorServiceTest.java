@@ -21,13 +21,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.lib4j.logging.DeferredLogger;
+import org.lib4j.test.IntegrationTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Level;
+
+@Category(IntegrationTest.class)
 public class SynchronizingExecutorServiceTest {
   private static final Logger logger = LoggerFactory.getLogger(SynchronizingExecutorServiceTest.class);
-
-  private static final boolean showDebugLog = false;
 
   private static final int threadRuntime = 500;
 
@@ -41,13 +45,23 @@ public class SynchronizingExecutorServiceTest {
 
   private volatile String error;
 
+  static {
+    final ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+    DeferredLogger.defer(logger, logger.iteratorForAppenders().next(), Level.INFO);
+  }
+
   @Test
   public void test() throws InterruptedException {
-    if (showDebugLog) {
-      final ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-      root.setLevel(ch.qos.logback.classic.Level.ALL);
+    try {
+      runTest();
     }
+    catch (final Exception e) {
+      DeferredLogger.flush(Level.DEBUG);
+      throw e;
+    }
+  }
 
+  private void runTest() throws InterruptedException {
     final SynchronizingExecutorService executorService = new SynchronizingExecutorService(Executors.newFixedThreadPool(testConsumerThreads / 4)) {
       @Override
       public void onSynchronize() {
