@@ -16,6 +16,7 @@
 
 package org.lib4j.util;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class CollectionsTest {
+  @Test
+  public void testGetComponentType() {
+    Assert.assertEquals(null, Collections.getComponentType(Arrays.asList(new Object[] {null, null, null})));
+    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(new Object[] {new Integer(1), null, BigInteger.ONE})));
+    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(new Object[] {new Integer(1), new Long(1), BigInteger.ONE})));
+  }
+
   @Test
   public void testPartitions() {
     final List<String> list = Arrays.asList(new String[] {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"});

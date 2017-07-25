@@ -18,7 +18,7 @@ package org.lib4j.util;
 
 import java.text.DecimalFormat;
 
-public class NumberFormatter {
+public final class NumberFormatter {
   public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {
     return new ThreadLocal<DecimalFormat>() {
       @Override

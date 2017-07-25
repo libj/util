@@ -16,10 +16,11 @@
 
 package org.lib4j.util;
 
+import java.text.ParseException;
 import java.util.Map;
 
 public final class ELs {
-  public static String dereference(String string, final Map<String,String> variables) throws ExpressionFormatException {
+  public static String dereference(String string, final Map<String,String> variables) throws ParseException {
     if (string == null || string.length() == 0 || variables == null)
       return string;
 
@@ -29,7 +30,7 @@ public final class ELs {
     while ((i = string.indexOf("${", i)) != -1) {
       j = string.indexOf("}", i + 2);
       if (j == -1)
-        throw new ExpressionFormatException("There is an error in your expression: " + string);
+        throw new ParseException("There is an error in your expression: " + string, i);
 
       final String token = string.substring(i + 2, j);
       final String variable = variables.get(token);

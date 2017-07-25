@@ -18,12 +18,9 @@ package org.lib4j.util;
 
 import java.util.regex.Pattern;
 
-public class Patterns {
+public final class Patterns {
   public static String[] getGroupNames(final Pattern pattern) {
-    if (pattern == null)
-      return null;
-
-    return getGroupNames(pattern.toString(), 0, 0);
+    return pattern == null ? null : getGroupNames(pattern.toString(), 0, 0);
   }
 
   private static String[] getGroupNames(final String regex, final int index, final int depth) {

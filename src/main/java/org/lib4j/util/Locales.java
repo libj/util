@@ -74,10 +74,10 @@ public final class Locales {
     if (!enumeration.hasMoreElements())
       return new Locale[depth];
 
-    final Locale mediaType = parse(enumeration.nextElement());
-    final Locale[] mediaTypes = parse(enumeration, depth + 1);
-    mediaTypes[depth] = mediaType;
-    return mediaTypes;
+    final Locale locale = parse(enumeration.nextElement());
+    final Locale[] locales = parse(enumeration, depth + 1);
+    locales[depth] = locale;
+    return locales;
   }
 
   private Locales() {

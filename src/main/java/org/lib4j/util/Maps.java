@@ -18,7 +18,7 @@ package org.lib4j.util;
 
 import java.util.Map;
 
-public class Maps {
+public final class Maps {
   @SuppressWarnings("unchecked")
   public static <M extends Map<K,V>,K,V>M clone(final Map<K,V> map) {
     try {

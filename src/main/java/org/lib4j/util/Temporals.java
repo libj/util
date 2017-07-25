@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.Comparator;
 import java.util.Date;
@@ -70,6 +71,9 @@ public final class Temporals {
   public static final int NANOS_IN_MICROS = 1000;
   public static final int NANOS_IN_MILLI = NANOS_IN_MICROS * MICROS_IN_MILLI;
   public static final int NANOS_IN_SECOND = NANOS_IN_MILLI * Dates.MILLISECONDS_IN_SECOND;
+  public static final long NANOS_IN_MINUTE = (long)NANOS_IN_MILLI * Dates.MILLISECONDS_IN_MINUTE;
+  public static final long NANOS_IN_HOUR = (long)NANOS_IN_MILLI * Dates.MILLISECONDS_IN_HOUR;
+  public static final long NANOS_IN_DAY = (long)NANOS_IN_MILLI * Dates.MILLISECONDS_IN_DAY;
 
   public static int compare(final Temporal o1, final Temporal o2) {
     return COMPARATOR.compare(o1, o2);
@@ -109,6 +113,10 @@ public final class Temporals {
 
   public static LocalDateTime toLocalDateTime(final long time) {
     return LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
+  }
+
+  public static LocalTime subtract(final LocalTime time1, final LocalTime time2) {
+    return LocalTime.ofNanoOfDay(NANOS_IN_DAY - ChronoUnit.NANOS.between(time1, time2));
   }
 
   private Temporals() {

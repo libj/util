@@ -22,7 +22,31 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lib4j.lang.Classes;
+
 public final class Collections {
+  public static Class<?> getComponentType(final Collection<?> collection) {
+    if (collection.size() == 0)
+      return null;
+
+    final Iterator<?> iterator = collection.iterator();
+    final Class<?>[] types = getNotNullMembers(iterator, 0);
+    return types.length == 0 ? null : Classes.getGreatestCommonSuperclass(types);
+  }
+
+  private static Class<?>[] getNotNullMembers(final Iterator<?> iterator, final int depth) {
+    while (iterator.hasNext()) {
+      final Object member = iterator.next();
+      if (member != null) {
+        final Class<?>[] types = getNotNullMembers(iterator, depth + 1);
+        types[depth] = member.getClass();
+        return types;
+      }
+    }
+
+    return new Class<?>[depth];
+  }
+
   public static String toString(final Collection<?> collection, final char delimiter) {
     if (collection == null)
       return null;
@@ -357,6 +381,14 @@ public final class Collections {
     return first == to - 1 && comparator.compare(key, a.get(first)) > 0 ? first + 1 : (first + upto) / 2;
   }
 
+  @SuppressWarnings("rawtypes")
+  private static final Comparator<Comparable> nullComparator = new Comparator<Comparable>() {
+    @Override
+    public int compare(final Comparable o1, final Comparable o2) {
+      return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2);
+    }
+  };
+
   /**
    * Sorts the specified list into ascending order, according to the
    * <i>natural ordering</i> of its elements.  This implementation differs
@@ -371,13 +403,7 @@ public final class Collections {
    * @see java.util.Collections#sort(List)
    */
   public static <T extends Comparable<? super T>>void sort(final List<T> list) {
-    if (list.remove(null)) {
-      java.util.Collections.<T>sort(list);
-      list.add(0, null);
-    }
-    else {
-      java.util.Collections.<T>sort(list);
-    }
+    java.util.Collections.<T>sort(list, nullComparator);
   }
 
   /**
@@ -397,32 +423,12 @@ public final class Collections {
    * @see java.util.Collections#sort(List, Comparator)
    */
   public static <T>void sort(final List<T> list, final Comparator<? super T> c) {
-    if (list.remove(null)) {
-      java.util.Collections.<T>sort(list, c);
-      list.add(0, null);
-    }
-    else {
-      java.util.Collections.<T>sort(list, c);
-    }
-  }
-
-  /**
-   * Returns a mutable list containing the specified object.
-   *
-   * @param clazz the final class type of the List.
-   * @param o the object to be stored in the returned list.
-   * @return a mutable list containing the specified object.
-   */
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C singletonCollection(final Class<? extends Collection> type, final T o) {
-    try {
-      final C collection = (C)type.newInstance();
-      collection.add(o);
-      return collection;
-    }
-    catch (final ReflectiveOperationException e) {
-      throw new UnsupportedOperationException(e);
-    }
+    java.util.Collections.<T>sort(list, new Comparator<T>() {
+      @Override
+      public int compare(final T o1, final T o2) {
+        return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : c.compare(o1, o2);
+      }
+    });
   }
 
   @SafeVarargs
@@ -435,7 +441,7 @@ public final class Collections {
 
       return collection;
     }
-    catch (final ReflectiveOperationException e) {
+    catch (final IllegalAccessException | InstantiationException e) {
       throw new UnsupportedOperationException(e);
     }
   }
@@ -447,7 +453,7 @@ public final class Collections {
       collection.addAll(collection);
       return collection;
     }
-    catch (final ReflectiveOperationException e) {
+    catch (final IllegalAccessException | InstantiationException e) {
       throw new UnsupportedOperationException(e);
     }
   }
@@ -456,27 +462,31 @@ public final class Collections {
   public static <C extends Collection<T>,T>C clone(final C collection) {
     try {
       final C clone = (C)collection.getClass().newInstance();
-      for (final T item : collection)
-        clone.add(item);
+      for (final T member : collection)
+        clone.add(member);
 
       return clone;
     }
-    catch (final ReflectiveOperationException e) {
+    catch (final IllegalAccessException | InstantiationException e) {
       throw new UnsupportedOperationException(e);
     }
   }
 
   @SafeVarargs
-  @SuppressWarnings("rawtypes")
-  public static <T>Collection<T> addAll(final Class<? extends Collection> cls, final Collection<? extends T> ... collections) {
-    try {
-      final Collection<T> list = cls.newInstance();
-      for (final Collection<? extends T> collection : collections)
-        list.addAll(collection);
+  public static <T>Collection<T> concat(final Collection<T> target, final Collection<? extends T> ... collections) {
+    for (final Collection<? extends T> collection : collections)
+      target.addAll(collection);
 
-      return list;
+    return target;
+  }
+
+  @SafeVarargs
+  public static <C extends Collection<T>,T>Collection<T> concat(final Class<C> type, final Collection<? extends T> ... collections) {
+    try {
+      final Collection<T> target = type.newInstance();
+      return concat(target, collections);
     }
-    catch (final ReflectiveOperationException e) {
+    catch (final IllegalAccessException | InstantiationException e) {
       throw new UnsupportedOperationException(e);
     }
   }
@@ -486,26 +496,26 @@ public final class Collections {
     return (C[])partition(collection.getClass(), collection, size);
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C[] partition(final Class<? extends Collection> type, final Collection<T> collection, final int size) {
+  @SuppressWarnings("unchecked")
+  public static <C extends Collection<T>,T>C[] partition(final Class<C> type, final Collection<T> collection, final int size) {
     final int parts = collection.size() / size;
     final int remainder = collection.size() % size;
     final C[] partitions = (C[])Array.newInstance(type, parts + (remainder != 0 ? 1 : 0));
     final Iterator<T> iterator = collection.iterator();
     try {
       for (int i = 0; i < parts; i++) {
-        final C part = partitions[i] = (C)type.newInstance();
+        final C part = partitions[i] = type.newInstance();
         for (int j = 0; j < size; j++)
           part.add(iterator.next());
       }
 
       if (remainder != 0) {
-        final C part = partitions[partitions.length - 1] = (C)type.newInstance();
+        final C part = partitions[partitions.length - 1] = type.newInstance();
         for (int j = 0; j < remainder; j++)
           part.add(iterator.next());
       }
     }
-    catch (final ReflectiveOperationException e) {
+    catch (final IllegalAccessException | InstantiationException e) {
       throw new UnsupportedOperationException(e);
     }
 
@@ -525,27 +535,25 @@ public final class Collections {
     final Iterator<?> aIterator = a.iterator();
     final Iterator<?> bIterator = b.iterator();
     while (true) {
-      if (aIterator.hasNext()) {
-        if (!bIterator.hasNext())
-          return false;
-
-        Object item;
-        if ((item = aIterator.next()) != null ? !item.equals(bIterator.next()) : bIterator.next() != null)
-          return false;
-      }
-      else {
+      if (!aIterator.hasNext())
         return !bIterator.hasNext();
-      }
+
+      if (!bIterator.hasNext())
+        return false;
+
+      final Object member;
+      if ((member = aIterator.next()) != null ? !member.equals(bIterator.next()) : bIterator.next() != null)
+        return false;
     }
   }
 
   public static int hashCode(final Collection<?> collection) {
     if (collection == null)
-        return 0;
+      return -1;
 
     int result = 1;
-    for (final Object item : collection) {
-      final int itemHash = item.hashCode();
+    for (final Object member : collection) {
+      final int itemHash = member == null ? 0 : member.hashCode();
       result = 31 * result + itemHash ^ (itemHash >>> 32);
     }
 

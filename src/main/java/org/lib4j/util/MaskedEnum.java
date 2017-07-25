@@ -23,22 +23,22 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class MaskedEnum {
-  public static int toggle(int mask, final MaskedEnum ... enm) {
-    for (MaskedEnum e : enm)
+  public static int toggle(int mask, final MaskedEnum ... enums) {
+    for (final MaskedEnum e : enums)
       mask ^= 1 << e.ordinal;
 
     return mask;
   }
 
-  public static int set(int mask, final MaskedEnum ... enm) {
-    for (MaskedEnum e : enm)
+  public static int set(int mask, final MaskedEnum ... enums) {
+    for (final MaskedEnum e : enums)
       mask |= 1 << e.ordinal;
 
     return mask;
   }
 
-  public static int unset(int mask, final MaskedEnum ... enm) {
-    for (MaskedEnum e : enm)
+  public static int unset(int mask, final MaskedEnum ... enums) {
+    for (final MaskedEnum e : enums)
       mask &= 1 << e.ordinal;
 
     return mask;
@@ -48,8 +48,8 @@ public abstract class MaskedEnum {
     return (mask & (1 << ordinal)) != 0;
   }
 
-  public static boolean check(final int mask, final MaskedEnum enm) {
-    return check(mask, enm.ordinal);
+  public static boolean check(final int mask, final MaskedEnum enums) {
+    return check(mask, enums.ordinal);
   }
 
   @SuppressWarnings("unchecked")

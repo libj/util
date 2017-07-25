@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
 
-public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
+public class SortedVector<E extends Comparable<E>> extends Vector<E> {
   private static final long serialVersionUID = -4696161917681651124L;
 
   @Override
@@ -30,7 +30,7 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
   }
 
   @Override
-  public synchronized boolean addAll(final Collection<? extends E> c) {
+  public boolean addAll(final Collection<? extends E> c) {
     final int newSize = elementCount + c.size();
     if (elementData.length < newSize)
       setSize(newSize);
@@ -48,7 +48,7 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
 
   @Override
   @SuppressWarnings("unchecked")
-  public synchronized void addElement(final E obj) {
+  public void addElement(final E obj) {
     final int length = size();
     int start = 0;
     int end = length;
@@ -77,7 +77,7 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
   }
 
   @Override
-  public synchronized boolean containsAll(final Collection<?> c) {
+  public boolean containsAll(final Collection<?> c) {
     for (final Object o : c)
       if (!contains(o))
         return false;
@@ -96,7 +96,7 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
   }
 
   @Override
-  public synchronized boolean retainAll(final Collection<?> c) {
+  public boolean retainAll(final Collection<?> c) {
     final Object[] sorted = c.toArray();
     Arrays.sort(sorted);
 
@@ -130,7 +130,7 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
   }
 
   @Override
-  public synchronized E set(final int index, final E element) {
+  public E set(final int index, final E element) {
     final E removed = remove(index);
     addElement(element);
     return removed;

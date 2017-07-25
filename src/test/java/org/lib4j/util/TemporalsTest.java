@@ -17,6 +17,8 @@
 package org.lib4j.util;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -45,5 +47,11 @@ public class TemporalsTest {
         }
       }
     }
+  }
+
+  @Test
+  public void testSubtract() {
+    final LocalTime difference = Temporals.subtract(LocalTime.MIDNIGHT, LocalTime.parse("01:55:31", DateTimeFormatter.ISO_LOCAL_TIME));
+    Assert.assertEquals(LocalTime.parse("22:04:29", DateTimeFormatter.ISO_LOCAL_TIME), difference);
   }
 }

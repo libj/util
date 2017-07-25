@@ -22,22 +22,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class SortedList<B extends List<E> & Cloneable & Serializable,E extends Comparable<? super E>> implements List<E>, Cloneable, Serializable {
+public class SortedList<E extends Comparable<? super E>> implements List<E>, Cloneable, Serializable {
   private static final long serialVersionUID = 2529942933588293260L;
-  private final B basis;
+  private final List<E> list;
 
-  public SortedList(final B basis) {
-    this.basis = basis;
+  public SortedList(final List<E> list) {
+    this(list, true);
+  }
+
+  private SortedList(final List<E> list, final boolean sort) {
+    this.list = list;
+    if (sort)
+      Collections.sort(list);
   }
 
   @Override
   public int size() {
-    return basis.size();
+    return list.size();
   }
 
   @Override
   public boolean isEmpty() {
-    return basis.isEmpty();
+    return list.isEmpty();
   }
 
   @Override
@@ -47,29 +53,29 @@ public class SortedList<B extends List<E> & Cloneable & Serializable,E extends C
 
   @Override
   public Iterator<E> iterator() {
-    return basis.iterator();
+    return list.iterator();
   }
 
   @Override
   public Object[] toArray() {
-    return basis.toArray();
+    return list.toArray();
   }
 
   @Override
   public <T>T[] toArray(final T[] a) {
-    return basis.toArray(a);
+    return list.toArray(a);
   }
 
   @Override
   public boolean add(final E e) {
-    final int index = Collections.binaryClosestSearch(basis, e);
+    final int index = Collections.binaryClosestSearch(list, e);
     return addUnsafe(index, e);
   }
 
   protected boolean addUnsafe(final int index, final E e) {
-    int size = basis.size();
-    basis.add(index, e);
-    return size != basis.size();
+    int size = list.size();
+    list.add(index, e);
+    return size != list.size();
   }
 
   @Override
@@ -78,7 +84,7 @@ public class SortedList<B extends List<E> & Cloneable & Serializable,E extends C
     if (index < 0)
       return false;
 
-    basis.remove(index);
+    list.remove(index);
     return true;
   }
 
@@ -102,11 +108,11 @@ public class SortedList<B extends List<E> & Cloneable & Serializable,E extends C
 
   @Override
   public boolean addAll(int index, final Collection<? extends E> c) {
-    final int size = basis.size();
+    final int size = list.size();
     for (final E item : c)
       add(index++, item);
 
-    return size != basis.size();
+    return size != list.size();
   }
 
   @Override
@@ -120,31 +126,31 @@ public class SortedList<B extends List<E> & Cloneable & Serializable,E extends C
 
   @Override
   public boolean retainAll(final Collection<?> c) {
-    return basis.retainAll(c);
+    return list.retainAll(c);
   }
 
   @Override
   public void clear() {
-    basis.clear();
+    list.clear();
   }
 
   @Override
   public E get(final int index) {
-    return basis.get(index);
+    return list.get(index);
   }
 
   @Override
   public E set(final int index, final E element) {
-    final int correct = Collections.binaryClosestSearch(basis, element);
+    final int correct = Collections.binaryClosestSearch(list, element);
     if (index != correct)
       throw new IllegalArgumentException("Incorrect index will corrupt sorted list [" + index + " != " + correct + "]");
 
-    return basis.set(index, element);
+    return list.set(index, element);
   }
 
   @Override
   public void add(final int index, final E element) {
-    final int correct = Collections.binaryClosestSearch(basis, element);
+    final int correct = Collections.binaryClosestSearch(list, element);
     if (index != correct)
       throw new IllegalArgumentException("Incorrect index will corrupt sorted list [" + index + " != " + correct + "]");
 
@@ -153,13 +159,13 @@ public class SortedList<B extends List<E> & Cloneable & Serializable,E extends C
 
   @Override
   public E remove(final int index) {
-    return basis.remove(index);
+    return list.remove(index);
   }
 
   @Override
   @SuppressWarnings({"rawtypes", "unchecked"})
   public int indexOf(final Object o) {
-    return o instanceof Comparable ? Collections.binarySearch((List)basis, (Comparable)o) : basis.indexOf(o);
+    return o instanceof Comparable ? Collections.binarySearch((List)list, (Comparable)o) : list.indexOf(o);
   }
 
   @Override
@@ -168,22 +174,27 @@ public class SortedList<B extends List<E> & Cloneable & Serializable,E extends C
     if (index < 0)
       return index;
 
-    while (basis.get(++index).equals(o));
+    while (list.get(++index).equals(o));
     return index;
   }
 
   @Override
   public ListIterator<E> listIterator() {
-    return basis.listIterator();
+    return list.listIterator();
   }
 
   @Override
   public ListIterator<E> listIterator(final int index) {
-    return basis.listIterator(index);
+    return list.listIterator(index);
   }
 
   @Override
   public List<E> subList(final int fromIndex, final int toIndex) {
-    return basis.subList(fromIndex, toIndex);
+    return list.subList(fromIndex, toIndex);
+  }
+
+  @Override
+  protected SortedList<E> clone() {
+    return new SortedList<E>(Collections.clone(list), false);
   }
 }

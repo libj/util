@@ -16,6 +16,7 @@
 
 package org.lib4j.util;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ import org.junit.Test;
 
 public class ELsTest {
   @Test
-  public void testDereference() {
+  public void testDereference() throws ParseException {
     final Map<String,String> variables = new HashMap<String,String>();
     variables.put("right", "RIGHT");
     variables.put("left", "LEFT");
@@ -47,7 +48,7 @@ public class ELsTest {
       ELs.dereference("expect an ${exception here", variables);
       Assert.fail("Expected a ExpressionFormatException");
     }
-    catch (final ExpressionFormatException e) {
+    catch (final ParseException e) {
     }
   }
 }

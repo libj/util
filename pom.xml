@@ -39,7 +39,7 @@
   <dependencies>
     <dependency>
       <groupId>org.lib4j</groupId>
-      <artifactId>lib4j-logging</artifactId>
+      <artifactId>lib4j-lang</artifactId>
     </dependency>
     <dependency>
       <groupId>org.lib4j</groupId>
