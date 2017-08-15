@@ -16,14 +16,12 @@
 
 package org.lib4j.util;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,9 +47,7 @@ import java.util.Map;
  *  iterating over the vertices adjacent from a given vertex, which takes
  *  time proportional to the number of such vertices.
  */
-public class Digraph<T extends Serializable> implements Serializable {
-  private static final long serialVersionUID = 139950028376580231L;
-
+public class Digraph<T> {
   private static final Comparator<Object[]> arrayComparator = new Comparator<Object[]>() {
     @Override
     public int compare(final Object[] o1, final Object[] o2) {
@@ -59,9 +55,10 @@ public class Digraph<T extends Serializable> implements Serializable {
     }
   };
 
-  private final Map<T,Integer> objectToIndex = new HashMap<T,Integer>();
-  private final Map<Integer,T> indexToObject = new HashMap<Integer,T>();
+  protected final Map<T,Integer> objectToIndex = new HashMap<T,Integer>();
+  protected final Map<Integer,T> indexToObject = new HashMap<Integer,T>();
 
+  private final int initialCapacity;
   private final List<LinkedHashSet<Integer>> adj;
   private Object[][] flatAdj;
 
@@ -71,10 +68,25 @@ public class Digraph<T extends Serializable> implements Serializable {
   private List<T> cycle;
   private List<T> reversePostOrder;
 
+  /**
+   * Constructs an empty digraph with the specified initial capacity.
+   *
+   * @param  initialCapacity the initial capacity of the digraph.
+   * @throws IllegalArgumentException if the specified initial capacity
+   *         is negative
+   */
+  public Digraph(final int initialCapacity) {
+    this.initialCapacity = initialCapacity;
+    this.adj = new ArrayList<LinkedHashSet<Integer>>(initialCapacity);
+    this.indegree = new ArrayList<Integer>(initialCapacity);
+    this.edges = new ArrayList<T>(initialCapacity);
+  }
+
+  /**
+   * Constructs an empty digraph with an initial capacity of ten.
+   */
   public Digraph() {
-    this.adj = new ArrayList<LinkedHashSet<Integer>>();;
-    this.indegree = new ArrayList<Integer>();
-    this.edges = new LinkedList<T>();
+    this(10);
   }
 
   /**
@@ -94,7 +106,7 @@ public class Digraph<T extends Serializable> implements Serializable {
   /**
    * Add a vertex to the graph.
    *
-   * @param vertex The typed vertex.
+   * @param vertex The vertex.
    * @return <code>true</code> if this digraph has been modified, and
    *         <code>false</code> if the specified vertex already existed in the
    *         digraph.
@@ -127,7 +139,7 @@ public class Digraph<T extends Serializable> implements Serializable {
   /**
    * Get if exists or create an index for the specified vertex (not synchronized).
    *
-   * @param vertex The typed vertex.
+   * @param vertex The vertex.
    * @return The index of the vertex.
    */
   private int getCreateIndex(final T vertex) {
@@ -144,7 +156,7 @@ public class Digraph<T extends Serializable> implements Serializable {
    * Get if exists or fail with IllegalArgumentException for the specified
    * vertex.
    *
-   * @param vertex The typed vertex.
+   * @param vertex The vertex.
    * @return The index of the vertex.
    * @throws IllegalArgumentException If <code>v</code> is not a member of this
    *         digraph.
@@ -271,7 +283,7 @@ public class Digraph<T extends Serializable> implements Serializable {
   }
 
   private void dfs() {
-    if (reversePostOrder == null && (cycle = dfs(reversePostOrder = new LinkedList<T>())) != null)
+    if (reversePostOrder == null && (cycle = dfs(reversePostOrder = new ArrayList<T>(edges.size()))) != null)
       reversePostOrder = null;
   }
 
@@ -321,7 +333,7 @@ public class Digraph<T extends Serializable> implements Serializable {
             return cycle;
         }
         else if (v != w && onStack.get(w)) {
-          final List<T> cycle = new LinkedList<T>();
+          final List<T> cycle = new ArrayList<T>(initialCapacity / 3);
           for (int x = v; x != w; x = edgeTo[x])
             cycle.add(indexToObject.get(x));
 
