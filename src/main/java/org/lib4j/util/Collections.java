@@ -47,6 +47,14 @@ public final class Collections {
     return new Class<?>[depth];
   }
 
+  public static boolean isComponentType(final Collection<?> collection, final Class<?> type) {
+    for (final Object member : collection)
+      if (member != null && !type.isInstance(member))
+        return false;
+
+    return true;
+  }
+
   public static String toString(final Collection<?> collection, final char delimiter) {
     if (collection == null)
       return null;
@@ -382,7 +390,7 @@ public final class Collections {
   }
 
   @SuppressWarnings("rawtypes")
-  private static final Comparator<Comparable> nullComparator = new Comparator<Comparable>() {
+  protected static final Comparator<Comparable> nullComparator = new Comparator<Comparable>() {
     @Override
     public int compare(final Comparable o1, final Comparable o2) {
       return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2);
@@ -432,30 +440,11 @@ public final class Collections {
   }
 
   @SafeVarargs
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C asCollection(final Class<? extends Collection> type, final T ... a) {
-    try {
-      final C collection = (C)type.newInstance();
-      for (int i = 0; i < a.length; i++)
-        collection.add(a[i]);
+  public static <C extends Collection<T>,T>C asCollection(final C collection, final T ... a) {
+    for (int i = 0; i < a.length; i++)
+      collection.add(a[i]);
 
-      return collection;
-    }
-    catch (final IllegalAccessException | InstantiationException e) {
-      throw new UnsupportedOperationException(e);
-    }
-  }
-
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C asCollection(final Class<? extends Collection> type, final Collection<T> c) {
-    try {
-      final C collection = (C)type.newInstance();
-      collection.addAll(collection);
-      return collection;
-    }
-    catch (final IllegalAccessException | InstantiationException e) {
-      throw new UnsupportedOperationException(e);
-    }
+    return collection;
   }
 
   @SuppressWarnings("unchecked")
@@ -480,44 +469,16 @@ public final class Collections {
     return target;
   }
 
-  @SafeVarargs
-  public static <C extends Collection<T>,T>Collection<T> concat(final Class<C> type, final Collection<? extends T> ... collections) {
-    try {
-      final Collection<T> target = type.newInstance();
-      return concat(target, collections);
-    }
-    catch (final IllegalAccessException | InstantiationException e) {
-      throw new UnsupportedOperationException(e);
-    }
-  }
-
   @SuppressWarnings("unchecked")
-  public static <C extends Collection<T>,T>C[] partition(final C collection, final int size) {
-    return (C[])partition(collection.getClass(), collection, size);
-  }
+  public static <T>List<T>[] partition(final List<T> list, final int size) {
+    final int parts = list.size() / size;
+    final int remainder = list.size() % size;
+    final List<T>[] partitions = (List<T>[])Array.newInstance(List.class, parts + (remainder != 0 ? 1 : 0));
+    for (int i = 0; i < parts; i++)
+      partitions[i] = list.subList(i * size, (i + 1) * size);
 
-  @SuppressWarnings("unchecked")
-  public static <C extends Collection<T>,T>C[] partition(final Class<C> type, final Collection<T> collection, final int size) {
-    final int parts = collection.size() / size;
-    final int remainder = collection.size() % size;
-    final C[] partitions = (C[])Array.newInstance(type, parts + (remainder != 0 ? 1 : 0));
-    final Iterator<T> iterator = collection.iterator();
-    try {
-      for (int i = 0; i < parts; i++) {
-        final C part = partitions[i] = type.newInstance();
-        for (int j = 0; j < size; j++)
-          part.add(iterator.next());
-      }
-
-      if (remainder != 0) {
-        final C part = partitions[partitions.length - 1] = type.newInstance();
-        for (int j = 0; j < remainder; j++)
-          part.add(iterator.next());
-      }
-    }
-    catch (final IllegalAccessException | InstantiationException e) {
-      throw new UnsupportedOperationException(e);
-    }
+    if (remainder != 0)
+      partitions[partitions.length - 1] = list.subList(parts * size, list.size());
 
     return partitions;
   }

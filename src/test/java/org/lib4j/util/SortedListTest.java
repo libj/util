@@ -16,28 +16,29 @@
 
 package org.lib4j.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SortedVectorTest {
+public class SortedListTest {
   @Test
   public void test() {
-    final SortedVector<String> vector = new SortedVector<String>();
-    vector.addElement("f");
+    final SortedList<String> vector = new SortedList<String>(new ArrayList<String>());
+    vector.add("f");
     Assert.assertArrayEquals(new String[] {"f"}, vector.toArray());
-    vector.addElement("b");
+    vector.add("b");
     Assert.assertArrayEquals(new String[] {"b", "f"}, vector.toArray());
-    vector.addElement("g");
+    vector.add("g");
     Assert.assertArrayEquals(new String[] {"b", "f", "g"}, vector.toArray());
-    vector.addElement("c");
+    vector.add("c");
     Assert.assertArrayEquals(new String[] {"b", "c", "f", "g"}, vector.toArray());
-    vector.addElement("a");
+    vector.add("a");
     Assert.assertArrayEquals(new String[] {"a", "b", "c", "f", "g"}, vector.toArray());
-    vector.addElement("d");
+    vector.add("d");
     Assert.assertArrayEquals(new String[] {"a", "b", "c", "d", "f", "g"}, vector.toArray());
-    vector.addElement("e");
+    vector.add("e");
     Assert.assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f", "g"}, vector.toArray());
     vector.remove("c");
     Assert.assertArrayEquals(new String[] {"a", "b", "d", "e", "f", "g"}, vector.toArray());
@@ -49,7 +50,5 @@ public class SortedVectorTest {
     Assert.assertArrayEquals(new String[] {"d", "d", "g", "h"}, vector.toArray());
     vector.retainAll(Arrays.<String>asList(new String[] {"a", "d", "d", "d", "h"}));
     Assert.assertArrayEquals(new String[] {"d", "d", "h"}, vector.toArray());
-
-    Assert.assertEquals(vector, vector.clone());
   }
 }

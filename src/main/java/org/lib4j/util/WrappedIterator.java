@@ -16,51 +16,41 @@
 
 package org.lib4j.util;
 
-import java.util.ListIterator;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
-public abstract class PartialListIterator<E> implements ListIterator<E> {
-  private final ListIterator<E> listIterator;
+/**
+ * Wrapper class for <code>Iterator</code> interface that delegates all
+ * methods to the wrapped instance.
+ *
+ * @see Iterator
+ */
+public class WrappedIterator<E> implements Iterator<E> {
+  @SuppressWarnings("rawtypes")
+  protected Iterator source;
 
-  public PartialListIterator(final ListIterator<E> listIterator) {
-    this.listIterator = listIterator;
+  public WrappedIterator(final Iterator<E> iterator) {
+    this.source = iterator;
   }
 
   @Override
   public final boolean hasNext() {
-    return listIterator.hasNext();
+    return source.hasNext();
   }
 
   @Override
-  public final E next() {
-    return listIterator.next();
+  @SuppressWarnings("unchecked")
+  public E next() {
+    return (E)source.next();
   }
 
   @Override
-  public final boolean hasPrevious() {
-    return listIterator.hasPrevious();
+  public void remove() {
+    source.remove();
   }
 
   @Override
-  public final E previous() {
-    return listIterator.previous();
+  public void forEachRemaining(final Consumer<? super E> action) {
+    source.forEachRemaining(action);
   }
-
-  @Override
-  public final int nextIndex() {
-    return listIterator.nextIndex();
-  }
-
-  @Override
-  public final int previousIndex() {
-    return listIterator.previousIndex();
-  }
-
-  @Override
-  public abstract void remove();
-
-  @Override
-  public abstract void set(final E e);
-
-  @Override
-  public abstract void add(final E e);
 }

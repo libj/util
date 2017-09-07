@@ -16,30 +16,25 @@
 
 package org.lib4j.util;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.function.Function;
 
-public class MirroredList<E,M> extends PartialList<E> {
-  public static interface Mirror<T,M> {
-    public M reflect(final T value);
-  }
+import org.lib4j.lang.Classes;
 
-  private static final long serialVersionUID = 9187704221643956539L;
-
-  private final MirroredList<M,E> mirroredList;
-  private final Mirror<E,M> mirror;
+public class MirroredList<E,M> extends ObservableList<E> {
+  private MirroredList<M,E> mirroredList;
+  private final Function<E,M> mirror;
 
   @SuppressWarnings("rawtypes")
-  public MirroredList(final Class<? extends List> type, final Mirror<E,M> mirror1, final Mirror<M,E> mirror2) {
-    super(type);
+  public MirroredList(final Class<? extends List> type, final Function<E,M> mirror1, final Function<M,E> mirror2) {
+    super(Classes.newInstance(type));
     this.mirroredList = new MirroredList<M,E>(this, type, mirror2);
     this.mirror = mirror1;
   }
 
-  @SuppressWarnings("rawtypes")
-  private MirroredList(final MirroredList<M,E> mirroredList, final Class<? extends List> type, final Mirror<E,M> mirror) {
-    super(type);
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private MirroredList(final MirroredList<M,E> mirroredList, final Class<? extends List> type, final Function<E,M> mirror) {
+    super(Classes.newInstance((Class<? extends List<E>>)mirroredList.source.getClass()));
     this.mirroredList = mirroredList;
     this.mirror = mirror;
   }
@@ -49,74 +44,17 @@ public class MirroredList<E,M> extends PartialList<E> {
   }
 
   @Override
-  public void add(final int index, final E element) {
-    mirroredList.list.add(index, mirror.reflect(element));
-    list.add(index, element);
+  protected void beforeAdd(final int index, final E e) {
+    ((List<M>)mirroredList.source).add(index, mirror.apply(e));
   }
 
   @Override
-  public E remove(final int index) {
-    mirroredList.list.remove(index);
-    return list.remove(index);
+  protected void beforeRemove(final int index) {
+    ((List<M>)mirroredList.source).remove(index);
   }
 
   @Override
-  public PartialIterator<E> iterator() {
-    final Iterator<E> iterator = list.iterator();
-    return new PartialIterator<E>(iterator) {
-      private int index = -1;
-
-      @Override
-      public E next() {
-        final E item = iterator.next();
-        ++index;
-        return item;
-      }
-
-      @Override
-      public void remove() {
-        iterator.remove();
-        mirroredList.list.remove(index);
-      }
-    };
-  }
-
-  @Override
-  public PartialListIterator<E> listIterator(final int index) {
-    final ListIterator<E> listIterator = list.listIterator(index);
-    return new PartialListIterator<E>(listIterator) {
-      @Override
-      public void remove() {
-        listIterator.remove();
-        mirroredList.list.remove(listIterator.nextIndex() - 1);
-      }
-
-      @Override
-      public void set(final E e) {
-        listIterator.set(e);
-        mirroredList.list.remove(listIterator.nextIndex() - 1);
-        mirroredList.list.add(listIterator.nextIndex() - 1, mirror.reflect(e));
-      }
-
-      @Override
-      public void add(final E e) {
-        listIterator.add(e);
-        mirroredList.list.add(listIterator.nextIndex() - 1, mirror.reflect(e));
-      }
-    };
-  }
-
-  @Override
-  public MirroredList<E,M> subList(final int fromIndex, final int toIndex) {
-    final MirroredList<E,M> subList = new MirroredList<E,M>(list.getClass(), mirror, mirroredList.mirror);
-    subList.addAll(list.subList(fromIndex, toIndex));
-    return subList;
-  }
-
-  @Override
-  public MirroredList<E,M> clone() {
-    final MirroredList<E,M> clone = new MirroredList<E,M>(list.getClass(), mirror, mirroredList.mirror);
-    clone.addAll(this);
-    return clone;
+  protected void beforeSet(final int index, final E oldElement) {
+    ((List<M>)mirroredList.source).set(index, mirror.apply(get(index)));
   }
 }

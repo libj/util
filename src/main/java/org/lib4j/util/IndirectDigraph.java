@@ -19,7 +19,6 @@ package org.lib4j.util;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -51,34 +50,36 @@ import java.util.function.Function;
  *  @see org.lib4j.util.Digraph
  */
 public class IndirectDigraph<T,R> extends Digraph<T> {
-  private final List<T> vertices = new ArrayList<T>();
-  private final Set<R> references = new HashSet<R>();
-  private final Digraph<Object> digraph = new Digraph<Object>();
-  private final Function<T,R> deref;
+  private static final long serialVersionUID = -8038282541169001107L;
+
+  private ArrayList<T> vertices = new ArrayList<T>();
+  private HashSet<R> references = new HashSet<R>();
+  private Digraph<Object> digraph = new Digraph<Object>();
+  protected final Function<T,R> reference;
 
   /**
    * Constructs an empty digraph with the specified initial capacity.
    *
-   * @param  deref the function to dereference objects of type <code>T</code>
-   *         to their type <code>R</code> reference values.
+   * @param  reference the function to obtain the reference of type
+   *         <code>R</code> from an object of type <code>T</code>.
    * @param  initialCapacity the initial capacity of the digraph.
    * @throws IllegalArgumentException if the specified initial capacity
    *         is negative
    */
-  public IndirectDigraph(final int initialCapacity, final Function<T,R> deref) {
+  public IndirectDigraph(final int initialCapacity, final Function<T,R> reference) {
     super(initialCapacity);
-    this.deref = deref;
+    this.reference = reference;
   }
 
   /**
    * Constructs an empty digraph with an initial capacity of ten.
    *
-   * @param  deref the function to dereference objects of type <code>T</code>
-   *         to their type <code>R</code> reference values.
+   * @param  reference the function to obtain the reference of type
+   *         <code>R</code> from an object of type <code>T</code>.
    */
-  public IndirectDigraph(final Function<T,R> deref) {
+  public IndirectDigraph(final Function<T,R> reference) {
     super();
-    this.deref = deref;
+    this.reference = reference;
   }
 
   /**
@@ -89,13 +90,11 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
    */
   private void swapRefs() {
     for (final T vertex : vertices) {
-      final R reference = deref.apply(vertex);
-      references.remove(reference);
-      final Integer index = digraph.objectToIndex.remove(reference);
-      if (index != null) {
+      final R ref = reference.apply(vertex);
+      references.remove(ref);
+      final Integer index = digraph.objectToIndex.remove(ref);
+      if (index != null)
         digraph.objectToIndex.put(vertex, index);
-        digraph.indexToObject.replace(index, vertex);
-      }
     }
 
     vertices.clear();
@@ -106,7 +105,7 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
   @Override
   public boolean addVertex(final T vertex) {
     vertices.add(vertex);
-    return digraph.addVertex(deref.apply(vertex));
+    return digraph.addVertex(reference.apply(vertex));
   }
 
   /**
@@ -132,7 +131,7 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
 
     vertices.add(from);
     vertices.add(to);
-    return digraph.addEdge(deref.apply(from), deref.apply(to));
+    return digraph.addEdge(reference.apply(from), reference.apply(to));
   }
 
   /**
@@ -156,12 +155,12 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
 
     vertices.add(from);
     references.add(to);
-    return digraph.addEdge(deref.apply(from), to);
+    return digraph.addEdge(reference.apply(from), to);
   }
 
   @Override
-  public int getVertices() {
-    return digraph.getVertices();
+  public int getSize() {
+    return digraph.getSize();
   }
 
   @Override
@@ -195,5 +194,15 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
   public List<T> getTopologicalOrder() {
     swapRefs();
     return (List<T>)digraph.getTopologicalOrder();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public IndirectDigraph<T,R> clone() {
+    final IndirectDigraph<T,R> clone = (IndirectDigraph<T,R>)super.clone();
+    clone.vertices = (ArrayList<T>)vertices.clone();
+    clone.references = (HashSet<R>)references.clone();
+    clone.digraph = digraph.clone();
+    return clone;
   }
 }

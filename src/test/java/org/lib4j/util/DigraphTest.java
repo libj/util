@@ -110,6 +110,11 @@ public class DigraphTest {
   }
 
   @Test
+  public void testClone() {
+    Assert.assertEquals(digraph1.clone(), digraph2.clone());
+  }
+
+  @Test
   public void testReverse() {
     Assert.assertEquals(reverse, digraph1.reverse());
   }

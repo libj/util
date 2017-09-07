@@ -16,14 +16,14 @@
 
 package org.lib4j.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  *  A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
@@ -47,7 +47,9 @@ import java.util.Map;
  *  iterating over the vertices adjacent from a given vertex, which takes
  *  time proportional to the number of such vertices.
  */
-public class Digraph<T> {
+public class Digraph<T> implements Cloneable, Serializable {
+  private static final long serialVersionUID = -1725638737276587152L;
+
   private static final Comparator<Object[]> arrayComparator = new Comparator<Object[]>() {
     @Override
     public int compare(final Object[] o1, final Object[] o2) {
@@ -55,18 +57,17 @@ public class Digraph<T> {
     }
   };
 
-  protected final Map<T,Integer> objectToIndex = new HashMap<T,Integer>();
-  protected final Map<Integer,T> indexToObject = new HashMap<Integer,T>();
+  protected HashBiMap<T,Integer> objectToIndex = new HashBiMap<T,Integer>();
 
   private final int initialCapacity;
-  private final List<LinkedHashSet<Integer>> adj;
+  private ArrayList<LinkedHashSet<Integer>> adj;
   private Object[][] flatAdj;
 
-  private final List<Integer> indegree;
-  private final List<T> edges;
+  private ArrayList<Integer> indegree;
+  private ArrayList<T> edges;
 
-  private List<T> cycle;
-  private List<T> reversePostOrder;
+  private ArrayList<T> cycle;
+  private ArrayList<T> reversePostOrder;
 
   /**
    * Constructs an empty digraph with the specified initial capacity.
@@ -92,7 +93,7 @@ public class Digraph<T> {
   /**
    * @return The number of vertices in this digraph.
    */
-  public int getVertices() {
+  public int getSize() {
     return adj.size();
   }
 
@@ -116,6 +117,10 @@ public class Digraph<T> {
       throw new NullPointerException("vertex == null");
 
     return addVertex(getCreateIndex(vertex));
+  }
+
+  public Set<T> getVertices() {
+    return objectToIndex.keySet();
   }
 
   /**
@@ -144,10 +149,8 @@ public class Digraph<T> {
    */
   private int getCreateIndex(final T vertex) {
     Integer index = objectToIndex.get(vertex);
-    if (index == null) {
+    if (index == null)
       objectToIndex.put(vertex, index = objectToIndex.size());
-      indexToObject.put(index, vertex);
-    }
 
     return index;
   }
@@ -267,14 +270,13 @@ public class Digraph<T> {
    */
   public Digraph<T> reverse() {
     final Digraph<T> reverse = new Digraph<T>();
-    reverse.indexToObject.putAll(indexToObject);
-    reverse.objectToIndex.putAll(objectToIndex);
+    reverse.objectToIndex = objectToIndex.clone();
     for (int v = 0; v < adj.size(); v++) {
       final LinkedHashSet<Integer> edges = adj.get(v);
       if (edges != null) {
         for (final int w : edges) {
           reverse.addEdge(w, v);
-          reverse.edges.add(indexToObject.get(v));
+          reverse.edges.add(objectToIndex.inverse().get(v));
         }
       }
     }
@@ -294,13 +296,13 @@ public class Digraph<T> {
    * @param reversePostOrder List of vertices filled in reverse post order.
    * @return A cycle list, if one was found.
    */
-  private List<T> dfs(final List<T> reversePostOrder) {
+  private ArrayList<T> dfs(final List<T> reversePostOrder) {
     final BitSet marked = new BitSet(adj.size());
     final BitSet onStack = new BitSet(adj.size());
     final int[] edgeTo = new int[adj.size()];
     for (int v = 0; v < adj.size(); v++) {
       if (!marked.get(v)) {
-        final List<T> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, v);
+        final ArrayList<T> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, v);
         if (cycle != null)
           return cycle;
       }
@@ -320,7 +322,7 @@ public class Digraph<T> {
    * @param v The vertex index.
    * @return A cycle list, if one was found.
    */
-  private List<T> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<T> reversePostOrder, final int v) {
+  private ArrayList<T> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<T> reversePostOrder, final int v) {
     onStack.set(v);
     marked.set(v);
     final LinkedHashSet<Integer> edges = adj.get(v);
@@ -328,24 +330,24 @@ public class Digraph<T> {
       for (final int w : edges) {
         if (!marked.get(w)) {
           edgeTo[w] = v;
-          final List<T> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, w);
+          final ArrayList<T> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, w);
           if (cycle != null)
             return cycle;
         }
         else if (v != w && onStack.get(w)) {
-          final List<T> cycle = new ArrayList<T>(initialCapacity / 3);
+          final ArrayList<T> cycle = new ArrayList<T>(initialCapacity / 3);
           for (int x = v; x != w; x = edgeTo[x])
-            cycle.add(indexToObject.get(x));
+            cycle.add(objectToIndex.inverse().get(x));
 
-          cycle.add(indexToObject.get(w));
-          cycle.add(indexToObject.get(v));
+          cycle.add(objectToIndex.inverse().get(w));
+          cycle.add(objectToIndex.inverse().get(v));
           return cycle;
         }
       }
     }
 
     onStack.clear(v);
-    reversePostOrder.add(0, indexToObject.get(v));
+    reversePostOrder.add(0, objectToIndex.inverse().get(v));
     return null;
   }
 
@@ -393,7 +395,7 @@ public class Digraph<T> {
       final Object[] vertices = flatAdj[i++] = new Object[edges.size()];
       int j = 0;
       for (final Integer index : edges)
-        vertices[j++] = indexToObject.get(index);
+        vertices[j++] = objectToIndex.inverse().get(index);
     }
 
     Arrays.sort(flatAdj, arrayComparator);
@@ -453,16 +455,35 @@ public class Digraph<T> {
   public String toString() {
     final StringBuilder builder = new StringBuilder().append(adj.size()).append(" vertices, ").append(edges).append(" edges").append('\n');
     for (int v = 0; v < adj.size(); v++) {
-      builder.append(indexToObject.get(v)).append(":");
+      builder.append(objectToIndex.inverse().get(v)).append(":");
       final LinkedHashSet<Integer> edges = adj.get(v);
       if (edges != null)
         for (final int w : edges)
-          builder.append(" ").append(indexToObject.get(w));
+          builder.append(" ").append(objectToIndex.inverse().get(w));
 
       if (v < adj.size() - 1)
         builder.append('\n');
     }
 
     return builder.toString();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public Digraph<T> clone() {
+    try {
+      final Digraph<T> clone = (Digraph<T>)super.clone();
+      clone.objectToIndex = objectToIndex.clone();
+      clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
+      clone.flatAdj = flatAdj == null ? null : flatAdj.clone();
+      clone.indegree = (ArrayList<Integer>)indegree.clone();
+      clone.edges = (ArrayList<T>)edges.clone();
+      clone.cycle = cycle == null ? null : (ArrayList<T>)cycle.clone();
+      clone.reversePostOrder = reversePostOrder == null ? null : (ArrayList<T>)reversePostOrder.clone();
+      return clone;
+    }
+    catch (final CloneNotSupportedException e) {
+      throw new UnsupportedOperationException(e);
+    }
   }
 }

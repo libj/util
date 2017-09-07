@@ -17,7 +17,6 @@
 package org.lib4j.util;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class CollectionsTest {
   public void testPartitions() {
     final List<String> list = Arrays.asList(new String[] {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"});
     for (int p = 1; p < list.size(); p++) {
-      final List<String>[] partitions = Collections.partition(ArrayList.class, list, p);
+      final List<String>[] partitions = Collections.partition(list, p);
       final int parts = list.size() / p;
       final int remainder = list.size() % p;
       Assert.assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);

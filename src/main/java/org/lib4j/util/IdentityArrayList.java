@@ -103,7 +103,8 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public IdentityArrayList<E> clone() {
-    return new IdentityArrayList<E>(this);
+    return (IdentityArrayList<E>)super.clone();
   }
 }

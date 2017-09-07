@@ -17,6 +17,7 @@
 package org.lib4j.util;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,17 +25,7 @@ import org.junit.Test;
 public class MirroredListTest {
   @Test
   public void test() {
-    final MirroredList<String,Integer> list = new MirroredList<String,Integer>(ArrayList.class, new MirroredList.Mirror<String,Integer>() {
-      @Override
-      public Integer reflect(final String value) {
-        return Integer.valueOf(value);
-      }
-    }, new MirroredList.Mirror<Integer,String>() {
-      @Override
-      public String reflect(final Integer value) {
-        return String.valueOf(value);
-      }
-    });
+    final MirroredList<String,Integer> list = new MirroredList<String,Integer>(ArrayList.class, string -> Integer.valueOf(string), integer -> String.valueOf(integer));
 
     list.add("1");
     Assert.assertTrue(list.getMirror().contains(1));
@@ -42,10 +33,24 @@ public class MirroredListTest {
     list.getMirror().add(2);
     Assert.assertTrue(list.contains("2"));
 
+    final ListIterator<String> stringIterator = list.listIterator();
+    stringIterator.next();
+    stringIterator.add("3");
+    Assert.assertTrue(list.getMirror().contains(3));
+
+    final ListIterator<Integer> integerIterator = list.getMirror().listIterator();
+    integerIterator.next();
+    integerIterator.next();
+    integerIterator.add(7);
+    Assert.assertTrue(list.contains("7"));
+
     list.remove("1");
     Assert.assertTrue(!list.getMirror().contains(1));
 
     list.getMirror().remove((Object)2);
     Assert.assertTrue(!list.contains("2"));
+
+    list.getMirror().clear();
+    Assert.assertEquals(0, list.size());
   }
 }

@@ -20,6 +20,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
 
+/**
+ * TODO:!
+ */
 public class SortedVector<E extends Comparable<E>> extends Vector<E> {
   private static final long serialVersionUID = -4696161917681651124L;
 
@@ -139,5 +142,11 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
   @Override
   public void setElementAt(final E obj, final int index) {
     set(index, obj);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+   public SortedVector<E> clone() {
+    return (SortedVector<E>)super.clone();
   }
 }
