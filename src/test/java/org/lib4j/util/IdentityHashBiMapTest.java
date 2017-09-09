@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class IdentityHashBiMapTest {
+  @SuppressWarnings("unlikely-arg-type")
   public static void test(final IdentityHashBiMap<Integer,String> map, final int offset, final boolean testClone) {
     for (int i = offset; i < 100 + offset; i++) {
       final Integer index = i + offset;
