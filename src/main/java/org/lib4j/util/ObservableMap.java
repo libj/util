@@ -288,7 +288,7 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * collection.
    */
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "unlikely-arg-type"})
   public V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
     return (V)(source.get(key) == null ? source.put(key, value) : source.merge(key, value, new BiFunction<V,V,V>() {
       @Override
