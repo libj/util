@@ -54,8 +54,6 @@ public class ObservableCollectionTest {
   @Test
   public void test() {
     final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<String>()) {
-      private static final long serialVersionUID = -1209976235131968663L;
-
       @Override
       protected void beforeAdd(final String e) {
         Assert.assertEquals(expectedString, e);

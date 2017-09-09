@@ -44,16 +44,19 @@ public class MirroredList<E,M> extends ObservableList<E> {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected void beforeAdd(final int index, final E e) {
     ((List<M>)mirroredList.source).add(index, mirror.apply(e));
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected void beforeRemove(final int index) {
     ((List<M>)mirroredList.source).remove(index);
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   protected void beforeSet(final int index, final E oldElement) {
     ((List<M>)mirroredList.source).set(index, mirror.apply(get(index)));
   }

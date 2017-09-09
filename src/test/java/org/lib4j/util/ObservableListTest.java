@@ -69,8 +69,6 @@ public class ObservableListTest {
   @Test
   public void test() {
     final ObservableList<String> list = new ObservableList<String>(new ArrayList<String>()) {
-      private static final long serialVersionUID = -7731083592807446023L;
-
       @Override
       protected void beforeAdd(final int index, final String e) {
         Assert.assertEquals(expectedString, e);
