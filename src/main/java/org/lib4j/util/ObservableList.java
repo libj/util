@@ -332,7 +332,7 @@ public class ObservableList<E> extends WrappedList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    if (index >= size())
+    if (index > size())
       throw new IndexOutOfBoundsException("Invalid index " + index + ", size is " + size());
 
     final ListIterator<E> listIterator = source.listIterator(index + fromIndex);
