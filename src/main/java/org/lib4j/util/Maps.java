@@ -19,6 +19,18 @@ package org.lib4j.util;
 import java.util.Map;
 
 public final class Maps {
+  /**
+   * Clone a <code>Map</code>, containing the same entries as the original. The
+   * class type of the <code>map</code> argument must have a default
+   * constructor.
+   * @param map The <code>Map</code> to clone.
+   * @return A clone of the map containing the same entries as the original.
+   * @throws UnsupportedOperationException If the class of the <code>map</code>
+   *         argument cannot be instantiated due to an
+   *         <code>IllegalAccessException</code> or
+   *         <code>InstantiationException</code>.
+   * @see Map
+   */
   @SuppressWarnings("unchecked")
   public static <M extends Map<K,V>,K,V>M clone(final Map<K,V> map) {
     try {
@@ -28,8 +40,8 @@ public final class Maps {
 
       return clone;
     }
-    catch (final Exception e) {
-      throw new RuntimeException(e);
+    catch (final IllegalAccessException | InstantiationException e) {
+      throw new UnsupportedOperationException(e);
     }
   }
 
