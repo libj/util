@@ -462,7 +462,7 @@ public final class Collections {
   }
 
   @SafeVarargs
-  public static <T>Collection<T> concat(final Collection<T> target, final Collection<? extends T> ... collections) {
+  public static <C extends Collection<T>,T>C concat(final C target, final Collection<? extends T> ... collections) {
     for (final Collection<? extends T> collection : collections)
       target.addAll(collection);
 
