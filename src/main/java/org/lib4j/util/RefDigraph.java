@@ -30,7 +30,8 @@ import java.util.function.Function;
  *  type <code>R</code> that is used as the linking value between edges. The
  *  required <code>Function<T,I></code> parameter in the constructor is used
  *  to dereference the object of type <code>T</code> to objects by which edges
- *  are defined of type <code>R</code>.
+ *  are defined of type <code>R</code>. The references are resolved prior to
+ *  the dfs() method call.
  *
  *  Upon invocation of any method that invokes <code>digraph.dfs()</code>, the
  *  <code>IndirectDigraph</code> swaps edges of type <code>R</code> to their
@@ -49,7 +50,7 @@ import java.util.function.Function;
  *
  *  @see org.lib4j.util.Digraph
  */
-public class IndirectDigraph<T,R> extends Digraph<T> {
+public class RefDigraph<T,R> extends Digraph<T> {
   private static final long serialVersionUID = -8038282541169001107L;
 
   private ArrayList<T> vertices = new ArrayList<T>();
@@ -66,7 +67,7 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
    * @throws IllegalArgumentException if the specified initial capacity
    *         is negative
    */
-  public IndirectDigraph(final int initialCapacity, final Function<T,R> reference) {
+  public RefDigraph(final int initialCapacity, final Function<T,R> reference) {
     super(initialCapacity);
     this.reference = reference;
   }
@@ -77,7 +78,7 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
    * @param  reference the function to obtain the reference of type
    *         <code>R</code> from an object of type <code>T</code>.
    */
-  public IndirectDigraph(final Function<T,R> reference) {
+  public RefDigraph(final Function<T,R> reference) {
     super();
     this.reference = reference;
   }
@@ -198,8 +199,8 @@ public class IndirectDigraph<T,R> extends Digraph<T> {
 
   @Override
   @SuppressWarnings("unchecked")
-  public IndirectDigraph<T,R> clone() {
-    final IndirectDigraph<T,R> clone = (IndirectDigraph<T,R>)super.clone();
+  public RefDigraph<T,R> clone() {
+    final RefDigraph<T,R> clone = (RefDigraph<T,R>)super.clone();
     clone.vertices = (ArrayList<T>)vertices.clone();
     clone.references = (HashSet<R>)references.clone();
     clone.digraph = digraph.clone();

@@ -19,7 +19,7 @@ package org.lib4j.util;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class IndirectDigraphTest {
+public class RefDigraphTest {
   private static class Obj {
     public final String id;
     public final String parentId;
@@ -37,7 +37,7 @@ public class IndirectDigraphTest {
 
   @Test
   public void testUnspecifiedReference() {
-    final IndirectDigraph<Obj,String> digraph = new IndirectDigraph<Obj,String>(obj -> obj.id);
+    final RefDigraph<Obj,String> digraph = new RefDigraph<Obj,String>(obj -> obj.id);
     digraph.addEdgeRef(new Obj("a", "b"), "b");
     digraph.addEdgeRef(new Obj("b", "c"), "c");
     digraph.addEdgeRef(new Obj("c", "a"), "d");
@@ -53,7 +53,7 @@ public class IndirectDigraphTest {
 
   @Test
   public void testCycle() {
-    final IndirectDigraph<Obj,String> digraph = new IndirectDigraph<Obj,String>(obj -> obj.id);
+    final RefDigraph<Obj,String> digraph = new RefDigraph<Obj,String>(obj -> obj.id);
     digraph.addEdgeRef(new Obj("a", "b"), "b");
     digraph.addEdgeRef(new Obj("b", "c"), "c");
     digraph.addEdgeRef(new Obj("c", "a"), "a");
@@ -67,7 +67,7 @@ public class IndirectDigraphTest {
 
   @Test
   public void testTopological() {
-    final IndirectDigraph<Obj,String> digraph = new IndirectDigraph<Obj,String>(obj -> obj.id);
+    final RefDigraph<Obj,String> digraph = new RefDigraph<Obj,String>(obj -> obj.id);
     digraph.addEdgeRef(new Obj("a", "b"), "b");
     digraph.addEdgeRef(new Obj("b", "c"), "c");
     digraph.addEdgeRef(new Obj("c", null), null);
