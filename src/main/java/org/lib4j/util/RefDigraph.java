@@ -100,7 +100,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
 
     vertices.clear();
     if (references.size() != 0)
-      throw new IllegalStateException("Vertices with the following vertex references have not been specified: " + Collections.toString(references, ", "));
+      throw new IllegalStateException("Missing vertex references: " + Collections.toString(references, ", "));
   }
 
   @Override
@@ -195,6 +195,11 @@ public class RefDigraph<T,R> extends Digraph<T> {
   public List<T> getTopologicalOrder() {
     swapRefs();
     return (List<T>)digraph.getTopologicalOrder();
+  }
+
+  @Override
+  public String toString() {
+    return digraph.toString();
   }
 
   @Override
