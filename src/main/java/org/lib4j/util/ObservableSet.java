@@ -120,7 +120,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * <code>afterAdd()</code> are called immediately before and after the
    * enclosed collection is modified.
    *
-   * @see Set#add(Object)
+   * @see Collection#add(Object)
    */
   @Override
   public boolean add(final E e) {
@@ -136,6 +136,8 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * <code>afterAdd()</code> are called immediately before and after the
    * enclosed collection is modified for the addition of each element
    * in the argument Collection.
+   *
+   * @see Collection#addAll(Collection)
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -153,7 +155,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * immediately before and after the enclosed collection is
    * modified.
    *
-   * @see Set#add(Object)
+   * @see Collection#remove(Object)
    */
   @Override
   public boolean remove(final Object o) {
@@ -169,6 +171,8 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element in the argument Collection.
+   *
+   * @see Collection#removeAll(Collection)
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
@@ -184,6 +188,8 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * predicate. The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified for the removal of each element.
+   *
+   * @see Collection#removeIf(Predicate)
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
@@ -208,6 +214,8 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element not in the argument Collection.
+   *
+   * @see Collection#retainAll(Collection)
    */
   @Override
   public boolean retainAll(final Collection<?> c) {
@@ -228,6 +236,8 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified for the removal of each element.
+   *
+   * @see Collection#clear()
    */
   @Override
   public void clear() {

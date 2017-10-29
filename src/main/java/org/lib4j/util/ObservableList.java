@@ -130,6 +130,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * <code>afterAdd()</code> are called immediately before and after the
    * enclosed collection is modified for the addition of each element
    * in the argument Collection.
+   *
+   * @see Collection#addAll(Collection)
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -147,18 +149,21 @@ public class ObservableList<E> extends WrappedList<E> {
    * immediately before and after the enclosed collection is
    * modified.
    *
-   * @see Collection#add(Object)
+   * @see Collection#remove(Object)
    */
   @Override
   public boolean remove(final Object o) {
     final int index = indexOf(o);
+    if (index == -1)
+      return false;
+
     beforeRemove(index - fromIndex);
-    final boolean result = source.remove(o);
+    source.remove(index);
     if (toIndex != -1)
       --toIndex;
 
     afterRemove(o);
-    return result;
+    return true;
   }
 
   /**
@@ -167,6 +172,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element in the argument Collection.
+   *
+   * @see Collection#removeAll(Collection)
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
@@ -182,6 +189,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * predicate. The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified for the removal of each element.
+   *
+   * @see Collection#removeIf(Predicate)
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
@@ -209,6 +218,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element not in the argument Collection.
+   *
+   * @see Collection#retainAll(Collection)
    */
   @Override
   public boolean retainAll(final Collection<?> c) {
@@ -229,6 +240,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified for the removal of each element.
+   *
+   * @see Collection#clear()
    */
   @Override
   public void clear() {
@@ -242,6 +255,8 @@ public class ObservableList<E> extends WrappedList<E> {
   /**
    * Inserts the specified element at the specified position in this list
    * (optional operation).
+   *
+   * @see List#add(int,Object)
    */
   @Override
   public void add(final int index, final E element) {
@@ -256,6 +271,8 @@ public class ObservableList<E> extends WrappedList<E> {
   /**
    * Removes the element at the specified position in this list (optional
    * operation).
+   *
+   * @see List#remove(int)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -273,6 +290,8 @@ public class ObservableList<E> extends WrappedList<E> {
   /**
    * Replaces the element at the specified position in this list with the
    * specified element (optional operation).
+   *
+   * @see List#set(int,Object)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -286,6 +305,8 @@ public class ObservableList<E> extends WrappedList<E> {
   /**
    * Inserts all of the elements in the specified collection into this
    * list at the specified position (optional operation).
+   *
+   * @see List#addAll(int,Collection)
    */
   @Override
   public boolean addAll(int index, final Collection<? extends E> c) {
@@ -320,6 +341,8 @@ public class ObservableList<E> extends WrappedList<E> {
   /**
    * Returns a list iterator over the elements in this list (in proper
    * sequence).
+   *
+   * @see List#listIterator()
    */
   @Override
   public ListIterator<E> listIterator() {
@@ -329,6 +352,8 @@ public class ObservableList<E> extends WrappedList<E> {
   /**
    * Returns a list iterator over the elements in this list (in proper
    * sequence), starting at the specified position in the list.
+   *
+   * @see List#listIterator(int)
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
@@ -404,6 +429,8 @@ public class ObservableList<E> extends WrappedList<E> {
   /**
    * Returns a view of the portion of this list between the specified
    * <tt>fromIndex</tt>, inclusive, and <tt>toIndex</tt>, exclusive.
+   *
+   * @see List#subList(int,int)
    */
   @Override
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {

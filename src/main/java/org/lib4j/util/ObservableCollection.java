@@ -135,6 +135,8 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * <code>afterAdd()</code> are called immediately before and after the
    * enclosed collection is modified for the addition of each element
    * in the argument Collection.
+   *
+   * @see Collection#addAll(Collection)
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -152,7 +154,7 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * immediately before and after the enclosed collection is
    * modified.
    *
-   * @see Collection#add(Object)
+   * @see Collection#remove(Object)
    */
   @Override
   public boolean remove(final Object o) {
@@ -168,6 +170,8 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element in the argument Collection.
+   *
+   * @see Collection#removeAll(Collection)
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
@@ -183,6 +187,8 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * predicate. The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified for the removal of each element.
+   *
+   * @see Collection#removeIf(Predicate)
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
@@ -207,6 +213,8 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element not in the argument Collection.
+   *
+   * @see Collection#retainAll(Collection)
    */
   @Override
   public boolean retainAll(final Collection<?> c) {
@@ -227,6 +235,8 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified for the removal of each element.
+   *
+   * @see Collection#clear()
    */
   @Override
   public void clear() {

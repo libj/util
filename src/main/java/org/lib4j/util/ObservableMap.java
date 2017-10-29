@@ -96,6 +96,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * (optional operation). The callback methods <code>beforePut()</code> and
    * <code>afterPut()</code> are called immediately before and after the
    * enclosed collection is modified.
+   *
+   * @see Map#put(Object,Object)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -113,6 +115,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * {@code null}, else returns the current value. The callback methods
    * <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the enclosed collection is modified.
+   *
+   * @see Map#putIfAbsent(Object,Object)
    */
   @Override
   public V putIfAbsent(final K key, final V value) {
@@ -129,6 +133,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * <code>afterPut()</code> are called immediately before and after the
    * enclosed collection is modified for the addition of each entry in the
    * argument map.
+   *
+   * @see Map#putAll(Map)
    */
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
@@ -141,6 +147,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * (optional operation). The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified.
+   *
+   * @see Map#remove(Object)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -157,6 +165,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * mapped to the specified value. The callback methods
    * <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the enclosed collection is modified.
+   *
+   * @see Map#replace(Object,Object,Object)
    */
   @Override
   public boolean replace(final K key, final V oldValue, final V newValue) {
@@ -173,6 +183,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * currently mapped to some value. The callback methods
    * <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the enclosed collection is modified.
+   *
+   * @see Map#replace(Object,Object)
    */
   @Override
   public V replace(final K key, final V value) {
@@ -190,6 +202,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is modified for the
    * removal of each entry removed.
+   *
+   * @see Map#clear()
    */
   @Override
   public void clear() {
@@ -209,6 +223,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
+   *
+   * @see Map#compute(Object,BiFunction)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -234,6 +250,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * methods <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
+   *
+   * @see Map#computeIfAbsent(Object,Function)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -257,6 +275,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
+   *
+   * @see Map#computeIfPresent(Object,BiFunction)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -286,6 +306,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
+   *
+   * @see Map#merge(Object,Object,BiFunction)
    */
   @Override
   @SuppressWarnings({"unchecked", "unlikely-arg-type"})
@@ -311,6 +333,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * <code>beforePut()</code> and <code>afterPut()</code> are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
+   *
+   * @see Map#replaceAll(BiFunction)
    */
   @Override
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
