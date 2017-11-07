@@ -16,8 +16,6 @@
 
 package org.lib4j.util;
 
-import java.nio.charset.Charset;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.lib4j.util.Diff.Mod;
@@ -26,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 public class DiffTest {
   private static final Logger logger = LoggerFactory.getLogger(DiffTest.class);
-  private static final Charset charset = Charset.forName("UTF-8");
 
   private static void assertDiff(final String source, final String target) {
     final Diff diff = new Diff(target, source);
@@ -36,11 +33,11 @@ public class DiffTest {
     final byte[] encoded = diff.toBytes();
     final Diff decodedDiff = Diff.decode(encoded);
     final String decodedPatched = decodedDiff.patch(target);
-    Assert.assertArrayEquals(source.getBytes(charset), decodedPatched.getBytes(charset));
+    Assert.assertEquals(source, decodedPatched);
   }
 
   @Test
-  public void test() {
+  public void test0() {
     assertDiff("http://www.w3.org/2001/XMLSchema", "org.w3._2001.xmlschema");
     assertDiff("http://java.sun.com/xml/ns/j2ee", "com.sun.java.xml.ns.j2ee");
     assertDiff("http://openuri.org/nameworld", "org.openuri.nameworld");
@@ -90,20 +87,20 @@ public class DiffTest {
   }
 
   @Test
-  public void diff() {
-    final String a = "org.safris.xml.schema.binding.test.unit.complextypes";
-    final String b = "http://org.safris.xml/schema/binding/test/unit/complexTypes.xsd";
-    final Diff diff = new Diff(a, b);
-    final String t = diff.patch(a);
-    logger.info(t.toString());
+  public void test1() {
+    final String source = "org.safris.xml.schema.binding.test.unit.complextypes";
+    final String target = "http://org.safris.xml/schema/binding/test/unit/complexTypes.xsd";
+    final Diff diff = new Diff(source, target);
+    final String patch = diff.patch(source);
+    logger.info(patch.toString());
   }
 
   @Test
-  public void diff2() {
-    final String a = "org.safris.xml.schema.binding.test.unit.complextypes";
-    final String b = "http://org.safris.xml/schema/binding/test/unit/complexTypes.xsd";
-    final Diff diff = new Diff(a, b);
-    final int maxLength = Math.max(a.length(), b.length());
+  public void test2() {
+    final String source = "org.safris.xml.schema.binding.test.unit.complextypes";
+    final String target = "http://org.safris.xml/schema/binding/test/unit/complexTypes.xsd";
+    final Diff diff = new Diff(source, target);
+    final int maxLength = Math.max(source.length(), target.length());
     final int bits = (int)(1 + Math.log(maxLength) / Math.log(2));
     logger.info("LengthSize: " + bits);
     for (final Mod mod : diff.getMods())

@@ -47,9 +47,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.bitbucket.cowwoc</groupId>
-      <artifactId>diff-match-patch</artifactId>
-      <version>1.1</version>
+      <groupId>name.fraser.neil.plaintext</groupId>
+      <artifactId>diff_match_patch</artifactId>
+      <version>20121119</version>
     </dependency>
   </dependencies>
   <repositories>
