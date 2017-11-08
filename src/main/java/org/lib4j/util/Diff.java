@@ -46,19 +46,19 @@ public class Diff {
 
   // (1) Write the ordinal (2 bits)
   private static int writeOrdinal(final byte[] dest, final int offset, final byte ordinal) {
-    return Bytes.writeByteL2B(dest, offset, ordinal, (byte)2);
+    return Bytes.writeBitsB(dest, offset, ordinal, (byte)2);
   }
 
   // (2) Write the length (lengthSize bits)
   private static int writeLength(final byte[] dest, final int offset, final int length, final byte lengthSize) {
     final byte[] bytes = new byte[1 + (lengthSize - 1) / 8];
     Bytes.toBytes(length, bytes, 0, true);
-    return Bytes.writeBytesL2B(dest, offset, bytes, lengthSize);
+    return Bytes.writeBitsB(dest, offset, bytes, lengthSize);
   }
 
   // (3) Write the text (length * 8 bits)
   private static int writeText(final byte[] dest, final int offset, final byte[] text, final int length) {
-    return Bytes.writeBytesL2B(dest, offset, text, length * 8);
+    return Bytes.writeBitsB(dest, offset, text, length * 8);
   }
 
   /**
@@ -75,7 +75,7 @@ public class Diff {
     final List<Mod> mods = new ArrayList<Mod>();
     final Diff diff = new Diff(mods, lengthSize);
     while (offset < limit) {
-      final byte ordinal = Bytes.readByteB2L(bytes, offset, (byte)2);
+      final byte ordinal = Bytes.readBitsFromByte(bytes, offset, (byte)2);
       offset += 2;
       final Mod mod;
       if (ordinal == 0b00) {
@@ -115,7 +115,7 @@ public class Diff {
     }
 
     protected Mod(final byte[] src, final int offset, final byte lengthSize) {
-      this.length = Bytes.toInt(Bytes.readBytesB2L(src, offset, lengthSize), 0, true);
+      this.length = Bytes.toInt(Bytes.readBitsFromBytes(src, offset, lengthSize), 0, true);
     }
 
     protected abstract byte ordinal();
@@ -142,7 +142,7 @@ public class Diff {
 
     protected Insert(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
-      this.text = new String(Bytes.readBytesB2L(src, offset + lengthSize, length * 8));
+      this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8));
     }
 
     @Override
@@ -210,7 +210,7 @@ public class Diff {
 
     protected Replace(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
-      this.text = new String(Bytes.readBytesB2L(src, offset + lengthSize, length * 8));
+      this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8));
     }
 
     @Override
