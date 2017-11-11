@@ -27,7 +27,7 @@ public final class JavaIdentifiers {
   private static final String[] reservedWords = {"abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum", "extends", "false", "final", "finally", "float", "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this", "throw", "throws", "transient", "true", "try", "void", "volatile", "while"};
 
   // NOTE: This array is sorted
-  private static final char[] discardTokens = new char[] {'!', '"', '#', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '.', '/', ':', ';', '<', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'};
+  private static final char[] discardTokens = {'!', '"', '#', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '.', '/', ':', ';', '<', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'};
 
   private static final Map<Character,String> defaultPackageSub = Collections.singletonMap(null, "_");
 
@@ -35,61 +35,59 @@ public final class JavaIdentifiers {
     return Arrays.binarySearch(reservedWords, word) >= 0;
   }
 
-  private static String transformNotReserved(final String string, final char head, final char tail, final Map<Character,String> sub, final TriFunction<String,Character,Map<Character,String>,StringBuilder> transformer) {
+  private static String transformNotReserved(final String string, final char prefix, final char suffix, final Map<Character,String> sub, final TriFunction<String,Character,Map<Character,String>,StringBuilder> transformer) {
     if (string == null || string.length() == 0)
       return string;
 
-    final StringBuilder builder = transformer.apply(string, head, sub);
+    final StringBuilder builder = transformer.apply(string, prefix, sub);
     final String word = builder.toString();
-    return !isJavaReservedWord(word) ? word : tail == '\0' ? builder.insert(0, head).toString() : builder.append(tail).toString();
+    return !isJavaReservedWord(word) ? word : suffix == '\0' ? builder.insert(0, prefix).toString() : builder.append(suffix).toString();
   }
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>head</code>. Strings that
-   * are Java Reserved Words are prepended with <code>head</code>. All other
+   * an illegal character are prepended with <code>prefix</code>. Strings that
+   * are Java Reserved Words are prepended with <code>prefix</code>. All other
    * illegal characters are substituted with the string value mapped to the key
    * of the character in <code>sub</code>. If the mapping is missing, the
    * illegal character is omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @param sub The mapping of illegal characters to their substitutions.
    * @return The string transformed to a valid Java Identifier.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toIdentifier(final String string, final char head, final Map<Character,String> sub) {
-    return transformNotReserved(string, head, '\0', sub, JavaIdentifiers::toIdentifier0);
+  public static String toIdentifier(final String string, final char prefix, final Map<Character,String> sub) {
+    return transformNotReserved(string, prefix, '\0', sub, JavaIdentifiers::toIdentifier0);
   }
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>head</code>. Strings that
-   * are Java Reserved Words are prepended with <code>head</code>. All other
+   * an illegal character are prepended with <code>prefix</code>. Strings that
+   * are Java Reserved Words are prepended with <code>prefix</code>. All other
    * illegal characters are omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @return The string transformed to a valid Java Identifier.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toIdentifier(final String string, final char head) {
-    return transformNotReserved(string, head, '\0', null, JavaIdentifiers::toIdentifier0);
+  public static String toIdentifier(final String string, final char prefix) {
+    return transformNotReserved(string, prefix, '\0', null, JavaIdentifiers::toIdentifier0);
   }
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
    * an illegal character are prepended with <code>_</code>. Strings that
-   * are Java Reserved Words are prepended with <code>head</code>. All other
+   * are Java Reserved Words are prepended with <code>prefix</code>. All other
    * illegal characters are omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
-   *        first character is not valid.
    * @return The string transformed to a valid Java Identifier.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
@@ -98,13 +96,13 @@ public final class JavaIdentifiers {
     return transformNotReserved(string, '_', '\0', null, JavaIdentifiers::toIdentifier0);
   }
 
-  private static StringBuilder toIdentifier0(final String string, final char head, final Map<Character,String> sub) {
+  private static StringBuilder toIdentifier0(final String string, final char prefix, final Map<Character,String> sub) {
     final StringBuilder builder = new StringBuilder(string.length());
     final char[] chars = string.toCharArray();
     for (int i = 0; i < chars.length; i++) {
       final char ch = chars[i];
-      if (i == 0 && !Character.isJavaIdentifierStart(ch) && head != '\0')
-        builder.append(head);
+      if (i == 0 && !Character.isJavaIdentifierStart(ch) && prefix != '\0')
+        builder.append(prefix);
 
       if (Character.isJavaIdentifierPart(ch)) {
         builder.append(ch);
@@ -125,7 +123,7 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier that meets suggested
    * package name guidelines. Strings that are Java Reserved Words are
-   * prepended with <code>head</code>. Strings that start with an illegal
+   * prepended with <code>prefix</code>. Strings that start with an illegal
    * character are prepended with <code>_</code>. All other illegal characters
    * are substituted <code>_</code>.
    *
@@ -140,9 +138,6 @@ public final class JavaIdentifiers {
    * identifier, have an underscore prefixed to the component.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param sub The mapping of illegal characters to their substitutions.
    * @return The string transformed to a valid Java Identifier that meets
    *         suggested package name guidelines.
    *
@@ -154,45 +149,45 @@ public final class JavaIdentifiers {
     return transformNotReserved(string, '_', '_', defaultPackageSub, JavaIdentifiers::toPacakgeCase0);
   }
 
-  private static StringBuilder toPacakgeCase0(final String string, final char head, final Map<Character,String> sub) {
-    return Strings.toLowerCase(toIdentifier0(string, head, sub));
+  private static StringBuilder toPacakgeCase0(final String string, final char prefix, final Map<Character,String> sub) {
+    return Strings.toLowerCase(toIdentifier0(string, prefix, sub));
   }
 
   /**
    * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>head</code>.
-   * Strings that are Java Reserved Words are prepended with <code>head</code>.
+   * that start with an illegal character are prepended with <code>prefix</code>.
+   * Strings that are Java Reserved Words are prepended with <code>prefix</code>.
    * All other illegal characters are substituted with the string value mapped
    * to the key of the character in <code>sub</code>. If the mapping is
    * missing, the illegal character is omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @param sub The mapping of illegal characters to their substitutions.
    * @return The string transformed to a valid Java Identifier in camelCase.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toCamelCase(final String string, final char head, final Map<Character,String> sub) {
-    return transformNotReserved(string, head, '\0', sub, JavaIdentifiers::toCamelCase0);
+  public static String toCamelCase(final String string, final char prefix, final Map<Character,String> sub) {
+    return transformNotReserved(string, prefix, '\0', sub, JavaIdentifiers::toCamelCase0);
   }
 
   /**
    * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>head</code>.
-   * Strings that are Java Reserved Words are prepended with <code>head</code>.
+   * that start with an illegal character are prepended with <code>prefix</code>.
+   * Strings that are Java Reserved Words are prepended with <code>prefix</code>.
    * All other illegal characters are omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @return The string transformed to a valid Java Identifier in camelCase.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toCamelCase(final String string, final char head) {
-    return transformNotReserved(string, head, '\0', null, JavaIdentifiers::toCamelCase0);
+  public static String toCamelCase(final String string, final char prefix) {
+    return transformNotReserved(string, prefix, '\0', null, JavaIdentifiers::toCamelCase0);
   }
 
   /**
@@ -210,13 +205,13 @@ public final class JavaIdentifiers {
     return transformNotReserved(string, 'x', '\0', null, JavaIdentifiers::toCamelCase0);
   }
 
-  private static StringBuilder toCamelCase0(final String string, final char head, final Map<Character,String> sub) {
+  private static StringBuilder toCamelCase0(final String string, final char prefix, final Map<Character,String> sub) {
     final StringBuilder builder = new StringBuilder(string.length());
     final char[] chars = string.toCharArray();
     boolean capNext = false;
     for (int i = 0; i < chars.length; i++) {
       if (i == 0 && !Character.isJavaIdentifierStart(chars[i]))
-        builder.append(head);
+        builder.append(prefix);
 
       final char ch = chars[i];
       final int index = java.util.Arrays.binarySearch(discardTokens, ch);
@@ -246,38 +241,38 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>head</code>. Strings that are Java Reserved Words are prepended with
-   * <code>head</code>. All other illegal characters are substituted with the
+   * <code>prefix</code>. Strings that are Java Reserved Words are prepended with
+   * <code>prefix</code>. All other illegal characters are substituted with the
    * string value mapped to the key of the character in <code>sub</code>. If
    * the mapping is missing, the illegal character is omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @param sub The mapping of illegal characters to their substitutions.
    * @return The string transformed to a valid Java Identifier in lower-CamelCase.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toInstanceCase(final String string, final char head, final Map<Character,String> sub) {
-    return transformNotReserved(string, head, '\0', sub, JavaIdentifiers::toInstanceCase0);
+  public static String toInstanceCase(final String string, final char prefix, final Map<Character,String> sub) {
+    return transformNotReserved(string, prefix, '\0', sub, JavaIdentifiers::toInstanceCase0);
   }
 
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>head</code>. Strings that are Java Reserved Words are prepended with
-   * <code>head</code>. All other illegal characters are omitted.
+   * <code>prefix</code>. Strings that are Java Reserved Words are prepended with
+   * <code>prefix</code>. All other illegal characters are omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @return The string transformed to a valid Java Identifier in lower-CamelCase.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toInstanceCase(final String string, final char head) {
-    return transformNotReserved(string, head, '\0', null, JavaIdentifiers::toInstanceCase0);
+  public static String toInstanceCase(final String string, final char prefix) {
+    return transformNotReserved(string, prefix, '\0', null, JavaIdentifiers::toInstanceCase0);
   }
 
   /**
@@ -302,10 +297,12 @@ public final class JavaIdentifiers {
    * the location of change of case.
    *
    * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *        first character is not valid.
    * @return The string transformed to a legal Java [c]amelCase identifier.
    */
-  private static StringBuilder toInstanceCase0(final String string, final char head, final Map<Character,String> sub) {
-    final StringBuilder builder = toCamelCase0(string, head, sub);
+  private static StringBuilder toInstanceCase0(final String string, final char prefix, final Map<Character,String> sub) {
+    final StringBuilder builder = toCamelCase0(string, prefix, sub);
     final int len = builder.length();
     if (len == 1) {
       if (Character.isUpperCase(builder.charAt(0)))
@@ -333,11 +330,11 @@ public final class JavaIdentifiers {
     return builder;
   }
 
-  private static String transform(final String string, final char head, final Map<Character,String> sub, final TriFunction<String,Character,Map<Character,String>,StringBuilder> transformer) {
+  private static String transform(final String string, final char prefix, final Map<Character,String> sub, final TriFunction<String,Character,Map<Character,String>,StringBuilder> transformer) {
     if (string == null || string.length() == 0)
       return string;
 
-    final StringBuilder builder = transformer.apply(string, head, sub);
+    final StringBuilder builder = transformer.apply(string, prefix, sub);
     if (Character.isUpperCase(string.charAt(0)))
       return builder.toString();
 
@@ -348,36 +345,36 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>head</code>. All other illegal characters are substituted with the
+   * <code>prefix</code>. All other illegal characters are substituted with the
    * string value mapped to the key of the character in <code>sub</code>. If
    * the mapping is missing, the illegal character is omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @param sub The mapping of illegal characters to their substitutions.
    * @return The string transformed to a valid Java Identifier in Title-CamelCase.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toClassCase(final String string, final char head, final Map<Character,String> sub) {
-    return transform(string, head, sub, JavaIdentifiers::toCamelCase0);
+  public static String toClassCase(final String string, final char prefix, final Map<Character,String> sub) {
+    return transform(string, prefix, sub, JavaIdentifiers::toCamelCase0);
   }
 
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>head</code>. All other illegal characters are omitted.
+   * <code>prefix</code>. All other illegal characters are omitted.
    *
    * @param string The input string.
-   * @param head The character that will be prepended to the string if the
+   * @param prefix The character that will be prepended to the string if the
    *        first character is not valid.
    * @return The string transformed to a valid Java Identifier in Title-CamelCase.
    *
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
    */
-  public static String toClassCase(final String string, final char head) {
-    return transform(string, head, null, JavaIdentifiers::toCamelCase0);
+  public static String toClassCase(final String string, final char prefix) {
+    return transform(string, prefix, null, JavaIdentifiers::toCamelCase0);
   }
 
   /**
