@@ -17,6 +17,7 @@
 package org.lib4j.util;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -450,13 +451,13 @@ public final class Collections {
   @SuppressWarnings("unchecked")
   public static <C extends Collection<T>,T>C clone(final C collection) {
     try {
-      final C clone = (C)collection.getClass().newInstance();
+      final C clone = (C)collection.getClass().getDeclaredConstructor().newInstance();
       for (final T member : collection)
         clone.add(member);
 
       return clone;
     }
-    catch (final IllegalAccessException | InstantiationException e) {
+    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
       throw new UnsupportedOperationException(e);
     }
   }

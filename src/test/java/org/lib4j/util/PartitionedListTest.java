@@ -72,7 +72,7 @@ public class PartitionedListTest {
     listIterator.add(p2);
     assertElementCount("Add " + System.identityHashCode(p2) + " at 0S", expected, 3, superList.getPartition(String.class));
 
-    final Integer div1 = new Integer((int)(Math.random() * 100));
+    final Integer div1 = Integer.valueOf((int)(Math.random() * 100));
     expected.add(2, div1);
     listIterator = superList.listIterator(2);
     listIterator.add(div1);
@@ -92,7 +92,7 @@ public class PartitionedListTest {
     assertElementCount("Add " + System.identityHashCode(p2) + " at 1S", expected, 3, superList.getPartition(String.class));
     assertElementCount(null, expected, 1, superList.getPartition(Integer.class));
 
-    final Integer div2 = new Integer((int)(Math.random() * 100));
+    final Integer div2 = Integer.valueOf((int)(Math.random() * 100));
     expected.add(1, div2);
     listIterator = superList.listIterator();
     listIterator.next();
@@ -100,7 +100,7 @@ public class PartitionedListTest {
     assertElementCount("Add " + System.identityHashCode(div2) + " at 1S", expected, 3, superList.getPartition(String.class));
     assertElementCount(null, expected, 2, superList.getPartition(Integer.class));
 
-    final Integer div3 = new Integer((int)(Math.random() * 100));
+    final Integer div3 = Integer.valueOf((int)(Math.random() * 100));
     expected.add(2, div3);
     listIterator = superList.getPartition(Integer.class).listIterator();
     listIterator.next();

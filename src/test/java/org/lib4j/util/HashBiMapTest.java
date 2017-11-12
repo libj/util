@@ -29,7 +29,7 @@ public class HashBiMapTest {
       final String value = String.valueOf(i + offset);
       map.put(i + offset, value);
       Assert.assertEquals(value, map.get(i + offset));
-      Assert.assertEquals(new Integer(i + offset), map.inverse().get(value));
+      Assert.assertEquals(Integer.valueOf(i + offset), map.inverse().get(value));
     }
 
     map.remove(7 + offset);

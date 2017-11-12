@@ -27,8 +27,8 @@ public class CollectionsTest {
   @Test
   public void testGetComponentType() {
     Assert.assertEquals(null, Collections.getComponentType(Arrays.asList(new Object[] {null, null, null})));
-    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(new Object[] {new Integer(1), null, BigInteger.ONE})));
-    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(new Object[] {new Integer(1), new Long(1), BigInteger.ONE})));
+    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(new Object[] {Integer.valueOf(1), null, BigInteger.ONE})));
+    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(new Object[] {Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE})));
   }
 
   @Test

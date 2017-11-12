@@ -75,23 +75,23 @@ public class TransListTest {
     final TransList<Integer,String> trans = new TransList<Integer,String>(source, integer -> String.valueOf(integer), string -> Integer.valueOf(string));
     trans.add(3, "555");
     Assert.assertEquals("555", trans.get(3));
-    Assert.assertEquals(new Integer(555), ((List<Integer>)trans.source).get(3));
+    Assert.assertEquals(Integer.valueOf(555), ((List<Integer>)trans.source).get(3));
 
     trans.addAll(9, Arrays.asList(new String[] {"666", "777", "888"}));
     Assert.assertEquals("666", trans.get(9));
     Assert.assertEquals("777", trans.get(10));
     Assert.assertEquals("888", trans.get(11));
-    Assert.assertEquals(new Integer(666), ((List<Integer>)trans.source).get(9));
-    Assert.assertEquals(new Integer(777), ((List<Integer>)trans.source).get(10));
-    Assert.assertEquals(new Integer(888), ((List<Integer>)trans.source).get(11));
+    Assert.assertEquals(Integer.valueOf(666), ((List<Integer>)trans.source).get(9));
+    Assert.assertEquals(Integer.valueOf(777), ((List<Integer>)trans.source).get(10));
+    Assert.assertEquals(Integer.valueOf(888), ((List<Integer>)trans.source).get(11));
 
     trans.set(7, "0");
     Assert.assertEquals("0", trans.get(7));
-    Assert.assertEquals(new Integer(000), ((List<Integer>)trans.source).get(7));
+    Assert.assertEquals(Integer.valueOf(000), ((List<Integer>)trans.source).get(7));
 
     trans.remove(7);
     Assert.assertNotEquals("0", trans.get(7));
-    Assert.assertNotEquals(new Integer(000), ((List<Integer>)trans.source).get(7));
+    Assert.assertNotEquals(Integer.valueOf(000), ((List<Integer>)trans.source).get(7));
 
     final TransList<Integer,String> subList = trans.subList(4, 7);
     for (int i = 3; i < 6; i++)

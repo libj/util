@@ -16,6 +16,7 @@
 
 package org.lib4j.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 public final class Maps {
@@ -34,13 +35,13 @@ public final class Maps {
   @SuppressWarnings("unchecked")
   public static <M extends Map<K,V>,K,V>M clone(final Map<K,V> map) {
     try {
-      final M clone = (M)map.getClass().newInstance();
+      final M clone = (M)map.getClass().getDeclaredConstructor().newInstance();
       for (final Map.Entry<K,V> entry : map.entrySet())
         clone.put(entry.getKey(), entry.getValue());
 
       return clone;
     }
-    catch (final IllegalAccessException | InstantiationException e) {
+    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
       throw new UnsupportedOperationException(e);
     }
   }
