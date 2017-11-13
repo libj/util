@@ -21,10 +21,10 @@ import java.util.function.Function;
 
 /**
  * Represents a function that accepts three arguments and produces a result.
- * This is the three-arity specialization of {@link Function}.
+ * This is the four-arity specialization of {@link Function}.
  *
  * This is a functional interface.
- * whose functional method is {@link #apply(Object, Object, Object)}.
+ * whose functional method is {@link #apply(Object, Object, Object, Object)}.
  *
  * @param <T>
  *          the type of the first argument to the function
@@ -32,13 +32,15 @@ import java.util.function.Function;
  *          the type of the second argument to the function
  * @param <V>
  *          the type of the third argument to the function
+ * @param <W>
+ *          the type of the fourth argument to the function
  * @param <R>
  *          the type of the result of the function
  *
  * @see Function
  */
 @FunctionalInterface
-public interface TriFunction<T,U,V,R> {
+public interface QuadFunction<T,U,V,W,R> {
   /**
    * Applies this function to the given arguments.
    *
@@ -48,9 +50,11 @@ public interface TriFunction<T,U,V,R> {
    *          the second function argument
    * @param v
    *          the third function argument
+   * @param w
+   *          the fourth function argument
    * @return the function result
    */
-  R apply(final T t, final U u, final V v);
+  R apply(final T t, final U u, final V v, final W w);
 
   /**
    * Returns a composed function that first applies this function to
@@ -68,8 +72,8 @@ public interface TriFunction<T,U,V,R> {
    * @throws NullPointerException
    *           if after is null
    */
-  default <W>TriFunction<T,U,V,W> andThen(final Function<? super R,? extends W> after) {
+  default <X>QuadFunction<T,U,V,W,X> andThen(final Function<? super R,? extends X> after) {
     Objects.requireNonNull(after);
-    return (T t, U u, V v) -> after.apply(apply(t, u, v));
+    return (T t, U u, V v, W w) -> after.apply(apply(t, u, v, w));
   }
 }

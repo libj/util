@@ -333,7 +333,7 @@ public class Diff {
       if (mod.length > maxLength)
         maxLength = mod.length;
 
-    this.lengthSize = Bytes.getSize(maxLength);
+    this.lengthSize = maxLength == 0 ? 0 : Bytes.getSize(maxLength);
     this.mods = mods;
   }
 
