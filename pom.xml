@@ -47,9 +47,16 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>name.fraser.neil.plaintext</groupId>
+      <groupId>diff_match_patch</groupId>
       <artifactId>diff_match_patch</artifactId>
-      <version>20121119</version>
+      <version>current</version>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>adobe</id>
+      <name>Adobe</name>
+      <url>https://repo.adobe.com/nexus/content/repositories/public/</url>
+    </repository>
+  </repositories>
 </project>
