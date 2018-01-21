@@ -48,21 +48,21 @@ public class ObservableSet<E> extends WrappedSet<E> {
   }
 
   /**
-   * Callback method that is invoked immediately before an element is removed
-   * from the enclosed <code>Set</code>.
-   *
-   * @param e The element being removed from the enclosed <code>Set</code>.
-   */
-  protected void beforeRemove(final Object e) {
-  }
-
-  /**
    * Callback method that is invoked immediately after an element is added to
    * the enclosed <code>Set</code>.
    *
    * @param e The element added to the enclosed <code>Set</code>.
    */
   protected void afterAdd(final E e) {
+  }
+
+  /**
+   * Callback method that is invoked immediately before an element is removed
+   * from the enclosed <code>Set</code>.
+   *
+   * @param e The element being removed from the enclosed <code>Set</code>.
+   */
+  protected void beforeRemove(final Object e) {
   }
 
   /**

@@ -27,6 +27,8 @@ import java.util.function.Predicate;
  * methods to observe the addition and removal of elements to the wrapped
  * <code>List</code>.
  *
+ * @see ObservableList#beforeGet(int,Iterator<E>)
+ * @see ObservableList#afterGet(int,E,Iterator<E>)
  * @see ObservableList#beforeAdd(Object)
  * @see ObservableList#afterAdd(int)
  * @see ObservableList#beforeRemove(int)
@@ -50,6 +52,32 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
+   * Callback method that is invoked immediately before an element is retrieved
+   * from the enclosed <code>List</code>.
+   *
+   * @param index The index of the element being retrieved from the enclosed
+   * <code>List</code>.
+   * @param iterator The <code>ListIterator</code> instance if the get is a
+   *                 result of an iterator reference, or null if otherwise.
+   * <code>List</code>.
+   */
+  protected void beforeGet(final int index, final ListIterator<E> iterator) {
+  }
+
+  /**
+   * Callback method that is invoked immediately after an element is retrieved
+   * from the enclosed <code>List</code>.
+   *
+   * @param index The index of the element being retrieved from the enclosed
+   * <code>List</code>.
+   * @param e The element being retrieved from the enclosed <code>List</code>.
+   * @param iterator The <code>Iterator</code> instance if the get is a result
+   *                 of an iterator reference, or null if otherwise.
+   */
+  protected void afterGet(final int index, final E e, final ListIterator<E> iterator) {
+  }
+
+  /**
    * Callback method that is invoked immediately before an element is added to
    * the enclosed <code>List</code>.
    *
@@ -58,26 +86,6 @@ public class ObservableList<E> extends WrappedList<E> {
    * @param e The element being added to the enclosed <code>List</code>.
    */
   protected void beforeAdd(final int index, final E e) {
-  }
-
-  /**
-   * Callback method that is invoked immediately before an element is removed
-   * from the enclosed <code>List</code>.
-   *
-   * @param index The index of the element being removed from the enclosed
-   * <code>List</code>.
-   */
-  protected void beforeRemove(final int index) {
-  }
-
-  /**
-   * Callback method that is invoked immediately before an element is set at
-   * an index to the enclosed <code>List</code>.
-   *
-   * @param index The index of the element being set in the enclosed <code>List</code>.
-   * @param newElement The element being set to the enclosed <code>List</code>.
-   */
-  protected void beforeSet(final int index, final E newElement) {
   }
 
   /**
@@ -92,12 +100,32 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
+   * Callback method that is invoked immediately before an element is removed
+   * from the enclosed <code>List</code>.
+   *
+   * @param index The index of the element being removed from the enclosed
+   * <code>List</code>.
+   */
+  protected void beforeRemove(final int index) {
+  }
+
+  /**
    * Callback method that is invoked immediately after an element is removed
    * from the enclosed <code>Collection</code>.
    *
    * @param e The element removed from the enclosed <code>Collection</code>.
    */
   protected void afterRemove(final Object e) {
+  }
+
+  /**
+   * Callback method that is invoked immediately before an element is set at
+   * an index to the enclosed <code>List</code>.
+   *
+   * @param index The index of the element being set in the enclosed <code>List</code>.
+   * @param newElement The element being set to the enclosed <code>List</code>.
+   */
+  protected void beforeSet(final int index, final E newElement) {
   }
 
   /**
@@ -125,6 +153,22 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
+   * Inserts the specified element at the specified position in this list
+   * (optional operation).
+   *
+   * @see List#add(int,Object)
+   */
+  @Override
+  public void add(final int index, final E element) {
+    beforeAdd(index, element);
+    source.add(index + fromIndex, element);
+    if (toIndex != -1)
+      ++toIndex;
+
+    afterAdd(index, element);
+  }
+
+  /**
    * Adds all of the elements in the specified collection to this collection
    * (optional operation). The callback methods <code>beforeAdd()</code> and
    * <code>afterAdd()</code> are called immediately before and after the
@@ -143,6 +187,281 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
+   * Inserts all of the elements in the specified collection into this
+   * list at the specified position (optional operation).
+   *
+   * @see List#addAll(int,Collection)
+   */
+  @Override
+  public boolean addAll(int index, final Collection<? extends E> c) {
+    if (c.size() == 0)
+      return false;
+
+    for (final E e : c)
+      add(index++, e);
+
+    return true;
+  }
+
+  /**
+   * Removes all of the elements from this collection (optional operation).
+   * The callback methods <code>beforeRemove()</code> and
+   * <code>afterRemove()</code> are called immediately before and after the
+   * enclosed collection is modified for the removal of each element.
+   *
+   * @see Collection#clear()
+   */
+  @Override
+  public void clear() {
+    final Iterator<E> iterator = iterator();
+    while (iterator.hasNext()) {
+      iterator.next();
+      iterator.remove();
+    }
+  }
+
+  /**
+   * Returns {@code true} if this list contains the specified element.
+   * The callback methods <code>beforeGet()</code> and
+   * <code>afterGet()</code> are called immediately before and after each
+   * member of the enclosed list is referenced.
+   *
+   * @see List#contains(Object)
+   */
+  @Override
+  public boolean contains(final Object o) {
+    final ListIterator<E> iterator = listIterator();
+    if (o == null) {
+      while (iterator.hasNext())
+        if (iterator.next() == null)
+          return true;
+    }
+    else {
+      while (iterator.hasNext())
+        if (o.equals(iterator.next()))
+          return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if this list contains all of the elements of the
+   * specified collection. The callback methods <code>beforeGet()</code> and
+   * <code>afterGet()</code> are called immediately before and after each
+   * member of the enclosed list is referenced.
+   *
+   * @see List#containsAll(Object)
+   */
+  @Override
+  public boolean containsAll(final Collection<?> c) {
+    for (final Object o : c)
+      if (!contains(o))
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Returns the element at the specified position in this list. The callback
+   * methods <code>beforeGet()</code> and <code>afterGet()</code> are called
+   * immediately before and after the get operation on the enclosed collection.
+   *
+   * @param index index of the element to return
+   * @return the element at the specified position in this list
+   * @throws IndexOutOfBoundsException if the index is out of range
+   *         ({@code index < 0 || index >= size()})
+   */
+  @Override
+  public E get(final int index) {
+    beforeGet(index, null);
+    final E object = super.get(index);
+    afterGet(index, object, null);
+    return object;
+  }
+
+  /**
+   * Returns the index of the first occurrence of the specified element
+   * in this list, or -1 if this list does not contain the element. The
+   * callback methods <code>beforeGet()</code> and
+   * <code>afterGet()</code> are called immediately before and after each
+   * member of the enclosed list is referenced.
+   *
+   * @see List#indexOf(Object)
+   */
+  @Override
+  public int indexOf(final Object o) {
+    final ListIterator<E> iterator = listIterator();
+    if (o == null) {
+      for (int i = 0; iterator.hasNext(); i++)
+        if (iterator.next() == null)
+          return i;
+    }
+    else {
+      for (int i = 0; iterator.hasNext(); i++)
+        if (o.equals(iterator.next()))
+          return i;
+    }
+
+    return -1;
+  }
+
+  /**
+   * Returns the index of the last occurrence of the specified element
+   * in this list, or -1 if this list does not contain the element. The
+   * callback methods <code>beforeGet()</code> and
+   * <code>afterGet()</code> are called immediately before and after each
+   * member of the enclosed list is referenced.
+   *
+   * @see List#lastIndexOf(Object)
+   */
+  @Override
+  public int lastIndexOf(final Object o) {
+    final ListIterator<E> iterator = listIterator(size());
+    if (o == null) {
+      for (int i = 0; iterator.hasPrevious(); i++)
+        if (iterator.previous() == null)
+          return i;
+    }
+    else {
+      for (int i = 0; iterator.hasPrevious(); i++)
+        if (o.equals(iterator.previous()))
+          return i;
+    }
+
+    return -1;
+  }
+
+  /**
+   * Returns an iterator over the elements in this collection. Calling
+   * <code>Iterator.remove()</code> will delegate a callback to
+   * <code>beforeRemove()</code> and <code>afterRemove()</code> on the instance
+   * of this <code>ObservableCollection</code>.
+   *
+   * @see Collection#iterator()
+   * @return an <tt>Iterator</tt> over the elements in this collection
+   */
+  @Override
+  public Iterator<E> iterator() {
+    return listIterator();
+  }
+
+  /**
+   * Returns a list iterator over the elements in this list (in proper
+   * sequence).
+   *
+   * @see List#listIterator()
+   */
+  @Override
+  public ListIterator<E> listIterator() {
+    return listIterator(0);
+  }
+
+  /**
+   * Returns a list iterator over the elements in this list (in proper
+   * sequence), starting at the specified position in the list.
+   *
+   * @see List#listIterator(int)
+   */
+  @Override
+  public ListIterator<E> listIterator(final int index) {
+    if (index > size())
+      throw new IndexOutOfBoundsException("Invalid index " + index + ", size is " + size());
+
+    final ListIterator<E> listIterator = source.listIterator(index + fromIndex);
+    return new ListIterator<E>() {
+      private E current;
+
+      @Override
+      public boolean hasNext() {
+        return nextIndex() < size();
+      }
+
+      @Override
+      public E next() {
+        final int index = listIterator.nextIndex() - fromIndex;
+        beforeGet(index, this);
+        current = listIterator.next();
+        afterGet(index, current, this);
+        return current;
+      }
+
+      @Override
+      public boolean hasPrevious() {
+        return previousIndex() >= 0;
+      }
+
+      @Override
+      public E previous() {
+        final int index = listIterator.previousIndex() - fromIndex;
+        beforeGet(index, this);
+        current = listIterator.previous();
+        afterGet(index, current, this);
+        return current;
+      }
+
+      @Override
+      public int nextIndex() {
+        return listIterator.nextIndex() - fromIndex;
+      }
+
+      @Override
+      public int previousIndex() {
+        return listIterator.previousIndex() - fromIndex;
+      }
+
+      @Override
+      public void remove() {
+        beforeRemove(nextIndex() - 1);
+        listIterator.remove();
+        if (toIndex != -1)
+          --toIndex;
+
+        afterRemove(current);
+      }
+
+      @Override
+      public void set(final E e) {
+        final int index = nextIndex() - 1;
+        beforeSet(index, e);
+        final E remove = current;
+        listIterator.set(e);
+        afterSet(index, remove);
+      }
+
+      @Override
+      public void add(final E e) {
+        final int index = nextIndex();
+        beforeAdd(index, e);
+        listIterator.add(e);
+        if (toIndex != -1)
+          ++toIndex;
+
+        afterAdd(index, e);
+      }
+    };
+  }
+
+  /**
+   * Removes the element at the specified position in this list (optional
+   * operation).
+   *
+   * @see List#remove(int)
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public E remove(final int index) {
+    final E element = (E)source.get(index + fromIndex);
+    beforeRemove(index);
+    source.remove(index + fromIndex);
+    if (toIndex != -1)
+      --toIndex;
+
+    afterRemove(element);
+    return element;
+  }
+
+  /**
    * Removes a single instance of the specified element from this collection,
    * if it is present (optional operation). The callback methods
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
@@ -157,8 +476,8 @@ public class ObservableList<E> extends WrappedList<E> {
     if (index == -1)
       return false;
 
-    beforeRemove(index - fromIndex);
-    source.remove(index);
+    beforeRemove(index);
+    source.remove(index + fromIndex);
     if (toIndex != -1)
       --toIndex;
 
@@ -236,58 +555,6 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Removes all of the elements from this collection (optional operation).
-   * The callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element.
-   *
-   * @see Collection#clear()
-   */
-  @Override
-  public void clear() {
-    final Iterator<E> iterator = iterator();
-    while (iterator.hasNext()) {
-      iterator.next();
-      iterator.remove();
-    }
-  }
-
-  /**
-   * Inserts the specified element at the specified position in this list
-   * (optional operation).
-   *
-   * @see List#add(int,Object)
-   */
-  @Override
-  public void add(final int index, final E element) {
-    beforeAdd(index, element);
-    source.add(index + fromIndex, element);
-    if (toIndex != -1)
-      ++toIndex;
-
-    afterAdd(index, element);
-  }
-
-  /**
-   * Removes the element at the specified position in this list (optional
-   * operation).
-   *
-   * @see List#remove(int)
-   */
-  @Override
-  @SuppressWarnings("unchecked")
-  public E remove(final int index) {
-    final E element = (E)source.get(index + fromIndex);
-    beforeRemove(index);
-    source.remove(index + fromIndex);
-    if (toIndex != -1)
-      --toIndex;
-
-    afterRemove(element);
-    return element;
-  }
-
-  /**
    * Replaces the element at the specified position in this list with the
    * specified element (optional operation).
    *
@@ -302,128 +569,9 @@ public class ObservableList<E> extends WrappedList<E> {
     return oldElement;
   }
 
-  /**
-   * Inserts all of the elements in the specified collection into this
-   * list at the specified position (optional operation).
-   *
-   * @see List#addAll(int,Collection)
-   */
-  @Override
-  public boolean addAll(int index, final Collection<? extends E> c) {
-    if (c.size() == 0)
-      return false;
-
-    for (final E e : c)
-      add(index++, e);
-
-    return true;
-  }
-
   @Override
   public int size() {
     return (toIndex != -1 ? toIndex : source.size()) - fromIndex;
-  }
-
-  /**
-   * Returns an iterator over the elements in this collection. Calling
-   * <code>Iterator.remove()</code> will delegate a callback to
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> on the instance
-   * of this <code>ObservableCollection</code>.
-   *
-   * @see Collection#iterator()
-   * @return an <tt>Iterator</tt> over the elements in this collection
-   */
-  @Override
-  public Iterator<E> iterator() {
-    return listIterator();
-  }
-
-  /**
-   * Returns a list iterator over the elements in this list (in proper
-   * sequence).
-   *
-   * @see List#listIterator()
-   */
-  @Override
-  public ListIterator<E> listIterator() {
-    return listIterator(0);
-  }
-
-  /**
-   * Returns a list iterator over the elements in this list (in proper
-   * sequence), starting at the specified position in the list.
-   *
-   * @see List#listIterator(int)
-   */
-  @Override
-  public ListIterator<E> listIterator(final int index) {
-    if (index > size())
-      throw new IndexOutOfBoundsException("Invalid index " + index + ", size is " + size());
-
-    final ListIterator<E> listIterator = source.listIterator(index + fromIndex);
-    return new ListIterator<E>() {
-      private E current;
-
-      @Override
-      public boolean hasNext() {
-        return nextIndex() < size();
-      }
-
-      @Override
-      public E next() {
-        return current = listIterator.next();
-      }
-
-      @Override
-      public boolean hasPrevious() {
-        return previousIndex() >= 0;
-      }
-
-      @Override
-      public E previous() {
-        return current = listIterator.previous();
-      }
-
-      @Override
-      public int nextIndex() {
-        return listIterator.nextIndex() - fromIndex;
-      }
-
-      @Override
-      public int previousIndex() {
-        return listIterator.previousIndex() - fromIndex;
-      }
-
-      @Override
-      public void remove() {
-        beforeRemove(nextIndex() - 1);
-        listIterator.remove();
-        if (toIndex != -1)
-          --toIndex;
-
-        afterRemove(current);
-      }
-
-      @Override
-      public void set(final E e) {
-        final int index = nextIndex() - 1;
-        beforeSet(index, e);
-        final E remove = current;
-        listIterator.set(e);
-        afterSet(index, remove);
-      }
-
-      @Override
-      public void add(final E e) {
-        final int index = nextIndex();
-        beforeAdd(index, e);
-        listIterator.add(e);
-        if (toIndex != -1)
-          ++toIndex;
-
-        afterAdd(index, e);
-      }
-    };
   }
 
   /**
@@ -436,18 +584,18 @@ public class ObservableList<E> extends WrappedList<E> {
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {
     return new ObservableList<E>(source, fromIndex, toIndex) {
       @Override
+      protected void beforeGet(final int index, final ListIterator<E> iterator) {
+        ObservableList.this.beforeGet(index, iterator);
+      }
+
+      @Override
+      protected void afterGet(final int index, final E e, final ListIterator<E> iterator) {
+        ObservableList.this.afterGet(index, e, iterator);
+      }
+
+      @Override
       protected void beforeAdd(final int index, final E element) {
         ObservableList.this.beforeAdd(index, element);
-      }
-
-      @Override
-      protected void beforeRemove(final int index) {
-        ObservableList.this.beforeRemove(index);
-      }
-
-      @Override
-      protected void beforeSet(final int index, final E newElement) {
-        ObservableList.this.beforeSet(index, newElement);
       }
 
       @Override
@@ -456,8 +604,18 @@ public class ObservableList<E> extends WrappedList<E> {
       }
 
       @Override
+      protected void beforeRemove(final int index) {
+        ObservableList.this.beforeRemove(index);
+      }
+
+      @Override
       protected void afterRemove(final Object element) {
         ObservableList.this.afterRemove(element);
+      }
+
+      @Override
+      protected void beforeSet(final int index, final E newElement) {
+        ObservableList.this.beforeSet(index, newElement);
       }
 
       @Override
@@ -465,5 +623,39 @@ public class ObservableList<E> extends WrappedList<E> {
         ObservableList.this.afterSet(index, oldElement);
       }
     };
+  }
+
+  /**
+   * Returns an array containing all of the elements in this list in proper
+   * sequence (from first to last element). The callback methods
+   * <code>beforeGet()</code> and <code>afterGet()</code> are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
+   *
+   * @see List#toArray()
+   */
+  @Override
+  public Object[] toArray() {
+    return toArray(new Object[size()]);
+  }
+
+  /**
+   * Returns an array containing all of the elements in this list in
+   * proper sequence (from first to last element); the runtime type of
+   * the returned array is that of the specified array. The callback methods
+   * <code>beforeGet()</code> and <code>afterGet()</code> are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
+   *
+   * @see List#toArray(Object[])
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public <T>T[] toArray(final T[] a) {
+    final ListIterator<E> iterator = listIterator();
+    for (int i = 0; i < a.length && iterator.hasNext(); i++)
+      a[i] = (T)iterator.next();
+
+    return a;
   }
 }

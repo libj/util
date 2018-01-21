@@ -29,7 +29,11 @@ import org.junit.ComparisonFailure;
 import org.junit.Test;
 
 public class ObservableListTest {
+  private boolean testingGetReplace = false;
+
   private String expectedString;
+  private boolean beforeGet;
+  private boolean afterGet;
   private boolean beforeAdd;
   private boolean afterAdd;
   private boolean beforeRemove;
@@ -40,12 +44,22 @@ public class ObservableListTest {
   private int fromIndex;
 
   private void reset() {
+    beforeGet = false;
+    afterGet = false;
     beforeAdd = false;
     afterAdd = false;
     beforeRemove = false;
     afterRemove = false;
     beforeSet = false;
     afterSet = false;
+  }
+
+  private void assertGot() {
+    Assert.assertTrue(beforeGet && afterGet);
+    if (!testingGetReplace)
+      Assert.assertFalse(beforeRemove || afterRemove || beforeAdd || afterAdd || beforeSet || afterSet);
+
+    reset();
   }
 
   private void assertRemoved() {
@@ -70,6 +84,22 @@ public class ObservableListTest {
   public void test() {
     final ObservableList<String> list = new ObservableList<String>(new ArrayList<String>()) {
       @Override
+      protected void beforeGet(final int index, final ListIterator<String> iterator) {
+        beforeGet = true;
+      }
+
+      @Override
+      protected void afterGet(final int index, final String e, final ListIterator<String> iterator) {
+        afterGet = true;
+        if (testingGetReplace) {
+          if (iterator != null)
+            iterator.set(e.intern());
+          else
+            set(index, e.intern());
+        }
+      }
+
+      @Override
       protected void beforeAdd(final int index, final String e) {
         Assert.assertEquals(expectedString, e);
         Assert.assertFalse(contains(e));
@@ -78,7 +108,7 @@ public class ObservableListTest {
 
       @Override
       protected void beforeRemove(final int index) {
-        final String e = ((List<String>)source).get(index + fromIndex);
+        final String e = get(index + fromIndex);
         Assert.assertEquals(expectedString, e);
         Assert.assertTrue(contains(e));
         beforeRemove = true;
@@ -100,16 +130,22 @@ public class ObservableListTest {
 
       @Override
       protected void beforeSet(final int index, final String newElement) {
-        Assert.assertEquals(expectedString, newElement);
-        Assert.assertFalse(contains(newElement));
+        if (!testingGetReplace) {
+          Assert.assertEquals(expectedString, newElement);
+          Assert.assertFalse(contains(newElement));
+        }
+
         beforeSet = true;
       }
 
       @Override
       protected void afterSet(final int index, final String oldElement) {
-        final String e = ((List<String>)source).get(index + fromIndex);
-        Assert.assertEquals(expectedString, e);
-        Assert.assertTrue(contains(e));
+        if (!testingGetReplace) {
+          final String e = get(index + fromIndex);
+          Assert.assertEquals(expectedString, e);
+          Assert.assertTrue(contains(e));
+        }
+
         afterSet = true;
       }
     };
@@ -119,6 +155,33 @@ public class ObservableListTest {
       list.add(expectedString = String.valueOf(i));
       assertAdded();
     }
+
+    // get()
+    for (int i = 0; i < 100; i++) {
+      list.get(i);
+      assertGot();
+    }
+
+    // iterator.get()
+    for (final String s : list) {
+      Assert.assertNotNull(s);
+      assertGot();
+    }
+
+    // testingGetReplace
+    testingGetReplace = true;
+    for (int i = 0; i < 100; i++) {
+      list.get(i);
+      assertGot();
+    }
+
+    Iterator<String> iterator = list.iterator();
+    while (iterator.hasNext()) {
+      iterator.next();
+      assertGot();
+    }
+
+    testingGetReplace = false;
 
     // addAll()
     list.addAll(Arrays.asList(new String[] {expectedString = String.valueOf(101)}));
@@ -147,7 +210,7 @@ public class ObservableListTest {
     }
 
     // iterator()
-    final Iterator<String> iterator = list.iterator();
+    iterator = list.iterator();
     while (iterator.hasNext()) {
       final String element = iterator.next();
       if (String.valueOf(0).equals(element) || String.valueOf(33).equals(element) || String.valueOf(100).equals(element)) {

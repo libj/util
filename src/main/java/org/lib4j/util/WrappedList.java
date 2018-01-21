@@ -21,10 +21,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * Wrapper class for <code>List</code> interface that delegates all
@@ -107,31 +103,6 @@ public class WrappedList<E> extends AbstractList<E> implements List<E> {
   @Override
   public void clear() {
     source.clear();
-  }
-
-  @Override
-  public void forEach(final Consumer<? super E> action) {
-    source.forEach(action);
-  }
-
-  @Override
-  public boolean removeIf(final Predicate<? super E> filter) {
-    return source.removeIf(filter);
-  }
-
-  @Override
-  public Spliterator<E> spliterator() {
-    return source.spliterator();
-  }
-
-  @Override
-  public Stream<E> stream() {
-    return source.stream();
-  }
-
-  @Override
-  public Stream<E> parallelStream() {
-    return source.parallelStream();
   }
 
   @Override
