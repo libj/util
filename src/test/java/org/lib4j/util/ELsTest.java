@@ -1,13 +1,13 @@
-/* Copyright (c) 2008 lib4j
+/* CopyRIGHT (c) 2008 lib4j
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the RIGHTs
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
+ * The above copyRIGHT notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * You should have received a copy of The MIT License (MIT) along with this
@@ -16,7 +16,6 @@
 
 package org.lib4j.util;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,31 +23,49 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ELsTest {
+  private static void assertEL(final Map<String,String> variables, final String test, final String match) {
+    Assert.assertEquals(match, ELs.deref(test, variables));
+  }
+
   @Test
-  public void testDereference() throws ParseException {
+  public void testDeref() {
     final Map<String,String> variables = new HashMap<String,String>();
-    variables.put("right", "RIGHT");
     variables.put("left", "LEFT");
+    variables.put("right", "RIGHT");
     variables.put("middle", "MIDDLE");
 
-    final Map<String,String> map = new HashMap<String,String>();
-    map.put("this string has a token on the ${right}", "this string has a token on the RIGHT");
-    map.put("${left} token here", "LEFT token here");
-    map.put("something in the ${middle} of this string", "something in the MIDDLE of this string");
+    Assert.assertNull(ELs.deref(null, variables));
+    Assert.assertNull(ELs.deref(null, null));
 
-    for (final Map.Entry<String,String> entry : map.entrySet())
-      Assert.assertEquals(ELs.dereference(entry.getKey(), variables), entry.getValue());
+    assertEL(null, "string with $A variable", "string with $A variable");
+    assertEL(null, "string with ${A} variable", "string with ${A} variable");
+    assertEL(variables, "this string has a token on the $right", "this string has a token on the $right");
+    assertEL(variables, "this string has a token on the ${right}", "this string has a token on the RIGHT");
+    assertEL(variables, "${left} token here", "LEFT token here");
+    assertEL(variables, "something in the ${middle} of this string", "something in the MIDDLE of this string");
+    assertEL(variables, "something in the ${left} ${middle} ${right} of this string", "something in the LEFT MIDDLE RIGHT of this string");
+    assertEL(variables, "something in the ${left}${middle}${right} of this string", "something in the LEFTMIDDLERIGHT of this string");
 
-    Assert.assertNull(ELs.dereference(null, variables));
-    Assert.assertNull(ELs.dereference(null, null));
-    final String same = "string with ${a} variable";
-    Assert.assertEquals(ELs.dereference(same, null), same);
-
-    try {
-      ELs.dereference("expect an ${exception here", variables);
-      Assert.fail("Expected a ExpressionFormatException");
-    }
-    catch (final ParseException e) {
-    }
+    assertEL(variables, "$", "$");
+    assertEL(variables, "$$", "$$");
+    assertEL(variables, " ${} ", " ${} ");
+    assertEL(variables, "a ${} b", "a ${} b");
+    assertEL(variables, "a $\\{} b", "a ${} b");
+    assertEL(variables, "a $\\{left} b", "a ${left} b");
+    assertEL(variables, "a $\\$ b", "a $$ b");
+    assertEL(variables, "a $\\$\\$ b", "a $$$ b");
+    assertEL(variables, "$left} token here", "$left} token here");
+    assertEL(variables, "\\$${left}} token here", "$LEFT} token here");
+    assertEL(variables, "\\{${left}} token here", "{LEFT} token here");
+    assertEL(variables, "${left}\\ token here", "LEFT token here");
+    assertEL(variables, "${le ft} token here", "${le ft} token here");
+    assertEL(variables, "${left}\\\\ token here", "LEFT\\ token here");
+    assertEL(variables, "${left}\\} token here", "LEFT} token here");
+    assertEL(variables, "${left}\\T token here", "LEFTT token here");
+    assertEL(variables, "${left\\} token here", "${left} token here");
+    assertEL(variables, "${{left}} token here", "${{left}} token here");
+    assertEL(variables, "${left token here", "${left token here");
+    assertEL(variables, "this string has a token on the ${right", "this string has a token on the ${right");
+    assertEL(variables, "this string has a token on the ${", "this string has a token on the ${");
   }
 }
