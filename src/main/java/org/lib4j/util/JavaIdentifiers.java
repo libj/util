@@ -308,7 +308,7 @@ public final class JavaIdentifiers {
       final char ch = chars[i];
       final int index = java.util.Arrays.binarySearch(discardTokens, ch);
       if (index >= 0) {
-        capNext = true;
+        capNext = i != 0;
         if (substitutes != null) {
           final String replacement = substitutes.get(ch);
           if (replacement != null) {

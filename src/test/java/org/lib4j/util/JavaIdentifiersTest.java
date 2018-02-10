@@ -35,6 +35,7 @@ public class JavaIdentifiersTest {
     Assert.assertEquals("_2foobar", JavaIdentifiers.toIdentifier("2foo bar"));
     Assert.assertEquals("_abstract", JavaIdentifiers.toIdentifier("abstract"));
     Assert.assertEquals("_do", JavaIdentifiers.toIdentifier("do"));
+    Assert.assertEquals("_foo", JavaIdentifiers.toIdentifier("_foo"));
   }
 
   @Test
@@ -50,6 +51,7 @@ public class JavaIdentifiersTest {
   public void testToCamelCase() {
     Assert.assertEquals(null, JavaIdentifiers.toCamelCase(null));
     Assert.assertEquals("", JavaIdentifiers.toCamelCase(""));
+    Assert.assertEquals("fooBar", JavaIdentifiers.toCamelCase("_foo_bar"));
     Assert.assertEquals("fooBar", JavaIdentifiers.toCamelCase("foo_bar"));
     Assert.assertEquals("FOOBarFoO", JavaIdentifiers.toCamelCase("FOO_bar_foO"));
     Assert.assertEquals("foo", JavaIdentifiers.toCamelCase("foo_"));
@@ -67,6 +69,7 @@ public class JavaIdentifiersTest {
     Assert.assertEquals("a", JavaIdentifiers.toInstanceCase("a"));
     Assert.assertEquals("xml", JavaIdentifiers.toInstanceCase("XML"));
     Assert.assertEquals("a", JavaIdentifiers.toInstanceCase("A"));
+    Assert.assertEquals("fooBar", JavaIdentifiers.toInstanceCase("_foo_bar"));
     Assert.assertEquals("fooBar", JavaIdentifiers.toInstanceCase("foo_bar"));
     Assert.assertEquals("fooBarFoO", JavaIdentifiers.toInstanceCase("FOO_bar_foO"));
     Assert.assertEquals("foo", JavaIdentifiers.toInstanceCase("foo_"));
@@ -81,6 +84,7 @@ public class JavaIdentifiersTest {
   public void testToClassCase() {
     Assert.assertEquals(null, JavaIdentifiers.toClassCase(null));
     Assert.assertEquals("", JavaIdentifiers.toClassCase(""));
+    Assert.assertEquals("FooBar", JavaIdentifiers.toClassCase("_foo_bar"));
     Assert.assertEquals("FooBar", JavaIdentifiers.toClassCase("foo_bar"));
     Assert.assertEquals("FOOBarFoO", JavaIdentifiers.toClassCase("FOO_bar_foO"));
     Assert.assertEquals("Foo", JavaIdentifiers.toClassCase("foo_"));
