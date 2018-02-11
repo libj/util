@@ -43,7 +43,23 @@ public class PartitionedListTest {
 
   @Test
   public void testElementLists() {
-    final PartitionedList<Object> superList = new PartitionedList<Object>(String.class, Integer.class, Double.class, Boolean.class);
+    final PartitionedList<Object,Class<? extends Object>> superList = new PartitionedList<Object,Class<? extends Object>>(String.class, Integer.class, Double.class, Boolean.class) {
+      @Override
+      protected PartitionedList<Object,Class<? extends Object>>.PartitionList getPartition(Class<? extends Object> type) {
+        do {
+          if (typeToSubList.containsKey(type)) {
+            PartitionList partitionList = typeToSubList.get(type);
+            if (partitionList == null)
+              typeToSubList.put(type, partitionList = newPartition(type));
+
+            return partitionList;
+          }
+        }
+        while ((type = type.getSuperclass()) != null);
+        return null;
+      }
+    };
+
     final List<Object> expected = new ArrayList<Object>();
 
     final String p1 = Random.alpha(6);
