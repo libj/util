@@ -58,6 +58,21 @@ public class PartitionedListTest {
         while ((type = type.getSuperclass()) != null);
         return null;
       }
+
+      @Override
+      @SuppressWarnings("deprecation")
+      protected Object clone(final Object item) {
+        if (item instanceof Integer)
+          return new Integer((Integer)item);
+
+        if (item instanceof Double)
+          return new Double((Double)item);
+
+        if (item instanceof Boolean)
+          return new Boolean((Boolean)item);
+
+        return new String((String)item);
+      }
     };
 
     final List<Object> expected = new ArrayList<Object>();
@@ -108,6 +123,7 @@ public class PartitionedListTest {
     assertElementCount("Add " + System.identityHashCode(p2) + " at 1S", expected, 3, superList.getPartition(String.class));
     assertElementCount(null, expected, 1, superList.getPartition(Integer.class));
 
+    testClone(superList);
     final Integer div2 = Integer.valueOf((int)(Math.random() * 100));
     expected.add(1, div2);
     listIterator = superList.listIterator();
@@ -237,5 +253,18 @@ public class PartitionedListTest {
     assertElementCount(null, expected, 0, superList.getPartition(Integer.class));
     assertElementCount(null, expected, 1, superList.getPartition(Double.class));
     assertElementCount(null, expected, 1, superList.getPartition(Boolean.class));
+  }
+
+  public void testClone(final PartitionedList<Object,Class<? extends Object>> list) {
+    final PartitionedList<Object,Class<? extends Object>> clone = list.clone();
+    Assert.assertEquals(list.size(), clone.size());
+    final ListIterator listIterator = list.listIterator();
+    final ListIterator cloneIterator = clone.listIterator();
+    while (listIterator.hasNext()) {
+      final Object listItem = listIterator.next();
+      final Object cloneItem = cloneIterator.next();
+      Assert.assertEquals(listItem, cloneItem);
+      Assert.assertFalse(listItem == cloneItem);
+    }
   }
 }

@@ -19,6 +19,7 @@ package org.lib4j.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 
 public abstract class PartitionedList<E,T> extends ObservableList<E> implements Cloneable {
   public class PartitionList<P extends E> extends ObservableList<P> implements Cloneable {
@@ -351,6 +352,10 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     new IdentityHashSet<PartitionList<? extends E>>(subLists).stream().forEach(e -> e.print());
   }
 
+  protected E clone(final E item) {
+    return item;
+  }
+
   @Override
   @SuppressWarnings("unchecked")
   public PartitionedList<E,T> clone() {
@@ -362,9 +367,20 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
       for (final PartitionList<? extends E> subList : subLists)
         clone.subLists.add(subList.clone());
 
+      final IdentityHashMap<E,E> clones = new IdentityHashMap<E,E>();
+      for (int i = 0; i < clone.source.size(); i++) {
+        final E item = (E)clone.source.get(i);
+        final E copy = clone(item);
+        clones.put(item, copy);
+        clone.source.set(i, copy);
+      }
+
       clone.typeToSubList = new HashMap<T,PartitionList<? extends E>>();
-      for (final PartitionList<? extends E> subList : clone.subLists)
+      for (final PartitionList<? extends E> subList : clone.subLists) {
         clone.typeToSubList.put(subList.getType(), subList);
+        for (int i = 0; i < subList.source.size(); i++)
+          subList.source.set(i, clones.get(subList.source.get(i)));
+      }
 
       return clone;
     }
