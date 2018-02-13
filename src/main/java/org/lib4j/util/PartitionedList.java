@@ -185,7 +185,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     return new PartitionList<E>(type);
   }
 
-  protected abstract PartitionList<E> getPartition(Class<? extends E> type);
+  protected abstract PartitionList<E> getPartition(final Class<? extends E> type);
 
   private void addUnsafe(final E e) {
     super.source.add(e);
@@ -223,7 +223,6 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     return subIndex != null ? subIndex : this.size() - 1;
   }
 
-  @SuppressWarnings("static-method")
   private void incSuperIndexes(final PartitionList<? extends E> subList, final int index) {
     final ArrayList<Integer> superIndexes = subList.getIndexes();
     for (int j = 0; j < superIndexes.size(); j++) {
@@ -233,7 +232,6 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     }
   }
 
-  @SuppressWarnings("static-method")
   private void decSuperIndexes(final PartitionList<? extends E> subList, final int index) {
     final ArrayList<Integer> superIndexes = subList.getIndexes();
     for (int j = 0; j < superIndexes.size(); j++) {
@@ -243,7 +241,6 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     }
   }
 
-  @SuppressWarnings("static-method")
   private int findSubIndex(final PartitionList<? extends E> subList, final int index) {
     if (subList.size() == 0)
       return 0;
