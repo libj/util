@@ -24,7 +24,7 @@ public class ExponentialBackoffRetryPolicy extends RetryPolicy {
   private final int maxDelayMs;
   private final boolean noDelayOnFirstRetry;
 
-  public ExponentialBackoffRetryPolicy(final int maxRetries, final int delayMs, final float backoffFactor, final int maxDelayMs, final boolean noDelayOnFirstRetry) {
+  public ExponentialBackoffRetryPolicy(final int delayMs, final float backoffFactor, final int maxDelayMs, final int maxRetries, final boolean noDelayOnFirstRetry) {
     super(maxRetries);
     this.delayMs = delayMs;
     if (delayMs <= 0)

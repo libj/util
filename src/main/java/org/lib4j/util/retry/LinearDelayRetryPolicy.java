@@ -24,7 +24,7 @@ public class LinearDelayRetryPolicy extends RetryPolicy implements Serializable 
   private final int delayMs;
   private final boolean noDelayOnFirstRetry;
 
-  public LinearDelayRetryPolicy(final int maxRetries, final int delayMs, final boolean noDelayOnFirstRetry) {
+  public LinearDelayRetryPolicy(final int delayMs, final int maxRetries, final boolean noDelayOnFirstRetry) {
     super(maxRetries);
     this.noDelayOnFirstRetry = noDelayOnFirstRetry;
     this.delayMs = delayMs;

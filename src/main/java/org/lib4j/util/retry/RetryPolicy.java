@@ -25,7 +25,7 @@ public abstract class RetryPolicy implements Serializable {
 
   public RetryPolicy(final int maxRetries) {
     this.maxRetries = maxRetries == -1 ? Integer.MAX_VALUE : maxRetries;
-    if (maxRetries < -1)
+    if (maxRetries < -1 || maxRetries == 0)
       throw new IllegalArgumentException("maxRetries must positive, or -1");
   }
 

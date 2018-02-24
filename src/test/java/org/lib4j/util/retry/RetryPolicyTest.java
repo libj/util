@@ -64,7 +64,7 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; i++)
       timings[i + 1] = timings[i] + delays[i];
 
-    Assert.assertEquals("PASS", new LinearDelayRetryPolicy(attempts, delayMs, true).run(new Retryable<String>() {
+    Assert.assertEquals("PASS", new LinearDelayRetryPolicy(delayMs, attempts, true).run(new Retryable<String>() {
       @Override
       public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
         if (index[0] < attempts) {
@@ -100,7 +100,7 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; i++)
       timings[i + 1] = timings[i] + delays[i];
 
-    Assert.assertEquals("PASS", new ExponentialBackoffRetryPolicy(attempts, startDelay, factor, maxDelay, true).run(new Retryable<String>() {
+    Assert.assertEquals("PASS", new ExponentialBackoffRetryPolicy(startDelay, factor, maxDelay, attempts, true).run(new Retryable<String>() {
       @Override
       public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
         if (index[0] < attempts) {
