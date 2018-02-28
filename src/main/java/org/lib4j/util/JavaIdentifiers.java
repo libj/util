@@ -65,6 +65,26 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
+   * an illegal character are prepended with <code>_</code>. Strings that
+   * are Java Reserved Words are prepended with <code>_</code>. All other
+   * illegal characters are substituted with the string value mapped to the key
+   * of the character in <code>substitutes</code>. If the mapping is missing,
+   * the illegal character is omitted.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *        first character is not valid.
+   * @param substitutes The mapping of illegal characters to their substitutions.
+   * @return The string transformed to a valid Java Identifier.
+   *
+   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   */
+  public static String toIdentifier(final String string, final Map<Character,String> substitutes) {
+    return transformNotReserved(string, '_', '\0', '\0', substitutes, JavaIdentifiers::toIdentifier0);
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier. Strings that start with
    * an illegal character are prepended with <code>prefix</code>. Strings that
    * are Java Reserved Words are prepended with <code>prefix</code>. All other
    * illegal characters are substituted with the string value mapped to the key
@@ -121,7 +141,7 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
    * an illegal character are prepended with <code>_</code>. Strings that
-   * are Java Reserved Words are prepended with <code>prefix</code>. All other
+   * are Java Reserved Words are prepended with <code>_</code>. All other
    * illegal characters are omitted.
    *
    * @param string The input string.
@@ -294,6 +314,27 @@ public final class JavaIdentifiers {
     return transformNotReserved(string, 'x', '\0', '\0', null, JavaIdentifiers::toCamelCase0);
   }
 
+  /**
+   * Transforms a string into a valid Java Identifier in camelCase. Strings
+   * that start with an illegal character are prepended with <code>x</code>.
+   * Strings that are Java Reserved Words are prepended with <code>x</code>.
+   * All other illegal characters are substituted with the string value mapped
+   * to the key of the character in <code>substitutes</code>. If the mapping is
+   * missing, the illegal character is omitted.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *        first character is not valid.
+   * @param substitutes The mapping of illegal characters to their substitutions.
+   *                    This mapping overrides the default substitution.
+   * @return The string transformed to a valid Java Identifier in camelCase.
+   *
+   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   */
+  public static String toCamelCase(final String string, final Map<Character,String> substitutes) {
+    return transformNotReserved(string, 'x', '\0', '\0', substitutes, JavaIdentifiers::toCamelCase0);
+  }
+
   private static StringBuilder toCamelCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
     final StringBuilder builder = new StringBuilder(string.length());
     if (string.length() == 0)
@@ -425,6 +466,26 @@ public final class JavaIdentifiers {
    */
   public static String toInstanceCase(final String string) {
     return transformNotReserved(string, '_', '\0', '\0', null, JavaIdentifiers::toInstanceCase0);
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in lower-camelCase.
+   * Strings that start with an illegal character are prepended with
+   * <code>_</code>. Strings that are Java Reserved Words are prepended with
+   * <code>_</code>. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in <code>substitutes</code>.
+   * If the mapping is missing, the illegal character is omitted.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *        first character is not valid.
+   * @param substitutes The mapping of illegal characters to their substitutions.
+   * @return The string transformed to a valid Java Identifier in lower-CamelCase.
+   *
+   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   */
+  public static String toInstanceCase(final String string, final Map<Character,String> substitutes) {
+    return transformNotReserved(string, '_', '\0', '\0', substitutes, JavaIdentifiers::toInstanceCase0);
   }
 
   /**
@@ -572,6 +633,25 @@ public final class JavaIdentifiers {
    */
   public static String toClassCase(final String string) {
     return transform(string, 'X', '\0', null, JavaIdentifiers::toCamelCase0);
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in Title-CamelCase.
+   * Strings that start with an illegal character are prepended with
+   * <code>X</code>. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in <code>substitutes</code>.
+   * If the mapping is missing, the illegal character is omitted.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *        first character is not valid.
+   * @param substitutes The mapping of illegal characters to their substitutions.
+   * @return The string transformed to a valid Java Identifier in Title-CamelCase.
+   *
+   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   */
+  public static String toClassCase(final String string, final Map<Character,String> substitutes) {
+    return transform(string, 'X', '\0', substitutes, JavaIdentifiers::toCamelCase0);
   }
 
   private JavaIdentifiers() {
