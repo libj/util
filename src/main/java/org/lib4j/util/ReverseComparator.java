@@ -32,10 +32,10 @@ public final class ReverseComparator<T extends Comparable<T>> implements Compara
    * @param o1 the first object to be compared.
    * @param o2 the second object to be compared.
    * @return a negative integer, zero, or a positive integer as the
-   * 	       second argument is less than, final equal to, or greater than the
-   *	       first.
+   *         second argument is less than, final equal to, or greater than the
+   *         first.
    * @throws ClassCastException if the arguments' types prevent them from
-   * 	       being compared by this comparator.
+   *         being compared by this comparator.
    */
   @Override
   public int compare(final T o1, final T o2) {
