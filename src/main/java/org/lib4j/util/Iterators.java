@@ -18,8 +18,21 @@ package org.lib4j.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 public final class Iterators {
+  private static <E>void recurseNext(final Iterator<E> iterator, final Consumer<? super E> consumer) {
+    if (iterator.hasNext()) {
+      final E value = iterator.next();
+      recurseNext(iterator, consumer);
+      consumer.accept(value);
+    }
+  }
+
+  public static <E>void forEachRemainingReverse(final Iterator<E> iterator, final Consumer<? super E> consumer) {
+    recurseNext(iterator, consumer);
+  }
+
   public static int getSize(final Iterator<?> iterator) {
     int i = 0;
     for (; iterator.hasNext(); i++)
