@@ -455,11 +455,11 @@ public class Digraph<T> implements Cloneable, Serializable {
   public String toString() {
     final StringBuilder builder = new StringBuilder().append(adj.size()).append(" vertices, ").append(edges).append(" edges").append('\n');
     for (int v = 0; v < adj.size(); v++) {
-      builder.append(objectToIndex.inverse().get(v)).append(":");
+      builder.append(objectToIndex.inverse().get(v)).append(':');
       final LinkedHashSet<Integer> edges = adj.get(v);
       if (edges != null)
         for (final int w : edges)
-          builder.append(" ").append(objectToIndex.inverse().get(w));
+          builder.append(' ').append(objectToIndex.inverse().get(w));
 
       if (v < adj.size() - 1)
         builder.append('\n');

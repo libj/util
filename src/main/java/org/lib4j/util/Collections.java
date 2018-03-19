@@ -63,13 +63,13 @@ public final class Collections {
     if (collection.size() == 0)
       return "";
 
-    final StringBuilder string = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
     final Iterator<?> iterator = collection.iterator();
-    string.append(String.valueOf(iterator.next()));
+    builder.append(String.valueOf(iterator.next()));
     while (iterator.hasNext())
-      string.append(delimiter).append(String.valueOf(iterator.next()));
+      builder.append(delimiter).append(String.valueOf(iterator.next()));
 
-    return string.toString();
+    return builder.toString();
   }
 
   public static String toString(final Collection<?> collection, final String delimiter) {
@@ -79,13 +79,13 @@ public final class Collections {
     if (collection.size() == 0)
       return "";
 
-    final StringBuilder string = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
     final Iterator<?> iterator = collection.iterator();
-    string.append(String.valueOf(iterator.next()));
+    builder.append(String.valueOf(iterator.next()));
     while (iterator.hasNext())
-      string.append(delimiter).append(String.valueOf(iterator.next()));
+      builder.append(delimiter).append(String.valueOf(iterator.next()));
 
-    return string.toString();
+    return builder.toString();
   }
 
   /**

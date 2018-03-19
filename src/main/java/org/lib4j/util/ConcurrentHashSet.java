@@ -27,6 +27,9 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * A concurrent HashSet implementation backed by a <tt>ConcurrentHashMap</tt>.
+ */
 public class ConcurrentHashSet<E> extends HashSet<E> {
   private static class ClonableConcurrentHashMap<K,V> extends ConcurrentHashMap<K,V> {
     private static final long serialVersionUID = -3259218346584869178L;

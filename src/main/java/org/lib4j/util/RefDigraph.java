@@ -86,7 +86,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
   /**
    * Swap vertex reference object of type R with their equivalent object of
    * type T.
-   * @throws IllegalStateException I some vertex references have not been
+   * @throws IllegalStateException If some vertex references have not been
    *         specified before the time this method is called.
    */
   private void swapRefs() {
