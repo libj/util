@@ -19,7 +19,7 @@ package org.lib4j.util;
 import java.util.Arrays;
 
 public class Hexadecimal {
-  private static String bytesToHex(final byte[] bytes) {
+  public static String bytesToHex(final byte[] bytes) {
     if (bytes == null)
       throw new NullPointerException("bytes == null");
 
@@ -35,7 +35,7 @@ public class Hexadecimal {
     return builder.toString();
   }
 
-  private static byte[] hexToBytes(final String hex) {
+  public static byte[] hexToBytes(final String hex) {
     if (hex == null)
       return null;
 
