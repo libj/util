@@ -61,7 +61,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void afterAdd(final int index, final P e) {
+    protected void afterAdd(final int index, final P e, final RuntimeException exception) {
       if (index == size() - 1) {
         final PartitionedList<E,T> superList = PartitionedList.this;
         superList.indexes.add(index);
@@ -98,7 +98,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void beforeRemove(final int index) {
+    protected boolean beforeRemove(final int index) {
       final int superIndex = indexes.remove(index);
       final PartitionedList<E,T> superList = PartitionedList.this;
       superList.removeUnsafe(superIndex);
@@ -119,13 +119,16 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
       for (int i = index; i < indexes.size(); i++)
         indexes.set(i, indexes.get(i) - 1);
+
+      return true;
     }
 
     @Override
-    protected void beforeSet(final int index, final P newElement) {
+    protected boolean beforeSet(final int index, final P newElement) {
       final int superIndex = indexes.get(index);
       subLists.set(superIndex, this);
       PartitionedList.this.setUnsafe(superIndex, newElement);
+      return true;
     }
 
     protected PartitionedList<E,T> getSuperList() {
@@ -257,7 +260,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
   @Override
   @SuppressWarnings("unchecked")
-  protected void afterAdd(final int index, final E e) {
+  protected void afterAdd(final int index, final E e, final RuntimeException exception) {
     final PartitionList<E> subList = getPartition((Class<E>)e.getClass());
     if (subList == null)
       throw new IllegalArgumentException("Object of type " + e.getClass() + " is not allowed to appear in " + PartitionedList.class.getName());
@@ -290,7 +293,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
   @Override
   @SuppressWarnings("unchecked")
-  protected void beforeSet(final int index, final E newElement) {
+  protected boolean beforeSet(final int index, final E newElement) {
     final PartitionList<? extends E> subList = subLists.get(index);
     final E element = get(index);
     final int subIndex = indexes.get(index);
@@ -312,10 +315,12 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
       add(index, 0, newElement, newSubList);
       subLists.set(index, newSubList);
     }
+
+    return true;
   }
 
   @Override
-  protected void beforeRemove(final int index) {
+  protected boolean beforeRemove(final int index) {
     final PartitionList<? extends E> subList = subLists.remove(index);
     subList.removeUnsafe(indexes.remove(index));
     final ArrayList<Integer> subIndexes = subList.getIndexes();
@@ -334,6 +339,8 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
       visited.add(nextSubList);
       decSuperIndexes(nextSubList, index);
     }
+
+    return true;
   }
 
   protected void print() {

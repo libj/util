@@ -89,7 +89,7 @@ public class ObservableListTest {
       }
 
       @Override
-      protected void afterGet(final int index, final String e, final ListIterator<String> iterator) {
+      protected void afterGet(final int index, final String e, final ListIterator<String> iterator, final RuntimeException exception) {
         afterGet = true;
         if (testingGetReplace) {
           if (iterator != null)
@@ -100,46 +100,49 @@ public class ObservableListTest {
       }
 
       @Override
-      protected void beforeAdd(final int index, final String e) {
+      protected boolean beforeAdd(final int index, final String e) {
         Assert.assertEquals(expectedString, e);
         Assert.assertFalse(contains(e));
         beforeAdd = true;
+        return true;
       }
 
       @Override
-      protected void beforeRemove(final int index) {
+      protected boolean beforeRemove(final int index) {
         final String e = get(index + fromIndex);
         Assert.assertEquals(expectedString, e);
         Assert.assertTrue(contains(e));
         beforeRemove = true;
+        return true;
       }
 
       @Override
-      protected void afterAdd(final int index, final String e) {
+      protected void afterAdd(final int index, final String e, final RuntimeException exception) {
         Assert.assertEquals(expectedString, e);
         Assert.assertTrue(contains(e));
         afterAdd = true;
       }
 
       @Override
-      protected void afterRemove(final Object e) {
+      protected void afterRemove(final Object e, final RuntimeException exception) {
         Assert.assertEquals(expectedString, e);
         Assert.assertFalse(contains(e));
         afterRemove = true;
       }
 
       @Override
-      protected void beforeSet(final int index, final String newElement) {
+      protected boolean beforeSet(final int index, final String newElement) {
         if (!testingGetReplace) {
           Assert.assertEquals(expectedString, newElement);
           Assert.assertFalse(contains(newElement));
         }
 
         beforeSet = true;
+        return true;
       }
 
       @Override
-      protected void afterSet(final int index, final String oldElement) {
+      protected void afterSet(final int index, final String oldElement, final RuntimeException exception) {
         if (!testingGetReplace) {
           final String e = get(index + fromIndex);
           Assert.assertEquals(expectedString, e);

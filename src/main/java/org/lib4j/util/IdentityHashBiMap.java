@@ -87,12 +87,13 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
 
       @Override
       @SuppressWarnings("unchecked")
-      protected void beforeRemove(final Object e) {
+      protected boolean beforeRemove(final Object e) {
         value.set(((Map.Entry<K,V>)e).getValue());
+        return true;
       }
 
       @Override
-      protected void afterRemove(final Object o) {
+      protected void afterRemove(final Object o, final RuntimeException re) {
         IdentityHashBiMap.this.inverse.source.remove(value.get());
       }
     } : entrySet;

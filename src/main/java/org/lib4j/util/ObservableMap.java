@@ -50,7 +50,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * @param newValue The new value being put for the key in the enclosed
    * <code>Map</code>.
    */
-  protected void beforePut(final K key, final V oldValue, final V newValue) {
+  protected boolean beforePut(final K key, final V oldValue, final V newValue) {
+    return true;
   }
 
   /**
@@ -64,7 +65,7 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * @param newValue The new value being put for the key in the enclosed
    * <code>Map</code>.
    */
-  protected void afterPut(final K key, final V oldValue, final V newValue) {
+  protected void afterPut(final K key, final V oldValue, final V newValue, final RuntimeException re) {
   }
 
   /**
@@ -76,7 +77,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * @param value The value for the key being removed in the enclosed
    * <code>Map</code>, or null if there was no existing value for the key.
    */
-  protected void beforeRemove(final Object key, final V value) {
+  protected boolean beforeRemove(final Object key, final V value) {
+    return true;
   }
 
   /**
@@ -88,7 +90,7 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
    * @param value The value for the key being removed in the enclosed
    * <code>Map</code>, or null if there was no existing value for the key.
    */
-  protected void afterRemove(final Object key, final V value) {
+  protected void afterRemove(final Object key, final V value, final RuntimeException re) {
   }
 
   /**
@@ -103,9 +105,21 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   @SuppressWarnings("unchecked")
   public V put(final K key, final V value) {
     final V oldValue = (V)source.get(key);
-    beforePut(key, oldValue, value);
-    source.put(key, value);
-    afterPut(key, oldValue, value);
+    if (!beforePut(key, oldValue, value))
+      return oldValue;
+
+    RuntimeException re = null;
+    try {
+      source.put(key, value);
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterPut(key, oldValue, value, re);
+    if (re != null)
+      throw re;
+
     return oldValue;
   }
 
@@ -154,9 +168,21 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   @SuppressWarnings("unchecked")
   public V remove(final Object key) {
     final V value = (V)source.get(key);
-    beforeRemove(key, value);
-    source.remove(key);
-    afterRemove(key, value);
+    if (!beforeRemove(key, value))
+      return value;
+
+    RuntimeException re = null;
+    try {
+      source.remove(key);
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterRemove(key, value, re);
+    if (re != null)
+      throw re;
+
     return value;
   }
 
@@ -358,16 +384,16 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
 
       @Override
       @SuppressWarnings("unchecked")
-      protected void beforeRemove(final Object e) {
+      protected boolean beforeRemove(final Object e) {
         final Map.Entry<K,V> entry = (Map.Entry<K,V>)e;
         localKey.set(entry.getKey());
         localValue.set(entry.getValue());
-        ObservableMap.this.beforeRemove(entry.getKey(), entry.getValue());
+        return ObservableMap.this.beforeRemove(entry.getKey(), entry.getValue());
       }
 
       @Override
-      protected void afterRemove(final Object e) {
-        ObservableMap.this.afterRemove(localKey.get(), localValue.get());
+      protected void afterRemove(final Object e, final RuntimeException re) {
+        ObservableMap.this.afterRemove(localKey.get(), localValue.get(), re);
       }
     } : entrySet;
   }

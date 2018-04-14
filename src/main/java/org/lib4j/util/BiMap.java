@@ -52,14 +52,16 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
   protected void init(final Map<K,V> map) {
     super.source = new ObservableMap<K,V>(map) {
       @Override
-      protected void beforePut(final K key, final V oldValue, final V newValue) {
+      protected boolean beforePut(final K key, final V oldValue, final V newValue) {
         ((ObservableMap<K,V>)BiMap.this.inverse.source).source.put(newValue, key);
         if (oldValue != null)
           ((ObservableMap<K,V>)BiMap.this.inverse.source).source.remove(oldValue);
+
+        return true;
       }
 
       @Override
-      protected void afterRemove(final Object key, final V value) {
+      protected void afterRemove(final Object key, final V value, final RuntimeException re) {
         ((ObservableMap<K,V>)BiMap.this.inverse.source).source.remove(value);
       }
     };
@@ -100,7 +102,7 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
     return keySet == null ? keySet = new ObservableSet<K>(source.keySet()) {
       @Override
       @SuppressWarnings("unchecked")
-      protected void afterRemove(final Object o) {
+      protected void afterRemove(final Object o, final RuntimeException re) {
         BiMap.this.inverse.source.remove(((Map.Entry<K,V>)o).getValue());
       }
     } : keySet;
@@ -112,7 +114,7 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
   public Collection<V> values() {
     return values == null ? values = new ObservableCollection<V>(source.values()) {
       @Override
-      protected void afterRemove(final Object o) {
+      protected void afterRemove(final Object o, final RuntimeException re) {
         BiMap.this.inverse.source.remove(o);
       }
     } : values;
@@ -125,7 +127,7 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(source.entrySet()) {
       @Override
       @SuppressWarnings("unchecked")
-      protected void afterRemove(final Object o) {
+      protected void afterRemove(final Object o, final RuntimeException re) {
         BiMap.this.inverse.source.remove(((Map.Entry<K,V>)o).getValue());
       }
     } : entrySet;

@@ -29,7 +29,7 @@ import java.util.function.Predicate;
  *
  * @see ObservableList#beforeGet(int,Iterator<E>)
  * @see ObservableList#afterGet(int,E,Iterator<E>)
- * @see ObservableList#beforeAdd(Object)
+ * @see ObservableList#beforeAdd(int,Object)
  * @see ObservableList#afterAdd(int)
  * @see ObservableList#beforeRemove(int)
  * @see ObservableList#afterRemove(Object)
@@ -74,7 +74,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * @param iterator The <code>Iterator</code> instance if the get is a result
    *                 of an iterator reference, or null if otherwise.
    */
-  protected void afterGet(final int index, final E e, final ListIterator<E> iterator) {
+  protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
   }
 
   /**
@@ -84,8 +84,10 @@ public class ObservableList<E> extends WrappedList<E> {
    * @param index The index of the element being added to the enclosed
    * <code>List</code>.
    * @param e The element being added to the enclosed <code>List</code>.
+   * @return Whether the element should be added to the collection.
    */
-  protected void beforeAdd(final int index, final E e) {
+  protected boolean beforeAdd(final int index, final E e) {
+    return true;
   }
 
   /**
@@ -96,7 +98,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * <code>List</code>.
    * @param e The element being added to the enclosed <code>List</code>.
    */
-  protected void afterAdd(final int index, final E e) {
+  protected void afterAdd(final int index, final E e, final RuntimeException re) {
   }
 
   /**
@@ -105,8 +107,10 @@ public class ObservableList<E> extends WrappedList<E> {
    *
    * @param index The index of the element being removed from the enclosed
    * <code>List</code>.
+   * @return Whether the element should be removed from the collection.
    */
-  protected void beforeRemove(final int index) {
+  protected boolean beforeRemove(final int index) {
+    return true;
   }
 
   /**
@@ -115,7 +119,7 @@ public class ObservableList<E> extends WrappedList<E> {
    *
    * @param e The element removed from the enclosed <code>Collection</code>.
    */
-  protected void afterRemove(final Object e) {
+  protected void afterRemove(final Object e, final RuntimeException re) {
   }
 
   /**
@@ -124,8 +128,10 @@ public class ObservableList<E> extends WrappedList<E> {
    *
    * @param index The index of the element being set in the enclosed <code>List</code>.
    * @param newElement The element being set to the enclosed <code>List</code>.
+   * @return Whether the element should be set in the collection.
    */
-  protected void beforeSet(final int index, final E newElement) {
+  protected boolean beforeSet(final int index, final E newElement) {
+    return true;
   }
 
   /**
@@ -135,37 +141,69 @@ public class ObservableList<E> extends WrappedList<E> {
    * @param index The index of the element set in the enclosed <code>List</code>.
    * @param oldElement The old element at the index of the enclosed <code>List</code>.
    */
-  protected void afterSet(final int index, final E oldElement) {
+  protected void afterSet(final int index, final E oldElement, final RuntimeException re) {
   }
 
   /**
    * Ensures that this collection contains the specified element (optional
    * operation). The callback methods <code>beforeAdd()</code> and
    * <code>afterAdd()</code> are called immediately before and after the
-   * enclosed collection is modified.
+   * enclosed collection is modified. If <code>beforeAdd()</code> returns
+   * false, the element will not be added.
    *
    * @see Collection#add(Object)
    */
   @Override
   public boolean add(final E e) {
-    add(size(), e);
+    final int index = size();
+    if (!beforeAdd(index, e))
+      return false;
+
+    RuntimeException re = null;
+    try {
+      source.add(index + fromIndex, e);
+      if (toIndex != -1)
+        ++toIndex;
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterAdd(index, e, re);
+    if (re != null)
+      throw re;
+
     return true;
   }
 
   /**
    * Inserts the specified element at the specified position in this list
-   * (optional operation).
+   * (optional operation). The callback methods <code>beforeAdd()</code> and
+   * <code>afterAdd()</code> are called immediately before and after the
+   * enclosed collection is modified for the addition of each element
+   * in the argument Collection. If <code>beforeAdd()</code> returns false,
+   * the element will not be added.
    *
    * @see List#add(int,Object)
    */
   @Override
   public void add(final int index, final E element) {
-    beforeAdd(index, element);
-    source.add(index + fromIndex, element);
-    if (toIndex != -1)
-      ++toIndex;
+    if (!beforeAdd(index, element))
+      return;
 
-    afterAdd(index, element);
+    RuntimeException re = null;
+    try {
+      source.add(index + fromIndex, element);
+      if (toIndex != -1)
+        ++toIndex;
+    }
+    catch (final RuntimeException e) {
+      re = e;
+    }
+
+    afterAdd(index, element, re);
+    if (re != null)
+      throw re;
   }
 
   /**
@@ -173,7 +211,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * (optional operation). The callback methods <code>beforeAdd()</code> and
    * <code>afterAdd()</code> are called immediately before and after the
    * enclosed collection is modified for the addition of each element
-   * in the argument Collection.
+   * in the argument Collection. All elements for which <code>beforeAdd()</code>
+   * returns false will not be added to this collection.
    *
    * @see Collection#addAll(Collection)
    */
@@ -208,6 +247,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
    * enclosed collection is modified for the removal of each element.
+   * All elements for which <code>beforeRemove()</code> returns false will not
+   * be removed from this collection.
    *
    * @see Collection#clear()
    */
@@ -275,8 +316,19 @@ public class ObservableList<E> extends WrappedList<E> {
   @Override
   public E get(final int index) {
     beforeGet(index, null);
-    final E object = super.get(index);
-    afterGet(index, object, null);
+    E object = null;
+    RuntimeException re = null;
+    try {
+      object = super.get(index);
+    }
+    catch (final RuntimeException e) {
+      re = e;
+    }
+
+    afterGet(index, object, null, re);
+    if (re != null)
+      throw re;
+
     return object;
   }
 
@@ -336,7 +388,9 @@ public class ObservableList<E> extends WrappedList<E> {
    * Returns an iterator over the elements in this collection. Calling
    * <code>Iterator.remove()</code> will delegate a callback to
    * <code>beforeRemove()</code> and <code>afterRemove()</code> on the instance
-   * of this <code>ObservableCollection</code>.
+   * of this <code>ObservableCollection</code>. All elements for which
+   * <code>beforeRemove()</code> returns false will not be removed from this
+   * collection.
    *
    * @see Collection#iterator()
    * @return an <tt>Iterator</tt> over the elements in this collection
@@ -381,8 +435,18 @@ public class ObservableList<E> extends WrappedList<E> {
       public E next() {
         final int index = listIterator.nextIndex() - fromIndex;
         beforeGet(index, this);
-        current = listIterator.next();
-        afterGet(index, current, this);
+        RuntimeException re = null;
+        try {
+          current = listIterator.next();
+        }
+        catch (final RuntimeException e) {
+          re = e;
+        }
+
+        afterGet(index, current, this, re);
+        if (re != null)
+          throw re;
+
         return current;
       }
 
@@ -395,8 +459,18 @@ public class ObservableList<E> extends WrappedList<E> {
       public E previous() {
         final int index = listIterator.previousIndex() - fromIndex;
         beforeGet(index, this);
-        current = listIterator.previous();
-        afterGet(index, current, this);
+        RuntimeException re = null;
+        try {
+          current = listIterator.previous();
+        }
+        catch (final RuntimeException e) {
+          re = e;
+        }
+
+        afterGet(index, current, this, re);
+        if (re != null)
+          throw re;
+
         return current;
       }
 
@@ -412,32 +486,63 @@ public class ObservableList<E> extends WrappedList<E> {
 
       @Override
       public void remove() {
-        beforeRemove(nextIndex() - 1);
-        listIterator.remove();
-        if (toIndex != -1)
-          --toIndex;
+        if (!beforeRemove(nextIndex() - 1))
+          return;
 
-        afterRemove(current);
+        RuntimeException re = null;
+        try {
+          listIterator.remove();
+          if (toIndex != -1)
+            --toIndex;
+        }
+        catch (final RuntimeException e) {
+          re = e;
+        }
+
+        afterRemove(current, re);
+        if (re != null)
+          throw re;
       }
 
       @Override
       public void set(final E e) {
         final int index = nextIndex() - 1;
-        beforeSet(index, e);
+        if (!beforeSet(index, e))
+          return;
+
         final E remove = current;
-        listIterator.set(e);
-        afterSet(index, remove);
+        RuntimeException re = null;
+        try {
+          listIterator.set(e);
+        }
+        catch (final RuntimeException t) {
+          re = t;
+        }
+
+        afterSet(index, remove, re);
+        if (re != null)
+          throw re;
       }
 
       @Override
       public void add(final E e) {
         final int index = nextIndex();
-        beforeAdd(index, e);
-        listIterator.add(e);
-        if (toIndex != -1)
-          ++toIndex;
+        if (!beforeAdd(index, e))
+          return;
 
-        afterAdd(index, e);
+        RuntimeException re = null;
+        try {
+          listIterator.add(e);
+          if (toIndex != -1)
+            ++toIndex;
+        }
+        catch (final RuntimeException t) {
+          re = t;
+        }
+
+        afterAdd(index, e, re);
+        if (re != null)
+          throw re;
       }
     };
   }
@@ -447,17 +552,29 @@ public class ObservableList<E> extends WrappedList<E> {
    * operation).
    *
    * @see List#remove(int)
+   * @return the element previously at the specified position
    */
   @Override
   @SuppressWarnings("unchecked")
   public E remove(final int index) {
     final E element = (E)source.get(index + fromIndex);
-    beforeRemove(index);
-    source.remove(index + fromIndex);
-    if (toIndex != -1)
-      --toIndex;
+    if (!beforeRemove(index))
+      return element;
 
-    afterRemove(element);
+    RuntimeException re = null;
+    try {
+      source.remove(index + fromIndex);
+      if (toIndex != -1)
+        --toIndex;
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterRemove(element, re);
+    if (re != null)
+      throw re;
+
     return element;
   }
 
@@ -466,7 +583,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * if it is present (optional operation). The callback methods
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
-   * modified.
+   * modified. If <code>beforeRemove()</code> returns false, the element will
+   * not be removed.
    *
    * @see Collection#remove(Object)
    */
@@ -476,12 +594,23 @@ public class ObservableList<E> extends WrappedList<E> {
     if (index == -1)
       return false;
 
-    beforeRemove(index);
-    source.remove(index + fromIndex);
-    if (toIndex != -1)
-      --toIndex;
+    if (!beforeRemove(index))
+      return false;
 
-    afterRemove(o);
+    RuntimeException re = null;
+    try {
+      source.remove(index + fromIndex);
+      if (toIndex != -1)
+        --toIndex;
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterRemove(o, re);
+    if (re != null)
+      throw re;
+
     return true;
   }
 
@@ -491,6 +620,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element in the argument Collection.
+   * All elements for which <code>beforeRemove()</code> returns false will not
+   * be removed from this collection.
    *
    * @see Collection#removeAll(Collection)
    */
@@ -507,7 +638,9 @@ public class ObservableList<E> extends WrappedList<E> {
    * Removes all of the elements of this collection that satisfy the given
    * predicate. The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element.
+   * enclosed collection is modified for the removal of each element. All
+   * elements for which <code>beforeRemove()</code> returns false will not be
+   * removed from this collection.
    *
    * @see Collection#removeIf(Predicate)
    */
@@ -517,13 +650,21 @@ public class ObservableList<E> extends WrappedList<E> {
     final ListIterator<E> iterator = listIterator();
     while (iterator.hasNext()) {
       final E element = iterator.next();
-      if (filter.test(element)) {
-        beforeRemove(iterator.nextIndex() - 1 - fromIndex);
-        iterator.remove();
-        if (toIndex != -1)
-          --toIndex;
+      if (filter.test(element) && beforeRemove(iterator.nextIndex() - 1 - fromIndex)) {
+        RuntimeException re = null;
+        try {
+          iterator.remove();
+          if (toIndex != -1)
+            --toIndex;
+        }
+        catch (final RuntimeException t) {
+          re = t;
+        }
 
-        afterRemove(element);
+        afterRemove(element, re);
+        if (re != null)
+          throw re;
+
         changed = true;
       }
     }
@@ -537,6 +678,8 @@ public class ObservableList<E> extends WrappedList<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element not in the argument Collection.
+   * All elements for which <code>beforeRemove()</code> returns false will not
+   * be removed from this collection.
    *
    * @see Collection#retainAll(Collection)
    */
@@ -556,16 +699,33 @@ public class ObservableList<E> extends WrappedList<E> {
 
   /**
    * Replaces the element at the specified position in this list with the
-   * specified element (optional operation).
+   * specified element (optional operation). The callback methods
+   * <code>beforeSet()</code> and <code>afterSet()</code> are called
+   * immediately before and after the enclosed collection is
+   * modified. All elements for which <code>beforeSet()</code> returns false
+   * will be skipped.
    *
    * @see List#set(int,Object)
    */
   @Override
   @SuppressWarnings("unchecked")
   public E set(final int index, final E element) {
-    beforeSet(index, element);
-    final E oldElement = (E)source.set(index + fromIndex, element);
-    afterSet(index, oldElement);
+    if (!beforeSet(index, element))
+      return (E)source.get(index + fromIndex);
+
+    E oldElement = null;
+    RuntimeException re = null;
+    try {
+      oldElement = (E)source.set(index + fromIndex, element);
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterSet(index, oldElement, re);
+    if (re != null)
+      throw re;
+
     return oldElement;
   }
 
@@ -589,38 +749,38 @@ public class ObservableList<E> extends WrappedList<E> {
       }
 
       @Override
-      protected void afterGet(final int index, final E e, final ListIterator<E> iterator) {
-        ObservableList.this.afterGet(index, e, iterator);
+      protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
+        ObservableList.this.afterGet(index, e, iterator, re);
       }
 
       @Override
-      protected void beforeAdd(final int index, final E element) {
-        ObservableList.this.beforeAdd(index, element);
+      protected boolean beforeAdd(final int index, final E element) {
+        return ObservableList.this.beforeAdd(index, element);
       }
 
       @Override
-      protected void afterAdd(final int index, final E element) {
-        ObservableList.this.afterAdd(index, element);
+      protected void afterAdd(final int index, final E element, final RuntimeException re) {
+        ObservableList.this.afterAdd(index, element, re);
       }
 
       @Override
-      protected void beforeRemove(final int index) {
-        ObservableList.this.beforeRemove(index);
+      protected boolean beforeRemove(final int index) {
+        return ObservableList.this.beforeRemove(index);
       }
 
       @Override
-      protected void afterRemove(final Object element) {
-        ObservableList.this.afterRemove(element);
+      protected void afterRemove(final Object element, final RuntimeException re) {
+        ObservableList.this.afterRemove(element, re);
       }
 
       @Override
-      protected void beforeSet(final int index, final E newElement) {
-        ObservableList.this.beforeSet(index, newElement);
+      protected boolean beforeSet(final int index, final E newElement) {
+        return ObservableList.this.beforeSet(index, newElement);
       }
 
       @Override
-      protected void afterSet(final int index, final E oldElement) {
-        ObservableList.this.afterSet(index, oldElement);
+      protected void afterSet(final int index, final E oldElement, final RuntimeException re) {
+        ObservableList.this.afterSet(index, oldElement, re);
       }
     };
   }

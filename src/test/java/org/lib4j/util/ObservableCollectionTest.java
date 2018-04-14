@@ -55,28 +55,28 @@ public class ObservableCollectionTest {
   public void test() {
     final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<String>()) {
       @Override
-      protected void beforeAdd(final String e) {
+      protected boolean beforeAdd(final String e) {
         Assert.assertEquals(expectedString, e);
         Assert.assertFalse(contains(e));
-        beforeAdd = true;
+        return beforeAdd = true;
       }
 
       @Override
-      protected void beforeRemove(final Object e) {
+      protected boolean beforeRemove(final Object e) {
         Assert.assertEquals(expectedString, e);
         Assert.assertTrue(contains(e));
-        beforeRemove = true;
+        return beforeRemove = true;
       }
 
       @Override
-      protected void afterAdd(final String e) {
+      protected void afterAdd(final String e, final RuntimeException re) {
         Assert.assertEquals(expectedString, e);
         Assert.assertTrue(contains(e));
         afterAdd = true;
       }
 
       @Override
-      protected void afterRemove(final Object e) {
+      protected void afterRemove(final Object e, final RuntimeException re) {
         Assert.assertEquals(expectedString, e);
         Assert.assertFalse(contains(e));
         afterRemove = true;

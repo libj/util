@@ -55,15 +55,15 @@ public class ObservableMapTest {
   public void test() {
     final ObservableMap<Integer,String> map = new ObservableMap<Integer,String>(new HashMap<Integer,String>()) {
       @Override
-      protected void beforePut(final Integer key, final String oldValue, final String newValue) {
+      protected boolean beforePut(final Integer key, final String oldValue, final String newValue) {
         Assert.assertEquals(expectedKey, key);
         Assert.assertEquals(expectedValue, newValue);
         Assert.assertFalse(containsKey(key));
-        beforePut = true;
+        return beforePut = true;
       }
 
       @Override
-      protected void afterPut(final Integer key, final String oldValue, final String newValue) {
+      protected void afterPut(final Integer key, final String oldValue, final String newValue, final RuntimeException re) {
         Assert.assertEquals(expectedKey, key);
         Assert.assertEquals(expectedValue, newValue);
         Assert.assertTrue(containsKey(key));
@@ -71,15 +71,15 @@ public class ObservableMapTest {
       }
 
       @Override
-      protected void beforeRemove(final Object key, final String value) {
+      protected boolean beforeRemove(final Object key, final String value) {
         Assert.assertEquals(expectedKey, key);
         Assert.assertEquals(expectedValue, value);
         Assert.assertTrue(containsKey(key));
-        beforeRemove = true;
+        return beforeRemove = true;
       }
 
       @Override
-      protected void afterRemove(final Object key, final String value) {
+      protected void afterRemove(final Object key, final String value, final RuntimeException re) {
         Assert.assertEquals(expectedKey, key);
         Assert.assertEquals(expectedValue, value);
         Assert.assertFalse(containsKey(key));

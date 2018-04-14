@@ -43,8 +43,10 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * the enclosed <code>Set</code>.
    *
    * @param e The element being added to the enclosed <code>Set</code>.
+   * @return Whether the element should be added to the collection.
    */
-  protected void beforeAdd(final E e) {
+  protected boolean beforeAdd(final E e) {
+    return true;
   }
 
   /**
@@ -53,7 +55,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    *
    * @param e The element added to the enclosed <code>Set</code>.
    */
-  protected void afterAdd(final E e) {
+  protected void afterAdd(final E e, final RuntimeException re) {
   }
 
   /**
@@ -61,8 +63,10 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * from the enclosed <code>Set</code>.
    *
    * @param e The element being removed from the enclosed <code>Set</code>.
+   * @return Whether the element should be removed from the collection.
    */
-  protected void beforeRemove(final Object e) {
+  protected boolean beforeRemove(final Object e) {
+    return true;
   }
 
   /**
@@ -71,7 +75,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    *
    * @param e The element removed from the enclosed <code>Set</code>.
    */
-  protected void afterRemove(final Object e) {
+  protected void afterRemove(final Object e, final RuntimeException re) {
   }
 
   /**
@@ -102,9 +106,20 @@ public class ObservableSet<E> extends WrappedSet<E> {
       @Override
       public void remove() {
         final E remove = current;
-        ObservableSet.this.beforeRemove(remove);
-        i.remove();
-        ObservableSet.this.afterRemove(remove);
+        if (!ObservableSet.this.beforeRemove(remove))
+          return;
+
+        RuntimeException re = null;
+        try {
+          i.remove();
+        }
+        catch (final RuntimeException t) {
+          re = t;
+        }
+
+        ObservableSet.this.afterRemove(remove, re);
+        if (re != null)
+          throw re;
       }
 
       @Override
@@ -118,15 +133,28 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * Ensures that this collection contains the specified element (optional
    * operation). The callback methods <code>beforeAdd()</code> and
    * <code>afterAdd()</code> are called immediately before and after the
-   * enclosed collection is modified.
+   * enclosed collection is modified. If <code>beforeAdd()</code> returns
+   * false, the element will not be added.
    *
    * @see Collection#add(Object)
    */
   @Override
   public boolean add(final E e) {
-    beforeAdd(e);
-    final boolean result = source.add(e);
-    afterAdd(e);
+    if (!beforeAdd(e))
+      return false;
+
+    boolean result = false;
+    RuntimeException re = null;
+    try {
+      result = source.add(e);
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterAdd(e, re);
+    if (re != null)
+      throw re;
     return result;
   }
 
@@ -135,7 +163,9 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * (optional operation). The callback methods <code>beforeAdd()</code> and
    * <code>afterAdd()</code> are called immediately before and after the
    * enclosed collection is modified for the addition of each element
-   * in the argument Collection.
+   * in the argument Collection. All elements for which
+   * <code>beforeAdd()</code> returns false will not be added to this
+   * collection.
    *
    * @see Collection#addAll(Collection)
    */
@@ -153,15 +183,29 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * if it is present (optional operation). The callback methods
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
-   * modified.
+   * modified. If <code>beforeRemove()</code> returns false, the element will
+   * not be removed.
    *
    * @see Collection#remove(Object)
    */
   @Override
   public boolean remove(final Object o) {
-    beforeRemove(o);
-    final boolean result = source.remove(o);
-    afterRemove(o);
+    if (!beforeRemove(o))
+      return false;
+
+    boolean result = false;
+    RuntimeException re = null;
+    try {
+      result = source.remove(o);
+    }
+    catch (final RuntimeException t) {
+      re = t;
+    }
+
+    afterRemove(o, re);
+    if (re != null)
+      throw re;
+
     return result;
   }
 
@@ -170,7 +214,9 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * specified collection (optional operation). The callback methods
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
-   * modified for the removal of each element in the argument Collection.
+   * modified for the removal of each element in the argument Collection. All
+   * elements for which <code>beforeRemove()</code> returns false will not be
+   * removed from this collection.
    *
    * @see Collection#removeAll(Collection)
    */
@@ -187,7 +233,9 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * Removes all of the elements of this collection that satisfy the given
    * predicate. The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element.
+   * enclosed collection is modified for the removal of each element. All
+   * elements for which <code>beforeRemove()</code> returns false will not be
+   * removed from this collection.
    *
    * @see Collection#removeIf(Predicate)
    */
@@ -197,10 +245,19 @@ public class ObservableSet<E> extends WrappedSet<E> {
     final Iterator<E> i = iterator();
     while (i.hasNext()) {
       final E e = i.next();
-      if (filter.test(e)) {
-        beforeRemove(e);
-        i.remove();
-        afterRemove(e);
+      if (filter.test(e) && beforeRemove(e)) {
+        RuntimeException re = null;
+        try {
+          i.remove();
+        }
+        catch (final RuntimeException t) {
+          re = t;
+        }
+
+        afterRemove(e, re);
+        if (re != null)
+          throw re;
+
         changed = true;
       }
     }
@@ -214,6 +271,8 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
    * immediately before and after the enclosed collection is
    * modified for the removal of each element not in the argument Collection.
+   * All elements for which <code>beforeRemove()</code> returns false will not
+   * be removed from this collection.
    *
    * @see Collection#retainAll(Collection)
    */
@@ -235,7 +294,9 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * Removes all of the elements from this collection (optional operation).
    * The callback methods <code>beforeRemove()</code> and
    * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element.
+   * enclosed collection is modified for the removal of each element.  All
+   * elements for which <code>beforeRemove()</code> returns false will not be
+   * removed from this collection.
    *
    * @see Collection#clear()
    */
