@@ -18,7 +18,7 @@ package org.lib4j.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.Reader;
 
 /**
  * An efficient stream searching class based on the Knuth-Morris-Pratt
@@ -57,12 +57,12 @@ public final class StreamSearcher {
      * @return number of bytes the stream is advanced
      * @throws IOException
      */
-    public int search(final InputStreamReader stream, final char[] buffer, final int offset) throws IOException {
+    public int search(final Reader in, final char[] buffer, final int offset) throws IOException {
       int i = 0;
       int b = 0;
       final int[] j = new int[pattern.length];
 
-      while ((b = stream.read()) != -1) {
+      while ((b = in.read()) != -1) {
         buffer[offset + i++] = (char)b;
         for (int p = 0; p < pattern.length; p++) {
           while (j[p] >= 0 && (char)b != pattern[p][j[p]])
