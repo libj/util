@@ -30,19 +30,16 @@ public class IteratorsTest {
   public void testFilter() {
     final List<Number> list = Collections.asCollection(new ArrayList<Number>(), 0, 0d, 1, 1d, 2, BigInteger.ZERO, 3.4f, BigDecimal.ONE, 3, 2d, BigInteger.ONE, 10l, 4f, (short)8, (byte)62, 4, BigInteger.valueOf(2l));
 
-    final Iterator<? extends Integer> integerIterator = Iterators.filter(list.iterator(), Integer.class);
-    int i = 0;
-    while (integerIterator.hasNext())
-      Assert.assertEquals((Integer)i++, integerIterator.next());
+    final Iterator<? super Integer> integerIterator = Iterators.filter(list.iterator(), m -> Integer.class.isInstance(m));
+    for (int i = 0; integerIterator.hasNext(); i++)
+      Assert.assertEquals(i, integerIterator.next());
 
-    final Iterator<? extends BigInteger> bigIntegerIterator = Iterators.filter(list.iterator(), BigInteger.class);
-    int j = 0;
-    while (bigIntegerIterator.hasNext())
-      Assert.assertEquals(BigInteger.valueOf(j++), bigIntegerIterator.next());
+    final Iterator<? super BigInteger> bigIntegerIterator = Iterators.filter(list.iterator(), m -> BigInteger.class.isInstance(m));
+    for (int i = 0; bigIntegerIterator.hasNext(); i++)
+      Assert.assertEquals(BigInteger.valueOf(i), bigIntegerIterator.next());
 
-    final Iterator<? extends Double> doubleIterator = Iterators.filter(list.iterator(), Double.class);
-    int k = 0;
-    while (doubleIterator.hasNext())
-      Assert.assertEquals(Double.valueOf(k++), doubleIterator.next());
+    final Iterator<? super Double> doubleIterator = Iterators.filter(list.iterator(), m -> Double.class.isInstance(m));
+    for (int i = 0; doubleIterator.hasNext(); i++)
+      Assert.assertEquals(Double.valueOf(i), doubleIterator.next());
   }
 }

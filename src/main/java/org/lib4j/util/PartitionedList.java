@@ -180,8 +180,9 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
   public PartitionedList(final Collection<T> types) {
     this();
-    for (final T type : types)
-      typeToSubList.put(type, null);
+    if (types != null)
+      for (final T type : types)
+        typeToSubList.put(type, null);
   }
 
   protected PartitionList<E> newPartition(final T type) {

@@ -19,6 +19,7 @@ package org.lib4j.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public final class Iterators {
   private static <E>void recurseNext(final Iterator<E> iterator, final Consumer<? super E> consumer) {
@@ -41,13 +42,12 @@ public final class Iterators {
     return i;
   }
 
-  public static <T>Iterator<? extends T> filter(final Iterator<?> iterator, final Class<T> type) {
+  public static <T>Iterator<T> filter(final Iterator<T> iterator, final Function<T,Boolean> filter) {
     return new Iterator<T>() {
       private boolean consumed = true;
       private T next;
 
       @Override
-      @SuppressWarnings("unchecked")
       public boolean hasNext() {
         if (!consumed)
           return true;
@@ -57,10 +57,10 @@ public final class Iterators {
           return false;
         }
 
-        Object member;
+        T member;
         while (iterator.hasNext()) {
-          if (type.isInstance(member = iterator.next())) {
-            next = (T)member;
+          if (filter.apply(member = iterator.next())) {
+            next = member;
             consumed = false;
             return true;
           }
