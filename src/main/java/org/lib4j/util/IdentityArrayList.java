@@ -35,6 +35,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean contains(final Object o) {
     return indexOf(o) > -1;
   }
@@ -58,6 +59,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
     if (index < 0)
@@ -67,6 +69,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     if (c == null)
       return false;

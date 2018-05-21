@@ -16,9 +16,7 @@
 
 package org.lib4j.util.retry;
 
-import java.io.Serializable;
-
-public class LinearDelayRetryPolicy extends RetryPolicy implements Serializable {
+public class LinearDelayRetryPolicy extends RetryPolicy {
   private static final long serialVersionUID = -6090799745376513743L;
 
   private final int delayMs;

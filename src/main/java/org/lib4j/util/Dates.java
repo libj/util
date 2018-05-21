@@ -118,7 +118,7 @@ public final class Dates {
   @SuppressWarnings("deprecation")
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final int timeZoneOffset = date.getTimezoneOffset();
-    date.setTime(date.getTime() + hours * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE + milliseconds);
+    date.setTime(date.getTime() + hours * MILLISECONDS_IN_HOUR + seconds * MILLISECONDS_IN_SECOND + minutes * MILLISECONDS_IN_MINUTE + milliseconds);
     date.setTime(date.getTime() + (timeZoneOffset - date.getTimezoneOffset()) * MILLISECONDS_IN_MINUTE);
     return date;
   }

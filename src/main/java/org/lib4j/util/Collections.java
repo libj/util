@@ -348,46 +348,34 @@ public final class Collections {
     return binaryClosestSearch0(a, from, to, key, comparator);
   }
 
-  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<T> a, final int from, final int to, final T key) {
-    if (to == 0)
-      return 0;
-
-    int first = 0;
-    int upto = to;
-    int mid = -1;
-    while (first < upto) {
-      mid = (first + upto) / 2;    // Compute mid point.
+  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<T> a, int from, int to, final T key) {
+    for (int mid; from < to;) {
+      mid = (from + to) / 2;
       final int comparison = key.compareTo(a.get(mid));
       if (comparison < 0)
-        upto = mid;        // repeat search in bottom half.
+        to = mid;
       else if (comparison > 0)
-        first = mid + 1;      // Repeat search in top half.
+        from = mid + 1;
       else
         return mid;
     }
 
-    return first == to - 1 && key.compareTo(a.get(first)) > 0 ? first + 1 : (first + upto) / 2;
+    return (from + to) / 2;
   }
 
-  private static <T>int binaryClosestSearch0(final List<T> a, final int from, final int to, final T key, final Comparator<T> comparator) {
-    if (to == 0)
-      return 0;
-
-    int first = 0;
-    int upto = to;
-    int mid = -1;
-    while (first < upto) {
-      mid = (first + upto) / 2;    // Compute mid point.
+  private static <T>int binaryClosestSearch0(final List<T> a, int from, int to, final T key, final Comparator<T> comparator) {
+    for (int mid; from < to;) {
+      mid = (from + to) / 2;
       final int comparison = comparator.compare(key, a.get(mid));
       if (comparison < 0)
-        upto = mid;        // repeat search in bottom half.
+        to = mid;
       else if (comparison > 0)
-        first = mid + 1;      // Repeat search in top half.
+        from = mid + 1;
       else
         return mid;
     }
 
-    return first == to - 1 && comparator.compare(key, a.get(first)) > 0 ? first + 1 : (first + upto) / 2;
+    return (from + to) / 2;
   }
 
   @SuppressWarnings("rawtypes")

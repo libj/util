@@ -43,6 +43,23 @@ public final class Enumerations {
     return Arrays.asList(array);
   }
 
+  public static <T>Enumeration<T> singleton(final T entry) {
+    return new Enumeration<T>() {
+      private boolean hasNext = true;
+
+      @Override
+      public boolean hasMoreElements() {
+        return hasNext;
+      }
+
+      @Override
+      public T nextElement() {
+        hasNext = false;
+        return entry;
+      }
+    };
+  }
+
   private Enumerations() {
   }
 }

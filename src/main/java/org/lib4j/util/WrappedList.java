@@ -28,7 +28,7 @@ import java.util.ListIterator;
  *
  * @see List
  */
-public class WrappedList<E> extends AbstractList<E> implements List<E> {
+public class WrappedList<E> extends AbstractList<E> {
   @SuppressWarnings("rawtypes")
   protected List source;
 

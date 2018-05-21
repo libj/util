@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * List wrapper that guarantees sorted order of its members.
  */
-public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> implements List<E> {
+public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> {
   public SortedList(final List<E> list) {
     this(list, true);
   }
@@ -34,6 +34,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean contains(final Object o) {
     return indexOf(o) > -1;
   }
@@ -51,6 +52,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
     if (index < 0)
@@ -61,6 +63,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     for (final Object e : c)
       if (!contains(e))
@@ -88,6 +91,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object e : c)
@@ -121,6 +125,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public int lastIndexOf(final Object o) {
     int index = indexOf(o);
     if (index < 0)

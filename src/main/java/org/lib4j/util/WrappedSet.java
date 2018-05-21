@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  *
  * @see Set
  */
-public class WrappedSet<E> extends AbstractSet<E> implements Set<E> {
+public class WrappedSet<E> extends AbstractSet<E> {
   @SuppressWarnings("rawtypes")
   protected Set source;
 

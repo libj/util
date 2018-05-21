@@ -80,6 +80,7 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
   }
 
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     for (final Object o : c)
       if (!contains(o))

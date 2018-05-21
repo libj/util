@@ -143,6 +143,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    * @return <tt>true</tt> if this set contains the specified element
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean contains(final Object o) {
     return map.containsKey(o);
   }
@@ -177,6 +178,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    * @return <tt>true</tt> if the set contained the specified element
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     return map.remove(o) == PRESENT;
   }

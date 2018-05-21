@@ -55,6 +55,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    *
    * @param e The element added to the enclosed <code>Set</code>.
    */
+  @SuppressWarnings("unused")
   protected void afterAdd(final E e, final RuntimeException re) {
   }
 
@@ -75,6 +76,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    *
    * @param e The element removed from the enclosed <code>Set</code>.
    */
+  @SuppressWarnings("unused")
   protected void afterRemove(final Object e, final RuntimeException re) {
   }
 
@@ -221,6 +223,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * @see Collection#removeAll(Collection)
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object element : c)
@@ -277,6 +280,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
    * @see Collection#retainAll(Collection)
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final Iterator<E> i = iterator();

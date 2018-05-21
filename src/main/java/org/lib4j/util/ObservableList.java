@@ -74,6 +74,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * @param iterator The <code>Iterator</code> instance if the get is a result
    *                 of an iterator reference, or null if otherwise.
    */
+  @SuppressWarnings("unused")
   protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
   }
 
@@ -98,6 +99,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * <code>List</code>.
    * @param e The element being added to the enclosed <code>List</code>.
    */
+  @SuppressWarnings("unused")
   protected void afterAdd(final int index, final E e, final RuntimeException re) {
   }
 
@@ -119,6 +121,7 @@ public class ObservableList<E> extends WrappedList<E> {
    *
    * @param e The element removed from the enclosed <code>Collection</code>.
    */
+  @SuppressWarnings("unused")
   protected void afterRemove(final Object e, final RuntimeException re) {
   }
 
@@ -141,6 +144,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * @param index The index of the element set in the enclosed <code>List</code>.
    * @param oldElement The old element at the index of the enclosed <code>List</code>.
    */
+  @SuppressWarnings("unused")
   protected void afterSet(final int index, final E oldElement, final RuntimeException re) {
   }
 
@@ -295,6 +299,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see List#containsAll(Object)
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     for (final Object o : c)
       if (!contains(o))
@@ -589,6 +594,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see Collection#remove(Object)
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
     if (index == -1)
@@ -626,6 +632,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see Collection#removeAll(Collection)
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object element : c)
@@ -684,6 +691,7 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see Collection#retainAll(Collection)
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final Iterator<E> iterator = iterator();
