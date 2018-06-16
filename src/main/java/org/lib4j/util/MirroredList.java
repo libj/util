@@ -19,22 +19,18 @@ package org.lib4j.util;
 import java.util.List;
 import java.util.function.Function;
 
-import org.lib4j.lang.Classes;
-
 public class MirroredList<E,M> extends ObservableList<E> {
   private MirroredList<M,E> mirroredList;
   private final Function<E,M> mirror;
 
-  @SuppressWarnings("rawtypes")
-  public MirroredList(final Class<? extends List> type, final Function<E,M> mirror1, final Function<M,E> mirror2) {
-    super(Classes.newInstance(type));
-    this.mirroredList = new MirroredList<M,E>(this, type, mirror2);
+  public MirroredList(final List<E> list1, final List<M> list2, final Function<E,M> mirror1, final Function<M,E> mirror2) {
+    super(list1);
+    this.mirroredList = new MirroredList<M,E>(this, list2, mirror2);
     this.mirror = mirror1;
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  private MirroredList(final MirroredList<M,E> mirroredList, final Class<? extends List> type, final Function<E,M> mirror) {
-    super(Classes.newInstance((Class<? extends List<E>>)mirroredList.source.getClass()));
+  private MirroredList(final MirroredList<M,E> mirroredList, final List<E> list2, final Function<E,M> mirror) {
+    super(list2);
     this.mirroredList = mirroredList;
     this.mirror = mirror;
   }

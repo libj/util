@@ -222,7 +222,6 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * @see Collection#removeAll(Collection)
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object element : c)
@@ -277,7 +276,6 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
    * @see Collection#retainAll(Collection)
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final Iterator<E> iterator = iterator();

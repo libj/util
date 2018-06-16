@@ -25,7 +25,7 @@ import org.junit.Test;
 public class MirroredListTest {
   @Test
   public void test() {
-    final MirroredList<String,Integer> list = new MirroredList<String,Integer>(ArrayList.class, string -> Integer.valueOf(string), integer -> String.valueOf(integer));
+    final MirroredList<String,Integer> list = new MirroredList<String,Integer>(new ArrayList<String>(), new ArrayList<Integer>(), string -> Integer.valueOf(string), integer -> String.valueOf(integer));
 
     list.add("1");
     Assert.assertTrue(list.getMirror().contains(1));
@@ -44,10 +44,10 @@ public class MirroredListTest {
     integerIterator.add(7);
     Assert.assertTrue(list.contains("7"));
 
-    list.remove("1");
+    Assert.assertTrue(list.remove("1"));
     Assert.assertTrue(!list.getMirror().contains(1));
 
-    list.getMirror().remove((Object)2);
+    Assert.assertEquals(Integer.valueOf(2), list.getMirror().remove(2));
     Assert.assertTrue(!list.contains("2"));
 
     list.getMirror().clear();

@@ -91,7 +91,6 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsValue(final Object value) {
     return inverse.containsKey(value);
   }

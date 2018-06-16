@@ -144,7 +144,6 @@ public class TransSet<S,T> extends WrappedSet<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     for (final Object e : c)
       if (contains(e))
@@ -163,7 +162,6 @@ public class TransSet<S,T> extends WrappedSet<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object element : c)
@@ -173,7 +171,6 @@ public class TransSet<S,T> extends WrappedSet<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final Iterator<S> iterator = source.iterator();

@@ -299,7 +299,6 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see List#containsAll(Object)
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     for (final Object o : c)
       if (!contains(o))
@@ -594,7 +593,6 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see Collection#remove(Object)
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
     if (index == -1)
@@ -632,7 +630,6 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see Collection#removeAll(Collection)
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object element : c)
@@ -691,7 +688,6 @@ public class ObservableList<E> extends WrappedList<E> {
    * @see Collection#retainAll(Collection)
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final Iterator<E> iterator = iterator();
