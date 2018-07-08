@@ -32,7 +32,7 @@ public class TransListTest {
     Assert.assertFalse(trans.contains("11"));
     Assert.assertFalse(trans.source.contains(11));
 
-    trans.addAll(Arrays.asList(new String[] {"11", "12", "13"}));
+    trans.addAll(Arrays.asList("11", "12", "13"));
     Assert.assertTrue(trans.contains("11"));
     Assert.assertTrue(trans.source.contains(11));
 
@@ -77,7 +77,7 @@ public class TransListTest {
     Assert.assertEquals("555", trans.get(3));
     Assert.assertEquals(Integer.valueOf(555), ((List<Integer>)trans.source).get(3));
 
-    trans.addAll(9, Arrays.asList(new String[] {"666", "777", "888"}));
+    trans.addAll(9, Arrays.asList("666", "777", "888"));
     Assert.assertEquals("666", trans.get(9));
     Assert.assertEquals("777", trans.get(10));
     Assert.assertEquals("888", trans.get(11));

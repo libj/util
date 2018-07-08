@@ -31,7 +31,7 @@ public class TransSetTest {
     Assert.assertFalse(trans.contains("11"));
     Assert.assertFalse(trans.source.contains(11));
 
-    trans.addAll(Arrays.asList(new String[] {"11", "12", "13"}));
+    trans.addAll(Arrays.asList("11", "12", "13"));
     Assert.assertTrue(trans.contains("11"));
     Assert.assertTrue(trans.source.contains(11));
 

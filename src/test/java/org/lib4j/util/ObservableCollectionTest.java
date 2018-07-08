@@ -90,7 +90,7 @@ public class ObservableCollectionTest {
     }
 
     // addAll()
-    collection.addAll(Arrays.asList(new String[] {expectedString = String.valueOf(101)}));
+    collection.addAll(Arrays.asList(expectedString = String.valueOf(101)));
     assertAdded();
 
     // remove()
@@ -118,7 +118,7 @@ public class ObservableCollectionTest {
     }
 
     // removeAll()
-    collection.removeAll(Arrays.asList(new String[] {expectedString = "97"}));
+    collection.removeAll(Arrays.asList(expectedString = "97"));
     assertRemoved();
 
     // retainAll()

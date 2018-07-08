@@ -187,7 +187,7 @@ public class ObservableListTest {
     testingGetReplace = false;
 
     // addAll()
-    list.addAll(Arrays.asList(new String[] {expectedString = String.valueOf(101)}));
+    list.addAll(Arrays.asList(expectedString = String.valueOf(101)));
     assertAdded();
 
     final int size = list.size();
@@ -250,7 +250,7 @@ public class ObservableListTest {
     }
 
     // removeAll()
-    list.removeAll(Arrays.asList(new String[] {expectedString = "97"}));
+    list.removeAll(Arrays.asList(expectedString = "97"));
     assertRemoved();
 
     // retainAll()

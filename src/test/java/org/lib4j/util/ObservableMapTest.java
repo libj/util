@@ -127,7 +127,7 @@ public class ObservableMapTest {
 
     // removeAll()
     expectedValue = "97";
-    keys.removeAll(Arrays.asList(new Integer[] {expectedKey = 97}));
+    keys.removeAll(Arrays.asList(expectedKey = 97));
     assertRemoved();
 
     // clear()
