@@ -114,7 +114,7 @@ public class Digraph<T> implements Cloneable, Serializable {
    */
   public boolean addVertex(final T vertex) {
     if (vertex == null)
-      throw new NullPointerException("vertex == null");
+      throw new IllegalArgumentException("vertex == null");
 
     return addVertex(getCreateIndex(vertex));
   }
@@ -186,7 +186,7 @@ public class Digraph<T> implements Cloneable, Serializable {
    */
   public boolean addEdge(final T from, final T to) {
     if (from == null)
-      throw new NullPointerException("from == null");
+      throw new IllegalArgumentException("from == null");
 
     if (to == null)
       return addVertex(getCreateIndex(from));

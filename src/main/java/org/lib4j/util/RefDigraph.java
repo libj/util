@@ -125,7 +125,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
   @Override
   public boolean addEdge(final T from, final T to) {
     if (from == null)
-      throw new NullPointerException("from == null");
+      throw new IllegalArgumentException("from == null");
 
     if (to == null)
       return addVertex(from);
@@ -149,7 +149,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
    */
   public boolean addEdgeRef(final T from, final R to) {
     if (from == null)
-      throw new NullPointerException("from == null");
+      throw new IllegalArgumentException("from == null");
 
     if (to == null)
       return addVertex(from);

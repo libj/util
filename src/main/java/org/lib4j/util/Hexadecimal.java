@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class Hexadecimal {
   public static String bytesToHex(final byte[] bytes) {
     if (bytes == null)
-      throw new NullPointerException("bytes == null");
+      throw new IllegalArgumentException("bytes == null");
 
     final StringBuilder builder = new StringBuilder(bytes.length * 2);
     for (int i = 0; i < bytes.length; i++) {

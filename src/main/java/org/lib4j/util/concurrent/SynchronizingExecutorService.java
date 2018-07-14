@@ -108,7 +108,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   @Override
   public void execute(final Runnable command) {
     if (command == null)
-      throw new NullPointerException("runnable == null");
+      throw new IllegalArgumentException("runnable == null");
 
     final Runnable wrapper = new Runnable() {
       @Override
