@@ -22,10 +22,12 @@ import java.net.URLStreamHandler;
 import java.util.HashMap;
 
 public abstract class MemoryURLStreamHandler extends URLStreamHandler {
+  private static final String PROPERTY = "java.protocol.handler.pkgs";
+
   static {
-    final String pkgs = System.getProperty("java.protocol.handler.pkgs");
+    final String pkgs = System.getProperty(PROPERTY);
     if (pkgs == null || !pkgs.contains("org.lib4j.util"))
-      System.setProperty("java.protocol.handler.pkgs", pkgs != null && pkgs.length() > 0 ? pkgs + "|" + "org.lib4j.util" : "org.lib4j.util");
+      System.setProperty(PROPERTY, pkgs != null && pkgs.length() > 0 ? pkgs + "|" + "org.lib4j.util" : "org.lib4j.util");
   }
 
   public static final HashMap<String,byte[]> idToData = new HashMap<String,byte[]>();
