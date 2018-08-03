@@ -23,7 +23,7 @@ import org.junit.Test;
 public class ConcurrentHashSetTest {
   @Test
   public void test() {
-    final ConcurrentHashSet<String> set = new ConcurrentHashSet<String>();
+    final ConcurrentHashSet<String> set = new ConcurrentHashSet<>();
     for (int i = 0; i < 100; i++) {
       new Thread() {
         @Override

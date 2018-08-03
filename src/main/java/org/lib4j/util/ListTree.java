@@ -32,7 +32,7 @@ public class ListTree<T> {
 
   public void addChild(final Node<T> node) {
     if (children == null)
-      children = new ArrayList<Node<T>>();
+      children = new ArrayList<>();
 
     children.add(node);
   }
@@ -63,7 +63,7 @@ public class ListTree<T> {
 
     public void addChild(final Node<T> node) {
       if (children == null)
-        children = new ArrayList<Node<T>>();
+        children = new ArrayList<>();
 
       children.add(node);
     }

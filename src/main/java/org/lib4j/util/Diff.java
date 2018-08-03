@@ -72,7 +72,7 @@ public class Diff {
     final int limit = bytes.length * 8 - lengthSize - 2;
 
     int offset = lengthSizeSize;
-    final List<Mod> mods = new ArrayList<Mod>();
+    final List<Mod> mods = new ArrayList<>();
     final Diff diff = new Diff(mods, lengthSize);
     while (offset < limit) {
       final byte ordinal = Bytes.readBitsFromByte(bytes, offset, (byte)2);
@@ -280,7 +280,7 @@ public class Diff {
   public Diff(final String source, final String target) {
     final List<diff_match_patch.Diff> diffs = new diff_match_patch().diff_main(source, target);
     final Iterator<diff_match_patch.Diff> iterator = diffs.iterator();
-    final List<Mod> mods = new ArrayList<Mod>();
+    final List<Mod> mods = new ArrayList<>();
     while (iterator.hasNext()) {
       final diff_match_patch.Diff diff1 = iterator.next();
       if (diff1.operation == diff_match_patch.Operation.DELETE && iterator.hasNext()) {

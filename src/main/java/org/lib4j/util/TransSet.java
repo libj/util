@@ -66,7 +66,7 @@ public class TransSet<S,T> extends WrappedSet<T> {
   @Override
   public Iterator<T> iterator() {
     final Iterator<S> iterator = source.iterator();
-    return new Iterator<T>() {
+    return new Iterator<>() {
       @Override
       public boolean hasNext() {
         return iterator.hasNext();

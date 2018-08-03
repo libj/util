@@ -57,7 +57,7 @@ public class TransSetTest {
 
   @Test
   public void test() {
-    final Set<Integer> source = new HashSet<Integer>();
+    final Set<Integer> source = new HashSet<>();
     for (int i = 0; i < 10; i++)
       source.add(i);
 

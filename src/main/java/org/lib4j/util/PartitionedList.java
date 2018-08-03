@@ -29,7 +29,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     protected PartitionList(final T type) {
       super(new ArrayList<P>());
       this.type = type;
-      this.indexes = new ArrayList<Integer>();
+      this.indexes = new ArrayList<>();
     }
 
     public T getType() {
@@ -77,7 +77,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
         superList.indexes.add(superIndex, index);
         superList.subLists.add(superIndex, subList);
         superList.addUnsafe(superIndex, e);
-        final IdentityHashSet<PartitionList<P>> visited = new IdentityHashSet<PartitionList<P>>();
+        final IdentityHashSet<PartitionList<P>> visited = new IdentityHashSet<>();
         for (int i = superIndex + 1; i < superList.size(); i++) {
           final PartitionList<P> nextSubList = (PartitionedList<E,T>.PartitionList<P>)superList.subLists.get(i);
           if (nextSubList == subList)
@@ -104,7 +104,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
       superList.removeUnsafe(superIndex);
       superList.indexes.remove(superIndex);
       final PartitionList<P> subList = (PartitionedList<E,T>.PartitionList<P>)superList.subLists.remove(superIndex);
-      final IdentityHashSet<PartitionList<P>> visited = new IdentityHashSet<PartitionList<P>>();
+      final IdentityHashSet<PartitionList<P>> visited = new IdentityHashSet<>();
       for (int i = superIndex; i < superList.size(); i++) {
         final PartitionList<P> nextSubList = (PartitionedList<E,T>.PartitionList<P>)superList.subLists.get(i);
         if (nextSubList == subList)
@@ -163,12 +163,12 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
   protected ArrayList<Integer> indexes;
   protected ArrayList<PartitionList<? extends E>> subLists;
-  protected HashMap<T,PartitionList<? extends E>> typeToSubList = new HashMap<T,PartitionList<? extends E>>();
+  protected HashMap<T,PartitionList<? extends E>> typeToSubList = new HashMap<>();
 
   public PartitionedList() {
     super(new ArrayList<E>());
-    this.indexes = new ArrayList<Integer>();
-    this.subLists = new ArrayList<PartitionList<? extends E>>();
+    this.indexes = new ArrayList<>();
+    this.subLists = new ArrayList<>();
   }
 
   @SafeVarargs
@@ -186,7 +186,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   }
 
   protected PartitionList<E> newPartition(final T type) {
-    return new PartitionList<E>(type);
+    return new PartitionList<>(type);
   }
 
   protected abstract PartitionList<E> getPartition(final Class<? extends E> type);
@@ -276,7 +276,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
       add(index, subIndex, e, subList);
       if (subIndex != -1) {
         indexes.add(index, subIndex);
-        final IdentityHashSet<PartitionList<? extends E>> visited = new IdentityHashSet<PartitionList<? extends E>>();
+        final IdentityHashSet<PartitionList<? extends E>> visited = new IdentityHashSet<>();
         for (int i = index + 1; i < subLists.size(); i++) {
           final PartitionList<? extends E> nextSubList = subLists.get(i);
           if (nextSubList == subList)
@@ -328,7 +328,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     for (int i = index; i < subIndexes.size(); i++)
       subIndexes.set(i, subIndexes.get(i) - 1);
 
-    final IdentityHashSet<PartitionList<? extends E>> visited = new IdentityHashSet<PartitionList<? extends E>>();
+    final IdentityHashSet<PartitionList<? extends E>> visited = new IdentityHashSet<>();
     for (int i = index; i < subLists.size(); i++) {
       final PartitionList<? extends E> nextSubList = subLists.get(i);
       if (nextSubList == subList)
@@ -354,7 +354,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     System.err.print("  A:");
     subLists.stream().forEach(e -> System.err.print(" " + System.identityHashCode(e)));
     System.err.println();
-    new IdentityHashSet<PartitionList<? extends E>>(subLists).stream().forEach(e -> e.print());
+    new IdentityHashSet<>(subLists).stream().forEach(e -> e.print());
   }
 
   protected E clone(final E item) {
@@ -368,11 +368,11 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
       final PartitionedList<E,T> clone = (PartitionedList<E,T>)super.clone();
       clone.source = (ArrayList<E>)((ArrayList<E>)source).clone();
       clone.indexes = (ArrayList<Integer>)indexes.clone();
-      clone.subLists = new ArrayList<PartitionList<? extends E>>();
+      clone.subLists = new ArrayList<>();
       for (final PartitionList<? extends E> subList : subLists)
         clone.subLists.add(subList.clone());
 
-      final IdentityHashMap<E,E> clones = new IdentityHashMap<E,E>();
+      final IdentityHashMap<E,E> clones = new IdentityHashMap<>();
       for (int i = 0; i < clone.source.size(); i++) {
         final E item = (E)clone.source.get(i);
         final E copy = clone(item);
@@ -380,7 +380,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
         clone.source.set(i, copy);
       }
 
-      clone.typeToSubList = new HashMap<T,PartitionList<? extends E>>();
+      clone.typeToSubList = new HashMap<>();
       for (final PartitionList<? extends E> subList : clone.subLists) {
         clone.typeToSubList.put(subList.getType(), subList);
         for (int i = 0; i < subList.source.size(); i++)

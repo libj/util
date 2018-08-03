@@ -29,7 +29,7 @@ public class ELsTest {
 
   @Test
   public void testDeref() {
-    final Map<String,String> variables = new HashMap<String,String>();
+    final Map<String,String> variables = new HashMap<>();
     variables.put("left", "LEFT");
     variables.put("right", "RIGHT");
     variables.put("middle", "MIDDLE");

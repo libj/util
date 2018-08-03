@@ -35,7 +35,7 @@ public class DigraphTest {
    */
   @SafeVarargs
   private static <T extends Serializable>Digraph<T> createDigraph(final T ... edges) {
-    final Digraph<T> digraph = new Digraph<T>();
+    final Digraph<T> digraph = new Digraph<>();
     if (edges.length % 2 != 0)
       throw new IllegalArgumentException("edges array must be (v, w) vertex pairs");
 

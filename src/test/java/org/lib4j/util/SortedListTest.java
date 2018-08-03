@@ -25,7 +25,7 @@ import org.junit.Test;
 public class SortedListTest {
   @Test
   public void test() {
-    final SortedList<String> vector = new SortedList<String>(new ArrayList<String>());
+    final SortedList<String> vector = new SortedList<>(new ArrayList<String>());
     vector.add("f");
     Assert.assertArrayEquals(new String[] {"f"}, vector.toArray());
     vector.add("b");

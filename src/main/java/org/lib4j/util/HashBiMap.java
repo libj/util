@@ -52,7 +52,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
 
   @Override
   protected BiMap<V,K> newEmptyInverseMap() {
-    return new HashBiMap<V,K>(true);
+    return new HashBiMap<>(true);
   }
 
   @SuppressWarnings("unchecked")

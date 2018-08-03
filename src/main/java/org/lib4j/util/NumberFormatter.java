@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 
 public final class NumberFormatter {
   public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {
-    return new ThreadLocal<DecimalFormat>() {
+    return new ThreadLocal<>() {
       @Override
       protected DecimalFormat initialValue() {
         return new DecimalFormat(pattern);

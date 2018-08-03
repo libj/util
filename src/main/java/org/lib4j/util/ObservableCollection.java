@@ -93,7 +93,7 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   @Override
   public Iterator<E> iterator() {
     final Iterator<E> iterator = source.iterator();
-    return new Iterator<E>() {
+    return new Iterator<>() {
       private E current;
 
       @Override

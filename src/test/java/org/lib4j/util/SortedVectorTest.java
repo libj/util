@@ -24,7 +24,7 @@ import org.junit.Test;
 public class SortedVectorTest {
   @Test
   public void test() {
-    final SortedVector<String> vector = new SortedVector<String>();
+    final SortedVector<String> vector = new SortedVector<>();
     vector.addElement("f");
     Assert.assertArrayEquals(new String[] {"f"}, vector.toArray());
     vector.addElement("b");

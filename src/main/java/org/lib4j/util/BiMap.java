@@ -50,7 +50,7 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
   }
 
   protected void init(final Map<K,V> map) {
-    super.source = new ObservableMap<K,V>(map) {
+    super.source = new ObservableMap<>(map) {
       @Override
       protected boolean beforePut(final K key, final V oldValue, final V newValue) {
         ((ObservableMap<K,V>)BiMap.this.inverse.source).source.put(newValue, key);

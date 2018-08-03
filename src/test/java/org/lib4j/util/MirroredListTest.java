@@ -25,7 +25,7 @@ import org.junit.Test;
 public class MirroredListTest {
   @Test
   public void test() {
-    final MirroredList<String,Integer> list = new MirroredList<String,Integer>(new ArrayList<String>(), new ArrayList<Integer>(), string -> Integer.valueOf(string), integer -> String.valueOf(integer));
+    final MirroredList<String,Integer> list = new MirroredList<>(new ArrayList<String>(), new ArrayList<Integer>(), string -> Integer.valueOf(string), integer -> String.valueOf(integer));
 
     list.add("1");
     Assert.assertTrue(list.getMirror().contains(1));

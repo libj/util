@@ -65,7 +65,7 @@ public class TransList<S,T> extends WrappedList<T> {
   @Override
   public Iterator<T> iterator() {
     final Iterator<S> iterator = source.iterator();
-    return new Iterator<T>() {
+    return new Iterator<>() {
       @Override
       public boolean hasNext() {
         return iterator.hasNext();
@@ -256,7 +256,7 @@ public class TransList<S,T> extends WrappedList<T> {
   @Override
   public ListIterator<T> listIterator(final int index) {
     final ListIterator<S> iterator = source.listIterator();
-    return new ListIterator<T>() {
+    return new ListIterator<>() {
       @Override
       public boolean hasPrevious() {
         return iterator.hasPrevious();

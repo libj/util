@@ -25,7 +25,7 @@ public class MirroredList<E,M> extends ObservableList<E> {
 
   public MirroredList(final List<E> list1, final List<M> list2, final Function<E,M> mirror1, final Function<M,E> mirror2) {
     super(list1);
-    this.mirroredList = new MirroredList<M,E>(this, list2, mirror2);
+    this.mirroredList = new MirroredList<>(this, list2, mirror2);
     this.mirror = mirror1;
   }
 

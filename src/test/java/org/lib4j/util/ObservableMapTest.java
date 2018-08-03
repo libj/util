@@ -53,7 +53,7 @@ public class ObservableMapTest {
 
   @Test
   public void test() {
-    final ObservableMap<Integer,String> map = new ObservableMap<Integer,String>(new HashMap<Integer,String>()) {
+    final ObservableMap<Integer,String> map = new ObservableMap<>(new HashMap<Integer,String>()) {
       @Override
       protected boolean beforePut(final Integer key, final String oldValue, final String newValue) {
         Assert.assertEquals(expectedKey, key);

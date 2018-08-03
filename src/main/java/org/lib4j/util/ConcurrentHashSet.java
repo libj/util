@@ -247,7 +247,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
       throw new InvalidObjectException("Illegal size: " + size);
 
     // Create backing ConcurrentHashMap
-    map = new ClonableConcurrentHashMap<E,Object>(Math.max((int)(capacity / .75f) + 1, 16));
+    map = new ClonableConcurrentHashMap<>(Math.max((int)(capacity / .75f) + 1, 16));
 
     // Read in all elements in the proper order.
     for (int i = 0; i < size; i++) {

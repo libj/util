@@ -29,7 +29,7 @@ public final class Jar {
   private final File jarFile;
   private final FileOutputStream stream;
   private final JarOutputStream out;
-  private final Collection<JarEntry> entries = new HashSet<JarEntry>();
+  private final Collection<JarEntry> entries = new HashSet<>();
 
   public Jar(final File file) throws IOException {
     this.jarFile = file;

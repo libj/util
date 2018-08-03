@@ -381,8 +381,8 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(source.entrySet()) {
-      private final ThreadLocal<K> localKey = new ThreadLocal<K>();
-      private final ThreadLocal<V> localValue = new ThreadLocal<V>();
+      private final ThreadLocal<K> localKey = new ThreadLocal<>();
+      private final ThreadLocal<V> localValue = new ThreadLocal<>();
 
       @Override
       @SuppressWarnings("unchecked")
@@ -402,11 +402,11 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
 
   @Override
   public Set<K> keySet() {
-    return new TransSet<Map.Entry<K,V>,K>(entrySet(), entry -> entry.getKey(), null);
+    return new TransSet<>(entrySet(), entry -> entry.getKey(), null);
   }
 
   @Override
   public Collection<V> values() {
-    return new TransCollection<Map.Entry<K,V>,V>(entrySet(), entry -> entry.getValue(), null);
+    return new TransCollection<>(entrySet(), entry -> entry.getValue(), null);
   }
 }

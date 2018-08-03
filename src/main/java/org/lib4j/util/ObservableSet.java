@@ -92,7 +92,7 @@ public class ObservableSet<E> extends WrappedSet<E> {
   @Override
   public Iterator<E> iterator() {
     final Iterator<E> i = source.iterator();
-    return new Iterator<E>() {
+    return new Iterator<>() {
       private E current;
 
       @Override

@@ -82,7 +82,7 @@ public class ObservableListTest {
 
   @Test
   public void test() {
-    final ObservableList<String> list = new ObservableList<String>(new ArrayList<String>()) {
+    final ObservableList<String> list = new ObservableList<>(new ArrayList<String>()) {
       @Override
       protected void beforeGet(final int index, final ListIterator<String> iterator) {
         beforeGet = true;
@@ -254,7 +254,7 @@ public class ObservableListTest {
     assertRemoved();
 
     // retainAll()
-    final Set<String> set = new HashSet<String>(list);
+    final Set<String> set = new HashSet<>(list);
     Assert.assertTrue(set.remove(expectedString = String.valueOf(37)));
     list.retainAll(set);
     assertRemoved();

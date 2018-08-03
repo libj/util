@@ -37,7 +37,7 @@ public class RefDigraphTest {
 
   @Test
   public void testUnspecifiedReference() {
-    final RefDigraph<Obj,String> digraph = new RefDigraph<Obj,String>(obj -> obj.id);
+    final RefDigraph<Obj,String> digraph = new RefDigraph<>(obj -> obj.id);
     digraph.addEdgeRef(new Obj("a", "b"), "b");
     digraph.addEdgeRef(new Obj("b", "c"), "c");
     digraph.addEdgeRef(new Obj("c", "a"), "d");
@@ -53,7 +53,7 @@ public class RefDigraphTest {
 
   @Test
   public void testCycle() {
-    final RefDigraph<Obj,String> digraph = new RefDigraph<Obj,String>(obj -> obj.id);
+    final RefDigraph<Obj,String> digraph = new RefDigraph<>(obj -> obj.id);
     digraph.addEdgeRef(new Obj("a", "b"), "b");
     digraph.addEdgeRef(new Obj("b", "c"), "c");
     digraph.addEdgeRef(new Obj("c", "a"), "a");
@@ -67,7 +67,7 @@ public class RefDigraphTest {
 
   @Test
   public void testTopological() {
-    final RefDigraph<Obj,String> digraph = new RefDigraph<Obj,String>(obj -> obj.id);
+    final RefDigraph<Obj,String> digraph = new RefDigraph<>(obj -> obj.id);
     digraph.addEdgeRef(new Obj("a", "b"), "b");
     digraph.addEdgeRef(new Obj("b", "c"), "c");
     digraph.addEdgeRef(new Obj("c", null), null);

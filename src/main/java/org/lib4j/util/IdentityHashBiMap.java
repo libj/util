@@ -76,14 +76,14 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
 
   @Override
   protected BiMap<V,K> newEmptyInverseMap() {
-    return new IdentityHashBiMap<V,K>(true);
+    return new IdentityHashBiMap<>(true);
   }
 
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(source.entrySet()) {
-      final ThreadLocal<V> value = new ThreadLocal<V>();
+      final ThreadLocal<V> value = new ThreadLocal<>();
 
       @Override
       @SuppressWarnings("unchecked")

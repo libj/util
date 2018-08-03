@@ -53,9 +53,9 @@ import java.util.function.Function;
 public class RefDigraph<T,R> extends Digraph<T> {
   private static final long serialVersionUID = -8038282541169001107L;
 
-  private ArrayList<T> vertices = new ArrayList<T>();
-  private HashSet<R> references = new HashSet<R>();
-  private Digraph<Object> digraph = new Digraph<Object>();
+  private ArrayList<T> vertices = new ArrayList<>();
+  private HashSet<R> references = new HashSet<>();
+  private Digraph<Object> digraph = new Digraph<>();
   protected final Function<T,R> reference;
 
   /**

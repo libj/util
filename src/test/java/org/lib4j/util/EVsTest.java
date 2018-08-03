@@ -30,7 +30,7 @@ public class EVsTest {
 
   @Test
   public void testDeref() throws ParseException {
-    final Map<String,String> variables = new HashMap<String,String>();
+    final Map<String,String> variables = new HashMap<>();
     variables.put("LEFT", "left");
     variables.put("RIGHT", "right");
     variables.put("MIDDLE", "middle");

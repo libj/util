@@ -24,8 +24,8 @@ import org.junit.Test;
 public class IdentityHashSetTest {
   @Test
   public void test() {
-    final HashSet<String> regularSet = new HashSet<String>();
-    final IdentityHashSet<String> identitySet = new IdentityHashSet<String>();
+    final HashSet<String> regularSet = new HashSet<>();
+    final IdentityHashSet<String> identitySet = new IdentityHashSet<>();
 
     final String a = "a";
     regularSet.add(a);

@@ -34,11 +34,11 @@ public class TieredRangeFetcherTest {
   public void testTieredFetcher() {
     final int dbFrom = 20;
     final int dbTo = 30;
-    final SortedMap<Integer,Object> db = new TreeMap<Integer,Object>();
+    final SortedMap<Integer,Object> db = new TreeMap<>();
     for (int i = 20; i < 30; i++)
       db.put(i, i);
 
-    final TieredRangeFetcher<Integer,Object> webLoader = new TieredRangeFetcher<Integer,Object>(null) {
+    final TieredRangeFetcher<Integer,Object> webLoader = new TieredRangeFetcher<>(null) {
       private final Integer[] range = new Integer[] {Integer.MIN_VALUE, Integer.MAX_VALUE};
 
       @Override
@@ -49,7 +49,7 @@ public class TieredRangeFetcherTest {
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, Integer to) {
         logger.info("WEB -> (" + from + ", " + to + "]");
-        final SortedMap<Integer,Object> results = new TreeMap<Integer,Object>();
+        final SortedMap<Integer,Object> results = new TreeMap<>();
         for (int i = from; i < to; i++)
           results.put(i, i);
 
@@ -61,7 +61,7 @@ public class TieredRangeFetcherTest {
       }
     };
 
-    final TieredRangeFetcher<Integer,Object> dbLoader = new TieredRangeFetcher<Integer,Object>(webLoader) {
+    final TieredRangeFetcher<Integer,Object> dbLoader = new TieredRangeFetcher<>(webLoader) {
       private Integer[] range = new Integer[] {dbFrom, dbTo};
 
       @Override
@@ -94,8 +94,8 @@ public class TieredRangeFetcherTest {
       }
     };
 
-    final TieredRangeFetcher<Integer,Object> cacheLoader = new TieredRangeFetcher<Integer,Object>(dbLoader) {
-      private final SortedMap<Integer,Object> cache = new TreeMap<Integer,Object>();
+    final TieredRangeFetcher<Integer,Object> cacheLoader = new TieredRangeFetcher<>(dbLoader) {
+      private final SortedMap<Integer,Object> cache = new TreeMap<>();
       private Integer[] range = null;
 
       @Override

@@ -60,7 +60,7 @@ public abstract class MaskedEnum {
   @SuppressWarnings("unchecked")
   protected static <T extends MaskedEnum>T[] toArray(final Class<T> callingClass, final int mask) {
     final Map<Integer,T> map = (Map<Integer,T>)enums.get(callingClass);
-    final List<T> list = new ArrayList<T>();
+    final List<T> list = new ArrayList<>();
     for (int i = 0; i < map.size(); i++)
       if ((mask & (1 << i)) != 0)
         list.add(map.get(i));
@@ -68,7 +68,7 @@ public abstract class MaskedEnum {
     return list.toArray((T[])Array.newInstance(callingClass, list.size()));
   }
 
-  protected static final Map<Class<?>,Map<Integer,MaskedEnum>> enums = new HashMap<Class<?>,Map<Integer,MaskedEnum>>();
+  protected static final Map<Class<?>,Map<Integer,MaskedEnum>> enums = new HashMap<>();
 
   public final int ordinal;
 
@@ -76,7 +76,7 @@ public abstract class MaskedEnum {
     this.ordinal = ordinal;
     Map<Integer,MaskedEnum> map = enums.get(getClass());
     if (map == null)
-      enums.put(getClass(), map = new HashMap<Integer,MaskedEnum>());
+      enums.put(getClass(), map = new HashMap<>());
 
     final MaskedEnum existing = map.get(ordinal);
     if (existing != null)

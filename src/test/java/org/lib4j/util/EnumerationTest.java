@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class EnumerationTest {
-  private final Enumeration<Integer> enumeration = new Enumeration<Integer>() {
+  private final Enumeration<Integer> enumeration = new Enumeration<>() {
     private int position = 0;
 
     @Override

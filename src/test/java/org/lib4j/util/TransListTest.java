@@ -58,7 +58,7 @@ public class TransListTest {
 
   @Test
   public void test() {
-    final List<Integer> source = new ArrayList<Integer>();
+    final List<Integer> source = new ArrayList<>();
     for (int i = 0; i < 10; i++)
       source.add(i);
 
@@ -68,11 +68,11 @@ public class TransListTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testList() {
-    final List<Integer> source = new ArrayList<Integer>();
+    final List<Integer> source = new ArrayList<>();
     for (int i = 0; i < 10; i++)
       source.add(i);
 
-    final TransList<Integer,String> trans = new TransList<Integer,String>(source, integer -> String.valueOf(integer), string -> Integer.valueOf(string));
+    final TransList<Integer,String> trans = new TransList<>(source, integer -> String.valueOf(integer), string -> Integer.valueOf(string));
     trans.add(3, "555");
     Assert.assertEquals("555", trans.get(3));
     Assert.assertEquals(Integer.valueOf(555), ((List<Integer>)trans.source).get(3));

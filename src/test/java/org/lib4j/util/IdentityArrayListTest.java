@@ -24,8 +24,8 @@ import org.junit.Test;
 public class IdentityArrayListTest {
   @Test
   public void test() {
-    final ArrayList<String> regularSet = new ArrayList<String>();
-    final IdentityArrayList<String> identitySet = new IdentityArrayList<String>();
+    final ArrayList<String> regularSet = new ArrayList<>();
+    final IdentityArrayList<String> identitySet = new IdentityArrayList<>();
 
     final String a = "a";
     regularSet.add(a);

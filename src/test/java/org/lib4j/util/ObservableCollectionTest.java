@@ -53,7 +53,7 @@ public class ObservableCollectionTest {
 
   @Test
   public void test() {
-    final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<String>()) {
+    final ObservableCollection<String> collection = new ObservableCollection<>(new HashSet<String>()) {
       @Override
       protected boolean beforeAdd(final String e) {
         Assert.assertEquals(expectedString, e);
@@ -122,7 +122,7 @@ public class ObservableCollectionTest {
     assertRemoved();
 
     // retainAll()
-    final Set<String> set = new HashSet<String>(collection);
+    final Set<String> set = new HashSet<>(collection);
     Assert.assertTrue(set.remove(expectedString = String.valueOf(37)));
     collection.retainAll(set);
     assertRemoved();

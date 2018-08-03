@@ -57,7 +57,7 @@ public class TransCollectionTest {
 
   @Test
   public void test() {
-    final Collection<Integer> source = new ArrayList<Integer>();
+    final Collection<Integer> source = new ArrayList<>();
     for (int i = 0; i < 10; i++)
       source.add(i);
 

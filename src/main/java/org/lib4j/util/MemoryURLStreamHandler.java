@@ -30,7 +30,7 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
       System.setProperty(PROPERTY, pkgs != null && pkgs.length() > 0 ? pkgs + "|" + "org.lib4j.util" : "org.lib4j.util");
   }
 
-  public static final HashMap<String,byte[]> idToData = new HashMap<String,byte[]>();
+  public static final HashMap<String,byte[]> idToData = new HashMap<>();
 
   public static URL createURL(final byte[] data) {
     try {
