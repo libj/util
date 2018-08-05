@@ -190,6 +190,18 @@ public class RefDigraph<T,R> extends Digraph<T> {
     return (List<T>)digraph.getCycle();
   }
 
+  public List<R> getCycleRef() {
+    final List<T> cycle = getCycle();
+    if (cycle == null)
+      return null;
+
+    final List<R> refCycle = new ArrayList<>(cycle.size());
+    for (final T vertex : cycle)
+      refCycle.add(reference.apply(vertex));
+
+    return refCycle;
+  }
+
   @Override
   @SuppressWarnings("unchecked")
   public List<T> getTopologicalOrder() {
