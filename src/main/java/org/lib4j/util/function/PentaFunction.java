@@ -21,10 +21,10 @@ import java.util.function.Function;
 
 /**
  * Represents a function that accepts three arguments and produces a result.
- * This is the four-arity specialization of {@link Function}.
+ * This is the five-arity specialization of {@link Function}.
  *
  * This is a functional interface.
- * whose functional method is {@link #apply(Object, Object, Object, Object)}.
+ * whose functional method is {@link #apply(Object, Object, Object, Object, Object)}.
  *
  * @param <T>
  *          the type of the first argument to the function
@@ -34,13 +34,15 @@ import java.util.function.Function;
  *          the type of the third argument to the function
  * @param <W>
  *          the type of the fourth argument to the function
+ * @param <X>
+ *          the type of the fifth argument to the function
  * @param <R>
  *          the type of the result of the function
  *
  * @see Function
  */
 @FunctionalInterface
-public interface QuadFunction<T,U,V,W,R> {
+public interface PentaFunction<T,U,V,W,X,R> {
   /**
    * Applies this function to the given arguments.
    *
@@ -52,9 +54,11 @@ public interface QuadFunction<T,U,V,W,R> {
    *          the third function argument
    * @param w
    *          the fourth function argument
+   * @param x
+   *          the fifth function argument
    * @return the function result
    */
-  R apply(final T t, final U u, final V v, final W w);
+  R apply(final T t, final U u, final V v, final W w, final X x);
 
   /**
    * Returns a composed function that first applies this function to
@@ -62,7 +66,7 @@ public interface QuadFunction<T,U,V,W,R> {
    * If evaluation of either function throws an exception, it is relayed to
    * the caller of the composed function.
    *
-   * @param <X>
+   * @param <Y>
    *          the type of output of the {@code after} function, and of the
    *          composed function
    * @param after
@@ -72,8 +76,8 @@ public interface QuadFunction<T,U,V,W,R> {
    * @throws NullPointerException
    *           if after is null
    */
-  default <X>QuadFunction<T,U,V,W,X> andThen(final Function<? super R,? extends X> after) {
+  default <Y>PentaFunction<T,U,V,W,X,Y> andThen(final Function<? super R,? extends Y> after) {
     Objects.requireNonNull(after);
-    return (T t, U u, V v, W w) -> after.apply(apply(t, u, v, w));
+    return (T t, U u, V v, W w, X x) -> after.apply(apply(t, u, v, w, x));
   }
 }
