@@ -36,7 +36,7 @@ public final class Combinations {
       final T[] currentSet = (T[])Array.newInstance(componentType, arrays.length);
       int position = total;
 
-      // Pick the required element from each list, and add it to the set.
+      // Pick the required element from each list, and add it to the set
       for (int i = 0; i < arrays.length; i++) {
         final int length = arrays[i].length;
         currentSet[i] = arrays[i][position % length];

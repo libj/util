@@ -27,41 +27,41 @@ import java.util.function.Consumer;
  */
 public class WrappedListIterator<E> implements ListIterator<E> {
   @SuppressWarnings("rawtypes")
-  protected ListIterator source;
+  protected final ListIterator source;
 
-  public WrappedListIterator(final ListIterator<E> listIterator) {
+  public WrappedListIterator(final ListIterator<? extends E> listIterator) {
     this.source = listIterator;
   }
 
   @Override
-  public final boolean hasNext() {
+  public boolean hasNext() {
     return source.hasNext();
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public final E next() {
+  public E next() {
     return (E)source.next();
   }
 
   @Override
-  public final boolean hasPrevious() {
+  public boolean hasPrevious() {
     return source.hasPrevious();
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public final E previous() {
+  public E previous() {
     return (E)source.previous();
   }
 
   @Override
-  public final int nextIndex() {
+  public int nextIndex() {
     return source.nextIndex();
   }
 
   @Override
-  public final int previousIndex() {
+  public int previousIndex() {
     return source.previousIndex();
   }
 

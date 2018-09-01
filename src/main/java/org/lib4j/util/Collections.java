@@ -23,6 +23,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Function;
 
 import org.lib4j.lang.Classes;
 
@@ -511,30 +512,27 @@ public final class Collections {
     return result;
   }
 
-  @SuppressWarnings({"rawtypes"})
-  public static <T extends Collection>T flatten(final Collection<?> in, final T out) {
-    return flatten(in, out, false);
+  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out) {
+    return flatten(in, out, null, false);
   }
 
-  @SuppressWarnings({"rawtypes"})
-  public static <T extends Collection>T flatten(final Collection<?> in, final T out, final boolean retainListReferences) {
-    if (in == null)
-      throw new IllegalArgumentException("in == null");
+  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final Function<T,Collection<T>> resolver) {
+    return flatten(in, out, resolver, false);
+  }
 
-    if (out == null)
-      throw new IllegalArgumentException("out == null");
-
-    return flatten0(in, out, retainListReferences);
+  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final boolean retainListReferences) {
+    return flatten(in, out, null, retainListReferences);
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  private static <T extends Collection>T flatten0(final Collection<?> in, final T out, final boolean retainListReferences) {
-    for (final Object member : in) {
-      if (member instanceof Collection) {
+  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final Function<T,Collection<T>> resolver, final boolean retainListReferences) {
+    for (final T member : in) {
+      final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
+      if (inner != null) {
         if (retainListReferences)
           out.add(member);
 
-        flatten0((Collection)member, out, retainListReferences);
+        flatten(inner, out, resolver, retainListReferences);
       }
       else {
         out.add(member);
@@ -544,27 +542,32 @@ public final class Collections {
     return out;
   }
 
-  public static void flatten(final List<?> list) {
-    flatten(list, false);
+  public static <L extends List<T>,T>void flatten(final L list) {
+    flatten(list, (Function<T,List<T>>)null, false);
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public static void flatten(final List<?> list, final boolean retainListReferences) {
-    if (list == null)
-      throw new IllegalArgumentException("list == null");
+  public static <L extends List<T>,T>void flatten(final L list, final Function<T,List<T>> resolver) {
+    flatten(list, resolver, false);
+  }
 
-    final ListIterator iterator = list.listIterator();
+  public static <L extends List<T>,T>void flatten(final L list, final boolean retainListReferences) {
+    flatten(list, (Function<T,List<T>>)null, retainListReferences);
+  }
+
+  @SuppressWarnings({"unchecked"})
+  public static <L extends List<T>,T>void flatten(final L list, final Function<T,List<T>> resolver, final boolean retainListReferences) {
+    final ListIterator<T> iterator = list.listIterator();
     int i = 0;
     while (iterator.hasNext()) {
-      final Object member = iterator.next();
-      if (member instanceof List) {
-        final List<?> nested = (List)member;
+      final T member = iterator.next();
+      final List<T> inner = resolver != null ? resolver.apply(member) : member instanceof List ? (List<T>)member : null;
+      if (inner != null) {
         if (retainListReferences)
           ++i;
         else
           iterator.remove();
 
-        for (final Object obj : nested)
+        for (final T obj : inner)
           iterator.add(obj);
 
         while (iterator.nextIndex() > i)

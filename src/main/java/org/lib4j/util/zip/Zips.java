@@ -43,12 +43,6 @@ public final class Zips {
   }
 
   public static void unzip(final File zipFile, final File targetDir, final FileFilter filter) throws FileNotFoundException, IOException {
-    if (zipFile == null)
-      throw new IllegalArgumentException("zipFile == null");
-
-    if (targetDir == null)
-      throw new IllegalArgumentException("targetDir == null");
-
     targetDir.mkdirs();
 
     // read jar-file:
@@ -85,9 +79,6 @@ public final class Zips {
   }
 
   public static String gunzip(final InputStream inputStream) throws IOException {
-    if (inputStream == null)
-      throw new IllegalArgumentException("inputStream == null");
-
     try (final GZIPInputStream zipInputStream = new GZIPInputStream(new BufferedInputStream(inputStream))) {
       final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -101,19 +92,10 @@ public final class Zips {
   }
 
   public static String gunzip(final byte[] bytes) throws IOException {
-    if (bytes == null)
-      throw new IllegalArgumentException("bytes == null");
-
     return Zips.gunzip(new ByteArrayInputStream(bytes));
   }
 
   public static boolean add(final File zipFile, final Collection<CachedFile> files) throws IOException {
-    if (zipFile == null)
-      throw new IllegalArgumentException("zipFile == null");
-
-    if (files == null)
-      throw new IllegalArgumentException("files == null");
-
     if (files.size() == 0)
       return false;
 
