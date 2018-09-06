@@ -151,6 +151,56 @@ public final class Numbers {
     }
   };
 
+  public static class Compound {
+    public static long encode(final int a, final int b) {
+      return ((long)b << Integer.SIZE) & 0xffffffff00000000l | a & 0xffffffffl;
+    }
+
+    public static long encode(final short a, final short b, final short c, final short d) {
+      return ((long)d << Short.SIZE * 3) & 0xffff000000000000l | ((long)c << Short.SIZE * 2) & 0xffff00000000l | ((long)b << Short.SIZE) & 0xffff0000l | a & 0xffffl;
+    }
+
+    public static long encode(final byte a, final byte b, final byte c, final byte d, final byte e, final byte f, final byte g, final byte h) {
+      return ((long)h << Byte.SIZE * 7) & 0xff00000000000000l | ((long)g << Byte.SIZE * 6) & 0xff000000000000l | ((long)f << Byte.SIZE * 5) & 0xff0000000000l | ((long)e << Byte.SIZE * 4) & 0xff00000000l | ((long)d << Byte.SIZE * 3) & 0xff000000l | ((long)c << Byte.SIZE * 2) & 0xff0000l | ((long)b << Byte.SIZE) & 0xff00l | a & 0xffl;
+    }
+
+    public static int encode(final short a, final short b) {
+      return b << Short.SIZE | a & 0xffff;
+    }
+
+    public static int encode(final byte a, final byte b, final byte c, final byte d) {
+      return (d << Byte.SIZE * 3) & 0xff000000 | (c << Byte.SIZE * 2) & 0xff0000 | (b << Byte.SIZE) & 0xff00 | a & 0xff;
+    }
+
+    public static short encode(final byte a, final byte b) {
+      return (short)((b << Byte.SIZE) & 0xff00 | a & 0xff);
+    }
+
+    public static int dencodeInt(final long val, final int pos) {
+      return (int)((val >> Integer.SIZE * pos) & 0xffffffff);
+    }
+
+    public static short dencodeShort(final long val, final int pos) {
+      return (short)((val >> Short.SIZE * pos) & 0xffff);
+    }
+
+    public static byte dencodeByte(final long val, final int pos) {
+      return (byte)((val >> Byte.SIZE * pos) & 0xff);
+    }
+
+    public static short dencodeShort(final int val, final int pos) {
+      return (short)((val >> Short.SIZE * pos) & 0xffff);
+    }
+
+    public static byte dencodeByte(final int val, final int pos) {
+      return (byte)((val >> Byte.SIZE * pos) & 0xff);
+    }
+
+    public static byte dencodeByte(final short val, final int pos) {
+      return (byte)((val >> Byte.SIZE * pos) & 0xff);
+    }
+  }
+
   public static int compare(final Number a, final Number b) {
     return comparator.compare(a, b);
   }

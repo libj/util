@@ -16,6 +16,8 @@
 
 package org.lib4j.util;
 
+import static org.junit.Assert.*;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
@@ -28,6 +30,94 @@ import org.slf4j.LoggerFactory;
 
 public class NumbersTest {
   private static final Logger logger = LoggerFactory.getLogger(NumbersTest.class);
+
+  public static class CompoundTest {
+    private static final Random random = new Random();
+
+    private static byte[] randomBytes(final int length) {
+      final byte[] bytes = new byte[length];
+      for (int i = 0; i < bytes.length; ++i)
+        bytes[i] = (byte)random.nextInt();
+
+      return bytes;
+    }
+
+    private static short[] randomShorts(final int length) {
+      final short[] shorts = new short[length];
+      for (int i = 0; i < shorts.length; ++i)
+        shorts[i] = (short)random.nextInt();
+
+      return shorts;
+    }
+
+    private static int[] randomInts(final int length) {
+      final int[] ints = new int[length];
+      for (int i = 0; i < ints.length; ++i)
+        ints[i] = random.nextInt();
+
+      return ints;
+    }
+
+    @Test
+    public void testLongOfInts() {
+      for (int i = 0; i < 10000; ++i) {
+        final int[] expected = randomInts(2);
+        final long encoded = Numbers.Compound.encode(expected[0], expected[1]);
+        for (int j = 0; j < expected.length; ++j)
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeInt(encoded, j));
+      }
+    }
+
+    @Test
+    public void testLongOfShorts() {
+      for (int i = 0; i < 10000; ++i) {
+        final short[] expected = randomShorts(4);
+        final long encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3]);
+        for (int j = 0; j < expected.length; ++j)
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeShort(encoded, j));
+      }
+    }
+
+    @Test
+    public void testLongOfBytes() {
+      for (int i = 0; i < 10000; ++i) {
+        final byte[] expected = randomBytes(8);
+        final long encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[6], expected[7]);
+        for (int j = 0; j < expected.length; ++j)
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeByte(encoded, j));
+      }
+    }
+
+    @Test
+    public void testIntOfShorts() {
+      for (int i = 0; i < 10000; ++i) {
+        final short[] expected = randomShorts(2);
+        final int encoded = Numbers.Compound.encode(expected[0], expected[1]);
+        for (int j = 0; j < expected.length; ++j)
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeShort(encoded, j));
+      }
+    }
+
+    @Test
+    public void testIntOfBytes() {
+      for (int i = 0; i < 10000; ++i) {
+        final byte[] expected = randomBytes(4);
+        final int encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3]);
+        for (int j = 0; j < expected.length; ++j)
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeByte(encoded, j));
+      }
+    }
+
+    @Test
+    public void testShortOfBytes() {
+      for (int i = 0; i < 10000; ++i) {
+        final byte[] expected = randomBytes(2);
+        final short encoded = Numbers.Compound.encode(expected[0], expected[1]);
+        for (int j = 0; j < expected.length; ++j)
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeByte(encoded, j));
+      }
+    }
+  }
 
   private static double testLogBigInteger(final int[] factors, final int[] exponents) {
     double l1 = 0;
