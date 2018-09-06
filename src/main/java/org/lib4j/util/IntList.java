@@ -43,7 +43,7 @@ interface IntList extends IntCollection {
    *
    * @return The value at the top of this list (the last item
    *         of the {@code IntList} object).
-   * @throws IndexOutOfBoundsException If this list is empty.
+   * @throws ArrayIndexOutOfBoundsException If this list is empty.
    */
   default int pop() {
     return remove(size() - 1);
@@ -57,7 +57,7 @@ interface IntList extends IntCollection {
    *
    * @return The value at the top of this list (the last item
    *         of the {@code IntList} object).
-   * @throws IndexOutOfBoundsException if this list is empty.
+   * @throws ArrayIndexOutOfBoundsException if this list is empty.
    */
   default int peek() {
     return get(size() - 1);
