@@ -23,7 +23,6 @@ import java.util.ListIterator;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.lib4j.lang.Strings;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class PartitionedListTest {

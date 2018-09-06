@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.lib4j.lang.Bytes;
-
 import name.fraser.neil.plaintext.diff_match_patch;
 
 public class Diff {

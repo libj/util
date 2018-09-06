@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.lib4j.lang.Strings;
 
 public class CollectionsTest {
   private static List<Object> createRandomNestedList() {

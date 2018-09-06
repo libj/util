@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Function;
 
-import org.lib4j.lang.Classes;
-
 public final class Collections {
   public static Class<?> getComponentType(final Collection<?> collection) {
     if (collection.size() == 0)

@@ -620,6 +620,6 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    */
   @Override
   public String toString() {
-    return "[" + org.lib4j.lang.Arrays.toString(valueData, ", ", 0, size) + "]";
+    return "[" + org.lib4j.util.Arrays.toString(valueData, ", ", 0, size) + "]";
   }
 }
