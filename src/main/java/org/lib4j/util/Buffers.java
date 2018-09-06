@@ -273,18 +273,34 @@ public final class Buffers {
     return new String(buf);
   }
 
-  public static String toString(final long ... buf) {
-    final StringBuilder builder = new StringBuilder(buf.length * Long.SIZE);
-    for (int i = 0; i < buf.length; ++i)
-      builder.append(toUnsignedString(buf[i], Long.SIZE));
-
-    return builder.toString();
-  }
-
   public static String toString(final byte ... buf) {
     final StringBuilder builder = new StringBuilder(buf.length * Byte.SIZE);
     for (int i = 0; i < buf.length; ++i)
       builder.append(toUnsignedString(buf[i], Byte.SIZE));
+
+    return builder.toString();
+  }
+
+  public static String toString(final short ... buf) {
+    final StringBuilder builder = new StringBuilder(buf.length * Short.SIZE);
+    for (int i = 0; i < buf.length; ++i)
+      builder.append(toUnsignedString(buf[i], Short.SIZE));
+
+    return builder.toString();
+  }
+
+  public static String toString(final int ... buf) {
+    final StringBuilder builder = new StringBuilder(buf.length * Integer.SIZE);
+    for (int i = 0; i < buf.length; ++i)
+      builder.append(toUnsignedString(buf[i], Integer.SIZE));
+
+    return builder.toString();
+  }
+
+  public static String toString(final long ... buf) {
+    final StringBuilder builder = new StringBuilder(buf.length * Long.SIZE);
+    for (int i = 0; i < buf.length; ++i)
+      builder.append(toUnsignedString(buf[i], Long.SIZE));
 
     return builder.toString();
   }
