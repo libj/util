@@ -19,59 +19,69 @@ package org.lib4j.util;
 import java.util.Arrays;
 
 public class Hexadecimal {
-  public static String bytesToHex(final byte[] bytes) {
-    final StringBuilder builder = new StringBuilder(bytes.length * 2);
-    for (int i = 0; i < bytes.length; i++) {
-      // look up high nibble char
-      builder.append(hexChar[(bytes[i] & 0xf0) >>> 4]);
-
-      // look up low nibble char
-      builder.append(hexChar[bytes[i] & 0x0f]);
-    }
-
-    return builder.toString();
-  }
-
-  public static byte[] hexToBytes(final String hex) {
-    if (hex == null)
-      return null;
-
-    final int stringLength = hex.length();
-    if (stringLength == 0)
-      return new byte[0];
-
-    if ((stringLength & 0x1) != 0)
-      throw new IllegalArgumentException("fromHexString requires an even number of hex characters");
-
-    final byte[] bytes = new byte[stringLength / 2];
-    for (int i = 0, j = 0; i < stringLength; i += 2, j++) {
-      final int high = charToNibble(hex.charAt(i));
-      final int low = charToNibble(hex.charAt(i + 1));
-      bytes[j] = (byte)((high << 4) | low);
-    }
-
-    return bytes;
-  }
-
-  private static int charToNibble(final char character) {
-    if ('0' <= character && character <= '9')
-      return character - '0';
-
-    if ('a' <= character && character <= 'f')
-      return character - 'a' + 0xa;
-
-    if ('A' <= character && character <= 'F')
-      return character - 'A' + 0xa;
-
-    throw new IllegalArgumentException("Illegal hexadecimal character: " + character);
-  }
-
   private static char[] hexChar = {
     '0', '1', '2', '3',
     '4', '5', '6', '7',
     '8', '9', 'a', 'b',
     'c', 'd', 'e', 'f'
   };
+
+  private static int charToNibble(final char ch) {
+    if ('0' <= ch && ch <= '9')
+      return ch - '0';
+
+    if ('a' <= ch && ch <= 'f')
+      return ch - 'a' + 0xa;
+
+    if ('A' <= ch && ch <= 'F')
+      return ch - 'A' + 0xa;
+
+    throw new IllegalArgumentException("Illegal hexadecimal character: " + ch);
+  }
+
+  private static void hexToBytes0(final String hex, byte[] bytes, final int offset) {
+    for (int i = 0, j = offset; i < hex.length(); i += 2, j++) {
+      final int high = charToNibble(hex.charAt(i));
+      final int low = charToNibble(hex.charAt(i + 1));
+      bytes[j] = (byte)((high << 4) | low);
+    }
+  }
+
+  public static void hexToBytes(final String hex, byte[] bytes, final int offset) {
+    final int length = hex.length();
+    if (length == 0)
+      return;
+
+    if (hex.length() % 2 != 0)
+      throw new IllegalArgumentException("Odd hex length: " + hex.length());
+
+    hexToBytes0(hex, bytes, offset);
+  }
+
+  public static byte[] hexToBytes(final String hex) {
+    final int length = hex.length();
+    if (length == 0)
+      return new byte[0];
+
+    final byte[] bytes = new byte[length / 2];
+    hexToBytes(hex, bytes, 0);
+    return bytes;
+  }
+
+  public static String bytesToHex(final byte[] bytes) {
+    return bytesToHex(bytes, 0, bytes.length);
+  }
+
+  public static String bytesToHex(final byte[] bytes, final int offset, final int len) {
+    final StringBuilder builder = new StringBuilder(len * 2);
+    for (int i = offset; i < len + offset; ++i) {
+      builder.append(hexChar[(bytes[i] & 0xf0) >>> 4]);
+      builder.append(hexChar[bytes[i] & 0x0f]);
+    }
+
+    return builder.toString();
+  }
+
   private String hex = null;
   private byte[] bytes = null;
 
