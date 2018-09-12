@@ -16,12 +16,12 @@
 
 package org.lib4j.util;
 
+import org.fastjax.lang.Equalable;
+import org.fastjax.lang.Hashable;
+import org.fastjax.lang.NotEqualable;
+import org.fastjax.lang.NotHashable;
 import org.junit.Assert;
 import org.junit.Test;
-import org.lib4j.lang.Equalable;
-import org.lib4j.lang.Hashable;
-import org.lib4j.lang.NotEqualable;
-import org.lib4j.lang.NotHashable;
 import org.lib4j.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

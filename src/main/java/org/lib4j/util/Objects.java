@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-import org.lib4j.lang.Equalable;
-import org.lib4j.lang.NotEqualable;
+import org.fastjax.lang.Equalable;
+import org.fastjax.lang.NotEqualable;
 
 public final class Objects {
   private static final Map<Class<?>,Field[]> blackWhiteListMap = new HashMap<>();
