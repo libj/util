@@ -26,7 +26,7 @@ import org.junit.Test;
 public class ISTEnumGeneratorTest {
   @Test
   public void testGenerate() throws Exception {
-    final String packageName = "org.lib4j.algo";
+    final String packageName = getClass().getPackageName();
     final String className = packageName + ".Keywords";
     final File outFile = new File("target/generated-test-sources/istenum/" + className.replace('.', '/') + ".java");
     ISTEnumGenerator.generate(className, null, outFile, Thread.currentThread().getContextClassLoader().getResource("keywords.txt"));
