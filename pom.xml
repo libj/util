@@ -43,8 +43,9 @@
       <version>1.6.6-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.lib4j</groupId>
-      <artifactId>lib4j-test</artifactId>
+      <groupId>org.fastjax</groupId>
+      <artifactId>fastjax-test</artifactId>
+      <version>1.1.7-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
