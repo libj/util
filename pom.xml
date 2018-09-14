@@ -56,9 +56,9 @@
   </dependencies>
   <repositories>
     <repository>
-      <id>adobe</id>
-      <name>Adobe</name>
-      <url>https://repo.adobe.com/nexus/content/repositories/public/</url>
+      <id>redhat</id>
+      <name>Redhat GA Repository</name>
+      <url>https://maven.repository.redhat.com/ga/</url>
     </repository>
   </repositories>
 </project>
