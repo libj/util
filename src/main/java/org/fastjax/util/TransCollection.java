@@ -63,7 +63,7 @@ public class TransCollection<S,T> extends WrappedCollection<T> {
   @Override
   public Iterator<T> iterator() {
     final Iterator<S> iterator = source.iterator();
-    return new Iterator<>() {
+    return new Iterator<T>() {
       @Override
       public boolean hasNext() {
         return iterator.hasNext();

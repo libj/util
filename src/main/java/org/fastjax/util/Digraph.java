@@ -50,7 +50,7 @@ import java.util.Set;
 public class Digraph<T> implements Cloneable, Serializable {
   private static final long serialVersionUID = -1725638737276587152L;
 
-  private static final Comparator<Object[]> arrayComparator = new Comparator<>() {
+  private static final Comparator<Object[]> arrayComparator = new Comparator<Object[]>() {
     @Override
     public int compare(final Object[] o1, final Object[] o2) {
       return o1 == null ? (o2 == null ? 0 : 1) : o2 == null ? -1 : Integer.compare(Arrays.hashCode(o1), Arrays.hashCode(o2));

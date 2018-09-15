@@ -43,7 +43,7 @@ public final class Iterators {
   }
 
   public static <T>Iterator<T> filter(final Iterator<T> iterator, final Function<T,Boolean> filter) {
-    return new Iterator<>() {
+    return new Iterator<T>() {
       private boolean consumed = true;
       private T next;
 

@@ -44,7 +44,7 @@ public final class Enumerations {
   }
 
   public static <T>Enumeration<T> singleton(final T entry) {
-    return new Enumeration<>() {
+    return new Enumeration<T>() {
       private boolean hasNext = true;
 
       @Override

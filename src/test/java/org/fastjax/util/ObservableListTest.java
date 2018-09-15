@@ -82,7 +82,7 @@ public class ObservableListTest {
 
   @Test
   public void test() {
-    final ObservableList<String> list = new ObservableList<>(new ArrayList<String>()) {
+    final ObservableList<String> list = new ObservableList<String>(new ArrayList<String>()) {
       @Override
       protected void beforeGet(final int index, final ListIterator<String> iterator) {
         beforeGet = true;

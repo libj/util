@@ -195,7 +195,7 @@ public final class Classes {
     return null;
   }
 
-  private static final Repeat.Recurser<Field,Class<?>> declaredFieldRecurser = new Repeat.Recurser<>() {
+  private static final Repeat.Recurser<Field,Class<?>> declaredFieldRecurser = new Repeat.Recurser<Field,Class<?>>() {
     @Override
     public boolean accept(final Field member, final Object ... args) {
       return true;
@@ -212,7 +212,7 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Recurser<Method,Class<?>> declaredMethodRecurser = new Repeat.Recurser<>() {
+  private static final Repeat.Recurser<Method,Class<?>> declaredMethodRecurser = new Repeat.Recurser<Method,Class<?>>() {
     @Override
     public boolean accept(final Method member, final Object ... args) {
       return true;
@@ -229,7 +229,7 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Recurser<Method,Class<?>> declaredMethodWithAnnotationRecurser = new Repeat.Recurser<>() {
+  private static final Repeat.Recurser<Method,Class<?>> declaredMethodWithAnnotationRecurser = new Repeat.Recurser<Method,Class<?>>() {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Method member, final Object ... args) {
@@ -247,7 +247,7 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Recurser<Field,Class<?>> fieldRecurser = new Repeat.Recurser<>() {
+  private static final Repeat.Recurser<Field,Class<?>> fieldRecurser = new Repeat.Recurser<Field,Class<?>>() {
     @Override
     public boolean accept(final Field field, final Object ... args) {
       return Modifier.isPublic((field).getModifiers());
@@ -264,7 +264,7 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Filter<Field> declaredFieldWithAnnotationFilter = new Repeat.Filter<>() {
+  private static final Repeat.Filter<Field> declaredFieldWithAnnotationFilter = new Repeat.Filter<Field>() {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Field member, final Object ... args) {
@@ -272,7 +272,7 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Filter<Method> declaredMethodWithAnnotationFilter = new Repeat.Filter<>() {
+  private static final Repeat.Filter<Method> declaredMethodWithAnnotationFilter = new Repeat.Filter<Method>() {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Method member, final Object ... args) {
@@ -280,7 +280,7 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Filter<Class<?>> classWithAnnotationFilter = new Repeat.Filter<>() {
+  private static final Repeat.Filter<Class<?>> classWithAnnotationFilter = new Repeat.Filter<Class<?>>() {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Class<?> member, final Object ... args) {
@@ -288,7 +288,7 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Recurser<Class<?>,Class<?>> classWithAnnotationRecurser = new Repeat.Recurser<>() {
+  private static final Repeat.Recurser<Class<?>,Class<?>> classWithAnnotationRecurser = new Repeat.Recurser<Class<?>,Class<?>>() {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Class<?> member, final Object ... args) {

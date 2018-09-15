@@ -96,7 +96,7 @@ public final class Numbers {
     }
   }
 
-  private static final Comparator<Number> comparator = new Comparator<>() {
+  private static final Comparator<Number> comparator = new Comparator<Number>() {
     @Override
     public int compare(final Number o1, final Number o2) {
       if (o1 == null)

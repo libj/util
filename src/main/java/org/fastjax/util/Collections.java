@@ -379,7 +379,7 @@ public final class Collections {
   }
 
   @SuppressWarnings("rawtypes")
-  protected static final Comparator<Comparable> nullComparator = new Comparator<>() {
+  protected static final Comparator<Comparable> nullComparator = new Comparator<Comparable>() {
     @Override
     public int compare(final Comparable o1, final Comparable o2) {
       return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2);

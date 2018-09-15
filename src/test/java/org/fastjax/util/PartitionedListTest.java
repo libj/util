@@ -42,7 +42,7 @@ public class PartitionedListTest {
 
   @Test
   public void testElementLists() {
-    final PartitionedList<Object,Class<? extends Object>> superList = new PartitionedList<>(String.class, Integer.class, Double.class, Boolean.class) {
+    final PartitionedList<Object,Class<? extends Object>> superList = new PartitionedList<Object,Class<? extends Object>>(String.class, Integer.class, Double.class, Boolean.class) {
       @Override
       protected PartitionedList<Object,Class<? extends Object>>.PartitionList<Object> getPartition(Class<? extends Object> type) {
         do {

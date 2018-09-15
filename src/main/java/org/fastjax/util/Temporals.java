@@ -27,7 +27,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 public final class Temporals {
-  private static final Comparator<Temporal> COMPARATOR = new Comparator<>() {
+  private static final Comparator<Temporal> COMPARATOR = new Comparator<Temporal>() {
     @Override
     public int compare(final Temporal o1, final Temporal o2) {
       if (o1 == null)

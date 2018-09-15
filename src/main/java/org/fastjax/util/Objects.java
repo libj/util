@@ -30,7 +30,7 @@ import org.fastjax.lang.NotEqualable;
 public final class Objects {
   private static final Map<Class<?>,Field[]> blackWhiteListMap = new HashMap<>();
 
-  private static final Repeat.Filter<Field> nonBlacklistFilter = new Repeat.Filter<>() {
+  private static final Repeat.Filter<Field> nonBlacklistFilter = new Repeat.Filter<Field>() {
     @Override
     public boolean accept(final Field member, final Object ... args) {
       final boolean accept = !member.isSynthetic() && !Modifier.isStatic(member.getModifiers()) && member.getAnnotation(NotEqualable.class) == null;
@@ -41,7 +41,7 @@ public final class Objects {
     }
   };
 
-  private static final Repeat.Filter<Field> whitelistFilter = new Repeat.Filter<>() {
+  private static final Repeat.Filter<Field> whitelistFilter = new Repeat.Filter<Field>() {
     @Override
     public boolean accept(final Field member, final Object ... args) {
       final boolean accept = !member.isSynthetic() && !Modifier.isStatic(member.getModifiers()) && member.getAnnotation(Equalable.class) != null;
