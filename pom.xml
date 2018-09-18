@@ -24,7 +24,6 @@
     <artifactId>fastjax</artifactId>
     <version>1.11.15-SNAPSHOT</version>
   </parent>
-  <groupId>org.fastjax</groupId>
   <artifactId>util</artifactId>
   <version>0.7.9-SNAPSHOT</version>
   <name>${project.groupId}:${project.artifactId}</name>
