@@ -22,8 +22,8 @@ import org.junit.Test;
 
 public class HexadecimalTest {
   private static void testHexToBytesDirect(final String hex) {
-    final byte[] bytes = Hexadecimal.hexToBytes(hex);
-    final String actual = Hexadecimal.bytesToHex(bytes);
+    final byte[] bytes = Hexadecimal.decode(hex);
+    final String actual = Hexadecimal.encode(bytes);
     assertEquals(hex, actual);
   }
 
@@ -32,8 +32,8 @@ public class HexadecimalTest {
       final int len = hex.length() / 2;
       final byte[] bytes = new byte[len + (int)(Math.random() * len)];
       final int offset = (int)((bytes.length - len) * Math.random());
-      Hexadecimal.hexToBytes(hex, bytes, offset);
-      final String actual = Hexadecimal.bytesToHex(bytes, offset, len);
+      Hexadecimal.decode(hex, bytes, offset);
+      final String actual = Hexadecimal.encode(bytes, offset, len);
       assertEquals(hex, actual);
     }
   }
@@ -44,22 +44,22 @@ public class HexadecimalTest {
   }
 
   private static void testBytesToHex(final byte[] bytes) {
-    final String hex = Hexadecimal.bytesToHex(bytes);
-    final byte[] actual = Hexadecimal.hexToBytes(hex);
+    final String hex = Hexadecimal.encode(bytes);
+    final byte[] actual = Hexadecimal.decode(hex);
     assertArrayEquals(bytes, actual);
   }
 
   @Test
   public void testHexToBytes() {
     try {
-      Hexadecimal.hexToBytes(null);
+      Hexadecimal.decode(null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
     try {
-      Hexadecimal.hexToBytes("a");
+      Hexadecimal.decode("a");
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
@@ -74,7 +74,7 @@ public class HexadecimalTest {
   @Test
   public void testBytesToHex() {
     try {
-      Hexadecimal.bytesToHex(null);
+      Hexadecimal.encode(null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {

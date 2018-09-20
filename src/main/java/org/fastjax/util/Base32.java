@@ -16,12 +16,14 @@
 
 package org.fastjax.util;
 
+import java.util.Arrays;
+
 /**
  * Encodes and decodes Base32.
  *
  * @see <a href="http://www.faqs.org/rfcs/rfc3548.html">RFC3548</a>
  */
-public class Base32 {
+public class Base32 extends DataEncoding<byte[],String> {
   private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
   private static final int[] lookup = {
     0xFF, 0xFF, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
@@ -37,14 +39,26 @@ public class Base32 {
   };
 
   /**
-   * Returns the string of the encoded {@code bytes} array.
+   * Returns the base32 encoding of the provided {@code bytes} array.
    *
    * @param bytes The bytes to encode.
-   * @return The string of the encoded {@code bytes} array.
+   * @return The base32 encoding of the provided {@code bytes} array.
    */
   public static String encode(final byte[] bytes) {
+    return encode(bytes, 0, bytes.length);
+  }
+
+  /**
+   * Returns the base32 encoding of the provided {@code bytes} array.
+   *
+   * @param bytes The bytes to encode.
+   * @param offset The initial offset.
+   * @param len The length.
+   * @return The base32 encoding of the provided {@code bytes} array.
+   */
+  public static String encode(final byte[] bytes, final int offset, final int len) {
     final StringBuilder base32 = new StringBuilder((bytes.length + 7) * 8 / 5);
-    for (int i = 0, index = 0, digit = 0, by0, by1; i < bytes.length;) {
+    for (int i = offset, index = 0, digit = 0, by0, by1; i < len + offset;) {
       by0 = (bytes[i] >= 0) ? bytes[i] : (bytes[i] + 256);
       if (index > 3) {
         by1 = i + 1 < bytes.length ? bytes[i + 1] < 0 ? bytes[i + 1] + 256 : bytes[i + 1] : 0;
@@ -68,14 +82,29 @@ public class Base32 {
   }
 
   /**
-   * Returns the bytes of the decoded {@code base32} string.
+   * Returns a {@code new byte[]} of the decoded {@code base32} string.
    *
-   * @param base32 The Base32 string.
-   * @return The bytes of the decoded {@code base32} string.
+   * @param base32 The base32 string.
+   * @return A {@code new byte[]} of the decoded {@code base32} string.
    */
-  static public byte[] decode(final String base32) {
+  public static byte[] decode(final String base32) {
     final byte[] bytes = new byte[base32.length() * 5 / 8];
-    for (int i = 0, index = 0, offset = 0, ch, digit; i < base32.length(); ++i) {
+    decode(base32, bytes, 0);
+    return bytes;
+  }
+
+  /**
+   * Decode the {@code base32} string into the provided {@code bytes} array.
+   *
+   * @param base32 The base32 string.
+   * @param bytes The {@code bytes} array.
+   * @param offset The offset into the {@code bytes} array.
+   * @throws ArrayIndexOutOfBoundsException If the size of {@code bytes} is not
+   *           big enough, or if {@code offset} causes the index to go out of
+   *           bounds.
+   */
+  public static void decode(final String base32, final byte[] bytes, int offset) {
+    for (int i = 0, index = 0, ch, digit; i < base32.length(); ++i) {
       ch = base32.charAt(i) - '0';
       if (ch < 0 || lookup.length < ch)
         continue;
@@ -107,7 +136,56 @@ public class Base32 {
         bytes[offset] |= digit << (8 - index);
       }
     }
+  }
 
-    return bytes;
+  /**
+   * Create a new {@code Base32} object with the provided raw bytes.
+   *
+   * @param bytes The raw bytes.
+   */
+  public Base32(final byte[] bytes) {
+    super(bytes, null);
+  }
+
+  /**
+   * Create a new {@code Base32} object with the provided base32-encoded string
+   * value.
+   *
+   * @param base32 The base32-encoded string value.
+   */
+  public Base32(final String base32) {
+    super(null, base32);
+  }
+
+  @Override
+  public byte[] getData() {
+    return data == null ? data = decode(encoded) : data;
+  }
+
+  @Override
+  public String getEncoded() {
+    return encoded == null ? encoded = encode(data) : encoded;
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof Base32))
+      return false;
+
+    final Base32 that = (Base32)obj;
+    return encoded != null && that.encoded != null ? encoded.equalsIgnoreCase(that.encoded) : Arrays.equals(getData(), that.getData());
+  }
+
+  @Override
+  public int hashCode() {
+    return Arrays.hashCode(getData());
+  }
+
+  @Override
+  public String toString() {
+    return getEncoded();
   }
 }

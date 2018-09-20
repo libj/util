@@ -18,7 +18,10 @@ package org.fastjax.util;
 
 import java.util.Arrays;
 
-public class Hexadecimal {
+/**
+ * Encodes and decodes Hexadecimal.
+ */
+public class Hexadecimal extends DataEncoding<byte[],String> {
   private static char[] hexChar = {
     '0', '1', '2', '3',
     '4', '5', '6', '7',
@@ -39,40 +42,25 @@ public class Hexadecimal {
     throw new IllegalArgumentException("Illegal hexadecimal character: " + ch);
   }
 
-  private static void hexToBytes0(final String hex, byte[] bytes, final int offset) {
-    for (int i = 0, j = offset; i < hex.length(); i += 2, j++) {
-      final int high = charToNibble(hex.charAt(i));
-      final int low = charToNibble(hex.charAt(i + 1));
-      bytes[j] = (byte)((high << 4) | low);
-    }
+  /**
+   * Returns the hex encoding of the provided {@code bytes} array.
+   *
+   * @param bytes The bytes to encode.
+   * @return The hex encoding of the provided {@code bytes} array.
+   */
+  public static String encode(final byte[] bytes) {
+    return encode(bytes, 0, bytes.length);
   }
 
-  public static void hexToBytes(final String hex, byte[] bytes, final int offset) {
-    final int length = hex.length();
-    if (length == 0)
-      return;
-
-    if (hex.length() % 2 != 0)
-      throw new IllegalArgumentException("Odd hex length: " + hex.length());
-
-    hexToBytes0(hex, bytes, offset);
-  }
-
-  public static byte[] hexToBytes(final String hex) {
-    final int length = hex.length();
-    if (length == 0)
-      return new byte[0];
-
-    final byte[] bytes = new byte[length / 2];
-    hexToBytes(hex, bytes, 0);
-    return bytes;
-  }
-
-  public static String bytesToHex(final byte[] bytes) {
-    return bytesToHex(bytes, 0, bytes.length);
-  }
-
-  public static String bytesToHex(final byte[] bytes, final int offset, final int len) {
+  /**
+   * Returns the base32 encoding of the provided {@code bytes} array.
+   *
+   * @param bytes The bytes to encode.
+   * @param offset The initial offset.
+   * @param len The length.
+   * @return The base32 encoding of the provided {@code bytes} array.
+   */
+  public static String encode(final byte[] bytes, final int offset, final int len) {
     final StringBuilder builder = new StringBuilder(len * 2);
     for (int i = offset; i < len + offset; ++i) {
       builder.append(hexChar[(bytes[i] & 0xf0) >>> 4]);
@@ -82,19 +70,78 @@ public class Hexadecimal {
     return builder.toString();
   }
 
-  private String hex = null;
-  private byte[] bytes = null;
-
-  public Hexadecimal(final String hex) {
-    this.hex = hex;
+  private static void decode0(final String hex, byte[] bytes, final int offset) {
+    for (int i = 0, j = offset; i < hex.length(); i += 2, j++) {
+      final int high = charToNibble(hex.charAt(i));
+      final int low = charToNibble(hex.charAt(i + 1));
+      bytes[j] = (byte)((high << 4) | low);
+    }
   }
 
+  /**
+   * Decode the {@code hex} string into the provided {@code bytes} array.
+   *
+   * @param hex The hex string.
+   * @param bytes The {@code bytes} array.
+   * @param offset The offset into the {@code bytes} array.
+   * @throws ArrayIndexOutOfBoundsException If the size of {@code bytes} is not
+   *           big enough, or if {@code offset} causes the index to go out of
+   *           bounds.
+   */
+  public static void decode(final String hex, byte[] bytes, final int offset) {
+    final int length = hex.length();
+    if (length == 0)
+      return;
+
+    if (hex.length() % 2 != 0)
+      throw new IllegalArgumentException("Odd hex length: " + hex.length());
+
+    decode0(hex, bytes, offset);
+  }
+
+  /**
+   * Returns a {@code new byte[]} of the decoded {@code hex} string.
+   *
+   * @param hex The hex string.
+   * @return A {@code new byte[]} of the decoded {@code hex} string.
+   */
+  public static byte[] decode(final String hex) {
+    final int length = hex.length();
+    if (length == 0)
+      return new byte[0];
+
+    final byte[] bytes = new byte[length / 2];
+    decode(hex, bytes, 0);
+    return bytes;
+  }
+
+  /**
+   * Create a new {@code Hexadecimal} object with the provided raw bytes.
+   *
+   * @param bytes The raw bytes.
+   */
   public Hexadecimal(final byte[] bytes) {
-    this.bytes = bytes;
+    super(bytes, null);
   }
 
-  public byte[] getBytes() {
-    return bytes == null ? bytes = hexToBytes(hex) : bytes;
+  /**
+   * Create a new {@code Hexadecimal} object with the provided hex-encoded
+   * string value.
+   *
+   * @param hex The hex-encoded string value.
+   */
+  public Hexadecimal(final String hex) {
+    super(null, hex);
+  }
+
+  @Override
+  public byte[] getData() {
+    return data == null ? data = decode(encoded) : data;
+  }
+
+  @Override
+  public String getEncoded() {
+    return encoded == null ? encoded = encode(data) : encoded;
   }
 
   @Override
@@ -106,16 +153,16 @@ public class Hexadecimal {
       return false;
 
     final Hexadecimal that = (Hexadecimal)obj;
-    return hex != null && that.hex != null ? hex.equalsIgnoreCase(that.hex) : Arrays.equals(getBytes(), that.getBytes());
+    return encoded != null && that.encoded != null ? encoded.equalsIgnoreCase(that.encoded) : Arrays.equals(getData(), that.getData());
   }
 
   @Override
   public int hashCode() {
-    return Arrays.hashCode(getBytes());
+    return Arrays.hashCode(getData());
   }
 
   @Override
   public String toString() {
-    return hex == null ? hex = bytesToHex(bytes) : hex;
+    return getEncoded();
   }
 }
