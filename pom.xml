@@ -56,6 +56,9 @@
       <id>redhat</id>
       <name>Redhat GA Repository</name>
       <url>https://maven.repository.redhat.com/ga/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
   </repositories>
 </project>

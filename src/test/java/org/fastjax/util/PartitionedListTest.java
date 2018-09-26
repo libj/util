@@ -23,13 +23,17 @@ import java.util.ListIterator;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class PartitionedListTest {
+  private static final Logger logger = LoggerFactory.getLogger(PartitionedListTest.class);
+
   private static void assertElementCount(final String description, final List expected, final int expectedLength, final PartitionedList.PartitionList elements) {
     if (description != null) {
-      System.err.println(description + " " + Strings.repeat("=", 34 - description.length()));
-      elements.getSuperList().print();
+      logger.info(description + " " + Strings.repeat("=", 34 - description.length()));
+      elements.getSuperList().print(logger);
     }
 
     Assert.assertEquals(expectedLength, elements.size());

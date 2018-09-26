@@ -32,8 +32,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.fastjax.util.Arrays;
-import org.fastjax.util.Classes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +61,8 @@ public class ClassesTest {
   @Test
   public void testGetCallingClasses() {
     final Class<?>[] classes = Classes.getCallingClasses();
-    logger.info(Arrays.toString(classes, ", "));
+    for (final Class<?> cls : classes)
+      logger.info(cls.getName());
   }
 
   protected static class Inn$r {
