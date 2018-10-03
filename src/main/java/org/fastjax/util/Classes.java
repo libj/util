@@ -229,6 +229,24 @@ public final class Classes {
     }
   };
 
+  private static final Repeat.Recurser<Field,Class<?>> declaredFieldWithAnnotationRecurser = new Repeat.Recurser<Field,Class<?>>() {
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public boolean accept(final Field member, final Object ... args) {
+      return args[0] == null || member.getAnnotation((Class)args[0]) != null;
+    }
+
+    @Override
+    public Field[] members(final Class<?> container) {
+      return container.getDeclaredFields();
+    }
+
+    @Override
+    public Class<?> next(final Class<?> container) {
+      return container.getSuperclass();
+    }
+  };
+
   private static final Repeat.Recurser<Method,Class<?>> declaredMethodWithAnnotationRecurser = new Repeat.Recurser<Method,Class<?>>() {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -322,7 +340,7 @@ public final class Classes {
   }
 
   public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> clazz, final Class<T> annotationType) {
-    return Repeat.Recursive.<Field,Class<?>>inverted(clazz, clazz.getDeclaredFields(), Field.class, declaredFieldRecurser, annotationType);
+    return Repeat.Recursive.<Field,Class<?>>inverted(clazz, clazz.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, annotationType);
   }
 
   /**
