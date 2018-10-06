@@ -16,8 +16,8 @@
 
 package org.fastjax.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
 
@@ -171,7 +171,7 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final short data, final ByteArrayOutputStream out, final boolean isBigEndian) {
+  public static void toBytes(final short data, final OutputStream out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 8) & 0xff));
       out.write((byte)(data & 0xff));
@@ -183,6 +183,57 @@ public final class Bytes {
   }
 
   public static void toBytes(final short data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+    if (isBigEndian) {
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+    }
+  }
+
+  /**
+   * Create a byte array representation of a char value with big- or little-
+   * endian encoding.
+   *
+   * A Java char is 2 bytes in size. If the byte array is shorter than 2 bytes
+   * minus the offset, the missing bytes are skipped. For each missing byte,
+   * the byte sequence is shifted such that the least significant bytes
+   * are skipped first.
+   *
+   * @param value The value.
+   * @param dest The destination bytes.
+   * @param offset The byte offset into the destination array.
+   * @param isBigEndian Is destination byte array in big-endian encoding.
+   */
+  public static void toBytes(final char data, final byte[] bytes, int offset, final boolean isBigEndian) {
+    if (isBigEndian) {
+      offset = bytes.length - offset;
+      bytes[--offset] = (byte)(data & 0xff);
+      if (offset == 0)
+        return;
+
+      bytes[--offset] = (byte)((data >> 8) & 0xff);
+    }
+    else {
+      bytes[offset++] = (byte)(data & 0xff);
+      bytes[offset] = (byte)((data >> 8) & 0xff);
+    }
+  }
+
+  public static void toBytes(final char data, final OutputStream out, final boolean isBigEndian) throws IOException {
+    if (isBigEndian) {
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+    }
+  }
+
+  public static void toBytes(final char data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 8) & 0xff));
       out.write((byte)(data & 0xff));
@@ -241,7 +292,7 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final int data, final ByteArrayOutputStream out, final boolean isBigEndian) {
+  public static void toBytes(final int data, final OutputStream out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 24) & 0xff));
       out.write((byte)((data >> 16) & 0xff));
@@ -351,7 +402,7 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final long data, final ByteArrayOutputStream out, final boolean isBigEndian) {
+  public static void toBytes(final long data, final OutputStream out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 56) & 0xff));
       out.write((byte)((data >> 48) & 0xff));
@@ -406,7 +457,7 @@ public final class Bytes {
       toBytes(value, bytes, offset, isBigEndian);
   }
 
-  public static void toBytes(final int byteLength, final long value, final ByteArrayOutputStream out, final boolean isBigEndian) {
+  public static void toBytes(final int byteLength, final long value, final OutputStream out, final boolean isBigEndian) throws IOException {
     if (byteLength == Short.SIZE / 8)
       toBytes((short)value, out, isBigEndian);
     else if (byteLength == Integer.SIZE / 8)
