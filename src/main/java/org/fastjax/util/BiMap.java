@@ -23,12 +23,11 @@ import java.util.Set;
 /**
  * Bidirectional map that maintains both key-&gt;value and value-&gt;key
  * mappings. This implementation utilizes the mechanisms of the
- * <code>ObservableMap</code> to guarantee operational symmetry between the
- * <code>this</code> map, and the <code>this.inverse()</code> map. Methods
- * defined in the <code>Map</code> interface that result in a mutation to
- * the <code>this</code> instance result in reflected operations to the
- * <code>this.inverse()</code> instance. This implementation is not
- * synchronized.
+ * {@code ObservableMap} to guarantee operational symmetry between the
+ * {@code this} map, and the {@code this.inverse()} map. Methods defined in the
+ * {@code Map} interface that result in a mutation to the {@code this} instance
+ * result in reflected operations to the {@code this.inverse()} instance. This
+ * implementation is not synchronized.
  *
  * @see ObservableMap
  * @see WrappedMap
@@ -68,7 +67,7 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * @return A new instance of an empty inverse <code>BiMap</code>.
+   * @return A new instance of an empty inverse {@code BiMap}.
    */
   protected abstract BiMap<V,K> newEmptyInverseMap();
 
@@ -82,7 +81,7 @@ public abstract class BiMap<K,V> extends WrappedMap<K,V> {
 
   /**
    * Return the inverse of this map, maintaining value-&gt;key mappings.
-   * Mutations to the <code>inverse()</code> map are reflected in <code>this</code> map.
+   * Mutations to the {@code inverse()} map are reflected in {@code this} map.
    *
    * @return The inverse map.
    */

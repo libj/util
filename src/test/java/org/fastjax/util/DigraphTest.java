@@ -24,17 +24,18 @@ import org.junit.Test;
 
 public class DigraphTest {
   /**
-   * Create a Digraph&lt;T&gt; of the type <code>type</code> with the specified number
-   * of vertices and edges in (v, w) sequential linear order.
+   * Create a Digraph&lt;T&gt; of the type {@code type} with the specified
+   * number of vertices and edges in (v, w) sequential linear order.
    *
    * @param edges the (v, w) pairs of edges in sequential order
-   * @throws IllegalArgumentException if the endpoints of any edge are not in prescribed range
+   * @throws IllegalArgumentException if the endpoints of any edge are not in
+   *           prescribed range
    * @throws IllegalArgumentException if edges.length is not divisible by 2
    * @throws IllegalArgumentException if the input stream is in the wrong format
    * @return The Digraph&lt;T&gt;.
    */
   @SafeVarargs
-  private static <T extends Serializable>Digraph<T> createDigraph(final T ... edges) {
+  private static <T extends Serializable> Digraph<T> createDigraph(final T ... edges) {
     final Digraph<T> digraph = new Digraph<>();
     if (edges.length % 2 != 0)
       throw new IllegalArgumentException("edges array must be (v, w) vertex pairs");
@@ -87,15 +88,21 @@ public class DigraphTest {
     final Digraph<Integer> directedAcyclicDigraph = makeDirectedAcyclicGraph();
     Assert.assertNull(testDirectedCycle(directedAcyclicDigraph));
     Assert.assertFalse(directedAcyclicDigraph.hasCycle());
-    Assert.assertArrayEquals(new Integer[] {8, 7, 2, 0, 1, 6, 9, 11, 10, 12, 3, 5, 4}, directedAcyclicDigraph.getTopologicalOrder().toArray());
+    Assert.assertArrayEquals(new Integer[] {
+      8, 7, 2, 0, 1, 6, 9, 11, 10, 12, 3, 5, 4
+    }, directedAcyclicDigraph.getTopologicalOrder().toArray());
 
     final Digraph<Integer> directedTinyDigraph = makeTinyDirectedGraph();
-    Assert.assertArrayEquals(new Integer[] {3, 2, 3}, testDirectedCycle(directedTinyDigraph).toArray());
+    Assert.assertArrayEquals(new Integer[] {
+      3, 2, 3
+    }, testDirectedCycle(directedTinyDigraph).toArray());
     Assert.assertTrue(directedTinyDigraph.hasCycle());
     Assert.assertNull(directedTinyDigraph.getTopologicalOrder());
 
     final Digraph<Integer> directedMediumDigraph = makeMediumDirectedGraph();
-    Assert.assertArrayEquals(new Integer[] {13, 6, 22, 13}, testDirectedCycle(directedMediumDigraph).toArray());
+    Assert.assertArrayEquals(new Integer[] {
+      13, 6, 22, 13
+    }, testDirectedCycle(directedMediumDigraph).toArray());
     Assert.assertTrue(directedMediumDigraph.hasCycle());
     Assert.assertNull(directedMediumDigraph.getTopologicalOrder());
   }
@@ -121,6 +128,8 @@ public class DigraphTest {
 
   @Test
   public void testTopologicalOrder() {
-    Assert.assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "g", "f", "h"}, digraph1.getTopologicalOrder().toArray());
+    Assert.assertArrayEquals(new String[] {
+      "a", "b", "c", "d", "e", "g", "f", "h"
+    }, digraph1.getTopologicalOrder().toArray());
   }
 }

@@ -23,12 +23,12 @@ import java.util.ListIterator;
 import java.util.function.Function;
 
 /**
- * An implementation of the <code>List</code> interface that transforms the elements of the
- * supplied source <code>List</code> based on <code>sourceToTarget</code> and
- * <code>targetToSource</code> lambda functions.
+ * An implementation of the {@code List} interface that transforms the elements
+ * of the supplied source {@code List} based on {@code sourceToTarget} and
+ * {@code targetToSource} lambda functions.
  *
- * @param <S> Type of source <code>List</code>.
- * @param <T> Type of target <code>List</code>.
+ * @param <S> Type of source {@code List}.
+ * @param <T> Type of target {@code List}.
  * @see List
  */
 public class TransList<S,T> extends WrappedList<T> {

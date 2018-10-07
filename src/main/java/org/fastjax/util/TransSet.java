@@ -23,13 +23,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * An implementation of the <code>Set</code> interface that transforms the
- * elements of the supplied source <code>Set</code> based on
- * <code>sourceToTarget</code> and <code>targetToSource</code> lambda
- * functions.
+ * An implementation of the {@code Set} interface that transforms the elements
+ * of the supplied source {@code Set} based on {@code sourceToTarget} and
+ * {@code targetToSource} lambda functions.
  *
- * @param <S> Type of source <code>Set</code>.
- * @param <T> Type of target <code>Set</code>.
+ * @param <S> Type of source {@code Set}.
+ * @param <T> Type of target {@code Set}.
  * @see Set
  */
 public class TransSet<S,T> extends WrappedSet<T> {

@@ -21,9 +21,9 @@ import java.util.Iterator;
 import java.util.function.Function;
 
 /**
- * An implementation of the Collection interface that transforms the elements
- * of the supplied source Collection based on <code>sourceToTarget</code> and
- * <code>targetToSource</code> lambda functions.
+ * An implementation of the Collection interface that transforms the elements of
+ * the supplied source Collection based on {@code sourceToTarget} and
+ * {@code targetToSource} lambda functions.
  *
  * @param <S> Type of source Collection.
  * @param <T> Type of target Collection.

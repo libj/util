@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Bidirectional map (<code>BiMap</code>) backed by a <code>HashMap</code>.
+ * Bidirectional map ({@code BiMap}) backed by a {@code HashMap}.
  *
  * @see BiMap
  * @see HashMap

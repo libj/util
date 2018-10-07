@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Bidirectional map (<code>BiMap</code>) backed by a <code>IdentityHashMap</code>.
+ * Bidirectional map ({@code BiMap}) backed by a {@code IdentityHashMap}.
  *
  * @see BiMap
  * @see IdentityHashMap
@@ -32,9 +32,9 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
 
   /**
    * Constructs a new, empty map with the specified expected maximum size.
-   * Putting more than the expected number of key-value mappings into
-   * the map may cause the internal data structure to grow, which may be
-   * somewhat time-consuming.
+   * Putting more than the expected number of key-value mappings into the map
+   * may cause the internal data structure to grow, which may be somewhat
+   * time-consuming.
    *
    * @param expectedMaxSize the expected maximum size of the map
    * @throws IllegalArgumentException if <tt>expectedMaxSize</tt> is negative
@@ -45,8 +45,8 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
   }
 
   /**
-   * Constructs a new bidirectional identity hash map containing the
-   * keys-value mappings in the specified map.
+   * Constructs a new bidirectional identity hash map containing the keys-value
+   * mappings in the specified map.
    *
    * @param m the map whose mappings are to be placed into this map
    * @throws NullPointerException if the specified map is null
@@ -78,7 +78,6 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
   protected BiMap<V,K> newEmptyInverseMap() {
     return new IdentityHashBiMap<>(true);
   }
-
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {

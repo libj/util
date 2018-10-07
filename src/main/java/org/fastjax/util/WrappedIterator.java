@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 
 /**
- * Wrapper class for <code>Iterator</code> interface that delegates all
- * methods to the wrapped instance.
+ * Wrapper class for {@code Iterator} interface that delegates all methods to
+ * the wrapped instance.
  *
  * @see Iterator
  */

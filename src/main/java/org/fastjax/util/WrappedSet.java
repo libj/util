@@ -26,8 +26,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * Wrapper class for <code>Set</code> interface that delegates all
- * methods to the wrapped instance.
+ * Wrapper class for {@code Set} interface that delegates all methods to the
+ * wrapped instance.
  *
  * @see Set
  */

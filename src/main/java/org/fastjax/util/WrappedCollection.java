@@ -25,8 +25,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * Wrapper class for <code>Collection</code> interface that delegates all
- * methods to the wrapped instance.
+ * Wrapper class for {@code Collection} interface that delegates all methods to
+ * the wrapped instance.
  *
  * @see Collection
  */

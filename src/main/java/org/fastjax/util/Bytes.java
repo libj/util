@@ -36,7 +36,8 @@ public final class Bytes {
     for (int i = fromIndex; i < bytes.length; ++i) {
       if (bytes[i] == pattern[0]) {
         boolean match = true;
-        for (int j = 0; j < pattern.length && (match = bytes.length > i + j && pattern[j] == bytes[i + j]); ++j);
+        for (int j = 0; j < pattern.length && (match = bytes.length > i + j && pattern[j] == bytes[i + j]); ++j)
+          ;
         if (match)
           return i;
       }
@@ -59,7 +60,7 @@ public final class Bytes {
     if (pattern.length == 0)
       return new int[0];
 
-   return indicesOf(0, fromIndex, bytes, pattern);
+    return indicesOf(0, fromIndex, bytes, pattern);
   }
 
   private static int[] indicesOf(final int depth, final int fromIndex, final byte[] bytes, final byte ... pattern) {
@@ -77,7 +78,8 @@ public final class Bytes {
   }
 
   public static void replaceAll(final byte[] bytes, final byte target, final byte replacement) {
-    for (int index = 0; (index = Bytes.indexOf(bytes, index + 1, target)) != -1; bytes[index] = replacement);
+    for (int index = 0; (index = Bytes.indexOf(bytes, index + 1, target)) != -1; bytes[index] = replacement)
+      ;
   }
 
   public static void replaceAll(final byte[] bytes, final byte[] target, final byte[] replacement) {
@@ -92,7 +94,8 @@ public final class Bytes {
       return;
     }
 
-    for (int index = -1; (index = indexOf(bytes, index + 1, target)) != -1; System.arraycopy(replacement, 0, bytes, index, replacement.length));
+    for (int index = -1; (index = indexOf(bytes, index + 1, target)) != -1; System.arraycopy(replacement, 0, bytes, index, replacement.length))
+      ;
   }
 
   public static int indexOf(final byte[] bytes, final byte[] ... pattern) {
@@ -507,8 +510,8 @@ public final class Bytes {
    * @param src The source byte array.
    * @param offset The byte offset into the source byte array.
    * @param isBigEndian Is value in big-endian encoding.
-   * @param signed If {@code true}, return signed short value. If
-   *          {@code false}, return unsigned int value.
+   * @param signed If {@code true}, return signed short value. If {@code false},
+   *          return unsigned int value.
    * @return A signed short or an unsigned int representation of a byte array.
    */
   public static int toShort(final byte[] src, int offset, final boolean isBigEndian, final boolean signed) {
@@ -564,8 +567,8 @@ public final class Bytes {
    * @param src The source byte array.
    * @param offset The byte offset into the source byte array.
    * @param isBigEndian Is value in big-endian encoding.
-   * @param signed If {@code true}, return signed int value. If
-   *          {@code false}, return unsigned long value.
+   * @param signed If {@code true}, return signed int value. If {@code false},
+   *          return unsigned long value.
    * @return A signed int or an unsigned long representation of a byte array.
    */
   public static long toInt(final byte[] src, int offset, final boolean isBigEndian, final boolean signed) {
@@ -762,12 +765,11 @@ public final class Bytes {
    * <p>
    * Examples:
    * <p>
-   * If <code>src=0b00011101</code>, writing <code>bits=3</code> at
-   * <code>offset=1</code> will result in: <code>0b01010000</code>.
+   * If {@code src=0b00011101}, writing {@code bits=3} at {@code offset=1} will
+   * result in: {@code 0b01010000}.
    * <p>
-   * If <code>src=0b00011101</code>, writing <code>bits=5</code> at
-   * <code>offset=7</code> will result in:
-   * <code>{0b00000001, 0b11010000}</code>.
+   * If {@code src=0b00011101}, writing {@code bits=5} at {@code offset=7} will
+   * result in: {@code [0b00000001, 0b11010000]}
    *
    * @param dest The destination byte array.
    * @param offset The bit offset into the destination byte array where to begin
@@ -797,19 +799,16 @@ public final class Bytes {
    * at an offset. The bits are counted from right to left (least significant to
    * most significant, as per big-endian encoding). The offset is counted left
    * to right (most significant to least significant, as per big-endian
-   * encoding). If <code>bits &gt; 8</code>, the starting bit to be read is the
-   * least significant bit in the <code>bits % 8</code> position in the source
-   * array.
+   * encoding). If {@code bits &gt; 8}, the starting bit to be read is the least
+   * significant bit in the {@code bits % 8} position in the source array.
    * <p>
    * Examples:
    * <p>
-   * If <code>src={0b01011011, 0b01101101}</code>, writing <code>bits=9</code>
-   * at <code>offset=7</code> will result in:
-   * <code>{0b00000001, 0b01101101}</code>.
+   * If {@code src=[0b01011011, 0b01101101]}, writing {@code bits=9} at
+   * {@code offset=7} will result in: {@code [0b00000001, 0b01101101]}
    * <p>
-   * If <code>src={0b01011011, 0b01101101}</code>, writing <code>bits=13</code>
-   * at <code>offset=3</code> will result in:
-   * <code>{0b00000011, (byte)0b01101101}</code>.
+   * If {@code src=[0b01011011, 0b01101101]}, writing {@code bits=13} at
+   * {@code offset=3} will result in: {@code [0b00000011, (byte)0b01101101]}
    *
    * @param dest The destination byte array.
    * @param offset The bit offset into the destination byte array where to begin
@@ -838,12 +837,11 @@ public final class Bytes {
    * <p>
    * Examples:
    * <p>
-   * If <code>src=0b11101000</code>, writing <code>bits=3</code> at
-   * <code>offset=1</code> will result in: <code>0b01110000</code>.
+   * If {@code src=0b11101000}, writing {@code bits=3} at {@code offset=1} will
+   * result in: {@code 0b01110000}.
    * <p>
-   * If <code>src=0b11101000</code>, writing <code>bits=5</code> at
-   * <code>offset=7</code> will result in:
-   * <code>{0b00000001, 0b11010000}</code>.
+   * If {@code src=0b11101000}, writing {@code bits=5} at {@code offset=7} will
+   * result in: {@code [0b00000001, 0b11010000]}
    *
    * @param dest The destination byte array.
    * @param offset The bit offset into the destination byte array where to begin
@@ -878,13 +876,11 @@ public final class Bytes {
    * <p>
    * Examples:
    * <p>
-   * If <code>src={0b01011011, 0b01101101}</code>, writing <code>bits=10</code>
-   * at <code>offset=5</code> will result in:
-   * <code>{0b000000010, 0b11011010}</code>.
+   * If {@code src=[0b01011011, 0b01101101]}, writing {@code bits=10} at
+   * {@code offset=5} will result in: {@code [0b000000010, 0b11011010]}
    * <p>
-   * If <code>src={0b01011011, 0b01101101}</code>, writing <code>bits=13</code>
-   * at <code>offset=3</code> will result in:
-   * <code>{0b00001011, (byte)0b01101101}</code>.
+   * If {@code src=[0b01011011, 0b01101101]}, writing {@code bits=13} at
+   * {@code offset=3} will result in: {@code [0b00001011, (byte)0b01101101]}
    *
    * @param dest The destination byte array.
    * @param offset The bit offset into the destination byte array where to begin
@@ -942,7 +938,9 @@ public final class Bytes {
    */
   public static byte[] readBitsFromBytes(final byte[] src, int offset, final long bits) {
     if (bits <= 8)
-      return new byte[] {readBitsFromByte(src, offset, (byte)bits)};
+      return new byte[] {
+        readBitsFromByte(src, offset, (byte)bits)
+      };
 
     final byte[] dest = new byte[(int)(1 + (bits - 1) / 8)];
     final byte remainder = (byte)(1 + (bits - 1) % 8);

@@ -20,8 +20,8 @@ import java.util.ListIterator;
 import java.util.function.Consumer;
 
 /**
- * Wrapper class for <code>ListIterator</code> interface that delegates all
- * methods to the wrapped instance.
+ * Wrapper class for {@code ListIterator} interface that delegates all methods
+ * to the wrapped instance.
  *
  * @see ListIterator
  */

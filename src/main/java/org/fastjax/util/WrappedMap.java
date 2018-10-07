@@ -25,8 +25,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Wrapper class for <code>Map</code> interface that delegates all methods
- * to the wrapped instance.
+ * Wrapper class for {@code Map} interface that delegates all methods to the
+ * wrapped instance.
  *
  * @see Map
  */

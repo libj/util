@@ -41,15 +41,15 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Called when this service synchronizes all executing threads to finish.
-   * When this method is called, no threads in this service are pending
-   * completion.
+   * Called when this service synchronizes all executing threads to finish. When
+   * this method is called, no threads in this service are pending completion.
    */
   public abstract void onSynchronize();
 
   /**
-   * Gets the current count of running threads in this service.
-   * @return current count of running threads in this service.
+   * Returns the current count of running threads in this service.
+   *
+   * @return The current count of running threads in this service.
    */
   public int getRunningThreadCount() {
     return runningThreadCount.get();
@@ -57,11 +57,12 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
 
   /**
    * Stop execution of new threads, and wait for all running threads to finish.
-   * Once all threads have finished, <code>onSynchronize()</code> is called. If
-   * this method's thread is interrupted waiting for threads to finish, it
-   * throws a <code>InterruptedException</code>
-   * @throws InterruptedException Thrown if this method's thread is interrupted
-   * waiting for its threads to finish.
+   * Once all threads have finished, {@code onSynchronize()} is called. If this
+   * method's thread is interrupted waiting for threads to finish, it throws a
+   * {@code InterruptedException}
+   *
+   * @throws InterruptedException If this method's thread is interrupted waiting
+   *           for its threads to finish.
    */
   public void synchronize() throws InterruptedException {
     if (synchronizing)
@@ -97,13 +98,13 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
 
   /**
    * Executes the given command at some time in the future. If the
-   * <code>SynchronizingExecutor</code> is synchronizing, the given command
-   * will wait until <code>onSynchronize()</code> returns.
+   * {@code SynchronizingExecutor} is synchronizing, the given command will wait
+   * until {@code onSynchronize()} returns.
    *
-   * @param command the runnable task
-   * @throws RejectedExecutionException if this task cannot be
-   * accepted for execution
-   * @throws NullPointerException if command is null
+   * @param command The runnable task.
+   * @throws RejectedExecutionException If this task cannot be accepted for
+   *           execution.
+   * @throws NullPointerException If {@code command} is null.
    */
   @Override
   public void execute(final Runnable command) {

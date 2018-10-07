@@ -26,7 +26,9 @@ import java.util.StringTokenizer;
 import javax.swing.text.BadLocationException;
 
 public final class Strings {
-  private static final char[] alphaNumeric = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+  private static final char[] alphaNumeric = new char[] {
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+  };
 
   private static String getRandomString(final int length, final boolean alphanumeric) {
     if (length < 0)
@@ -306,17 +308,17 @@ public final class Strings {
   /**
    * Returns a string consisting of a specific number of concatenated
    * repetitions of an input string. For example,
-   * <code>Strings.repeat("ha", 3)</code> returns the string
-   * <code>"hahaha"</code>.
+   * {@code Strings.repeat("ha", 3)} returns the string {@code "hahaha"}.
    *
-   * @param string Any non-null string
-   * @param count A nonnegative number of times to repeat the string
-   * @return A string containing <code>string</code> repeated
-   *     <code>count</code> times; an empty string if <code>count == 0</code>;
-   *     the <code>string</code> if <code>count == 1</code>
-   * @throws NullPointerException If <code>string == null</code>
-   * @throws IllegalArgumentException If <code>count &lt; 0 </code>
-   * @throws ArrayIndexOutOfBoundsException If <code>string.length() * count &gt; Integer.MAX_VALUE</code>
+   * @param string Any non-null string.
+   * @param count A nonnegative number of times to repeat the string.
+   * @return A string containing {@code string} repeated {@code count} times; an
+   *         empty string if {@code count == 0}; the {@code string} if
+   *         {@code count == 1}
+   * @throws NullPointerException If {@code string == null}
+   * @throws IllegalArgumentException If {@code count &lt; 0}
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code string.length() * count &gt; Integer.MAX_VALUE}
    */
   public static String repeat(final String string, final int count) {
     if (count < 0)
@@ -358,12 +360,14 @@ public final class Strings {
       return null;
 
     int i = 0;
-    for (; i < string.length() && string.charAt(i) == ch; i++);
+    for (; i < string.length() && string.charAt(i) == ch; i++)
+      ;
     if (i == string.length())
       return "";
 
     int j = string.length() - 1;
-    for (; j > i + 1 && string.charAt(j) == ch; --j);
+    for (; j > i + 1 && string.charAt(j) == ch; --j)
+      ;
     return i == 0 && j == string.length() - 1 ? string : string.substring(i, j + 1);
   }
 

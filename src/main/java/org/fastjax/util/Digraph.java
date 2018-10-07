@@ -26,26 +26,24 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *  A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
- *  permitting self-loops and parallel edges.
- *
- *  Edges can be dynamically added with <code>Digraph.addEdge()</code>.
- *  Cycle can be found with <code>Digraph.hasCycle()</code> and
- *  <code>Digraph.getCycle()</code>.
- *  If no cycle exists, a topological order can be found with
- *  <code>Digraph.getTopologicalOrder()</code>.
- *
- *  This implementation uses <code>Integer</code>-based vertex indices
- *  as references to the arbitrary-typed object vertices via
- *  <code>HashMap</code>.
- *
- *  The digraph is internally represented as a dynamically scalable
- *  <code>LinkedList</code> list of index-&gt;<code>LinkedHashSet</code> set
- *  of adjacent edges.
- *
- *  All operations take constant time (in the worst case) except
- *  iterating over the vertices adjacent from a given vertex, which takes
- *  time proportional to the number of such vertices.
+ * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
+ * permitting self-loops and parallel edges.
+ * <p>
+ * Edges can be dynamically added with {@code Digraph.addEdge()}. Cycle can be
+ * found with {@code Digraph.hasCycle()} and {@code Digraph.getCycle()}. If no
+ * cycle exists, a topological order can be found with
+ * {@code Digraph.getTopologicalOrder()}.
+ * <p>
+ * This implementation uses {@code Integer}-based vertex indices as references
+ * to the arbitrary-typed object vertices via {@code HashMap}.
+ * <p>
+ * The digraph is internally represented as a dynamically scalable
+ * {@code LinkedList} list of index-&gt;{@code LinkedHashSet} set of adjacent
+ * edges.
+ * <p>
+ * All operations take constant time (in the worst case) except iterating over
+ * the vertices adjacent from a given vertex, which takes time proportional to
+ * the number of such vertices.
  */
 public class Digraph<T> implements Cloneable, Serializable {
   private static final long serialVersionUID = -1725638737276587152L;
@@ -72,9 +70,9 @@ public class Digraph<T> implements Cloneable, Serializable {
   /**
    * Constructs an empty digraph with the specified initial capacity.
    *
-   * @param  initialCapacity the initial capacity of the digraph.
-   * @throws IllegalArgumentException if the specified initial capacity
-   *         is negative
+   * @param initialCapacity the initial capacity of the digraph.
+   * @throws IllegalArgumentException if the specified initial capacity is
+   *           negative
    */
   public Digraph(final int initialCapacity) {
     this.initialCapacity = initialCapacity;
@@ -108,9 +106,8 @@ public class Digraph<T> implements Cloneable, Serializable {
    * Add a vertex to the graph.
    *
    * @param vertex The vertex.
-   * @return <code>true</code> if this digraph has been modified, and
-   *         <code>false</code> if the specified vertex already existed in the
-   *         digraph.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified vertex already existed in the digraph.
    */
   public boolean addVertex(final T vertex) {
     if (vertex == null)
@@ -127,9 +124,8 @@ public class Digraph<T> implements Cloneable, Serializable {
    * Add a vertex to the graph.
    *
    * @param v The vertex index.
-   * @return <code>true</code> if this digraph has been modified, and
-   *         <code>false</code> if the specified vertex already existed in the
-   *         digraph.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified vertex already existed in the digraph.
    */
   private boolean addVertex(final int v) {
     if (v < adj.size())
@@ -142,7 +138,8 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Get if exists or create an index for the specified vertex (not synchronized).
+   * Get if exists or create an index for the specified vertex (not
+   * synchronized).
    *
    * @param vertex The vertex.
    * @return The index of the vertex.
@@ -161,8 +158,8 @@ public class Digraph<T> implements Cloneable, Serializable {
    *
    * @param vertex The vertex.
    * @return The index of the vertex.
-   * @throws IllegalArgumentException If <code>v</code> is not a member of this
-   *         digraph.
+   * @throws IllegalArgumentException If {@code v} is not a member of this
+   *           digraph.
    */
   private int getFailIndex(final T vertex) {
     final Integer index = objectToIndex.get(vertex);
@@ -173,16 +170,15 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Add directed edge (<code>from</code> -&gt; <code>to</code>) to this
-   * digraph. Calling this with <code>to = null</code> is the equivalent of
-   * calling <code>Digraph.addVertex(from)</code> (not synchronized).
+   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
+   * this with {@code to = null} is the equivalent of calling
+   * {@code Digraph.addVertex(from)} (not synchronized).
    *
    * @param from The tail vertex.
    * @param to The head vertex.
-   * @return <code>true</code> if this digraph has been modified, and
-   *         <code>false</code> if the specified edge already existed in the
-   *         digraph.
-   * @throws NullPointerException If <code>from</code> is null.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified edge already existed in the digraph.
+   * @throws NullPointerException If {@code from} is null.
    */
   public boolean addEdge(final T from, final T to) {
     if (from == null)
@@ -203,9 +199,8 @@ public class Digraph<T> implements Cloneable, Serializable {
    *
    * @param v The index of the tail vertex.
    * @param w The index of the head vertex.
-   * @return <code>true</code> if this digraph has been modified, and
-   *         <code>false</code> if the specified edge already existed in the
-   *         digraph.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified edge already existed in the digraph.
    */
   private boolean addEdge(final int v, final int w) {
     LinkedHashSet<Integer> edges;
@@ -247,9 +242,9 @@ public class Digraph<T> implements Cloneable, Serializable {
 
   /**
    * @param v The vertex.
-   * @return The number of directed edges incident to vertex <code>v</code>.
-   * @throws IllegalArgumentException If vertex <code>v</code> is not a member
-   *         of this digraph.
+   * @return The number of directed edges incident to vertex {@code v}.
+   * @throws IllegalArgumentException If vertex {@code v} is not a member of
+   *           this digraph.
    */
   public int getInDegree(final T v) {
     return indegree.get(getFailIndex(v));
@@ -257,9 +252,9 @@ public class Digraph<T> implements Cloneable, Serializable {
 
   /**
    * @param v The vertex.
-   * @return The number of directed edges incident from vertex <code>v</code>.
-   * @throws IllegalArgumentException If vertex <code>v</code> is not a member
-   *         of this digraph.
+   * @return The number of directed edges incident from vertex {@code v}.
+   * @throws IllegalArgumentException If vertex {@code v} is not a member of
+   *           this digraph.
    */
   public int getOutDegree(final T v) {
     return adj.get(getFailIndex(v)).size();
@@ -290,8 +285,8 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Run the depth-first-search algorithm on this digraph to detect a cycle,
-   * or construct the reversePostOrder list.
+   * Run the depth-first-search algorithm on this digraph to detect a cycle, or
+   * construct the reversePostOrder list.
    *
    * @param reversePostOrder List of vertices filled in reverse post order.
    * @return A cycle list, if one was found.
@@ -312,11 +307,11 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Run the depth-first-search algorithm on this digraph to detect a cycle,
-   * or construct the reversePostOrder list.
+   * Run the depth-first-search algorithm on this digraph to detect a cycle, or
+   * construct the reversePostOrder list.
    *
-   * @param marked <code>BitSet</code> maintaining marked state.
-   * @param onStack <code>BitSet</code> maintaining on-stack state.
+   * @param marked {@code BitSet} maintaining marked state.
+   * @param onStack {@code BitSet} maintaining on-stack state.
    * @param edgeTo Vertex index array maintaining state for cycle detection.
    * @param reversePostOrder List of vertices filled in reverse post order.
    * @param v The vertex index.
@@ -359,8 +354,8 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * @return A directed cycle if the digraph has one, and <code>null</code>
-   *         otherwise (not synchronized).
+   * @return A directed cycle if the digraph has one, and {@code null} otherwise
+   *         (not synchronized).
    */
   public List<T> getCycle() {
     dfs();
@@ -369,8 +364,8 @@ public class Digraph<T> implements Cloneable, Serializable {
 
   /**
    * @return The reverse post order of a depth first search analysis of the
-   *         digraph, or <code>null</code> if no such order exists due to a
-   *         cycle (not synchronized).
+   *         digraph, or {@code null} if no such order exists due to a cycle
+   *         (not synchronized).
    */
   public List<T> getTopologicalOrder() {
     dfs();
@@ -378,9 +373,9 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * @return A flat representation of the <code>adj</code> data structure,
-   * where each member of the flat representation is the java reference to the
-   * arbitrary-typed vertex (not synchronized).
+   * @return A flat representation of the {@code adj} data structure, where each
+   *         member of the flat representation is the java reference to the
+   *         arbitrary-typed vertex (not synchronized).
    */
   private Object[][] getFlatAdj() {
     if (flatAdj != null)
@@ -403,8 +398,8 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * @return The hash code value for this digraph. The hash code of a digraph
-   *         is computed by evaluating the hash codes of the member vertices with
+   * @return The hash code value for this digraph. The hash code of a digraph is
+   *         computed by evaluating the hash codes of the member vertices with
    *         respect to the directed edge definitions (not synchronized).
    */
   @Override
@@ -419,8 +414,8 @@ public class Digraph<T> implements Cloneable, Serializable {
 
   /**
    * @param obj The object to test for equality.
-   * @return Whether <code>this</code> digraph is equal to <code>obj</code>
-   *         (not synchronized).
+   * @return Whether {@code this} digraph is equal to {@code obj} (not
+   *         synchronized).
    */
   @Override
   public boolean equals(final Object obj) {

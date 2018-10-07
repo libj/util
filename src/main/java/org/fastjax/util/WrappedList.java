@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Wrapper class for <code>List</code> interface that delegates all
- * methods to the wrapped instance.
+ * Wrapper class for {@code List} interface that delegates all methods to the
+ * wrapped instance.
  *
  * @see List
  */
