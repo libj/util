@@ -205,13 +205,14 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Save the state of this <tt>ConcurrentHashSet</tt> instance to a stream (that
-   * is, serialize it).
+   * Save the state of this <tt>ConcurrentHashSet</tt> instance to a stream
+   * (that is, serialize it).
    *
    * @serialData The capacity of the backing <tt>ConcurrentHashMap</tt> instance
-   *             (int), followed by the size of the set (the number of elements it
-   *             contains) (int), followed by all of its elements (each an Object)
-   *             in no particular order.
+   *             (int), followed by the size of the set (the number of elements
+   *             it contains) (int), followed by all of its elements (each an
+   *             Object) in no particular order.
+   * @param s The {@code ObjectInputStream}.
    */
   private void writeObject(final ObjectOutputStream s) throws IOException {
     // Write out any hidden serialization magic
@@ -229,8 +230,10 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Reconstitute the <tt>ConcurrentHashSet</tt> instance from a stream (that is,
-   * deserialize it).
+   * Reconstitute the <tt>ConcurrentHashSet</tt> instance from a stream (that
+   * is, deserialize it).
+   *
+   * @param s The {@code ObjectInputStream}.
    */
   private void readObject(final ObjectInputStream s) throws IOException, ClassNotFoundException {
     // Read in any hidden serialization magic

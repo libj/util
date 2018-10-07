@@ -100,7 +100,7 @@ interface IntList extends IntCollection {
    * @return {@code true} if this list changed as a result of the call.
    * @throws IndexOutOfBoundsException if the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   void addAll(int index, int[] values, int offset, int length);
 
@@ -114,10 +114,9 @@ interface IntList extends IntCollection {
    * @param index Index at which to insert the first value from the specified
    *          array.
    * @param values Array containing values to be added to this list.
-   * @return {@code true} if this list changed as a result of the call.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   default void addAll(final int index, final int[] values) {
     addAll(index, values, 0, values.length);
@@ -134,8 +133,7 @@ interface IntList extends IntCollection {
    * @param values Array containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
-   * @return {@code true} if this list changed as a result of the call.
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   default void addAll(final int[] values, final int offset, final int length) {
     addAll(size(), values, offset, length);
@@ -150,8 +148,7 @@ interface IntList extends IntCollection {
    * nonempty.)
    *
    * @param values Array containing values to be added to this list.
-   * @return {@code true} If this list changed as a result of the call.
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   default void addAll(final int[] values) {
     addAll(size(), values, 0, values.length);
@@ -167,10 +164,9 @@ interface IntList extends IntCollection {
    * @param index Index at which to insert the first value from the specified
    *          collection.
    * @param c Collection containing values to be added to this list.
-   * @return {@code true} if this list changed as a result of the call.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is {@code null}.
    */
   void addAll(int index, Collection<Integer> c);
 
@@ -183,8 +179,7 @@ interface IntList extends IntCollection {
    * collection is this list, and this list is nonempty.)
    *
    * @param c Collection containing values to be added to this list.
-   * @return {@code true} if this list changed as a result of the call.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is {@code null}.
    */
   @Override
   default void addAll(final Collection<Integer> c) {
@@ -201,10 +196,9 @@ interface IntList extends IntCollection {
    * @param index Index at which to insert the first value from the specified
    *          collection.
    * @param c Collection containing values to be added to this list.
-   * @return {@code true} If this list changed as a result of the call.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is {@code null}.
    */
   void addAll(int index, IntCollection c);
 
@@ -261,7 +255,7 @@ interface IntList extends IntCollection {
    * Removes from this list all of its values that are contained in the
    * specified {@code IntCollection}.
    *
-   * @param c Collection containing values to be removed from this list.
+   * @param values Values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @see #contains(int)
    */
@@ -277,7 +271,7 @@ interface IntList extends IntCollection {
    * Removes from this list all of its values that are contained in the
    * specified {@code IntCollection}.
    *
-   * @param c Collection containing values to be removed from this list.
+   * @param c IntCollection containing values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @see #contains(int)
    */
@@ -423,7 +417,7 @@ interface IntList extends IntCollection {
    *          it is big enough; otherwise, a new array of the same runtime type
    *          is allocated for this purpose.
    * @return An array containing the values of the list.
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   int[] toArray(int[] a);
 
@@ -444,7 +438,7 @@ interface IntList extends IntCollection {
    *          it is big enough; otherwise, a new array of the same runtime type
    *          is allocated for this purpose.
    * @return An array containing the values of the list.
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   Integer[] toArray(Integer[] a);
 }

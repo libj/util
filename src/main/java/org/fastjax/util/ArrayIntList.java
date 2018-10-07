@@ -29,31 +29,31 @@ import java.util.function.IntConsumer;
 
 /**
  * An unsynchronized implementation of a resizable-array of int values.
- *
- * <p>The {@code size}, {@code isEmpty}, {@code get}, and {@code set}
- * operations run in constant time. The {@code add} operation runs in
- * <i>amortized constant time</i>, that is, adding n elements requires O(n)
- * time. All of the other operations run in linear time (roughly speaking).
- *
- * <p>Each {@code ArrayIntList} instance has a <i>capacity</i>. The capacity is
- * the size of the array used to store the elements in the list. It is always
- * at least as large as the list size. As elements are added to an ArrayIntList,
+ * <p>
+ * The {@code size}, {@code isEmpty}, {@code get}, and {@code set} operations
+ * run in constant time. The {@code add} operation runs in <i>amortized constant
+ * time</i>, that is, adding n elements requires O(n) time. All of the other
+ * operations run in linear time (roughly speaking).
+ * <p>
+ * Each {@code ArrayIntList} instance has a <i>capacity</i>. The capacity is the
+ * size of the array used to store the elements in the list. It is always at
+ * least as large as the list size. As elements are added to an ArrayIntList,
  * its capacity grows automatically. The details of the growth policy are not
- * specified beyond the fact that adding an element has constant amortized
- * time cost.
- *
- * <p>An application can increase the capacity of an {@code ArrayIntList} instance
+ * specified beyond the fact that adding an element has constant amortized time
+ * cost.
+ * <p>
+ * An application can increase the capacity of an {@code ArrayIntList} instance
  * before adding a large number of elements using the {@code ensureCapacity}
  * operation. This may reduce the amount of incremental reallocation.
- *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access an {@code ArrayIntList} instance concurrently,
- * and at least one of the threads modifies the list structurally, it
- * <i>must</i> be synchronized externally. (A structural modification is
- * any operation that adds or deletes one or more elements, or explicitly
- * resizes the backing array; merely setting the value of an element is not
- * a structural modification.) This is typically accomplished by
- * synchronizing on some object that naturally encapsulates the list.
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If
+ * multiple threads access an {@code ArrayIntList} instance concurrently, and at
+ * least one of the threads modifies the list structurally, it <i>must</i> be
+ * synchronized externally. (A structural modification is any operation that
+ * adds or deletes one or more elements, or explicitly resizes the backing
+ * array; merely setting the value of an element is not a structural
+ * modification.) This is typically accomplished by synchronizing on some object
+ * that naturally encapsulates the list.
  */
 public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializable {
   private static final long serialVersionUID = 3156088399075272505L;
@@ -75,8 +75,8 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * Constructs an empty list with the specified initial capacity.
    *
    * @param initialCapacity The initial capacity of the list.
-   * @throws IllegalArgumentException If the specified initial capacity
-   *           is negative.
+   * @throws IllegalArgumentException If the specified initial capacity is
+   *           negative.
    */
   public ArrayIntList(final int initialCapacity) {
     if (initialCapacity < 0)
@@ -86,13 +86,12 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
   }
 
   /**
-   * Constructs a list containing the values of the specified
-   * array.
+   * Constructs a list containing the values of the specified array.
    *
    * @param values The array whose values are to be placed into this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   public ArrayIntList(final int[] values, final int offset, final int length) {
     valueData = new int[length];
@@ -101,23 +100,21 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
   }
 
   /**
-   * Constructs a list containing the values of the specified
-   * array.
+   * Constructs a list containing the values of the specified array.
    *
    * @param values The array whose values are to be placed into this list.
-   * @throws NullPointerException If the specified array is null.
+   * @throws NullPointerException If the specified array is {@code null}.
    */
   public ArrayIntList(final int ... values) {
     this(values, 0, values.length);
   }
 
   /**
-   * Constructs a list containing the values of the specified
-   * collection, in the order they are returned by the collection's
-   * iterator.
+   * Constructs a list containing the values of the specified collection, in the
+   * order they are returned by the collection's iterator.
    *
    * @param c The collection whose values are to be placed into this list.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is {@code null}.
    */
   public ArrayIntList(final Collection<Integer> c) {
     valueData = new int[c.size()];
@@ -126,8 +123,8 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
   }
 
   /**
-   * Shifts the values in {@code valueData} right a distance of
-   * {@code length} starting from {@code index}.
+   * Shifts the values in {@code valueData} right a distance of {@code length}
+   * starting from {@code index}.
    *
    * @param index Index from which to shift the values.
    * @param length Distance to shift the values by.
@@ -139,8 +136,8 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
   }
 
   /**
-   * Shifts the values in {@code valueData} left a distance of
-   * {@code length} starting from {@code index}.
+   * Shifts the values in {@code valueData} left a distance of {@code length}
+   * starting from {@code index}.
    *
    * @param index Index from which to shift the values.
    * @param length Distance to shift the values by.
@@ -177,78 +174,70 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
   }
 
   /**
-   * Inserts all of the values in the specified list into this
-   * list, starting at the specified position. Shifts the value
-   * currently at that position (if any) and any subsequent values to
-   * the right (increases their indices). The new values will appear
-   * in the list in the order that they are returned by the
-   * specified list's iterator.
+   * Inserts all of the values in the specified list into this list, starting at
+   * the specified position. Shifts the value currently at that position (if
+   * any) and any subsequent values to the right (increases their indices). The
+   * new values will appear in the list in the order that they are returned by
+   * the specified list's iterator.
    *
-   * @param index Index at which to insert the first value from the
-   *              specified list.
+   * @param index Index at which to insert the first value from the specified
+   *          list.
    * @param list List containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
-   * @return {@code true} If this list changed as a result of the call.
    * @throws IndexOutOfBoundsException If the index is out of range.
-   *         ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified list is null.
+   *           ({@code index < 0 || size() < index}).
+   * @throws NullPointerException If the specified list is {@code null}.
    */
   public void addAll(final int index, final ArrayIntList list, final int offset, final int length) {
     addAll(index, list.valueData, offset, length);
   }
 
   /**
-   * Inserts all of the values in the specified list into this
-   * list, starting at the specified position. Shifts the value
-   * currently at that position (if any) and any subsequent values to
-   * the right (increases their indices). The new values will appear
-   * in the list in the order that they are returned by the
-   * specified list's iterator.
+   * Inserts all of the values in the specified list into this list, starting at
+   * the specified position. Shifts the value currently at that position (if
+   * any) and any subsequent values to the right (increases their indices). The
+   * new values will appear in the list in the order that they are returned by
+   * the specified list's iterator.
    *
-   * @param index Index at which to insert the first value from the
-   *              specified list.
+   * @param index Index at which to insert the first value from the specified
+   *          list.
    * @param list List containing values to be added to this list.
-   * @return {@code true} If this list changed as a result of the call.
    * @throws IndexOutOfBoundsException If the index is out of range
-   *         ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified list is null.
+   *           ({@code index < 0 || size() < index}).
+   * @throws NullPointerException If the specified list is {@code null}.
    */
   public void addAll(final int index, final ArrayIntList list) {
     addAll(index, list.valueData, 0, list.size);
   }
 
   /**
-   * Appends all of the values in the specified list to the end of
-   * this list, in the order that they are returned by the
-   * specified list's Iterator. The behavior of this operation is
-   * undefined if the specified list is modified while the operation
-   * is in progress. (This implies that the behavior of this call is
-   * undefined if the specified list is this list, and this
-   * list is nonempty.)
+   * Appends all of the values in the specified list to the end of this list, in
+   * the order that they are returned by the specified list's Iterator. The
+   * behavior of this operation is undefined if the specified list is modified
+   * while the operation is in progress. (This implies that the behavior of this
+   * call is undefined if the specified list is this list, and this list is
+   * nonempty.)
    *
    * @param list List containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
-   * @return {@code true} If this list changed as a result of the call.
-   * @throws NullPointerException If the specified list is null.
+   * @throws NullPointerException If the specified list is {@code null}.
    */
   public void addAll(final ArrayIntList list, final int offset, final int length) {
     addAll(size(), list.valueData, offset, length);
   }
 
   /**
-   * Appends all of the values in the specified list to the end of
-   * this list, in the order that they are returned by the
-   * specified list's Iterator. The behavior of this operation is
-   * undefined if the specified list is modified while the operation
-   * is in progress. (This implies that the behavior of this call is
-   * undefined if the specified list is this list, and this
-   * list is nonempty.)
+   * Appends all of the values in the specified list to the end of this list, in
+   * the order that they are returned by the specified list's Iterator. The
+   * behavior of this operation is undefined if the specified list is modified
+   * while the operation is in progress. (This implies that the behavior of this
+   * call is undefined if the specified list is this list, and this list is
+   * nonempty.)
    *
    * @param list List containing values to be added to this list.
-   * @return {@code true} If this list changed as a result of the call.
-   * @throws NullPointerException If the specified list is null.
+   * @throws NullPointerException If the specified list is {@code null}.
    */
   public void addAll(final ArrayIntList list) {
     addAll(size(), list.valueData, 0, list.size);
@@ -529,9 +518,9 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
   }
 
   /**
-   * Trims the capacity of this {@code ArrayIntList} instance to be the
-   * list's current size.  An application can use this operation to minimize
-   * the storage of an {@code ArrayIntList} instance.
+   * Trims the capacity of this {@code ArrayIntList} instance to be the list's
+   * current size. An application can use this operation to minimize the storage
+   * of an {@code ArrayIntList} instance.
    */
   public void trimToSize() {
     ++modCount;
@@ -540,9 +529,9 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
   }
 
   /**
-   * Increases the capacity of this {@code ArrayIntList} instance, if
-   * necessary, to ensure that it can hold at least the number of values
-   * specified by the minimum capacity argument.
+   * Increases the capacity of this {@code ArrayIntList} instance, if necessary,
+   * to ensure that it can hold at least the number of values specified by the
+   * minimum capacity argument.
    *
    * @param minCapacity The desired minimum capacity.
    */
@@ -594,8 +583,8 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * {@code true} if and only if the specified object is also a
    * {@code ArrayIntList}, both lists have the same size, and all corresponding
    * pairs of values in the two lists are <i>equal</i>. In other words, two
-   * lists are defined to be equal if they contain the same values in the
-   * same order.
+   * lists are defined to be equal if they contain the same values in the same
+   * order.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -611,8 +600,8 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
 
   /**
    * Returns a string representation of this list. The string representation
-   * consists of a list of the list's values in the order they are stored in
-   * the underlying array, enclosed in square brackets ({@code "[]"}). Adjacent
+   * consists of a list of the list's values in the order they are stored in the
+   * underlying array, enclosed in square brackets ({@code "[]"}). Adjacent
    * values are separated by the characters {@code ", "} (comma and space).
    * Values are converted to strings as by {@link String#valueOf(Object)}.
    *
@@ -620,6 +609,6 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    */
   @Override
   public String toString() {
-    return "[" + org.fastjax.util.Arrays.toString(valueData, ", ", 0, size) + "]";
+    return "[" + org.fastjax.util.FastArrays.toString(valueData, ", ", 0, size) + "]";
   }
 }

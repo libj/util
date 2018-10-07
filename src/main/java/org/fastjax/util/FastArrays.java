@@ -23,7 +23,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
-public final class Arrays {
+public final class FastArrays {
   public static int lengthDeep(final Object[] array) {
     return lengthDeep(array, false);
   }
@@ -90,12 +90,12 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> Type parameter of {@link Comparable} object.
    * @param a The sorted array.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T extends Comparable<T>>int binaryClosestSearch(final T[] a, final T key) {
@@ -103,14 +103,14 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> Type parameter of {@link Comparable} object.
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T extends Comparable<T>>int binaryClosestSearch(final T[] a, final int from, final int to, final T key) {
@@ -119,12 +119,13 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> Type parameter of object.
    * @param a The sorted array.
    * @param key The value to match.
-   *
+   * @param comparator The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<T> comparator) {
@@ -132,14 +133,15 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> Type parameter of object.
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
+   * @param comparator The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int from, final int to, final T key, final Comparator<T> comparator) {
@@ -148,8 +150,8 @@ public final class Arrays {
   }
 
   /**
-   * Checks that {@code fromIndex} and {@code toIndex} are in
-   * the range and throws an exception if they aren't.
+   * Checks that {@code fromIndex} and {@code toIndex} are in the range and
+   * throws an exception if they aren't.
    */
   private static void rangeCheck(final int arrayLength, final int fromIndex, final int toIndex) {
     if (fromIndex > toIndex)
@@ -193,12 +195,11 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
@@ -206,14 +207,13 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final byte[] a, final int from, final int to, final byte key) {
@@ -236,12 +236,11 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
@@ -249,14 +248,13 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final short[] a, final int from, final int to, final short key) {
@@ -279,12 +277,11 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
@@ -292,14 +289,13 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final int[] a, final int from, final int to, final int key) {
@@ -322,14 +318,11 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
@@ -337,14 +330,13 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final float[] a, final int from, final int to, final float key) {
@@ -367,14 +359,11 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
@@ -382,14 +371,13 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final double[] a, final int from, final int to, final double key) {
@@ -412,14 +400,11 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
@@ -427,14 +412,13 @@ public final class Arrays {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static int binaryClosestSearch(final long[] a, final int from, final int to, final long key) {
@@ -457,11 +441,15 @@ public final class Arrays {
   }
 
   /**
-   * Replace all members of the supplied array with the supplied <code>UnaryOperator</code>.
+   * Replace all members of the provided array with the provided
+   * {@link UnaryOperator}.
    *
-   * @param operator The <code>UnaryOperator</code> that defines the replacement operation.
+   * @param <T> Type parameter of object.
+   * @param operator The {@link UnaryOperator} that defines the replacement
+   *          operation.
    * @param array The array whose members are to be replaced.
-   * @return The the original array instance with its members replaced by the operator.
+   * @return The the original array instance with its members replaced by the
+   *         operator.
    */
   @SafeVarargs
   public static <T>T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
@@ -472,11 +460,12 @@ public final class Arrays {
   }
 
   /**
-   * Filter the supplied array with the supplied <code>Predicate</code>. This method
-   * recursive walks the members of the array to attain highest runtime and memory
-   * performance.
+   * Filter the provided array with the provided {@link Predicate}. This
+   * method recursive walks the members of the array to attain highest runtime
+   * and memory performance.
    *
-   * @param precicate The <code>Predicate</code> that defines the filter.
+   * @param <T> Type parameter of object.
+   * @param precicate The {@link Predicate} that defines the filter.
    * @param array The array whose members are to be filtered.
    * @return A new array instance with members that pass the filter.
    */
@@ -513,8 +502,9 @@ public final class Arrays {
   }
 
   /**
-   * Concatenate the supplied arrays of a common type into a single array.
+   * Concatenate the provided arrays of a common type into a single array.
    *
+   * @param <T> Type parameter of object.
    * @param arrays The arrays to be concatenated.
    * @return The concatenated array.
    */
@@ -524,8 +514,9 @@ public final class Arrays {
   }
 
   /**
-   * Concatenate the supplied arrays of a common type into a single array.
+   * Concatenate the provided arrays of a common type into a single array.
    *
+   * @param <T> Type parameter of object.
    * @param array The base array to be concatenated.
    * @param elements The additional elements to be concatenated.
    * @return The concatenated array.
@@ -536,10 +527,11 @@ public final class Arrays {
   }
 
   /**
-   * Concatenate the supplied arrays of a common type into a single array.
+   * Concatenate the provided arrays of a common type into a single array.
    *
+   * @param <T> Type parameter of object.
    * @param array The base array to be concatenated.
-   * @param elements The additional elements to be concatenated.
+   * @param element The additional element to be concatenated.
    * @return The concatenated array.
    */
   @SuppressWarnings("unchecked")
@@ -551,13 +543,14 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by removing existing elements from the supplied array.
+   * Create a new array by removing existing elements from the provided array.
    *
+   * @param <T> Type parameter of object.
    * @param array The array to be spliced.
    * @param start Index at the greater of which to remove all elements in the
-   * array (with origin 0). If negative, index will be set to its calculated
-   * value from the end of the array (with origin 1).
-   * @return A new array with elements removed from the supplied array.
+   *          array (with origin 0). If negative, index will be set to its
+   *          calculated value from the end of the array (with origin 1).
+   * @return A new array with elements removed from the provided array.
    */
   public static <T>T[] splice(final T[] array, int start) {
     if (start < 0)
@@ -567,16 +560,17 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by removing existing elements from the supplied array.
+   * Create a new array by removing existing elements from the provided array.
    *
+   * @param <T> Type parameter of object.
    * @param array The array to be spliced.
-   * @param start Index at which to begin changing the array (with origin 0).
-   * If negative, index will be set to its calculated value from the end of the
-   * array (with origin 1).
+   * @param start Index at which to begin changing the array (with origin 0). If
+   *          negative, index will be set to its calculated value from the end
+   *          of the array (with origin 1).
    * @param deleteCount An integer indicating the number of array elements to
-   * remove. If deleteCount is 0, no elements are removed, but a new reference
-   * to the array is returned.
-   * @return A new array with elements removed from the supplied array.
+   *          remove. If deleteCount is 0, no elements are removed, but a new
+   *          reference to the array is returned.
+   * @return A new array with elements removed from the provided array.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount) {
@@ -597,18 +591,19 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by removing existing elements from the supplied array.
+   * Create a new array by removing existing elements from the provided array.
    *
+   * @param <T> Type parameter of object.
    * @param array The array to be spliced.
-   * @param start Index at which to begin changing the array (with origin 0).
-   * If negative, index will be set to its calculated value from the end of the
-   * array (with origin 1).
+   * @param start Index at which to begin changing the array (with origin 0). If
+   *          negative, index will be set to its calculated value from the end
+   *          of the array (with origin 1).
    * @param deleteCount An integer indicating the number of array elements to
-   * remove. If deleteCount is 0, no elements are removed, but a new reference
-   * to the array is returned.
+   *          remove. If deleteCount is 0, no elements are removed, but a new
+   *          reference to the array is returned.
    * @param items The elements to add to the array, beginning at the start
-   * index.
-   * @return A new array with elements removed from the supplied array.
+   *          index.
+   * @return A new array with elements removed from the provided array.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount, final T ... items) {
@@ -633,6 +628,7 @@ public final class Arrays {
   /**
    * Find the index of an object in an array.
    *
+   * @param <T> Type parameter of object.
    * @param array The array to search.
    * @param obj The object to locate.
    * @return The index of the object if it is found, or -1 otherwise.
@@ -648,55 +644,56 @@ public final class Arrays {
   /**
    * Check for the existence of an object in an array.
    *
+   * @param <T> Type parameter of object.
    * @param array The array to search.
    * @param obj The object to locate.
-   * @return <code>true</code> if the object exists, <code>false</code> otherwise.
+   * @return {@code true} if the object exists, {@code false}
+   *         otherwise.
    */
   public static <T>boolean contains(final T[] array, final T obj) {
     return indexOf(array, obj) >= 0;
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final byte[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -719,46 +716,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final byte[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -781,46 +777,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final char[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final char[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final char[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -843,46 +838,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final char[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final char[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final char[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -905,46 +899,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final short[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final short[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final short[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -967,46 +960,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final short[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final short[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final short[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -1029,46 +1021,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final int[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final int[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final int[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -1091,45 +1082,44 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final int[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final int[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
+   * @return The delimiter delimited {@code toString()} representation of
    *         the array.
    */
   public static String toString(final int[] array, final String delimiter, final int offset, final int length) {
@@ -1153,46 +1143,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final long[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final long[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final long[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -1212,46 +1201,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final long[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final long[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final long[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -1271,46 +1259,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final Object[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>char</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -1330,46 +1317,45 @@ public final class Arrays {
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final Object[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a <code>String</code> representation of the array by calling each
-   * member's <code>toString()</code> method, delimited by the supplied delimiter
-   * <code>String</code>.
+   * Create a string representation of the array by calling each
+   * member's {@code toString()} method, delimited by the provided
+   * delimiter string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited <code>toString()</code> representation of
-   * the array.
+   * @return The delimiter delimited {@code toString()} representation of
+   *         the array.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -1389,12 +1375,12 @@ public final class Arrays {
   }
 
   /**
-   * Fill the supplied array with +1 incremental values starting at the
-   * supplied <code>start</code> value from array[0], to
-   * array[array.length - 1].
+   * Fill the provided array with +1 incremental values starting at the provided
+   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
+   * @return The provided array.
    */
   public static byte[] fillIncremental(final byte[] array, byte start) {
     for (int i = 0; i < array.length; ++i)
@@ -1404,12 +1390,12 @@ public final class Arrays {
   }
 
   /**
-   * Fill the supplied array with +1 incremental values starting at the
-   * supplied <code>start</code> value from array[0], to
-   * array[array.length - 1].
+   * Fill the provided array with +1 incremental values starting at the provided
+   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
+   * @return The provided array.
    */
   public static char[] fillIncremental(final char[] array, char start) {
     for (int i = 0; i < array.length; ++i)
@@ -1419,12 +1405,12 @@ public final class Arrays {
   }
 
   /**
-   * Fill the supplied array with +1 incremental values starting at the
-   * supplied <code>start</code> value from array[0], to
-   * array[array.length - 1].
+   * Fill the provided array with +1 incremental values starting at the provided
+   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
+   * @return The provided array.
    */
   public static short[] fillIncremental(final short[] array, short start) {
     for (int i = 0; i < array.length; ++i)
@@ -1434,12 +1420,12 @@ public final class Arrays {
   }
 
   /**
-   * Fill the supplied array with +1 incremental values starting at the
-   * supplied <code>start</code> value from array[0], to
-   * array[array.length - 1].
+   * Fill the provided array with +1 incremental values starting at the provided
+   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
+   * @return The provided array.
    */
   public static int[] fillIncremental(final int[] array, int start) {
     for (int i = 0; i < array.length; ++i)
@@ -1449,12 +1435,12 @@ public final class Arrays {
   }
 
   /**
-   * Fill the supplied array with +1 incremental values starting at the
-   * supplied <code>start</code> value from array[0], to
-   * array[array.length - 1].
+   * Fill the provided array with +1 incremental values starting at the provided
+   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
+   * @return The provided array.
    */
   public static long[] fillIncremental(final long[] array, long start) {
     for (int i = 0; i < array.length; ++i)
@@ -1464,12 +1450,12 @@ public final class Arrays {
   }
 
   /**
-   * Fill the supplied array with +1 incremental values starting at the
-   * supplied <code>start</code> value from array[0], to
-   * array[array.length - 1].
+   * Fill the provided array with +1 incremental values starting at the provided
+   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
+   * @return The provided array.
    */
   public static float[] fillIncremental(final float[] array, float start) {
     for (int i = 0; i < array.length; ++i)
@@ -1479,12 +1465,12 @@ public final class Arrays {
   }
 
   /**
-   * Fill the supplied array with +1 incremental values starting at the
-   * supplied <code>start</code> value from array[0], to
-   * array[array.length - 1].
+   * Fill the provided array with +1 incremental values starting at the provided
+   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
+   * @return The provided array.
    */
   public static double[] fillIncremental(final double[] array, double start) {
     for (int i = 0; i < array.length; ++i)
@@ -1494,13 +1480,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static boolean[] createRepeat(final boolean value, final int length) {
     final boolean[] array = new boolean[length];
@@ -1509,13 +1495,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static byte[] createRepeat(final byte value, final int length) {
     final byte[] array = new byte[length];
@@ -1524,13 +1510,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static char[] createRepeat(final char value, final int length) {
     final char[] array = new char[length];
@@ -1539,13 +1525,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static double[] createRepeat(final double value, final int length) {
     final double[] array = new double[length];
@@ -1554,13 +1540,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static float[] createRepeat(final float value, final int length) {
     final float[] array = new float[length];
@@ -1569,13 +1555,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static int[] createRepeat(final int value, final int length) {
     final int[] array = new int[length];
@@ -1584,13 +1570,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static long[] createRepeat(final long value, final int length) {
     final long[] array = new long[length];
@@ -1599,13 +1585,13 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   public static short[] createRepeat(final short value, final int length) {
     final short[] array = new short[length];
@@ -1614,13 +1600,14 @@ public final class Arrays {
   }
 
   /**
-   * Create a new array by repeating the supplied <code>value</code> by the
-   * supplied <code>length</code> number of times.
+   * Create a new array by repeating the provided {@code value} by the
+   * provided {@code length} number of times.
    *
+   * @param <T> Type parameter of object.
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with <code>length</code> number of repeated
-   * <code>value</code> members.
+   * @return A new array with {@code length} number of repeated
+   *         {@code value} members.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] createRepeat(final T value, final int length) {
@@ -1630,25 +1617,27 @@ public final class Arrays {
   }
 
   /**
-   * Returns an array that is the subArray of the supplied array. Calling this
-   * method is the equivalent of calling
-   * Arrays.subArray(array, beginIndex, array.length).
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of calling Arrays.subArray(array, beginIndex,
+   * array.length).
    *
-   * @param array The specified <code>array</code>.
+   * @param <T> Type parameter of object.
+   * @param array The specified {@code array}.
    * @param beginIndex The index to become the start of the new array.
-   * @return The subArray of the specified <code>array</code>.
+   * @return The subArray of the specified {@code array}.
    */
   public static <T>T[] subArray(final T[] array, final int beginIndex) {
     return subArray(array, beginIndex, array.length);
   }
 
   /**
-   * Returns an array that is the subArray of the supplied array.
+   * Returns an array that is the subArray of the provided array.
    *
-   * @param array The specified <code>array</code>.
+   * @param <T> Type parameter of object.
+   * @param array The specified {@code array}.
    * @param beginIndex The index to become the start of the new array.
    * @param endIndex The index to become the end of the new array.
-   * @return The subArray of the specified <code>array</code>.
+   * @return The subArray of the specified {@code array}.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] subArray(final T[] array, final int beginIndex, final int endIndex) {
@@ -1748,24 +1737,18 @@ public final class Arrays {
   private static Random DEFAULT_RANDOM;
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1776,24 +1759,18 @@ public final class Arrays {
   }
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1804,24 +1781,18 @@ public final class Arrays {
   }
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1832,24 +1803,18 @@ public final class Arrays {
   }
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1860,24 +1825,18 @@ public final class Arrays {
   }
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1888,24 +1847,18 @@ public final class Arrays {
   }
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1916,24 +1869,18 @@ public final class Arrays {
   }
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1944,24 +1891,18 @@ public final class Arrays {
   }
 
   /**
-   * Randomly permutes the specified array using a default source of
-   * randomness. All permutations occur with approximately equal
-   * likelihood.
-   *
+   * Randomly permutes the specified array using a default source of randomness.
+   * All permutations occur with approximately equal likelihood.
    * <p>
    * The hedge "approximately" is used in the foregoing description because
-   * default source of randomness is only approximately an unbiased source
-   * of independently chosen bits. If it were a perfect source of randomly
-   * chosen bits, then the algorithm would choose permutations with perfect
-   * uniformity.
-   *
+   * default source of randomness is only approximately an unbiased source of
+   * independently chosen bits. If it were a perfect source of randomly chosen
+   * bits, then the algorithm would choose permutations with perfect uniformity.
    * <p>
-   * This implementation traverses the array backwards, from the last
-   * element up to the second, repeatedly swapping a randomly selected element
-   * into the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
-   *
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
    * This method runs in linear time.
    *
@@ -1973,17 +1914,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -1996,17 +1934,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2019,17 +1954,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2042,17 +1974,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2065,17 +1994,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2088,17 +2014,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2111,17 +2034,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2134,17 +2054,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2157,17 +2074,14 @@ public final class Arrays {
 
   /**
    * Randomly permute the specified array using the specified source of
-   * randomness. All permutations occur with equal likelihood
-   * assuming that the source of randomness is fair.
+   * randomness. All permutations occur with equal likelihood assuming that the
+   * source of randomness is fair.
    * <p>
-   *
-   * This implementation traverses the array backwards, from the last element
-   * up to the second, repeatedly swapping a randomly selected element into
-   * the "current position". Elements are randomly selected from the
-   * portion of the array that runs from the first element to the current
-   * position, inclusive.
+   * This implementation traverses the array backwards, from the last element up
+   * to the second, repeatedly swapping a randomly selected element into the
+   * "current position". Elements are randomly selected from the portion of the
+   * array that runs from the first element to the current position, inclusive.
    * <p>
-   *
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
@@ -2178,6 +2092,6 @@ public final class Arrays {
       swap(array, i - 1, random.nextInt(i));
   }
 
-  private Arrays() {
+  private FastArrays() {
   }
 }

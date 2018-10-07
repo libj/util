@@ -26,7 +26,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class CollectionsTest {
+public class FastCollectionsTest {
   private static List<Object> createRandomNestedList() {
     final List<Object> list = new ArrayList<>(4);
     for (int i = 0; i < 4; i++)
@@ -48,7 +48,7 @@ public class CollectionsTest {
   public void testFlattenList0() {
     final List<Object> list = createTestList();
     final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
-    Collections.flatten(list);
+    FastCollections.flatten(list);
     assertEquals(expected, list.toString());
   }
 
@@ -57,7 +57,7 @@ public class CollectionsTest {
     for (int i = 0; i < 100; i++) {
       final List<Object> list = createRandomNestedList();
       final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
-      Collections.flatten(list);
+      FastCollections.flatten(list);
       assertEquals(expected, list.toString());
     }
   }
@@ -66,7 +66,7 @@ public class CollectionsTest {
   public void testFlattenListRetainingReferences() {
     final List<Object> list = createTestList();
     final List<Object> expected = createExpectedList(list);
-    Collections.flatten(list, true);
+    FastCollections.flatten(list, true);
     assertEquals(expected, list);
   }
 
@@ -74,7 +74,7 @@ public class CollectionsTest {
   public void testFlattenCollection0() {
     final List<Object> list = createTestList();
     final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
-    final List<Object> result = Collections.flatten(list, new ArrayList<>());
+    final List<Object> result = FastCollections.flatten(list, new ArrayList<>());
     assertEquals(expected, result.toString());
   }
 
@@ -82,7 +82,7 @@ public class CollectionsTest {
   public void testFlattenCollectionN() {
     for (int i = 0; i < 100; i++) {
       final List<Object> list = createRandomNestedList();
-      final List<Object> result = Collections.flatten(list, new ArrayList<>());
+      final List<Object> result = FastCollections.flatten(list, new ArrayList<>());
       assertEquals("[" + list.toString().replace("[", "").replace("]", "") + "]", result.toString());
     }
   }
@@ -91,22 +91,22 @@ public class CollectionsTest {
   public void testFlattenCollectionRetainingReferences() {
     final List<Object> list = createTestList();
     final List<Object> expected = createExpectedList(list);
-    final List<Object> result = Collections.flatten(list, new ArrayList<>(), true);
+    final List<Object> result = FastCollections.flatten(list, new ArrayList<>(), true);
     assertEquals(expected, result);
   }
 
   @Test
   public void testGetComponentType() {
-    Assert.assertEquals(null, Collections.getComponentType(Arrays.asList(null, null, null)));
-    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
-    Assert.assertEquals(Number.class, Collections.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
+    Assert.assertEquals(null, FastCollections.getComponentType(Arrays.asList(null, null, null)));
+    Assert.assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
+    Assert.assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
   }
 
   @Test
   public void testPartitions() {
     final List<String> list = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
     for (int p = 1; p < list.size(); p++) {
-      final List<String>[] partitions = Collections.partition(list, p);
+      final List<String>[] partitions = FastCollections.partition(list, p);
       final int parts = list.size() / p;
       final int remainder = list.size() % p;
       Assert.assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);
@@ -119,5 +119,4 @@ public class CollectionsTest {
           Assert.assertEquals(list.get(p * parts + j), partitions[parts].get(j));
     }
   }
-
 }

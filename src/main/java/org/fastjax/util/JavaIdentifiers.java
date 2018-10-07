@@ -24,26 +24,30 @@ public final class JavaIdentifiers {
   private static final String qualifiedJavaIdentifierPattern = "((" + unqualifiedJavaIdentifierPattern + ")\\.)*" + unqualifiedJavaIdentifierPattern;
 
   /**
-   * Tests whether the argument <code>className</code> is a valid identifier as
+   * Tests whether the argument {@code className} is a valid identifier as
    * defined in the Java Language Specification.
    *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">JLS 3.8 Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">JLS
+   *      3.8 Identifiers</a>
    * @param className The class name.
    * @param qualified Test versus rules of qualified or unqualified identifiers.
-   * @return Whether the argument <code>className</code> is a valid identifier.
+   * @return Whether the argument {@code className} is a valid identifier.
    */
   public static boolean isValid(final String className, final boolean qualified) {
     return className.matches(qualified ? qualifiedJavaIdentifierPattern : unqualifiedJavaIdentifierPattern);
   }
 
   /**
-   * Tests whether the argument <code>className</code> is a valid identifier as
-   * defined in the Java Language Specification.
-   * Calling this method is the equivalent of <code>isValid(className, true)</code>.
+   * Tests whether the argument {@code className} is a valid identifier as
+   * defined in the Java Language Specification. Calling this method is the
+   * equivalent of {@code isValid(className, true)}.
    *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">JLS 3.8 Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">JLS
+   *      3.8 Identifiers</a>
    * @param className The class name.
-   * @return Whether the argument <code>className</code> is a valid identifier.
+   * @return Whether the argument {@code className} is a valid identifier.
    */
   public static boolean isValid(final String className) {
     return isValid(className, true);
@@ -64,21 +68,22 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>prefix</code>. Strings that
-   * are Java Reserved Words are prepended with <code>prefix</code>. All other
-   * illegal characters are substituted with the string value mapped to the key
-   * of the character in <code>substitutes</code>. If the mapping is missing,
-   * the character is substituted with the <code>substitute</code> char.
+   * an illegal character are prepended with {@code prefix}. Strings that are
+   * Java Reserved Words are prepended with {@code prefix}. All other illegal
+   * characters are substituted with the string value mapped to the key of the
+   * character in {@code substitutes}. If the mapping is missing, the character
+   * is substituted with the {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   *                    This mapping overrides the default substitution.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions. This mapping overrides the default substitution.
    * @return The string transformed to a valid Java Identifier.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, substitute, substitutes));
@@ -86,19 +91,19 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>_</code>. Strings that
-   * are Java Reserved Words are prepended with <code>_</code>. All other
-   * illegal characters are substituted with the string value mapped to the key
-   * of the character in <code>substitutes</code>. If the mapping is missing,
-   * the illegal character is omitted.
+   * an illegal character are prepended with {@code _}. Strings that are Java
+   * Reserved Words are prepended with {@code _}. All other illegal characters
+   * are substituted with the string value mapped to the key of the character in
+   * {@code substitutes}. If the mapping is missing, the illegal character is
+   * omitted.
    *
    * @param string The input string.
-   * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions.
    * @return The string transformed to a valid Java Identifier.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final Map<Character,String> substitutes) {
     if (string == null || string.length() == 0)
@@ -110,19 +115,21 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>prefix</code>. Strings that
-   * are Java Reserved Words are prepended with <code>prefix</code>. All other
-   * illegal characters are substituted with the string value mapped to the key
-   * of the character in <code>substitutes</code>. If the mapping is missing,
-   * the illegal character is omitted.
+   * an illegal character are prepended with {@code prefix}. Strings that are
+   * Java Reserved Words are prepended with {@code prefix}. All other illegal
+   * characters are substituted with the string value mapped to the key of the
+   * character in {@code substitutes}. If the mapping is missing, the illegal
+   * character is omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
+   *          first character is not valid.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions.
    * @return The string transformed to a valid Java Identifier.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, '\0', substitutes));
@@ -130,17 +137,18 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>prefix</code>. Strings that
-   * are Java Reserved Words are prepended with <code>prefix</code>. All other
-   * illegal characters are substituted with the <code>substitute</code> char.
+   * an illegal character are prepended with {@code prefix}. Strings that are
+   * Java Reserved Words are prepended with {@code prefix}. All other illegal
+   * characters are substituted with the {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
    * @return The string transformed to a valid Java Identifier.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix, final char substitute) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, substitute, null));
@@ -148,16 +156,17 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>prefix</code>. Strings that
-   * are Java Reserved Words are prepended with <code>prefix</code>. All other
-   * illegal characters are omitted.
+   * an illegal character are prepended with {@code prefix}. Strings that are
+   * Java Reserved Words are prepended with {@code prefix}. All other illegal
+   * characters are omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @return The string transformed to a valid Java Identifier.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, '\0', null));
@@ -165,14 +174,15 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier. Strings that start with
-   * an illegal character are prepended with <code>_</code>. Strings that
-   * are Java Reserved Words are prepended with <code>_</code>. All other
-   * illegal characters are omitted.
+   * an illegal character are prepended with {@code _}. Strings that are Java
+   * Reserved Words are prepended with {@code _}. All other illegal characters
+   * are omitted.
    *
    * @param string The input string.
    * @return The string transformed to a valid Java Identifier.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toIdentifier(final String string) {
     if (string == null || string.length() == 0)
@@ -218,28 +228,28 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier that meets suggested
-   * package name guidelines. Strings that are Java Reserved Words are
-   * prepended with <code>prefix</code>. Strings that start with an illegal
-   * character are prepended with <code>_</code>. All other illegal characters
-   * are substituted <code>_</code>.
-   *
-   * If the domain name contains a hyphen, or any other special character not
-   * allowed in an identifier, convert it into an underscore.
-   *
-   * If any of the resulting package name components are keywords, append an
-   * underscore to them.
-   *
-   * If any of the resulting package name components start with a digit, or any
-   * other character that is not allowed as an initial character of an
-   * identifier, have an underscore prefixed to the component.
+   * package name guidelines. Strings that are Java Reserved Words are prepended
+   * with {@code prefix}. Strings that start with an illegal character are
+   * prepended with {@code _}. All other illegal characters are substituted
+   * {@code _}. If the domain name contains a hyphen, or any other special
+   * character not allowed in an identifier, convert it into an underscore. If
+   * any of the resulting package name components are keywords, append an
+   * underscore to them. If any of the resulting package name components start
+   * with a digit, or any other character that is not allowed as an initial
+   * character of an identifier, have an underscore prefixed to the component.
    *
    * @param string The input string.
    * @return The string transformed to a valid Java Identifier that meets
    *         suggested package name guidelines.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
-   * @see <a href="https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html">Package Names</a>
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-6.html#d5e8089">Unique Pacakge Names</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html">Package
+   *      Names</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-6.html#d5e8089">Unique
+   *      Pacakge Names</a>
    */
   public static String toPackageCase(final String string) {
     if (string == null || string.length() == 0)
@@ -254,94 +264,98 @@ public final class JavaIdentifiers {
   }
 
   /**
-   * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>prefix</code>.
-   * Strings that are Java Reserved Words are prepended with <code>prefix</code>.
-   * All other illegal characters are substituted with the string value mapped
-   * to the key of the character in <code>substitutes</code>. If the mapping is
-   * missing, the character is substituted with the <code>substitute</code> char.
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code prefix}. Strings
+   * that are Java Reserved Words are prepended with {@code prefix}. All other
+   * illegal characters are substituted with the string value mapped to the key
+   * of the character in {@code substitutes}. If the mapping is missing, the
+   * character is substituted with the {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   *                    This mapping overrides the default substitution.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions. This mapping overrides the default substitution.
    * @return The string transformed to a valid Java Identifier in camelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, substitute, substitutes));
   }
 
   /**
-   * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>prefix</code>.
-   * Strings that are Java Reserved Words are prepended with <code>prefix</code>.
-   * All other illegal characters are substituted with the string value mapped
-   * to the key of the character in <code>substitutes</code>. If the mapping is
-   * missing, the illegal character is omitted.
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code prefix}. Strings
+   * that are Java Reserved Words are prepended with {@code prefix}. All other
+   * illegal characters are substituted with the string value mapped to the key
+   * of the character in {@code substitutes}. If the mapping is missing, the
+   * illegal character is omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   *                    This mapping overrides the default substitution.
+   *          first character is not valid.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions. This mapping overrides the default substitution.
    * @return The string transformed to a valid Java Identifier in camelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, '\0', substitutes));
   }
 
   /**
-   * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>prefix</code>.
-   * Strings that are Java Reserved Words are prepended with <code>prefix</code>.
-   * All other illegal characters are substituted with the
-   * <code>substitute</code> char.
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code prefix}. Strings
+   * that are Java Reserved Words are prepended with {@code prefix}. All other
+   * illegal characters are substituted with the {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
    * @return The string transformed to a valid Java Identifier in camelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix, final char substitute) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, substitute, null));
   }
 
   /**
-   * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>prefix</code>.
-   * Strings that are Java Reserved Words are prepended with <code>prefix</code>.
-   * All other illegal characters are omitted.
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code prefix}. Strings
+   * that are Java Reserved Words are prepended with {@code prefix}. All other
+   * illegal characters are omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @return The string transformed to a valid Java Identifier in camelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, '\0', null));
   }
 
   /**
-   * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>x</code>.
-   * Strings that are Java Reserved Words are prepended with <code>x</code>.
-   * All other illegal characters are omitted.
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code x}. Strings that
+   * are Java Reserved Words are prepended with {@code x}. All other illegal
+   * characters are omitted.
    *
    * @param string The input string.
    * @return The string transformed to a valid Java Identifier in camelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toCamelCase(final String string) {
     if (string == null || string.length() == 0)
@@ -352,21 +366,20 @@ public final class JavaIdentifiers {
   }
 
   /**
-   * Transforms a string into a valid Java Identifier in camelCase. Strings
-   * that start with an illegal character are prepended with <code>x</code>.
-   * Strings that are Java Reserved Words are prepended with <code>x</code>.
-   * All other illegal characters are substituted with the string value mapped
-   * to the key of the character in <code>substitutes</code>. If the mapping is
-   * missing, the illegal character is omitted.
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code x}. Strings that
+   * are Java Reserved Words are prepended with {@code x}. All other illegal
+   * characters are substituted with the string value mapped to the key of the
+   * character in {@code substitutes}. If the mapping is missing, the illegal
+   * character is omitted.
    *
    * @param string The input string.
-   * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   *                    This mapping overrides the default substitution.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions. This mapping overrides the default substitution.
    * @return The string transformed to a valid Java Identifier in camelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final Map<Character,String> substitutes) {
     if (string == null || string.length() == 0)
@@ -419,21 +432,23 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. Strings that are Java Reserved Words are prepended with
-   * <code>prefix</code>. All other illegal characters are substituted with the
-   * string value mapped to the key of the character in <code>substitutes</code>.
-   * If the mapping is missing, the character is substituted with the
-   * <code>substitute</code> char.
+   * {@code prefix}. Strings that are Java Reserved Words are prepended with
+   * {@code prefix}. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in {@code substitutes}. If
+   * the mapping is missing, the character is substituted with the
+   * {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   *                    This mapping overrides the default substitution.
-   * @return The string transformed to a valid Java Identifier in lower-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions. This mapping overrides the default substitution.
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, substitute, substitutes));
@@ -442,18 +457,21 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. Strings that are Java Reserved Words are prepended with
-   * <code>prefix</code>. All other illegal characters are substituted with the
-   * string value mapped to the key of the character in <code>substitutes</code>.
-   * If the mapping is missing, the illegal character is omitted.
+   * {@code prefix}. Strings that are Java Reserved Words are prepended with
+   * {@code prefix}. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in {@code substitutes}. If
+   * the mapping is missing, the illegal character is omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   * @return The string transformed to a valid Java Identifier in lower-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   *          first character is not valid.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, '\0', substitutes));
@@ -462,17 +480,19 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. Strings that are Java Reserved Words are prepended with
-   * <code>prefix</code>. All other illegal characters are substituted with the
-   * <code>substitute</code> char.
+   * {@code prefix}. Strings that are Java Reserved Words are prepended with
+   * {@code prefix}. All other illegal characters are substituted with the
+   * {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
-   * @return The string transformed to a valid Java Identifier in lower-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix, final char substitute) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, substitute, null));
@@ -481,15 +501,17 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. Strings that are Java Reserved Words are prepended with
-   * <code>prefix</code>. All other illegal characters are omitted.
+   * {@code prefix}. Strings that are Java Reserved Words are prepended with
+   * {@code prefix}. All other illegal characters are omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @return The string transformed to a valid Java Identifier in lower-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   *          first character is not valid.
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix) {
     return string == null || string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, '\0', null));
@@ -497,14 +519,16 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
-   * Strings that start with an illegal character are prepended with
-   * <code>_</code>. Strings that are Java Reserved Words are prepended with
-   * <code>_</code>. All other illegal characters are omitted.
+   * Strings that start with an illegal character are prepended with {@code _}.
+   * Strings that are Java Reserved Words are prepended with {@code _}. All
+   * other illegal characters are omitted.
    *
    * @param string The input string.
-   * @return The string transformed to a valid Java Identifier in lower-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toInstanceCase(final String string) {
     if (string == null || string.length() == 0)
@@ -516,19 +540,20 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier in lower-camelCase.
-   * Strings that start with an illegal character are prepended with
-   * <code>_</code>. Strings that are Java Reserved Words are prepended with
-   * <code>_</code>. All other illegal characters are substituted with the
-   * string value mapped to the key of the character in <code>substitutes</code>.
-   * If the mapping is missing, the illegal character is omitted.
+   * Strings that start with an illegal character are prepended with {@code _}.
+   * Strings that are Java Reserved Words are prepended with {@code _}. All
+   * other illegal characters are substituted with the string value mapped to
+   * the key of the character in {@code substitutes}. If the mapping is missing,
+   * the illegal character is omitted.
    *
    * @param string The input string.
-   * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   * @return The string transformed to a valid Java Identifier in lower-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final Map<Character,String> substitutes) {
     if (string == null || string.length() == 0)
@@ -546,10 +571,10 @@ public final class JavaIdentifiers {
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   *                    This mapping overrides the default substitution.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions. This mapping overrides the default substitution.
    * @return The string transformed to a legal Java [c]amelCase identifier.
    */
   private static StringBuilder toInstanceCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
@@ -595,20 +620,22 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. All other illegal characters are substituted with the
-   * string value mapped to the key of the character in <code>substitutes</code>.
-   * If the mapping is missing, the character is substituted with the
-   * <code>substitute</code> char.
+   * {@code prefix}. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in {@code substitutes}. If
+   * the mapping is missing, the character is substituted with the
+   * {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   *                    This mapping overrides the default substitution.
-   * @return The string transformed to a valid Java Identifier in Title-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions. This mapping overrides the default substitution.
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, substitutes));
@@ -617,17 +644,20 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. All other illegal characters are substituted with the
-   * string value mapped to the key of the character in <code>substitutes</code>.
-   * If the mapping is missing, the illegal character is omitted.
+   * {@code prefix}. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in {@code substitutes}. If
+   * the mapping is missing, the illegal character is omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   * @return The string transformed to a valid Java Identifier in Title-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   *          first character is not valid.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', substitutes));
@@ -636,16 +666,18 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. All other illegal characters are substituted with
-   * the <code>substitute</code> char.
+   * {@code prefix}. All other illegal characters are substituted with the
+   * {@code substitute} char.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
+   *          first character is not valid.
    * @param substitute The default substitution for illegal characters.
-   * @return The string transformed to a valid Java Identifier in Title-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final char substitute) {
     return string == null || string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, null));
@@ -654,14 +686,16 @@ public final class JavaIdentifiers {
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
    * Strings that start with an illegal character are prepended with
-   * <code>prefix</code>. All other illegal characters are omitted.
+   * {@code prefix}. All other illegal characters are omitted.
    *
    * @param string The input string.
    * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @return The string transformed to a valid Java Identifier in Title-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   *          first character is not valid.
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix) {
     return string == null || string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', null));
@@ -669,18 +703,19 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
-   * Strings that start with an illegal character are prepended with
-   * <code>X</code>. All other illegal characters are substituted with the
-   * string value mapped to the key of the character in <code>substitutes</code>.
-   * If the mapping is missing, the illegal character is omitted.
+   * Strings that start with an illegal character are prepended with {@code X}.
+   * All other illegal characters are substituted with the string value mapped
+   * to the key of the character in {@code substitutes}. If the mapping is
+   * missing, the illegal character is omitted.
    *
    * @param string The input string.
-   * @param prefix The character that will be prepended to the string if the
-   *        first character is not valid.
-   * @param substitutes The mapping of illegal characters to their substitutions.
-   * @return The string transformed to a valid Java Identifier in Title-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toClassCase(final String string, final Map<Character,String> substitutes) {
     return string == null || string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', substitutes));
@@ -688,13 +723,15 @@ public final class JavaIdentifiers {
 
   /**
    * Transforms a string into a valid Java Identifier in Title-CamelCase.
-   * Strings that start with an illegal character are prepended with
-   * <code>X</code>. All other illegal characters are omitted.
+   * Strings that start with an illegal character are prepended with {@code X}.
+   * All other illegal characters are omitted.
    *
    * @param string The input string.
-   * @return The string transformed to a valid Java Identifier in Title-CamelCase.
-   *
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java Identifiers</a>
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
    */
   public static String toClassCase(final String string) {
     return string == null || string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', null));

@@ -90,12 +90,6 @@ public final class Paths {
     return path;
   }
 
-  public static String relativePath(final String dir, final String file) {
-    final String filePath = Paths.canonicalize(file);
-    final String dirPath = Paths.canonicalize(dir);
-    return !filePath.startsWith(dirPath) ? filePath : filePath.length() == dirPath.length() ? "" : filePath.substring(dirPath.length() + 1);
-  }
-
   public static String getParent(final String url) {
     final int end = url.charAt(url.length() - 1) == '/' ? url.lastIndexOf('/', url.length() - 2) : url.lastIndexOf('/');
     return end == -1 ? null : url.substring(0, end);

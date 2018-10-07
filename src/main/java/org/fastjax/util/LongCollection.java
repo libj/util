@@ -24,7 +24,6 @@ public interface LongCollection extends LongIterable {
    * Appends the specified value to the end of this collection.
    *
    * @param value Value to be appended to this collection.
-   * @return {@code true} If this collection changed as a result of the call.
    */
   void add(long value);
 
@@ -37,8 +36,7 @@ public interface LongCollection extends LongIterable {
    * collection is this collection, and this collection is nonempty.)
    *
    * @param c Collection containing values to be added to this collection.
-   * @return {@code true} if this collection changed as a result of the call.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is {@code null}.
    */
   void addAll(LongCollection c);
 
@@ -51,8 +49,7 @@ public interface LongCollection extends LongIterable {
    * collection is this collection, and this collection is nonempty.)
    *
    * @param c Collection containing values to be added to this collection.
-   * @return {@code true} if this collection changed as a result of the call.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is {@code null}.
    */
   void addAll(Collection<Long> c);
 
@@ -115,7 +112,7 @@ public interface LongCollection extends LongIterable {
    * Returns {@code true} if this collection contains all of the values in the
    * specified array.
    *
-   * @param values Array to be checked for containment in this collection.
+   * @param c LongCollection to be checked for containment in this collection.
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
    * @see #contains(long)

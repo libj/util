@@ -31,16 +31,29 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   }
 
   /**
-   * fetch data for keys (A, B]
+   * Returns a {@code SortedMap} of data from {@code from} (inclusive) to
+   * {@code to} (exclusive).
+   *
+   * @param from The lower bound of the range, inclusive.
+   * @param to The upper bound of the range, exclusive.
+   * @return A {@code SortedMap} of data from {@code from} (inclusive) to
+   *         {@code to} (exclusive).
    */
-  public SortedMap<A,B> fetch(final A from, final A to)  {
+  public SortedMap<A,B> fetch(final A from, final A to) {
     return fetch(from, to, null);
   }
 
   /**
-   * fetch data for keys (A, B]
+   * Returns a {@code SortedMap} of data from {@code from} (inclusive) to
+   * {@code to} (exclusive).
+   *
+   * @param from The lower bound of the range, inclusive.
+   * @param to The upper bound of the range, exclusive.
+   * @param last The {@code TieredRangeFetcher} representing the previous tier.
+   * @return A {@code SortedMap} of data from {@code from} (inclusive) to
+   *         {@code to} (exclusive).
    */
-  public SortedMap<A,B> fetch(final A from, final A to, final TieredRangeFetcher<A,B> last)  {
+  public SortedMap<A,B> fetch(final A from, final A to, final TieredRangeFetcher<A,B> last) {
     final A[] range = range();
     if (range == null || range[0] == range[1]) {
       if (next != null) {
@@ -78,9 +91,10 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   }
 
   /**
-   * Returns the range of the keys present in this TieredFetcher, as an array of length 2. Must not be null, and must be of length 2.
+   * Returns the range of the keys present in this TieredFetcher, as an array of
+   * length 2. Must not be null, and must be of length 2.
    */
   protected abstract A[] range();
-  protected abstract SortedMap<A,B> select(final A from, final A to);
-  protected abstract void insert(final A from, final A to, final SortedMap<A,B> data);
+  protected abstract SortedMap<A,B> select(A from, A to);
+  protected abstract void insert(A from, A to, SortedMap<A,B> data);
 }

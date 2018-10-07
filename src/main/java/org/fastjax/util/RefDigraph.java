@@ -22,33 +22,32 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- *  A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
- *  permitting self-loops and parallel edges.
+ * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
+ * permitting self-loops and parallel edges.
+ * <p>
+ * This digraph differs from its {@link Digraph} superclass by offering a layer
+ * of indirection between the object type {@code T}, and another type {@code R}
+ * that is used as the linking value between edges. The required
+ * {@code Function<T,R>} parameter in the constructor is used to dereference the
+ * object of type {@code T} to objects by which edges are defined of type
+ * {@code R}. The references are resolved prior to the {@link Digraph#dfs()}
+ * method call.
+ * <p>
+ * Upon invocation of any method that invokes {@link Digraph#dfs()}, the
+ * {@code RefDigraph} swaps edges of type {@code R} to their linked object
+ * references of type {@code T}, based on the translation of the supplied
+ * {@code Function<T,R>} function.
+ * <p>
+ * It is important to note that this implementation assumes that an object of
+ * type {@code T} will be encountered for each reference of type {@code R}.
+ * <p>
+ * Vertices can be dynamically added with the additional
+ * {@link Digraph#addVertex(Object)} method.
+ * <p>
+ * Edges can be dynamically added with the additional
+ * {@link Digraph#addEdge(Object,Object)} method.
  *
- *  This digraph differs from its <code>Digraph</code> superclass by offering
- *  a layer of indirection between the object type <code>T</code>, and another
- *  type <code>R</code> that is used as the linking value between edges. The
- *  required <code>Function<T,I></code> parameter in the constructor is used
- *  to dereference the object of type <code>T</code> to objects by which edges
- *  are defined of type <code>R</code>. The references are resolved prior to
- *  the dfs() method call.
- *
- *  Upon invocation of any method that invokes <code>digraph.dfs()</code>, the
- *  <code>IndirectDigraph</code> swaps edges of type <code>R</code> to their
- *  linked object references of type <code>T</code>, based on the translation
- *  of the supplied <code>Function<T,I></code> function.
- *
- *  It is important to note that this implementation assumes that an object of
- *  type <code>T</code> will be encountered for each reference of type
- *  <code>R</code>.
- *
- *  Vertices can be dynamically added with the additional
- *  <code>Digraph.addIndirectVertex()</code> method.
- *
- *  Edges can be dynamically added with the additional
- *  <code>Digraph.addIndirectEdge()</code> method.
- *
- *  @see org.fastjax.util.Digraph
+ * @see Digraph
  */
 public class RefDigraph<T,R> extends Digraph<T> {
   private static final long serialVersionUID = -8038282541169001107L;
@@ -61,11 +60,11 @@ public class RefDigraph<T,R> extends Digraph<T> {
   /**
    * Constructs an empty digraph with the specified initial capacity.
    *
-   * @param  reference the function to obtain the reference of type
-   *         <code>R</code> from an object of type <code>T</code>.
-   * @param  initialCapacity the initial capacity of the digraph.
-   * @throws IllegalArgumentException if the specified initial capacity
-   *         is negative
+   * @param reference The function to obtain the reference of type {@code R}
+   *          from an object of type {@code T}.
+   * @param initialCapacity The initial capacity of the digraph.
+   * @throws IllegalArgumentException If the specified initial capacity is
+   *           negative.
    */
   public RefDigraph(final int initialCapacity, final Function<T,R> reference) {
     super(initialCapacity);
@@ -75,8 +74,8 @@ public class RefDigraph<T,R> extends Digraph<T> {
   /**
    * Constructs an empty digraph with an initial capacity of ten.
    *
-   * @param  reference the function to obtain the reference of type
-   *         <code>R</code> from an object of type <code>T</code>.
+   * @param reference The function to obtain the reference of type {@code R}
+   *          from an object of type {@code T}.
    */
   public RefDigraph(final Function<T,R> reference) {
     super();
@@ -84,10 +83,11 @@ public class RefDigraph<T,R> extends Digraph<T> {
   }
 
   /**
-   * Swap vertex reference object of type R with their equivalent object of
-   * type T.
+   * Swap vertex reference object of type R with their equivalent object of type
+   * T.
+   *
    * @throws IllegalStateException If some vertex references have not been
-   *         specified before the time this method is called.
+   *           specified before the time this method is called.
    */
   private void swapRefs() {
     for (final T vertex : vertices) {
@@ -100,7 +100,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
 
     vertices.clear();
     if (references.size() != 0)
-      throw new IllegalStateException("Missing vertex references: " + Collections.toString(references, ", "));
+      throw new IllegalStateException("Missing vertex references: " + FastCollections.toString(references, ", "));
   }
 
   @Override
@@ -113,9 +113,8 @@ public class RefDigraph<T,R> extends Digraph<T> {
    * Add a vertex reference to the graph.
    *
    * @param vertex The vertex reference.
-   * @return <code>true</code> if this digraph has been modified, and
-   *         <code>false</code> if the specified vertex already existed in the
-   *         digraph.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified vertex already existed in the digraph.
    */
   public boolean addVertexRef(final R vertex) {
     references.add(vertex);
@@ -136,16 +135,15 @@ public class RefDigraph<T,R> extends Digraph<T> {
   }
 
   /**
-   * Add directed edge (<code>from</code> -&gt; <code>to</code>) to this
-   * digraph. Calling this with <code>to = null</code> is the equivalent of
-   * calling <code>Digraph.addVertex(from)</code> (not synchronized).
+   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
+   * this with {@code to = null} is the equivalent of calling
+   * {@code addVertex(from)} (not synchronized).
    *
    * @param from The tail vertex.
    * @param to The head vertex reference.
-   * @return <code>true</code> if this digraph has been modified, and
-   *         <code>false</code> if the specified edge already existed in the
-   *         digraph.
-   * @throws NullPointerException If <code>from</code> is null.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified edge already existed in the digraph.
+   * @throws NullPointerException If {@code from} is {@code null}.
    */
   public boolean addEdgeRef(final T from, final R to) {
     if (from == null)

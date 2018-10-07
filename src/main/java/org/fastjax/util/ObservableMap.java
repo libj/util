@@ -24,15 +24,15 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Wrapper class for the <code>Map</code> interface that provides callback
- * methods to observe the addition and removal of entries to the wrapped
- * <code>Map</code>.
- *
- * @see ObservableMap#beforePut(Object, Object, Object)
- * @see ObservableMap#afterPut(Object, Object, Object)
- * @see ObservableMap#beforeRemove(Object, Object)
- * @see ObservableMap#afterRemove(Object, Object)
- * @see Map
+ * Wrapper class for the {@link Map} interface that provides callback methods to
+ * observe the addition and removal of entries to the wrapped {@link Map}.
+ * <ul>
+ * <li>{@link #beforePut(Object,Object,Object)}</li>
+ * <li>{@link #afterPut(Object,Object,Object,RuntimeException)}</li>
+ * <li>{@link #beforeRemove(Object,Object)}</li>
+ * <li>{@link #afterRemove(Object,Object,RuntimeException)}</li>
+ * <li>{@link Map}</li>
+ * </ul>
  */
 public class ObservableMap<K,V> extends WrappedMap<K,V> {
   public ObservableMap(final Map<K,V> map) {
@@ -40,68 +40,73 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Callback method that is invoked immediately before an entry is put into
-   * the enclosed <code>Map</code>.
+   * Callback method that is invoked immediately before an entry is put into the
+   * enclosed {@link Map}.
    *
-   * @param key The key of the entry being added to the enclosed
-   * <code>Map</code>.
+   * @param key The key of the entry being added to the enclosed {@link Map}.
    * @param oldValue The old value being replaced for the key in the enclosed
-   * <code>Map</code>, or null if there was no existing value for the key.
+   *          {@link Map}, or null if there was no existing value for the key.
    * @param newValue The new value being put for the key in the enclosed
-   * <code>Map</code>.
+   *          {@link Map}.
+   * @return If this method returns {@code false}, the subsequent put operation
+   *         will not be performed; otherwise, the subsequent put
+   *         operation will be performed.
    */
   protected boolean beforePut(final K key, final V oldValue, final V newValue) {
     return true;
   }
 
   /**
-   * Callback method that is invoked immediately after an entry is put into
-   * the enclosed <code>Map</code>.
+   * Callback method that is invoked immediately after an entry is put into the
+   * enclosed {@link Map}.
    *
-   * @param key The key of the entry being added to the enclosed
-   * <code>Map</code>.
+   * @param key The key of the entry being added to the enclosed {@link Map}.
    * @param oldValue The old value being replaced for the key in the enclosed
-   * <code>Map</code>, or null if there was no existing value for the key.
+   *          {@link Map}, or null if there was no existing value for the key.
    * @param newValue The new value being put for the key in the enclosed
-   * <code>Map</code>.
+   *          {@link Map}.
+   * @param re A {@code RuntimeException} that occurred during the put
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterPut(final K key, final V oldValue, final V newValue, final RuntimeException re) {
   }
 
   /**
-   * Callback method that is invoked immediately before an entry is removed
-   * from the enclosed <code>Map</code>.
+   * Callback method that is invoked immediately before an entry is removed from
+   * the enclosed {@link Map}.
    *
    * @param key The key of the entry being removed from the enclosed
-   * <code>Map</code>.
+   *          {@link Map}.
    * @param value The value for the key being removed in the enclosed
-   * <code>Map</code>, or null if there was no existing value for the key.
+   *          {@link Map}, or null if there was no existing value for the key.
+   * @return If this method returns {@code false}, the subsequent remove
+   *         operation will not be performed; otherwise, the subsequent
+   *         remove operation will be performed.
    */
   protected boolean beforeRemove(final Object key, final V value) {
     return true;
   }
 
   /**
-   * Callback method that is invoked immediately after an entry is removed
-   * from the enclosed <code>Map</code>.
+   * Callback method that is invoked immediately after an entry is removed from
+   * the enclosed {@link Map}.
    *
    * @param key The key of the entry being removed from the enclosed
-   * <code>Map</code>.
+   *          {@link Map}.
    * @param value The value for the key being removed in the enclosed
-   * <code>Map</code>, or null if there was no existing value for the key.
+   *          {@link Map}, or null if there was no existing value for the key.
+   * @param re A {@code RuntimeException} that occurred during the remove
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterRemove(final Object key, final V value, final RuntimeException re) {
   }
 
   /**
-   * Associates the specified value with the specified key in this map
-   * (optional operation). The callback methods <code>beforePut()</code> and
-   * <code>afterPut()</code> are called immediately before and after the
-   * enclosed collection is modified.
-   *
-   * @see Map#put(Object,Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforePut(Object,Object,Object)}
+   * and {@link #afterPut(Object,Object,Object,RuntimeException)} are called
+   * immediately before and after the enclosed collection is modified.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -126,13 +131,11 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * If the specified key is not already associated with a value (or is mapped
-   * to {@code null}) associates it with the given value and returns
-   * {@code null}, else returns the current value. The callback methods
-   * <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
-   *
-   * @see Map#putIfAbsent(Object,Object)
    */
   @Override
   public V putIfAbsent(final K key, final V value) {
@@ -144,13 +147,12 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Copies all of the mappings from the specified map to this map
-   * (optional operation). The callback methods <code>beforePut()</code> and
-   * <code>afterPut()</code> are called immediately before and after the
-   * enclosed collection is modified for the addition of each entry in the
-   * argument map.
-   *
-   * @see Map#putAll(Map)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforePut(Object,Object,Object)}
+   * and {@link #afterPut(Object,Object,Object,RuntimeException)} are called
+   * immediately before and after the enclosed collection is modified for the
+   * addition of each entry in the argument map.
    */
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
@@ -159,12 +161,11 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Removes the mapping for a key from this map if it is present
-   * (optional operation). The callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified.
-   *
-   * @see Map#remove(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object,Object)} and
+   * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -189,12 +190,11 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Replaces the entry for the specified key only if currently
-   * mapped to the specified value. The callback methods
-   * <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
-   *
-   * @see Map#replace(Object,Object,Object)
    */
   @Override
   public boolean replace(final K key, final V oldValue, final V newValue) {
@@ -207,12 +207,11 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Replaces the entry for the specified key only if it is
-   * currently mapped to some value. The callback methods
-   * <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
-   *
-   * @see Map#replace(Object,Object)
    */
   @Override
   public V replace(final K key, final V value) {
@@ -225,13 +224,12 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Removes all of the mappings from this map (optional operation).
-   * The map will be empty after this call returns. The callback methods
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
-   * immediately before and after the enclosed collection is modified for the
-   * removal of each entry removed.
-   *
-   * @see Map#clear()
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object,Object)} and
+   * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the removal of
+   * each entry removed.
    */
   @Override
   public void clear() {
@@ -243,16 +241,15 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Attempts to compute a mapping for the specified key and its current
-   * mapped value (or {@code null} if there is no current mapping). The
-   * callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * an entry is removed in the enclosed collection. The callback methods
-   * <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object,Object)} and
+   * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
+   * before and after the an entry is removed in the enclosed collection. The
+   * callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
-   *
-   * @see Map#compute(Object,BiFunction)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -272,14 +269,12 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * If the specified key is not already associated with a value (or is mapped
-   * to {@code null}), attempts to compute its value using the given mapping
-   * function and enters it into this map unless {@code null}. The callback
-   * methods <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
-   *
-   * @see Map#computeIfAbsent(Object,Function)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -295,16 +290,15 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * If the value for the specified key is present and non-null, attempts to
-   * compute a new mapping given the key and its current mapped value. The
-   * callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * an entry is removed in the enclosed collection. The callback methods
-   * <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object,Object)} and
+   * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
+   * before and after the an entry is removed in the enclosed collection. The
+   * callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
-   *
-   * @see Map#computeIfPresent(Object,BiFunction)
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -324,18 +318,15 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * If the specified key is not already associated with a value or is
-   * associated with null, associates it with the given non-null value.
-   * Otherwise, replaces the associated value with the results of the given
-   * remapping function, or removes if the result is {@code null}. The
-   * callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * an entry is removed in the enclosed collection. The callback methods
-   * <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object,Object)} and
+   * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
+   * before and after the an entry is removed in the enclosed collection. The
+   * callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
-   *
-   * @see Map#merge(Object,Object,BiFunction)
    */
   @Override
   @SuppressWarnings({"unchecked", "unlikely-arg-type"})
@@ -355,14 +346,12 @@ public class ObservableMap<K,V> extends WrappedMap<K,V> {
   }
 
   /**
-   * Replaces each entry's value with the result of invoking the given
-   * function on that entry until all entries have been processed or the
-   * function throws an exception. The callback methods
-   * <code>beforePut()</code> and <code>afterPut()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
-   *
-   * @see Map#replaceAll(BiFunction)
    */
   @Override
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {

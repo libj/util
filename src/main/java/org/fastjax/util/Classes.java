@@ -21,19 +21,14 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 public final class Classes {
-  private static final Map<Class<?>,Map<String,Field>> classToFields = new ConcurrentHashMap<>();
-
   public static String getDeclaringClassName(final String className) {
     if (!JavaIdentifiers.isValid(className))
       throw new IllegalArgumentException("Not a valid java identifier: " + className);
@@ -84,11 +79,50 @@ public final class Classes {
     return builder.toString();
   }
 
+  /**
+   * Returns the "Compound Name" of the class or interface represented by
+   * {@code cls}.
+   * <p>
+   * The "Compound Name" is the fully qualified name of a class
+   * ({@link Class#getName()} with its package name
+   * ({@link Class#getPackage()}.getName()) removed.
+   * <p>
+   * For example:
+   * <ol>
+   * <li>The "Compound Name" of {@code java.lang.String} is {@code String}.</li>
+   * <li>The "Compound Name" of {@code java.lang.Map.Entry} is
+   * {@code Map$Entry}.</li>
+   * </ol>
+   *
+   * @param cls The class or interface.
+   * @return The "Compound Name" of the class or interface represented by
+   *         {@code cls}.
+   */
   public static String getCompoundName(final Class<?> cls) {
     final String pkg = cls.getPackageName();
     return pkg.length() == 0 ? cls.getName() : cls.getName().substring(pkg.length() + 1);
   }
 
+  /**
+   * Returns the canonical "Compound Name" of the class or interface represented
+   * by {@code cls}.
+   * <p>
+   * The canonical "Compound Name" is the fully qualified name of a class
+   * ({@link Class#getCanonicalName()} with its package name
+   * ({@link Class#getPackage()}.getName()) removed.
+   * <p>
+   * For example:
+   * <ol>
+   * <li>The canonical "Compound Name" of {@code java.lang.String} is
+   * {@code String}.</li>
+   * <li>The canonical "Compound Name" of {@code java.lang.Map.Entry} is
+   * {@code Map.Entry}.</li>
+   * </ol>
+   *
+   * @param cls The class or interface.
+   * @return The canonical "Compound Name" of the class or interface represented
+   *         by {@code cls}.
+   */
   public static String getCanonicalCompoundName(final Class<?> cls) {
     final String pkg = cls.getPackageName();
     return pkg.length() == 0 ? cls.getCanonicalName() : cls.getCanonicalName().substring(pkg.length() + 1);
@@ -98,68 +132,205 @@ public final class Classes {
     return cls.getGenericSuperclass() instanceof ParameterizedType ? ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments() : null;
   }
 
-  private static Field checkAccessField(final Field field, final boolean declared) {
-    return field != null && (declared || Modifier.isPublic(field.getModifiers())) ? field : null;
-  }
-
   private static Field getField(final Class<?> cls, final String fieldName, final boolean declared) {
-    Map<String,Field> fieldMap;
-    if ((fieldMap = classToFields.get(cls)) != null)
-      return checkAccessField(fieldMap.get(fieldName), declared);
-
     final Field[] fields = declared ? cls.getDeclaredFields() : cls.getFields();
-    classToFields.put(cls, fieldMap = new HashMap<>());
     for (final Field field : fields)
-      fieldMap.put(field.getName(), field);
+      if (fieldName.equals(field.getName()))
+        return field;
 
-    return checkAccessField(fieldMap.get(fieldName), declared);
-  }
-
-  public static Field getField(final Class<?> cls, final String fieldName) {
-    return Classes.getField(cls, fieldName, false);
-  }
-
-  public static Field getDeclaredField(final Class<?> cls, final String fieldName) {
-    return Classes.getField(cls, fieldName, true);
-  }
-
-  public static Field getFieldDeep(Class<?> clazz, final String fieldName) {
-    Field field;
-    do
-      field = getField(clazz, fieldName, false);
-    while (field == null && (clazz = clazz.getSuperclass()) != null);
-    return field;
-  }
-
-  public static Field getDeclaredFieldDeep(Class<?> clazz, final String name) {
-    Field field;
-    do
-      field = getField(clazz, name, true);
-    while (field == null && (clazz = clazz.getSuperclass()) != null);
-    return field;
-  }
-
-  public static Constructor<?> getConstructor(final Class<?> clazz, final Class<?> ... parameterTypes) {
-    try {
-      return clazz.getConstructor(parameterTypes);
-    }
-    catch (final NoSuchMethodException e) {
-      return null;
-    }
-  }
-
-  public static Constructor<?> getDeclaredConstructor(final Class<?> clazz, final Class<?> ... parameterTypes) {
-    try {
-      return clazz.getDeclaredConstructor(parameterTypes);
-    }
-    catch (final NoSuchMethodException e) {
-      return null;
-    }
+    return null;
   }
 
   /**
-   * Changes the annotation value for the given key of the given annotation to newValue and returns
-   * the previous value.
+   * Returns a {@code Field} object that reflects the specified public member
+   * field of the class or interface represented by {@code cls} (including
+   * inherited fields). The {@code name} parameter is a {@code String}
+   * specifying the simple name of the desired field.
+   * <p>
+   * The field to be reflected is determined by the algorithm that follows. Let
+   * C be the class or interface represented by this object:
+   * <ol>
+   * <li>If C declares a public field with the name specified, that is the field
+   * to be reflected.</li>
+   * <li>If no field was found in step 1 above, this algorithm is applied
+   * recursively to each direct superinterface of C. The direct superinterfaces
+   * are searched in the order they were declared.</li>
+   * <li>If no field was found in steps 1 and 2 above, and C has a superclass S,
+   * then this algorithm is invoked recursively upon S. If C has no superclass,
+   * then this method returns {@code null}.</li>
+   * </ol>
+   * <p>
+   * If this {@code Class} object represents an array type, then this method
+   * does not find the {@code length} field of the array type.
+   * <p>
+   * This method differentiates itself from {@link Class#getField(String)} by
+   * returning {@code null} when a field is not found, instead of throwing
+   * {@link NoSuchFieldException}.
+   *
+   * @param cls The class in which to find the public field.
+   * @param name The field name.
+   * @return A {@code Field} object that reflects the specified public member
+   *         field of the class or interface represented by {@code cls}
+   *         (including inherited fields). The {@code name} parameter is a
+   *         {@code String} specifying the simple name of the desired field.
+   * @throws NullPointerException if {@code name} is {@code null}
+   * @throws SecurityException If a security manager, <i>s</i>, is present and
+   *           the caller's class loader is not the same as or an ancestor of
+   *           the class loader for the current class and invocation of
+   *           {@link SecurityManager#checkPackageAccess s.checkPackageAccess()}
+   *           denies access to the package of this class.
+   */
+  public static Field getField(final Class<?> cls, final String name) {
+    return Classes.getField(cls, name, false);
+  }
+
+  /**
+   * Returns a {@code Field} object that reflects the specified declared member
+   * field of the class or interface represented by {@code cls} (excluding
+   * inherited fields). The {@code name} parameter is a {@code String}
+   * specifying the simple name of the desired field.
+   * <p>
+   * Declared fields include public, protected, default (package) access,
+   * and private visibility.
+   * <p>
+   * If this {@code Class} object represents an array type, then this method
+   * does not find the {@code length} field of the array type.
+   * <p>
+   * This method differentiates itself from {@link Class#getDeclaredField(String)} by
+   * returning {@code null} when a field is not found, instead of throwing
+   * {@link NoSuchFieldException}.
+   *
+   * @param cls The class in which to find the declared field.
+   * @param name The field name.
+   * @return A {@code Field} object that reflects the specified public member
+   *         field of the class or interface represented by {@code cls}
+   *         (excluding inherited fields). The {@code name} parameter is a
+   *         {@code String} specifying the simple name of the desired field.
+   * @throws NullPointerException if {@code name} is {@code null}
+   * @throws SecurityException If a security manager, <i>s</i>, is present and
+   *           the caller's class loader is not the same as or an ancestor of
+   *           the class loader for the current class and invocation of
+   *           {@link SecurityManager#checkPackageAccess s.checkPackageAccess()}
+   *           denies access to the package of this class.
+   */
+  public static Field getDeclaredField(final Class<?> cls, final String name) {
+    return Classes.getField(cls, name, true);
+  }
+
+  /**
+   * Returns a {@code Field} object that reflects the specified declared member
+   * field of the class or interface represented by {@code cls} (including
+   * inherited fields). The {@code name} parameter is a {@code String}
+   * specifying the simple name of the desired field.
+   * <p>
+   * Declared fields include public, protected, default (package) access,
+   * and private visibility.
+   * <p>
+   * If this {@code Class} object represents an array type, then this method
+   * does not find the {@code length} field of the array type.
+   * <p>
+   * This method differentiates itself from {@link Class#getDeclaredField(String)} by
+   * returning {@code null} when a field is not found, instead of throwing
+   * {@link NoSuchFieldException}.
+   *
+   * @param cls The class in which to find the declared field.
+   * @param name The field name.
+   * @return A {@code Field} object that reflects the specified public member
+   *         field of the class or interface represented by {@code cls}
+   *         (including inherited fields). The {@code name} parameter is a
+   *         {@code String} specifying the simple name of the desired field.
+   * @throws NullPointerException if {@code name} is {@code null}
+   * @throws SecurityException If a security manager, <i>s</i>, is present and
+   *           the caller's class loader is not the same as or an ancestor of
+   *           the class loader for the current class and invocation of
+   *           {@link SecurityManager#checkPackageAccess s.checkPackageAccess()}
+   *           denies access to the package of this class.
+   */
+  public static Field getDeclaredFieldDeep(Class<?> cls, final String name) {
+    Field field;
+    do
+      field = getField(cls, name, true);
+    while (field == null && (cls = cls.getSuperclass()) != null);
+    return field;
+  }
+
+  /**
+   * Returns a Constructor object that reflects the specified public constructor
+   * of the class or interface represented by {@code cls} (including inherited
+   * constructors), or {@code null} if the constructor is not found.
+   * <p>
+   * The {@code parameterTypes} parameter is an array of Class objects that
+   * identify the constructor's formal parameter types, in declared order. If
+   * {@code cls} represents an inner class declared in a non-static context, the
+   * formal parameter types include the explicit enclosing instance as the first
+   * parameter.
+   * <p>
+   * This method differentiates itself from
+   * {@link Class#getConstructor(Class...)} by returning {@code null} when a
+   * method is not found, instead of throwing {@link NoSuchMethodException}.
+   *
+   * @param cls The class in which to find the public constructor.
+   * @param parameterTypes The parameter array.
+   * @return A Constructor object that reflects the specified public constructor
+   *         of the class or interface represented by {@code cls} (including
+   *         inherited constructors), or {@code null} if the constructor is not
+   *         found.
+   */
+  public static Constructor<?> getConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
+    final Constructor<?>[] constructors = cls.getConstructors();
+    for (final Constructor<?> constructor : constructors)
+      if (java.util.Arrays.equals(constructor.getParameterTypes(), parameterTypes))
+        return constructor;
+
+    return null;
+  }
+
+  /**
+   * Returns a Constructor object that reflects the specified declared
+   * constructor of the class or interface represented by {@code cls} (excluding
+   * inherited constructors), or {@code null} if the constructor is not found.
+   * <p>
+   * Declared constructors include public, protected, default (package) access,
+   * and private visibility.
+   * <p>
+   * The {@code parameterTypes} parameter is an array of Class objects that
+   * identify the constructor's formal parameter types, in declared order. If
+   * {@code cls} represents an inner class declared in a non-static context, the
+   * formal parameter types include the explicit enclosing instance as the first
+   * parameter.
+   * <p>
+   * This method differentiates itself from
+   * {@link Class#getDeclaredConstructor(Class...)} by returning {@code null}
+   * when a method is not found, instead of throwing
+   * {@link NoSuchMethodException}.
+   *
+   * @param cls The class in which to find the declared constructor.
+   * @param parameterTypes The parameter array.
+   * @return A Constructor object that reflects the specified declared
+   *         constructor of the class or interface represented by {@code cls}
+   *         (excluding inherited constructors), or {@code null} if the
+   *         constructor is not found.
+   */
+  public static Constructor<?> getDeclaredConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
+    final Constructor<?>[] constructors = cls.getDeclaredConstructors();
+    for (final Constructor<?> constructor : constructors)
+      if (java.util.Arrays.equals(constructor.getParameterTypes(), parameterTypes))
+        return constructor;
+
+    return null;
+  }
+
+  /**
+   * Changes the annotation value for {@code key} in {@code annotation} to
+   * {@code newValue}, and returns the previous value.
+   *
+   * @param <T> Type parameter of the value.
+   * @param annotation The annotation.
+   * @param key The key.
+   * @param newValue The new value.
+   * @return The previous value assigned to {@code key}.
+   * @throws IllegalArgumentException If {@code newValue} does not match the
+   *           required type of the value for {@code key}.
    */
   @SuppressWarnings("unchecked")
   public static <T>T setAnnotationValue(final Annotation annotation, final String key, final T newValue) {
@@ -180,19 +351,10 @@ public final class Classes {
       throw new IllegalArgumentException(key + " is not a valid key");
 
     if (newValue != null && oldValue.getClass() != newValue.getClass())
-      throw new IllegalArgumentException(newValue.getClass().getName() + " is not of required type " + oldValue.getClass().getName());
+      throw new IllegalArgumentException(newValue.getClass().getName() + " does not match the required type " + oldValue.getClass().getName());
 
     memberValues.put(key, newValue);
     return oldValue;
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <T extends Annotation>T getDeclaredAnnotation(final Class<?> clazz, final Class<T> annotationType) {
-    for (final Annotation annotation : clazz.getDeclaredAnnotations())
-      if (annotation.annotationType() == annotationType)
-        return (T)annotation;
-
-    return null;
   }
 
   private static final Repeat.Recurser<Field,Class<?>> declaredFieldRecurser = new Repeat.Recurser<Field,Class<?>>() {
@@ -265,23 +427,6 @@ public final class Classes {
     }
   };
 
-  private static final Repeat.Recurser<Field,Class<?>> fieldRecurser = new Repeat.Recurser<Field,Class<?>>() {
-    @Override
-    public boolean accept(final Field field, final Object ... args) {
-      return Modifier.isPublic((field).getModifiers());
-    }
-
-    @Override
-    public Field[] members(final Class<?> clazz) {
-      return clazz.getDeclaredFields();
-    }
-
-    @Override
-    public Class<?> next(final Class<?> clazz) {
-      return clazz.getSuperclass();
-    }
-  };
-
   private static final Repeat.Filter<Field> declaredFieldWithAnnotationFilter = new Repeat.Filter<Field>() {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -325,102 +470,281 @@ public final class Classes {
   };
 
   /**
-   * Find declared Field(s) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
+   * Returns an array of Field objects declared in {@code cls} (including
+   * inherited fields).
+   * <p>
+   * Declared fields include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents a class or interface with no declared fields,
+   * then this method returns an array of length 0.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are sorted reflecting the inheritance
+   * graph of {@code cls}, whereby inherited fields are first, and member fields
+   * are last.
    *
-   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field result after this
-   * match.
-   *
-   * @param clazz
-   * @param annotationType
-   * @param comparable
-   * @return
+   * @param cls The class in which to find declared fields.
+   * @return An array of Field objects declared in {@code cls} (including
+   *         inherited fields).
    */
-  public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
-    return Repeat.Recursive.<Field>ordered(clazz.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, annotationType);
-  }
-
-  public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> clazz, final Class<T> annotationType) {
-    return Repeat.Recursive.<Field,Class<?>>inverted(clazz, clazz.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, annotationType);
+  public static Field[] getDeclaredFieldsDeep(final Class<?> cls) {
+    return Repeat.Recursive.<Field,Class<?>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldRecurser);
   }
 
   /**
-   * Find declared Method(s) in the clazz, including methods inherited in all superclasses.
+   * Returns an array of Field objects declared in {@code cls} (excluding
+   * inherited fields) that have an annotation of {@code annotationType}.
+   * <p>
+   * Declared fields include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents a class or interface with no declared fields,
+   * then this method returns an array of length 0.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are not sorted and are not in any
+   * particular order.
    *
-   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field result after this
-   * match.
-   * FIXME: finish
-   * @param clazz
-   * @param annotationType
-   * @param comparable
-   * @return
+   * @param cls The class in which to find declared fields.
+   * @param annotationType The type of the annotation to match.
+   * @return An array of Field objects declared in {@code cls} (excluding
+   *         inherited fields) that have an annotation of
+   *         {@code annotationType}.
    */
-  public static <T extends Annotation>Method[] getDeclaredMethodsDeep(final Class<?> clazz) {
-    return Repeat.Recursive.<Method,Class<?>>inverted(clazz, clazz.getDeclaredMethods(), Method.class, declaredMethodRecurser);
+  public static Field[] getDeclaredFieldsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
+    return Repeat.Recursive.<Field>ordered(cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, annotationType);
   }
 
   /**
-   * Find declared Method(s) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
+   * Returns an array of Field objects declared in {@code cls} (including
+   * inherited fields) that have an annotation of {@code annotationType}.
+   * <p>
+   * Declared fields include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents a class or interface with no declared fields,
+   * then this method returns an array of length 0.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are sorted reflecting the inheritance
+   * graph of {@code cls}, whereby inherited fields are first, and member fields
+   * are last.
    *
-   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field result after this
-   * match.
-   * FIXME: finish
-   * @param clazz
-   * @param annotationType
-   * @param comparable
-   * @return
+   * @param cls The class in which to find declared fields.
+   * @param annotationType The type of the annotation to match.
+   * @return An array of Field objects declared in {@code cls} (including
+   *         inherited fields) that have an annotation of
+   *         {@code annotationType}.
    */
-  public static <T extends Annotation>Method[] getDeclaredMethodsWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
-    return Repeat.Recursive.<Method>ordered(clazz.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationFilter, annotationType);
-  }
-
-  public static <T extends Annotation>Method[] getDeclaredMethodsWithAnnotationDeep(final Class<?> clazz, final Class<T> annotationType) {
-    return Repeat.Recursive.<Method,Class<?>>inverted(clazz, clazz.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, annotationType);
+  public static Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
+    return Repeat.Recursive.<Field,Class<?>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, annotationType);
   }
 
   /**
-   * Find declared Class(es) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
+   * Returns a Method object that reflects the specified declared method of the
+   * class or interface represented by {@code cls} (excluding inherited
+   * methods), or {@code null} if the method is not found.
+   * <p>
+   * Declared methods include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * The {@code name} parameter is a String that specifies the simple name of
+   * the desired method, and the {@code parameterTypes} parameter is an array of
+   * Class objects that identify the method's formal parameter types, in
+   * declared order. If more than one method with the same parameter types is
+   * declared in a class, and one of these methods has a return type that is
+   * more specific than any of the others, that method is returned; otherwise
+   * one of the methods is chosen arbitrarily. If the name is "&lt;init&gt;"or
+   * "&lt;clinit&gt;" this method returns {@code null}. If this Class object
+   * represents an array type, then this method does not find the clone()
+   * method.
+   * <p>
+   * This method differentiates itself from
+   * {@link Class#getDeclaredMethod(String,Class...)} by returning {@code null}
+   * when a method is not found, instead of throwing
+   * {@link NoSuchMethodException}.
    *
-   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Class<?> result after this
-   * match.
-   * FIXME: finish
-   * @param clazz
-   * @param annotationType
-   * @param comparable
-   * @return
+   * @param cls The class in which to find the declared method.
+   * @param name The simple name of the method.
+   * @param parameterTypes The parameter array.
+   * @return A Method object that reflects the specified declared method of the
+   *         class or interface represented by {@code cls} (excluding inherited
+   *         methods), or {@code null} if the method is not found.
    */
-  @SuppressWarnings("unchecked")
-  public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
-    return Repeat.Recursive.<Class<?>>ordered(clazz.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationFilter, annotationType);
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
-    return Repeat.Recursive.<Class<?>,Class<?>>inverted(clazz, clazz.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, annotationType);
-  }
-
-  public static Field[] getFieldsDeep(final Class<?> clazz) {
-    return Repeat.Recursive.ordered(clazz, clazz.getDeclaredFields(), Field.class, fieldRecurser);
-  }
-
-  public static Field[] getDeclaredFieldsDeep(final Class<?> clazz) {
-    return Repeat.Recursive.<Field,Class<?>>inverted(clazz, clazz.getDeclaredFields(), Field.class, declaredFieldRecurser);
-  }
-
-  public static Method getDeclaredMethod(final Class<?> clazz, final String name, final Class<?> ... parameters) {
-    final Method[] methods = clazz.getDeclaredMethods();
+  public static Method getDeclaredMethod(final Class<?> cls, final String name, final Class<?> ... parameterTypes) {
+    final Method[] methods = cls.getDeclaredMethods();
     for (final Method method : methods)
-      if (method.getName().equals(name) && java.util.Arrays.equals(method.getParameterTypes(), parameters))
+      if (method.getName().equals(name) && java.util.Arrays.equals(method.getParameterTypes(), parameterTypes))
         return method;
 
     return null;
   }
 
-  public static Method getDeclaredMethodDeep(Class<?> clazz, final String name, final Class<?> ... parameters) {
+  /**
+   * Returns a Method object that reflects the specified declared method of the
+   * class or interface represented by {@code cls} (including inherited
+   * methods), or {@code null} if the method is not found.
+   * <p>
+   * Declared methods include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * The {@code name} parameter is a String that specifies the simple name of
+   * the desired method, and the {@code parameterTypes} parameter is an array of
+   * Class objects that identify the method's formal parameter types, in
+   * declared order. If more than one method with the same parameter types is
+   * declared in a class, and one of these methods has a return type that is
+   * more specific than any of the others, that method is returned; otherwise
+   * one of the methods is chosen arbitrarily. If the name is "&lt;init&gt;"or
+   * "&lt;clinit&gt;" this method returns {@code null}. If this Class object
+   * represents an array type, then this method does not find the clone()
+   * method.
+   * <p>
+   * This method differentiates itself from
+   * {@link Class#getDeclaredMethod(String,Class...)} by returning {@code null}
+   * when a method is not found, instead of throwing
+   * {@link NoSuchMethodException}.
+   *
+   * @param cls The class in which to find the declared method.
+   * @param name The simple name of the method.
+   * @param parameterTypes The parameter array.
+   * @return A Method object that reflects the specified declared method of the
+   *         class or interface represented by {@code cls} (including inherited
+   *         methods), or {@code null} if the method is not found.
+   */
+  public static Method getDeclaredMethodDeep(Class<?> cls, final String name, final Class<?> ... parameterTypes) {
     Method method;
     do
-      method = getDeclaredMethod(clazz, name, parameters);
-    while (method == null && (clazz = clazz.getSuperclass()) != null);
+      method = getDeclaredMethod(cls, name, parameterTypes);
+    while (method == null && (cls = cls.getSuperclass()) != null);
     return method;
+  }
+
+  /**
+   * Returns an array of Method objects declared in {@code cls} (including
+   * inherited methods).
+   * <p>
+   * Declared methods include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are sorted reflecting the inheritance
+   * graph of {@code cls}, whereby inherited methods are first, and member methods
+   * are last.
+   *
+   * @param cls The class in which to find declared methods.
+   * @return An array of Method objects declared in {@code cls} (including
+   *         inherited methods).
+   */
+  public static Method[] getDeclaredMethodsDeep(final Class<?> cls) {
+    return Repeat.Recursive.<Method,Class<?>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodRecurser);
+  }
+
+  /**
+   * Returns an array of Method objects declared in {@code cls} (excluding
+   * inherited methods) that have an annotation of {@code annotationType}.
+   * <p>
+   * Declared methods include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents a class or interface with no declared methods,
+   * then this method returns an array of length 0.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are not sorted and are not in any
+   * particular order.
+   *
+   * @param cls The class in which to find declared methods.
+   * @param annotationType The type of the annotation to match.
+   * @return An array of Method objects declared in {@code cls} (excluding
+   *         inherited methods) that have an annotation of {@code annotationType}.
+   */
+  public static Method[] getDeclaredMethodsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
+    return Repeat.Recursive.<Method>ordered(cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationFilter, annotationType);
+  }
+
+  /**
+   * Returns an array of Method objects declared in {@code cls} (including
+   * inherited methods) that have an annotation of {@code annotationType}.
+   * <p>
+   * Declared methods include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are sorted reflecting the inheritance
+   * graph of {@code cls}, whereby inherited methods are first, and member methods
+   * are last.
+   *
+   * @param cls The class in which to find declared methods.
+   * @param annotationType The type of the annotation to match.
+   * @return An array of Method objects declared in {@code cls} (including
+   *         inherited methods) that have an annotation of {@code annotationType}.
+   */
+  public static Method[] getDeclaredMethodsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
+    return Repeat.Recursive.<Method,Class<?>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, annotationType);
+  }
+
+  /**
+   * Returns an array of Class objects declared in {@code cls} (excluding
+   * inherited classes) that have an annotation of {@code annotationType}.
+   * <p>
+   * Declared classes include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents a class or interface with no declared classes,
+   * then this method returns an array of length 0.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are not sorted and are not in any
+   * particular order.
+   *
+   * @param cls The class in which to find declared methods.
+   * @param annotationType The type of the annotation to match.
+   * @return An array of Class objects declared in {@code cls} (excluding
+   *         inherited classes) that have an annotation of
+   *         {@code annotationType}.
+   */
+  @SuppressWarnings("unchecked")
+  public static Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
+    return Repeat.Recursive.<Class<?>>ordered(cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationFilter, annotationType);
+  }
+
+  /**
+   * Returns an array of Class objects declared in {@code cls} (including
+   * inherited classes) that have an annotation of {@code annotationType}.
+   * <p>
+   * Declared classes include public, protected, default (package) access, and
+   * private visibility.
+   * <p>
+   * If {@code cls} represents an array type, a primitive type, or void, then
+   * this method returns an array of length 0.
+   * <p>
+   * The elements in the returned array are sorted reflecting the inheritance
+   * graph of {@code cls}, whereby inherited classes are first, and member classes
+   * are last.
+   *
+   * @param cls The class in which to find declared methods.
+   * @param annotationType The type of the annotation to match.
+   * @return An array of Class objects declared in {@code cls} (including
+   *         inherited classes) that have an annotation of {@code annotationType}.
+   */
+  @SuppressWarnings("unchecked")
+  public static Class<?>[] getDeclaredClassesWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
+    return Repeat.Recursive.<Class<?>,Class<?>>inverted(cls, cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, annotationType);
   }
 
   public static Class<?> getGreatestCommonSuperclass(final Class<?> ... classes) {
@@ -471,38 +795,6 @@ public final class Classes {
   @SuppressWarnings("unchecked")
   public static <T>Class<?> getGreatestCommonSuperclass(final Function<T,Class<?>> function, final Collection<T> objects) {
     return getGreatestCommonSuperclass0((Function<Object,Class<?>>)function, objects.toArray());
-  }
-
-  public static Class<?> forName(final String className, final boolean initialize, final Class<?> callerClass) {
-    if (className == null || className.length() == 0)
-      return null;
-
-    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-    try {
-      return Class.forName(className, initialize, classLoader);
-    }
-    catch (final ClassNotFoundException e) {
-    }
-
-    classLoader = Thread.currentThread().getContextClassLoader();
-    try {
-      return Class.forName(className, initialize, classLoader);
-    }
-    catch (final ClassNotFoundException e) {
-    }
-
-    classLoader = callerClass.getClassLoader();
-    try {
-      return Class.forName(className, initialize, classLoader);
-    }
-    catch (final ClassNotFoundException e) {
-    }
-
-    return null;
-  }
-
-  public static Class<?> forName(final String className, final Class<?> callerClass) {
-    return Classes.forName(className, false, callerClass);
   }
 
   private static Class<?> getGreatestCommonSuperclass(Class<?> class1, Class<?> class2) {
@@ -568,7 +860,7 @@ public final class Classes {
   }
 
   public static Class<?>[] getCallingClasses() {
-    return Arrays.subArray(new CallingClass().getClassContext(), 3);
+    return FastArrays.subArray(new CallingClass().getClassContext(), 3);
   }
 
   public static <T>T newInstance(final Class<? extends T> clazz) {

@@ -19,13 +19,14 @@ package org.fastjax.util;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Function;
 
-public final class Collections {
+public final class FastCollections {
   public static Class<?> getComponentType(final Collection<?> collection) {
     if (collection.size() == 0)
       return null;
@@ -89,39 +90,35 @@ public final class Collections {
   }
 
   /**
-   * Searches a range of the specified list for the specified object
-   * using the binary search algorithm. The range must be sorted into
-   * ascending order according to the
-   * {@linkplain Comparable natural ordering} of its elements (as by the
-   * {@link #sort(List<T>, int, int)} method) prior to making this
-   * call.  If it is not sorted, the results are undefined.
-   * (If the range contains elements that are not mutually comparable (for
-   * example, strings and integers), it <i>cannot</i> be sorted according
-   * to the natural ordering of its elements, hence results are undefined.)
-   * If the range contains multiple elements equal to the specified object,
-   * there is no guarantee which one will be found.
+   * Searches a range of the specified list for the specified object using the
+   * binary search algorithm. The range must be sorted into ascending order
+   * according to the {@linkplain Comparable natural ordering} of its elements
+   * (as by the {@link #sort(List)} method) prior to making this call. If it is
+   * not sorted, the results are undefined. (If the range contains elements that
+   * are not mutually comparable (for example, strings and integers), it
+   * <i>cannot</i> be sorted according to the natural ordering of its elements,
+   * hence results are undefined.) If the range contains multiple elements equal
+   * to the specified object, there is no guarantee which one will be found.
    *
-   * @param a the list to be searched
-   * @param fromIndex the index of the first element (inclusive) to be
-   *          searched
-   * @param toIndex the index of the last element (exclusive) to be searched
-   * @param key the value to be searched for
-   * @return index of the search key, if it is contained in the list
-   *         within the specified range;
-   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
-   *         <i>insertion point</i> is defined as the point at which the
-   *         key would be inserted into the list: the index of the first
-   *         element in the range greater than the key,
-   *         or <tt>toIndex</tt> if all
-   *         elements in the range are less than the specified key.  Note
-   *         that this guarantees that the return value will be &gt;= 0 if
-   *         and only if the key is found.
-   * @throws ClassCastException if the search key is not comparable to the
-   *         elements of the list within the specified range.
-   * @throws IllegalArgumentException
-   *         if {@code fromIndex > toIndex}
-   * @throws ArrayIndexOutOfBoundsException
-   *         if {@code fromIndex < 0 or toIndex > a.length}
+   * @param <T> Type parameter of Comparable key object.
+   * @param a The list to be searched.
+   * @param fromIndex The index of the first element (inclusive) to be searched.
+   * @param toIndex The index of the last element (exclusive) to be searched.
+   * @param key The value to be searched for.
+   * @return Index of the search key, if it is contained in the list within the
+   *         specified range; otherwise,
+   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
+   *         point</i> is defined as the point at which the key would be
+   *         inserted into the list: the index of the first element in the range
+   *         greater than the key, or <tt>toIndex</tt> if all elements in the
+   *         range are less than the specified key. Note that this guarantees
+   *         that the return value will be &gt;= 0 if and only if the key is
+   *         found.
+   * @throws ClassCastException If the search key is not comparable to the
+   *           elements of the list within the specified range.
+   * @throws IllegalArgumentException If {@code fromIndex > toIndex}
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
     rangeCheck(a.size(), fromIndex, toIndex);
@@ -130,71 +127,65 @@ public final class Collections {
 
   /**
    * Searches the specified list for the specified object using the binary
-   * search algorithm. The list must be sorted into ascending order
-   * according to the {@linkplain Comparable natural ordering}
-   * of its elements (as by the {@link #sort(List<T>)} method) prior to
-   * making this call. If it is not sorted, the results are undefined.
-   * (If the list contains elements that are not mutually comparable (for
-   * example, strings and integers), it <i>cannot</i> be sorted according
-   * to the natural ordering of its elements, hence results are undefined.)
-   * If the list contains multiple
-   * elements equal to the specified object, there is no guarantee which
-   * one will be found.
+   * search algorithm. The list must be sorted into ascending order according to
+   * the {@linkplain Comparable natural ordering} of its elements (as by the
+   * {@link #sort(List)} method) prior to making this call. If it is not sorted,
+   * the results are undefined. (If the list contains elements that are not
+   * mutually comparable (for example, strings and integers), it <i>cannot</i>
+   * be sorted according to the natural ordering of its elements, hence results
+   * are undefined.) If the list contains multiple elements equal to the
+   * specified object, there is no guarantee which one will be found.
    *
-   * @param a the list to be searched
-   * @param key the value to be searched for
-   * @return index of the search key, if it is contained in the list;
-   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
-   *         <i>insertion point</i> is defined as the point at which the
-   *         key would be inserted into the list: the index of the first
-   *         element greater than the key, or <tt>a.length</tt> if all
-   *         elements in the list are less than the specified key.  Note
-   *         that this guarantees that the return value will be &gt;= 0 if
-   *         and only if the key is found.
-   * @throws ClassCastException if the search key is not comparable to the
-   *         elements of the array.
+   * @param <T> Type parameter of Comparable key object.
+   * @param a The list to be searched.
+   * @param key The value to be searched for.
+   * @return Index of the search key, if it is contained in the list; otherwise,
+   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
+   *         point</i> is defined as the point at which the key would be
+   *         inserted into the list: the index of the first element greater than
+   *         the key, or <tt>a.length</tt> if all elements in the list are less
+   *         than the specified key. Note that this guarantees that the return
+   *         value will be &gt;= 0 if and only if the key is found.
+   * @throws ClassCastException If the search key is not comparable to the
+   *           elements of the array.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key) {
     return binarySearch0(a, 0, a.size(), key);
   }
 
   /**
-   * Searches a range of the specified list for the specified object using
-   * the binary search algorithm. The range must be sorted into ascending
-   * order according to the specified comparator (as by the
-   * {@link #sort(List<T>, int, int, Comparator)
-   * sort(List<T>, int, int, Comparator)} method) prior to making this call.
-   * If it is not sorted, the results are undefined.
-   * If the range contains multiple elements equal to the specified object,
-   * there is no guarantee which one will be found.
+   * Searches a range of the specified list for the specified object using the
+   * binary search algorithm. The range must be sorted into ascending order
+   * according to the specified comparator (as by the
+   * {@link #sort(List,Comparator)} method) prior to making this call. If it is
+   * not sorted, the results are undefined. If the range contains multiple
+   * elements equal to the specified object, there is no guarantee which one
+   * will be found.
    *
-   * @param <T> the class of the objects in the list
-   * @param a the list to be searched
-   * @param fromIndex the index of the first element (inclusive) to be
-   *          searched
-   * @param toIndex the index of the last element (exclusive) to be searched
-   * @param key the value to be searched for
-   * @param c the comparator by which the list is ordered.  A
-   *        <tt>null</tt> value indicates that the elements'
-   *        {@linkplain Comparable natural ordering} should be used.
-   * @return index of the search key, if it is contained in the list
-   *         within the specified range;
-   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
-   *         <i>insertion point</i> is defined as the point at which the
-   *         key would be inserted into the list: the index of the first
-   *         element in the range greater than the key,
-   *         or <tt>toIndex</tt> if all
-   *         elements in the range are less than the specified key.  Note
-   *         that this guarantees that the return value will be &gt;= 0 if
-   *         and only if the key is found.
-   * @throws ClassCastException if the range contains elements that are not
-   *         <i>mutually comparable</i> using the specified comparator,
-   *         or the search key is not comparable to the
-   *         elements in the range using this comparator.
-   * @throws IllegalArgumentException
-   *         if {@code fromIndex > toIndex}
-   * @throws ArrayIndexOutOfBoundsException
-   *         if {@code fromIndex < 0 or toIndex > a.length}
+   * @param <T> The type parameter of the Comparable key object.
+   * @param a The list to be searched.
+   * @param fromIndex The index of the first element (inclusive) to be searched.
+   * @param toIndex The index of the last element (exclusive) to be searched.
+   * @param key The value to be searched for.
+   * @param c The comparator by which the list is ordered. A <tt>null</tt> value
+   *          indicates that the elements' {@linkplain Comparable natural
+   *          ordering} should be used.
+   * @return Index of the search key, if it is contained in the list within the
+   *         specified range; otherwise,
+   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
+   *         point</i> is defined as the point at which the key would be
+   *         inserted into the list: the index of the first element in the range
+   *         greater than the key, or <tt>toIndex</tt> if all elements in the
+   *         range are less than the specified key. Note that this guarantees
+   *         that the return value will be &gt;= 0 if and only if the key is
+   *         found.
+   * @throws ClassCastException If the range contains elements that are not
+   *           <i>mutually comparable</i> using the specified comparator, or the
+   *           search key is not comparable to the elements in the range using
+   *           this comparator.
+   * @throws IllegalArgumentException If {@code fromIndex > toIndex}
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     rangeCheck(a.size(), fromIndex, toIndex);
@@ -203,31 +194,29 @@ public final class Collections {
 
   /**
    * Searches the specified list for the specified object using the binary
-   * search algorithm.  The list must be sorted into ascending order
-   * according to the specified comparator (as by the
-   * {@link #sort(List<T>, Comparator) sort(List<T>, Comparator)}
-   * method) prior to making this call.  If it is not sorted, the results
-   * are undefined. If the list contains multiple elements equal to the
-   * specified object, there is no guarantee which one will be found.
+   * search algorithm. The list must be sorted into ascending order according to
+   * the specified comparator (as by the {@link #sort(List,Comparator)} method)
+   * prior to making this call. If it is not sorted, the results are undefined.
+   * If the list contains multiple elements equal to the specified object, there
+   * is no guarantee which one will be found.
    *
-   * @param <T> the class of the objects in the list
-   * @param a the list to be searched
-   * @param key the value to be searched for
-   * @param c the comparator by which the list is ordered.  A
-   *        <tt>null</tt> value indicates that the elements'
-   *        {@linkplain Comparable natural ordering} should be used.
-   * @return index of the search key, if it is contained in the list;
-   *         otherwise, <tt>(-(<i>insertion point</i>) - 1)</tt>.  The
-   *         <i>insertion point</i> is defined as the point at which the
-   *         key would be inserted into the list: the index of the first
-   *         element greater than the key, or <tt>a.length</tt> if all
-   *         elements in the list are less than the specified key.  Note
-   *         that this guarantees that the return value will be &gt;= 0 if
-   *         and only if the key is found.
-   * @throws ClassCastException if the list contains elements that are not
-   *         <i>mutually comparable</i> using the specified comparator,
-   *         or the search key is not comparable to the
-   *         elements of the list using this comparator.
+   * @param <T> The type parameter of the Comparable key object.
+   * @param a The list to be searched.
+   * @param key The value to be searched for.
+   * @param c The comparator by which the list is ordered. A <tt>null</tt> value
+   *          indicates that the elements' {@linkplain Comparable natural
+   *          ordering} should be used.
+   * @return Index of the search key, if it is contained in the list; otherwise,
+   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
+   *         point</i> is defined as the point at which the key would be
+   *         inserted into the list: the index of the first element greater than
+   *         the key, or <tt>a.length</tt> if all elements in the list are less
+   *         than the specified key. Note that this guarantees that the return
+   *         value will be &gt;= 0 if and only if the key is found.
+   * @throws ClassCastException If the list contains elements that are not
+   *           <i>mutually comparable</i> using the specified comparator, or the
+   *           search key is not comparable to the elements of the list using
+   *           this comparator.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key, final Comparator<? super T> c) {
     return binarySearch0(a, 0, a.size(), key, c);
@@ -291,12 +280,12 @@ public final class Collections {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted array.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final T key) {
@@ -304,14 +293,14 @@ public final class Collections {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key) {
@@ -320,12 +309,14 @@ public final class Collections {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> The type parameter of the key object.
    * @param a The sorted array.
    * @param key The value to match.
-   *
+   * @param comparator The {@code Comparator} for {@code key} of type
+   *          {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T>int binaryClosestSearch(final List<T> a, final T key, final Comparator<T> comparator) {
@@ -333,14 +324,16 @@ public final class Collections {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches
-   * the value provided.
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided.
    *
+   * @param <T> The type parameter of the key object.
    * @param a The sorted array.
    * @param from The starting index of the sorted array to search from.
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
-   *
+   * @param comparator The {@code Comparator} for {@code key} of type
+   *          {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
    */
   public static <T>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key, final Comparator<T> comparator) {
@@ -387,40 +380,42 @@ public final class Collections {
   };
 
   /**
-   * Sorts the specified list into ascending order, according to the
-   * <i>natural ordering</i> of its elements.  This implementation differs
-   * from the one in java.util.Collections in that it allows null entries to
+   * Sorts the specified list into ascending order, according to the <i>natural
+   * ordering</i> of its elements. This implementation differs from the one in
+   * {@link Collections#sort(List)} in that it allows null entries to
    * be sorted, which are placed in the beginning of the list.
    *
-   * @param  list the list to be sorted.
-   * @throws ClassCastException if the list contains elements that are not
-   *         <i>mutually comparable</i> (for example, strings and integers).
-   * @throws UnsupportedOperationException if the specified list's
-   *         list-iterator does not support the <tt>set</tt> operation.
-   * @see java.util.Collections#sort(List)
+   * @param <T> The type parameter of Comparable list elements.
+   * @param list The list to be sorted.
+   * @throws ClassCastException If the list contains elements that are not
+   *           <i>mutually comparable</i> (for example, strings and integers).
+   * @throws UnsupportedOperationException If the specified list's list-iterator
+   *           does not support the <tt>set</tt> operation.
+   * @see Collections#sort(List)
    */
   public static <T extends Comparable<? super T>>void sort(final List<T> list) {
-    java.util.Collections.<T>sort(list, nullComparator);
+    Collections.<T>sort(list, nullComparator);
   }
 
   /**
-   * Sorts the specified list according to the order induced by the
-   * specified comparator.  This implementation differs from the one in
-   * java.util.Collections in that it allows null entries to be sorted, which
-   * are placed in the beginning of the list.
+   * Sorts the specified list according to the order induced by the specified
+   * comparator. This implementation differs from the one in
+   * {@link Collections#sort(List,Comparator)} in that it allows null
+   * entries to be sorted, which are placed in the beginning of the list.
    *
-   * @param  list the list to be sorted.
-   * @param  c the comparator to determine the order of the list.  A
-   *        <tt>null</tt> value indicates that the elements' <i>natural
-   *        ordering</i> should be used.
-   * @throws ClassCastException if the list contains elements that are not
-   *         <i>mutually comparable</i> using the specified comparator.
-   * @throws UnsupportedOperationException if the specified list's
-   *         list-iterator does not support the <tt>set</tt> operation.
-   * @see java.util.Collections#sort(List, Comparator)
+   * @param <T> The type parameter of list elements.
+   * @param list The list to be sorted.
+   * @param c The comparator to determine the order of the list. A <tt>null</tt>
+   *          value indicates that the elements' <i>natural ordering</i> should
+   *          be used.
+   * @throws ClassCastException If the list contains elements that are not
+   *           <i>mutually comparable</i> using the specified comparator.
+   * @throws UnsupportedOperationException If the specified list's list-iterator
+   *           does not support the <tt>set</tt> operation.
+   * @see Collections#sort(List,Comparator)
    */
   public static <T>void sort(final List<T> list, final Comparator<? super T> c) {
-    java.util.Collections.<T>sort(list, new Comparator<T>() {
+    Collections.<T>sort(list, new Comparator<T>() {
       @Override
       public int compare(final T o1, final T o2) {
         return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : c.compare(o1, o2);
@@ -577,6 +572,6 @@ public final class Collections {
     }
   }
 
-  private Collections() {
+  private FastCollections() {
   }
 }

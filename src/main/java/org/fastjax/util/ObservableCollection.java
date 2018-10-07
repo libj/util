@@ -22,15 +22,16 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Wrapper class for the <code>Collection</code> interface that provides
- * callback methods to observe the addition and removal of elements to the
- * wrapped <code>Collection</code>.
- *
- * @see ObservableCollection#beforeAdd(Object)
- * @see ObservableCollection#afterAdd(Object)
- * @see ObservableCollection#beforeRemove(Object)
- * @see ObservableCollection#afterRemove(Object)
- * @see Collection
+ * Wrapper class for the {@code Collection} interface that provides callback
+ * methods to observe the addition and removal of elements to the wrapped
+ * {@code Collection}.
+ * <ul>
+ * <li>{@link #beforeAdd(Object)}</li>
+ * <li>{@link #afterAdd(Object,RuntimeException)}</li>
+ * <li>{@link #beforeRemove(Object)}</li>
+ * <li>{@link #afterRemove(Object,RuntimeException)}</li>
+ * <li>{@link Collection}</li>
+ * </ul>
  */
 public class ObservableCollection<E> extends WrappedCollection<E> {
   public ObservableCollection(final Collection<E> collection) {
@@ -39,10 +40,12 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
 
   /**
    * Callback method that is invoked immediately before an element is added to
-   * the enclosed <code>Collection</code>.
+   * the enclosed {@code Collection}.
    *
-   * @param e The element being added to the enclosed <code>Collection</code>.
-   * @return Whether the element should be added to the collection.
+   * @param e The element being added to the enclosed {@code Collection}.
+   * @return If this method returns {@code false}, the subsequent add operation
+   *         will not be performed; otherwise, the subsequent add
+   *         operation will be performed.
    */
   protected boolean beforeAdd(final E e) {
     return true;
@@ -50,20 +53,23 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
 
   /**
    * Callback method that is invoked immediately after an element is added to
-   * the enclosed <code>Collection</code>.
+   * the enclosed {@code Collection}.
    *
-   * @param e The element added to the enclosed <code>Collection</code>.
+   * @param e The element added to the enclosed {@code Collection}.
+   * @param re A {@code RuntimeException} that occurred during the add
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterAdd(final E e, final RuntimeException re) {
   }
 
   /**
    * Callback method that is invoked immediately before an element is removed
-   * from the enclosed <code>Collection</code>.
+   * from the enclosed {@code Collection}.
    *
-   * @param e The element being removed from the enclosed <code>Collection</code>.
-   * @return Whether the element should be removed from the collection.
+   * @param e The element being removed from the enclosed {@code Collection}.
+   * @return If this method returns {@code false}, the subsequent remove operation
+   *         will not be performed; otherwise, the subsequent remove
+   *         operation will be performed.
    */
   protected boolean beforeRemove(final Object e) {
     return true;
@@ -71,21 +77,22 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
 
   /**
    * Callback method that is invoked immediately after an element is removed
-   * from the enclosed <code>Collection</code>.
+   * from the enclosed {@code Collection}.
    *
-   * @param e The element removed from the enclosed <code>Collection</code>.
+   * @param e The element removed from the enclosed {@code Collection}.
+   * @param re A {@code RuntimeException} that occurred during the add
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterRemove(final Object e, final RuntimeException re) {
   }
 
   /**
    * Returns an iterator over the elements in this collection. Calling
-   * <code>Iterator.remove()</code> will delegate a callback to
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> on the instance
-   * of this <code>ObservableCollection</code>. All elements for which
-   * <code>beforeRemove()</code> returns false will not be removed from this
-   * collection.
+   * {@link Iterator#remove()} will delegate a callback to
+   * {@link #beforeRemove(Object)} and
+   * {@link #afterRemove(Object, RuntimeException)} on this instance. All
+   * elements for which {@link #beforeRemove(Object)} returns false will not be
+   * removed from this collection.
    *
    * @see Collection#iterator()
    * @return an <tt>Iterator</tt> over the elements in this collection
@@ -132,13 +139,12 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   }
 
   /**
-   * Ensures that this collection contains the specified element (optional
-   * operation). The callback methods <code>beforeAdd()</code> and
-   * <code>afterAdd()</code> are called immediately before and after the
-   * enclosed collection is modified. If <code>beforeAdd()</code> returns
-   * false, the element will not be added.
-   *
-   * @see Collection#add(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeAdd(Object)} and
+   * {@link ObservableCollection#afterAdd(Object, RuntimeException)} are called
+   * immediately before and after the enclosed collection is modified. If
+   * {@link #beforeAdd(Object)} returns false, the element will not be added.
    */
   @Override
   public boolean add(final E e) {
@@ -162,15 +168,14 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   }
 
   /**
-   * Adds all of the elements in the specified collection to this collection
-   * (optional operation). The callback methods <code>beforeAdd()</code> and
-   * <code>afterAdd()</code> are called immediately before and after the
-   * enclosed collection is modified for the addition of each element
-   * in the argument Collection. All elements for which
-   * <code>beforeAdd()</code> returns false will not be added to this
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeAdd(Object)} and
+   * {@link #afterAdd(Object, RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified for the addition of each
+   * element in the argument Collection. All elements for which
+   * {@link #beforeAdd(Object)} returns false will not be added to this
    * collection.
-   *
-   * @see Collection#addAll(Collection)
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -182,14 +187,13 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   }
 
   /**
-   * Removes a single instance of the specified element from this collection,
-   * if it is present (optional operation). The callback methods
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
-   * immediately before and after the enclosed collection is
-   * modified. If <code>beforeRemove()</code> returns false, the element will
-   * not be removed.
-   *
-   * @see Collection#remove(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object)} and
+   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified. If
+   * {@link #beforeRemove(Object)} returns false, the element will not be
+   * removed.
    */
   @Override
   public boolean remove(final Object o) {
@@ -211,15 +215,14 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   }
 
   /**
-   * Removes all of this collection's elements that are also contained in the
-   * specified collection (optional operation). The callback methods
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
-   * immediately before and after the enclosed collection is
-   * modified for the removal of each element in the argument Collection. All
-   * elements for which <code>beforeRemove()</code> returns false will not be
-   * removed from this collection.
-   *
-   * @see Collection#removeAll(Collection)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object)} and
+   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the removal of
+   * each element in the argument Collection. All elements for which
+   * {@link #beforeRemove(Object)} returns false will not be removed from this
+   * collection.
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
@@ -231,13 +234,13 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   }
 
   /**
-   * Removes all of the elements of this collection that satisfy the given
-   * predicate. The callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element. If
-   * <code>beforeRemove()</code> returns false, the element will not be removed.
-   *
-   * @see Collection#removeIf(Predicate)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object)} and
+   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the removal of
+   * each element. If {@link #beforeRemove(Object)} returns false, the element
+   * will not be removed.
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
@@ -267,13 +270,12 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   }
 
   /**
-   * Retains only the elements in this collection that are contained in the
-   * specified collection (optional operation). The callback methods
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
-   * immediately before and after the enclosed collection is
-   * modified for the removal of each element not in the argument Collection.
-   *
-   * @see Collection#retainAll(Collection)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object)} and
+   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the removal of
+   * each element not in the argument Collection.
    */
   @Override
   public boolean retainAll(final Collection<?> c) {
@@ -290,12 +292,12 @@ public class ObservableCollection<E> extends WrappedCollection<E> {
   }
 
   /**
-   * Removes all of the elements from this collection (optional operation).
-   * The callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element.
-   *
-   * @see Collection#clear()
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(Object)} and
+   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the removal of
+   * each element.
    */
   @Override
   public void clear() {

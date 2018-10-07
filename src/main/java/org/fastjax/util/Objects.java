@@ -250,8 +250,8 @@ public final class Objects {
 
   private static String toString(final Object obj, final int depth, final IdentityHashMap<Object,Object> visited) {
     final Field[] fields = Classes.getDeclaredFieldsDeep(obj.getClass());
-    final char[] pad = Arrays.createRepeat(' ', depth * 2);
-    final char[] pad2 = Arrays.createRepeat(' ', (depth + 1) * 2);
+    final char[] pad = FastArrays.createRepeat(' ', depth * 2);
+    final char[] pad2 = FastArrays.createRepeat(' ', (depth + 1) * 2);
     final StringBuilder builder = new StringBuilder(obj.getClass().getName()).append('@').append(Integer.toHexString(System.identityHashCode(obj))).append(" {\n");
     try {
       for (final Field field : fields) {
@@ -322,7 +322,7 @@ public final class Objects {
       }
 
       builder.setLength(builder.length() - 2);
-      return builder.append('\n').append(Arrays.createRepeat(' ', (depth - 1) * 2)).append('}').toString();
+      return builder.append('\n').append(FastArrays.createRepeat(' ', (depth - 1) * 2)).append('}').toString();
     }
     catch (final IllegalAccessException e) {
       throw new UnsupportedOperationException(e);

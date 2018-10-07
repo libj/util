@@ -17,8 +17,9 @@
 package org.fastjax.util;
 
 /**
- * This utility class implements functions to {@link #set()}, {@link #clear()},
- * and {@link #get()} bit values from an argument {@code byte[]}.
+ * This utility class implements functions to {@code #set(...)},
+ * {@code #clear(...)}, and {@code #get(...)} bit values from an argument
+ * {@code byte[]}.
  */
 public final class Buffers {
   /**
@@ -42,6 +43,7 @@ public final class Buffers {
    * @param buf The {@code byte[]} buffer.
    * @param bit The index of the bit to be set.
    * @param resize The resize factor.
+   * @return The provided {@code byte[]} buffer.
    * @throws ArrayIndexOutOfBoundsException If the specified index is negative,
    *           or if {@code resize == 0}. and the bit index is greater than the
    *           number of bits in the {@code buf} array.
@@ -83,6 +85,7 @@ public final class Buffers {
    * @param buf The {@code long[]} buffer.
    * @param bit The index of the bit to be set.
    * @param resize The resize factor.
+   * @return The provided {@code long[]} buffer.
    * @throws ArrayIndexOutOfBoundsException If the specified index is negative,
    *           or if {@code resize == 0}. and the bit index is greater than the
    *           number of bits in the {@code buf} array.
@@ -104,9 +107,12 @@ public final class Buffers {
   }
 
   /**
-   * Sets the bit specified by the index to {@code false}.
+   * Sets the bit in {@code buf} specified by the {@code bit} index to
+   * {@code false}.
    *
+   * @param buf The {@code byte[]} buffer in which to clear the bit.
    * @param bit The index of the bit to be cleared.
+   * @return The provided {@code byte[]} buffer.
    * @throws ArrayIndexOutOfBoundsException If the specified index is negative.
    * @throws NullPointerException If the specified array is null.
    */
@@ -120,9 +126,12 @@ public final class Buffers {
   }
 
   /**
-   * Sets the bit specified by the index to {@code false}.
+   * Sets the bit in {@code buf} specified by the {@code bit} index to
+   * {@code false}.
    *
+   * @param buf The {@code long[]} buffer in which to clear the bit.
    * @param bit The index of the bit to be cleared.
+   * @return The provided {@code long[]} buffer.
    * @throws ArrayIndexOutOfBoundsException If the specified index is negative.
    * @throws NullPointerException If the specified array is null.
    */

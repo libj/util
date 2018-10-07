@@ -24,6 +24,9 @@ public final class Maps {
    * Clone a <code>Map</code>, containing the same entries as the original. The
    * class type of the <code>map</code> argument must have a default
    * constructor.
+   * @param <M> The type parameter of the {@code map}.
+   * @param <K> The key type parameter of the {@code map}.
+   * @param <V> The value type parameter of the {@code map}.
    * @param map The <code>Map</code> to clone.
    * @return A clone of the map containing the same entries as the original.
    * @throws UnsupportedOperationException If the class of the <code>map</code>
@@ -33,7 +36,7 @@ public final class Maps {
    * @see Map
    */
   @SuppressWarnings("unchecked")
-  public static <M extends Map<K,V>,K,V>M clone(final Map<K,V> map) {
+  public static <M extends Map<K,V>,K,V>M clone(final M map) {
     try {
       final M clone = (M)map.getClass().getDeclaredConstructor().newInstance();
       for (final Map.Entry<K,V> entry : map.entrySet())

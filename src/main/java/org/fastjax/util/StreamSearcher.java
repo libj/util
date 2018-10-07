@@ -33,7 +33,7 @@ public final class StreamSearcher {
     public Char(final char[] ... pattern) {
       this.pattern = pattern;
       this.borders = new int[pattern.length][pattern[0].length + 1];
-      for (int p = 0; p < pattern.length; p++) {
+      for (int p = 0; p < pattern.length; ++p) {
         int i = 0;
         int j = -1;
         borders[p][i] = j;
@@ -54,8 +54,11 @@ public final class StreamSearcher {
      * The latter is because InputStream semantics make it difficult to have
      * another reasonable default, i.e. leave the stream unchanged.
      *
-     * @return number of bytes the stream is advanced
-     * @throws IOException
+     * @param in The {@code Reader}.
+     * @param buffer Buffer into which read bytes are written.
+     * @param offset Offset in buffer where bytes are written.
+     * @return Number of bytes the stream is advanced.
+     * @throws IOException If an I/O error has occurred.
      */
     public int search(final Reader in, final char[] buffer, final int offset) throws IOException {
       int i = 0;
@@ -64,7 +67,7 @@ public final class StreamSearcher {
 
       while ((b = in.read()) != -1) {
         buffer[offset + i++] = (char)b;
-        for (int p = 0; p < pattern.length; p++) {
+        for (int p = 0; p < pattern.length; ++p) {
           while (j[p] >= 0 && (char)b != pattern[p][j[p]])
             j[p] = borders[p][j[p]];
 
@@ -91,7 +94,7 @@ public final class StreamSearcher {
     public Byte(final byte[] ... pattern) {
       this.pattern = pattern;
       this.borders = new int[pattern.length][pattern[0].length + 1];
-      for (int p = 0; p < pattern.length; p++) {
+      for (int p = 0; p < pattern.length; ++p) {
         int i = 0;
         int j = -1;
         borders[p][i] = j;
@@ -112,17 +115,20 @@ public final class StreamSearcher {
      * The latter is because InputStream semantics make it difficult to have
      * another reasonable default, i.e. leave the stream unchanged.
      *
-     * @return number of bytes the stream is advanced
-     * @throws IOException
+     * @param in The {@code InputStream}.
+     * @param buffer Buffer into which read bytes are written.
+     * @param offset Offset in buffer where bytes are written.
+     * @return Number of bytes the stream is advanced.
+     * @throws IOException If an I/O error has occurred.
      */
-    public int search(final InputStream stream, final byte[] buffer, final int offset) throws IOException {
+    public int search(final InputStream in, final byte[] buffer, final int offset) throws IOException {
       int i = 0;
       int b = 0;
       final int[] j = new int[pattern.length];
 
-      while ((b = stream.read()) != -1) {
+      while ((b = in.read()) != -1) {
         buffer[offset + i++] = (byte)b;
-        for (int p = 0; p < pattern.length; p++) {
+        for (int p = 0; p < pattern.length; ++p) {
           while (j[p] >= 0 && (byte)b != pattern[p][j[p]])
             j[p] = borders[p][j[p]];
 

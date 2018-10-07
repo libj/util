@@ -25,27 +25,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The Damerau-Levenshtein Algorithm is an extension to the Levenshtein Algorithm which solves the edit distance problem between a source string and a target
- * string with the following operations:
- *
+ * The Damerau-Levenshtein Algorithm is an extension to the Levenshtein
+ * Algorithm which solves the edit distance problem between a source string and
+ * a target string with the following operations:
  * <ul>
  * <li>Character Insertion</li>
  * <li>Character Deletion</li>
  * <li>Character Replacement</li>
  * <li>Adjacent Character Swap</li>
  * </ul>
- *
- * Note that the adjacent character swap operation is an edit that may be applied when two adjacent characters in the source string match two adjacent
- * characters in the target string, but in reverse order, rather than a general allowance for adjacent character swaps.
+ * Note that the adjacent character swap operation is an edit that may be
+ * applied when two adjacent characters in the source string match two adjacent
+ * characters in the target string, but in reverse order, rather than a general
+ * allowance for adjacent character swaps.
  * <p>
- *
- * This implementation allows the client to specify the costs of the various edit operations with the restriction that the cost of two swap operations must not
- * be less than the cost of a delete operation followed by an insert operation. This restriction is required to preclude two swaps involving the same character
- * being required for optimality which, in turn, enables a fast dynamic programming solution.
+ * This implementation allows the client to specify the costs of the various
+ * edit operations with the restriction that the cost of two swap operations
+ * must not be less than the cost of a delete operation followed by an insert
+ * operation. This restriction is required to preclude two swaps involving the
+ * same character being required for optimality which, in turn, enables a fast
+ * dynamic programming solution.
  * <p>
- *
- * The running time of the Damerau-Levenshtein algorithm is O(n*m) where n is the length of the source string and m is the length of the target string. This
- * implementation consumes O(n*m) space.
+ * The running time of the Damerau-Levenshtein algorithm is O(n*m) where n is
+ * the length of the source string and m is the length of the target string.
+ * This implementation consumes O(n*m) space.
  *
  * @author Kevin L. Stern
  */
@@ -58,14 +61,10 @@ public class DamerauLevenshteinDistance {
   /**
    * Constructor.
    *
-   * @param deleteCost
-   *          the cost of deleting a character.
-   * @param insertCost
-   *          the cost of inserting a character.
-   * @param replaceCost
-   *          the cost of replacing a character.
-   * @param swapCost
-   *          the cost of swapping two adjacent characters.
+   * @param deleteCost The cost of deleting a character.
+   * @param insertCost The cost of inserting a character.
+   * @param replaceCost The cost of replacing a character.
+   * @param swapCost The cost of swapping two adjacent characters.
    */
   public DamerauLevenshteinDistance(final int deleteCost, final int insertCost, final int replaceCost, final int swapCost) {
     // Required to facilitate the premise to the algorithm that two swaps of the same character are never required for optimality.
@@ -79,7 +78,13 @@ public class DamerauLevenshteinDistance {
   }
 
   /**
-   * Compute the Damerau-Levenshtein distance between the specified source string and the specified target string.
+   * Compute the Damerau-Levenshtein distance between the specified source
+   * string and the specified target string.
+   *
+   * @param source The source string.
+   * @param target The target string.
+   * @return The Damerau-Levenshtein distance between the specified source
+   *         string and the specified target string.
    */
   public int compute(final String source, final String target) {
     if (source.length() == 0)
@@ -95,23 +100,23 @@ public class DamerauLevenshteinDistance {
     }
 
     sourceIndexByCharacter.put(source.charAt(0), 0);
-    for (int i = 1; i < source.length(); i++) {
+    for (int i = 1; i < source.length(); ++i) {
       final int deleteDistance = table[i - 1][0] + deleteCost;
       final int insertDistance = (i + 1) * deleteCost + insertCost;
       final int matchDistance = i * deleteCost + (source.charAt(i) == target.charAt(0) ? 0 : replaceCost);
       table[i][0] = Math.min(Math.min(deleteDistance, insertDistance), matchDistance);
     }
 
-    for (int j = 1; j < target.length(); j++) {
+    for (int j = 1; j < target.length(); ++j) {
       final int deleteDistance = (j + 1) * insertCost + deleteCost;
       final int insertDistance = table[0][j - 1] + insertCost;
       final int matchDistance = j * insertCost + (source.charAt(0) == target.charAt(j) ? 0 : replaceCost);
       table[0][j] = Math.min(Math.min(deleteDistance, insertDistance), matchDistance);
     }
 
-    for (int i = 1; i < source.length(); i++) {
+    for (int i = 1; i < source.length(); ++i) {
       int maxSourceLetterMatchIndex = source.charAt(i) == target.charAt(0) ? 0 : -1;
-      for (int j = 1; j < target.length(); j++) {
+      for (int j = 1; j < target.length(); ++j) {
         final Integer candidateSwapIndex = sourceIndexByCharacter.get(target.charAt(j));
         final int jSwap = maxSourceLetterMatchIndex;
         final int deleteDistance = table[i - 1][j] + deleteCost;

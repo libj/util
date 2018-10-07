@@ -25,45 +25,84 @@ import name.fraser.neil.plaintext.diff_match_patch;
 
 public class Diff {
   private static final Charset charset = Charset.forName("UTF-8");
-  // Size of LengthSize is 5 bits, giving it 2^5 values (0 to 31), which
-  // allows Length to have 2^31 values (0 to 2147483647, which are the min and
-  // max lengths allowed for a String.
+  /**
+   * Size of "LengthSize" is 5 bits, giving it 2^5 values (0 to 31), which
+   * allows Length to have 2^31 values (0 to 2147483647, which are the min and
+   * max lengths allowed for a String).
+   */
   private static final byte lengthSizeSize = 5;
 
-  // (*) Get LengthSize (5 bits) from beginning of byte
+  /**
+   * Returns the "LengthSize" (5 bits) from beginning of byte.
+   *
+   * @param src The byte.
+   * @return The "LengthSize".
+   */
   private static byte getLengthSize(final byte src) {
     return (byte)((src & 0xff) >> 3);
   }
 
-  // 5 bits reserved for LengthSize, allowing max value of 32
-  // (0) Write the lengthSize (5 bits)
+  /**
+   * Write the {@code lengthSize} into {@code dest}. 5 bits are
+   * reserved for {@code lengthSize}, allowing max value of 32.
+   *
+   * @param dest The destination array.
+   * @param lengthSize The "LengthSize".
+   * @return The "LengthSize".
+   */
   private static int writeLengthSize(final byte[] dest, final byte lengthSize) {
     dest[0] |= lengthSize << (8 - lengthSizeSize);
     return lengthSizeSize;
   }
 
-  // (1) Write the ordinal (2 bits)
+  /**
+   * Write the {@code ordinal} into {@code dest} at {@code offset}. 2 bits are
+   * reserved for {@code ordinal}.
+   *
+   * @param dest The destination array.
+   * @param offset The offset at which ordinal bits will be written.
+   * @param ordinal The ordinal.
+   * @return The new offset adjusted by the written bits.
+   */
   private static int writeOrdinal(final byte[] dest, final int offset, final byte ordinal) {
     return Bytes.writeBitsB(dest, offset, ordinal, (byte)2);
   }
 
-  // (2) Write the length (lengthSize bits)
+  /**
+   * Write the {@code length} into {@code dest} at {@code offset}.
+   * {@code lengthSize} bits will be used for {@code length}.
+   *
+   * @param dest The destination array.
+   * @param offset The offset at which length bits will be written.
+   * @param length The length value.
+   * @param lengthSize The number of bits used for {@code length}.
+   * @return The new offset adjusted by the written bits.
+   */
   private static int writeLength(final byte[] dest, final int offset, final int length, final byte lengthSize) {
     final byte[] bytes = new byte[1 + (lengthSize - 1) / 8];
     Bytes.toBytes(length, bytes, 0, true);
     return Bytes.writeBitsB(dest, offset, bytes, lengthSize);
   }
 
-  // (3) Write the text (length * 8 bits)
+  /**
+   * Write the {@code text} into {@code dest} at {@code offset}.
+   * {@code length} * 8 bits will be used for {@code text}.
+   *
+   * @param dest The destination array.
+   * @param offset The offset at which text bits will be written.
+   * @param text The text to write.
+   * @param length The length in bytes of {@code text}.
+   * @return The new offset adjusted by the written bits.
+   */
   private static int writeText(final byte[] dest, final int offset, final byte[] text, final int length) {
     return Bytes.writeBitsB(dest, offset, text, length * 8);
   }
 
   /**
-   * Decode a byte array encoding of a diff into a <code>Diff</code> object.
+   * Decode a byte array encoding of a diff into a {@code Diff} object.
    *
-   * @param bytes The byte array.
-   * @return The <code>Diff</code> object decoded from the byte array.
+   * @param bytes The {@code byte[]} array.
+   * @return The {@code Diff} object decoded from the byte array.
    */
   public static Diff decode(final byte[] bytes) {
     final byte lengthSize = getLengthSize(bytes[0]);
@@ -269,8 +308,8 @@ public class Diff {
   private final byte lengthSize;
 
   /**
-   * Create a <code>Diff</code> that represents the steps necessary to
-   * transform a <code>target</code> string to the <code>source</code> string.
+   * Create a {@code Diff} that represents the steps necessary to transform a
+   * {@code target} string to the {@code source} string.
    *
    * @param source The source string.
    * @param target The target string.
@@ -336,13 +375,11 @@ public class Diff {
   }
 
   /**
-   * Create a <code>Diff</code> from a list of <code>Diff.Mod</code> objects,
-   * and a <code>lengthSize</code> (the number of bits in the length number in
-   * each <code>Diff.Mod</code> object).
+   * Create a {@code Diff} from a list of {@link Diff.Mod} objects,
+   * and a {@code lengthSize} (the number of bits in the length number in
+   * each {@link Diff.Mod} object).
    *
-   * @param source The source string.
-   * @param target The target string.
-   * @param mods The list of <code>Diff.Mod</code> objects.
+   * @param mods The list of {@link Diff.Mod} objects.
    * @param lengthSize The number of bits in the length number.
    */
   public Diff(final List<Mod> mods, final byte lengthSize) {
@@ -364,8 +401,8 @@ public class Diff {
   }
 
   /**
-   * Patch a string with the list of <code>Diff.Mod</code> objects in this
-   * <code>Diff</code>.
+   * Patch a string with the list of {@link Diff.Mod} objects in this
+   * {@code Diff}.
    *
    * @param string The string.
    * @return The resulting string from applying the diff onto the argument
@@ -381,27 +418,27 @@ public class Diff {
   }
 
   /**
-   * Encode this <code>Diff</code> object into a byte array representation.
+   * Encode this {@code Diff} object into a byte array representation.
    *
-   * @return This <code>Diff</code> object encoded to a byte array.
+   * @return This {@code Diff} object encoded to a byte array.
    */
   public byte[] toBytes() {
     int bits = lengthSizeSize;
-    for (int i = 0; i < this.mods.size(); i++)
+    for (int i = 0; i < this.mods.size(); ++i)
       bits += this.mods.get(i).getSize();
 
     final byte[] dest = new byte[1 + (bits - 1) / 8];
     int offset = writeLengthSize(dest, lengthSize);
-    for (int i = 0; i < this.mods.size(); i++)
+    for (int i = 0; i < this.mods.size(); ++i)
       offset = this.mods.get(i).encode(dest, offset);
 
     return dest;
   }
 
   /**
-   * Get the list of <code>Diff.Mod</code> objects in this <code>Diff</code>.
+   * Returns the list of {@link Diff.Mod} objects in this {@code Diff}.
    *
-   * @return The list of <code>Diff.Mod</code> objects.
+   * @return The list of {@link Diff.Mod} objects in this {@code Diff}.
    */
   public List<Mod> getMods() {
     return this.mods;

@@ -49,10 +49,10 @@ public interface IntIterator {
    * <p>
    * The behavior of an iterator is unspecified if this method is called after a
    * call to the {@link #forEachRemaining forEachRemaining} method.
+   * <p>
+   * The default implementation throws an instance of
+   * {@link UnsupportedOperationException} and performs no other action.
    *
-   * @implSpec The default implementation throws an instance of
-   *           {@link UnsupportedOperationException} and performs no other
-   *           action.
    * @throws UnsupportedOperationException If the {@code remove} operation is
    *           not supported by this iterator.
    * @throws IllegalStateException If the {@code next} method has not yet been
@@ -76,10 +76,9 @@ public interface IntIterator {
    * <p>
    * Subsequent behavior of an iterator is unspecified if the action throws an
    * exception.
-   *
-   * @implSpec
    * <p>
    * The default implementation behaves as if:
+   *
    * <pre><code>
    *   while (hasNext())
    *     action.accept(next());

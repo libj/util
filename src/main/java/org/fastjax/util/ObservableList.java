@@ -23,19 +23,19 @@ import java.util.ListIterator;
 import java.util.function.Predicate;
 
 /**
- * Wrapper class for the <code>List</code> interface that provides callback
- * methods to observe the addition and removal of elements to the wrapped
- * <code>List</code>.
- *
- * @see ObservableList#beforeGet(int,Iterator<E>)
- * @see ObservableList#afterGet(int,E,Iterator<E>)
- * @see ObservableList#beforeAdd(int,Object)
- * @see ObservableList#afterAdd(int)
- * @see ObservableList#beforeRemove(int)
- * @see ObservableList#afterRemove(Object)
- * @see ObservableList#beforeSet(int,E)
- * @see ObservableList#afterSet(int,E)
- * @see List
+ * Wrapper class for the {@link List} interface that provides callback methods
+ * to observe the addition and removal of elements to the wrapped {@link List}.
+ * <ul>
+ * <li>{@link #beforeGet(int,ListIterator)}</li>
+ * <li>{@link #afterGet(int,Object,ListIterator,RuntimeException)}</li>
+ * <li>{@link #beforeAdd(int,Object)}</li>
+ * <li>{@link #afterAdd(int,Object,RuntimeException)}</li>
+ * <li>{@link #beforeRemove(int)}</li>
+ * <li>{@link #afterRemove(Object,RuntimeException)}</li>
+ * <li>{@link #beforeSet(int,Object)}</li>
+ * <li>{@link #afterSet(int,Object,RuntimeException)}</li>
+ * <li>{@link List}</li>
+ * </ul>
  */
 public class ObservableList<E> extends WrappedList<E> {
   private final int fromIndex;
@@ -53,39 +53,41 @@ public class ObservableList<E> extends WrappedList<E> {
 
   /**
    * Callback method that is invoked immediately before an element is retrieved
-   * from the enclosed <code>List</code>.
+   * from the enclosed {@link List}.
    *
    * @param index The index of the element being retrieved from the enclosed
-   * <code>List</code>.
-   * @param iterator The <code>ListIterator</code> instance if the get is a
-   *                 result of an iterator reference, or null if otherwise.
-   * <code>List</code>.
+   *          {@link List}.
+   * @param iterator The {@link ListIterator} instance if the get is a result of
+   *          an iterator reference, or null if otherwise. {@link List}.
    */
   protected void beforeGet(final int index, final ListIterator<E> iterator) {
   }
 
   /**
    * Callback method that is invoked immediately after an element is retrieved
-   * from the enclosed <code>List</code>.
+   * from the enclosed {@link List}.
    *
    * @param index The index of the element being retrieved from the enclosed
-   * <code>List</code>.
-   * @param e The element being retrieved from the enclosed <code>List</code>.
-   * @param iterator The <code>Iterator</code> instance if the get is a result
-   *                 of an iterator reference, or null if otherwise.
+   *          {@link List}.
+   * @param e The element being retrieved from the enclosed {@link List}.
+   * @param iterator The {@link Iterator} instance if the get is a result of an
+   *          iterator reference, or null if otherwise.
+   * @param re A {@code RuntimeException} that occurred during the get
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
   }
 
   /**
    * Callback method that is invoked immediately before an element is added to
-   * the enclosed <code>List</code>.
+   * the enclosed {@link List}.
    *
    * @param index The index of the element being added to the enclosed
-   * <code>List</code>.
-   * @param e The element being added to the enclosed <code>List</code>.
-   * @return Whether the element should be added to the collection.
+   *          {@link List}.
+   * @param e The element being added to the enclosed {@link List}.
+   * @return If this method returns {@code false}, the subsequent add operation
+   *         will not be performed; otherwise, the subsequent add
+   *         operation will be performed.
    */
   protected boolean beforeAdd(final int index, final E e) {
     return true;
@@ -93,23 +95,25 @@ public class ObservableList<E> extends WrappedList<E> {
 
   /**
    * Callback method that is invoked immediately after an element is added to
-   * the enclosed <code>List</code>.
+   * the enclosed {@link List}.
    *
-   * @param index The index of the element added to the enclosed
-   * <code>List</code>.
-   * @param e The element being added to the enclosed <code>List</code>.
+   * @param index The index of the element added to the enclosed {@link List}.
+   * @param e The element being added to the enclosed {@link List}.
+   * @param re A {@code RuntimeException} that occurred during the add
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterAdd(final int index, final E e, final RuntimeException re) {
   }
 
   /**
    * Callback method that is invoked immediately before an element is removed
-   * from the enclosed <code>List</code>.
+   * from the enclosed {@link List}.
    *
    * @param index The index of the element being removed from the enclosed
-   * <code>List</code>.
-   * @return Whether the element should be removed from the collection.
+   *          {@link List}.
+   * @return If this method returns {@code false}, the subsequent remove operation
+   *         will not be performed; otherwise, the subsequent remove
+   *         operation will be performed.
    */
   protected boolean beforeRemove(final int index) {
     return true;
@@ -117,45 +121,51 @@ public class ObservableList<E> extends WrappedList<E> {
 
   /**
    * Callback method that is invoked immediately after an element is removed
-   * from the enclosed <code>Collection</code>.
+   * from the enclosed {@link List}.
    *
-   * @param e The element removed from the enclosed <code>Collection</code>.
+   * @param e The element removed from the enclosed {@link List}.
+   * @param re A {@code RuntimeException} that occurred during the remove
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterRemove(final Object e, final RuntimeException re) {
   }
 
   /**
-   * Callback method that is invoked immediately before an element is set at
-   * an index to the enclosed <code>List</code>.
+   * Callback method that is invoked immediately before an element is set at an
+   * index to the enclosed {@link List}.
    *
-   * @param index The index of the element being set in the enclosed <code>List</code>.
-   * @param newElement The element being set to the enclosed <code>List</code>.
-   * @return Whether the element should be set in the collection.
+   * @param index The index of the element being set in the enclosed
+   *          {@link List}.
+   * @param newElement The element being set to the enclosed {@link List}.
+   * @return If this method returns {@code false}, the subsequent set operation
+   *         will not be performed; otherwise, the subsequent set
+   *         operation will be performed.
    */
   protected boolean beforeSet(final int index, final E newElement) {
     return true;
   }
 
   /**
-   * Callback method that is invoked immediately after an element is set at
-   * an index to the enclosed <code>List</code>.
+   * Callback method that is invoked immediately after an element is set at an
+   * index to the enclosed {@link List}.
    *
-   * @param index The index of the element set in the enclosed <code>List</code>.
-   * @param oldElement The old element at the index of the enclosed <code>List</code>.
+   * @param index The index of the element set in the enclosed {@link List}.
+   * @param oldElement The old element at the index of the enclosed
+   *          {@link List}.
+   * @param re A {@code RuntimeException} that occurred during the set
+   *          operation, or {@code null} if no exception occurred.
    */
-  @SuppressWarnings("unused")
   protected void afterSet(final int index, final E oldElement, final RuntimeException re) {
   }
 
   /**
-   * Ensures that this collection contains the specified element (optional
-   * operation). The callback methods <code>beforeAdd()</code> and
-   * <code>afterAdd()</code> are called immediately before and after the
-   * enclosed collection is modified. If <code>beforeAdd()</code> returns
-   * false, the element will not be added.
-   *
-   * @see Collection#add(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeAdd(int,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified. If
+   * {@link #beforeAdd(int,Object)} returns false, the element will not be
+   * added.
    */
   @Override
   public boolean add(final E e) {
@@ -181,14 +191,13 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Inserts the specified element at the specified position in this list
-   * (optional operation). The callback methods <code>beforeAdd()</code> and
-   * <code>afterAdd()</code> are called immediately before and after the
-   * enclosed collection is modified for the addition of each element
-   * in the argument Collection. If <code>beforeAdd()</code> returns false,
-   * the element will not be added.
-   *
-   * @see List#add(int,Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeAdd(int,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the addition of
+   * each element in the argument Collection. If {@link #beforeAdd(int,Object)}
+   * returns false, the element will not be added.
    */
   @Override
   public void add(final int index, final E element) {
@@ -211,14 +220,14 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Adds all of the elements in the specified collection to this collection
-   * (optional operation). The callback methods <code>beforeAdd()</code> and
-   * <code>afterAdd()</code> are called immediately before and after the
-   * enclosed collection is modified for the addition of each element
-   * in the argument Collection. All elements for which <code>beforeAdd()</code>
-   * returns false will not be added to this collection.
-   *
-   * @see Collection#addAll(Collection)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeAdd(int,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the addition of
+   * each element in the argument Collection. All elements for which
+   * {@link #beforeAdd(int,Object)} returns false will not be added to this
+   * collection.
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -230,10 +239,14 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Inserts all of the elements in the specified collection into this
-   * list at the specified position (optional operation).
-   *
-   * @see List#addAll(int,Collection)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeAdd(int,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified for the addition of
+   * each element in the argument Collection. All elements for which
+   * {@link #beforeAdd(int,Object)} returns false will not be added to this
+   * collection.
    */
   @Override
   public boolean addAll(int index, final Collection<? extends E> c) {
@@ -247,14 +260,13 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Removes all of the elements from this collection (optional operation).
-   * The callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element.
-   * All elements for which <code>beforeRemove()</code> returns false will not
-   * be removed from this collection.
-   *
-   * @see Collection#clear()
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified for the removal of each
+   * element. All elements for which {@link #beforeRemove(int)} returns false
+   * will not be removed from this collection.
    */
   @Override
   public void clear() {
@@ -266,12 +278,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns {@code true} if this list contains the specified element.
-   * The callback methods <code>beforeGet()</code> and
-   * <code>afterGet()</code> are called immediately before and after each
-   * member of the enclosed list is referenced.
-   *
-   * @see List#contains(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
    */
   @Override
   public boolean contains(final Object o) {
@@ -291,12 +303,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns {@code true} if this list contains all of the elements of the
-   * specified collection. The callback methods <code>beforeGet()</code> and
-   * <code>afterGet()</code> are called immediately before and after each
-   * member of the enclosed list is referenced.
-   *
-   * @see List#containsAll(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
    */
   @Override
   public boolean containsAll(final Collection<?> c) {
@@ -308,14 +320,11 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns the element at the specified position in this list. The callback
-   * methods <code>beforeGet()</code> and <code>afterGet()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
    * immediately before and after the get operation on the enclosed collection.
-   *
-   * @param index index of the element to return
-   * @return the element at the specified position in this list
-   * @throws IndexOutOfBoundsException if the index is out of range
-   *         ({@code index < 0 || index >= size()})
    */
   @Override
   public E get(final int index) {
@@ -337,13 +346,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns the index of the first occurrence of the specified element
-   * in this list, or -1 if this list does not contain the element. The
-   * callback methods <code>beforeGet()</code> and
-   * <code>afterGet()</code> are called immediately before and after each
-   * member of the enclosed list is referenced.
-   *
-   * @see List#indexOf(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
    */
   @Override
   public int indexOf(final Object o) {
@@ -363,13 +371,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns the index of the last occurrence of the specified element
-   * in this list, or -1 if this list does not contain the element. The
-   * callback methods <code>beforeGet()</code> and
-   * <code>afterGet()</code> are called immediately before and after each
-   * member of the enclosed list is referenced.
-   *
-   * @see List#lastIndexOf(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
    */
   @Override
   public int lastIndexOf(final Object o) {
@@ -389,15 +396,13 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns an iterator over the elements in this collection. Calling
-   * <code>Iterator.remove()</code> will delegate a callback to
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> on the instance
-   * of this <code>ObservableCollection</code>. All elements for which
-   * <code>beforeRemove()</code> returns false will not be removed from this
-   * collection.
-   *
-   * @see Collection#iterator()
-   * @return an <tt>Iterator</tt> over the elements in this collection
+   * {@inheritDoc}
+   * <p>
+   * Calling {@link Iterator#remove()} will delegate a callback to
+   * {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} on this instance. All
+   * elements for which {@link #beforeRemove(int)} returns false will not be
+   * removed from this collection.
    */
   @Override
   public Iterator<E> iterator() {
@@ -405,10 +410,21 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns a list iterator over the elements in this list (in proper
-   * sequence).
-   *
-   * @see List#listIterator()
+   * {@inheritDoc}
+   * <p>
+   * Calling {@link ListIterator#remove()} will delegate a callback to
+   * {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} on this instance. All
+   * elements for which {@link #beforeRemove(int)} returns false will not be
+   * removed from this collection. Calling {@link ListIterator#set(Object)} will
+   * delegate a callback to {@link #beforeSet(int,Object)} and
+   * {@link #afterSet(int,Object,RuntimeException)} on this instance. All
+   * elements for which {@link #beforeSet(int,Object)} returns false will not be
+   * set in this collection. Calling {@link ListIterator#add(Object)} will
+   * delegate a callback to {@link #beforeAdd(int,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All
+   * elements for which {@link #beforeAdd(int,Object)} returns false will not be
+   * added to this collection.
    */
   @Override
   public ListIterator<E> listIterator() {
@@ -416,10 +432,21 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns a list iterator over the elements in this list (in proper
-   * sequence), starting at the specified position in the list.
-   *
-   * @see List#listIterator(int)
+   * {@inheritDoc}
+   * <p>
+   * Calling {@link ListIterator#remove()} will delegate a callback to
+   * {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} on this instance. All
+   * elements for which {@link #beforeRemove(int)} returns false will not be
+   * removed from this collection. Calling {@link ListIterator#set(Object)} will
+   * delegate a callback to {@link #beforeSet(int,Object)} and
+   * {@link #afterSet(int,Object,RuntimeException)} on this instance. All
+   * elements for which {@link #beforeSet(int,Object)} returns false will not be
+   * set in this collection. Calling {@link ListIterator#add(Object)} will
+   * delegate a callback to {@link #beforeAdd(int,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All
+   * elements for which {@link #beforeAdd(int,Object)} returns false will not be
+   * added to this collection.
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
@@ -552,11 +579,13 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Removes the element at the specified position in this list (optional
-   * operation).
-   *
-   * @see List#remove(int)
-   * @return the element previously at the specified position
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified for the removal of the
+   * element. If {@link #beforeRemove(int)} returns false, the element will not
+   * be removed.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -583,14 +612,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Removes a single instance of the specified element from this collection,
-   * if it is present (optional operation). The callback methods
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
-   * immediately before and after the enclosed collection is
-   * modified. If <code>beforeRemove()</code> returns false, the element will
-   * not be removed.
-   *
-   * @see Collection#remove(Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified. If
+   * {@link #beforeRemove(int)} returns false, the element will not be removed.
    */
   @Override
   public boolean remove(final Object o) {
@@ -619,13 +646,14 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Removes all of this collection's elements that are also contained in the
-   * specified collection (optional operation). The callback methods
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
-   * immediately before and after the enclosed collection is
-   * modified for the removal of each element in the argument Collection.
-   * All elements for which <code>beforeRemove()</code> returns false will not
-   * be removed from this collection.
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified for the removal of each
+   * element in the argument Collection. All elements for which
+   * {@link #beforeRemove(int)} returns false will not be removed from this
+   * collection.
    *
    * @see Collection#removeAll(Collection)
    */
@@ -639,14 +667,13 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Removes all of the elements of this collection that satisfy the given
-   * predicate. The callback methods <code>beforeRemove()</code> and
-   * <code>afterRemove()</code> are called immediately before and after the
-   * enclosed collection is modified for the removal of each element. All
-   * elements for which <code>beforeRemove()</code> returns false will not be
-   * removed from this collection.
-   *
-   * @see Collection#removeIf(Predicate)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified for the removal of each
+   * element. All elements for which {@link #beforeRemove(int)} returns false
+   * will not be removed from this collection.
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
@@ -677,15 +704,14 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Retains only the elements in this collection that are contained in the
-   * specified collection (optional operation). The callback methods
-   * <code>beforeRemove()</code> and <code>afterRemove()</code> are called
-   * immediately before and after the enclosed collection is
-   * modified for the removal of each element not in the argument Collection.
-   * All elements for which <code>beforeRemove()</code> returns false will not
-   * be removed from this collection.
-   *
-   * @see Collection#retainAll(Collection)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified for the removal of each
+   * element not in the argument Collection. All elements for which
+   * {@link #beforeRemove(int)} returns false will not be removed from this
+   * collection.
    */
   @Override
   public boolean retainAll(final Collection<?> c) {
@@ -702,14 +728,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Replaces the element at the specified position in this list with the
-   * specified element (optional operation). The callback methods
-   * <code>beforeSet()</code> and <code>afterSet()</code> are called
-   * immediately before and after the enclosed collection is
-   * modified. All elements for which <code>beforeSet()</code> returns false
-   * will be skipped.
-   *
-   * @see List#set(int,Object)
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeSet(int,Object)} and
+   * {@link #afterSet(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed collection is modified. All elements for
+   * which {@link #beforeSet(int,Object)} returns false will be skipped.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -738,12 +762,6 @@ public class ObservableList<E> extends WrappedList<E> {
     return (toIndex != -1 ? toIndex : source.size()) - fromIndex;
   }
 
-  /**
-   * Returns a view of the portion of this list between the specified
-   * <tt>fromIndex</tt>, inclusive, and <tt>toIndex</tt>, exclusive.
-   *
-   * @see List#subList(int,int)
-   */
   @Override
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {
     return new ObservableList<E>(source, fromIndex, toIndex) {
@@ -790,13 +808,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns an array containing all of the elements in this list in proper
-   * sequence (from first to last element). The callback methods
-   * <code>beforeGet()</code> and <code>afterGet()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
    * immediately before and after each member of the enclosed list is
    * referenced.
-   *
-   * @see List#toArray()
    */
   @Override
   public Object[] toArray() {
@@ -804,14 +821,12 @@ public class ObservableList<E> extends WrappedList<E> {
   }
 
   /**
-   * Returns an array containing all of the elements in this list in
-   * proper sequence (from first to last element); the runtime type of
-   * the returned array is that of the specified array. The callback methods
-   * <code>beforeGet()</code> and <code>afterGet()</code> are called
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
    * immediately before and after each member of the enclosed list is
    * referenced.
-   *
-   * @see List#toArray(Object[])
    */
   @Override
   @SuppressWarnings("unchecked")

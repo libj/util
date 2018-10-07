@@ -30,7 +30,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   private SortedList(final List<E> list, final boolean sort) {
     super(list);
     if (sort)
-      Collections.sort(list);
+      FastCollections.sort(list);
   }
 
   @Override
@@ -41,7 +41,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   @Override
   @SuppressWarnings("unchecked")
   public boolean add(final E e) {
-    return addUnsafe(Collections.binaryClosestSearch(source, e), e);
+    return addUnsafe(FastCollections.binaryClosestSearch(source, e), e);
   }
 
   protected boolean addUnsafe(final int index, final E e) {
@@ -117,7 +117,7 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
   @Override
   @SuppressWarnings({"rawtypes", "unchecked"})
   public int indexOf(final Object o) {
-    return o instanceof Comparable ? Collections.binarySearch(source, (Comparable)o) : source.indexOf(o);
+    return o instanceof Comparable ? FastCollections.binarySearch(source, (Comparable)o) : source.indexOf(o);
   }
 
   @Override
