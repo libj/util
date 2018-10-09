@@ -21,7 +21,6 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.fastjax.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

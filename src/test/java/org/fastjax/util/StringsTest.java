@@ -26,7 +26,6 @@ import java.util.Map;
 import javax.swing.text.BadLocationException;
 
 import org.junit.Test;
-import org.fastjax.util.Strings;
 
 public class StringsTest {
   private static final String UPPER_CASE = "HELLO WORLD";

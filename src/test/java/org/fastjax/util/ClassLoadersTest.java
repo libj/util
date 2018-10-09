@@ -20,7 +20,6 @@ import java.net.URL;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.fastjax.util.ClassLoaders;
 
 public class ClassLoadersTest {
   @Test

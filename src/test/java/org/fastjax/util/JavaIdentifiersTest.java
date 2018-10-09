@@ -20,7 +20,6 @@ import java.util.function.Function;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.fastjax.util.JavaIdentifiers;
 
 public class JavaIdentifiersTest {
   private static void test(final String expected, final Function<String,String> function, final String value) {

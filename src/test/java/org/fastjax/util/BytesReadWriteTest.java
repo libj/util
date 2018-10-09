@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.fastjax.util.Bytes;
 
 public class BytesReadWriteTest {
   private static final boolean debug = false;

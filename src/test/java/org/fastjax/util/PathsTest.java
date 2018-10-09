@@ -18,7 +18,6 @@ package org.fastjax.util;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.fastjax.util.Paths;
 
 public class PathsTest {
   @Test

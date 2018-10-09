@@ -16,9 +16,9 @@
 
 package org.fastjax.util;
 
+import org.fastjax.util.Diff.Mod;
 import org.junit.Assert;
 import org.junit.Test;
-import org.fastjax.util.Diff.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

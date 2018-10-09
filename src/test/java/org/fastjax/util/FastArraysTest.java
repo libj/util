@@ -23,8 +23,6 @@ import java.util.function.UnaryOperator;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.fastjax.util.FastArrays;
-import org.fastjax.util.Strings;
 
 public class FastArraysTest {
   private static Object[] createRandomNestedArray() {

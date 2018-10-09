@@ -36,8 +36,7 @@ public final class Bytes {
     for (int i = fromIndex; i < bytes.length; ++i) {
       if (bytes[i] == pattern[0]) {
         boolean match = true;
-        for (int j = 0; j < pattern.length && (match = bytes.length > i + j && pattern[j] == bytes[i + j]); ++j)
-          ;
+        for (int j = 0; j < pattern.length && (match = bytes.length > i + j && pattern[j] == bytes[i + j]); ++j);
         if (match)
           return i;
       }
@@ -78,8 +77,7 @@ public final class Bytes {
   }
 
   public static void replaceAll(final byte[] bytes, final byte target, final byte replacement) {
-    for (int index = 0; (index = Bytes.indexOf(bytes, index + 1, target)) != -1; bytes[index] = replacement)
-      ;
+    for (int index = 0; (index = Bytes.indexOf(bytes, index + 1, target)) != -1; bytes[index] = replacement);
   }
 
   public static void replaceAll(final byte[] bytes, final byte[] target, final byte[] replacement) {
@@ -94,8 +92,7 @@ public final class Bytes {
       return;
     }
 
-    for (int index = -1; (index = indexOf(bytes, index + 1, target)) != -1; System.arraycopy(replacement, 0, bytes, index, replacement.length))
-      ;
+    for (int index = -1; (index = indexOf(bytes, index + 1, target)) != -1; System.arraycopy(replacement, 0, bytes, index, replacement.length));
   }
 
   public static int indexOf(final byte[] bytes, final byte[] ... pattern) {

@@ -21,7 +21,6 @@
 
 package org.fastjax.util;
 
-import org.fastjax.util.DamerauLevenshteinDistance;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
