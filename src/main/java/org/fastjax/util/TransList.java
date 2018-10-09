@@ -31,7 +31,7 @@ import java.util.function.Function;
  * @param <T> Type of target {@code List}.
  * @see List
  */
-public class TransList<S,T> extends WrappedList<T> {
+public class TransList<S,T> extends FilterList<T> {
   protected final Function<S,T> sourceToTarget;
   protected final Function<T,S> targetToSource;
 
@@ -40,6 +40,12 @@ public class TransList<S,T> extends WrappedList<T> {
     super.source = source;
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  protected TransList<S,T> newInstance(final List source) {
+    return new TransList<>(source, sourceToTarget, targetToSource);
   }
 
   @Override

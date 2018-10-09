@@ -19,26 +19,42 @@ package org.fastjax.util;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * Wrapper class for {@code Collection} interface that delegates all methods to
- * the wrapped instance.
- *
- * @see Collection
+ * A {@code FilterCollection} contains some other {@code Collection}, which it
+ * uses as its basic source of data, possibly transforming the data along the
+ * way or providing additional functionality. The class {@code FilterCollection}
+ * itself simply overrides all methods of {@code AbstractCollection} with
+ * versions that pass all requests to the source {@code Collection}. Subclasses
+ * of {@code FilterCollection} may further override some of these methods and
+ * may also provide additional methods and fields.
  */
-public class WrappedCollection<E> extends AbstractCollection<E> {
+public abstract class FilterCollection<E> extends AbstractCollection<E> {
+  /**
+   * The Collection to be filtered.
+   */
   @SuppressWarnings("rawtypes")
-  protected Collection source;
+  protected volatile Collection source;
 
-  public WrappedCollection(final Collection<E> collection) {
-    this.source = collection;
+  /**
+   * Creates a new {@code FilterCollection}.
+   *
+   * @param source The source {@code Collection} object.
+   * @throws NullPointerException If {@code source} is {@code null}.
+   */
+  public FilterCollection(final Collection<E> source) {
+    this.source = Objects.requireNonNull(source);
   }
 
-  protected WrappedCollection() {
+  /**
+   * Creates a new {@code FilterCollection} with a null source.
+   */
+  protected FilterCollection() {
   }
 
   @Override

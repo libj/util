@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * List wrapper that guarantees sorted order of its members.
  */
-public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> {
+public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
   public SortedList(final List<E> list) {
     this(list, true);
   }
@@ -31,6 +31,16 @@ public class SortedList<E extends Comparable<? super E>> extends WrappedList<E> 
     super(list);
     if (sort)
       FastCollections.sort(list);
+  }
+
+  protected SortedList() {
+  }
+
+  @Override
+  protected FilterList<E> newInstance(final List source) {
+    final SortedList<E> list = new SortedList<>();
+    list.source = source;
+    return list;
   }
 
   @Override

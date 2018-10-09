@@ -34,7 +34,7 @@ import java.util.function.Function;
  * <li>{@link Map}</li>
  * </ul>
  */
-public class ObservableMap<K,V> extends WrappedMap<K,V> {
+public class ObservableMap<K,V> extends FilterMap<K,V> {
   public ObservableMap(final Map<K,V> map) {
     super(map);
   }

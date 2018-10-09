@@ -17,20 +17,40 @@
 package org.fastjax.util;
 
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * Wrapper class for {@code ListIterator} interface that delegates all methods
- * to the wrapped instance.
- *
- * @see ListIterator
+ * A {@code FilterListIterator} contains some other {@code ListIterator}, which
+ * it uses as its basic source of data, possibly transforming the data along the
+ * way or providing additional functionality. The class
+ * {@code FilterListIterator} itself simply overrides all methods of
+ * {@code ListIterator} with versions that pass all requests to the source
+ * {@code ListIterator}. Subclasses of {@code FilterListIterator} may further
+ * override some of these methods and may also provide additional methods and
+ * fields.
  */
-public class WrappedListIterator<E> implements ListIterator<E> {
+public class FilterListIterator<E> implements ListIterator<E> {
+  /**
+   * The ListIterator to be filtered.
+   */
   @SuppressWarnings("rawtypes")
-  protected final ListIterator source;
+  protected volatile ListIterator source;
 
-  public WrappedListIterator(final ListIterator<? extends E> listIterator) {
-    this.source = listIterator;
+  /**
+   * Creates a new {@code FilterListIterator}.
+   *
+   * @param source The source {@code ListIterator} object.
+   * @throws NullPointerException If {@code source} is {@code null}.
+   */
+  public FilterListIterator(final ListIterator<? extends E> source) {
+    this.source = Objects.requireNonNull(source);
+  }
+
+  /**
+   * Creates a new {@code FilterListIterator} with a null source.
+   */
+  protected FilterListIterator() {
   }
 
   @Override

@@ -31,7 +31,7 @@ import java.util.function.Predicate;
  * @param <T> Type of target {@code Set}.
  * @see Set
  */
-public class TransSet<S,T> extends WrappedSet<T> {
+public class TransSet<S,T> extends FilterSet<T> {
   protected final Function<S,T> sourceToTarget;
   protected final Function<T,S> targetToSource;
 

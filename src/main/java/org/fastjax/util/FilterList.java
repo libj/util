@@ -21,23 +21,48 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 /**
- * Wrapper class for {@code List} interface that delegates all methods to the
- * wrapped instance.
- *
- * @see List
+ * A {@code FilterList} contains some other {@code List}, which it uses as its
+ * basic source of data, possibly transforming the data along the way or
+ * providing additional functionality. The class {@code FilterList} itself
+ * simply overrides all methods of {@code AbstractList} with versions that pass
+ * all requests to the source {@code List}. Subclasses of {@code FilterList} may
+ * further override some of these methods and may also provide additional
+ * methods and fields.
  */
-public class WrappedList<E> extends AbstractList<E> {
+public abstract class FilterList<E> extends AbstractList<E> {
+  /**
+   * The List to be filtered.
+   */
   @SuppressWarnings("rawtypes")
-  protected List source;
+  protected volatile List source;
 
-  public WrappedList(final List<E> list) {
-    this.source = list;
+  /**
+   * Creates a new {@code FilterList}.
+   *
+   * @param source The source {@code List} object.
+   * @throws NullPointerException If {@code source} is {@code null}.
+   */
+  public FilterList(final List<E> source) {
+    this.source = Objects.requireNonNull(source);
   }
 
-  protected WrappedList() {
+  /**
+   * Creates a new {@code FilterList} with a null source.
+   */
+  protected FilterList() {
   }
+
+  /**
+   * Returns a new instance of the subclass of FilterList.
+   *
+   * @param source The source {@code List} object.
+   * @return A new instance of the subclass of FilterList.
+   */
+  @SuppressWarnings("rawtypes")
+  protected abstract FilterList<E> newInstance(final List source);
 
   @Override
   public int size() {
@@ -154,7 +179,7 @@ public class WrappedList<E> extends AbstractList<E> {
   }
 
   @Override
-  public WrappedList<E> subList(final int fromIndex, final int toIndex) {
-    return new WrappedList<E>(source.subList(fromIndex, toIndex));
+  public FilterList<E> subList(final int fromIndex, final int toIndex) {
+    return newInstance(source.subList(fromIndex, toIndex));
   }
 }

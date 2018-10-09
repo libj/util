@@ -29,7 +29,7 @@ import java.util.function.Function;
  * @param <T> Type of target Collection.
  * @see Collection
  */
-public class TransCollection<S,T> extends WrappedCollection<T> {
+public class TransCollection<S,T> extends FilterCollection<T> {
   protected final Function<S,T> sourceToTarget;
   protected final Function<T,S> targetToSource;
 

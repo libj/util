@@ -33,7 +33,7 @@ import java.util.function.Predicate;
  * <li>{@link Collection}</li>
  * </ul>
  */
-public class ObservableCollection<E> extends WrappedCollection<E> {
+public class ObservableCollection<E> extends FilterCollection<E> {
   public ObservableCollection(final Collection<E> collection) {
     super(collection);
   }

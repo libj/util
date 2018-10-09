@@ -34,7 +34,7 @@ import java.util.function.Predicate;
  * <li>{@link Set}</li>
  * </ul>
  */
-public class ObservableSet<E> extends WrappedSet<E> {
+public class ObservableSet<E> extends FilterSet<E> {
   public ObservableSet(final Set<E> set) {
     super(set);
   }

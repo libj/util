@@ -30,9 +30,9 @@ import java.util.Set;
  * implementation is not synchronized.
  *
  * @see ObservableMap
- * @see WrappedMap
+ * @see FilterMap
  */
-public abstract class BiMap<K,V> extends WrappedMap<K,V> {
+public abstract class BiMap<K,V> extends FilterMap<K,V> {
   protected BiMap<V,K> inverse;
 
   /**

@@ -37,7 +37,7 @@ import java.util.function.Predicate;
  * <li>{@link List}</li>
  * </ul>
  */
-public class ObservableList<E> extends WrappedList<E> {
+public class ObservableList<E> extends FilterList<E> {
   private final int fromIndex;
   private int toIndex;
 
@@ -49,6 +49,11 @@ public class ObservableList<E> extends WrappedList<E> {
     super(list);
     this.fromIndex = fromIndex;
     this.toIndex = toIndex;
+  }
+
+  @Override
+  protected FilterList<E> newInstance(final List source) {
+    return new ObservableList<E>(source);
   }
 
   /**

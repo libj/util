@@ -19,26 +19,42 @@ package org.fastjax.util;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Wrapper class for {@code Map} interface that delegates all methods to the
- * wrapped instance.
- *
- * @see Map
+ * A {@code FilterMap} contains some other {@code Map}, which it uses as its
+ * basic source of data, possibly transforming the data along the way or
+ * providing additional functionality. The class {@code FilterMap} itself simply
+ * overrides all methods of {@code AbstractMap} with versions that pass all
+ * requests to the source {@code Map}. Subclasses of {@code FilterMap} may
+ * further override some of these methods and may also provide additional
+ * methods and fields.
  */
-public class WrappedMap<K,V> extends AbstractMap<K,V> {
+public class FilterMap<K,V> extends AbstractMap<K,V> {
+  /**
+   * The Map to be filtered.
+   */
   @SuppressWarnings("rawtypes")
-  protected Map source;
+  protected volatile Map source;
 
-  public WrappedMap(final Map<K,V> map) {
-    this.source = map;
+  /**
+   * Creates a new {@code FilterMap}.
+   *
+   * @param source The source {@code Map} object.
+   * @throws NullPointerException If {@code source} is {@code null}.
+   */
+  public FilterMap(final Map<K,V> source) {
+    this.source = Objects.requireNonNull(source);
   }
 
-  protected WrappedMap() {
+  /**
+   * Creates a new {@code FilterMap} with a null source.
+   */
+  protected FilterMap() {
   }
 
   @Override

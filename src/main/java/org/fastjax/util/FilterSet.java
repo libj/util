@@ -19,6 +19,7 @@ package org.fastjax.util;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -26,20 +27,35 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * Wrapper class for {@code Set} interface that delegates all methods to the
- * wrapped instance.
- *
- * @see Set
+ * A {@code FilterSet} contains some other {@code Set}, which it uses as its
+ * basic source of data, possibly transforming the data along the way or
+ * providing additional functionality. The class {@code FilterSet} itself simply
+ * overrides all methods of {@code AbstractSet} with versions that pass all
+ * requests to the source {@code Set}. Subclasses of {@code FilterSet} may
+ * further override some of these methods and may also provide additional
+ * methods and fields.
  */
-public class WrappedSet<E> extends AbstractSet<E> {
+public class FilterSet<E> extends AbstractSet<E> {
+  /**
+   * The Set to be filtered.
+   */
   @SuppressWarnings("rawtypes")
-  protected Set source;
+  protected volatile Set source;
 
-  public WrappedSet(final Set<E> set) {
-    this.source = set;
+  /**
+   * Creates a new {@code FilterSet}.
+   *
+   * @param source The source {@code Set} object.
+   * @throws NullPointerException If {@code source} is {@code null}.
+   */
+  public FilterSet(final Set<E> source) {
+    this.source = Objects.requireNonNull(source);
   }
 
-  protected WrappedSet() {
+  /**
+   * Creates a new {@code FilterSet} with a null source.
+   */
+  protected FilterSet() {
   }
 
   @Override
