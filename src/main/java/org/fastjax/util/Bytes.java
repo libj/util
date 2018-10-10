@@ -21,6 +21,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
 
+/**
+ * Utility functions for operations pertaining to {@code byte[]}.
+ */
 public final class Bytes {
   public static int indexOf(final byte[] bytes, final byte ... pattern) {
     return indexOf(bytes, 0, pattern);

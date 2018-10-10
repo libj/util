@@ -20,6 +20,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Utility functions for operations pertaining to {@link Date}.
+ */
 public final class Dates {
   public static final byte DAYS_IN_WEEK = 7;
   public static final byte HOURS_IN_DAY = 24;

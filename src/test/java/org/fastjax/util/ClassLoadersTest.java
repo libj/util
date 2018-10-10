@@ -16,7 +16,7 @@
 
 package org.fastjax.util;
 
-import java.net.URL;
+import java.io.File;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,9 +24,9 @@ import org.junit.Test;
 public class ClassLoadersTest {
   @Test
   public void test() {
-    final URL[] urls = ClassLoaders.getClassPath();
-    for (final URL url : urls)
-      if (url.toExternalForm().contains("junit"))
+    final File[] classpath = ClassLoaders.getClassPath();
+    for (final File path : classpath)
+      if (path.getAbsolutePath().contains("junit"))
         return;
 
     Assert.fail("Expected junit in the classpath.");

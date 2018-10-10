@@ -19,6 +19,13 @@ package org.fastjax.util;
 import java.util.Arrays;
 import java.util.Map;
 
+/**
+ * Utility functions for checking or creating valid Java Identifiers.
+ *
+ * @see <a href=
+ *      "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">JLS
+ *      3.8 Identifiers</a>
+ */
 public final class JavaIdentifiers {
   private static final String unqualifiedJavaIdentifierPattern = "[a-zA-Z_$][a-zA-Z\\d_$]*";
   private static final String qualifiedJavaIdentifierPattern = "((" + unqualifiedJavaIdentifierPattern + ")\\.)*" + unqualifiedJavaIdentifierPattern;
@@ -249,7 +256,7 @@ public final class JavaIdentifiers {
    *      Names</a>
    * @see <a href=
    *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-6.html#d5e8089">Unique
-   *      Pacakge Names</a>
+   *      Package Names</a>
    */
   public static String toPackageCase(final String string) {
     if (string == null || string.length() == 0)

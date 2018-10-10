@@ -16,10 +16,22 @@
 
 package org.fastjax.util;
 
+/**
+ * Class that abstracts a data encoding implementation.
+ *
+ * @param <D> The type parameter representing the data class.
+ * @param <E> The type parameter representing the encoding class.
+ */
 public abstract class DataEncoding<D,E> {
   protected D data;
   protected E encoded;
 
+  /**
+   * Creates a new {@code DataEncoding}.
+   *
+   * @param data The unencoded value.
+   * @param encoded The encoded value.
+   */
   public DataEncoding(final D data, final E encoded) {
     this.data = data;
     this.encoded = encoded;

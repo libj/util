@@ -17,36 +17,29 @@
 package org.fastjax.util;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public final class ClassLoaders {
-  private static URL[] getClassPath(final String property) {
-    try {
-      final String classPathProperty = System.getProperty(property);
-      if (classPathProperty == null)
-        return null;
+  private static File[] getClassPath(final String property) {
+    final String classPathProperty = System.getProperty(property);
+    if (classPathProperty == null)
+      return null;
 
-      final String[] parts = classPathProperty.split(File.pathSeparator);
-      final URL[] urls = new URL[parts.length];
-      for (int i =  0; i < parts.length; i++)
-        urls[i] = new File(parts[i]).toURI().toURL();
+    final String[] parts = classPathProperty.split(File.pathSeparator);
+    final File[] urls = new File[parts.length];
+    for (int i = 0; i < parts.length; ++i)
+      urls[i] = new File(parts[i]);
 
-      return urls;
-    }
-    catch (final MalformedURLException e) {
-      throw new UnsupportedOperationException(e);
-    }
+    return urls;
   }
 
-  public static URL[] getClassPath() {
-    final URL[] urls = getClassPath("java.class.path");
-    return urls != null ? urls : getClassPath("user.dir");
+  public static File[] getClassPath() {
+    final File[] classpath = getClassPath("java.class.path");
+    return classpath != null ? classpath : getClassPath("user.dir");
   }
 
-  public static URL[] getTestClassPath() {
-    final URL[] urls = getClassPath("surefire.test.class.path");
-    return urls != null ? urls : getClassPath("user.dir");
+  public static File[] getTestClassPath() {
+    final File[] classpath = getClassPath("surefire.test.class.path");
+    return classpath != null ? classpath : getClassPath("user.dir");
   }
 
   private ClassLoaders() {

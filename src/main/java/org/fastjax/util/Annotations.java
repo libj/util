@@ -22,11 +22,34 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Utility functions for operations pertaining to {@link Annotation}.
+ */
 public final class Annotations {
+  /**
+   * Returns a {@code toString()} representation of {@code annotation}, with its
+   * property names sorted alphabetically.
+   * <p>
+   * This method is equivalent to calling
+   * {@code toSortedString(annotation, null)}
+   *
+   * @param annotation The {@link Annotation}.
+   * @return A {@code toString()} representation of {@code annotation}, with its
+   *         property names sorted by {@code comparator}.
+   */
   public static String toSortedString(final Annotation annotation) {
     return toSortedString(annotation, null);
   }
 
+  /**
+   * Returns a {@code toString()} representation of {@code annotation}, with its
+   * property names sorted by {@code comparator}.
+   *
+   * @param annotation The {@link Annotation}.
+   * @param comparator The {@link Comparator}.
+   * @return A {@code toString()} representation of {@code annotation}, with its
+   *         property names sorted by {@code comparator}.
+   */
   public static String toSortedString(final Annotation annotation, final Comparator<String> comparator) {
     final String str = annotation.toString();
     final int start = str.indexOf('(') + 1;
@@ -46,7 +69,7 @@ public final class Annotations {
 
     final StringBuilder properties = new StringBuilder();
     final Iterator<Map.Entry<String,String>> iterator = map.entrySet().iterator();
-    for (int i = 0; iterator.hasNext(); i++) {
+    for (int i = 0; iterator.hasNext(); ++i) {
       if (i > 0)
         properties.append(", ");
 

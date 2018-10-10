@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Bidirectional map ({@code BiMap}) backed by a {@code HashMap}.
+ * Bidirectional map ({@link BiMap}) backed by a {@link HashMap}.
  *
  * @see BiMap
  * @see HashMap
@@ -29,25 +29,59 @@ import java.util.Map;
 public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializable {
   private static final long serialVersionUID = 2588014751081881163L;
 
+  /**
+   * Constructs an empty {@code HashBiMap} with the specified initial capacity
+   * and load factor.
+   *
+   * @param initialCapacity The initial capacity.
+   * @param loadFactor The load factor.
+   * @throws IllegalArgumentException If the initial capacity is negative or the
+   *           load factor is nonpositive.
+   */
   public HashBiMap(final int initialCapacity, final float loadFactor) {
     super(new HashMap<K,V>(initialCapacity, loadFactor), new HashMap<V,K>(initialCapacity, loadFactor));
   }
 
+  /**
+   * Constructs an empty {@code HashBiMap} with the specified initial capacity
+   * and the default load factor (0.75).
+   *
+   * @param initialCapacity The initial capacity.
+   * @throws IllegalArgumentException If the initial capacity is negative.
+   */
   public HashBiMap(final int initialCapacity) {
     super(new HashMap<K,V>(initialCapacity), new HashMap<V,K>(initialCapacity));
   }
 
+  /**
+   * Constructs a new {@code HashBiMap} with the same mappings as the specified
+   * {@code Map}. The {@code HashBiMap} is created with default load factor
+   * (0.75) and an initial capacity sufficient to hold the mappings in the
+   * specified {@code Map}.
+   *
+   * @param m The map whose mappings are to be placed in this map.
+   * @throws NullPointerException If the specified map is null.
+   */
   public HashBiMap(final Map<? extends K,? extends V> m) {
     this();
     putAll(m);
   }
 
+  /**
+   * Constructs an empty {@code HashBiMap} with the default initial capacity
+   * (16) and the default load factor (0.75).
+   */
   public HashBiMap() {
     super(new HashMap<K,V>(), new HashMap<V,K>());
   }
 
+  /**
+   * Creates an empty instance.
+   *
+   * @param empty Ignored parameter.
+   */
   protected HashBiMap(final boolean empty) {
-    super(empty);
+    super();
   }
 
   @Override

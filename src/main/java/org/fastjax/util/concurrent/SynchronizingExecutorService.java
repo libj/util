@@ -17,6 +17,7 @@
 package org.fastjax.util.concurrent;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionException;
@@ -26,6 +27,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * An {@link ExecutorService} that allows its threads to be synchronized. When
+ * {@link #synchronize()} is called, the method disallows the executor service
+ * from executing any new threads, and blocks until all running threads have
+ * finished, signifying a synchronized state.
+ * <p>
+ * If the {@code SynchronizingExecutorService} is in a {@link #synchronizing}
+ * state, newly submitted tasks wait until {@link #synchronize()} returns,
+ * either successfully, or due to {@link InterruptedException}. Once
+ * synchronized, the {@link #onSynchronize()} method is called.
+ * <p>
+ * If the thread of the {@link #synchronize()} method call is interrupted while
+ * the method is waiting for this instance's threads to finish, the command to
+ * synchronize is aborted, and {@link #synchronize()} throws an
+ * {@link InterruptedException}.
+ */
 public abstract class SynchronizingExecutorService extends AbstractExecutorService {
   private static final Logger logger = LoggerFactory.getLogger(SynchronizingExecutorService.class);
 
@@ -34,8 +51,17 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   private final Object finishLock = new Object();
   private volatile boolean synchronizing;
 
+  /**
+   * The source {@code ExecutorService}.
+   */
   private final ExecutorService executorService;
 
+  /**
+   * Construct a new {@code SynchronizingExecutorService} with the specified
+   * source {@code ExecutorService}.
+   *
+   * @param executorService The source {@code ExecutorService}.
+   */
   public SynchronizingExecutorService(final ExecutorService executorService) {
     this.executorService = executorService;
   }
@@ -58,11 +84,12 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   /**
    * Stop execution of new threads, and wait for all running threads to finish.
    * Once all threads have finished, {@code onSynchronize()} is called. If this
-   * method's thread is interrupted waiting for threads to finish, it throws a
-   * {@code InterruptedException}
+   * method's thread is interrupted waiting for this instance's threads to
+   * finish, the command to synchronize is aborted, and this method throws an
+   * {@code InterruptedException}.
    *
    * @throws InterruptedException If this method's thread is interrupted waiting
-   *           for its threads to finish.
+   *           for this instance's threads to finish.
    */
   public void synchronize() throws InterruptedException {
     if (synchronizing)
@@ -72,26 +99,31 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
       if (synchronizing)
         return;
 
-      logger.debug("Starting sync....");
-      if (runningThreadCount.get() > 0) {
-        synchronized (finishLock) {
-          synchronizing = true;
-          logger.debug("wait() [1] for threads to finish...");
-          finishLock.wait();
-        }
-      }
-      else {
-        synchronizing = true;
+      try {
+        logger.debug("Starting sync....");
         if (runningThreadCount.get() > 0) {
           synchronized (finishLock) {
-            logger.debug("wait() [2] for threads to finish...");
+            synchronizing = true;
+            logger.debug("wait() [1] for threads to finish...");
             finishLock.wait();
           }
         }
+        else {
+          synchronizing = true;
+          if (runningThreadCount.get() > 0) {
+            synchronized (finishLock) {
+              logger.debug("wait() [2] for threads to finish...");
+              finishLock.wait();
+            }
+          }
+        }
+
+        onSynchronize();
+      }
+      finally {
+        synchronizing = false;
       }
 
-      onSynchronize();
-      synchronizing = false;
       logger.debug("Sync done!");
     }
   }
@@ -108,9 +140,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
    */
   @Override
   public void execute(final Runnable command) {
-    if (command == null)
-      throw new IllegalArgumentException("runnable == null");
-
+    Objects.requireNonNull(command);
     final Runnable wrapper = new Runnable() {
       @Override
       public void run() {

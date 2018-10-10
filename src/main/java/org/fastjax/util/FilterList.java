@@ -56,10 +56,10 @@ public abstract class FilterList<E> extends AbstractList<E> {
   }
 
   /**
-   * Returns a new instance of the subclass of FilterList.
+   * Returns a new instance of the subclass of {@code FilterList}.
    *
    * @param source The source {@code List} object.
-   * @return A new instance of the subclass of FilterList.
+   * @return A new instance of the subclass of {@code FilterList}.
    */
   @SuppressWarnings("rawtypes")
   protected abstract FilterList<E> newInstance(final List source);

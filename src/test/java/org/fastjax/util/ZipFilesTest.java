@@ -20,8 +20,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
@@ -37,28 +35,28 @@ public class ZipFilesTest {
     extractDir.mkdirs();
   }
 
-  private static URL findJar(final String name) {
-    for (final URL url : ClassLoaders.getClassPath()) {
-      if (url.toString().contains("/" + name + "-") && url.toString().endsWith(".jar"))
-        return url;
+  private static File findJar(final String name) {
+    for (final File file : ClassLoaders.getClassPath()) {
+      if (file.toString().contains("/" + name + "-") && file.toString().endsWith(".jar"))
+        return file;
     }
 
     throw new NoSuchElementException(name);
   }
 
   @Test
-  public void testExtractAll() throws IOException, URISyntaxException, ZipException {
-    final URL url = findJar("junit");
+  public void testExtractAll() throws IOException, ZipException {
+    final File file = findJar("junit");
     final File destDir = new File(extractDir, "all");
-    ZipFiles.extract(new ZipFile(new File(url.toURI())), destDir);
+    ZipFiles.extract(new ZipFile(file), destDir);
     assertEquals(4, destDir.list().length);
   }
 
   @Test
-  public void testExtractSome() throws IOException, URISyntaxException, ZipException {
-    final URL url = findJar("junit");
+  public void testExtractSome() throws IOException, ZipException {
+    final File file = findJar("junit");
     final File destDir = new File(extractDir, "meta");
-    ZipFiles.extract(new ZipFile(new File(url.toURI())), destDir, new Predicate<ZipEntry>() {
+    ZipFiles.extract(new ZipFile(file), destDir, new Predicate<ZipEntry>() {
       @Override
       public boolean test(final ZipEntry t) {
         return t.getName().startsWith("META-INF/");

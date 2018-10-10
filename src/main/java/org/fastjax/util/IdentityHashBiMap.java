@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Bidirectional map ({@code BiMap}) backed by a {@code IdentityHashMap}.
+ * Bidirectional map ({@link BiMap}) backed by a {@link IdentityHashMap}.
  *
  * @see BiMap
  * @see IdentityHashMap
@@ -36,9 +36,8 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
    * may cause the internal data structure to grow, which may be somewhat
    * time-consuming.
    *
-   * @param expectedMaxSize the expected maximum size of the map
-   * @throws IllegalArgumentException if <tt>expectedMaxSize</tt> is negative
-   * @see IdentityHashMap#IdentityHashMap(int)
+   * @param expectedMaxSize The expected maximum size of the map.
+   * @throws IllegalArgumentException If {@code expectedMaxSize} is negative.
    */
   public IdentityHashBiMap(final int expectedMaxSize) {
     super(new IdentityHashMap<K,V>(expectedMaxSize), new IdentityHashMap<V,K>(expectedMaxSize));
@@ -48,9 +47,8 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
    * Constructs a new bidirectional identity hash map containing the keys-value
    * mappings in the specified map.
    *
-   * @param m the map whose mappings are to be placed into this map
-   * @throws NullPointerException if the specified map is null
-   * @see IdentityHashMap#IdentityHashMap(Map)
+   * @param m The map whose mappings are to be placed into this map.
+   * @throws NullPointerException If the specified map is null.
    */
   public IdentityHashBiMap(final Map<? extends K,? extends V> m) {
     this();
@@ -66,12 +64,12 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
   }
 
   /**
-   * Constructor intended to be used to instantiate an empty instance.
+   * Creates an empty instance.
    *
    * @param empty Ignored parameter.
    */
   protected IdentityHashBiMap(final boolean empty) {
-    super(empty);
+    super();
   }
 
   @Override

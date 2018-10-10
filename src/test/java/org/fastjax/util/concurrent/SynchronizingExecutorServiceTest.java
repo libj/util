@@ -19,11 +19,11 @@ package org.fastjax.util.concurrent;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.fastjax.logging.DeferredLogger;
 import org.fastjax.test.IntegrationTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.fastjax.logging.DeferredLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

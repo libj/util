@@ -23,11 +23,11 @@ import java.util.Set;
 /**
  * Bidirectional map that maintains both key-&gt;value and value-&gt;key
  * mappings. This implementation utilizes the mechanisms of the
- * {@code ObservableMap} to guarantee operational symmetry between the
- * {@code this} map, and the {@code this.inverse()} map. Methods defined in the
+ * {@link ObservableMap} to guarantee operational symmetry between the
+ * {@code this} map and the {@link #inverse()} map. Methods defined in the
  * {@code Map} interface that result in a mutation to the {@code this} instance
- * result in reflected operations to the {@code this.inverse()} instance. This
- * implementation is not synchronized.
+ * will also result in reflected operations to the {@link #inverse()} instance.
+ * This implementation is not synchronized.
  *
  * @see ObservableMap
  * @see FilterMap
@@ -46,6 +46,12 @@ public abstract class BiMap<K,V> extends FilterMap<K,V> {
     init(forward);
     inverse.init(reverse);
     inverse.inverse = this;
+  }
+
+  /**
+   * Creates an empty instance.
+   */
+  protected BiMap() {
   }
 
   protected void init(final Map<K,V> map) {
@@ -67,20 +73,14 @@ public abstract class BiMap<K,V> extends FilterMap<K,V> {
   }
 
   /**
+   * Returns a new instance of an empty inverse subclass of {@code BiMap}.
+   *
    * @return A new instance of an empty inverse {@code BiMap}.
    */
   protected abstract BiMap<V,K> newEmptyInverseMap();
 
   /**
-   * Constructor intended to be used to instantiate an empty instance.
-   *
-   * @param empty Ignored parameter.
-   */
-  protected BiMap(final boolean empty) {
-  }
-
-  /**
-   * Return the inverse of this map, maintaining value-&gt;key mappings.
+   * Returns the inverse of this map, maintaining value-&gt;key mappings.
    * Mutations to the {@code inverse()} map are reflected in {@code this} map.
    *
    * @return The inverse map.
