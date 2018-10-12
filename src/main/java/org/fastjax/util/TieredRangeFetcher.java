@@ -93,8 +93,32 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   /**
    * Returns the range of the keys present in this TieredFetcher, as an array of
    * length 2. Must not be null, and must be of length 2.
+   *
+   * @return The not-null range of the keys present in this TieredFetcher, as an
+   *         array of length 2.
    */
   protected abstract A[] range();
+
+  /**
+   * Returns a {@link SortedMap} of data in this {@code TieredRangeFetcher} for
+   * the range between {@code from} and {@code to}.
+   *
+   * @param from The start of the range, inclusive.
+   * @param to The end of the range, exclusive.
+   * @return A {@link SortedMap} of data in this {@code TieredRangeFetcher} for
+   *         the range between {@code from} and {@code to}.
+   */
   protected abstract SortedMap<A,B> select(A from, A to);
+
+
+  /**
+   * Inserts a {@link SortedMap} of {@code data} into this
+   * {@code TieredRangeFetcher} for the range between {@code from} and
+   * {@code to}.
+   *
+   * @param from The start of the range, inclusive.
+   * @param to The end of the range, exclusive.
+   * @param data The {@link SortedMap}.
+   */
   protected abstract void insert(A from, A to, SortedMap<A,B> data);
 }
