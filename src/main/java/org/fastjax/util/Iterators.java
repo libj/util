@@ -42,6 +42,7 @@ public final class Iterators {
    * expected to have more than ~8000 elements, this method may cause a
    * {@link StackOverflowError}.
    *
+   * @param <E> The type of elements in {@code iterator}.
    * @param iterator The {@link Iterator} to traverse.
    * @param consumer The {@link Consumer} to execute on each element.
    */
@@ -69,15 +70,16 @@ public final class Iterators {
    * Returns an {@code Iterator} that iterates over the elements of
    * {@code iterator} satisfying the {@code filter} predicate.
    *
+   * @param <E> The type of elements in {@code iterator}.
    * @param iterator The source {@link Iterator}.
    * @param filter The filter {@link Predicate}.
    * @return An {@code Iterator} that iterates over the elements of
    *         {@code iterator} satisfying the {@code filter} predicate.
    */
-  public static <T>Iterator<T> filter(final Iterator<T> iterator, final Predicate<T> filter) {
-    return new Iterator<T>() {
+  public static <E>Iterator<E> filter(final Iterator<E> iterator, final Predicate<E> filter) {
+    return new Iterator<E>() {
       private boolean consumed = true;
-      private T next;
+      private E next;
 
       @Override
       public boolean hasNext() {
@@ -89,7 +91,7 @@ public final class Iterators {
           return false;
         }
 
-        for (T member; iterator.hasNext();) {
+        for (E member; iterator.hasNext();) {
           if (filter.test(member = iterator.next())) {
             next = member;
             consumed = false;
@@ -102,7 +104,7 @@ public final class Iterators {
       }
 
       @Override
-      public T next() {
+      public E next() {
         if (!hasNext())
           throw new NoSuchElementException();
 

@@ -21,14 +21,13 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A concurrent HashSet implementation backed by a <tt>ConcurrentHashMap</tt>.
+ * A concurrent {@link HashSet} implementation backed by a {@link ConcurrentHashMap}.
  */
 public class ConcurrentHashSet<E> extends HashSet<E> {
   private static class ClonableConcurrentHashMap<K,V> extends ConcurrentHashMap<K,V> {
@@ -57,8 +56,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   private static final long serialVersionUID = -2016698281843655212L;
 
   /**
-   * The default initial table capacity. Must be a power of 2
-   * (i.e., at least 1) and at most MAXIMUM_CAPACITY.
+   * The default initial table capacity. Must be a power of 2 (i.e., at least 1)
+   * and at most {@code ConcurrentHashMap.MAXIMUM_CAPACITY}.
    */
   private static final int DEFAULT_CAPACITY = 16;
 
@@ -68,23 +67,21 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   private static final Object PRESENT = new Object();
 
   /**
-   * Constructs a new, empty set; the backing <tt>ConcurrentHashMap</tt> instance has
-   * default expected maximum size (16).
+   * Constructs a new, empty set; the backing {@link ConcurrentHashMap}
+   * instance has default expected maximum size (16).
    */
   public ConcurrentHashSet() {
     map = new ClonableConcurrentHashMap<>();
   }
 
   /**
-   * Constructs a new set containing the elements in the specified
-   * collection. The <tt>ConcurrentHashMap</tt> is created with default load factor
-   * (0.75) and an initial capacity sufficient to contain the elements in
-   * the specified collection.
+   * Constructs a new set containing the elements in the specified collection.
+   * The {@link ConcurrentHashMap} is created with default load factor (0.75)
+   * and an initial capacity sufficient to contain the elements in the specified
+   * collection.
    *
-   * @param c
-   *          the collection whose elements are to be placed into this set
-   * @throws NullPointerException
-   *           if the specified collection is null
+   * @param c The collection whose elements are to be placed into this set.
+   * @throws NullPointerException If the specified collection is null.
    */
   public ConcurrentHashSet(final Collection<? extends E> c) {
     map = new ClonableConcurrentHashMap<>(DEFAULT_CAPACITY);
@@ -92,109 +89,61 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Constructs a new, empty set; the backing <tt>ConcurrentHashMap</tt> instance has
-   * the specified initial capacity and default load factor (0.75).
+   * Constructs a new, empty set; the backing {@link ConcurrentHashMap}
+   * instance has the specified initial capacity and default load factor (0.75).
    *
-   * @param initialCapacity
-   *          the initial capacity of the hash table
-   * @throws IllegalArgumentException
-   *           if the initial capacity is less
-   *           than zero
+   * @param initialCapacity The initial capacity of the hash table.
+   * @throws IllegalArgumentException If the initial capacity is less than zero.
    */
   public ConcurrentHashSet(final int initialCapacity) {
     map = new ClonableConcurrentHashMap<>(initialCapacity);
   }
 
-  /**
-   * Returns an iterator over the elements in this set. The elements
-   * are returned in no particular order.
-   *
-   * @return an Iterator over the elements in this set
-   * @see ConcurrentModificationException
-   */
   @Override
   public Iterator<E> iterator() {
     return map.keySet().iterator();
   }
 
-  /**
-   * @return the number of elements in this set (its cardinality)
-   */
   @Override
   public int size() {
     return map.size();
   }
 
-  /**
-   * @return <tt>true</tt> if this set contains no elements
-   */
   @Override
   public boolean isEmpty() {
     return map.isEmpty();
   }
 
-  /**
-   * Returns <tt>true</tt> if this set contains the specified element.
-   * More formally, returns <tt>true</tt> if and only if this set
-   * contains an element <tt>e</tt> such that <tt>(o == e)</tt>.
-   *
-   * @param o
-   *          element whose presence in this set is to be tested
-   * @return <tt>true</tt> if this set contains the specified element
-   */
   @Override
   public boolean contains(final Object o) {
     return map.containsKey(o);
   }
 
-  /**
-   * Adds the specified element to this set if it is not already present.
-   * More formally, adds the specified element <tt>e</tt> to this set if
-   * this set contains no element <tt>e2</tt> such that <tt>(e == e2)</tt>.
-   * If this set already contains the element, the call leaves the set
-   * unchanged and returns <tt>false</tt>.
-   *
-   * @param e
-   *          element to be added to this set
-   * @return <tt>true</tt> if this set did not already contain the specified
-   *         element
-   */
   @Override
   public boolean add(final E e) {
     return map.put(e, PRESENT) == null;
   }
 
-  /**
-   * Removes the specified element from this set if it is present.
-   * More formally, removes an element <tt>e</tt> such that <tt>(o == e)</tt>,
-   * if this set contains such an element. Returns <tt>true</tt> if
-   * this set contained the element (or equivalently, if this set
-   * changed as a result of the call). (This set will not contain the
-   * element once the call returns.)
-   *
-   * @param o
-   *          object to be removed from this set, if present
-   * @return <tt>true</tt> if the set contained the specified element
-   */
   @Override
   public boolean remove(final Object o) {
     return map.remove(o) == PRESENT;
   }
 
-  /**
-   * Removes all of the elements from this set.
-   * The set will be empty after this call returns.
-   */
   @Override
   public void clear() {
     map.clear();
   }
 
+  @Override
+  public Spliterator<E> spliterator() {
+    return map.keySet().spliterator();
+  }
+
   /**
-   * Returns a shallow copy of this <tt>ConcurrentHashSet</tt> instance: the elements
-   * themselves are not cloned.
+   * Returns a shallow copy of this {@code ConcurrentHashSet} instance (the
+   * elements themselves are not cloned).
    *
-   * @return a shallow copy of this set
+   * @return A shallow copy of this {@code ConcurrentHashSet} instance.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -205,14 +154,15 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Save the state of this <tt>ConcurrentHashSet</tt> instance to a stream
+   * Save the state of this {@code ConcurrentHashSet} instance to a stream
    * (that is, serialize it).
    *
-   * @serialData The capacity of the backing <tt>ConcurrentHashMap</tt> instance
+   * @serialData The capacity of the backing {@link ConcurrentHashMap} instance
    *             (int), followed by the size of the set (the number of elements
    *             it contains) (int), followed by all of its elements (each an
    *             Object) in no particular order.
    * @param s The {@code ObjectInputStream}.
+   * @throws IOException If an I/O error has occurred.
    */
   private void writeObject(final ObjectOutputStream s) throws IOException {
     // Write out any hidden serialization magic
@@ -230,12 +180,15 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Reconstitute the <tt>ConcurrentHashSet</tt> instance from a stream (that
+   * Reconstitute the {@code ConcurrentHashSet} instance from a stream (that
    * is, deserialize it).
    *
    * @param s The {@code ObjectInputStream}.
+   * @throws ClassNotFoundException If the class of a serialized object could
+   *           not be found.
+   * @throws IOException If an I/O error has occurred.
    */
-  private void readObject(final ObjectInputStream s) throws IOException, ClassNotFoundException {
+  private void readObject(final ObjectInputStream s) throws ClassNotFoundException, IOException {
     // Read in any hidden serialization magic
     s.defaultReadObject();
 
@@ -258,21 +211,5 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
       final E e = (E)s.readObject();
       map.put(e, PRESENT);
     }
-  }
-
-  /**
-   * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-   * and <em>fail-fast</em> {@link Spliterator} over the elements in this
-   * set.
-   *
-   * <p>The {@code Spliterator} reports {@link Spliterator#SIZED} and
-   * {@link Spliterator#DISTINCT}.  Overriding implementations should document
-   * the reporting of additional characteristic values.
-   *
-   * @return a {@code Spliterator} over the elements in this set
-   */
-  @Override
-  public Spliterator<E> spliterator() {
-    return map.keySet().spliterator();
   }
 }
