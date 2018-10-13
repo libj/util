@@ -20,20 +20,22 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Locale;
 
+/**
+ * Utility functions for operations pertaining to {@link Locale}.
+ */
 public final class Locales {
   /**
-   * Convert a string based locale into a Locale Object.
-   * Assumes the string has form "{language}_{country}_{variant}".
-   * Examples: "en", "de_DE", "_GB", "en_US_WIN", "de__POSIX", "fr_MAC"
+   * Returns a {@link Locale} representation of a string based locale that has
+   * the form {@code "{language}_{country}_{variant}"}. Examples: {@code "en"},
+   * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
+   * {@code "fr_MAC"}.
    *
-   * @param string
-   *          The String
-   * @return the Locale
+   * @param string The string.
+   * @return A {@link Locale} representation of a string based locale that has
+   *         the form {@code "{language}_{country}_{variant}"}.
+   * @throws NullPointerException If {@code string} is null.
    */
   public static Locale parse(String string) {
-    if (string == null)
-      return null;
-
     string = string.trim();
     if ("default".equals(string.toLowerCase()))
       return Locale.getDefault();
@@ -46,7 +48,7 @@ public final class Locales {
     final String language = string.substring(0, languageIndex);
 
     // Extract country
-    int countryIndex = string.indexOf('_', languageIndex + 1);
+    final int countryIndex = string.indexOf('_', languageIndex + 1);
     if (countryIndex == -1) // No further "_" so is "{language}_{country}"
       return new Locale(language, string.substring(languageIndex + 1));
 
@@ -54,10 +56,20 @@ public final class Locales {
     return new Locale(language, string.substring(languageIndex + 1, countryIndex), string.substring(countryIndex + 1));
   }
 
+  /**
+   * Returns an array of {@link Locale} objects that represent the string based
+   * locale elements in {@code strings} that have the form
+   * {@code "{language}_{country}_{variant}"}. Examples: {@code "en"},
+   * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
+   * {@code "fr_MAC"}.
+   *
+   * @param strings The {@link Collection} of string.
+   * @return An array of {@link Locale} objects that represent the string based
+   *         locale elements in {@code strings} that have the form
+   *         {@code "{language}_{country}_{variant}"}.
+   * @throws NullPointerException If {@code string} is null.
+   */
   public static Locale[] parse(final Collection<String> strings) {
-    if (strings == null)
-      return null;
-
     final Locale[] locales = new Locale[strings.size()];
     int i = 0;
     for (final String string : strings)
@@ -66,6 +78,19 @@ public final class Locales {
     return locales;
   }
 
+  /**
+   * Returns an array of {@link Locale} objects that represent the string based
+   * locale elements in {@code enumeration} that have the form
+   * {@code "{language}_{country}_{variant}"}. Examples: {@code "en"},
+   * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
+   * {@code "fr_MAC"}.
+   *
+   * @param strings The {@link Collection} of string.
+   * @return An array of {@link Locale} objects that represent the string based
+   *         locale elements in {@code strings} that have the form
+   *         {@code "{language}_{country}_{variant}"}.
+   * @throws NullPointerException If {@code string} is null.
+   */
   public static Locale[] parse(final Enumeration<String> enumeration) {
     return parse(enumeration, 0);
   }
