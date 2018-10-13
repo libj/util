@@ -14,62 +14,50 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.fastjax.util.jar;
+package org.fastjax.util.zip;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.jar.JarEntry;
-import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipOutputStream;
 
-public final class Jar {
-  private final File jarFile;
-  private final FileOutputStream stream;
-  private final JarOutputStream out;
-  private final Collection<JarEntry> entries = new HashSet<>();
+/**
+ * Writes ZIP content.
+ */
+public class ZipWriter implements AutoCloseable {
+  private final ZipOutputStream out;
 
-  public Jar(final File file) throws IOException {
-    this.jarFile = file;
-    if (!file.getParentFile().exists())
-      file.getParentFile().mkdirs();
-
-    this.stream = new FileOutputStream(file);
-    this.out = new JarOutputStream(stream, new Manifest());
+  /**
+   * Creates a new {@code ZipWriter} with the specified {@link ZipOutputStream}.
+   *
+   * @param out The {@link ZipOutputStream}.
+   */
+  public ZipWriter(final ZipOutputStream out) {
+    this.out = out;
   }
 
-  public File getFile() {
-    return jarFile;
+  /**
+   * Write a ZIP file entry with the specified {@code name} and {@code bytes}.
+   *
+   * @param name The name of the ZIP file entry.
+   * @param bytes The content {@code byte} array.
+   * @throws IOException If an I/O error has occurred.
+   * @throws ZipException If a ZIP error has occurred.
+   */
+  public void write(final String name, final byte[] bytes) throws IOException, ZipException {
+    final ZipEntry entry = new ZipEntry(name);
+    entry.setTime(System.currentTimeMillis());
+    out.putNextEntry(entry);
+    out.write(bytes);
   }
 
-  public void addEntry(final String fileName, final byte[] bytes) {
-    synchronized (out) {
-      // Add archive entry
-      final JarEntry jarEntry = new JarEntry(fileName);
-      entries.add(jarEntry);
-      jarEntry.setTime(System.currentTimeMillis());
-
-      try {
-        out.putNextEntry(jarEntry);
-        out.write(bytes);
-      }
-      catch (final IOException e) {
-        if ("no current ZIP entry".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()))
-          return;
-      }
-    }
-  }
-
-  public Collection<JarEntry> getEntries() {
-    return entries;
-  }
-
+  /**
+   * Closes the writer.
+   *
+   * @throws IOException If an I/O error has occurred.
+   */
+  @Override
   public void close() throws IOException {
-    synchronized (out) {
-      out.close();
-      stream.close();
-    }
+    out.close();
   }
 }
