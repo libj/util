@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.fastjax.util;
+package org.fastjax.util.zip;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +36,7 @@ public final class ZipFiles {
    * @param destDir The destination directory.
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code zipFile} or {@code destDir} are
-   *           {@code null}.
+   *           null.
    */
   public static void extract(final ZipFile zipFile, final File destDir) throws IOException {
     extract(zipFile, destDir, null);
@@ -48,10 +48,10 @@ public final class ZipFiles {
    *
    * @param zipFile The {@link ZipFile}.
    * @param destDir The destination directory.
-   * @param predicate The {@link Predicate}, can be {@code null}.
+   * @param predicate The {@link Predicate} (can be null).
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code zipFile} or {@code destDir} are
-   *           {@code null}.
+   *           null.
    */
   public static void extract(final ZipFile zipFile, final File destDir, final Predicate<ZipEntry> predicate) throws IOException {
     final Enumeration<? extends ZipEntry> entries = zipFile.entries();
