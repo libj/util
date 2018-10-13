@@ -56,6 +56,7 @@ public class BytesTest {
     assertEquals(-1, Bytes.indexOf(bytes, 7, (byte)8));
 
     assertEquals(0, Bytes.indexOf(bytes, new byte[] {1, 2, 3}));
+    System.out.println(Arrays.toString(bytes));
     assertEquals(2, Bytes.indexOf(bytes, new byte[] {0, 4, 5}, new byte[] {3, 4, 5}));
     assertEquals(4, Bytes.indexOf(bytes, new byte[] {5, 6, 7}));
     assertEquals(-1, Bytes.indexOf(bytes, new byte[] {6, 7, 8}));
@@ -64,35 +65,6 @@ public class BytesTest {
     assertEquals(9, Bytes.indexOf(bytes, 3, new byte[] {3, 4, 5}));
     assertEquals(11, Bytes.indexOf(bytes, 5, new byte[] {5, 6, 7}));
     assertEquals(-1, Bytes.indexOf(bytes, 7, new byte[] {6, 7, 8}));
-  }
-
-  @Test
-  public void testIndicesOf() {
-    try {
-      assertArrayEquals(new int[0], Bytes.indicesOf(new byte[] {0}, -1, (byte)0));
-      fail("Expected IllegalArgumentException");
-    }
-    catch (final IllegalArgumentException e) {
-    }
-
-    try {
-      assertArrayEquals(new int[0], Bytes.indicesOf(new byte[] {0}, 1, (byte)0));
-      fail("Expected IllegalArgumentException");
-    }
-    catch (final IllegalArgumentException e) {
-    }
-
-    final byte[] bytes = new byte[] {1, 2, 3, 1, 2, 3, 7, 1, 2, 3, 8, 1, 2, 3};
-    assertArrayEquals(new int[0], Bytes.indicesOf(bytes));
-    assertArrayEquals(new int[0], Bytes.indicesOf(bytes, (byte)0));
-    assertArrayEquals(new int[] {0, 3, 7, 11}, Bytes.indicesOf(bytes, (byte)1));
-    assertArrayEquals(new int[] {1, 4, 8, 12}, Bytes.indicesOf(bytes, (byte)2));
-    assertArrayEquals(new int[] {2, 5, 9, 13}, Bytes.indicesOf(bytes, (byte)3));
-    assertArrayEquals(new int[] {6}, Bytes.indicesOf(bytes, (byte)7));
-    assertArrayEquals(new int[] {0, 3, 7, 11}, Bytes.indicesOf(bytes, new byte[] {1, 2}));
-    assertArrayEquals(new int[] {1, 4, 8, 12}, Bytes.indicesOf(bytes, new byte[] {2, 3}));
-    assertArrayEquals(new int[] {2}, Bytes.indicesOf(bytes, new byte[] {3, 1}));
-    assertArrayEquals(new int[] {0, 3, 7, 11}, Bytes.indicesOf(bytes, new byte[] {1, 2, 3}));
   }
 
   @Test

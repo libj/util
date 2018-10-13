@@ -66,7 +66,7 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
    * @param newValue The new value being put for the key in the enclosed
    *          {@link Map}.
    * @param re A {@code RuntimeException} that occurred during the put
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterPut(final K key, final V oldValue, final V newValue, final RuntimeException re) {
   }
@@ -96,7 +96,7 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
    * @param value The value for the key being removed in the enclosed
    *          {@link Map}, or null if there was no existing value for the key.
    * @param re A {@code RuntimeException} that occurred during the remove
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterRemove(final Object key, final V value, final RuntimeException re) {
   }

@@ -58,7 +58,7 @@ public class ObservableSet<E> extends FilterSet<E> {
    *
    * @param e The element added to the enclosed {@link Set}.
    * @param re A {@code RuntimeException} that occurred during the add
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterAdd(final E e, final RuntimeException re) {
   }
@@ -82,7 +82,7 @@ public class ObservableSet<E> extends FilterSet<E> {
    *
    * @param e The element removed from the enclosed {@link Set}.
    * @param re A {@code RuntimeException} that occurred during the remove
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
   }

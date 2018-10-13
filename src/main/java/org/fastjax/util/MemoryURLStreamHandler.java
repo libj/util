@@ -21,6 +21,11 @@ import java.net.URL;
 import java.net.URLStreamHandler;
 import java.util.HashMap;
 
+/**
+ * A {@link URLStreamHandler} that implements the "memory" protocol. This class
+ * can be used to create {@code memory:/...} URLs that are resolvable in the JVM
+ * in which they are created.
+ */
 public abstract class MemoryURLStreamHandler extends URLStreamHandler {
   private static final String PROPERTY = "java.protocol.handler.pkgs";
 
@@ -32,6 +37,12 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
 
   public static final HashMap<String,byte[]> idToData = new HashMap<>();
 
+  /**
+   * Creates a "memory" protocol {@link URL} for the specified {@code data}.
+   *
+   * @param data The data {@code byte} array.
+   * @return A "memory" protocol {@link URL} for the specified {@code data}.
+   */
   public static URL createURL(final byte[] data) {
     try {
       final String path = "/" + Integer.toHexString(System.identityHashCode(data));
@@ -41,7 +52,7 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
       return url;
     }
     catch (final MalformedURLException e) {
-      throw new RuntimeException(e);
+      throw new UnsupportedOperationException(e);
     }
   }
 }

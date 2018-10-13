@@ -45,7 +45,7 @@ public abstract class FilterCollection<E> extends AbstractCollection<E> {
    * Creates a new {@code FilterCollection}.
    *
    * @param source The source {@code Collection} object.
-   * @throws NullPointerException If {@code source} is {@code null}.
+   * @throws NullPointerException If {@code source} is null.
    */
   public FilterCollection(final Collection<E> source) {
     this.source = Objects.requireNonNull(source);

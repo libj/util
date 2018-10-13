@@ -25,21 +25,42 @@ import java.io.RandomAccessFile;
  * Utility functions for operations pertaining to {@code byte[]}.
  */
 public final class Bytes {
-  public static int indexOf(final byte[] bytes, final byte ... pattern) {
-    return indexOf(bytes, 0, pattern);
+  /**
+   * Returns the index of the first occurrence of the specified byte
+   * {@code sequence} in {@code bytes}.
+   *
+   * @param bytes The {@code byte} array in which to search.
+   * @param sequence The {@code byte} array sequence for which to search.
+   * @return The index of the first occurrence of the specified byte
+   *         {@code sequence} in {@code bytes}.
+   */
+  public static int indexOf(final byte[] bytes, final byte ... sequence) {
+    return indexOf(bytes, 0, sequence);
   }
 
-  public static int indexOf(final byte[] bytes, final int fromIndex, final byte ... pattern) {
+  /**
+   * Returns the index of the first occurrence (starting the search from the
+   * {@code fromIndex} index) of the specified byte {@code sequence} in
+   * {@code bytes}.
+   *
+   * @param bytes The {@code byte} array in which to search.
+   * @param fromIndex The index to start the search from.
+   * @param sequence The {@code byte} array sequence for which to search.
+   * @return The index of the first occurrence of the specified byte
+   *         {@code sequence} in {@code bytes}.
+   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is negative.
+   */
+  public static int indexOf(final byte[] bytes, final int fromIndex, final byte ... sequence) {
     if (fromIndex < 0)
-      throw new IndexOutOfBoundsException("fromIndex < 0");
+      throw new ArrayIndexOutOfBoundsException("fromIndex < 0");
 
-    if (bytes.length == 0 || pattern.length == 0 || bytes.length < pattern.length)
+    if (bytes.length == 0 || sequence.length == 0 || bytes.length < sequence.length)
       return -1;
 
     for (int i = fromIndex; i < bytes.length; ++i) {
-      if (bytes[i] == pattern[0]) {
+      if (bytes[i] == sequence[0]) {
         boolean match = true;
-        for (int j = 0; j < pattern.length && (match = bytes.length > i + j && pattern[j] == bytes[i + j]); ++j);
+        for (int j = 0; j < sequence.length && (match = bytes.length > i + j && sequence[j] == bytes[i + j]); ++j);
         if (match)
           return i;
       }
@@ -48,41 +69,26 @@ public final class Bytes {
     return -1;
   }
 
-  public static int[] indicesOf(final byte[] bytes, final byte ... pattern) {
-    return indicesOf(0, 0, bytes, pattern);
-  }
-
-  public static int[] indicesOf(final byte[] bytes, final int fromIndex, final byte ... pattern) {
-    if (fromIndex < 0)
-      throw new IllegalArgumentException("fromIndex < 0");
-
-    if (fromIndex >= bytes.length)
-      throw new IllegalArgumentException("fromIndex >= bytes.length");
-
-    if (pattern.length == 0)
-      return new int[0];
-
-    return indicesOf(0, fromIndex, bytes, pattern);
-  }
-
-  private static int[] indicesOf(final int depth, final int fromIndex, final byte[] bytes, final byte ... pattern) {
-    final int index = indexOf(bytes, fromIndex, pattern);
-    final int[] indices;
-    if (index > -1) {
-      indices = fromIndex < bytes.length - 1 ? indicesOf(depth + 1, index + 1, bytes, pattern) : new int[depth + 1];
-      indices[depth] = index;
-    }
-    else {
-      indices = new int[depth];
-    }
-
-    return indices;
-  }
-
+  /**
+   * Replace {@code target} with {@code replacement} in {@code bytes}.
+   *
+   * @param bytes The {@code byte} array in which to perform the replacement.
+   * @param target The {@code byte} to search for.
+   * @param replacement The {@code byte} to replace with.
+   */
   public static void replaceAll(final byte[] bytes, final byte target, final byte replacement) {
     for (int index = 0; (index = Bytes.indexOf(bytes, index + 1, target)) != -1; bytes[index] = replacement);
   }
 
+  /**
+   * Replace {@code target}with {@code replacement} in {@code bytes}.
+   *
+   * @param bytes The {@code byte} array in which to perform the replacement.
+   * @param target The {@code byte} array to search for.
+   * @param replacement The {@code byte} array to replace with.
+   * @throws IllegalArgumentException If the length of {@code target} does not
+   *           equal the length of {@code replacement}.
+   */
   public static void replaceAll(final byte[] bytes, final byte[] target, final byte[] replacement) {
     if (target.length != replacement.length)
       throw new IllegalArgumentException("target.length != replacement.length");

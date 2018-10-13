@@ -78,7 +78,7 @@ public class ObservableList<E> extends FilterList<E> {
    * @param iterator The {@link Iterator} instance if the get is a result of an
    *          iterator reference, or null if otherwise.
    * @param re A {@code RuntimeException} that occurred during the get
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
   }
@@ -105,7 +105,7 @@ public class ObservableList<E> extends FilterList<E> {
    * @param index The index of the element added to the enclosed {@link List}.
    * @param e The element being added to the enclosed {@link List}.
    * @param re A {@code RuntimeException} that occurred during the add
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterAdd(final int index, final E e, final RuntimeException re) {
   }
@@ -130,7 +130,7 @@ public class ObservableList<E> extends FilterList<E> {
    *
    * @param e The element removed from the enclosed {@link List}.
    * @param re A {@code RuntimeException} that occurred during the remove
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
   }
@@ -158,7 +158,7 @@ public class ObservableList<E> extends FilterList<E> {
    * @param oldElement The old element at the index of the enclosed
    *          {@link List}.
    * @param re A {@code RuntimeException} that occurred during the set
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterSet(final int index, final E oldElement, final RuntimeException re) {
   }

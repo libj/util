@@ -21,9 +21,19 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * A {@link URLConnection} wrapping data in the form of a {@code byte} array.
+ */
 public class MemoryURLConnection extends URLConnection {
   private final ByteArrayInputStream in;
 
+  /**
+   * Creates a new {@code MemoryURLConnection} with the specified {@code url}
+   * and {@code data}.
+   *
+   * @param url The {@link URL}.
+   * @param data The data.
+   */
   public MemoryURLConnection(final URL url, final byte[] data) {
     super(url);
     this.in = new ByteArrayInputStream(data);

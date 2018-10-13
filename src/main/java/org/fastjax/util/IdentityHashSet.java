@@ -34,8 +34,7 @@ import java.util.TreeSet;
  * This class implements the {@code Set} interface, backed by a hash table
  * (actually a {@link IdentityHashMap} instance). It makes no guarantees as to
  * the iteration order of the set; in particular, it does not guarantee that the
- * order will remain constant over time. This class permits the {@code null}
- * element.
+ * order will remain constant over time. This class permits the null element.
  * <p>
  * This class offers constant time performance for the basic operations
  * ({@code add}, {@code remove}, {@code contains} and {@code size}), assuming

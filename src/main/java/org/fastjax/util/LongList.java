@@ -100,7 +100,7 @@ interface LongList extends LongCollection {
    * @return {@code true} if this list changed as a result of the call.
    * @throws IndexOutOfBoundsException if the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   void addAll(int index, long[] values, int offset, int length);
 
@@ -116,7 +116,7 @@ interface LongList extends LongCollection {
    * @param values Array containing values to be added to this list.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   default void addAll(final int index, final long[] values) {
     addAll(index, values, 0, values.length);
@@ -133,7 +133,7 @@ interface LongList extends LongCollection {
    * @param values Array containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   default void addAll(final long[] values, final int offset, final int length) {
     addAll(size(), values, offset, length);
@@ -148,7 +148,7 @@ interface LongList extends LongCollection {
    * nonempty.)
    *
    * @param values Array containing values to be added to this list.
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   default void addAll(final long[] values) {
     addAll(size(), values, 0, values.length);
@@ -166,7 +166,7 @@ interface LongList extends LongCollection {
    * @param c Collection containing values to be added to this list.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   void addAll(int index, Collection<Long> c);
 
@@ -179,7 +179,7 @@ interface LongList extends LongCollection {
    * collection is this list, and this list is nonempty.)
    *
    * @param c Collection containing values to be added to this list.
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   @Override
   default void addAll(final Collection<Long> c) {
@@ -198,7 +198,7 @@ interface LongList extends LongCollection {
    * @param c Collection containing values to be added to this list.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   void addAll(int index, LongCollection c);
 
@@ -417,7 +417,7 @@ interface LongList extends LongCollection {
    *          it is big enough; otherwise, a new array of the same runtime type
    *          is allocated for this purpose.
    * @return An array containing the values of the list.
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   long[] toArray(long[] a);
 
@@ -430,15 +430,15 @@ interface LongList extends LongCollection {
    * <p>
    * If the list fits in the specified array with room to spare (i.e., the array
    * has more values than the list), the value in the array immediately
-   * following the end of the collection is set to {@code null}. (This is useful
-   * in determining the length of the list <i>only</i> if the caller knows that
-   * the list does not contain any null values.)
+   * following the end of the collection is set to null. (This is useful in
+   * determining the length of the list <i>only</i> if the caller knows that the
+   * list does not contain any null values.)
    *
    * @param a The array into which the values of the list are to be stored, if
    *          it is big enough; otherwise, a new array of the same runtime type
    *          is allocated for this purpose.
    * @return An array containing the values of the list.
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   Long[] toArray(Long[] a);
 }

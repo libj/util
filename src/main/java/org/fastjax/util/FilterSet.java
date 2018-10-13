@@ -46,7 +46,7 @@ public class FilterSet<E> extends AbstractSet<E> {
    * Creates a new {@code FilterSet}.
    *
    * @param source The source {@code Set} object.
-   * @throws NullPointerException If {@code source} is {@code null}.
+   * @throws NullPointerException If {@code source} is null.
    */
   public FilterSet(final Set<E> source) {
     this.source = Objects.requireNonNull(source);

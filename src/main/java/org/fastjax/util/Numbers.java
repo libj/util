@@ -343,17 +343,19 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as a boolean. The {@code Boolean}
-   * returned is {@code null} if the string argument is {@code null}, and
-   * the value {@code true} if the string argument is equal, ignoring case,
-   * to the string {@code "true"}. <p>
-   * Example: {@code Boolean.parseBoolean("True")} returns {@code true}.<br>
-   * Example: {@code Boolean.parseBoolean("yes")} returns {@code false}.
+   * Parses the string argument as a boolean. The {@code Boolean} returned is
+   * null if the string argument is null, and the value {@code true} if the
+   * string argument is equal, ignoring case, to the string {@code "true"}.
+   * <p>
+   * <ul>
+   * <li>{@code Boolean.parseBoolean("True")} returns {@code true}.</li>
+   * <li>{@code Boolean.parseBoolean("yes")} returns {@code false}.</li>
+   * </ul>
    *
-   * @param      s   the {@code String} containing the boolean
-   *                 representation to be parsed
-   * @return     the {@code Boolean} represented by the string argument
-   * @see        java.lang.Boolean#parseBoolean(String)
+   * @param s The {@code String} containing the boolean representation to be
+   *          parsed.
+   * @return The {@code Boolean} represented by the string argument.
+   * @see Boolean#parseBoolean(String)
    */
   public static Boolean parseBoolean(final String s) {
     return s == null ? null : Boolean.parseBoolean(s);
@@ -361,15 +363,14 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@code Short#parseShort(String)}, but returns {@code null} if the
-   * string does not contain a parsable {@code short}.
+   * {@link Short#parseShort(String)}, but returns null if the string does not
+   * contain a parsable {@code short}.
    *
-   * @param s    a {@code String} containing the {@code Short}
-   *             representation to be parsed
-   * @return     the integer value represented by the argument, or
-   *             {@code null} if the string does not contain a parsable
-   *             {@code short}.
-   * @see        java.lang.Short#parseShort(String)
+   * @param s A {@code String} containing the {@code Short} representation to be
+   *          parsed.
+   * @return The integer value represented by the argument, or null if the
+   *         string does not contain a parsable {@code short}.
+   * @see Short#parseShort(String)
    */
   public static Short parseShort(final String s) {
     // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
@@ -384,15 +385,14 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@code Integer#parseInt(String)}, but returns {@code null} if the
-   * string does not contain a parsable {@code int}.
+   * {@link Integer#parseInt(String)}, but returns null if the string does not
+   * contain a parsable {@code int}.
    *
-   * @param s    a {@code String} containing the {@code Integer}
-   *             representation to be parsed
-   * @return     the {@code int} value represented by the argument, or
-   *             {@code null} if the string does not contain a parsable
-   *             {@code int}.
-   * @see        java.lang.Integer#parseInt(String)
+   * @param s A {@code String} containing the {@code Integer} representation to
+   *          be parsed.
+   * @return The {@code int} value represented by the argument, or null if the
+   *         string does not contain a parsable {@code int}.
+   * @see Integer#parseInt(String)
    */
   public static Integer parseInteger(final String s) {
     // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
@@ -407,15 +407,14 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@code Long#parseLong(String)}, but returns {@code null} if the
-   * string does not contain a parsable {@code long}.
+   * {@link Long#parseLong(String)}, but returns null if the string does not
+   * contain a parsable {@code long}.
    *
-   * @param s    a {@code String} containing the {@code Long}
-   *             representation to be parsed.
-   * @return     the {@code long} value represented by the argument, or
-   *             {@code null} if the string does not contain a parsable
-   *             {@code long}.
-   * @see        java.lang.Long#parseLong(String)
+   * @param s A {@code String} containing the {@code Long} representation to be
+   *          parsed.
+   * @return The {@code long} value represented by the argument, or null if the
+   *         string does not contain a parsable {@code long}.
+   * @see Long#parseLong(String)
    */
   public static Long parseLong(final String s) {
     // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
@@ -430,15 +429,14 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@code Float#parseFloat(String)}, but returns {@code null} if the
-   * string does not contain a parsable {@code float}.
+   * {@link Float#parseFloat(String)}, but returns null if the string does not
+   * contain a parsable {@code float}.
    *
-   * @param s    a {@code String} containing the {@code Float}
-   *             representation to be parsed.
-   * @return     the {@code float} value represented by the argument, or
-   *             {@code null} if the string does not contain a parsable
-   *             {@code float}.
-   * @see        java.lang.Float#parseFloat(String)
+   * @param s A {@code String} containing the {@code Float} representation to be
+   *          parsed.
+   * @return The {@code float} value represented by the argument, or null if the
+   *         string does not contain a parsable {@code float}.
+   * @see Float#parseFloat(String)
    */
   public static Float parseFloat(final String s) {
     // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
@@ -453,15 +451,14 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@code Double#parseDouble(String)}, but returns {@code null} if the
-   * string does not contain a parsable {@code double}.
+   * {@link Double#parseDouble(String)}, but returns null if the string does not
+   * contain a parsable {@code double}.
    *
-   * @param s    a {@code String} containing the {@code Double}
-   *             representation to be parsed.
-   * @return     the {@code double} value represented by the argument, or
-   *             {@code null} if the string does not contain a parsable
-   *             {@code double}.
-   * @see        java.lang.Long#parseLong(String)
+   * @param s A {@code String} containing the {@code Double} representation to
+   *          be parsed.
+   * @return The {@code double} value represented by the argument, or null if
+   *         the string does not contain a parsable {@code double}.
+   * @see Long#parseLong(String)
    */
   public static Double parseDouble(final String s) {
     // FIXME: Can a NumberFormatException be avoided altogether? Yes, if

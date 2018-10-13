@@ -36,7 +36,7 @@ public interface LongCollection extends LongIterable {
    * collection is this collection, and this collection is nonempty.)
    *
    * @param c Collection containing values to be added to this collection.
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   void addAll(LongCollection c);
 
@@ -49,7 +49,7 @@ public interface LongCollection extends LongIterable {
    * collection is this collection, and this collection is nonempty.)
    *
    * @param c Collection containing values to be added to this collection.
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   void addAll(Collection<Long> c);
 

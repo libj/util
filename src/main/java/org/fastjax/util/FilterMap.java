@@ -45,7 +45,7 @@ public class FilterMap<K,V> extends AbstractMap<K,V> {
    * Creates a new {@code FilterMap}.
    *
    * @param source The source {@code Map} object.
-   * @throws NullPointerException If {@code source} is {@code null}.
+   * @throws NullPointerException If {@code source} is null.
    */
   public FilterMap(final Map<K,V> source) {
     this.source = Objects.requireNonNull(source);

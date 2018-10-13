@@ -36,7 +36,7 @@ public interface IntCollection extends IntIterable {
    * collection is this collection, and this collection is nonempty.)
    *
    * @param c Collection containing values to be added to this collection.
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   void addAll(IntCollection c);
 
@@ -49,7 +49,7 @@ public interface IntCollection extends IntIterable {
    * collection is this collection, and this collection is nonempty.)
    *
    * @param c Collection containing values to be added to this collection.
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   void addAll(Collection<Integer> c);
 

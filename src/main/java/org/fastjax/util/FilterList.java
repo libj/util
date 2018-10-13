@@ -43,7 +43,7 @@ public abstract class FilterList<E> extends AbstractList<E> {
    * Creates a new {@code FilterList}.
    *
    * @param source The source {@code List} object.
-   * @throws NullPointerException If {@code source} is {@code null}.
+   * @throws NullPointerException If {@code source} is null.
    */
   public FilterList(final List<E> source) {
     this.source = Objects.requireNonNull(source);

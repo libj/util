@@ -19,6 +19,7 @@ package org.fastjax.util;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -58,7 +59,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
   protected final Function<T,R> reference;
 
   /**
-   * Constructs an empty digraph with the specified initial capacity.
+   * Creates an empty digraph with the specified initial capacity.
    *
    * @param reference The function to obtain the reference of type {@code R}
    *          from an object of type {@code T}.
@@ -72,7 +73,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
   }
 
   /**
-   * Constructs an empty digraph with an initial capacity of ten.
+   * Creates an empty digraph with an initial capacity of ten.
    *
    * @param reference The function to obtain the reference of type {@code R}
    *          from an object of type {@code T}.
@@ -83,11 +84,11 @@ public class RefDigraph<T,R> extends Digraph<T> {
   }
 
   /**
-   * Swap vertex reference object of type R with their equivalent object of type
-   * T.
+   * Swap vertex reference objects of type {@code R} with their equivalent
+   * object of type {@code T}.
    *
    * @throws IllegalStateException If some vertex references have not been
-   *           specified before the time this method is called.
+   *           specified before the call of this method.
    */
   private void swapRefs() {
     for (final T vertex : vertices) {
@@ -105,7 +106,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
 
   @Override
   public boolean addVertex(final T vertex) {
-    vertices.add(vertex);
+    vertices.add(Objects.requireNonNull(vertex));
     return digraph.addVertex(reference.apply(vertex));
   }
 
@@ -115,17 +116,15 @@ public class RefDigraph<T,R> extends Digraph<T> {
    * @param vertex The vertex reference.
    * @return {@code true} if this digraph has been modified, and {@code false}
    *         if the specified vertex already existed in the digraph.
+   * @throws NullPointerException If {@code vertex} is null.
    */
   public boolean addVertexRef(final R vertex) {
-    references.add(vertex);
+    references.add(Objects.requireNonNull(vertex));
     return digraph.addVertex(vertex);
   }
 
   @Override
   public boolean addEdge(final T from, final T to) {
-    if (from == null)
-      throw new IllegalArgumentException("from == null");
-
     if (to == null)
       return addVertex(from);
 
@@ -143,12 +142,9 @@ public class RefDigraph<T,R> extends Digraph<T> {
    * @param to The head vertex reference.
    * @return {@code true} if this digraph has been modified, and {@code false}
    *         if the specified edge already existed in the digraph.
-   * @throws NullPointerException If {@code from} is {@code null}.
+   * @throws NullPointerException If {@code from} is null.
    */
   public boolean addEdgeRef(final T from, final R to) {
-    if (from == null)
-      throw new IllegalArgumentException("from == null");
-
     if (to == null)
       return addVertex(from);
 
@@ -162,6 +158,12 @@ public class RefDigraph<T,R> extends Digraph<T> {
     return digraph.getSize();
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @throws IllegalStateException If some vertex references have not been
+   *           specified before the call of this method.
+   */
   @Override
   @SuppressWarnings("unchecked")
   public List<T> getEdges() {
@@ -169,18 +171,36 @@ public class RefDigraph<T,R> extends Digraph<T> {
     return (List<T>)digraph.getEdges();
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @throws IllegalStateException If some vertex references have not been
+   *           specified before the call of this method.
+   */
   @Override
   public int getInDegree(final T v) {
     swapRefs();
     return digraph.getInDegree(v);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @throws IllegalStateException If some vertex references have not been
+   *           specified before the call of this method.
+   */
   @Override
   public int getOutDegree(final T v) {
     swapRefs();
     return digraph.getOutDegree(v);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @throws IllegalStateException If some vertex references have not been
+   *           specified before the call of this method.
+   */
   @Override
   @SuppressWarnings("unchecked")
   public List<T> getCycle() {
@@ -188,6 +208,15 @@ public class RefDigraph<T,R> extends Digraph<T> {
     return (List<T>)digraph.getCycle();
   }
 
+  /**
+   * Returns a directed cycle (as a list of reference {@code R} objects) if the
+   * digraph has one, and null otherwise (not synchronized).
+   *
+   * @return A directed cycle (as a list of reference {@code R} objects) if the
+   *         digraph has one, and null otherwise (not synchronized).
+   * @throws IllegalStateException If some vertex references have not been
+   *           specified before the call of this method.
+   */
   public List<R> getCycleRef() {
     final List<T> cycle = getCycle();
     if (cycle == null)
@@ -200,6 +229,12 @@ public class RefDigraph<T,R> extends Digraph<T> {
     return refCycle;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @throws IllegalStateException If some vertex references have not been
+   *           specified before the call of this method.
+   */
   @Override
   @SuppressWarnings("unchecked")
   public List<T> getTopologicalOrder() {

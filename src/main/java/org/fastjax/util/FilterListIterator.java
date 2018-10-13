@@ -41,7 +41,7 @@ public class FilterListIterator<E> implements ListIterator<E> {
    * Creates a new {@code FilterListIterator}.
    *
    * @param source The source {@code ListIterator} object.
-   * @throws NullPointerException If {@code source} is {@code null}.
+   * @throws NullPointerException If {@code source} is null.
    */
   public FilterListIterator(final ListIterator<? extends E> source) {
     this.source = Objects.requireNonNull(source);

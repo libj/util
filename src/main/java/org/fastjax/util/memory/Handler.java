@@ -24,6 +24,11 @@ import java.net.URLConnection;
 import org.fastjax.util.MemoryURLConnection;
 import org.fastjax.util.MemoryURLStreamHandler;
 
+/**
+ * Handler class extending {@link MemoryURLStreamHandler}. This class is used
+ * for handler registration with the {@code "java.protocol.handler.pkgs"} system
+ * property.
+ */
 public class Handler extends MemoryURLStreamHandler {
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
@@ -32,7 +37,7 @@ public class Handler extends MemoryURLStreamHandler {
 
     final byte[] data = idToData.get(url.getPath());
     if (data == null)
-      throw new IOException("Unknown URL: " + url);
+      throw new IOException("URL not registered: " + url);
 
     return new MemoryURLConnection(url, data);
   }

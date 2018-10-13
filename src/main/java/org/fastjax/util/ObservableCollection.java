@@ -57,7 +57,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    *
    * @param e The element added to the enclosed {@code Collection}.
    * @param re A {@code RuntimeException} that occurred during the add
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterAdd(final E e, final RuntimeException re) {
   }
@@ -81,7 +81,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    *
    * @param e The element removed from the enclosed {@code Collection}.
    * @param re A {@code RuntimeException} that occurred during the add
-   *          operation, or {@code null} if no exception occurred.
+   *          operation, or null if no exception occurred.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
   }

@@ -91,7 +91,7 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * @param values The array whose values are to be placed into this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   public ArrayIntList(final int[] values, final int offset, final int length) {
     valueData = new int[length];
@@ -103,7 +103,7 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * Constructs a list containing the values of the specified array.
    *
    * @param values The array whose values are to be placed into this list.
-   * @throws NullPointerException If the specified array is {@code null}.
+   * @throws NullPointerException If the specified array is null.
    */
   public ArrayIntList(final int ... values) {
     this(values, 0, values.length);
@@ -114,7 +114,7 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * order they are returned by the collection's iterator.
    *
    * @param c The collection whose values are to be placed into this list.
-   * @throws NullPointerException If the specified collection is {@code null}.
+   * @throws NullPointerException If the specified collection is null.
    */
   public ArrayIntList(final Collection<Integer> c) {
     valueData = new int[c.size()];
@@ -187,7 +187,7 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * @param length The number of values to add.
    * @throws IndexOutOfBoundsException If the index is out of range.
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified list is {@code null}.
+   * @throws NullPointerException If the specified list is null.
    */
   public void addAll(final int index, final ArrayIntList list, final int offset, final int length) {
     addAll(index, list.valueData, offset, length);
@@ -205,7 +205,7 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * @param list List containing values to be added to this list.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
-   * @throws NullPointerException If the specified list is {@code null}.
+   * @throws NullPointerException If the specified list is null.
    */
   public void addAll(final int index, final ArrayIntList list) {
     addAll(index, list.valueData, 0, list.size);
@@ -222,7 +222,7 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * @param list List containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
-   * @throws NullPointerException If the specified list is {@code null}.
+   * @throws NullPointerException If the specified list is null.
    */
   public void addAll(final ArrayIntList list, final int offset, final int length) {
     addAll(size(), list.valueData, offset, length);
@@ -237,7 +237,7 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    * nonempty.)
    *
    * @param list List containing values to be added to this list.
-   * @throws NullPointerException If the specified list is {@code null}.
+   * @throws NullPointerException If the specified list is null.
    */
   public void addAll(final ArrayIntList list) {
     addAll(size(), list.valueData, 0, list.size);

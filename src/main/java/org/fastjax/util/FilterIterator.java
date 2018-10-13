@@ -40,7 +40,7 @@ public abstract class FilterIterator<E> implements Iterator<E> {
    * Creates a new {@code FilterIterator}.
    *
    * @param source The source {@code Iterator} object.
-   * @throws NullPointerException If {@code source} is {@code null}.
+   * @throws NullPointerException If {@code source} is null.
    */
   public FilterIterator(final Iterator<E> source) {
     this.source = Objects.requireNonNull(source);
