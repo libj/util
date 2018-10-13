@@ -16,10 +16,11 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class MirroredListTest {
@@ -28,29 +29,29 @@ public class MirroredListTest {
     final MirroredList<String,Integer> list = new MirroredList<>(new ArrayList<String>(), new ArrayList<Integer>(), string -> Integer.valueOf(string), integer -> String.valueOf(integer));
 
     list.add("1");
-    Assert.assertTrue(list.getMirror().contains(1));
+    assertTrue(list.getMirror().contains(1));
 
     list.getMirror().add(2);
-    Assert.assertTrue(list.contains("2"));
+    assertTrue(list.contains("2"));
 
     final ListIterator<String> stringIterator = list.listIterator();
     stringIterator.next();
     stringIterator.add("3");
-    Assert.assertTrue(list.getMirror().contains(3));
+    assertTrue(list.getMirror().contains(3));
 
     final ListIterator<Integer> integerIterator = list.getMirror().listIterator();
     integerIterator.next();
     integerIterator.next();
     integerIterator.add(7);
-    Assert.assertTrue(list.contains("7"));
+    assertTrue(list.contains("7"));
 
-    Assert.assertTrue(list.remove("1"));
-    Assert.assertTrue(!list.getMirror().contains(1));
+    assertTrue(list.remove("1"));
+    assertTrue(!list.getMirror().contains(1));
 
-    Assert.assertEquals(Integer.valueOf(2), list.getMirror().remove(2));
-    Assert.assertTrue(!list.contains("2"));
+    assertEquals(Integer.valueOf(2), list.getMirror().remove(2));
+    assertTrue(!list.contains("2"));
 
     list.getMirror().clear();
-    Assert.assertEquals(0, list.size());
+    assertEquals(0, list.size());
   }
 }

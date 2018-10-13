@@ -16,8 +16,9 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import org.fastjax.util.Diff.Mod;
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +29,12 @@ public class DiffTest {
   private static void assertDiff(final String source, final String target) {
     final Diff diff = new Diff(target, source);
     final String patched = diff.patch(target);
-    Assert.assertEquals(source, patched);
+    assertEquals(source, patched);
 
     final byte[] encoded = diff.toBytes();
     final Diff decodedDiff = Diff.decode(encoded);
     final String decodedPatched = decodedDiff.patch(target);
-    Assert.assertEquals(source, decodedPatched);
+    assertEquals(source, decodedPatched);
   }
 
   @Test

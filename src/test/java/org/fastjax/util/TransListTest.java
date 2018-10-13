@@ -16,35 +16,36 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class TransListTest {
   protected static void test(final TransList<Integer,String> trans) {
-    Assert.assertTrue(trans.contains("3"));
-    Assert.assertTrue(trans.source.contains(3));
-    Assert.assertFalse(trans.contains("11"));
-    Assert.assertFalse(trans.source.contains(11));
+    assertTrue(trans.contains("3"));
+    assertTrue(trans.source.contains(3));
+    assertFalse(trans.contains("11"));
+    assertFalse(trans.source.contains(11));
 
     trans.addAll(Arrays.asList("11", "12", "13"));
-    Assert.assertTrue(trans.contains("11"));
-    Assert.assertTrue(trans.source.contains(11));
+    assertTrue(trans.contains("11"));
+    assertTrue(trans.source.contains(11));
 
     trans.remove("11");
-    Assert.assertFalse(trans.contains("11"));
-    Assert.assertFalse(trans.source.contains(11));
+    assertFalse(trans.contains("11"));
+    assertFalse(trans.source.contains(11));
 
     trans.toArray(new String[trans.size()]);
 
     trans.remove("5");
-    Assert.assertFalse(trans.contains("5"));
-    Assert.assertFalse(trans.source.contains(5));
+    assertFalse(trans.contains("5"));
+    assertFalse(trans.source.contains(5));
 
     final Iterator<String> iterator = trans.iterator();
     while (iterator.hasNext()) {
@@ -52,8 +53,8 @@ public class TransListTest {
       iterator.remove();
     }
 
-    Assert.assertEquals(0, trans.size());
-    Assert.assertEquals(0, trans.source.size());
+    assertEquals(0, trans.size());
+    assertEquals(0, trans.source.size());
   }
 
   @Test
@@ -74,48 +75,48 @@ public class TransListTest {
 
     final TransList<Integer,String> trans = new TransList<>(source, integer -> String.valueOf(integer), string -> Integer.valueOf(string));
     trans.add(3, "555");
-    Assert.assertEquals("555", trans.get(3));
-    Assert.assertEquals(Integer.valueOf(555), ((List<Integer>)trans.source).get(3));
+    assertEquals("555", trans.get(3));
+    assertEquals(Integer.valueOf(555), ((List<Integer>)trans.source).get(3));
 
     trans.addAll(9, Arrays.asList("666", "777", "888"));
-    Assert.assertEquals("666", trans.get(9));
-    Assert.assertEquals("777", trans.get(10));
-    Assert.assertEquals("888", trans.get(11));
-    Assert.assertEquals(Integer.valueOf(666), ((List<Integer>)trans.source).get(9));
-    Assert.assertEquals(Integer.valueOf(777), ((List<Integer>)trans.source).get(10));
-    Assert.assertEquals(Integer.valueOf(888), ((List<Integer>)trans.source).get(11));
+    assertEquals("666", trans.get(9));
+    assertEquals("777", trans.get(10));
+    assertEquals("888", trans.get(11));
+    assertEquals(Integer.valueOf(666), ((List<Integer>)trans.source).get(9));
+    assertEquals(Integer.valueOf(777), ((List<Integer>)trans.source).get(10));
+    assertEquals(Integer.valueOf(888), ((List<Integer>)trans.source).get(11));
 
     trans.set(7, "0");
-    Assert.assertEquals("0", trans.get(7));
-    Assert.assertEquals(Integer.valueOf(000), ((List<Integer>)trans.source).get(7));
+    assertEquals("0", trans.get(7));
+    assertEquals(Integer.valueOf(000), ((List<Integer>)trans.source).get(7));
 
     trans.remove(7);
-    Assert.assertNotEquals("0", trans.get(7));
-    Assert.assertNotEquals(Integer.valueOf(000), ((List<Integer>)trans.source).get(7));
+    assertNotEquals("0", trans.get(7));
+    assertNotEquals(Integer.valueOf(000), ((List<Integer>)trans.source).get(7));
 
     final TransList<Integer,String> subList = trans.subList(4, 7);
     for (int i = 3; i < 6; i++)
-      Assert.assertEquals(String.valueOf(i), subList.get(i - 3));
+      assertEquals(String.valueOf(i), subList.get(i - 3));
 
     final ListIterator<String> iterator = trans.listIterator();
     while (iterator.hasNext()) {
       final String element = iterator.next();
       if ("666".equals(element)) {
         iterator.remove();
-        Assert.assertFalse(trans.contains("666"));
-        Assert.assertFalse(((List<Integer>)trans.source).contains(666));
+        assertFalse(trans.contains("666"));
+        assertFalse(((List<Integer>)trans.source).contains(666));
       }
       else if ("777".equals(element)) {
         iterator.add("876");
-        Assert.assertTrue(trans.contains("876"));
-        Assert.assertTrue(((List<Integer>)trans.source).contains(876));
+        assertTrue(trans.contains("876"));
+        assertTrue(((List<Integer>)trans.source).contains(876));
       }
       else if ("888".equals(element)) {
         iterator.set("123");
-        Assert.assertFalse(trans.contains("888"));
-        Assert.assertFalse(((List<Integer>)trans.source).contains(888));
-        Assert.assertTrue(trans.contains("123"));
-        Assert.assertTrue(((List<Integer>)trans.source).contains(123));
+        assertFalse(trans.contains("888"));
+        assertFalse(((List<Integer>)trans.source).contains(888));
+        assertTrue(trans.contains("123"));
+        assertTrue(((List<Integer>)trans.source).contains(123));
       }
     }
   }

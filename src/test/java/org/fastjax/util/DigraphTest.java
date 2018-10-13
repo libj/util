@@ -16,10 +16,11 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.io.Serializable;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class DigraphTest {
@@ -86,25 +87,25 @@ public class DigraphTest {
   @Test
   public void testIntegerDirectedGraph() {
     final Digraph<Integer> directedAcyclicDigraph = makeDirectedAcyclicGraph();
-    Assert.assertNull(testDirectedCycle(directedAcyclicDigraph));
-    Assert.assertFalse(directedAcyclicDigraph.hasCycle());
-    Assert.assertArrayEquals(new Integer[] {
+    assertNull(testDirectedCycle(directedAcyclicDigraph));
+    assertFalse(directedAcyclicDigraph.hasCycle());
+    assertArrayEquals(new Integer[] {
       8, 7, 2, 0, 1, 6, 9, 11, 10, 12, 3, 5, 4
     }, directedAcyclicDigraph.getTopologicalOrder().toArray());
 
     final Digraph<Integer> directedTinyDigraph = makeTinyDirectedGraph();
-    Assert.assertArrayEquals(new Integer[] {
+    assertArrayEquals(new Integer[] {
       3, 2, 3
     }, testDirectedCycle(directedTinyDigraph).toArray());
-    Assert.assertTrue(directedTinyDigraph.hasCycle());
-    Assert.assertNull(directedTinyDigraph.getTopologicalOrder());
+    assertTrue(directedTinyDigraph.hasCycle());
+    assertNull(directedTinyDigraph.getTopologicalOrder());
 
     final Digraph<Integer> directedMediumDigraph = makeMediumDirectedGraph();
-    Assert.assertArrayEquals(new Integer[] {
+    assertArrayEquals(new Integer[] {
       13, 6, 22, 13
     }, testDirectedCycle(directedMediumDigraph).toArray());
-    Assert.assertTrue(directedMediumDigraph.hasCycle());
-    Assert.assertNull(directedMediumDigraph.getTopologicalOrder());
+    assertTrue(directedMediumDigraph.hasCycle());
+    assertNull(directedMediumDigraph.getTopologicalOrder());
   }
 
   private static final Digraph<String> digraph1 = createDigraph("a", "b", "b", "c", "b", "d", "c", "d", "c", "e", "d", "e", "e", "f", "e", "g", "e", "h", "f", "h");
@@ -113,22 +114,22 @@ public class DigraphTest {
 
   @Test
   public void testEquals() {
-    Assert.assertEquals(digraph1, digraph2);
+    assertEquals(digraph1, digraph2);
   }
 
   @Test
   public void testClone() {
-    Assert.assertEquals(digraph1.clone(), digraph2.clone());
+    assertEquals(digraph1.clone(), digraph2.clone());
   }
 
   @Test
   public void testReverse() {
-    Assert.assertEquals(reverse, digraph1.reverse());
+    assertEquals(reverse, digraph1.reverse());
   }
 
   @Test
   public void testTopologicalOrder() {
-    Assert.assertArrayEquals(new String[] {
+    assertArrayEquals(new String[] {
       "a", "b", "c", "d", "e", "g", "f", "h"
     }, digraph1.getTopologicalOrder().toArray());
   }

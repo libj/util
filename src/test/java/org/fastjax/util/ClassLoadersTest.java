@@ -16,9 +16,10 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ClassLoadersTest {
@@ -29,6 +30,6 @@ public class ClassLoadersTest {
       if (path.getAbsolutePath().contains("junit"))
         return;
 
-    Assert.fail("Expected junit in the classpath.");
+    fail("Expected junit in the classpath.");
   }
 }

@@ -16,13 +16,14 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class IteratorsTest {
@@ -32,14 +33,14 @@ public class IteratorsTest {
 
     final Iterator<? super Integer> integerIterator = Iterators.filter(list.iterator(), m -> Integer.class.isInstance(m));
     for (int i = 0; integerIterator.hasNext(); i++)
-      Assert.assertEquals(i, integerIterator.next());
+      assertEquals(i, integerIterator.next());
 
     final Iterator<? super BigInteger> bigIntegerIterator = Iterators.filter(list.iterator(), m -> BigInteger.class.isInstance(m));
     for (int i = 0; bigIntegerIterator.hasNext(); i++)
-      Assert.assertEquals(BigInteger.valueOf(i), bigIntegerIterator.next());
+      assertEquals(BigInteger.valueOf(i), bigIntegerIterator.next());
 
     final Iterator<? super Double> doubleIterator = Iterators.filter(list.iterator(), m -> Double.class.isInstance(m));
     for (int i = 0; doubleIterator.hasNext(); i++)
-      Assert.assertEquals(Double.valueOf(i), doubleIterator.next());
+      assertEquals(Double.valueOf(i), doubleIterator.next());
   }
 }

@@ -16,6 +16,8 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -29,7 +31,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -53,9 +54,9 @@ public class ClassesTest {
   @Test
   public void testGreatestCommonClass() throws Exception {
     for (final Map.Entry<Class<?>[],Class<?>> entry : classes.entrySet())
-      Assert.assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
+      assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
 
-    Assert.assertNull(Classes.getGreatestCommonSuperclass((Class<?>[])null));
+    assertNull(Classes.getGreatestCommonSuperclass((Class<?>[])null));
   }
 
   @Test
@@ -74,140 +75,140 @@ public class ClassesTest {
 
   @Test
   public void testStrictGetName() throws Exception {
-    Assert.assertEquals("java.lang.String", Classes.getStrictName(String.class));
-    Assert.assertEquals(ClassesTest.class.getName() + ".Inn$r.$nner.$nner$", Classes.getStrictName(Inn$r.$nner.$nner$.class));
+    assertEquals("java.lang.String", Classes.getStrictName(String.class));
+    assertEquals(ClassesTest.class.getName() + ".Inn$r.$nner.$nner$", Classes.getStrictName(Inn$r.$nner.$nner$.class));
   }
 
   @Test
   public void testGetDeclaringClassName() {
     try {
       Classes.getDeclaringClassName(null);
-      Assert.fail("Expected NullPointerException");
+      fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
     try {
       Classes.getDeclaringClassName("");
-      Assert.fail("Expected IllegalArgumentException");
+      fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    Assert.assertEquals("One", Classes.getDeclaringClassName("One$Two"));
-    Assert.assertEquals("One", Classes.getDeclaringClassName("One$Two$"));
-    Assert.assertEquals("$Two", Classes.getDeclaringClassName("$Two"));
-    Assert.assertEquals("Two$", Classes.getDeclaringClassName("Two$"));
-    Assert.assertEquals("foo.One", Classes.getDeclaringClassName("foo.One$Two"));
-    Assert.assertEquals("foo.One", Classes.getDeclaringClassName("foo.One$Two$"));
-    Assert.assertEquals("foo.bar.One", Classes.getDeclaringClassName("foo.bar.One$Two"));
-    Assert.assertEquals("foo.bar.One", Classes.getDeclaringClassName("foo.bar.One$Two$"));
-    Assert.assertEquals("foo.bar.One$Two", Classes.getDeclaringClassName("foo.bar.One$Two$Three"));
-    Assert.assertEquals("foo.bar.One$Two", Classes.getDeclaringClassName("foo.bar.One$Two$Three$"));
+    assertEquals("One", Classes.getDeclaringClassName("One$Two"));
+    assertEquals("One", Classes.getDeclaringClassName("One$Two$"));
+    assertEquals("$Two", Classes.getDeclaringClassName("$Two"));
+    assertEquals("Two$", Classes.getDeclaringClassName("Two$"));
+    assertEquals("foo.One", Classes.getDeclaringClassName("foo.One$Two"));
+    assertEquals("foo.One", Classes.getDeclaringClassName("foo.One$Two$"));
+    assertEquals("foo.bar.One", Classes.getDeclaringClassName("foo.bar.One$Two"));
+    assertEquals("foo.bar.One", Classes.getDeclaringClassName("foo.bar.One$Two$"));
+    assertEquals("foo.bar.One$Two", Classes.getDeclaringClassName("foo.bar.One$Two$Three"));
+    assertEquals("foo.bar.One$Two", Classes.getDeclaringClassName("foo.bar.One$Two$Three$"));
 
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getDeclaringClassName("foo.bar.One.$Two"));
-    Assert.assertEquals("foo.bar.One.$Two$", Classes.getDeclaringClassName("foo.bar.One.$Two$"));
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three"));
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three$"));
+    assertEquals("foo.bar.One.$Two", Classes.getDeclaringClassName("foo.bar.One.$Two"));
+    assertEquals("foo.bar.One.$Two$", Classes.getDeclaringClassName("foo.bar.One.$Two$"));
+    assertEquals("foo.bar.One.$Two", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three"));
+    assertEquals("foo.bar.One.$Two", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three$"));
     // FIXME: This is a problem with Java's inner class naming spec...
-    Assert.assertEquals("foo.bar.One.$Two$$Three", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three$$$Four"));
-    Assert.assertEquals("foo.bar.One.$Two$$Three", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three$$$Four$"));
-    Assert.assertEquals("foo.bar.One.$Two.$$Three", Classes.getDeclaringClassName("foo.bar.One.$Two.$$Three"));
-    Assert.assertEquals("foo.bar.One.$Two.$$Three$", Classes.getDeclaringClassName("foo.bar.One.$Two.$$Three$"));
+    assertEquals("foo.bar.One.$Two$$Three", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three$$$Four"));
+    assertEquals("foo.bar.One.$Two$$Three", Classes.getDeclaringClassName("foo.bar.One.$Two$$Three$$$Four$"));
+    assertEquals("foo.bar.One.$Two.$$Three", Classes.getDeclaringClassName("foo.bar.One.$Two.$$Three"));
+    assertEquals("foo.bar.One.$Two.$$Three$", Classes.getDeclaringClassName("foo.bar.One.$Two.$$Three$"));
   }
 
   @Test
   public void testGetRootDeclaringClassName() {
     try {
       Classes.getRootDeclaringClassName(null);
-      Assert.fail("Expected NullPointerException");
+      fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
     try {
       Classes.getRootDeclaringClassName("");
-      Assert.fail("Expected IllegalArgumentException");
+      fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    Assert.assertEquals("One", Classes.getRootDeclaringClassName("One$Two"));
-    Assert.assertEquals("One", Classes.getRootDeclaringClassName("One$Two$"));
-    Assert.assertEquals("$Two", Classes.getRootDeclaringClassName("$Two"));
-    Assert.assertEquals("Two$", Classes.getRootDeclaringClassName("Two$"));
-    Assert.assertEquals("foo.One", Classes.getRootDeclaringClassName("foo.One$Two"));
-    Assert.assertEquals("foo.One", Classes.getRootDeclaringClassName("foo.One$Two$"));
-    Assert.assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two"));
-    Assert.assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two$"));
-    Assert.assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two$Three"));
-    Assert.assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two$Three$"));
+    assertEquals("One", Classes.getRootDeclaringClassName("One$Two"));
+    assertEquals("One", Classes.getRootDeclaringClassName("One$Two$"));
+    assertEquals("$Two", Classes.getRootDeclaringClassName("$Two"));
+    assertEquals("Two$", Classes.getRootDeclaringClassName("Two$"));
+    assertEquals("foo.One", Classes.getRootDeclaringClassName("foo.One$Two"));
+    assertEquals("foo.One", Classes.getRootDeclaringClassName("foo.One$Two$"));
+    assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two"));
+    assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two$"));
+    assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two$Three"));
+    assertEquals("foo.bar.One", Classes.getRootDeclaringClassName("foo.bar.One$Two$Three$"));
 
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two"));
-    Assert.assertEquals("foo.bar.One.$Two$", Classes.getRootDeclaringClassName("foo.bar.One.$Two$"));
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three"));
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three$"));
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three$$$Four"));
-    Assert.assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three$$$Four$"));
-    Assert.assertEquals("foo.bar.One.$Two.$$Three", Classes.getRootDeclaringClassName("foo.bar.One.$Two.$$Three"));
-    Assert.assertEquals("foo.bar.One.$Two.$$Three$", Classes.getRootDeclaringClassName("foo.bar.One.$Two.$$Three$"));
+    assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two"));
+    assertEquals("foo.bar.One.$Two$", Classes.getRootDeclaringClassName("foo.bar.One.$Two$"));
+    assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three"));
+    assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three$"));
+    assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three$$$Four"));
+    assertEquals("foo.bar.One.$Two", Classes.getRootDeclaringClassName("foo.bar.One.$Two$$Three$$$Four$"));
+    assertEquals("foo.bar.One.$Two.$$Three", Classes.getRootDeclaringClassName("foo.bar.One.$Two.$$Three"));
+    assertEquals("foo.bar.One.$Two.$$Three$", Classes.getRootDeclaringClassName("foo.bar.One.$Two.$$Three$"));
   }
 
   @Test
   public void testToCanonicalClassName() {
     try {
       Classes.toCanonicalClassName(null);
-      Assert.fail("Expected NullPointerException");
+      fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
     try {
       Classes.toCanonicalClassName("");
-      Assert.fail("Expected IllegalArgumentException");
+      fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    Assert.assertEquals("$Two", Classes.toCanonicalClassName("$Two"));
-    Assert.assertEquals("Two$", Classes.toCanonicalClassName("Two$"));
-    Assert.assertEquals("One.Two", Classes.toCanonicalClassName("One$Two"));
-    Assert.assertEquals("One.Two$", Classes.toCanonicalClassName("One$Two$"));
-    Assert.assertEquals("foo.One.Two", Classes.toCanonicalClassName("foo.One$Two"));
-    Assert.assertEquals("foo.One.Two$", Classes.toCanonicalClassName("foo.One$Two$"));
-    Assert.assertEquals("foo.bar.One.Two", Classes.toCanonicalClassName("foo.bar.One$Two"));
-    Assert.assertEquals("foo.bar.One.Two$", Classes.toCanonicalClassName("foo.bar.One$Two$"));
+    assertEquals("$Two", Classes.toCanonicalClassName("$Two"));
+    assertEquals("Two$", Classes.toCanonicalClassName("Two$"));
+    assertEquals("One.Two", Classes.toCanonicalClassName("One$Two"));
+    assertEquals("One.Two$", Classes.toCanonicalClassName("One$Two$"));
+    assertEquals("foo.One.Two", Classes.toCanonicalClassName("foo.One$Two"));
+    assertEquals("foo.One.Two$", Classes.toCanonicalClassName("foo.One$Two$"));
+    assertEquals("foo.bar.One.Two", Classes.toCanonicalClassName("foo.bar.One$Two"));
+    assertEquals("foo.bar.One.Two$", Classes.toCanonicalClassName("foo.bar.One$Two$"));
 
-    Assert.assertEquals("foo.bar.One.$Two", Classes.toCanonicalClassName("foo.bar.One.$Two"));
-    Assert.assertEquals("foo.bar.One.$Two$", Classes.toCanonicalClassName("foo.bar.One.$Two$"));
+    assertEquals("foo.bar.One.$Two", Classes.toCanonicalClassName("foo.bar.One.$Two"));
+    assertEquals("foo.bar.One.$Two$", Classes.toCanonicalClassName("foo.bar.One.$Two$"));
     // FIXME: This is a problem with Java's inner class naming spec...
-    Assert.assertEquals("foo.bar.One.$Two.$Three", Classes.toCanonicalClassName("foo.bar.One.$Two$$Three"));
-    Assert.assertEquals("foo.bar.One.$Two.$Three$", Classes.toCanonicalClassName("foo.bar.One.$Two$$Three$"));
-    Assert.assertEquals("foo.bar.One.$Two.$$Three", Classes.toCanonicalClassName("foo.bar.One.$Two.$$Three"));
-    Assert.assertEquals("foo.bar.One.$Two.$$Three$", Classes.toCanonicalClassName("foo.bar.One.$Two.$$Three$"));
+    assertEquals("foo.bar.One.$Two.$Three", Classes.toCanonicalClassName("foo.bar.One.$Two$$Three"));
+    assertEquals("foo.bar.One.$Two.$Three$", Classes.toCanonicalClassName("foo.bar.One.$Two$$Three$"));
+    assertEquals("foo.bar.One.$Two.$$Three", Classes.toCanonicalClassName("foo.bar.One.$Two.$$Three"));
+    assertEquals("foo.bar.One.$Two.$$Three$", Classes.toCanonicalClassName("foo.bar.One.$Two.$$Three$"));
   }
 
   @Test
   public void testGetCompoundName() {
     try {
       Classes.getCompoundName(null);
-      Assert.fail("Expected NullPointerException");
+      fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
-    Assert.assertEquals("Map$Entry", Classes.getCompoundName(Map.Entry.class));
+    assertEquals("Map$Entry", Classes.getCompoundName(Map.Entry.class));
   }
 
   @Test
   public void testGetCanonicalCompoundName() {
     try {
       Classes.getCompoundName(null);
-      Assert.fail("Expected NullPointerException");
+      fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
-    Assert.assertEquals("Map.Entry", Classes.getCanonicalCompoundName(Map.Entry.class));
+    assertEquals("Map.Entry", Classes.getCanonicalCompoundName(Map.Entry.class));
   }
 }

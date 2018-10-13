@@ -24,12 +24,12 @@ public class ConcurrentHashSetTest {
   @Test
   public void test() {
     final ConcurrentHashSet<String> set = new ConcurrentHashSet<>();
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       new Thread() {
         @Override
         public void run() {
           try {
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 1000; ++i) {
               Thread.sleep((int)(Math.random() * 10));
 
               set.add(Random.alpha(3));

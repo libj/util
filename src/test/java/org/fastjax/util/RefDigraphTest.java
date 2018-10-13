@@ -16,7 +16,8 @@
 
 package org.fastjax.util;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 public class RefDigraphTest {
@@ -43,7 +44,7 @@ public class RefDigraphTest {
     digraph.addEdgeRef(new Obj("c", "a"), "d");
     try {
       digraph.getCycle().toString();
-      Assert.fail("Expected IllegalStateException");
+      fail("Expected IllegalStateException");
     }
     catch (final IllegalStateException e) {
       if (!e.getMessage().endsWith(": d"))
@@ -62,7 +63,7 @@ public class RefDigraphTest {
     digraph.addEdgeRef(new Obj("f", "d"), "d");
     digraph.addEdgeRef(new Obj("g", "d"), "d");
     digraph.addEdgeRef(new Obj("h", "e"), "e");
-    Assert.assertEquals("[c->a, b->c, a->b, c->a]", digraph.getCycle().toString());
+    assertEquals("[c->a, b->c, a->b, c->a]", digraph.getCycle().toString());
   }
 
   @Test
@@ -76,6 +77,6 @@ public class RefDigraphTest {
     digraph.addEdgeRef(new Obj("f", "d"), "d");
     digraph.addEdgeRef(new Obj("g", "d"), "d");
     digraph.addEdgeRef(new Obj("h", "e"), "e");
-    Assert.assertEquals("[h->e, g->d, f->d, e->c, d->c, a->b, b->c, c->null]", digraph.getTopologicalOrder().toString());
+    assertEquals("[h->e, g->d, f->d, e->c, d->c, a->b, b->c, c->null]", digraph.getTopologicalOrder().toString());
   }
 }

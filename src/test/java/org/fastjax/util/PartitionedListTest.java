@@ -16,12 +16,13 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,11 @@ public class PartitionedListTest {
       elements.getSuperList().print(logger);
     }
 
-    Assert.assertEquals(expectedLength, elements.size());
+    assertEquals(expectedLength, elements.size());
     final Iterator iterator = elements.getSuperList().iterator();
     for (int i = 0; iterator.hasNext(); i++) {
       final Object next = iterator.next();
-      Assert.assertEquals("Index " + i, expected.get(i), next);
+      assertEquals("Index " + i, expected.get(i), next);
     }
   }
 
@@ -260,14 +261,14 @@ public class PartitionedListTest {
 
   public void testClone(final PartitionedList<Object,Class<? extends Object>> list) {
     final PartitionedList<Object,Class<? extends Object>> clone = list.clone();
-    Assert.assertEquals(list.size(), clone.size());
+    assertEquals(list.size(), clone.size());
     final ListIterator listIterator = list.listIterator();
     final ListIterator cloneIterator = clone.listIterator();
     while (listIterator.hasNext()) {
       final Object listItem = listIterator.next();
       final Object cloneItem = cloneIterator.next();
-      Assert.assertEquals(listItem, cloneItem);
-      Assert.assertFalse(listItem == cloneItem);
+      assertEquals(listItem, cloneItem);
+      assertFalse(listItem == cloneItem);
     }
   }
 }

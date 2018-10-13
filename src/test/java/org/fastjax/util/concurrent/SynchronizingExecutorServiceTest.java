@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.fastjax.logging.DeferredLogger;
 import org.fastjax.test.IntegrationTest;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
@@ -94,7 +94,7 @@ public class SynchronizingExecutorServiceTest {
 
     for (int j = 0; j < testConsumerThreads; j++) {
       if (this.error != null)
-        Assert.fail(this.error);
+        fail(this.error);
 
       executorService.submit(new Consumer(testConsumerCounter++));
       if (lastSync + syncPeriod <= System.currentTimeMillis()) {

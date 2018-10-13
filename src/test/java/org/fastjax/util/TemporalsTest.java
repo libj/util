@@ -16,12 +16,13 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class TemporalsTest {
@@ -42,8 +43,8 @@ public class TemporalsTest {
           final Date date1 = Temporals.toDate(dateTime1);
           final LocalDateTime dateTime2 = Temporals.toLocalDateTime(date1);
 
-          Assert.assertEquals(dateTime1, dateTime2);
-          Assert.assertEquals(date1, Temporals.toDate(dateTime2));
+          assertEquals(dateTime1, dateTime2);
+          assertEquals(date1, Temporals.toDate(dateTime2));
         }
       }
     }
@@ -52,6 +53,6 @@ public class TemporalsTest {
   @Test
   public void testSubtract() {
     final LocalTime difference = Temporals.subtract(LocalTime.MIDNIGHT, LocalTime.parse("01:55:31", DateTimeFormatter.ISO_LOCAL_TIME));
-    Assert.assertEquals(LocalTime.parse("22:04:29", DateTimeFormatter.ISO_LOCAL_TIME), difference);
+    assertEquals(LocalTime.parse("22:04:29", DateTimeFormatter.ISO_LOCAL_TIME), difference);
   }
 }

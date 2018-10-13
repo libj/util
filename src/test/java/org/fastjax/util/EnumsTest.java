@@ -16,7 +16,8 @@
 
 package org.fastjax.util;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 public class EnumsTest {
@@ -26,8 +27,8 @@ public class EnumsTest {
 
   @Test
   public void testEnums() {
-    Assert.assertArrayEquals(new Fruit[] {Fruit.ORANGE, Fruit.WATERMELLON, Fruit.APPLE}, Enums.valueOf(Fruit.class, "ORANGE", "WATERMELLON", "TOMATO", "APPLE"));
-    Assert.assertArrayEquals(new Fruit[] {}, Enums.valueOf(Fruit.class, "POTATO", "TOMATO", "CHICKEN"));
-    Assert.assertArrayEquals(new Fruit[] {}, Enums.valueOf(Fruit.class));
+    assertArrayEquals(new Fruit[] {Fruit.ORANGE, Fruit.WATERMELLON, Fruit.APPLE}, Enums.valueOf(Fruit.class, "ORANGE", "WATERMELLON", "TOMATO", "APPLE"));
+    assertArrayEquals(new Fruit[] {}, Enums.valueOf(Fruit.class, "POTATO", "TOMATO", "CHICKEN"));
+    assertArrayEquals(new Fruit[] {}, Enums.valueOf(Fruit.class));
   }
 }

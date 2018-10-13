@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class FastCollectionsTest {
@@ -97,9 +96,9 @@ public class FastCollectionsTest {
 
   @Test
   public void testGetComponentType() {
-    Assert.assertEquals(null, FastCollections.getComponentType(Arrays.asList(null, null, null)));
-    Assert.assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
-    Assert.assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
+    assertEquals(null, FastCollections.getComponentType(Arrays.asList(null, null, null)));
+    assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
+    assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
   }
 
   @Test
@@ -109,14 +108,14 @@ public class FastCollectionsTest {
       final List<String>[] partitions = FastCollections.partition(list, p);
       final int parts = list.size() / p;
       final int remainder = list.size() % p;
-      Assert.assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);
+      assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);
       for (int i = 0; i < parts; i++)
         for (int j = 0; j < p; j++)
-          Assert.assertEquals(list.get(i * p + j), partitions[i].get(j));
+          assertEquals(list.get(i * p + j), partitions[i].get(j));
 
       if (remainder != 0)
         for (int j = 0; j < list.size() % p; j++)
-          Assert.assertEquals(list.get(p * parts + j), partitions[parts].get(j));
+          assertEquals(list.get(p * parts + j), partitions[parts].get(j));
     }
   }
 }

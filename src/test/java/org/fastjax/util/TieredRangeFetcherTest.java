@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +87,7 @@ public class TieredRangeFetcherTest {
 
         for (final Map.Entry<Integer,Object> entry : data.entrySet())
           if (db.containsKey(entry.getKey()))
-            Assert.fail("Attempted to insert a key that already exists: " + entry.getKey());
+            fail("Attempted to insert a key that already exists: " + entry.getKey());
           else
             db.put(entry.getKey(), entry.getValue());
       }

@@ -16,9 +16,10 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class IdentityArrayListTest {
@@ -31,12 +32,12 @@ public class IdentityArrayListTest {
     regularSet.add(a);
     identitySet.add(a);
 
-    Assert.assertTrue(regularSet.contains(new String("a")));
-    Assert.assertTrue(identitySet.contains(a));
-    Assert.assertFalse(identitySet.contains(new String("a")));
+    assertTrue(regularSet.contains(new String("a")));
+    assertTrue(identitySet.contains(a));
+    assertFalse(identitySet.contains(new String("a")));
 
     final IdentityArrayList<String> cloneIdentitySet = identitySet.clone();
-    Assert.assertFalse(cloneIdentitySet.contains(new String("a")));
-    Assert.assertTrue(cloneIdentitySet.contains(a));
+    assertFalse(cloneIdentitySet.contains(new String("a")));
+    assertTrue(cloneIdentitySet.contains(a));
   }
 }

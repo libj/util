@@ -16,10 +16,11 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Iterator;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class HashBiMapTest {
@@ -28,26 +29,26 @@ public class HashBiMapTest {
     for (int i = offset; i < 100 + offset; i++) {
       final String value = String.valueOf(i + offset);
       map.put(i + offset, value);
-      Assert.assertEquals(value, map.get(i + offset));
-      Assert.assertEquals(Integer.valueOf(i + offset), map.inverse().get(value));
+      assertEquals(value, map.get(i + offset));
+      assertEquals(Integer.valueOf(i + offset), map.inverse().get(value));
     }
 
     map.remove(7 + offset);
-    Assert.assertFalse(map.containsValue(7 + offset));
+    assertFalse(map.containsValue(7 + offset));
 
     map.inverse().remove(String.valueOf(8 + offset));
-    Assert.assertFalse(map.containsKey(8 + offset));
+    assertFalse(map.containsKey(8 + offset));
 
     final Iterator<Map.Entry<Integer,String>> entryIterator = map.entrySet().iterator();
     while (entryIterator.hasNext()) {
       final Map.Entry<Integer,String> entry = entryIterator.next();
       if (entry.getKey() == 15 + offset) {
         entryIterator.remove();
-        Assert.assertFalse(map.containsValue(String.valueOf(15 + offset)));
+        assertFalse(map.containsValue(String.valueOf(15 + offset)));
       }
       else if (entry.getKey() == 77 + offset) {
         entryIterator.remove();
-        Assert.assertFalse(map.containsValue(String.valueOf(77 + offset)));
+        assertFalse(map.containsValue(String.valueOf(77 + offset)));
       }
     }
 
@@ -56,19 +57,19 @@ public class HashBiMapTest {
       final String value = valueIterator.next();
       if (String.valueOf(32 + offset).equals(value)) {
         valueIterator.remove();
-        Assert.assertFalse(map.containsKey(32 + offset));
+        assertFalse(map.containsKey(32 + offset));
       }
       else if (String.valueOf(99 + offset).equals(value)) {
         valueIterator.remove();
-        Assert.assertFalse(map.containsKey(99 + offset));
+        assertFalse(map.containsKey(99 + offset));
       }
     }
 
     if (testClone) {
       final Integer xx = 17;
       map.put(xx, "xx");
-      Assert.assertFalse(map.inverse.containsKey("17"));
-      Assert.assertTrue(map.inverse.containsKey("xx"));
+      assertFalse(map.inverse.containsKey("17"));
+      assertTrue(map.inverse.containsKey("xx"));
 
       test(map.clone(), 1000, false);
     }

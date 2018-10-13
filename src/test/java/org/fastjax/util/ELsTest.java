@@ -16,15 +16,16 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ELsTest {
   private static void assertEL(final Map<String,String> variables, final String test, final String match) {
-    Assert.assertEquals(match, ELs.deref(test, variables));
+    assertEquals(match, ELs.deref(test, variables));
   }
 
   @Test
@@ -34,8 +35,8 @@ public class ELsTest {
     variables.put("right", "RIGHT");
     variables.put("middle", "MIDDLE");
 
-    Assert.assertNull(ELs.deref(null, variables));
-    Assert.assertNull(ELs.deref(null, null));
+    assertNull(ELs.deref(null, variables));
+    assertNull(ELs.deref(null, null));
 
     assertEL(null, "string with $A variable", "string with $A variable");
     assertEL(null, "string with ${A} variable", "string with ${A} variable");

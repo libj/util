@@ -16,14 +16,15 @@
 
 package org.fastjax.util;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 public class DatesTest {
   @Test
   public void testDatePart() {
-    for (long i = -50; i <= 50; i++)
+    for (long i = -50; i <= 50; ++i)
       for (long j = 0; j < Dates.MILLISECONDS_IN_DAY; j += 997)
-        Assert.assertEquals("Iteration: " + i + " " + j, j, Dates.dropDatePart(Dates.MILLISECONDS_IN_DAY * i + j));
+        assertEquals("Iteration: " + i + " " + j, j, Dates.dropDatePart(Dates.MILLISECONDS_IN_DAY * i + j));
   }
 }

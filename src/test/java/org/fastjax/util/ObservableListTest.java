@@ -16,6 +16,8 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,7 +26,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 
@@ -55,28 +56,28 @@ public class ObservableListTest {
   }
 
   private void assertGot() {
-    Assert.assertTrue(beforeGet && afterGet);
+    assertTrue(beforeGet && afterGet);
     if (!testingGetReplace)
-      Assert.assertFalse(beforeRemove || afterRemove || beforeAdd || afterAdd || beforeSet || afterSet);
+      assertFalse(beforeRemove || afterRemove || beforeAdd || afterAdd || beforeSet || afterSet);
 
     reset();
   }
 
   private void assertRemoved() {
-    Assert.assertTrue(beforeRemove && afterRemove);
-    Assert.assertFalse(beforeAdd || afterAdd || beforeSet || afterSet);
+    assertTrue(beforeRemove && afterRemove);
+    assertFalse(beforeAdd || afterAdd || beforeSet || afterSet);
     reset();
   }
 
   private void assertAdded() {
-    Assert.assertTrue(beforeAdd && afterAdd);
-    Assert.assertFalse(beforeRemove || afterRemove || beforeSet || afterSet);
+    assertTrue(beforeAdd && afterAdd);
+    assertFalse(beforeRemove || afterRemove || beforeSet || afterSet);
     reset();
   }
 
   private void assertSet() {
-    Assert.assertTrue(beforeSet && afterSet);
-    Assert.assertFalse(beforeRemove || afterRemove || beforeAdd || afterAdd);
+    assertTrue(beforeSet && afterSet);
+    assertFalse(beforeRemove || afterRemove || beforeAdd || afterAdd);
     reset();
   }
 
@@ -101,8 +102,8 @@ public class ObservableListTest {
 
       @Override
       protected boolean beforeAdd(final int index, final String e) {
-        Assert.assertEquals(expectedString, e);
-        Assert.assertFalse(contains(e));
+        assertEquals(expectedString, e);
+        assertFalse(contains(e));
         beforeAdd = true;
         return true;
       }
@@ -110,31 +111,31 @@ public class ObservableListTest {
       @Override
       protected boolean beforeRemove(final int index) {
         final String e = get(index + fromIndex);
-        Assert.assertEquals(expectedString, e);
-        Assert.assertTrue(contains(e));
+        assertEquals(expectedString, e);
+        assertTrue(contains(e));
         beforeRemove = true;
         return true;
       }
 
       @Override
       protected void afterAdd(final int index, final String e, final RuntimeException exception) {
-        Assert.assertEquals(expectedString, e);
-        Assert.assertTrue(contains(e));
+        assertEquals(expectedString, e);
+        assertTrue(contains(e));
         afterAdd = true;
       }
 
       @Override
       protected void afterRemove(final Object e, final RuntimeException exception) {
-        Assert.assertEquals(expectedString, e);
-        Assert.assertFalse(contains(e));
+        assertEquals(expectedString, e);
+        assertFalse(contains(e));
         afterRemove = true;
       }
 
       @Override
       protected boolean beforeSet(final int index, final String newElement) {
         if (!testingGetReplace) {
-          Assert.assertEquals(expectedString, newElement);
-          Assert.assertFalse(contains(newElement));
+          assertEquals(expectedString, newElement);
+          assertFalse(contains(newElement));
         }
 
         beforeSet = true;
@@ -145,8 +146,8 @@ public class ObservableListTest {
       protected void afterSet(final int index, final String oldElement, final RuntimeException exception) {
         if (!testingGetReplace) {
           final String e = get(index + fromIndex);
-          Assert.assertEquals(expectedString, e);
-          Assert.assertTrue(contains(e));
+          assertEquals(expectedString, e);
+          assertTrue(contains(e));
         }
 
         afterSet = true;
@@ -167,7 +168,7 @@ public class ObservableListTest {
 
     // iterator.get()
     for (final String s : list) {
-      Assert.assertNotNull(s);
+      assertNotNull(s);
       assertGot();
     }
 
@@ -192,7 +193,7 @@ public class ObservableListTest {
 
     final int size = list.size();
     final List<String> subList = list.subList(fromIndex = 33, 44);
-    Assert.assertEquals(11, subList.size());
+    assertEquals(11, subList.size());
 
     subList.remove(expectedString = String.valueOf(40));
     assertRemoved();
@@ -202,8 +203,8 @@ public class ObservableListTest {
     subListIterator.remove();
     assertRemoved();
 
-    Assert.assertEquals(9, subList.size());
-    Assert.assertEquals(size, list.size() + 2);
+    assertEquals(9, subList.size());
+    assertEquals(size, list.size() + 2);
 
     fromIndex = 0;
     // remove()
@@ -255,14 +256,14 @@ public class ObservableListTest {
 
     // retainAll()
     final Set<String> set = new HashSet<>(list);
-    Assert.assertTrue(set.remove(expectedString = String.valueOf(37)));
+    assertTrue(set.remove(expectedString = String.valueOf(37)));
     list.retainAll(set);
     assertRemoved();
 
     // clear()
     try {
       list.clear();
-      Assert.fail("Expected ComparisonFailure");
+      fail("Expected ComparisonFailure");
     }
     catch (final ComparisonFailure e) {
       if (!"expected:<[37]> but was:<[1]>".equals(e.getMessage()))

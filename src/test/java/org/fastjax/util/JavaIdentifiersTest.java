@@ -16,35 +16,36 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.function.Function;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class JavaIdentifiersTest {
   private static void test(final String expected, final Function<String,String> function, final String value) {
     final String identifier = function.apply(value);
     if (identifier != null && identifier.length() > 0)
-      Assert.assertTrue(JavaIdentifiers.isValid(identifier));
+      assertTrue(JavaIdentifiers.isValid(identifier));
 
-    Assert.assertEquals(expected, identifier);
+    assertEquals(expected, identifier);
   }
 
   @Test
   public void testIsValid() {
     try {
       JavaIdentifiers.isValid(null);
-      Assert.fail("Expected NullPointerException");
+      fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
-    Assert.assertFalse(JavaIdentifiers.isValid(""));
-    Assert.assertFalse(JavaIdentifiers.isValid(".A"));
-    Assert.assertTrue(JavaIdentifiers.isValid("A.A"));
-    Assert.assertTrue(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getName()));
-    Assert.assertFalse(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getName(), false));
-    Assert.assertTrue(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getSimpleName(), false));
+    assertFalse(JavaIdentifiers.isValid(""));
+    assertFalse(JavaIdentifiers.isValid(".A"));
+    assertTrue(JavaIdentifiers.isValid("A.A"));
+    assertTrue(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getName()));
+    assertFalse(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getName(), false));
+    assertTrue(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getSimpleName(), false));
   }
 
   @Test

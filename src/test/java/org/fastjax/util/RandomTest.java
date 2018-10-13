@@ -16,9 +16,10 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,36 +35,36 @@ public class RandomTest {
   public void testRandom() {
     try {
       Random.alpha(-1);
-      Assert.fail("Expected IllegalArgumentException!");
+      fail("Expected IllegalArgumentException!");
     }
     catch (final IllegalArgumentException e) {
     }
 
     try {
       Random.alphaNumeric(0);
-      Assert.fail("Expected IllegalArgumentException!");
+      fail("Expected IllegalArgumentException!");
     }
     catch (final IllegalArgumentException e) {
     }
 
     final String alpha = Random.alpha(16);
     logger.info(alpha);
-    Assert.assertEquals(16, alpha.length());
+    assertEquals(16, alpha.length());
     assertInSpace(alpha.toCharArray(), ALPHA);
 
     final String numeric = Random.numeric(16);
     logger.info(numeric);
-    Assert.assertEquals(16, numeric.length());
+    assertEquals(16, numeric.length());
     assertInSpace(numeric.toCharArray(), NUMERIC);
 
     final String alphaNumeric = Random.alphaNumeric(16);
     logger.info(alphaNumeric);
-    Assert.assertEquals(16, alphaNumeric.length());
+    assertEquals(16, alphaNumeric.length());
     assertInSpace(alphaNumeric.toCharArray(), ALPHA_NUMERIC);
   }
 
   private static void assertInSpace(final char[] chars, final char[] space) {
     for (final char ch : chars)
-      Assert.assertFalse(Arrays.binarySearch(space, ch) == -1);
+      assertFalse(Arrays.binarySearch(space, ch) == -1);
   }
 }

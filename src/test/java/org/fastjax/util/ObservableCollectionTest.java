@@ -16,12 +16,13 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 
@@ -40,14 +41,14 @@ public class ObservableCollectionTest {
   }
 
   private void assertRemoved() {
-    Assert.assertTrue(beforeRemove && afterRemove);
-    Assert.assertFalse(beforeAdd || afterAdd);
+    assertTrue(beforeRemove && afterRemove);
+    assertFalse(beforeAdd || afterAdd);
     reset();
   }
 
   private void assertAdded() {
-    Assert.assertTrue(beforeAdd && afterAdd);
-    Assert.assertFalse(beforeRemove || afterRemove);
+    assertTrue(beforeAdd && afterAdd);
+    assertFalse(beforeRemove || afterRemove);
     reset();
   }
 
@@ -56,29 +57,29 @@ public class ObservableCollectionTest {
     final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<String>()) {
       @Override
       protected boolean beforeAdd(final String e) {
-        Assert.assertEquals(expectedString, e);
-        Assert.assertFalse(contains(e));
+        assertEquals(expectedString, e);
+        assertFalse(contains(e));
         return beforeAdd = true;
       }
 
       @Override
       protected boolean beforeRemove(final Object e) {
-        Assert.assertEquals(expectedString, e);
-        Assert.assertTrue(contains(e));
+        assertEquals(expectedString, e);
+        assertTrue(contains(e));
         return beforeRemove = true;
       }
 
       @Override
       protected void afterAdd(final String e, final RuntimeException re) {
-        Assert.assertEquals(expectedString, e);
-        Assert.assertTrue(contains(e));
+        assertEquals(expectedString, e);
+        assertTrue(contains(e));
         afterAdd = true;
       }
 
       @Override
       protected void afterRemove(final Object e, final RuntimeException re) {
-        Assert.assertEquals(expectedString, e);
-        Assert.assertFalse(contains(e));
+        assertEquals(expectedString, e);
+        assertFalse(contains(e));
         afterRemove = true;
       }
     };
@@ -123,14 +124,14 @@ public class ObservableCollectionTest {
 
     // retainAll()
     final Set<String> set = new HashSet<>(collection);
-    Assert.assertTrue(set.remove(expectedString = String.valueOf(37)));
+    assertTrue(set.remove(expectedString = String.valueOf(37)));
     collection.retainAll(set);
     assertRemoved();
 
     // clear()
     try {
       collection.clear();
-      Assert.fail("Expected ComparisonFailure");
+      fail("Expected ComparisonFailure");
     }
     catch (final ComparisonFailure e) {
       if (!"expected:<[37]> but was:<[88]>".equals(e.getMessage()))

@@ -21,7 +21,8 @@
 
 package org.fastjax.util;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,29 +32,29 @@ public class DamerauLevenshteinDistanceTest {
 
   @Test
   public void testDistance() {
-    Assert.assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", ""));
-    Assert.assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("", "NawKtYu"));
-    Assert.assertEquals(0, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", "NawKtYu"));
-    Assert.assertEquals(6, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", "tKNwYua"));
-    Assert.assertEquals(1, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("Jdc", "dJc"));
-    Assert.assertEquals(5, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("sUzSOwx", "zsSxUwO"));
-    Assert.assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("eOqoHAta", "tAeaqHoO"));
-    Assert.assertEquals(1, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("glSbo", "lgSbo"));
-    Assert.assertEquals(4, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NJtQKcJE", "cJEtQKJN"));
-    Assert.assertEquals(5, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("GitIEVs", "EGItVis"));
-    Assert.assertEquals(4, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("MiWK", "WKiM"));
+    assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", ""));
+    assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("", "NawKtYu"));
+    assertEquals(0, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", "NawKtYu"));
+    assertEquals(6, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", "tKNwYua"));
+    assertEquals(1, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("Jdc", "dJc"));
+    assertEquals(5, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("sUzSOwx", "zsSxUwO"));
+    assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("eOqoHAta", "tAeaqHoO"));
+    assertEquals(1, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("glSbo", "lgSbo"));
+    assertEquals(4, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NJtQKcJE", "cJEtQKJN"));
+    assertEquals(5, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("GitIEVs", "EGItVis"));
+    assertEquals(4, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("MiWK", "WKiM"));
   }
 
   @Test
   public void testCost() {
     // Test replace cost.
-    Assert.assertEquals(1, new DamerauLevenshteinDistance(100, 100, 1, 100).compute("a", "b"));
+    assertEquals(1, new DamerauLevenshteinDistance(100, 100, 1, 100).compute("a", "b"));
     // Test swap cost.
-    Assert.assertEquals(200, new DamerauLevenshteinDistance(100, 100, 100, 200).compute("ab", "ba"));
+    assertEquals(200, new DamerauLevenshteinDistance(100, 100, 100, 200).compute("ab", "ba"));
     // Test delete cost.
-    Assert.assertEquals(1, new DamerauLevenshteinDistance(1, 100, 100, 100).compute("aa", "a"));
+    assertEquals(1, new DamerauLevenshteinDistance(1, 100, 100, 100).compute("aa", "a"));
     // Test insert cost.
-    Assert.assertEquals(1, new DamerauLevenshteinDistance(100, 1, 100, 100).compute("a", "aa"));
+    assertEquals(1, new DamerauLevenshteinDistance(100, 1, 100, 100).compute("a", "aa"));
   }
 
   @Test
@@ -62,7 +63,7 @@ public class DamerauLevenshteinDistanceTest {
     logger.info(String.valueOf(new DamerauLevenshteinDistance(1, 1, 1, 1).compute("Where's Your Head At", "Wheres Y")));
     try {
       new DamerauLevenshteinDistance(1, 1, 1, 0);
-      Assert.fail();
+      fail();
     }
     catch (final IllegalArgumentException e) {
     }

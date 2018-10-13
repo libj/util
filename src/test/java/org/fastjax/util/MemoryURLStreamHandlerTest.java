@@ -16,11 +16,12 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class MemoryURLStreamHandlerTest {
@@ -34,7 +35,7 @@ public class MemoryURLStreamHandlerTest {
       final byte[] data = new byte[] {random(), random(), random(), random(), random()};
       final URL url = MemoryURLStreamHandler.createURL(data);
       final byte[] actual = new BufferedInputStream(url.openStream()).readAllBytes();
-      Assert.assertArrayEquals(data, actual);
+      assertArrayEquals(data, actual);
     }
   }
 }

@@ -16,10 +16,11 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,9 +91,9 @@ public class RepeatTest {
   @Test
   public void testDeepRecursive() {
     final Field[] fields = getFieldsDeep(H.class);
-    Assert.assertEquals(fieldNames.length, fields.length);
+    assertEquals(fieldNames.length, fields.length);
     for (int i = 0; i < fields.length; i++)
-      Assert.assertEquals(fieldNames[i], fields[i].getName());
+      assertEquals(fieldNames[i], fields[i].getName());
   }
 
   @Test
@@ -106,10 +107,10 @@ public class RepeatTest {
       array = Repeat.<Integer>iterative(values1, Integer.class, filter);
 
     logger.info("iterative: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
-    Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
+    assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
     array = Repeat.<Integer>iterative(values2, Integer.class, filter);
-    Assert.assertEquals(0, array.length);
+    assertEquals(0, array.length);
   }
 
   @Test
@@ -123,9 +124,9 @@ public class RepeatTest {
       array = Repeat.Recursive.<Integer>ordered(values1, Integer.class, filter);
 
     logger.info("recursive: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
-    Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
+    assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
     array = Repeat.Recursive.<Integer>ordered(values2, Integer.class, filter);
-    Assert.assertEquals(0, array.length);
+    assertEquals(0, array.length);
   }
 }

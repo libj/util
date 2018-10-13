@@ -16,16 +16,17 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class EVsTest {
   private static void assertEV(final Map<String,String> variables, final String test, final String match) throws ParseException {
-    Assert.assertEquals(match, EVs.deref(test, variables));
+    assertEquals(match, EVs.deref(test, variables));
   }
 
   @Test
@@ -35,8 +36,8 @@ public class EVsTest {
     variables.put("RIGHT", "right");
     variables.put("MIDDLE", "middle");
 
-    Assert.assertNull(EVs.deref(null, variables));
-    Assert.assertNull(EVs.deref(null, null));
+    assertNull(EVs.deref(null, variables));
+    assertNull(EVs.deref(null, null));
 
     assertEV(null, "string with $A variable", "string with  variable");
     assertEV(null, "string with ${A} variable", "string with  variable");
@@ -65,7 +66,7 @@ public class EVsTest {
 
     try {
       assertEV(variables, "${LEFT token here", "left token here");
-      Assert.fail("Expected a ParseException");
+      fail("Expected a ParseException");
     }
     catch (final ParseException e) {
       if (!"${LEFT : bad substitution".equals(e.getMessage()))
@@ -74,7 +75,7 @@ public class EVsTest {
 
     try {
       assertEV(variables, "this string has a token on the ${RIGHT", "left token here");
-      Assert.fail("Expected a ParseException");
+      fail("Expected a ParseException");
     }
     catch (final ParseException e) {
       if (!"${RIGHT: bad substitution".equals(e.getMessage()))
@@ -83,7 +84,7 @@ public class EVsTest {
 
     try {
       assertEV(variables, "this string has a token on the ${", "left token here");
-      Assert.fail("Expected a ParseException");
+      fail("Expected a ParseException");
     }
     catch (final ParseException e) {
       if (!"${: bad substitution".equals(e.getMessage()))
@@ -92,7 +93,7 @@ public class EVsTest {
 
     try {
       assertEV(variables, "${{LEFT}} token here", "left token here");
-      Assert.fail("Expected a ParseException");
+      fail("Expected a ParseException");
     }
     catch (final ParseException e) {
       if (!"${{: bad substitution".equals(e.getMessage()))
@@ -101,7 +102,7 @@ public class EVsTest {
 
     try {
       EVs.deref("expect an $$ here", variables);
-      Assert.fail("Expected a ParseException");
+      fail("Expected a ParseException");
     }
     catch (final ParseException e) {
       if (!"$$: not supported".equals(e.getMessage()))

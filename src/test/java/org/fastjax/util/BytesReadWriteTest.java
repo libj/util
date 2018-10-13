@@ -16,9 +16,10 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class BytesReadWriteTest {
@@ -94,21 +95,21 @@ public class BytesReadWriteTest {
 
     // Decode...
     final byte lengthSizeDecoded = getLengthSize(dest[0]);
-    Assert.assertEquals(lengthSize, lengthSizeDecoded);
+    assertEquals(lengthSize, lengthSizeDecoded);
     offset = 5;
     final byte ordinalDecoded = Bytes.readBitsFromByte(dest, offset, (byte)2);
-    Assert.assertEquals(ordinal, ordinalDecoded);
+    assertEquals(ordinal, ordinalDecoded);
     final int lengthDecoded = Bytes.toInt(Bytes.readBitsFromBytes(dest, offset + 2, lengthSizeDecoded), 0, true);
-    Assert.assertEquals(length, lengthDecoded);
+    assertEquals(length, lengthDecoded);
     final byte[] decodedText = Bytes.readBitsFromBytes(dest, offset + 2 + lengthSizeDecoded, lengthDecoded * 8);
-    Assert.assertArrayEquals(text, decodedText);
+    assertArrayEquals(text, decodedText);
 //    System.err.println(out);
   }
 
   @Test
   public void test() throws IOException {
     String string = "≠≈∧∨∩∪";
-    for (int i = 0; i < 23; i++) {
+    for (int i = 0; i < 23; ++i) {
       if (debug)
         System.out.println(i);
 

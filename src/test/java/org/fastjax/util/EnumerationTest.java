@@ -16,9 +16,10 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Enumeration;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class EnumerationTest {
@@ -39,6 +40,6 @@ public class EnumerationTest {
   @Test
   public void testToArray() {
     final Integer[] array = Enumerations.toArray(Integer.class, enumeration);
-    Assert.assertArrayEquals(new Integer[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, array);
+    assertArrayEquals(new Integer[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, array);
   }
 }

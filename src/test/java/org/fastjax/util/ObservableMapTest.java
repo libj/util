@@ -16,12 +16,13 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ObservableMapTest {
@@ -40,14 +41,14 @@ public class ObservableMapTest {
   }
 
   private void assertRemoved() {
-    Assert.assertTrue(beforeRemove && afterRemove);
-    Assert.assertFalse(beforePut || afterPut);
+    assertTrue(beforeRemove && afterRemove);
+    assertFalse(beforePut || afterPut);
     reset();
   }
 
   private void assertPut() {
-    Assert.assertTrue(beforePut && afterPut);
-    Assert.assertFalse(beforeRemove || afterRemove);
+    assertTrue(beforePut && afterPut);
+    assertFalse(beforeRemove || afterRemove);
     reset();
   }
 
@@ -56,33 +57,33 @@ public class ObservableMapTest {
     final ObservableMap<Integer,String> map = new ObservableMap<Integer,String>(new HashMap<Integer,String>()) {
       @Override
       protected boolean beforePut(final Integer key, final String oldValue, final String newValue) {
-        Assert.assertEquals(expectedKey, key);
-        Assert.assertEquals(expectedValue, newValue);
-        Assert.assertFalse(containsKey(key));
+        assertEquals(expectedKey, key);
+        assertEquals(expectedValue, newValue);
+        assertFalse(containsKey(key));
         return beforePut = true;
       }
 
       @Override
       protected void afterPut(final Integer key, final String oldValue, final String newValue, final RuntimeException re) {
-        Assert.assertEquals(expectedKey, key);
-        Assert.assertEquals(expectedValue, newValue);
-        Assert.assertTrue(containsKey(key));
+        assertEquals(expectedKey, key);
+        assertEquals(expectedValue, newValue);
+        assertTrue(containsKey(key));
         afterPut = true;
       }
 
       @Override
       protected boolean beforeRemove(final Object key, final String value) {
-        Assert.assertEquals(expectedKey, key);
-        Assert.assertEquals(expectedValue, value);
-        Assert.assertTrue(containsKey(key));
+        assertEquals(expectedKey, key);
+        assertEquals(expectedValue, value);
+        assertTrue(containsKey(key));
         return beforeRemove = true;
       }
 
       @Override
       protected void afterRemove(final Object key, final String value, final RuntimeException re) {
-        Assert.assertEquals(expectedKey, key);
-        Assert.assertEquals(expectedValue, value);
-        Assert.assertFalse(containsKey(key));
+        assertEquals(expectedKey, key);
+        assertEquals(expectedValue, value);
+        assertFalse(containsKey(key));
         afterRemove = true;
       }
     };
@@ -133,7 +134,7 @@ public class ObservableMapTest {
     // clear()
     try {
       map.clear();
-      Assert.fail("Expected ComparisonFailure");
+      fail("Expected ComparisonFailure");
     }
     catch (final AssertionError e) {
       if (!"expected:<97> but was:<1>".equals(e.getMessage()))

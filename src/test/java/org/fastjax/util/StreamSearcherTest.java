@@ -16,10 +16,11 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class StreamSearcherTest {
@@ -29,13 +30,13 @@ public class StreamSearcherTest {
     final ByteArrayInputStream test1 = new ByteArrayInputStream(new byte[] {0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0});
     final ByteArrayInputStream test2 = new ByteArrayInputStream(new byte[] {1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1});
     final byte[] bytes = new byte[15];
-    Assert.assertEquals(9, searcher.search(test1, bytes, 0));
-    Assert.assertEquals(9, searcher.search(test2, bytes, 0));
+    assertEquals(9, searcher.search(test1, bytes, 0));
+    assertEquals(9, searcher.search(test2, bytes, 0));
 
-    Assert.assertEquals(3, searcher.search(test1, bytes, 0));
-    Assert.assertEquals(3, searcher.search(test2, bytes, 0));
+    assertEquals(3, searcher.search(test1, bytes, 0));
+    assertEquals(3, searcher.search(test2, bytes, 0));
 
-    Assert.assertEquals(3, searcher.search(test1, bytes, 0));
-    Assert.assertEquals(3, searcher.search(test2, bytes, 0));
+    assertEquals(3, searcher.search(test1, bytes, 0));
+    assertEquals(3, searcher.search(test2, bytes, 0));
   }
 }

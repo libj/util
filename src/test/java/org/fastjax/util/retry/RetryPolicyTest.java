@@ -16,7 +16,8 @@
 
 package org.fastjax.util.retry;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class RetryPolicyTest {
   public void testWithPolicy() throws RetryFailureException {
     final boolean[] called = new boolean[1];
 
-    Assert.assertEquals("PASS", new RetryPolicy(-1) {
+    assertEquals("PASS", new RetryPolicy(-1) {
       private static final long serialVersionUID = 811448140777577622L;
 
       @Override
@@ -46,7 +47,7 @@ public class RetryPolicyTest {
       }
     }));
 
-    Assert.assertTrue(called[0]);
+    assertTrue(called[0]);
   }
 
   @Test
@@ -64,14 +65,14 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; i++)
       timings[i + 1] = timings[i] + delays[i];
 
-    Assert.assertEquals("PASS", new LinearDelayRetryPolicy(delayMs, attempts, true).run(new Retryable<String>() {
+    assertEquals("PASS", new LinearDelayRetryPolicy(delayMs, attempts, true).run(new Retryable<String>() {
       @Override
       public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
         if (index[0] < attempts) {
           final int delayMs = retryPolicy.getDelayMs(attemptNo);
-          Assert.assertEquals(delays[index[0]++], delayMs);
-          Assert.assertTrue(0 < attemptNo && attemptNo <= attempts);
-          Assert.assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
+          assertEquals(delays[index[0]++], delayMs);
+          assertTrue(0 < attemptNo && attemptNo <= attempts);
+          assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
           logger.info("Attempt: " + attemptNo + ", delay: " + delayMs + ", t: " + RetryException.class.getSimpleName());
           throw new RetryException();
         }
@@ -100,14 +101,14 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; i++)
       timings[i + 1] = timings[i] + delays[i];
 
-    Assert.assertEquals("PASS", new ExponentialBackoffRetryPolicy(startDelay, factor, maxDelay, attempts, true).run(new Retryable<String>() {
+    assertEquals("PASS", new ExponentialBackoffRetryPolicy(startDelay, factor, maxDelay, attempts, true).run(new Retryable<String>() {
       @Override
       public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
         if (index[0] < attempts) {
           final int delayMs = retryPolicy.getDelayMs(attemptNo);
-          Assert.assertEquals(delays[index[0]++], delayMs);
-          Assert.assertTrue(0 < attemptNo && attemptNo <= attempts);
-          Assert.assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
+          assertEquals(delays[index[0]++], delayMs);
+          assertTrue(0 < attemptNo && attemptNo <= attempts);
+          assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
           logger.info("Attempt: " + attemptNo + ", delay: " + delayMs + ", t: " + RetryException.class.getSimpleName());
           throw new RetryException();
         }

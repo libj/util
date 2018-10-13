@@ -16,34 +16,35 @@
 
 package org.fastjax.util;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class TransCollectionTest {
   protected static void test(final TransCollection<Integer,String> trans) {
-    Assert.assertTrue(trans.contains("3"));
-    Assert.assertTrue(trans.source.contains(3));
-    Assert.assertFalse(trans.contains("11"));
-    Assert.assertFalse(trans.source.contains(11));
+    assertTrue(trans.contains("3"));
+    assertTrue(trans.source.contains(3));
+    assertFalse(trans.contains("11"));
+    assertFalse(trans.source.contains(11));
 
     trans.addAll(Arrays.asList("11", "12", "13"));
-    Assert.assertTrue(trans.contains("11"));
-    Assert.assertTrue(trans.source.contains(11));
+    assertTrue(trans.contains("11"));
+    assertTrue(trans.source.contains(11));
 
     trans.remove("11");
-    Assert.assertFalse(trans.contains("11"));
-    Assert.assertFalse(trans.source.contains(11));
+    assertFalse(trans.contains("11"));
+    assertFalse(trans.source.contains(11));
 
     trans.toArray(new String[trans.size()]);
 
     trans.remove("5");
-    Assert.assertFalse(trans.contains("5"));
-    Assert.assertFalse(trans.source.contains(5));
+    assertFalse(trans.contains("5"));
+    assertFalse(trans.source.contains(5));
 
     final Iterator<String> iterator = trans.iterator();
     while (iterator.hasNext()) {
@@ -51,8 +52,8 @@ public class TransCollectionTest {
       iterator.remove();
     }
 
-    Assert.assertEquals(0, trans.size());
-    Assert.assertEquals(0, trans.source.size());
+    assertEquals(0, trans.size());
+    assertEquals(0, trans.source.size());
   }
 
   @Test
