@@ -26,11 +26,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * A {@code FilterMap} contains some other {@code Map}, which it uses as its
+ * A {@code FilterMap} contains some other {@link Map}, which it uses as its
  * basic source of data, possibly transforming the data along the way or
  * providing additional functionality. The class {@code FilterMap} itself simply
- * overrides all methods of {@code AbstractMap} with versions that pass all
- * requests to the source {@code Map}. Subclasses of {@code FilterMap} may
+ * overrides all methods of {@link AbstractMap} with versions that pass all
+ * requests to the source {@link Map}. Subclasses of {@code FilterMap} may
  * further override some of these methods and may also provide additional
  * methods and fields.
  */
@@ -42,9 +42,9 @@ public class FilterMap<K,V> extends AbstractMap<K,V> {
   protected volatile Map source;
 
   /**
-   * Creates a new {@code FilterMap}.
+   * Creates a new {@code FilterMap} with the specified {@code source}.
    *
-   * @param source The source {@code Map} object.
+   * @param source The source {@link Map} object.
    * @throws NullPointerException If {@code source} is null.
    */
   public FilterMap(final Map<K,V> source) {

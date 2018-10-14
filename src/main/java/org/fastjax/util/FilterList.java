@@ -24,11 +24,11 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * A {@code FilterList} contains some other {@code List}, which it uses as its
+ * A {@code FilterList} contains some other {@link List}, which it uses as its
  * basic source of data, possibly transforming the data along the way or
  * providing additional functionality. The class {@code FilterList} itself
- * simply overrides all methods of {@code AbstractList} with versions that pass
- * all requests to the source {@code List}. Subclasses of {@code FilterList} may
+ * simply overrides all methods of {@link AbstractList} with versions that pass
+ * all requests to the source {@link List}. Subclasses of {@code FilterList} may
  * further override some of these methods and may also provide additional
  * methods and fields.
  */
@@ -40,9 +40,9 @@ public abstract class FilterList<E> extends AbstractList<E> {
   protected volatile List source;
 
   /**
-   * Creates a new {@code FilterList}.
+   * Creates a new {@code FilterList} with the specified {@code source}.
    *
-   * @param source The source {@code List} object.
+   * @param source The source {@link List} object.
    * @throws NullPointerException If {@code source} is null.
    */
   public FilterList(final List<E> source) {
@@ -58,7 +58,7 @@ public abstract class FilterList<E> extends AbstractList<E> {
   /**
    * Returns a new instance of the subclass of {@code FilterList}.
    *
-   * @param source The source {@code List} object.
+   * @param source The source {@link List} object.
    * @return A new instance of the subclass of {@code FilterList}.
    */
   @SuppressWarnings("rawtypes")

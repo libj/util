@@ -26,11 +26,11 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A {@code FilterCollection} contains some other {@code Collection}, which it
+ * A {@code FilterCollection} contains some other {@link Collection}, which it
  * uses as its basic source of data, possibly transforming the data along the
  * way or providing additional functionality. The class {@code FilterCollection}
- * itself simply overrides all methods of {@code AbstractCollection} with
- * versions that pass all requests to the source {@code Collection}. Subclasses
+ * itself simply overrides all methods of {@link AbstractCollection} with
+ * versions that pass all requests to the source {@link Collection}. Subclasses
  * of {@code FilterCollection} may further override some of these methods and
  * may also provide additional methods and fields.
  */
@@ -42,9 +42,9 @@ public abstract class FilterCollection<E> extends AbstractCollection<E> {
   protected volatile Collection source;
 
   /**
-   * Creates a new {@code FilterCollection}.
+   * Creates a new {@code FilterCollection} with the specified {@code source}.
    *
-   * @param source The source {@code Collection} object.
+   * @param source The source {@link Collection} object.
    * @throws NullPointerException If {@code source} is null.
    */
   public FilterCollection(final Collection<E> source) {

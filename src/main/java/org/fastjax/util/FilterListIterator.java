@@ -21,12 +21,12 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A {@code FilterListIterator} contains some other {@code ListIterator}, which
+ * A {@code FilterListIterator} contains some other {@link ListIterator}, which
  * it uses as its basic source of data, possibly transforming the data along the
  * way or providing additional functionality. The class
  * {@code FilterListIterator} itself simply overrides all methods of
- * {@code ListIterator} with versions that pass all requests to the source
- * {@code ListIterator}. Subclasses of {@code FilterListIterator} may further
+ * {@link ListIterator} with versions that pass all requests to the source
+ * {@link ListIterator}. Subclasses of {@code FilterListIterator} may further
  * override some of these methods and may also provide additional methods and
  * fields.
  */
@@ -38,9 +38,9 @@ public class FilterListIterator<E> implements ListIterator<E> {
   protected volatile ListIterator source;
 
   /**
-   * Creates a new {@code FilterListIterator}.
+   * Creates a new {@code FilterListIterator} with the specified {@code source}.
    *
-   * @param source The source {@code ListIterator} object.
+   * @param source The source {@link ListIterator} object.
    * @throws NullPointerException If {@code source} is null.
    */
   public FilterListIterator(final ListIterator<? extends E> source) {

@@ -27,11 +27,11 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A {@code FilterSet} contains some other {@code Set}, which it uses as its
+ * A {@code FilterSet} contains some other {@link Set}, which it uses as its
  * basic source of data, possibly transforming the data along the way or
  * providing additional functionality. The class {@code FilterSet} itself simply
- * overrides all methods of {@code AbstractSet} with versions that pass all
- * requests to the source {@code Set}. Subclasses of {@code FilterSet} may
+ * overrides all methods of {@link AbstractSet} with versions that pass all
+ * requests to the source {@link Set}. Subclasses of {@code FilterSet} may
  * further override some of these methods and may also provide additional
  * methods and fields.
  */
@@ -43,9 +43,9 @@ public class FilterSet<E> extends AbstractSet<E> {
   protected volatile Set source;
 
   /**
-   * Creates a new {@code FilterSet}.
+   * Creates a new {@code FilterSet} with the specified {@code source}.
    *
-   * @param source The source {@code Set} object.
+   * @param source The source {@link Set} object.
    * @throws NullPointerException If {@code source} is null.
    */
   public FilterSet(final Set<E> source) {
