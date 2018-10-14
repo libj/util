@@ -17,8 +17,24 @@
 package org.fastjax.util;
 
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
+/**
+ * Utility functions for operations pertaining to {@link Pattern}.
+ */
 public final class Patterns {
+  /**
+   * Returns a string array of the group names of the specified {@code pattern}.
+   * <p>
+   * This implementation expects the group name encoding as:
+   *
+   * <pre>
+   * {@code (?<name>regex)}
+   * </pre>
+   *
+   * @param pattern The {@link Pattern}.
+   * @return A string array of the group names of the specified {@code pattern}.
+   */
   public static String[] getGroupNames(final Pattern pattern) {
     return pattern == null ? null : getGroupNames(pattern.toString(), 0, 0);
   }
@@ -30,7 +46,7 @@ public final class Patterns {
 
     final int end = regex.indexOf('>', start + 3);
     if (end < 0)
-      throw new IllegalArgumentException("Malformed pattern after index = " + (start + 3));
+      throw new PatternSyntaxException("Malformed pattern", regex, start + 3);
 
     final String name = regex.substring(start + 3, end);
     final String[] names = getGroupNames(regex, end + 1, depth + 1);

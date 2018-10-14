@@ -18,16 +18,30 @@ package org.fastjax.util;
 
 import java.text.DecimalFormat;
 
-public final class NumberFormatter {
+/**
+ * Utility functions for operations pertaining to {@link DecimalFormat}.
+ */
+public final class DecimalFormatter {
+  /**
+   * Returns a {@link ThreadLocal} of a {@link DecimalFormat} object using the
+   * given {@code pattern} and the symbols for the default
+   * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
+   *
+   * @param pattern A non-localized pattern string.
+   * @return A {@link ThreadLocal} of a {@link DecimalFormat} object using the
+   *         given {@code pattern}.
+   * @throws IllegalArgumentException If the given pattern is invalid.
+   */
   public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {
+    final DecimalFormat format = new DecimalFormat(pattern);
     return new ThreadLocal<DecimalFormat>() {
       @Override
       protected DecimalFormat initialValue() {
-        return new DecimalFormat(pattern);
+        return format;
       }
     };
   }
 
-  private NumberFormatter() {
+  private DecimalFormatter() {
   }
 }

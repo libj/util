@@ -16,88 +16,104 @@
 
 package org.fastjax.util;
 
+/**
+ * Utility functions for operations pertaining to primitive types, and primitive
+ * type wrapper objects.
+ */
 public final class Primitives {
-  public static Object cast(final Object primitive, final Class<?> cls) {
-    if (primitive == null)
+  /**
+   * Returns an object of <i>primitive type</i> specified by {@code to}, and
+   * value specified by {@code from}.
+   *
+   * @param from The object specifying the value to cast. Supported types are:
+   *          {@link Byte}, {@link Short}, {@link Integer}, {@link Long},
+   *          {@link Float}, {@link Double}, {@link Character}, and
+   *          {@link Boolean}.
+   * @param to The target primitive type of the return object.
+   * @return An object of <i>primitive type</i> specified by {@code to}, and
+   *         value specified by {@code from}.
+   */
+  public static Object cast(final Object from, final Class<?> to) {
+    if (from == null)
       return null;
 
-    if (cls.isInstance(primitive))
-      return primitive;
+    if (to.isInstance(from))
+      return from;
 
-    if (!cls.isPrimitive())
+    if (!to.isPrimitive())
       throw new IllegalArgumentException("cls is not of a primitive type");
 
-    if (primitive instanceof Number) {
-      if (Byte.class.isAssignableFrom(cls))
-        return Byte.valueOf(((Number)primitive).byteValue());
+    if (from instanceof Number) {
+      if (Byte.class.isAssignableFrom(to))
+        return Byte.valueOf(((Number)from).byteValue());
 
-      if (Short.class.isAssignableFrom(cls))
-        return Short.valueOf(((Number)primitive).shortValue());
+      if (Short.class.isAssignableFrom(to))
+        return Short.valueOf(((Number)from).shortValue());
 
-      if (Integer.class.isAssignableFrom(cls))
-        return Integer.valueOf(((Number)primitive).intValue());
+      if (Integer.class.isAssignableFrom(to))
+        return Integer.valueOf(((Number)from).intValue());
 
-      if (Long.class.isAssignableFrom(cls))
-        return Long.valueOf(((Number)primitive).longValue());
+      if (Long.class.isAssignableFrom(to))
+        return Long.valueOf(((Number)from).longValue());
 
-      if (Float.class.isAssignableFrom(cls))
-        return Float.valueOf(((Number)primitive).floatValue());
+      if (Float.class.isAssignableFrom(to))
+        return Float.valueOf(((Number)from).floatValue());
 
-      if (Double.class.isAssignableFrom(cls))
-        return Double.valueOf(((Number)primitive).doubleValue());
+      if (Double.class.isAssignableFrom(to))
+        return Double.valueOf(((Number)from).doubleValue());
 
-      if (Boolean.class.isAssignableFrom(cls))
-        return Boolean.valueOf(((Number)primitive).intValue() != 0);
+      if (Boolean.class.isAssignableFrom(to))
+        return Boolean.valueOf(((Number)from).intValue() != 0);
 
-      if (Character.class.isAssignableFrom(cls))
-        return Character.valueOf((char)((Number)primitive).intValue());
+      if (Character.class.isAssignableFrom(to))
+        return Character.valueOf((char)((Number)from).intValue());
     }
-    else if (primitive instanceof Boolean) {
-      if (Byte.class.isAssignableFrom(cls))
-        return Byte.valueOf((byte)((Boolean)primitive ? 1 : 0));
+    else if (from instanceof Boolean) {
+      if (Byte.class.isAssignableFrom(to))
+        return Byte.valueOf((byte)((Boolean)from ? 1 : 0));
 
-      if (Short.class.isAssignableFrom(cls))
-        return Short.valueOf((short)((Boolean)primitive ? 1 : 0));
+      if (Short.class.isAssignableFrom(to))
+        return Short.valueOf((short)((Boolean)from ? 1 : 0));
 
-      if (Integer.class.isAssignableFrom(cls))
-        return Integer.valueOf((Boolean)primitive ? 1 : 0);
+      if (Integer.class.isAssignableFrom(to))
+        return Integer.valueOf((Boolean)from ? 1 : 0);
 
-      if (Long.class.isAssignableFrom(cls))
-        return Long.valueOf((Boolean)primitive ? 1 : 0);
+      if (Long.class.isAssignableFrom(to))
+        return Long.valueOf((Boolean)from ? 1 : 0);
 
-      if (Float.class.isAssignableFrom(cls))
-        return Float.valueOf((Boolean)primitive ? 1 : 0);
+      if (Float.class.isAssignableFrom(to))
+        return Float.valueOf((Boolean)from ? 1 : 0);
 
-      if (Double.class.isAssignableFrom(cls))
-        return Double.valueOf((Boolean)primitive ? 1 : 0);
+      if (Double.class.isAssignableFrom(to))
+        return Double.valueOf((Boolean)from ? 1 : 0);
 
-      if (Character.class.isAssignableFrom(cls))
-        return Character.valueOf((char)((Boolean)primitive ? 1 : 0));
+      if (Character.class.isAssignableFrom(to))
+        return Character.valueOf((char)((Boolean)from ? 1 : 0));
     }
-    else if (primitive instanceof Character) {
-      if (Byte.class.isAssignableFrom(cls))
-        return Byte.valueOf((byte)((Character)primitive).charValue());
+    else if (from instanceof Character) {
+      if (Byte.class.isAssignableFrom(to))
+        return Byte.valueOf((byte)((Character)from).charValue());
 
-      if (Short.class.isAssignableFrom(cls))
-        return Short.valueOf((short)((Character)primitive).charValue());
+      if (Short.class.isAssignableFrom(to))
+        return Short.valueOf((short)((Character)from).charValue());
 
-      if (Integer.class.isAssignableFrom(cls))
-        return Integer.valueOf(((Character)primitive).charValue());
+      if (Integer.class.isAssignableFrom(to))
+        return Integer.valueOf(((Character)from).charValue());
 
-      if (Long.class.isAssignableFrom(cls))
-        return Long.valueOf(((Character)primitive).charValue());
+      if (Long.class.isAssignableFrom(to))
+        return Long.valueOf(((Character)from).charValue());
 
-      if (Float.class.isAssignableFrom(cls))
-        return Float.valueOf(((Character)primitive).charValue());
+      if (Float.class.isAssignableFrom(to))
+        return Float.valueOf(((Character)from).charValue());
 
-      if (Double.class.isAssignableFrom(cls))
-        return Double.valueOf(((Character)primitive).charValue());
+      if (Double.class.isAssignableFrom(to))
+        return Double.valueOf(((Character)from).charValue());
 
-      if (Boolean.class.isAssignableFrom(cls))
-        return Boolean.valueOf(((Character)primitive).charValue() != 0);
+      if (Boolean.class.isAssignableFrom(to))
+        return Boolean.valueOf(((Character)from).charValue() != 0);
     }
 
-    throw new UnsupportedOperationException("Unsupported cast from " + primitive.getClass().getName() + " to " + cls.getName());
+    throw new UnsupportedOperationException("Unsupported cast from " + from.getClass().getName() + " to " + to.getName());
   }
 
   private Primitives() {

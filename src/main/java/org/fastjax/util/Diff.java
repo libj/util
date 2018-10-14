@@ -25,6 +25,7 @@ import name.fraser.neil.plaintext.diff_match_patch;
 
 public class Diff {
   private static final Charset charset = Charset.forName("UTF-8");
+
   /**
    * Size of "LengthSize" is 5 bits, giving it 2^5 values (0 to 31), which
    * allows Length to have 2^31 values (0 to 2147483647, which are the min and
