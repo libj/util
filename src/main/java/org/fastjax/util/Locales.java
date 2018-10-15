@@ -18,6 +18,7 @@ package org.fastjax.util;
 
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -63,17 +64,17 @@ public final class Locales {
    * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
    * {@code "fr_MAC"}.
    *
-   * @param strings The {@link Collection} of string.
+   * @param strings The {@link Collection} of strings.
    * @return An array of {@link Locale} objects that represent the string based
    *         locale elements in {@code strings} that have the form
    *         {@code "{language}_{country}_{variant}"}.
-   * @throws NullPointerException If {@code string} is null.
+   * @throws NullPointerException If {@code strings} is null.
    */
   public static Locale[] parse(final Collection<String> strings) {
     final Locale[] locales = new Locale[strings.size()];
-    int i = 0;
-    for (final String string : strings)
-      locales[i++] = parse(string);
+    final Iterator<String> iterator = strings.iterator();
+    for (int i = 0; iterator.hasNext(); ++i)
+      locales[i] = parse(iterator.next());
 
     return locales;
   }
@@ -85,11 +86,11 @@ public final class Locales {
    * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
    * {@code "fr_MAC"}.
    *
-   * @param strings The {@link Collection} of string.
+   * @param enumeration The {@link Enumeration} of strings.
    * @return An array of {@link Locale} objects that represent the string based
    *         locale elements in {@code strings} that have the form
    *         {@code "{language}_{country}_{variant}"}.
-   * @throws NullPointerException If {@code string} is null.
+   * @throws NullPointerException If {@code enumeration} is null.
    */
   public static Locale[] parse(final Enumeration<String> enumeration) {
     return parse(enumeration, 0);

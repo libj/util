@@ -425,7 +425,7 @@ public final class Dates {
    * Returns a {@code long} time value with its milliseconds part removed. The
    * returned {@code long} will have its milliseconds part set to 0.
    *
-   * @param dateTime The {@code long} time value.
+   * @param time The {@code long} time value.
    * @return A {@code long} time value with its milliseconds part removed.
    */
   public static long dropMilliseconds(final long time) {

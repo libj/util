@@ -36,10 +36,10 @@ import java.util.Set;
  * found with {@link Digraph#getTopologicalOrder()}.
  * <p>
  * This implementation uses {@code Integer}-based vertex indices as references
- * to the arbitrary-typed object vertices via {@link HashMap}.
+ * to the arbitrary-typed object vertices via {@link HashBiMap}.
  * <p>
  * The digraph is internally represented as a dynamically scalable
- * {@link LinkedList} list of index-&gt;{@link LinkedHashSet} set of adjacent
+ * {@link ArrayList} list of index-&gt;{@link LinkedHashSet} set of adjacent
  * edges.
  * <p>
  * All operations take constant time (in the worst case) except iterating over
