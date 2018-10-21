@@ -110,7 +110,7 @@ public interface IntCollection extends IntIterable {
 
   /**
    * Returns {@code true} if this collection contains all of the values in the
-   * specified array.
+   * specified collection.
    *
    * @param c IntCollection to be checked for containment in this collection.
    * @return {@code true} if this collection contains all of the values in the

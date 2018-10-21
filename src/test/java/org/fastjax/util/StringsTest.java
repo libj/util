@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.text.BadLocationException;
-
 import org.junit.Test;
 
 public class StringsTest {
@@ -63,8 +61,15 @@ public class StringsTest {
     }
   }
 
+  private static void assertInterpolate(final String expected, final String test, final Map<String,String> properties, final String open, final String close) throws ParseException {
+    final String actual = Strings.interpolate(test, properties, open, close);
+    assertEquals(expected, actual);
+  }
+
   @Test
-  public void testInterpolate() throws BadLocationException, ParseException {
+  public void testInterpolate() throws ParseException {
+    final String open = "{{";
+    final String close = "}}";
     final Map<String,String> properties = new HashMap<>();
     properties.put("prop1", "prop1");
     properties.put("prop2", "prop2");
@@ -73,20 +78,16 @@ public class StringsTest {
     properties.put("prop5", "{{prop4}} plus {{prop3}}");
     properties.put("prop6", "{{prop5}} plus {{prop6}}");
 
-    final Map<String,String> tests = new HashMap<>();
-    tests.put("Bla bla {{prop1}} with {{prop2}} and {{prop3}}", "Bla bla prop1 with prop2 and prop3");
-    tests.put("Bla bla {{prop2}} with {{prop3}} and {{prop4}}", "Bla bla prop2 with prop3 and prop2");
-    tests.put("Bla bla {{prop3}} with {{prop4}} and {{prop5}}", "Bla bla prop3 with prop2 and prop2 plus prop3");
-
-    for (final Map.Entry<String,String> entry : tests.entrySet())
-      assertEquals(entry.getValue(), Strings.interpolate(entry.getKey(), properties, "{{", "}}"));
+    assertInterpolate("Bla bla prop1 with prop2 and prop3", "Bla bla {{prop1}} with {{prop2}} and {{prop3}}", properties, open, close);
+    assertInterpolate("Bla bla prop2 with prop3 and prop2", "Bla bla {{prop2}} with {{prop3}} and {{prop4}}", properties, open, close);
+    assertInterpolate("Bla bla prop3 with prop2 and prop2 plus prop3", "Bla bla {{prop3}} with {{prop4}} and {{prop5}}", properties, open, close);
 
     try {
       Strings.interpolate("Bla bla {{prop4}} with {{prop5}} and {{prop6}}", properties, "{{", "}}");
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
-      if (!"Loop detected.".equals(e.getMessage()))
+      if (!"Loop detected".equals(e.getMessage()))
         throw e;
     }
 
@@ -95,13 +96,24 @@ public class StringsTest {
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
-      if (!"Loop detected.".equals(e.getMessage()))
+      if (!"Loop detected".equals(e.getMessage()))
         throw e;
     }
 
     properties.remove("prop6");
     Strings.interpolate(properties, "{{", "}}");
     assertEquals("prop2 plus prop3", properties.get("prop5"));
+  }
+
+  @Test
+  public void testReplace() throws Exception {
+    assertEquals("xde", Strings.replace(new StringBuilder("abcde"), "abc", "x").toString());
+    assertEquals("axde", Strings.replace(new StringBuilder("abcde"), "bc", "x").toString());
+    assertEquals("abxe", Strings.replace(new StringBuilder("abcde"), "cd", "x").toString());
+    assertEquals("abcx", Strings.replace(new StringBuilder("abcde"), "de", "x").toString());
+    assertEquals("xxxxx", Strings.replace(new StringBuilder("aaaaa"), "a", "x").toString());
+    assertEquals("xxx", Strings.replace(new StringBuilder("ababab"), "ab", "x").toString());
+    assertEquals("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", Strings.replace(new StringBuilder("ababab"), "ab", "xxxxxxxxxx").toString());
   }
 
   @Test

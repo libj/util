@@ -21,25 +21,21 @@ import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.StringTokenizer;
-
-import javax.swing.text.BadLocationException;
+import java.util.Objects;
 
 public final class Strings {
-  private static final char[] alphaNumeric = new char[] {
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-  };
+  private static final char[] alphaNumeric = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
   private static String getRandomString(final int length, final boolean alphanumeric) {
     if (length < 0)
-      throw new IllegalArgumentException("length < 0: " + length);
+      throw new IllegalArgumentException("Length must be non-negative: " + length);
 
     if (length == 0)
       return "";
 
     final int len = !alphanumeric ? alphaNumeric.length - 10 : alphaNumeric.length;
     final char[] array = new char[length];
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
       array[i] = alphaNumeric[(int)(Math.random() * len)];
 
     return new String(array);
@@ -53,71 +49,178 @@ public final class Strings {
     return getRandomString(length, false);
   }
 
-  private static String interpolateLine(final String line, final Map<String,String> properties, final int index, final String open, final String close) throws BadLocationException, ParseException {
-    if (line == null)
-      return null;
+  private static boolean interpolateShallow(final StringBuilder text, final Map<String,String> properties, final String open, final String close) throws ParseException {
+    boolean changed = false;
+    for (int start = text.length() - close.length() - 1; (start = text.lastIndexOf(open, start - 1)) > -1;) {
+      final int end = text.indexOf(close, start + open.length());
+      if (end < 0)
+        throw new ParseException(text.toString(), start);
 
-    int start = line.indexOf(open, index);
-    if (start < 0)
-      return line;
-
-    int end = line.indexOf(close, start + open.length());
-    if (end < 0)
-      throw new ParseException(line, start);
-
-    final String key = line.substring(start + open.length(), end);
-    final String value = properties.get(key);
-    if (value == null)
-      throw new BadLocationException(key, start);
-
-    final String interpolated = interpolateLine(line, properties, end + close.length(), open, close);
-    return interpolated == null ? null : interpolated.substring(0, start) + value + interpolated.substring(end + close.length());
-  }
-
-  private static String interpolateLine(String line, final Map<String,String> properties, final String open, final String close) throws BadLocationException, ParseException {
-    final int max = properties.size() * properties.size();
-    int i = 0;
-    while (true) {
-      final String interpolated = interpolateLine(line, properties, 0, open, close);
-      if (line != null ? line.equals(interpolated) : interpolated == null)
-        return line;
-
-      if (++i == max) {
-        if (!line.equals(interpolated))
-          throw new IllegalArgumentException("Loop detected.");
-
-        return interpolated;
+      final String key = text.substring(start + open.length(), end);
+      final String value = properties.get(key);
+      if (value != null) {
+        text.replace(start, end + close.length(), value);
+        changed = true;
       }
-
-      line = interpolated;
     }
+
+    return changed;
   }
 
-  public static Map<String,String> interpolate(final Map<String,String> properties, final String open, final String close) throws BadLocationException, ParseException {
+  private static String interpolateDeep(final StringBuilder text, final Map<String,String> properties, final String open, final String close) throws ParseException {
+    final int max = properties.size() * properties.size();
+    for (int i = 0; interpolateShallow(text, properties, open, close); ++i)
+      if (i == max)
+        throw new IllegalArgumentException("Loop detected");
+
+    return text.toString();
+  }
+
+  public static Map<String,String> interpolate(final Map<String,String> properties, final String open, final String close) throws ParseException {
+    Objects.requireNonNull(properties);
+    Objects.requireNonNull(open);
+    Objects.requireNonNull(close);
     for (final Map.Entry<String,String> entry : properties.entrySet())
-      entry.setValue(Strings.interpolateLine(entry.getValue(), properties, open, close));
+      if (entry.getValue() != null)
+        entry.setValue(interpolateDeep(new StringBuilder(entry.getValue()), properties, open, close));
 
     return properties;
   }
 
-  public static String interpolate(final String text, final Map<String,String> properties, final String open, final String close) throws BadLocationException, ParseException {
-    final StringTokenizer tokenizer = new StringTokenizer(text, "\r\n");
-    final StringBuilder builder = new StringBuilder();
-    while (tokenizer.hasMoreTokens())
-      builder.append('\n').append(Strings.interpolateLine(tokenizer.nextToken(), properties, open, close));
-
-    return builder.length() == 0 ? "" : builder.substring(1);
+  public static String interpolate(final String text, final Map<String,String> properties, final String open, final String close) throws ParseException {
+    return interpolateDeep(new StringBuilder(Objects.requireNonNull(text)), Objects.requireNonNull(properties), Objects.requireNonNull(open), Objects.requireNonNull(close));
   }
 
+  /**
+   * Replaces each substring in the specified {@code StringBuilder} that matches
+   * the literal target sequence with the specified literal replacement
+   * sequence. The replacement proceeds from the beginning of the string to the
+   * end, for example, replacing "aa" with "b" in the string "aaa" will result
+   * in "ba" rather than "ab".
+   *
+   * @param builder The {@link StringBuilder}.
+   * @param target The sequence of char values to be replaced
+   * @param replacement The replacement sequence of char values
+   * @return The resulting string
+   * @throws NullPointerException If {@code builder}, {@code target}, or
+   *           {@code replacement} are null.
+   * @see String#replace(CharSequence, CharSequence)
+   */
+  public static StringBuilder replace(final StringBuilder builder, final CharSequence target, final CharSequence replacement) {
+    final String tgtStr = target.toString();
+    final String replStr = replacement.toString();
+    int j = builder.lastIndexOf(tgtStr);
+    if (j < 0)
+      return builder;
+
+    final int tgtLen = tgtStr.length();
+    final int tgtLen1 = Math.max(tgtLen, 1);
+    final int thisLen = builder.length();
+
+    final int newLenHint = thisLen - tgtLen + replStr.length();
+    if (newLenHint < 0)
+      throw new OutOfMemoryError();
+
+    do {
+      builder.replace(j, j + tgtLen1, replStr);
+    }
+    while ((j = builder.lastIndexOf(tgtStr, j - tgtLen1)) > -1);
+    return builder;
+  }
+
+  public static String replaceDeep(String string, final CharSequence target, final CharSequence replacement) {
+    String result;
+    while (string.length() != (result = string.replace(target, replacement)).length())
+      string = result;
+
+    return result;
+  }
+
+  public static StringBuilder replaceDeep(final StringBuilder builder, final CharSequence target, final CharSequence replacement) {
+    while (builder.length() != replace(builder, target, replacement).length());
+    return builder;
+  }
+
+  /**
+   * Tests if the specified {@link StringBuilder} starts with the specified
+   * prefix.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @param prefix The prefix.
+   * @return {@code true} if the {@code prefix} character sequence is a prefix
+   *         of {@code builder}; {@code false} otherwise. Note also that
+   *         {@code true} will be returned if {@code prefix} is an empty string
+   *         or is equal to {@code builder}.
+   * @throws NullPointerException If {@code builder} or {@code prefix} are null.
+   */
+  public static boolean startsWith(final StringBuilder builder, final CharSequence prefix) {
+    if (prefix.length() == 0)
+      return true;
+
+    if (builder.length() < prefix.length())
+      return false;
+
+    for (int i = 0; i < prefix.length(); ++i)
+      if (builder.charAt(i) != prefix.charAt(i))
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Tests if the specified {@link StringBuilder} ends with the specified
+   * suffix.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @param suffix The suffix.
+   * @return {@code true} if the {@code suffix} character sequence is a suffix
+   *         of {@code builder}; {@code false} otherwise. Note also that
+   *         {@code true} will be returned if {@code suffix} is an empty string
+   *         or is equal to {@code builder}.
+   * @throws NullPointerException If {@code builder} or {@code suffix} are null.
+   */
+  public static boolean endsWith(final StringBuilder builder, final CharSequence suffix) {
+    if (suffix.length() == 0)
+      return true;
+
+    if (builder.length() < suffix.length())
+      return false;
+
+    final int offset = builder.length() - suffix.length();
+    for (int i = suffix.length() - 1; i >= 0; --i)
+      if (builder.charAt(offset + i) != suffix.charAt(i))
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Converts the characters in the specified {@link StringBuilder} to lowercase
+   * using case mapping information from the UnicodeData file.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @return The specified {@link StringBuilder}, with its characters converted to lowercase.
+   * @throws NullPointerException If {@code builder} is null.
+   * @see Character#toLowerCase(char)
+   */
   public static StringBuilder toLowerCase(final StringBuilder builder) {
-    for (int i = 0; i < builder.length(); i++)
+    for (int i = 0; i < builder.length(); ++i)
       builder.setCharAt(i, Character.toLowerCase(builder.charAt(i)));
 
     return builder;
   }
 
+  /**
+   * Converts the characters in the specified {@link StringBuilder} to uppercase
+   * using case mapping information from the UnicodeData file.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @return The specified {@link StringBuilder}, with its characters converted to uppercase.
+   * @throws NullPointerException If {@code builder} is null.
+   * @see Character#toUpperCase(char)
+   */
   public static StringBuilder toUppereCase(final StringBuilder builder) {
-    for (int i = 0; i < builder.length(); i++)
+    for (int i = 0; i < builder.length(); ++i)
       builder.setCharAt(i, Character.toUpperCase(builder.charAt(i)));
 
     return builder;
@@ -207,7 +310,7 @@ public final class Strings {
 
   public static String toUTF8Literal(final String string) {
     final StringBuilder buffer = new StringBuilder(string.length() * 4);
-    for (int i = 0; i < string.length(); i++) {
+    for (int i = 0; i < string.length(); ++i) {
       char ch = string.charAt(i);
       buffer.append(toUTF8Literal(ch));
     }
@@ -228,10 +331,10 @@ public final class Strings {
     if (strings.length == 1)
       return strings[0];
 
-    for (int c = 0; c < strings[0].length(); c++)
-      for (int i = 1; i < strings.length; i++)
-        if (c == strings[i].length() || strings[0].charAt(c) != strings[i].charAt(c))
-          return strings[0].substring(0, c);
+    for (int i = 0; i < strings[0].length(); ++i)
+      for (int j = 1; j < strings.length; ++j)
+        if (i == strings[j].length() || strings[0].charAt(i) != strings[j].charAt(i))
+          return strings[0].substring(0, i);
 
     return strings[0];
   }
@@ -245,16 +348,16 @@ public final class Strings {
       return iterator.next();
 
     final String string0 = iterator.next();
-    for (int c = 0; c < string0.length(); c++) {
-      if (c > 0) {
+    for (int i = 0; i < string0.length(); ++i) {
+      if (i > 0) {
         iterator = strings.iterator();
         iterator.next();
       }
 
       while (iterator.hasNext()) {
         final String next = iterator.next();
-        if (c == next.length() || string0.charAt(c) != next.charAt(c))
-          return string0.substring(0, c);
+        if (i == next.length() || string0.charAt(i) != next.charAt(i))
+          return string0.substring(0, i);
       }
     }
 
@@ -269,7 +372,7 @@ public final class Strings {
     // Split input strings into columns and rows
     final String[][] strings = new String[columns.length][];
     int maxLines = 0;
-    for (int i = 0; i < columns.length; i++) {
+    for (int i = 0; i < columns.length; ++i) {
       strings[i] = columns[i] == null ? null : columns[i].split("\n");
       if (strings[i] != null && strings[i].length > maxLines)
         maxLines = strings[i].length;
@@ -278,10 +381,9 @@ public final class Strings {
     // Store an array of column widths
     final int[] widths = new int[columns.length];
     // calculate column widths
-    for (int i = 0; i < columns.length; i++) {
-      int maxWidth = 0;
+    for (int i = 0, maxWidth = 0; i < columns.length; ++i) {
       if (strings[i] != null) {
-        for (int j = 0; j < strings[i].length; j++)
+        for (int j = 0; j < strings[i].length; ++j)
           if (strings[i][j].length() > maxWidth)
             maxWidth = strings[i][j].length();
       }
@@ -294,15 +396,17 @@ public final class Strings {
 
     // Print the lines
     final StringBuilder builder = new StringBuilder();
-    for (int j = 0; j < maxLines; j++) {
-      builder.append('\n');
-      for (int i = 0; i < strings.length; i++) {
+    for (int j = 0; j < maxLines; ++j) {
+      if (j > 0)
+        builder.append('\n');
+
+      for (int i = 0; i < strings.length; ++i) {
         final String line = strings[i] == null ? "null" : j < strings[i].length ? strings[i][j] : "";
         builder.append(String.format("%-" + widths[i] + "s", line));
       }
     }
 
-    return builder.length() == 0 ? "null" : builder.substring(1);
+    return builder.length() == 0 ? "null" : builder.toString();
   }
 
   /**
@@ -360,7 +464,7 @@ public final class Strings {
       return null;
 
     int i = 0;
-    for (; i < string.length() && string.charAt(i) == ch; i++);
+    for (; i < string.length() && string.charAt(i) == ch; ++i);
     if (i == string.length())
       return "";
 

@@ -146,8 +146,9 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Get if exists or create an index for the specified vertex (not
-   * synchronized).
+   * Get if exists or create an index for the specified vertex
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @param vertex The vertex.
    * @return The index of the vertex.
@@ -183,7 +184,9 @@ public class Digraph<T> implements Cloneable, Serializable {
   /**
    * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
    * this with {@code to = null} is the equivalent of calling
-   * {@code Digraph.addVertex(from)} (not synchronized).
+   * {@code Digraph.addVertex(from)}.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @param from The tail vertex.
    * @param to The head vertex.
@@ -203,7 +206,9 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Add directed edge (from -&gt; to) to this digraph (not synchronized).
+   * Add directed edge (from -&gt; to) to this digraph.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @param v The index of the tail vertex.
    * @param w The index of the head vertex.
@@ -361,22 +366,23 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Returns {@code true} if the digraph has a cycle (not synchronized),
-   * {@code false} otherwise.
+   * Specifies whether the digraph has a cycle.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
-   * @return {@code true} if the digraph has a cycle (not synchronized),
-   *         {@code false} otherwise.
+   * @return {@code true} if the digraph has a cycle; otherwise {@code false}.
    */
   public boolean hasCycle() {
     return getCycle() != null;
   }
 
   /**
-   * Returns a directed cycle if the digraph has one, and null otherwise (not
-   * synchronized).
+   * Returns a directed cycle if the digraph has one, and {@code null}
+   * otherwise.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
-   * @return A directed cycle if the digraph has one, and null otherwise (not
-   *         synchronized).
+   * @return A directed cycle if the digraph has one; otherwise {@code null}.
    */
   public List<T> getCycle() {
     dfs();
@@ -385,11 +391,12 @@ public class Digraph<T> implements Cloneable, Serializable {
 
   /**
    * Returns the reverse post order of a depth first search analysis of the
-   * digraph, or null if no such order exists due to a cycle (not synchronized).
+   * digraph, or null if no such order exists due to a cycle.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @return The reverse post order of a depth first search analysis of the
-   *         digraph, or null if no such order exists due to a cycle (not
-   *         synchronized).
+   *         digraph, or {@code null} if no such order exists due to a cycle..
    */
   public List<T> getTopologicalOrder() {
     dfs();
@@ -399,11 +406,13 @@ public class Digraph<T> implements Cloneable, Serializable {
   /**
    * Returns a flat representation of the {@code adj} data structure, where each
    * member of the flat representation is the java reference to the
-   * arbitrary-typed vertex (not synchronized).
+   * arbitrary-typed vertex.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @return A flat representation of the {@code adj} data structure, where each
    *         member of the flat representation is the java reference to the
-   *         arbitrary-typed vertex (not synchronized).
+   *         arbitrary-typed vertex.
    */
   private Object[][] getFlatAdj() {
     if (flatAdj != null)
@@ -428,11 +437,13 @@ public class Digraph<T> implements Cloneable, Serializable {
   /**
    * Returns the hash code value for this digraph. The hash code of a digraph is
    * computed by evaluating the hash codes of the member vertices with respect
-   * to the directed edge definitions (not synchronized).
+   * to the directed edge definitions.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @return The hash code value for this digraph. The hash code of a digraph is
    *         computed by evaluating the hash codes of the member vertices with
-   *         respect to the directed edge definitions (not synchronized).
+   *         respect to the directed edge definitions.
    */
   @Override
   public int hashCode() {
@@ -445,12 +456,13 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Returns whether {@code this} digraph is equal to {@code obj} (not
-   * synchronized).
+   * Tests whether {@code this} digraph is equal to {@code obj}.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @param obj The object to test for equality.
-   * @return Whether {@code this} digraph is equal to {@code obj} (not
-   *         synchronized).
+   * @return {@code true} if {@code this} digraph is equal to {@code obj};
+   *         otherwise {@code false}.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -478,12 +490,13 @@ public class Digraph<T> implements Cloneable, Serializable {
 
   /**
    * Returns a string representation of this digraph, containing: the number of
-   * vertices, followed by the number of edges, followed by the adjacency lists
-   * (not synchronized).
+   * vertices, followed by the number of edges, followed by the adjacency lists.
+   * <p>
+   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @return A string representation of this digraph, containing: the number of
    *         vertices, followed by the number of edges, followed by the
-   *         adjacency lists (not synchronized).
+   *         adjacency lists.
    */
   @Override
   public String toString() {
