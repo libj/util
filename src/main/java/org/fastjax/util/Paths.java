@@ -194,6 +194,8 @@ public final class Paths {
    *
    * @param parent The parent pathname string.
    * @param child The child pathname string.
+   * @return A path string from a parent pathname string and a child pathname
+   *         string.
    * @throws NullPointerException If {@code child} is null.
    * @see Paths#isAbsoluteLocalWindows(String)
    */

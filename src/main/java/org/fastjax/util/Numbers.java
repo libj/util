@@ -346,7 +346,6 @@ public final class Numbers {
    * Parses the string argument as a boolean. The {@code Boolean} returned is
    * null if the string argument is null, and the value {@code true} if the
    * string argument is equal, ignoring case, to the string {@code "true"}.
-   * <p>
    * <ul>
    * <li>{@code Boolean.parseBoolean("True")} returns {@code true}.</li>
    * <li>{@code Boolean.parseBoolean("yes")} returns {@code false}.</li>
