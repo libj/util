@@ -22,16 +22,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.fastjax.logging.DeferredLogger;
-import org.fastjax.test.IntegrationTest;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
-@Category(IntegrationTest.class)
-public class SynchronizingExecutorServiceTest {
-  private static final Logger logger = DeferredLogger.defer(LoggerFactory.getLogger(SynchronizingExecutorServiceTest.class), Level.DEBUG);
+public class SynchronizingExecutorServiceRegressionTest {
+  private static final Logger logger = DeferredLogger.defer(LoggerFactory.getLogger(SynchronizingExecutorServiceRegressionTest.class), Level.DEBUG);
 
   private static final int threadRuntime = 500;
 
@@ -65,13 +62,13 @@ public class SynchronizingExecutorServiceTest {
         try {
           // Check against the executor's count...
           if (getRunningThreadCount() != 0) {
-            SynchronizingExecutorServiceTest.this.error = "getRunningThreadCount() = " + getRunningThreadCount();
+            SynchronizingExecutorServiceRegressionTest.this.error = "getRunningThreadCount() = " + getRunningThreadCount();
             return;
           }
 
           // Check against our own count...
           if (consumerCount.get() != 0) {
-            SynchronizingExecutorServiceTest.this.error = "consumerCount = " + consumerCount + ", testLastConsumerCountAllowed = " + testLastConsumerCountAllowed + ", (syncTs - consumerTs) = " + (syncTs - consumerTs);
+            SynchronizingExecutorServiceRegressionTest.this.error = "consumerCount = " + consumerCount + ", testLastConsumerCountAllowed = " + testLastConsumerCountAllowed + ", (syncTs - consumerTs) = " + (syncTs - consumerTs);
             return;
           }
 
