@@ -18,37 +18,8 @@ package org.fastjax.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Field;
 
 public final class Throwables {
-  public static void set(final Throwable t, final Throwable cause) {
-    if (cause == t)
-      throw new IllegalArgumentException("Self-causation not permitted");
-
-    try {
-      final Field causeField = Throwable.class.getDeclaredField("cause");
-      causeField.setAccessible(true);
-      causeField.set(t, cause);
-    }
-    catch (final IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
-    }
-  }
-
-  public static void set(final Throwable t, final String message) {
-    try {
-      final Field detailMessageField = Throwable.class.getDeclaredField("detailMessage");
-      detailMessageField.setAccessible(true);
-      detailMessageField.set(t, message);
-    }
-    catch (final IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
-    }
-  }
-
-  public static void set(final Throwable t, final String message, final Throwable cause) {
-    Throwables.set(t, message);
-    Throwables.set(t, cause.getCause());
-  }
-
   public static String toString(final Throwable t) {
     final StringWriter stringWriter = new StringWriter();
     t.printStackTrace(new PrintWriter(stringWriter));
