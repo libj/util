@@ -223,8 +223,16 @@ public final class FastCollections {
   }
 
   /**
-   * Checks that {@code fromIndex} and {@code toIndex} are in
-   * the range and throws an exception if they aren't.
+   * Checks that {@code fromIndex} and {@code toIndex} are properly specified
+   * with regard to each other, and to {@code arrayLength}.
+   *
+   * @param arrayLength A length of an array.
+   * @param fromIndex The "from" index representing the lower bound.
+   * @param toIndex The "to" index representing the upper bound.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than
+   *           {@code toIndex}.
+   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is less than 0,
+   *           or if {@code toIndex} is greater than {@code arrayLength},
    */
   private static void rangeCheck(final int arrayLength, final int fromIndex, final int toIndex) {
     if (fromIndex > toIndex)
@@ -251,10 +259,10 @@ public final class FastCollections {
       else if (cmp > 0)
         high = mid - 1;
       else
-        return mid; // key found
+        return mid;
     }
 
-    return -(low + 1); // key not found.
+    return -(low + 1);
   }
 
   private static <T extends Comparable<? super T>>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
@@ -273,35 +281,35 @@ public final class FastCollections {
       else if (cmp > 0)
         high = mid - 1;
       else
-        return mid; // key found
+        return mid;
     }
 
-    return -(low + 1); // key not found.
+    return -(low + 1);
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches the
+   * Find the index of the sorted {@link List} whose value most closely matches the
    * value provided.
    *
    * @param <T> The type parameter of the Comparable key object.
-   * @param a The sorted array.
+   * @param a The sorted {@link List}.
    * @param key The value to match.
-   * @return The closest index of the sorted array matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired value.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final T key) {
     return binaryClosestSearch0(a, 0, a.size(), key);
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches the
+   * Find the index of the sorted {@link List} whose value most closely matches the
    * value provided.
    *
    * @param <T> The type parameter of the Comparable key object.
-   * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param a The sorted {@link List}.
+   * @param from The starting index of the sorted {@link List} to search from.
+   * @param to The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
-   * @return The closest index of the sorted array matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired value.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key) {
     rangeCheck(a.size(), from, to);
@@ -309,32 +317,32 @@ public final class FastCollections {
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches the
+   * Find the index of the sorted {@link List} whose value most closely matches the
    * value provided.
    *
    * @param <T> The type parameter of the key object.
-   * @param a The sorted array.
+   * @param a The sorted {@link List}.
    * @param key The value to match.
    * @param comparator The {@code Comparator} for {@code key} of type
    *          {@code <T>}.
-   * @return The closest index of the sorted array matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired value.
    */
   public static <T>int binaryClosestSearch(final List<T> a, final T key, final Comparator<T> comparator) {
     return binaryClosestSearch0(a, 0, a.size(), key, comparator);
   }
 
   /**
-   * Find the index of the sorted array whose value most closely matches the
+   * Find the index of the sorted {@link List} whose value most closely matches the
    * value provided.
    *
    * @param <T> The type parameter of the key object.
-   * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param a The sorted {@link List}.
+   * @param from The starting index of the sorted {@link List} to search from.
+   * @param to The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
    * @param comparator The {@code Comparator} for {@code key} of type
    *          {@code <T>}.
-   * @return The closest index of the sorted array matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired value.
    */
   public static <T>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key, final Comparator<T> comparator) {
     rangeCheck(a.size(), from, to);

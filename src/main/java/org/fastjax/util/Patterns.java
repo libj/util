@@ -34,9 +34,10 @@ public final class Patterns {
    *
    * @param pattern The {@link Pattern}.
    * @return A string array of the group names of the specified {@code pattern}.
+   * @throws NullPointerException If {@code pattern} is null.
    */
   public static String[] getGroupNames(final Pattern pattern) {
-    return pattern == null ? null : getGroupNames(pattern.toString(), 0, 0);
+    return getGroupNames(pattern.toString(), 0, 0);
   }
 
   private static String[] getGroupNames(final String regex, final int index, final int depth) {

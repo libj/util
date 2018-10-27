@@ -22,11 +22,14 @@ public final class Random {
   private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();
 
   private static String random(final int length, final char[] chars) {
-    if (length <= 0)
-      throw new IllegalArgumentException("length <= 0");
+    if (length < 0)
+      throw new IllegalArgumentException("length < 0: " + length);
+
+    if (length == 0)
+      return "";
 
     final char[] random = new char[length];
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
       random[i] = chars[(int)(Math.random() * chars.length)];
 
     return new String(random);

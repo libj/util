@@ -19,7 +19,7 @@ package org.fastjax.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.RandomAccessFile;
+import java.io.DataOutput;
 
 /**
  * Utility functions for operations pertaining to {@code byte[]}.
@@ -52,7 +52,7 @@ public final class Bytes {
    */
   public static int indexOf(final byte[] bytes, final int fromIndex, final byte ... sequence) {
     if (fromIndex < 0)
-      throw new ArrayIndexOutOfBoundsException("fromIndex < 0");
+      throw new ArrayIndexOutOfBoundsException("fromIndex: " + fromIndex + " < 0");
 
     if (bytes.length == 0 || sequence.length == 0 || bytes.length < sequence.length)
       return -1;
@@ -110,10 +110,10 @@ public final class Bytes {
 
   public static int indexOf(final byte[] bytes, final int fromIndex, final byte[] ... pattern) {
     if (fromIndex < 0)
-      throw new IndexOutOfBoundsException("fromIndex < 0");
+      throw new ArrayIndexOutOfBoundsException("fromIndex: " + fromIndex + " < 0");
 
     if (bytes.length <= fromIndex)
-      throw new IndexOutOfBoundsException(bytes.length + " <= " + fromIndex);
+      throw new ArrayIndexOutOfBoundsException(bytes.length + " <= " + fromIndex);
 
     final int[][] failure = computeFailure(pattern);
     final int[] k = new int[pattern.length];
@@ -192,7 +192,7 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final short data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+  public static void toBytes(final short data, final DataOutput out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 8) & 0xff));
       out.write((byte)(data & 0xff));
@@ -244,7 +244,7 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final char data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+  public static void toBytes(final char data, final DataOutput out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 8) & 0xff));
       out.write((byte)(data & 0xff));
@@ -319,7 +319,7 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final int data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+  public static void toBytes(final int data, final DataOutput out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 24) & 0xff));
       out.write((byte)((data >> 16) & 0xff));
@@ -438,7 +438,7 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final long data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+  public static void toBytes(final long data, final DataOutput out, final boolean isBigEndian) throws IOException {
     if (isBigEndian) {
       out.write((byte)((data >> 56) & 0xff));
       out.write((byte)((data >> 48) & 0xff));
@@ -479,7 +479,7 @@ public final class Bytes {
       toBytes(value, out, isBigEndian);
   }
 
-  public static void toBytes(final int byteLength, final long value, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+  public static void toBytes(final int byteLength, final long value, final DataOutput out, final boolean isBigEndian) throws IOException {
     if (byteLength == Short.SIZE / 8)
       toBytes((short)value, out, isBigEndian);
     else if (byteLength == Integer.SIZE / 8)

@@ -46,7 +46,7 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
 
   @Override
   public boolean addAll(final int index, final Collection<? extends E> c) {
-    return addAll(c);
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -134,14 +134,12 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
 
   @Override
   public E set(final int index, final E element) {
-    final E removed = remove(index);
-    addElement(element);
-    return removed;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void setElementAt(final E obj, final int index) {
-    set(index, obj);
+    throw new UnsupportedOperationException();
   }
 
   @Override

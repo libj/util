@@ -23,10 +23,10 @@ import java.util.ListIterator;
 
 import org.junit.Test;
 
-public class MirroredListTest {
+public class MirrorListTest {
   @Test
   public void test() {
-    final MirroredList<String,Integer> list = new MirroredList<>(new ArrayList<String>(), new ArrayList<Integer>(), string -> Integer.valueOf(string), integer -> String.valueOf(integer));
+    final MirrorList<String,Integer> list = new MirrorList<>(new ArrayList<String>(), new ArrayList<Integer>(), string -> Integer.valueOf(string), integer -> String.valueOf(integer));
 
     list.add("1");
     assertTrue(list.getMirror().contains(1));

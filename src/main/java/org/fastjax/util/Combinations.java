@@ -25,7 +25,7 @@ public final class Combinations {
       return null;
 
     int total = arrays[0].length;
-    for (int i = 1; i < arrays.length; i++)
+    for (int i = 1; i < arrays.length; ++i)
       total *= arrays[i].length;
 
     final Class<?> componentType = arrays[0].getClass().getComponentType();
@@ -37,7 +37,7 @@ public final class Combinations {
       int position = total;
 
       // Pick the required element from each list, and add it to the set
-      for (int i = 0; i < arrays.length; i++) {
+      for (int i = 0; i < arrays.length; ++i) {
         final int length = arrays[i].length;
         currentSet[i] = arrays[i][position % length];
         position /= length;

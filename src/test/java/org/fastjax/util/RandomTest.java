@@ -41,11 +41,13 @@ public class RandomTest {
     }
 
     try {
-      Random.alphaNumeric(0);
+      Random.alphaNumeric(-1);
       fail("Expected IllegalArgumentException!");
     }
     catch (final IllegalArgumentException e) {
     }
+
+    assertEquals("", Random.alphaNumeric(0));
 
     final String alpha = Random.alpha(16);
     logger.info(alpha);

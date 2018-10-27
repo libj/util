@@ -42,9 +42,11 @@ public class SortedVectorTest {
     assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f", "g"}, vector.toArray());
     vector.remove("c");
     assertArrayEquals(new String[] {"a", "b", "d", "e", "f", "g"}, vector.toArray());
-    vector.set(0, "d");
+    vector.remove(0);
+    vector.add("d");
     assertArrayEquals(new String[] {"b", "d", "d", "e", "f", "g"}, vector.toArray());
-    vector.set(4, "h");
+    vector.remove(4);
+    vector.add("h");
     assertArrayEquals(new String[] {"b", "d", "d", "e", "g", "h"}, vector.toArray());
     vector.retainAll(Arrays.<String>asList(new String[] {"a", "d", "f", "g", "h"}));
     assertArrayEquals(new String[] {"d", "d", "g", "h"}, vector.toArray());

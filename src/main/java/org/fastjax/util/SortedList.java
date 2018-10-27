@@ -90,11 +90,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
 
   @Override
   public boolean addAll(int index, final Collection<? extends E> c) {
-    final int size = source.size();
-    for (final E e : c)
-      add(index++, e);
-
-    return size != source.size();
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -111,9 +107,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
    */
   @Override
   public E set(final int index, final E element) {
-    final E oldElement = remove(index);
-    add(element);
-    return oldElement;
+    throw new UnsupportedOperationException();
   }
 
   /**
@@ -121,7 +115,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
    */
   @Override
   public void add(final int index, final E element) {
-    add(element);
+    throw new UnsupportedOperationException();
   }
 
   @Override

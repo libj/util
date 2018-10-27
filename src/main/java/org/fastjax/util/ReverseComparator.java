@@ -18,9 +18,20 @@ package org.fastjax.util;
 
 import java.util.Comparator;
 
-public final class ReverseComparator<T extends Comparable<T>> implements Comparator<T> {
+/**
+ * A {@link Comparator} that reverses the results of another {@link Comparator}.
+ *
+ * @param <T> The type parameter of the comparator.
+ */
+public class ReverseComparator<T extends Comparable<T>> implements Comparator<T> {
   private final Comparator<? super T> comparator;
 
+  /**
+   * Creates a new {@code ReverseComparator} to reverse the provided
+   * {@link Comparator}.
+   *
+   * @param comparator The {@link Comparator} to reverse.
+   */
   public ReverseComparator(final Comparator<? super T> comparator) {
     this.comparator = comparator;
   }
@@ -29,13 +40,13 @@ public final class ReverseComparator<T extends Comparable<T>> implements Compara
    * Compares its two arguments for order, in reverse. Returns a negative
    * integer, zero, or a positive integer as the second argument is less than,
    * equal to, or greater than the first.
-   * @param o1 the first object to be compared.
-   * @param o2 the second object to be compared.
-   * @return a negative integer, zero, or a positive integer as the
-   *         second argument is less than, final equal to, or greater than the
-   *         first.
-   * @throws ClassCastException if the arguments' types prevent them from
-   *         being compared by this comparator.
+   *
+   * @param o1 The first object to be compared.
+   * @param o2 The second object to be compared.
+   * @return A negative integer, zero, or a positive integer as the second
+   *         argument is less than, final equal to, or greater than the first.
+   * @throws ClassCastException If the types of either arguments prevent them
+   *           from being compared by this comparator.
    */
   @Override
   public int compare(final T o1, final T o2) {

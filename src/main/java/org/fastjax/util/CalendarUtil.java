@@ -19,7 +19,21 @@ package org.fastjax.util;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+/**
+ * Utility functions for operations pertaining to {@link Calendar}.
+ */
 public final class CalendarUtil {
+  /**
+   * Creates a new {@link Calendar} at the specified {@link TimeZone}, with its
+   * current time set to {@code time}.
+   *
+   * @param time The milliseconds value to which the time of the returned
+   *          {@link Calendar} should be set.
+   * @param timeZone The {@link TimeZone} to be used by the returned
+   *          {@link Calendar}.
+   * @return A new {@link Calendar} at the specified {@link TimeZone}, with its
+   *         current time set to {@code time}.
+   */
   public static Calendar newCalendar(final long time, final TimeZone timeZone) {
     if (timeZone == null)
       throw new IllegalArgumentException("timeZone == null");
@@ -29,6 +43,15 @@ public final class CalendarUtil {
     return calendar;
   }
 
+  /**
+   * Creates a new {@link Calendar} at the default time zone, with its current
+   * time set to {@code time}.
+   *
+   * @param time The milliseconds value to which the time of the returned
+   *          {@link Calendar} should be set.
+   * @return A new {@link Calendar} at the default time zone, with its current
+   *         time set to {@code time}.
+   */
   public static Calendar newCalendar(final long time) {
     final Calendar calendar = Calendar.getInstance();
     calendar.setTimeInMillis(time);

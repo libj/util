@@ -18,13 +18,16 @@ package org.fastjax.util;
 
 import java.io.File;
 
+/**
+ * Utility functions for operations pertaining to {@code ClassLoader}.
+ */
 public final class ClassLoaders {
   private static File[] getClassPath(final String property) {
-    final String classPathProperty = System.getProperty(property);
-    if (classPathProperty == null)
+    final String value = System.getProperty(property);
+    if (value == null)
       return null;
 
-    final String[] parts = classPathProperty.split(File.pathSeparator);
+    final String[] parts = value.split(File.pathSeparator);
     final File[] urls = new File[parts.length];
     for (int i = 0; i < parts.length; ++i)
       urls[i] = new File(parts[i]);
@@ -32,11 +35,27 @@ public final class ClassLoaders {
     return urls;
   }
 
+  /**
+   * Returns a {@link File} array representing the paths in the classpath of the
+   * current Java virtual machine. The classpath is determined via the
+   * {@code "java.class.path"} system property.
+   *
+   * @return A {@link File} array representing the paths in the classpath of the
+   *         current Java virtual machine.
+   */
   public static File[] getClassPath() {
     final File[] classpath = getClassPath("java.class.path");
     return classpath != null ? classpath : getClassPath("user.dir");
   }
 
+  /**
+   * Returns a {@link File} array representing the paths in the surefire test
+   * classpath of the current Java virtual machine. The classpath is determined
+   * via the {@code "surefire.test.class.path"} system property.
+   *
+   * @return A {@link File} array representing the paths in the surefire test
+   *         classpath of the current Java virtual machine.
+   */
   public static File[] getTestClassPath() {
     final File[] classpath = getClassPath("surefire.test.class.path");
     return classpath != null ? classpath : getClassPath("user.dir");

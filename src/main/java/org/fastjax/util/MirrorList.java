@@ -19,23 +19,23 @@ package org.fastjax.util;
 import java.util.List;
 import java.util.function.Function;
 
-public class MirroredList<E,M> extends ObservableList<E> {
-  private MirroredList<M,E> mirroredList;
+public class MirrorList<E,M> extends ObservableList<E> {
+  private final MirrorList<M,E> mirroredList;
   private final Function<E,M> mirror;
 
-  public MirroredList(final List<E> list1, final List<M> list2, final Function<E,M> mirror1, final Function<M,E> mirror2) {
+  public MirrorList(final List<E> list1, final List<M> list2, final Function<E,M> mirror1, final Function<M,E> mirror2) {
     super(list1);
-    this.mirroredList = new MirroredList<>(this, list2, mirror2);
+    this.mirroredList = new MirrorList<>(this, list2, mirror2);
     this.mirror = mirror1;
   }
 
-  private MirroredList(final MirroredList<M,E> mirroredList, final List<E> list2, final Function<E,M> mirror) {
+  private MirrorList(final MirrorList<M,E> mirroredList, final List<E> list2, final Function<E,M> mirror) {
     super(list2);
     this.mirroredList = mirroredList;
     this.mirror = mirror;
   }
 
-  public MirroredList<M,E> getMirror() {
+  public MirrorList<M,E> getMirror() {
     return mirroredList;
   }
 

@@ -16,7 +16,22 @@
 
 package org.fastjax.util;
 
+/**
+ * Utility functions for operations pertaining to {@code char} and {@link Character}.
+ */
 public final class Characters {
+  /**
+   * Tests whether the specified {@code int} is an ANSI whitespace char, which
+   * is one of:
+   *
+   * <pre>
+   * {@code ' '}, {@code '\n'}, {@code '\r'}, or {@code '\t'}
+   * </pre>
+   *
+   * @param ch The {@code int} to test.
+   * @return {@code true} if the specified {@code int} is an ANSI whitespace
+   *         char; otherwise {@code false}.
+   */
   public static boolean isWhiteSpace(final int ch) {
     return ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t';
   }

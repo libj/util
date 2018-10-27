@@ -26,30 +26,32 @@ import org.junit.Test;
 public class SortedListTest {
   @Test
   public void test() {
-    final SortedList<String> vector = new SortedList<>(new ArrayList<String>());
-    vector.add("f");
-    assertArrayEquals(new String[] {"f"}, vector.toArray());
-    vector.add("b");
-    assertArrayEquals(new String[] {"b", "f"}, vector.toArray());
-    vector.add("g");
-    assertArrayEquals(new String[] {"b", "f", "g"}, vector.toArray());
-    vector.add("c");
-    assertArrayEquals(new String[] {"b", "c", "f", "g"}, vector.toArray());
-    vector.add("a");
-    assertArrayEquals(new String[] {"a", "b", "c", "f", "g"}, vector.toArray());
-    vector.add("d");
-    assertArrayEquals(new String[] {"a", "b", "c", "d", "f", "g"}, vector.toArray());
-    vector.add("e");
-    assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f", "g"}, vector.toArray());
-    vector.remove("c");
-    assertArrayEquals(new String[] {"a", "b", "d", "e", "f", "g"}, vector.toArray());
-    vector.set(0, "d");
-    assertArrayEquals(new String[] {"b", "d", "d", "e", "f", "g"}, vector.toArray());
-    vector.set(4, "h");
-    assertArrayEquals(new String[] {"b", "d", "d", "e", "g", "h"}, vector.toArray());
-    vector.retainAll(Arrays.<String>asList(new String[] {"a", "d", "f", "g", "h"}));
-    assertArrayEquals(new String[] {"d", "d", "g", "h"}, vector.toArray());
-    vector.retainAll(Arrays.<String>asList(new String[] {"a", "d", "d", "d", "h"}));
-    assertArrayEquals(new String[] {"d", "d", "h"}, vector.toArray());
+    final SortedList<String> list = new SortedList<>(new ArrayList<String>());
+    list.add("f");
+    assertArrayEquals(new String[] {"f"}, list.toArray());
+    list.add("b");
+    assertArrayEquals(new String[] {"b", "f"}, list.toArray());
+    list.add("g");
+    assertArrayEquals(new String[] {"b", "f", "g"}, list.toArray());
+    list.add("c");
+    assertArrayEquals(new String[] {"b", "c", "f", "g"}, list.toArray());
+    list.add("a");
+    assertArrayEquals(new String[] {"a", "b", "c", "f", "g"}, list.toArray());
+    list.add("d");
+    assertArrayEquals(new String[] {"a", "b", "c", "d", "f", "g"}, list.toArray());
+    list.add("e");
+    assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f", "g"}, list.toArray());
+    list.remove("c");
+    assertArrayEquals(new String[] {"a", "b", "d", "e", "f", "g"}, list.toArray());
+    list.remove(0);
+    list.add("d");
+    assertArrayEquals(new String[] {"b", "d", "d", "e", "f", "g"}, list.toArray());
+    list.remove(4);
+    list.add("h");
+    assertArrayEquals(new String[] {"b", "d", "d", "e", "g", "h"}, list.toArray());
+    list.retainAll(Arrays.<String>asList(new String[] {"a", "d", "f", "g", "h"}));
+    assertArrayEquals(new String[] {"d", "d", "g", "h"}, list.toArray());
+    list.retainAll(Arrays.<String>asList(new String[] {"a", "d", "d", "d", "h"}));
+    assertArrayEquals(new String[] {"d", "d", "h"}, list.toArray());
   }
 }
