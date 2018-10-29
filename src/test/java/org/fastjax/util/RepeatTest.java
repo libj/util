@@ -30,9 +30,9 @@ public class RepeatTest {
 
   private static final Integer[] values1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 4, 0, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8};
   private static final Integer[] values2 = {0, 0, 0, 0, 0, 0, 0, 0};
-  private static final Repeat.Filter<Integer> filter = new Repeat.Filter<Integer>() {
+  private static final Repeat.Filter<Integer,Object> filter = new Repeat.Filter<Integer,Object>() {
     @Override
-    public boolean accept(final Integer member, final Object ... args) {
+    public boolean accept(final Integer member, final Object arg) {
       return 1 == member || (3 < member && member < 7) || member == 8;
     }
   };
@@ -70,9 +70,9 @@ public class RepeatTest {
   }
 
   public static Field[] getFieldsDeep(final Class<?> clazz) {
-    return Repeat.Recursive.inverted(clazz, clazz.getDeclaredFields(), Field.class, new Repeat.Recurser<Field,Class<?>>() {
+    return Repeat.Recursive.inverted(clazz, clazz.getDeclaredFields(), Field.class, new Repeat.Recurser<Field,Class<?>,Object>() {
       @Override
-      public boolean accept(final Field member, final Object ... args) {
+      public boolean accept(final Field member, final Object arg) {
         return Modifier.isPublic((member).getModifiers());
       }
 
@@ -85,7 +85,7 @@ public class RepeatTest {
       public Class<?> next(final Class<?> clazz) {
         return clazz.getSuperclass();
       }
-    });
+    }, null);
   }
 
   @Test
@@ -104,12 +104,12 @@ public class RepeatTest {
     long start = System.currentTimeMillis();
     long mem = Runtime.getRuntime().freeMemory();
     for (int i = 0; i < 10000000; i++)
-      array = Repeat.<Integer>iterative(values1, Integer.class, filter);
+      array = Repeat.<Integer,Object>iterative(values1, Integer.class, filter, null);
 
     logger.info("iterative: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
     assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
-    array = Repeat.<Integer>iterative(values2, Integer.class, filter);
+    array = Repeat.<Integer,Object>iterative(values2, Integer.class, filter, null);
     assertEquals(0, array.length);
   }
 
@@ -121,12 +121,12 @@ public class RepeatTest {
     final long start = System.currentTimeMillis();
     final long mem = Runtime.getRuntime().freeMemory();
     for (int i = 0; i < 10000000; i++)
-      array = Repeat.Recursive.<Integer>ordered(values1, Integer.class, filter);
+      array = Repeat.Recursive.<Integer,Object>ordered(values1, Integer.class, filter, null);
 
     logger.info("recursive: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
     assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
-    array = Repeat.Recursive.<Integer>ordered(values2, Integer.class, filter);
+    array = Repeat.Recursive.<Integer,Object>ordered(values2, Integer.class, filter, null);
     assertEquals(0, array.length);
   }
 }
