@@ -53,15 +53,20 @@ public class ClassesTest {
 
   @Test
   public void testGreatestCommonClass() throws Exception {
-    for (final Map.Entry<Class<?>[],Class<?>> entry : classes.entrySet())
-      assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
+    try {
+      Classes.getGreatestCommonSuperclass((Class<?>[])null);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
 
-    assertNull(Classes.getGreatestCommonSuperclass((Class<?>[])null));
+    for (final Map.Entry<Class<?>[],Class<?>> entry : classes.entrySet())
+      assertEquals(entry.getValue(), Classes.getGreatestCommonSuperclass(entry.getKey()));
   }
 
   @Test
-  public void testGetCallingClasses() {
-    final Class<?>[] classes = Classes.getCallingClasses();
+  public void testGetExecutionStack() {
+    final Class<?>[] classes = Classes.getExecutionStack();
     for (final Class<?> cls : classes)
       logger.info(cls.getName());
   }
@@ -71,12 +76,6 @@ public class ClassesTest {
       protected static class $nner$ {
       }
     }
-  }
-
-  @Test
-  public void testStrictGetName() throws Exception {
-    assertEquals("java.lang.String", Classes.getStrictName(String.class));
-    assertEquals(ClassesTest.class.getName() + ".Inn$r.$nner.$nner$", Classes.getStrictName(Inn$r.$nner.$nner$.class));
   }
 
   @Test

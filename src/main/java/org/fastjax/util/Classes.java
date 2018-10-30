@@ -19,32 +19,91 @@ package org.fastjax.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.GenericSignatureFormatError;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
+/**
+ * Utility functions for operations pertaining to {@link Class}.
+ */
 public final class Classes {
+  /**
+   * Returns the name of the declaring class of the specified class name.
+   * <ul>
+   * <li>If the specified class name represents an inner class, the name of the
+   * declaring class will be returned.</li>
+   * <li>If the specified class name represents a regular class, the specified
+   * class name will be returned.
+   * </ul>
+   * <blockquote>
+   * <table>
+   * <tr><td><b>className</b></td><td><b>returns</b></td></tr>
+   * <tr><td>{@code foo.bar.One}</td><td>{@code foo.bar.One}</td></tr>
+   * <tr><td>{@code foo.bar.One$Two}</td><td>{@code foo.bar.One}</td></tr>
+   * <tr><td>{@code foo.bar.One$Two$Three}</td><td>{@code foo.bar.One$Two}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two$}</td><td>{@code foo.bar.One.$Two$}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two$$Three$$$Four}</td><td>{@code foo.bar.One.$Two$$Three}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two.$$Three$}</td><td>{@code foo.bar.One.$Two.$$Three$}</td></tr>
+   * </table>
+   * </blockquote>
+   *
+   * @param className The class name for which to return the name of the
+   *          declaring class.
+   * @return The name of the declaring class of the specified class name.
+   * @throws IllegalArgumentException If {@code className} is not a valid
+   *           <a href=
+   *           "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">Java
+   *           Identifier</a>.
+   * @throws NullPointerException If {@code className} is null.
+   */
   public static String getDeclaringClassName(final String className) {
     if (!JavaIdentifiers.isValid(className))
       throw new IllegalArgumentException("Not a valid java identifier: " + className);
 
     int index = className.length() - 1;
-    while ((index = className.lastIndexOf('$', index - 1)) > 1) {
-      char ch = className.charAt(index - 1);
-      if (ch != '.' && ch != '$')
-        break;
-    }
-
+    for (char ch; (index = className.lastIndexOf('$', index - 1)) > 1 && ((ch = className.charAt(index - 1)) == '.' || ch == '$'););
     return index <= 0 ? className : className.substring(0, index);
   }
 
+  /**
+   * Returns the name of the root declaring class for the specified class name.
+   * <ul>
+   * <li>If the specified class name represents an inner class of an inner class
+   * of an inner class, the name of the root declaring class will be returned
+   * (i.e. the name of the class corresponding to the name of the {@code .java}
+   * file in which the inner class is defined).</li>
+   * <li>If the specified class name represents a regular class, the specified
+   * class name will be returned.
+   * </ul>
+   * <blockquote>
+   * <table>
+   * <tr><td><b>className</b></td><td><b>returns</b></td></tr>
+   * <tr><td>{@code foo.bar.One}</td><td>{@code foo.bar.One}</td></tr>
+   * <tr><td>{@code foo.bar.One$Two}</td><td>{@code foo.bar.One}</td></tr>
+   * <tr><td>{@code foo.bar.One$Two$Three}</td><td>{@code foo.bar.One}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two$}</td><td>{@code foo.bar.One.$Two$}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two$$Three$$$Four}</td><td>{@code foo.bar.One.$Two}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two.$$Three$}</td><td>{@code foo.bar.One.$Two.$$Three$}</td></tr>
+   * </table>
+   * </blockquote>
+   *
+   * @param className The class name for which to return the name of the root
+   *          declaring class.
+   * @return The name of the root declaring class for the specified class name.
+   * @throws IllegalArgumentException If {@code className} is not a valid
+   *           <a href=
+   *           "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">Java
+   *           Identifier</a>.
+   * @throws NullPointerException If {@code className} is null.
+   */
   public static String getRootDeclaringClassName(final String className) {
     if (!JavaIdentifiers.isValid(className))
       throw new IllegalArgumentException("Not a valid java identifier: " + className);
@@ -52,7 +111,7 @@ public final class Classes {
     final int limit = className.length() - 1;
     int index = 0;
     while ((index = className.indexOf('$', index + 1)) > 1) {
-      char ch = className.charAt(index - 1);
+      final char ch = className.charAt(index - 1);
       if (index == limit)
         return className;
 
@@ -63,6 +122,26 @@ public final class Classes {
     return index == -1 ? className : className.substring(0, index);
   }
 
+  /**
+   * Returns the canonical name of the specified class name, as defined by the Java
+   * Language Specification.
+   * <blockquote>
+   * <table>
+   * <tr><td><b>className</b></td><td><b>returns</b></td></tr>
+   * <tr><td>{@code foo.bar.One}</td><td>{@code foo.bar.One}</td></tr>
+   * <tr><td>{@code foo.bar.One$Two}</td><td>{@code foo.bar.One.Two}</td></tr>
+   * <tr><td>{@code foo.bar.One$Two$Three}</td><td>{@code foo.bar.One.Two.Three}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two$}</td><td>{@code foo.bar.One.$Two$}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two$$Three$$$Four}</td><td>{@code foo.bar.One.$Two.$Three.$$Four}</td></tr>
+   * <tr><td>{@code foo.bar.One.$Two.$$Three$}</td><td>{@code foo.bar.One.$Two.$$Three$}</td></tr>
+   * </table>
+   * </blockquote>
+   *
+   * @return The canonical name of the underlying specified class name.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se7/html/jls-6.html#jls-6.7">6.7.
+   *      Fully Qualified Names and Canonical Names</a>
+   */
   public static String toCanonicalClassName(final String className) {
     if (!JavaIdentifiers.isValid(className))
       throw new IllegalArgumentException("Not a valid java identifier: " + className);
@@ -71,7 +150,7 @@ public final class Classes {
     builder.append(className.charAt(0));
     builder.append(className.charAt(1));
     char last = '\0';
-    for (int i = 2; i < className.length() - 1; i++) {
+    for (int i = 2; i < className.length() - 1; ++i) {
       final char ch = className.charAt(i);
       builder.append(last != '.' && last != '$' && ch == '$' ? '.' : ch);
       last = ch;
@@ -130,6 +209,25 @@ public final class Classes {
     return pkg.length() == 0 ? cls.getCanonicalName() : cls.getCanonicalName().substring(pkg.length() + 1);
   }
 
+  /**
+   * Returns the {@code Class} array must accurately reflecting the actual type
+   * parameters used in the source code for the generic superclasses of the
+   * specified {@code Class}, or {@code null} if no generic superclasses exist
+   * for the specified {@code Class}.
+   *
+   * @return The {@code Class} array must accurately reflecting the actual type
+   *         parameters used in the source code for the generic superclasses of
+   *         the specified {@code Class}, or {@code null} if no generic
+   *         superclasses exist for the specified {@code Class}.
+   * @throws GenericSignatureFormatError If the generic class signature does not
+   *           conform to the format specified in <cite>The Java&trade; Virtual
+   *           Machine Specification</cite>.
+   * @throws TypeNotPresentException If the generic superclass refers to a
+   *           non-existent type declaration.
+   * @throws MalformedParameterizedTypeException If the generic superclass
+   *           refers to a parameterized type that cannot be instantiated for
+   *           any reason.
+   */
   public static Type[] getGenericSuperclasses(final Class<?> cls) {
     return cls.getGenericSuperclass() instanceof ParameterizedType ? ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments() : null;
   }
@@ -280,7 +378,7 @@ public final class Classes {
   public static Constructor<?> getConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
     final Constructor<?>[] constructors = cls.getConstructors();
     for (final Constructor<?> constructor : constructors)
-      if (java.util.Arrays.equals(constructor.getParameterTypes(), parameterTypes))
+      if (Arrays.equals(constructor.getParameterTypes(), parameterTypes))
         return constructor;
 
     return null;
@@ -314,7 +412,7 @@ public final class Classes {
   public static Constructor<?> getDeclaredConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
     final Constructor<?>[] constructors = cls.getDeclaredConstructors();
     for (final Constructor<?> constructor : constructors)
-      if (java.util.Arrays.equals(constructor.getParameterTypes(), parameterTypes))
+      if (Arrays.equals(constructor.getParameterTypes(), parameterTypes))
         return constructor;
 
     return null;
@@ -598,7 +696,7 @@ public final class Classes {
   public static Method getDeclaredMethod(final Class<?> cls, final String name, final Class<?> ... parameterTypes) {
     final Method[] methods = cls.getDeclaredMethods();
     for (final Method method : methods)
-      if (method.getName().equals(name) && java.util.Arrays.equals(method.getParameterTypes(), parameterTypes))
+      if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), parameterTypes))
         return method;
 
     return null;
@@ -794,109 +892,92 @@ public final class Classes {
     return Repeat.Recursive.<Class<?>,Class<?>,Class<? extends Annotation>>inverted(cls, cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, Objects.requireNonNull(annotationType));
   }
 
+  private static Class<?> getGreatestCommonSuperclass(Class<?> c1, Class<?> c2) {
+    final Class<?> c0 = c2;
+    do {
+      do
+        if (c1.isAssignableFrom(c2))
+          return c1;
+      while ((c2 = c2.getSuperclass()) != null);
+      c2 = c0;
+    }
+    while ((c1 = c1.getSuperclass()) != null);
+    return null;
+  }
+
+  /**
+   * Returns the greatest common superclass of the specified array of classes.
+   *
+   * @param classes The array of classes.
+   * @return The greatest common superclass of the specified array of classes.
+   * @throws IllegalArgumentException If the number of arguments in the
+   *           {@code classes} parameter is 0.
+   * @throws NullPointerException If any member of the {@code classes} parameter
+   *           is null.
+   */
   public static Class<?> getGreatestCommonSuperclass(final Class<?> ... classes) {
-    if (classes == null || classes.length == 0)
-      return null;
+    if (classes.length == 0)
+      throw new IllegalArgumentException("Argument length must be greater than 0");
 
     if (classes.length == 1)
       return classes[0];
 
     Class<?> gcc = getGreatestCommonSuperclass(classes[0], classes[1]);
-    for (int i = 2; i < classes.length && gcc != null; i++)
+    for (int i = 2; i < classes.length && gcc != null; ++i)
       gcc = getGreatestCommonSuperclass(gcc, classes[i]);
 
     return gcc;
   }
 
-  private static final Function<Object,Class<?>> objectClassFunction = o -> o.getClass();
-
   @SafeVarargs
-  private static <T>Class<?> getGreatestCommonSuperclass0(final Function<T,Class<?>> function, final T ... objects) {
-    if (objects == null || objects.length == 0)
-      return null;
-
+  private static <T>Class<?> getGreatestCommonSuperclass0(final T ... objects) {
     if (objects.length == 1)
-      return function.apply(objects[0]);
+      return objects[0].getClass();
 
-    Class<?> gcc = getGreatestCommonSuperclass(function.apply(objects[0]), function.apply(objects[1]));
-    for (int i = 2; i < objects.length && gcc != null; i++)
-      gcc = getGreatestCommonSuperclass(gcc, function.apply(objects[i]));
+    Class<?> gcc = getGreatestCommonSuperclass(objects[0].getClass(), objects[1].getClass());
+    for (int i = 2; i < objects.length && gcc != null; ++i)
+      gcc = getGreatestCommonSuperclass(gcc, objects[i].getClass());
 
     return gcc;
   }
 
+  /**
+   * Returns the greatest common superclass of the classes of the specified
+   * array of objects.
+   *
+   * @param objects The array of objects.
+   * @return The greatest common superclass of the classes of the specified
+   *         array of objects.
+   * @throws IllegalArgumentException If the number of arguments in the
+   *           {@code objects} parameter is 0.
+   * @throws NullPointerException If any member of the {@code classes} parameter
+   *           is null.
+   */
   @SafeVarargs
   public static <T>Class<?> getGreatestCommonSuperclass(final T ... objects) {
-    return getGreatestCommonSuperclass0(objectClassFunction, objects);
+    if (objects.length == 0)
+      throw new IllegalArgumentException("Argument length must be greater than 0");
+
+    return getGreatestCommonSuperclass0(objects);
   }
 
+  /**
+   * Returns the greatest common superclass of the classes of the specified
+   * {@code Collection} of objects.
+   *
+   * @param objects The array of objects.
+   * @return The greatest common superclass of the classes of the specified
+   *         {@code Collection} of objects.
+   * @throws IllegalArgumentException If the number of elements in the
+   *           {@code objects} {@code Collection} is 0.
+   * @throws NullPointerException If {@code objects} is null, or if any element
+   *           of the {@code objects} {@code Collection} is null.
+   */
   public static <T>Class<?> getGreatestCommonSuperclass(final Collection<T> objects) {
-    return getGreatestCommonSuperclass0(objectClassFunction, objects.toArray());
-  }
+    if (objects.size() == 0)
+      throw new IllegalArgumentException("Collection size must be greater than 0");
 
-  @SafeVarargs
-  public static <T>Class<?> getGreatestCommonSuperclass(final Function<T,Class<?>> function, final T ... objects) {
-    return getGreatestCommonSuperclass0(function, objects);
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <T>Class<?> getGreatestCommonSuperclass(final Function<T,Class<?>> function, final Collection<T> objects) {
-    return getGreatestCommonSuperclass0((Function<Object,Class<?>>)function, objects.toArray());
-  }
-
-  private static Class<?> getGreatestCommonSuperclass(Class<?> class1, Class<?> class2) {
-    final Class<?> cls = class2;
-    do {
-      do
-        if (class1.isAssignableFrom(class2))
-          return class1;
-      while ((class2 = class2.getSuperclass()) != null);
-      class2 = cls;
-    }
-    while ((class1 = class1.getSuperclass()) != null);
-    return null;
-  }
-
-  public static String getStrictName(final Class<?> cls) {
-    if (cls.isArray())
-      return getStrictName(cls.getComponentType()) + "[]";
-
-    if (cls.isPrimitive()) {
-      if (cls == int.class)
-        return "int";
-
-      if (cls == long.class)
-        return "long";
-
-      if (cls == double.class)
-        return "double";
-
-      if (cls == float.class)
-        return "float";
-
-      if (cls == boolean.class)
-        return "boolean";
-
-      if (cls == byte.class)
-        return "byte";
-
-      if (cls == short.class)
-        return "short";
-
-      if (cls == char.class)
-        return "char";
-
-      if (cls == void.class)
-        return "void";
-
-      throw new UnsupportedOperationException("Unknown primitive type: " + cls.getClass());
-    }
-
-    return recurseStrictName(cls).toString();
-  }
-
-  private static StringBuilder recurseStrictName(final Class<?> cls) {
-    return cls.isMemberClass() ? recurseStrictName(cls.getEnclosingClass()).append('.').append(cls.getSimpleName()) : new StringBuilder(cls.getName());
+    return getGreatestCommonSuperclass0(objects.toArray());
   }
 
   private static class CallingClass extends SecurityManager {
@@ -906,26 +987,18 @@ public final class Classes {
     }
   }
 
-  public static Class<?>[] getCallingClasses() {
+  /**
+   * Returns the current execution stack as an array of classes.
+   * <p>
+   * The length of the array is the number of methods on the execution stack.
+   * The element at index {@code 0} is the class of the currently executing
+   * method, the element at index {@code 1} is the class of that method's
+   * caller, and so on.
+   *
+   * @return The current execution stack as an array of classes.
+   */
+  public static Class<?>[] getExecutionStack() {
     return FastArrays.subArray(new CallingClass().getClassContext(), 3);
-  }
-
-  public static <T>T newInstance(final Class<? extends T> clazz) {
-    try {
-      return clazz.getDeclaredConstructor().newInstance();
-    }
-    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  public static <T>T newInstance(final Constructor<T> consctuctor, final Object ... initargs) {
-    try {
-      return consctuctor.newInstance(initargs);
-    }
-    catch (final IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   private Classes() {
