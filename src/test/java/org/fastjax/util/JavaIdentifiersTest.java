@@ -24,7 +24,17 @@ import org.junit.Test;
 
 public class JavaIdentifiersTest {
   private static void test(final String expected, final Function<String,String> function, final String value) {
-    final String identifier = function.apply(value);
+    final String identifier;
+    try {
+      identifier = function.apply(value);
+    }
+    catch (final NullPointerException e) {
+      if (expected == null)
+        return;
+
+      throw e;
+    }
+
     if (identifier != null && identifier.length() > 0)
       assertTrue(JavaIdentifiers.isValid(identifier));
 
