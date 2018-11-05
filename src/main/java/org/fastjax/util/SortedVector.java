@@ -18,6 +18,7 @@ package org.fastjax.util;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -34,6 +35,9 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
 
   @Override
   public boolean addAll(final Collection<? extends E> c) {
+    if (c.size() == 0)
+      return false;
+
     final int newSize = elementCount + c.size();
     if (elementData.length < newSize)
       setSize(newSize);
@@ -81,9 +85,17 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
 
   @Override
   public boolean containsAll(final Collection<?> c) {
-    for (final Object o : c)
-      if (!contains(o))
-        return false;
+    final Iterator<?> iterator = c.iterator();
+    if (c instanceof SortedList) {
+      for (int i = 0; iterator.hasNext();)
+        if ((i = indexOf(iterator.next(), i)) < 0)
+          return false;
+    }
+    else {
+      while (iterator.hasNext())
+        if (!contains(iterator.next()))
+          return false;
+    }
 
     return true;
   }
@@ -106,8 +118,8 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
     int count = 0;
     final Object[] retained = new Object[elementCount];
     if (sorted.length < elementCount) {
-      for (int i = 0, j, k = 0; i < sorted.length; i++) {
-        if (0 <= (j = Arrays.binarySearch(elementData, k, elementCount, sorted[i]))) {
+      for (int i = 0, j, k = 0; i < sorted.length; ++i) {
+        if ((j = Arrays.binarySearch(elementData, k, elementCount, sorted[i])) >= 0) {
           k = j;
           retained[count++] = sorted[i];
           while (sorted[i].equals(elementData[--j]))
@@ -118,7 +130,7 @@ public class SortedVector<E extends Comparable<E>> extends Vector<E> {
       }
     }
     else {
-      for (int i = 0, j, k = 0; i < elementCount; i++) {
+      for (int i = 0, j, k = 0; i < elementCount; ++i) {
         if (0 <= (j = Arrays.binarySearch(sorted, k, sorted.length, elementData[i]))) {
           k = j;
           retained[count++] = elementData[i];

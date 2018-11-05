@@ -17,6 +17,7 @@
 package org.fastjax.util;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -72,9 +73,17 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
 
   @Override
   public boolean containsAll(final Collection<?> c) {
-    for (final Object e : c)
-      if (!contains(e))
-        return false;
+    final Iterator<?> iterator = c.iterator();
+    if (c instanceof SortedList) {
+      for (int i = 0; iterator.hasNext();)
+        if ((i = indexOf(iterator.next(), i, size())) < 0)
+          return false;
+    }
+    else {
+      while (iterator.hasNext())
+        if (!contains(iterator.next()))
+          return false;
+    }
 
     return true;
   }
@@ -89,7 +98,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
   }
 
   @Override
-  public boolean addAll(int index, final Collection<? extends E> c) {
+  public boolean addAll(final int index, final Collection<? extends E> c) {
     throw new UnsupportedOperationException();
   }
 
@@ -118,10 +127,14 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
     throw new UnsupportedOperationException();
   }
 
-  @Override
   @SuppressWarnings({"rawtypes", "unchecked"})
+  private int indexOf(final Object o, final int fromIndex, final int toIndex) {
+    return o instanceof Comparable ? FastCollections.binarySearch(source, fromIndex, toIndex, (Comparable)o) : source.indexOf(o);
+  }
+
+  @Override
   public int indexOf(final Object o) {
-    return o instanceof Comparable ? FastCollections.binarySearch(source, (Comparable)o) : source.indexOf(o);
+    return indexOf(o, 0, size());
   }
 
   @Override
