@@ -62,7 +62,7 @@ public class Digraph<T> implements Cloneable, Serializable {
   private ArrayList<LinkedHashSet<Integer>> adj;
   private Object[][] flatAdj;
 
-  private ArrayList<Integer> indegree;
+  private ArrayIntList indegree;
   private ArrayList<T> edges;
 
   private ArrayList<T> cycle;
@@ -76,9 +76,12 @@ public class Digraph<T> implements Cloneable, Serializable {
    *           negative.
    */
   public Digraph(final int initialCapacity) {
+    if (initialCapacity < 0)
+      throw new IllegalArgumentException("Initial Capacity cannot be negative: " + initialCapacity);
+
     this.initialCapacity = initialCapacity;
     this.adj = new ArrayList<>(initialCapacity);
-    this.indegree = new ArrayList<>(initialCapacity);
+    this.indegree = new ArrayIntList(initialCapacity);
     this.edges = new ArrayList<>(initialCapacity);
   }
 
@@ -523,7 +526,7 @@ public class Digraph<T> implements Cloneable, Serializable {
       clone.objectToIndex = objectToIndex.clone();
       clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
       clone.flatAdj = flatAdj == null ? null : flatAdj.clone();
-      clone.indegree = (ArrayList<Integer>)indegree.clone();
+      clone.indegree = indegree.clone();
       clone.edges = (ArrayList<T>)edges.clone();
       clone.cycle = cycle == null ? null : (ArrayList<T>)cycle.clone();
       clone.reversePostOrder = reversePostOrder == null ? null : (ArrayList<T>)reversePostOrder.clone();

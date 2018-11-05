@@ -18,6 +18,7 @@ package org.fastjax.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -45,6 +46,7 @@ public final class Iterators {
    * @param <E> The type of elements in {@code iterator}.
    * @param iterator The {@link Iterator} to traverse.
    * @param consumer The {@link Consumer} to execute on each element.
+   * @throws NullPointerException If {@code iterator} or {@code consumer} are null.
    */
   public static <E>void forEachRemainingReverse(final Iterator<E> iterator, final Consumer<? super E> consumer) {
     recurseNext(iterator, consumer);
@@ -57,6 +59,7 @@ public final class Iterators {
    *
    * @param iterator The {@link Iterator} in which to count elements.
    * @return The number of elements in {@code iterator}.
+   * @throws NullPointerException If {@code iterator} is null.
    */
   public static int getSize(final Iterator<?> iterator) {
     int i = 0;
@@ -75,8 +78,11 @@ public final class Iterators {
    * @param filter The filter {@link Predicate}.
    * @return An {@code Iterator} that iterates over the elements of
    *         {@code iterator} satisfying the {@code filter} predicate.
+   * @throws NullPointerException If {@code iterator} or {@code filter} are null.
    */
   public static <E>Iterator<E> filter(final Iterator<E> iterator, final Predicate<E> filter) {
+    Objects.requireNonNull(iterator);
+    Objects.requireNonNull(filter);
     return new Iterator<E>() {
       private boolean consumed = true;
       private E next;

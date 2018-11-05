@@ -42,11 +42,9 @@ import java.util.function.Function;
  * It is important to note that this implementation assumes that an object of
  * type {@code T} will be encountered for each reference of type {@code R}.
  * <p>
- * Vertices can be dynamically added with the additional
- * {@link Digraph#addVertex(Object)} method.
+ * Vertices can be added with {@link Digraph#addVertex(Object)}.
  * <p>
- * Edges can be dynamically added with the additional
- * {@link Digraph#addEdge(Object,Object)} method.
+ * Edges can be added with {@link Digraph#addEdge(Object,Object)}.
  *
  * @see Digraph
  */
@@ -66,10 +64,11 @@ public class RefDigraph<T,R> extends Digraph<T> {
    * @param initialCapacity The initial capacity of the digraph.
    * @throws IllegalArgumentException If the specified initial capacity is
    *           negative.
+   * @throws NullPointerException If {@code reference} is null.
    */
   public RefDigraph(final int initialCapacity, final Function<T,R> reference) {
     super(initialCapacity);
-    this.reference = reference;
+    this.reference = Objects.requireNonNull(reference);
   }
 
   /**
@@ -77,10 +76,11 @@ public class RefDigraph<T,R> extends Digraph<T> {
    *
    * @param reference The function to obtain the reference of type {@code R}
    *          from an object of type {@code T}.
+   * @throws NullPointerException If {@code reference} is null.
    */
   public RefDigraph(final Function<T,R> reference) {
     super();
-    this.reference = reference;
+    this.reference = Objects.requireNonNull(reference);
   }
 
   /**
@@ -176,6 +176,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
    *
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
+   * @throws NullPointerException If {@code v} is null.
    */
   @Override
   public int getInDegree(final T v) {
@@ -188,6 +189,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
    *
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
+   * @throws NullPointerException If {@code v} is null.
    */
   @Override
   public int getOutDegree(final T v) {
