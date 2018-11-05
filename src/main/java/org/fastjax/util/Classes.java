@@ -46,6 +46,7 @@ public final class Classes {
    * </ul>
    * <blockquote>
    * <table>
+   * <caption>Examples</caption>
    * <tr><td><b>className</b></td><td><b>returns</b></td></tr>
    * <tr><td>{@code foo.bar.One}</td><td>{@code foo.bar.One}</td></tr>
    * <tr><td>{@code foo.bar.One$Two}</td><td>{@code foo.bar.One}</td></tr>
@@ -86,6 +87,7 @@ public final class Classes {
    * </ul>
    * <blockquote>
    * <table>
+   * <caption>Examples</caption>
    * <tr><td><b>className</b></td><td><b>returns</b></td></tr>
    * <tr><td>{@code foo.bar.One}</td><td>{@code foo.bar.One}</td></tr>
    * <tr><td>{@code foo.bar.One$Two}</td><td>{@code foo.bar.One}</td></tr>
@@ -128,6 +130,7 @@ public final class Classes {
    * Language Specification.
    * <blockquote>
    * <table>
+   * <caption>Examples</caption>
    * <tr><td><b>className</b></td><td><b>returns</b></td></tr>
    * <tr><td>{@code foo.bar.One}</td><td>{@code foo.bar.One}</td></tr>
    * <tr><td>{@code foo.bar.One$Two}</td><td>{@code foo.bar.One.Two}</td></tr>
@@ -138,6 +141,7 @@ public final class Classes {
    * </table>
    * </blockquote>
    *
+   * @param className The class name.
    * @return The canonical name of the underlying specified class name.
    * @throws IllegalArgumentException If {@code className} is not a valid
    *           <a href=
@@ -220,6 +224,7 @@ public final class Classes {
    * specified {@code Class}, or {@code null} if no generic superclasses exist
    * for the specified {@code Class}.
    *
+   * @param cls The {@code Class}.
    * @return The {@code Class} array must accurately reflecting the actual type
    *         parameters used in the source code for the generic superclasses of
    *         the specified {@code Class}, or {@code null} if no generic
@@ -933,6 +938,7 @@ public final class Classes {
    * Returns the greatest common superclass of the classes of the specified
    * array of objects.
    *
+   * @param <T> The type parameter of the specified array of objects.
    * @param objects The array of objects.
    * @return The greatest common superclass of the classes of the specified
    *         array of objects.
@@ -953,6 +959,8 @@ public final class Classes {
    * Returns the greatest common superclass of the classes of the specified
    * {@code Collection} of objects.
    *
+   * @param <T> The type parameter of the specified {@code Collection} of
+   *          objects.
    * @param objects The array of objects.
    * @return The greatest common superclass of the classes of the specified
    *         {@code Collection} of objects.
