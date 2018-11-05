@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.function.BiPredicate;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -30,9 +31,9 @@ public class RepeatTest {
 
   private static final Integer[] values1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 4, 0, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8};
   private static final Integer[] values2 = {0, 0, 0, 0, 0, 0, 0, 0};
-  private static final Repeat.Filter<Integer,Object> filter = new Repeat.Filter<Integer,Object>() {
+  private static final BiPredicate<Integer,Object> filter = new BiPredicate<Integer,Object>() {
     @Override
-    public boolean accept(final Integer member, final Object arg) {
+    public boolean test(final Integer member, final Object arg) {
       return 1 == member || (3 < member && member < 7) || member == 8;
     }
   };
@@ -70,9 +71,9 @@ public class RepeatTest {
   }
 
   public static Field[] getFieldsDeep(final Class<?> clazz) {
-    return Repeat.Recursive.inverted(clazz, clazz.getDeclaredFields(), Field.class, new Repeat.Recurser<Field,Class<?>,Object>() {
+    return Repeat.Recursive.inverted(clazz, clazz.getDeclaredFields(), Field.class, new Repeat.Recurser<Class<?>,Field,Object>() {
       @Override
-      public boolean accept(final Field member, final Object arg) {
+      public boolean test(final Field member, final Object arg) {
         return Modifier.isPublic((member).getModifiers());
       }
 
@@ -92,7 +93,7 @@ public class RepeatTest {
   public void testDeepRecursive() {
     final Field[] fields = getFieldsDeep(H.class);
     assertEquals(fieldNames.length, fields.length);
-    for (int i = 0; i < fields.length; i++)
+    for (int i = 0; i < fields.length; ++i)
       assertEquals(fieldNames[i], fields[i].getName());
   }
 
@@ -103,7 +104,7 @@ public class RepeatTest {
     Integer[] array = null;
     long start = System.currentTimeMillis();
     long mem = Runtime.getRuntime().freeMemory();
-    for (int i = 0; i < 10000000; i++)
+    for (int i = 0; i < 10000000; ++i)
       array = Repeat.<Integer,Object>iterative(values1, Integer.class, filter, null);
 
     logger.info("iterative: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
@@ -120,7 +121,7 @@ public class RepeatTest {
     Integer[] array = null;
     final long start = System.currentTimeMillis();
     final long mem = Runtime.getRuntime().freeMemory();
-    for (int i = 0; i < 10000000; i++)
+    for (int i = 0; i < 10000000; ++i)
       array = Repeat.Recursive.<Integer,Object>ordered(values1, Integer.class, filter, null);
 
     logger.info("recursive: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");

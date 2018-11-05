@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 /**
@@ -138,6 +139,10 @@ public final class Classes {
    * </blockquote>
    *
    * @return The canonical name of the underlying specified class name.
+   * @throws IllegalArgumentException If {@code className} is not a valid
+   *           <a href=
+   *           "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">Java
+   *           Identifier</a>.
    * @see <a href=
    *      "https://docs.oracle.com/javase/specs/jls/se7/html/jls-6.html#jls-6.7">6.7.
    *      Fully Qualified Names and Canonical Names</a>
@@ -455,7 +460,7 @@ public final class Classes {
     return oldValue;
   }
 
-  private static interface SuperclassRecurser<M,A> extends Repeat.Recurser<M,Class<?>,A> {
+  private static interface SuperclassRecurser<M,A> extends Repeat.Recurser<Class<?>,M,A> {
     @Override
     default Class<?> next(final Class<?> container) {
       return container.getSuperclass();
@@ -483,75 +488,58 @@ public final class Classes {
     }
   }
 
-  private static final Repeat.Recurser<Field,Class<?>,Object> declaredFieldRecurser = new DeclaredFieldRecurser<Object>() {
+  private static final Repeat.Recurser<Class<?>,Field,Object> declaredFieldRecurser = new DeclaredFieldRecurser<Object>() {
     @Override
-    public boolean accept(final Field member, final Object arg) {
+    public boolean test(final Field member, final Object arg) {
       return true;
     }
   };
 
-  private static final Repeat.Recurser<Field,Class<?>,Predicate<Field>> declaredFieldWithPredicateRecurser = new DeclaredFieldRecurser<Predicate<Field>>() {
+  private static final Repeat.Recurser<Class<?>,Field,Predicate<Field>> declaredFieldWithPredicateRecurser = new DeclaredFieldRecurser<Predicate<Field>>() {
     @Override
-    public boolean accept(final Field member, final Predicate<Field> arg) {
+    public boolean test(final Field member, final Predicate<Field> arg) {
       return arg.test(member);
     }
   };
 
-  private static final Repeat.Recurser<Field,Class<?>,Class<? extends Annotation>> declaredFieldWithAnnotationRecurser = new DeclaredFieldRecurser<Class<? extends Annotation>>() {
+  private static final Repeat.Recurser<Class<?>,Field,Class<? extends Annotation>> declaredFieldWithAnnotationRecurser = new DeclaredFieldRecurser<Class<? extends Annotation>>() {
     @Override
-    public boolean accept(final Field member, final Class<? extends Annotation> arg) {
+    public boolean test(final Field member, final Class<? extends Annotation> arg) {
       return member.getAnnotation(arg) != null;
     }
   };
 
-  private static final Repeat.Recurser<Method,Class<?>,Object> declaredMethodRecurser = new DeclaredMethodRecurser<Object>() {
+  private static final Repeat.Recurser<Class<?>,Method,Object> declaredMethodRecurser = new DeclaredMethodRecurser<Object>() {
     @Override
-    public boolean accept(final Method member, final Object arg) {
+    public boolean test(final Method member, final Object arg) {
       return true;
     }
   };
 
-  private static final Repeat.Recurser<Method,Class<?>,Predicate<Method>> declaredMethodWithPredicateRecurser = new DeclaredMethodRecurser<Predicate<Method>>() {
+  private static final Repeat.Recurser<Class<?>,Method,Predicate<Method>> declaredMethodWithPredicateRecurser = new DeclaredMethodRecurser<Predicate<Method>>() {
     @Override
-    public boolean accept(final Method member, final Predicate<Method> arg) {
+    public boolean test(final Method member, final Predicate<Method> arg) {
       return arg.test(member);
     }
   };
 
-  private static final Repeat.Recurser<Method,Class<?>,Class<? extends Annotation>> declaredMethodWithAnnotationRecurser = new DeclaredMethodRecurser<Class<? extends Annotation>>() {
+  private static final Repeat.Recurser<Class<?>,Method,Class<? extends Annotation>> declaredMethodWithAnnotationRecurser = new DeclaredMethodRecurser<Class<? extends Annotation>>() {
     @Override
-    public boolean accept(final Method member, final Class<? extends Annotation> arg) {
-      return member.getAnnotation(arg) != null;
-    }
-  };
-
-  private static final Repeat.Filter<Field,Class<? extends Annotation>> declaredFieldWithAnnotationFilter = new Repeat.Filter<Field,Class<? extends Annotation>>() {
-    @Override
-    public boolean accept(final Field member, final Class<? extends Annotation> arg) {
-      return member.getAnnotation(arg) != null;
-    }
-  };
-
-  private static final Repeat.Filter<Method,Class<? extends Annotation>> declaredMethodWithAnnotationFilter = new Repeat.Filter<Method,Class<? extends Annotation>>() {
-    @Override
-    public boolean accept(final Method member, final Class<? extends Annotation> arg) {
-      return member.getAnnotation(arg) != null;
-    }
-  };
-
-  private static final Repeat.Filter<Class<?>,Class<? extends Annotation>> classWithAnnotationFilter = new Repeat.Filter<Class<?>,Class<? extends Annotation>>() {
-    @Override
-    public boolean accept(final Class<?> member, final Class<? extends Annotation> arg) {
+    public boolean test(final Method member, final Class<? extends Annotation> arg) {
       return member.getAnnotation(arg) != null;
     }
   };
 
   private static final Repeat.Recurser<Class<?>,Class<?>,Class<? extends Annotation>> classWithAnnotationRecurser = new DeclaredClassRecurser<Class<? extends Annotation>>() {
     @Override
-    public boolean accept(final Class<?> member, final Class<? extends Annotation> arg) {
+    public boolean test(final Class<?> member, final Class<? extends Annotation> arg) {
       return member.getAnnotation(arg) != null;
     }
   };
+
+  private static final BiPredicate<Field,Class<? extends Annotation>> declaredFieldWithAnnotationFilter = (m, a) -> m.getAnnotation(a) != null;
+  private static final BiPredicate<Method,Class<? extends Annotation>> declaredMethodWithAnnotationFilter = (m, a) -> m.getAnnotation(a) != null;
+  private static final BiPredicate<Class<?>,Class<? extends Annotation>> classWithAnnotationFilter = (m, a) -> m.getAnnotation(a) != null;
 
   /**
    * Returns an array of Field objects declared in {@code cls} (including
@@ -576,7 +564,7 @@ public final class Classes {
    * @throws NullPointerException If @{@code cls} is null.
    */
   public static Field[] getDeclaredFieldsDeep(final Class<?> cls) {
-    return Repeat.Recursive.<Field,Class<?>,Object>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldRecurser, null);
+    return Repeat.Recursive.<Class<?>,Field,Object>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldRecurser, null);
   }
 
   /**
@@ -605,7 +593,7 @@ public final class Classes {
    * @throws NullPointerException If @{@code cls} or {@code predicate} are null.
    */
   public static Field[] getDeclaredFieldsDeep(final Class<?> cls, final Predicate<Field> predicate) {
-    return Repeat.Recursive.<Field,Class<?>,Predicate<Field>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithPredicateRecurser, Objects.requireNonNull(predicate));
+    return Repeat.Recursive.<Class<?>,Field,Predicate<Field>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithPredicateRecurser, Objects.requireNonNull(predicate));
   }
 
   /**
@@ -660,7 +648,7 @@ public final class Classes {
    * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
    */
   public static Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Field,Class<?>,Class<? extends Annotation>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.<Class<?>,Field,Class<? extends Annotation>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, Objects.requireNonNull(annotationType));
   }
 
   /**
@@ -760,7 +748,7 @@ public final class Classes {
    * @throws NullPointerException If @{@code cls} is null.
    */
   public static Method[] getDeclaredMethodsDeep(final Class<?> cls) {
-    return Repeat.Recursive.<Method,Class<?>,Object>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodRecurser, null);
+    return Repeat.Recursive.<Class<?>,Method,Object>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodRecurser, null);
   }
 
   /**
@@ -786,7 +774,7 @@ public final class Classes {
    * @throws NullPointerException If @{@code cls} or {@code predicate} are null.
    */
   public static Method[] getDeclaredMethodsDeep(final Class<?> cls, final Predicate<Method> predicate) {
-    return Repeat.Recursive.<Method,Class<?>,Predicate<Method>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithPredicateRecurser, Objects.requireNonNull(predicate));
+    return Repeat.Recursive.<Class<?>,Method,Predicate<Method>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithPredicateRecurser, Objects.requireNonNull(predicate));
   }
 
   /**
@@ -836,7 +824,7 @@ public final class Classes {
    * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
    */
   public static Method[] getDeclaredMethodsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Method,Class<?>,Class<? extends Annotation>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.<Class<?>,Method,Class<? extends Annotation>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, Objects.requireNonNull(annotationType));
   }
 
   /**
