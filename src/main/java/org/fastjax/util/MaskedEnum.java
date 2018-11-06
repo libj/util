@@ -61,7 +61,7 @@ public abstract class MaskedEnum {
   protected static <T extends MaskedEnum>T[] toArray(final Class<T> callingClass, final int mask) {
     final Map<Integer,T> map = (Map<Integer,T>)enums.get(callingClass);
     final List<T> list = new ArrayList<>();
-    for (int i = 0; i < map.size(); i++)
+    for (int i = 0; i < map.size(); ++i)
       if ((mask & (1 << i)) != 0)
         list.add(map.get(i));
 

@@ -48,7 +48,7 @@ public interface LongIterator {
    * modification policy.
    * <p>
    * The behavior of an iterator is unspecified if this method is called after a
-   * call to the {@link #forEachRemaining forEachRemaining} method.
+   * call to the {@link #forEachRemaining(LongConsumer)} method.
    * <p>
    * The default implementation throws an instance of
    * {@link UnsupportedOperationException} and performs no other action.
@@ -70,7 +70,7 @@ public interface LongIterator {
    * the action are relayed to the caller.
    * <p>
    * The behavior of an iterator is unspecified if the action modifies the
-   * collection in any way (even by calling the {@link #remove remove} method or
+   * collection in any way (even by calling the {@link #remove()} method or
    * other mutator methods of {@code Iterator} subtypes), unless an overriding
    * class has specified a concurrent modification policy.
    * <p>

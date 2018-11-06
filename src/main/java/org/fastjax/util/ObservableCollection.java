@@ -90,7 +90,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * Returns an iterator over the elements in this collection. Calling
    * {@link Iterator#remove()} will delegate a callback to
    * {@link #beforeRemove(Object)} and
-   * {@link #afterRemove(Object, RuntimeException)} on this instance. All
+   * {@link #afterRemove(Object,RuntimeException)} on this instance. All
    * elements for which {@link #beforeRemove(Object)} returns false will not be
    * removed from this collection.
    *
@@ -171,7 +171,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeAdd(Object)} and
-   * {@link #afterAdd(Object, RuntimeException)} are called immediately before
+   * {@link #afterAdd(Object,RuntimeException)} are called immediately before
    * and after the enclosed collection is modified for the addition of each
    * element in the argument Collection. All elements for which
    * {@link #beforeAdd(Object)} returns false will not be added to this
@@ -190,7 +190,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
-   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * {@link #afterRemove(ObjectRuntimeException)} are called immediately
    * before and after the enclosed collection is modified. If
    * {@link #beforeRemove(Object)} returns false, the element will not be
    * removed.
@@ -218,7 +218,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
-   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately
    * before and after the enclosed collection is modified for the removal of
    * each element in the argument Collection. All elements for which
    * {@link #beforeRemove(Object)} returns false will not be removed from this
@@ -237,7 +237,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
-   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately
    * before and after the enclosed collection is modified for the removal of
    * each element. If {@link #beforeRemove(Object)} returns false, the element
    * will not be removed.
@@ -273,7 +273,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
-   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately
    * before and after the enclosed collection is modified for the removal of
    * each element not in the argument Collection.
    */
@@ -295,7 +295,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
-   * {@link #afterRemove(Object, RuntimeException)} are called immediately
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately
    * before and after the enclosed collection is modified for the removal of
    * each element.
    */
