@@ -27,7 +27,7 @@ public class FastArraysTest {
   private static Object[] createRandomNestedArray() {
     final Object[] array = new Object[4];
     for (int i = 0; i < array.length; i++)
-      array[i] = Math.random() < 0.2 ? createRandomNestedArray() : Strings.getRandomAlphaString(4);
+      array[i] = Math.random() < 0.2 ? createRandomNestedArray() : Strings.getRandomAlpha(4);
 
     return array;
   }

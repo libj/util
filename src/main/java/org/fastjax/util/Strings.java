@@ -26,27 +26,30 @@ import java.util.Objects;
 public final class Strings {
   private static final char[] alphaNumeric = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-  private static String getRandomString(final int length, final boolean alphanumeric) {
+  private static String getRandom(final int length, final int start, final int len) {
     if (length < 0)
       throw new IllegalArgumentException("Length must be non-negative: " + length);
 
     if (length == 0)
       return "";
 
-    final int len = !alphanumeric ? alphaNumeric.length - 10 : alphaNumeric.length;
     final char[] array = new char[length];
     for (int i = 0; i < length; ++i)
-      array[i] = alphaNumeric[(int)(Math.random() * len)];
+      array[i] = alphaNumeric[(int)(start + Math.random() * len)];
 
     return new String(array);
   }
 
-  public static String getRandomAlphaNumericString(final int length) {
-    return getRandomString(length, true);
+  public static String getRandomAlphaNumeric(final int len) {
+    return getRandom(len, 0, alphaNumeric.length);
   }
 
-  public static String getRandomAlphaString(final int length) {
-    return getRandomString(length, false);
+  public static String getRandomAlpha(final int len) {
+    return getRandom(len, 0, alphaNumeric.length - 10);
+  }
+
+  public static String getRandomNumeric(final int len) {
+    return getRandom(len, alphaNumeric.length - 10, 10);
   }
 
   private static boolean interpolateShallow(final StringBuilder text, final Map<String,String> properties, final String open, final String close) throws ParseException {
@@ -274,10 +277,6 @@ public final class Strings {
 
   public static String toUpperCase(final String string, final int beginIndex) {
     return changeCase(string, true, beginIndex, string.length());
-  }
-
-  public static String getRandomString(final int length) {
-    return getRandomString(length, false);
   }
 
   public static String padFixed(final String string, final int length, final boolean right) {

@@ -32,7 +32,7 @@ public class ConcurrentHashSetTest {
             for (int i = 0; i < 1000; ++i) {
               Thread.sleep((int)(Math.random() * 10));
 
-              set.add(Random.alpha(3));
+              set.add(Strings.getRandomAlpha(3));
               final Iterator<String> it = set.iterator();
               while (it.hasNext()) {
                 it.next();

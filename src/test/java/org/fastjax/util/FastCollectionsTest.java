@@ -29,7 +29,7 @@ public class FastCollectionsTest {
   private static List<Object> createRandomNestedList() {
     final List<Object> list = new ArrayList<>(4);
     for (int i = 0; i < 4; i++)
-      list.add(Math.random() < 0.2 ? createRandomNestedList() : Strings.getRandomAlphaString(4));
+      list.add(Math.random() < 0.2 ? createRandomNestedList() : Strings.getRandomAlpha(4));
 
     return list;
   }

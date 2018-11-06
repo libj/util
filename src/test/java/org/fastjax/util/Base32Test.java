@@ -24,7 +24,7 @@ public class Base32Test {
   @Test
   public void test() {
     for (int i = 0; i < 1000; ++i) {
-      final byte[] arg = Strings.getRandomAlphaNumericString((int)(Math.random() * i)).getBytes();
+      final byte[] arg = Strings.getRandomAlphaNumeric((int)(Math.random() * i)).getBytes();
       final String encoded = Base32.encode(arg);
       final byte[] decoded = Base32.decode(encoded);
       assertArrayEquals(arg, decoded);

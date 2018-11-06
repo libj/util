@@ -81,12 +81,12 @@ public class PartitionedListTest {
 
     final List<Object> expected = new ArrayList<>();
 
-    final String p1 = Random.alpha(6);
+    final String p1 = Strings.getRandomAlpha(6);
     expected.add(p1);
     superList.getPartition(String.class).add(p1);
     assertElementCount("Add " + System.identityHashCode(p1), expected, 1, superList.getPartition(String.class));
 
-    final String p2 = Random.alpha(6);
+    final String p2 = Strings.getRandomAlpha(6);
     expected.add(p2);
     superList.getPartition(String.class).add(p2);
     assertElementCount("Add " + System.identityHashCode(p2), expected, 2, superList.getPartition(String.class));
@@ -241,7 +241,7 @@ public class PartitionedListTest {
     assertElementCount(null, expected, 0, superList.getPartition(Double.class));
     assertElementCount(null, expected, 1, superList.getPartition(Boolean.class));
 
-    final String p3 = Random.alpha(6);
+    final String p3 = Strings.getRandomAlpha(6);
     expected.add(p3);
     superList.getPartition(String.class).add(p3);
     assertElementCount("Add " + System.identityHashCode(p3), expected, 2, superList.getPartition(String.class));

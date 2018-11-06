@@ -32,15 +32,15 @@ public class StringsTest {
   @Test
   public void testGetRandomAlphaString() {
     try {
-      Strings.getRandomAlphaString(-1);
+      Strings.getRandomAlpha(-1);
       fail("Expecting an IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    for (int length = 0; length < 100; length++) {
-      final String random = Strings.getRandomAlphaString(length);
-      assertEquals(random.length(), length);
+    for (int len = 0; len < 100; ++len) {
+      final String random = Strings.getRandomAlpha(len);
+      assertEquals(random.length(), len);
       assertTrue(random, random.matches("^[a-zA-Z]*$"));
     }
   }
@@ -48,16 +48,32 @@ public class StringsTest {
   @Test
   public void testGetRandomAlphaNumericString() {
     try {
-      Strings.getRandomAlphaNumericString(-1);
+      Strings.getRandomAlphaNumeric(-1);
       fail("Expecting an IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    for (int length = 0; length < 100; length++) {
-      final String random = Strings.getRandomAlphaNumericString(length);
-      assertEquals(random.length(), length);
+    for (int len = 0; len < 100; ++len) {
+      final String random = Strings.getRandomAlphaNumeric(len);
+      assertEquals(random.length(), len);
       assertTrue(random, random.matches("^[0-9a-zA-Z]*$"));
+    }
+  }
+
+  @Test
+  public void testGetRandomNumericString() {
+    try {
+      Strings.getRandomNumeric(-1);
+      fail("Expecting an IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    for (int len = 0; len < 100; ++len) {
+      final String random = Strings.getRandomNumeric(len);
+      assertEquals(random.length(), len);
+      assertTrue(random, random.matches("^[0-9]*$"));
     }
   }
 
