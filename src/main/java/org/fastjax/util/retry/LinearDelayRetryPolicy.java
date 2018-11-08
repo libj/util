@@ -16,18 +16,34 @@
 
 package org.fastjax.util.retry;
 
+/**
+ * A {@link RetryPolicy} that defines a maximum number of retries, and a
+ * constant delay for retry attempts.
+ */
 public class LinearDelayRetryPolicy extends RetryPolicy {
   private static final long serialVersionUID = -6090799745376513743L;
 
   private final int delayMs;
   private final boolean noDelayOnFirstRetry;
 
-  public LinearDelayRetryPolicy(final int delayMs, final int maxRetries, final boolean noDelayOnFirstRetry) {
+  /**
+   * Creates a new {@code LinearDelayRetryPolicy} with the specified maximum
+   * number of retries, and a constant delay for retry attempts.
+   *
+   * @param maxRetries A positive value representing the number of retry
+   *          attempts allowed by the {@code LinearDelayRetryPolicy}.
+   * @param delayMs A positive value representing the constant delay between
+   *          retry attempts, in milliseconds.
+   * @param noDelayOnFirstRetry {@code true} for the first retry to be attempted
+   *          immediately, otherwise {@code false} for the first retry to be
+   *          attempted after {@code delayMs}.
+   */
+  public LinearDelayRetryPolicy(final int maxRetries, final int delayMs, final boolean noDelayOnFirstRetry) {
     super(maxRetries);
     this.noDelayOnFirstRetry = noDelayOnFirstRetry;
     this.delayMs = delayMs;
     if (delayMs <= 0)
-      throw new IllegalArgumentException("delayMs must be positive");
+      throw new IllegalArgumentException("delayMs (" + delayMs + ") must be a positive value");
   }
 
   @Override

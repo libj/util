@@ -16,22 +16,43 @@
 
 package org.fastjax.util.retry;
 
+/**
+ * Thrown to indicate the ultimate failure of retried invocation(s) by a
+ * {@link RetryPolicy}.
+ *
+ * @see RetryPolicy#run(Retryable)
+ */
 public class RetryFailureException extends Exception {
   private static final long serialVersionUID = 4067260656337660435L;
 
   private final int attemptNo;
   private final int delayMs;
 
+  /**
+   * Constructs a {@code RetryFailureException} with the specified exception
+   * that was the cause of this exception.
+   *
+   * @param cause The exception that was the cause of this exception.
+   * @param attemptNo The attempt number on which the exception was thrown.
+   * @param attemptNo The delay (in milliseconds) from the previous
+   *          invocation attempt.
+   */
   public RetryFailureException(final Throwable cause, final int attemptNo, final int delayMs) {
     super(cause);
     this.attemptNo = attemptNo;
     this.delayMs = delayMs;
   }
 
+  /**
+   * @return The attempt number on which the exception was thrown.
+   */
   public int getAttemptNo() {
     return this.attemptNo;
   }
 
+  /**
+   * @return The delay (in milliseconds) from the previous invocation attempt.
+   */
   public int getDelayMs() {
     return this.delayMs;
   }

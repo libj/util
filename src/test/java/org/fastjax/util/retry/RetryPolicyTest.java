@@ -29,7 +29,7 @@ public class RetryPolicyTest {
   public void testWithPolicy() throws RetryFailureException {
     final boolean[] called = new boolean[1];
 
-    assertEquals("PASS", new RetryPolicy(-1) {
+    assertEquals("PASS", new RetryPolicy(1000) {
       private static final long serialVersionUID = 811448140777577622L;
 
       @Override
@@ -56,16 +56,16 @@ public class RetryPolicyTest {
     final int delayMs = 100;
 
     final int[] delays = new int[attempts];
-    for (int i = 1; i < attempts; i++)
+    for (int i = 1; i < attempts; ++i)
       delays[i] = delayMs;
 
     final int[] index = new int[] {0};
     final long[] timings = new long[attempts];
     timings[0] = System.currentTimeMillis();
-    for (int i = 0; i < attempts - 1; i++)
+    for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new LinearDelayRetryPolicy(delayMs, attempts, true).run(new Retryable<String>() {
+    assertEquals("PASS", new LinearDelayRetryPolicy(attempts, delayMs, true).run(new Retryable<String>() {
       @Override
       public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
         if (index[0] < attempts) {
@@ -91,17 +91,17 @@ public class RetryPolicyTest {
 
     final int[] delays = new int[attempts];
     delays[0] = startDelay;
-    for (int i = 0; i < attempts - 1; i++)
+    for (int i = 0; i < attempts - 1; ++i)
       delays[i + 1] = (int)Math.min(delays[i] * factor, maxDelay);
 
     delays[0] = 0;
     final int[] index = new int[] {0};
     final long[] timings = new long[attempts];
     timings[0] = System.currentTimeMillis();
-    for (int i = 0; i < attempts - 1; i++)
+    for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new ExponentialBackoffRetryPolicy(startDelay, factor, maxDelay, attempts, true).run(new Retryable<String>() {
+    assertEquals("PASS", new ExponentialBackoffRetryPolicy(attempts, startDelay, factor, maxDelay, true).run(new Retryable<String>() {
       @Override
       public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
         if (index[0] < attempts) {
