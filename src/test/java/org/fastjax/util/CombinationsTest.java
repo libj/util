@@ -16,20 +16,47 @@
 
 package org.fastjax.util;
 
-import java.util.Arrays;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CombinationsTest {
-  private static final Logger logger = LoggerFactory.getLogger(CombinationsTest.class);
-
   @Test
   public void test() {
-    final String[][] in = new String[][] {{"km", "m", "ft"}, {"sec", "min", "hr"}, {"kg", "lb"}};
-    final String[][] out = Combinations.<String>combine(in);
-    for (final String[] combination : out)
-      logger.info(Arrays.toString(combination));
+    try {
+      Combinations.combine(null);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    final String[][] test = new String[][] {
+      {"km", "m", "ft"},
+      {"sec", "min", "hr"},
+      {"kg", "lb"}
+    };
+
+    final String[][] expected = new String[][] {
+      {"m", "sec", "kg"},
+      {"ft", "sec", "kg"},
+      {"km", "min", "kg"},
+      {"m", "min", "kg"},
+      {"ft", "min", "kg"},
+      {"km", "hr", "kg"},
+      {"m", "hr", "kg"},
+      {"ft", "hr", "kg"},
+      {"km", "sec", "lb"},
+      {"m", "sec", "lb"},
+      {"ft", "sec", "lb"},
+      {"km", "min", "lb"},
+      {"m", "min", "lb"},
+      {"ft", "min", "lb"},
+      {"km", "hr", "lb"},
+      {"m", "hr", "lb"},
+      {"ft", "hr", "lb"},
+      {"km", "sec", "kg"}
+    };
+
+    assertArrayEquals(expected, Combinations.<String>combine(test));
   }
 }
