@@ -609,6 +609,6 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
    */
   @Override
   public String toString() {
-    return "[" + org.fastjax.util.FastArrays.toString(valueData, ", ", 0, size) + "]";
+    return "[" + FastArrays.toString(valueData, ", ", 0, size) + "]";
   }
 }

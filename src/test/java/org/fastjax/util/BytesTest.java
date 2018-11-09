@@ -56,8 +56,6 @@ public class BytesTest {
     assertEquals(-1, Bytes.indexOf(bytes, 7, (byte)8));
 
     assertEquals(0, Bytes.indexOf(bytes, new byte[] {1, 2, 3}));
-    System.out.println(Arrays.toString(bytes));
-    assertEquals(2, Bytes.indexOf(bytes, new byte[] {0, 4, 5}, new byte[] {3, 4, 5}));
     assertEquals(4, Bytes.indexOf(bytes, new byte[] {5, 6, 7}));
     assertEquals(-1, Bytes.indexOf(bytes, new byte[] {6, 7, 8}));
 

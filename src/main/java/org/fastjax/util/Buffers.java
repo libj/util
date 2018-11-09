@@ -271,47 +271,78 @@ public final class Buffers {
     'u', 'v', 'w', 'x', 'y', 'z'
   };
 
-  private static String toUnsignedString(long val, final int size) {
-    final byte[] buf = new byte[size];
-    int pos = size;
+  private static void toUnsignedString(long val, final byte[] buf, final int index, final int size) {
+    final int offset = index * size;
+    int pos = size + offset;
     do {
       buf[--pos] = (byte)digits[((int)val) & 1];
       val >>>= 1;
     }
-    while (pos > 0);
-    return new String(buf);
+    while (pos > offset);
   }
 
+  /**
+   * Returns a string representing the big-endian binary representation of the
+   * specified byte values.
+   *
+   * @param buf The byte values.
+   * @return A string representing the big-endian binary representation of the
+   *         specified byte values.
+   */
   public static String toString(final byte ... buf) {
-    final StringBuilder builder = new StringBuilder(buf.length * Byte.SIZE);
+    final byte[] bytes = new byte[buf.length * Byte.SIZE];
     for (int i = 0; i < buf.length; ++i)
-      builder.append(toUnsignedString(buf[i], Byte.SIZE));
+      toUnsignedString(buf[i], bytes, i, Byte.SIZE);
 
-    return builder.toString();
+    return new String(bytes);
   }
 
+  /**
+   * Returns a string representing the big-endian binary representation of the
+   * specified short values.
+   *
+   * @param buf The short values.
+   * @return A string representing the big-endian binary representation of the
+   *         specified short values.
+   */
   public static String toString(final short ... buf) {
-    final StringBuilder builder = new StringBuilder(buf.length * Short.SIZE);
+    final byte[] bytes = new byte[buf.length * Short.SIZE];
     for (int i = 0; i < buf.length; ++i)
-      builder.append(toUnsignedString(buf[i], Short.SIZE));
+      toUnsignedString(buf[i], bytes, i, Short.SIZE);
 
-    return builder.toString();
+    return new String(bytes);
   }
 
+  /**
+   * Returns a string representing the big-endian binary representation of the
+   * specified int values.
+   *
+   * @param buf The int values.
+   * @return A string representing the big-endian binary representation of the
+   *         specified int values.
+   */
   public static String toString(final int ... buf) {
-    final StringBuilder builder = new StringBuilder(buf.length * Integer.SIZE);
+    final byte[] bytes = new byte[buf.length * Integer.SIZE];
     for (int i = 0; i < buf.length; ++i)
-      builder.append(toUnsignedString(buf[i], Integer.SIZE));
+      toUnsignedString(buf[i], bytes, i, Integer.SIZE);
 
-    return builder.toString();
+    return new String(bytes);
   }
 
+  /**
+   * Returns a string representing the big-endian binary representation of the
+   * specified long values.
+   *
+   * @param buf The long values.
+   * @return A string representing the big-endian binary representation of the
+   *         specified long values.
+   */
   public static String toString(final long ... buf) {
-    final StringBuilder builder = new StringBuilder(buf.length * Long.SIZE);
+    final byte[] bytes = new byte[buf.length * Long.SIZE];
     for (int i = 0; i < buf.length; ++i)
-      builder.append(toUnsignedString(buf[i], Long.SIZE));
+      toUnsignedString(buf[i], bytes, i, Long.SIZE);
 
-    return builder.toString();
+    return new String(bytes);
   }
 
   private Buffers() {

@@ -609,6 +609,6 @@ public class ArrayIntList implements Cloneable, IntList, RandomAccess, Serializa
    */
   @Override
   public String toString() {
-    return "[" + org.fastjax.util.FastArrays.toString(valueData, ", ", 0, size) + "]";
+    return "[" + FastArrays.toString(valueData, ", ", 0, size) + "]";
   }
 }

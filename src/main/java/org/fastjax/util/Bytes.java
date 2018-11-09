@@ -16,11 +16,6 @@
 
 package org.fastjax.util;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.DataOutput;
-
 /**
  * Utility functions for operations pertaining to {@code byte[]}.
  */
@@ -104,53 +99,6 @@ public final class Bytes {
     for (int index = -1; (index = indexOf(bytes, index + 1, target)) != -1; System.arraycopy(replacement, 0, bytes, index, replacement.length));
   }
 
-  public static int indexOf(final byte[] bytes, final byte[] ... pattern) {
-    return indexOf(bytes, 0, pattern);
-  }
-
-  public static int indexOf(final byte[] bytes, final int fromIndex, final byte[] ... pattern) {
-    if (fromIndex < 0)
-      throw new ArrayIndexOutOfBoundsException("fromIndex: " + fromIndex + " < 0");
-
-    if (bytes.length <= fromIndex)
-      throw new ArrayIndexOutOfBoundsException(bytes.length + " <= " + fromIndex);
-
-    final int[][] failure = computeFailure(pattern);
-    final int[] k = new int[pattern.length];
-    for (int i = fromIndex; i < bytes.length; ++i) {
-      for (int j = 0; j < pattern.length; ++j) {
-        while (k[j] > 0 && pattern[j][k[j]] != bytes[i])
-          k[j] = failure[j][k[j] - 1];
-
-        if (pattern[j][k[j]] == bytes[i])
-          k[j]++;
-
-        if (k[j] == pattern[j].length)
-          return i - pattern[j].length + 1;
-      }
-    }
-
-    return -1;
-  }
-
-  private static int[][] computeFailure(final byte[] ... pattern) {
-    final int[][] failure = new int[pattern.length][];
-    for (int i = 0, j = 0; i < pattern.length; ++i) {
-      failure[i] = new int[pattern[i].length];
-      for (int k = 1; k < pattern[i].length; ++k) {
-        while (j > 0 && pattern[i][j] != pattern[i][k])
-          j = failure[i][j - 1];
-
-        if (pattern[i][j] == pattern[i][k])
-          j++;
-
-        failure[i][k] = j;
-      }
-    }
-
-    return failure;
-  }
-
   /**
    * Create a byte array representation of a short value with big- or little-
    * endian encoding.
@@ -181,28 +129,6 @@ public final class Bytes {
     }
   }
 
-  public static void toBytes(final short data, final OutputStream out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-    }
-  }
-
-  public static void toBytes(final short data, final DataOutput out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-    }
-  }
-
   /**
    * Create a byte array representation of a char value with big- or little-
    * endian encoding.
@@ -230,28 +156,6 @@ public final class Bytes {
     else {
       bytes[offset++] = (byte)(c & 0xff);
       bytes[offset] = (byte)((c >> 8) & 0xff);
-    }
-  }
-
-  public static void toBytes(final char data, final OutputStream out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-    }
-  }
-
-  public static void toBytes(final char data, final DataOutput out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
     }
   }
 
@@ -301,36 +205,6 @@ public final class Bytes {
         return;
 
       bytes[offset] = (byte)((i >> 24) & 0xff);
-    }
-  }
-
-  public static void toBytes(final int data, final OutputStream out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 24) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 24) & 0xff));
-    }
-  }
-
-  public static void toBytes(final int data, final DataOutput out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 24) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 24) & 0xff));
     }
   }
 
@@ -413,79 +287,6 @@ public final class Bytes {
 
       bytes[offset++] = (byte)((l >> 56) & 0xff);
     }
-  }
-
-  public static void toBytes(final long data, final OutputStream out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 56) & 0xff));
-      out.write((byte)((data >> 48) & 0xff));
-      out.write((byte)((data >> 40) & 0xff));
-      out.write((byte)((data >> 32) & 0xff));
-      out.write((byte)((data >> 24) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 24) & 0xff));
-      out.write((byte)((data >> 32) & 0xff));
-      out.write((byte)((data >> 40) & 0xff));
-      out.write((byte)((data >> 48) & 0xff));
-      out.write((byte)((data >> 56) & 0xff));
-    }
-  }
-
-  public static void toBytes(final long data, final DataOutput out, final boolean isBigEndian) throws IOException {
-    if (isBigEndian) {
-      out.write((byte)((data >> 56) & 0xff));
-      out.write((byte)((data >> 48) & 0xff));
-      out.write((byte)((data >> 40) & 0xff));
-      out.write((byte)((data >> 32) & 0xff));
-      out.write((byte)((data >> 24) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)(data & 0xff));
-    }
-    else {
-      out.write((byte)(data & 0xff));
-      out.write((byte)((data >> 8) & 0xff));
-      out.write((byte)((data >> 16) & 0xff));
-      out.write((byte)((data >> 24) & 0xff));
-      out.write((byte)((data >> 32) & 0xff));
-      out.write((byte)((data >> 40) & 0xff));
-      out.write((byte)((data >> 48) & 0xff));
-      out.write((byte)((data >> 56) & 0xff));
-    }
-  }
-
-  public static void toBytes(final int byteLength, final long value, final byte[] bytes, final int offset, final boolean isBigEndian) {
-    if (byteLength == Short.SIZE / 8)
-      toBytes((short)value, bytes, offset, isBigEndian);
-    else if (byteLength == Integer.SIZE / 8)
-      toBytes((int)value, bytes, offset, isBigEndian);
-    else if (byteLength == Long.SIZE / 8)
-      toBytes(value, bytes, offset, isBigEndian);
-  }
-
-  public static void toBytes(final int byteLength, final long value, final OutputStream out, final boolean isBigEndian) throws IOException {
-    if (byteLength == Short.SIZE / 8)
-      toBytes((short)value, out, isBigEndian);
-    else if (byteLength == Integer.SIZE / 8)
-      toBytes((int)value, out, isBigEndian);
-    else if (byteLength == Long.SIZE / 8)
-      toBytes(value, out, isBigEndian);
-  }
-
-  public static void toBytes(final int byteLength, final long value, final DataOutput out, final boolean isBigEndian) throws IOException {
-    if (byteLength == Short.SIZE / 8)
-      toBytes((short)value, out, isBigEndian);
-    else if (byteLength == Integer.SIZE / 8)
-      toBytes((int)value, out, isBigEndian);
-    else if (byteLength == Long.SIZE / 8)
-      toBytes(value, out, isBigEndian);
   }
 
   /**
@@ -697,53 +498,14 @@ public final class Bytes {
     return value;
   }
 
-  public static long toArbitraryType(final int byteLength, final byte[] bytes, final int offset, final boolean isBigEndian) {
-    return toArbitraryType(byteLength, bytes, offset, isBigEndian, true);
-  }
-
-  public static long toArbitraryType(final int byteLength, final byte[] bytes, final int offset, final boolean isBigEndian, final boolean signed) {
-    if (byteLength == java.lang.Byte.SIZE / 8)
-      return bytes[offset];
-
-    if (byteLength == Short.SIZE / 8)
-      return toShort(bytes, offset, isBigEndian, signed);
-
-    if (byteLength == Integer.SIZE / 8)
-      return toInt(bytes, offset, isBigEndian, signed);
-
-    if (byteLength == Long.SIZE / 8) {
-      if (signed)
-        return toLong(bytes, offset, isBigEndian);
-
-      throw new UnsupportedOperationException("Unsigned long is not currently supported");
-    }
-
-    throw new UnsupportedOperationException(byteLength + " is not supported");
-  }
-
   /**
-   * Print the binary representation of bytes to a {@link PrintStream}.
+   * Returns a {@code short} representing the base-8 value of the specified
+   * {@code byte}.
    *
-   * @param ps The target {@link PrintStream}.
-   * @param bytes The bytes to print.
+   * @param b The {@code byte}.
+   * @return A {@code short} representing the base-8 value of the specified
+   *         {@code byte}.
    */
-  public static void println(final PrintStream ps, final byte ... bytes) {
-    for (int i = 0; i < bytes.length; ++i) {
-      if (i % 8 == 0) {
-        if (i != 0)
-          ps.println();
-
-        ps.print(String.format("%8s", Integer.toHexString(i)).replace(' ', '0'));
-        ps.print(':');
-      }
-
-      ps.print(' ');
-      ps.print(Integer.toBinaryString(bytes[i] & 255 | 256).substring(1));
-    }
-
-    ps.println();
-  }
-
   public static short toOctal(byte b) {
     short value = 0;
     for (int i = 0; b != 0; ++i) {
@@ -755,6 +517,14 @@ public final class Bytes {
     return value;
   }
 
+  /**
+   * Returns a {@code short} array representing the base-8 values of the
+   * specified {@code byte} array.
+   *
+   * @param b The {@code byte}.
+   * @return A {@code short} array representing the base-8 values of the
+   *         specified {@code byte} array.
+   */
   public static short[] toOctal(final byte ... bytes) {
     final short[] octal = new short[bytes.length];
     for (int i = 0; i < bytes.length; ++i)
@@ -944,9 +714,7 @@ public final class Bytes {
    */
   public static byte[] readBitsFromBytes(final byte[] src, int offset, final long bits) {
     if (bits <= 8)
-      return new byte[] {
-        readBitsFromByte(src, offset, (byte)bits)
-      };
+      return new byte[] {readBitsFromByte(src, offset, (byte)bits)};
 
     final byte[] dest = new byte[(int)(1 + (bits - 1) / 8)];
     final byte remainder = (byte)(1 + (bits - 1) % 8);

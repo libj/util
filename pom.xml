@@ -35,6 +35,11 @@
   </properties>
   <dependencies>
     <dependency>
+      <groupId>diff_match_patch</groupId>
+      <artifactId>diff_match_patch</artifactId>
+      <version>current</version>
+    </dependency>
+    <dependency>
       <groupId>org.fastjax</groupId>
       <artifactId>lang</artifactId>
       <version>0.7.3-SNAPSHOT</version>
@@ -44,11 +49,6 @@
       <artifactId>test</artifactId>
       <version>0.6.9-SNAPSHOT</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>diff_match_patch</groupId>
-      <artifactId>diff_match_patch</artifactId>
-      <version>current</version>
     </dependency>
   </dependencies>
   <repositories>
