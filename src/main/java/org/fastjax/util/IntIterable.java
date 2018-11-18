@@ -16,6 +16,10 @@
 
 package org.fastjax.util;
 
+/**
+ * Interface that defines the {@link #iterator()} method for
+ * {@link IntIterator}.
+ */
 public interface IntIterable {
   /**
    * Returns an iterator over values of type {@code IntIterator}.

@@ -18,6 +18,11 @@ package org.fastjax.util;
 
 import java.util.NoSuchElementException;
 
+/**
+ * A replica of the {@link java.util.ListIterator} interface that defines
+ * synonymous methods for the iteration over {@code int} values instead of
+ * Object references.
+ */
 public interface IntListIterator extends IntIterator {
   /**
    * Returns {@code true} if this list iterator has more values when

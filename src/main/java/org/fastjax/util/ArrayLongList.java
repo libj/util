@@ -17,7 +17,6 @@
 package org.fastjax.util;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -25,7 +24,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.function.LongConsumer;
+import java.util.stream.LongStream;
 
 /**
  * An unsynchronized implementation of a resizable-array of long values.
@@ -55,24 +56,21 @@ import java.util.function.LongConsumer;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class ArrayLongList implements Cloneable, LongList, RandomAccess, Serializable {
+public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneable, LongList, RandomAccess, Serializable {
   private static final long serialVersionUID = 3156088399075272505L;
-  private static final int DEFAULT_INITIAL_CAPACITY = 5;
-  private static final long[] EMPTY_ELEMENTDATA = {};
 
-  protected long[] valueData;
-  protected int size;
-  protected transient int modCount = 0;
+  private static final long[] EMPTY_VALUEDATA = {};
 
   /**
-   * Constructs an empty list with an initial capacity of five.
+   * Creates an empty list with an initial capacity of five.
    */
   public ArrayLongList() {
     valueData = new long[DEFAULT_INITIAL_CAPACITY];
+    fromIndex = 0;
   }
 
   /**
-   * Constructs an empty list with the specified initial capacity.
+   * Creates an empty list with the specified initial capacity.
    *
    * @param initialCapacity The initial capacity of the list.
    * @throws IllegalArgumentException If the specified initial capacity is
@@ -82,11 +80,12 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
     if (initialCapacity < 0)
       throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
 
-    valueData = initialCapacity == 0 ? EMPTY_ELEMENTDATA : new long[initialCapacity];
+    fromIndex = 0;
+    valueData = initialCapacity == 0 ? EMPTY_VALUEDATA : new long[initialCapacity];
   }
 
   /**
-   * Constructs a list containing the values of the specified array.
+   * Creates a list containing the values of the specified array.
    *
    * @param values The array whose values are to be placed into this list.
    * @param offset The index of the first value to add.
@@ -94,13 +93,14 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
    * @throws NullPointerException If the specified array is null.
    */
   public ArrayLongList(final long[] values, final int offset, final int length) {
+    fromIndex = 0;
     valueData = new long[length];
     System.arraycopy(values, offset, valueData, 0, length);
     size = length;
   }
 
   /**
-   * Constructs a list containing the values of the specified array.
+   * Creates a list containing the values of the specified array.
    *
    * @param values The array whose values are to be placed into this list.
    * @throws NullPointerException If the specified array is null.
@@ -110,67 +110,156 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
   }
 
   /**
-   * Constructs a list containing the values of the specified collection, in the
+   * Creates a list containing the values of the specified collection, in the
    * order they are returned by the collection's iterator.
    *
    * @param c The collection whose values are to be placed into this list.
    * @throws NullPointerException If the specified collection is null.
    */
   public ArrayLongList(final Collection<Long> c) {
+    fromIndex = 0;
     valueData = new long[c.size()];
-    for (final Iterator<Long> iterator = c.iterator(); iterator.hasNext();)
-      valueData[size++] = iterator.next();
+    for (final Iterator<Long> i = c.iterator(); i.hasNext();)
+      valueData[size++] = i.next();
   }
 
   /**
-   * Shifts the values in {@code valueData} right a distance of {@code length}
-   * starting from {@code index}.
+   * Creates a sub-list, and integrates it into the specified parent list's
+   * sub-list graph. A sub-list instance shares the parent list's
+   * {@link #valueData}, and modifications made to any list in the graph of
+   * sub-lists are propagated with the
+   * {@link AbstractArrayList#updateState(int,int)} method.
    *
-   * @param index Index from which to shift the values.
-   * @param length Distance to shift the values by.
+   * @param parent The parent list.
+   * @param fromIndex Low endpoint (inclusive) of the subList.
+   * @param toIndex High endpoint (exclusive) of the subList.
+   * @throws NullPointerException If the specified parent list is null.
    */
-  private void shiftRight(final int index, final int length) {
-    ensureCapacity(size + length);
-    for (int i = size - 1; i >= index; --i)
-      valueData[i + length] = valueData[i];
+  private ArrayLongList(final ArrayLongList parent, final int fromIndex, final int toIndex) {
+    super(parent, fromIndex, toIndex);
   }
 
   /**
-   * Shifts the values in {@code valueData} left a distance of {@code length}
+   * Shifts the values in {@code valueData} right a distance of {@code dist}
    * starting from {@code index}.
    *
-   * @param index Index from which to shift the values.
-   * @param length Distance to shift the values by.
+   * @param start Index from which to shift the values to the right.
+   * @param dist Distance to shift the values by.
    */
-  private void shiftLeft(final int index, final int length) {
-    for (int i = index; i < size - 1; ++i)
-      valueData[i] = valueData[i + length];
+  private void shiftRight(final int start, final int dist) {
+    final int end = size + dist;
+    ensureCapacity(end);
+    for (int i = end - 1; i >= start + dist; --i)
+      valueData[i] = valueData[i - dist];
+  }
+
+  /**
+   * Shifts the values in {@code valueData} left a distance of {@code dist}
+   * starting from {@code index}.
+   *
+   * @param start Index from which to shift the values to the left.
+   * @param dist Distance to shift the values by.
+   */
+  private void shiftLeft(final int start, final int dist) {
+    final int end = size - dist;
+    for (int i = start; i < end; ++i)
+      valueData[i] = valueData[i + dist];
   }
 
   @Override
   public long get(final int index) {
-    if (index < 0 || size <= index)
-      throw new ArrayIndexOutOfBoundsException(index);
+    if (index < 0 || size() <= index)
+      throw new IndexOutOfBoundsException(index);
 
-    return valueData[index];
+    return valueData[fromIndex + index];
   }
 
   @Override
-  public void add(final long value) {
-    ++modCount;
-    ensureCapacity(size + 1);
-    valueData[size++] = value;
-  }
-
-  @Override
-  public void add(final int index, final long value) {
-    if (index < 0 || size < index)
-      throw new ArrayIndexOutOfBoundsException(index);
-
-    ++modCount;
+  public boolean add(final long value) {
+    final int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, 1);
-    valueData[index] = value;
-    ++size;
+    valueData[updateState(index, 1)] = value;
+    return true;
+  }
+
+  @Override
+  public boolean add(int index, final long value) {
+    if (index < 0 || size() < index)
+      throw new IndexOutOfBoundsException(index);
+
+    index += fromIndex;
+    shiftRight(index, 1);
+    valueData[updateState(index, 1)] = value;
+    return true;
+  }
+
+  /**
+   * Appends all of the values in the specified list to the end of this list, in
+   * the order that they are returned by the specified list's Iterator. The
+   * behavior of this operation is undefined if the specified list is modified
+   * while the operation is in progress. (This implies that the behavior of this
+   * call is undefined if the specified list is this list, and this list is
+   * nonempty.)
+   *
+   * @param list List containing values to be added to this list.
+   * @throws NullPointerException If the specified list is null.
+   */
+  public boolean addAll(final ArrayLongList list) {
+    return addAll(list.valueData, list.fromIndex, list.toIndex > -1 ? list.toIndex : list.size);
+  }
+
+  /**
+   * Appends all of the values in the specified list to the end of this list, in
+   * the order that they are returned by the specified list's Iterator. The
+   * behavior of this operation is undefined if the specified list is modified
+   * while the operation is in progress. (This implies that the behavior of this
+   * call is undefined if the specified list is this list, and this list is
+   * nonempty.)
+   *
+   * @param list List containing values to be added to this list.
+   * @param offset The index of the first value to add.
+   * @param length The number of values to add.
+   * @throws NullPointerException If the specified list is null.
+   */
+  public boolean addAll(final ArrayLongList list, final int offset, final int length) {
+    return addAll(list.valueData, offset + list.fromIndex, length);
+  }
+
+  /**
+   * Appends all of the values in the specified array to the end of this list,
+   * in the order that they appear in the array.
+   *
+   * @param values Array containing values to be added to this list.
+   * @param offset The index of the first value to add.
+   * @param length The number of values to add.
+   * @return {@code true} if this list changed as a result of the call.
+   * @throws IndexOutOfBoundsException If the offset or length are out of range
+   *           ({@code offset < 0 || values.length < offset + length}).
+   * @throws NullPointerException If the specified array is null.
+   */
+  @Override
+  public boolean addAll(final long[] values, final int offset, final int length) {
+    if (values.length == 0)
+      return false;
+
+    final int index = toIndex > -1 ? toIndex : size;
+    shiftRight(index, length);
+    System.arraycopy(values, offset, valueData, index, length);
+    updateState(index, length);
+    return true;
+  }
+
+  /**
+   * Appends all of the values in the specified array to the end of this list,
+   * in the order that they appear in the array.
+   *
+   * @param values Array containing values to be added to this list.
+   * @return {@code true} if this list changed as a result of the call.
+   * @throws NullPointerException If the specified array is null.
+   */
+  @Override
+  public boolean addAll(final long[] values) {
+    return addAll(values, 0, values.length);
   }
 
   /**
@@ -189,8 +278,8 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
-  public void addAll(final int index, final ArrayLongList list, final int offset, final int length) {
-    addAll(index, list.valueData, offset, length);
+  public boolean addAll(final int index, final ArrayLongList list, final int offset, final int length) {
+    return addAll(index, list.valueData, offset + list.fromIndex, length);
   }
 
   /**
@@ -207,147 +296,170 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
-  public void addAll(final int index, final ArrayLongList list) {
-    addAll(index, list.valueData, 0, list.size);
-  }
-
-  /**
-   * Appends all of the values in the specified list to the end of this list, in
-   * the order that they are returned by the specified list's Iterator. The
-   * behavior of this operation is undefined if the specified list is modified
-   * while the operation is in progress. (This implies that the behavior of this
-   * call is undefined if the specified list is this list, and this list is
-   * nonempty.)
-   *
-   * @param list List containing values to be added to this list.
-   * @param offset The index of the first value to add.
-   * @param length The number of values to add.
-   * @throws NullPointerException If the specified list is null.
-   */
-  public void addAll(final ArrayLongList list, final int offset, final int length) {
-    addAll(size(), list.valueData, offset, length);
-  }
-
-  /**
-   * Appends all of the values in the specified list to the end of this list, in
-   * the order that they are returned by the specified list's Iterator. The
-   * behavior of this operation is undefined if the specified list is modified
-   * while the operation is in progress. (This implies that the behavior of this
-   * call is undefined if the specified list is this list, and this list is
-   * nonempty.)
-   *
-   * @param list List containing values to be added to this list.
-   * @throws NullPointerException If the specified list is null.
-   */
-  public void addAll(final ArrayLongList list) {
-    addAll(size(), list.valueData, 0, list.size);
+  public boolean addAll(final int index, final ArrayLongList list) {
+    return addAll(index, list.valueData, list.fromIndex, list.toIndex > -1 ? list.toIndex : list.size);
   }
 
   @Override
-  public void addAll(final int index, final long[] values, final int offset, final int length) {
-    ++modCount;
+  public boolean addAll(int index, final long[] values, final int offset, final int length) {
+    if (values.length == 0)
+      return false;
+
+    index += fromIndex;
     shiftRight(index, length);
     System.arraycopy(values, offset, valueData, index, length);
-    size += length;
+    updateState(index, length);
+    return true;
   }
 
   @Override
-  public void addAll(final int index, final Collection<Long> c) {
-    ++modCount;
-    shiftRight(index, c.size());
-    for (final Iterator<Long> iterator = c.iterator(); iterator.hasNext();)
-      valueData[size++] = iterator.next();
+  public boolean addAll(final Collection<Long> c) {
+    final int len = c.size();
+    if (len == 0)
+      return false;
+
+    int index = toIndex > -1 ? toIndex : size;
+    shiftRight(index, len);
+    for (final Iterator<Long> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+      valueData[index] = i.next();
+
+    return true;
   }
 
   @Override
-  public void addAll(final int index, LongCollection c) {
-    ++modCount;
-    shiftRight(index, c.size());
-    for (final LongIterator iterator = c.iterator(); iterator.hasNext();)
-      valueData[size++] = iterator.next();
+  public boolean addAll(final LongCollection c) {
+    final int len = c.size();
+    if (len == 0)
+      return false;
+
+    int index = toIndex > -1 ? toIndex : size;
+    shiftRight(index, len);
+    for (final LongIterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+      valueData[index] = i.next();
+
+    return true;
   }
 
   @Override
-  public long set(final int index, final long value) {
-    if (index < 0 || size <= index)
-      throw new ArrayIndexOutOfBoundsException(index);
+  public boolean addAll(int index, final Collection<Long> c) {
+    final int len = c.size();
+    if (len == 0)
+      return false;
 
-    ++modCount;
+    index += fromIndex;
+    shiftRight(index, len);
+    for (final Iterator<Long> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+      valueData[index] = i.next();
+
+    return true;
+  }
+
+  @Override
+  public boolean addAll(int index, final LongCollection c) {
+    final int len = c.size();
+    if (len == 0)
+      return false;
+
+    index += fromIndex;
+    shiftRight(index, len);
+    for (final LongIterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+      valueData[index] = i.next();
+
+    return true;
+  }
+
+  @Override
+  public long set(int index, final long value) {
+    if (index < 0 || size() <= index)
+      throw new IndexOutOfBoundsException(index);
+
+    index += fromIndex;
     final long oldValue = valueData[index];
     valueData[index] = value;
+    updateState(0, 0);
     return oldValue;
   }
 
   @Override
-  public long remove(final int index) {
-    if (index < 0 || size <= index)
-      throw new ArrayIndexOutOfBoundsException(index);
+  public long removeIndex(int index) {
+    if (index < 0 || size() <= index)
+      throw new IndexOutOfBoundsException(index);
 
-    ++modCount;
+    index += fromIndex;
     final long value = valueData[index];
     shiftLeft(index, 1);
-    --size;
+    updateState(index, -1);
     return value;
   }
 
   @Override
-  public void clear() {
-    ++modCount;
-    size = 0;
+  public boolean retainAll(final Collection<Long> c) {
+    final int beforeSize = size;
+    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
+      if (!c.contains(valueData[i])) {
+        shiftLeft(i, 1);
+        updateState(i, -1);
+      }
+    }
+
+    return beforeSize != size;
+  }
+
+  @Override
+  public boolean retainAll(final LongCollection c) {
+    final int beforeSize = size;
+    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
+      if (!c.contains(valueData[i])) {
+        shiftLeft(i, 1);
+        updateState(i, -1);
+      }
+    }
+
+    return beforeSize != size;
   }
 
   @Override
   public int indexOf(final long value) {
-    for (int i = 0; i < size; ++i)
+    final int len = toIndex > -1 ? toIndex : size;
+    for (int i = fromIndex; i < len; ++i)
       if (valueData[i] == value)
-        return i;
+        return i - fromIndex;
 
     return -1;
   }
 
   @Override
   public int lastIndexOf(final long value) {
-    for (int i = size - 1; i >= 0; --i)
+    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i)
       if (valueData[i] == value)
-        return i;
+        return i - fromIndex;
 
     return -1;
   }
 
   @Override
-  public int size() {
-    return size;
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return size == 0;
-  }
-
-  @Override
   public void sort() {
-    ++modCount;
-    java.util.Arrays.sort(valueData, 0, size);
+    updateState(0, 0);
+    Arrays.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size);
   }
 
   private class LongItr implements LongIterator {
-    int cursor;
+    int cursor = ArrayLongList.this.fromIndex;
     int lastRet = -1;
     int expectedModCount = modCount;
 
     @Override
     public boolean hasNext() {
-      return cursor != size;
+      return cursor != (toIndex > -1 ? toIndex : size);
     }
 
     @Override
     public long next() {
       checkForComodification();
       final int i = cursor;
-      if (i >= size)
+      if (i >= (toIndex > -1 ? toIndex : size))
         throw new NoSuchElementException();
 
-      final long[] valueData = ArrayLongList.this.valueData;
       if (i >= valueData.length)
         throw new ConcurrentModificationException();
 
@@ -362,12 +474,12 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
 
       checkForComodification();
       try {
-        ArrayLongList.this.remove(lastRet);
+        ArrayLongList.this.removeIndex(lastRet - fromIndex);
         cursor = lastRet;
         lastRet = -1;
         expectedModCount = modCount;
       }
-      catch (IndexOutOfBoundsException e) {
+      catch (final IndexOutOfBoundsException e) {
         throw new ConcurrentModificationException();
       }
     }
@@ -375,17 +487,15 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
     @Override
     public void forEachRemaining(final LongConsumer action) {
       Objects.requireNonNull(action);
-      final int size = ArrayLongList.this.size;
       int i = cursor;
-      if (i >= size)
+      if (i >= (toIndex > -1 ? toIndex : size))
         return;
 
-      final long[] es = valueData;
-      if (i >= es.length)
+      if (i >= valueData.length)
         throw new ConcurrentModificationException();
 
-      for (; i < size && modCount == expectedModCount; i++)
-        action.accept(es[i]);
+      for (; i < (toIndex > -1 ? toIndex : size) && modCount == expectedModCount; ++i)
+        action.accept(valueData[i]);
 
       cursor = i;
       lastRet = i - 1;
@@ -400,32 +510,31 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
 
   private class LongListItr extends LongItr implements LongListIterator {
     LongListItr(final int index) {
-      cursor = index;
+      cursor = index + fromIndex;
     }
 
     @Override
     public boolean hasPrevious() {
-      return cursor != 0;
+      return cursor != fromIndex;
     }
 
     @Override
     public int nextIndex() {
-      return cursor;
+      return cursor - fromIndex;
     }
 
     @Override
     public int previousIndex() {
-      return cursor - 1;
+      return cursor - fromIndex - 1;
     }
 
     @Override
     public long previous() {
       checkForComodification();
       final int i = cursor - 1;
-      if (i < 0)
+      if (i < fromIndex)
         throw new NoSuchElementException();
 
-      final long[] valueData = ArrayLongList.this.valueData;
       if (i >= valueData.length)
         throw new ConcurrentModificationException();
 
@@ -440,7 +549,7 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
 
       checkForComodification();
       try {
-        ArrayLongList.this.set(lastRet, value);
+        ArrayLongList.this.set(lastRet - fromIndex, value);
       }
       catch (final IndexOutOfBoundsException e) {
         throw new ConcurrentModificationException();
@@ -450,10 +559,9 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
     @Override
     public void add(final long value) {
       checkForComodification();
-
       try {
         final int i = cursor;
-        ArrayLongList.this.add(i, value);
+        ArrayLongList.this.add(i - fromIndex, value);
         cursor = i + 1;
         lastRet = -1;
         expectedModCount = modCount;
@@ -470,7 +578,7 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
 
       checkForComodification();
       try {
-        ArrayLongList.this.remove(lastRet);
+        ArrayLongList.this.removeIndex(lastRet - fromIndex);
         cursor = lastRet;
         lastRet = -1;
         expectedModCount = modCount;
@@ -492,27 +600,45 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
   }
 
   @Override
-  public long[] toArray(long[] a) {
-    if (a.length < size)
-      a = new long[size];
+  public ArrayLongList subList(final int fromIndex, final int toIndex) {
+    if (fromIndex < 0)
+      throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
 
-    System.arraycopy(valueData, 0, a, 0, size);
-    if (a.length > size)
-      a[size] = 0;
+    if (toIndex > size())
+      throw new IndexOutOfBoundsException("toIndex = " + toIndex);
+
+    if (fromIndex > toIndex)
+      throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
+
+    if (this.toIndex < 0)
+      this.toIndex = size;
+
+    return new ArrayLongList(this, fromIndex + this.fromIndex, toIndex + this.fromIndex);
+  }
+
+  @Override
+  public long[] toArray(long[] a) {
+    if (a.length < size())
+      a = new long[size()];
+
+    System.arraycopy(valueData, fromIndex, a, 0, size());
+    if (a.length > size())
+      a[size()] = 0;
 
     return a;
   }
 
   @Override
   public Long[] toArray(Long[] a) {
-    if (a.length < size)
-      a = (Long[])Array.newInstance(a.getClass().getComponentType(), size);
+    if (a.length < size())
+      a = new Long[size()];
 
-    for (int i = 0; i < size; ++i)
-      a[i] = Long.valueOf(valueData[i]);
+    final int len = toIndex > -1 ? toIndex : size;
+    for (int i = fromIndex; i < len; ++i)
+      a[i - fromIndex] = valueData[i];
 
-    if (a.length > size)
-      a[size] = null;
+    if (a.length > size())
+      a[size()] = null;
 
     return a;
   }
@@ -523,9 +649,10 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
    * of an {@code ArrayLongList} instance.
    */
   public void trimToSize() {
-    ++modCount;
-    if (size < valueData.length)
-      valueData = size == 0 ? EMPTY_ELEMENTDATA : Arrays.copyOf(valueData, size);
+    if (size < valueData.length) {
+      this.valueData = size == 0 ? EMPTY_VALUEDATA : Arrays.copyOf(valueData, size);
+      updateState(0, 0);
+    }
   }
 
   /**
@@ -537,12 +664,28 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
    */
   public void ensureCapacity(final int minCapacity) {
     if (minCapacity > valueData.length) {
-      ++modCount;
       final long[] oldData = valueData;
       final int newCapacity = Math.max((valueData.length * 3) / 2 + 1, minCapacity);
-      valueData = new long[newCapacity];
+      final long[] valueData = new long[newCapacity];
       System.arraycopy(oldData, 0, valueData, 0, size);
+      this.valueData = valueData;
+      updateState(0, 0);
     }
+  }
+
+  @Override
+  public Spliterator.OfLong spliterator() {
+    return Arrays.spliterator(valueData, fromIndex, toIndex > -1 ? toIndex : size);
+  }
+
+  @Override
+  public LongStream stream() {
+    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size);
+  }
+
+  @Override
+  public LongStream parallelStream() {
+    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size).parallel();
   }
 
   /**
@@ -554,9 +697,16 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
   protected ArrayLongList clone() {
     try {
       final ArrayLongList clone = (ArrayLongList)super.clone();
-      clone.size = size;
-      clone.valueData = new long[valueData.length];
-      System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
+      // Clones of SubList(s) retain the original valueData reference, because
+      // it is shared with the ArrayLongList from which they were created
+      if (toIndex < 0) {
+        clone.parent = null;
+        clone.sibling = null;
+        clone.child = null;
+        clone.valueData = new long[valueData.length];
+        System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
+      }
+
       return clone;
     }
     catch (final CloneNotSupportedException e) {
@@ -572,7 +722,8 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
   @Override
   public int hashCode() {
     int hashCode = 1;
-    for (int i = 0; i < size; ++i)
+    final int len = toIndex > -1 ? toIndex : size;
+    for (int i = fromIndex; i < len; ++i)
       hashCode = 31 * hashCode + Long.hashCode(valueData[i]);
 
     return hashCode;
@@ -595,7 +746,12 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
       return false;
 
     final ArrayLongList that = (ArrayLongList)obj;
-    return size == that.size && java.util.Arrays.equals(valueData, 0, size, that.valueData, 0, size);
+    if (size() != that.size())
+      return false;
+
+    final int len = toIndex > -1 ? toIndex : size;
+    final int thatLen = that.toIndex > -1 ? that.toIndex : that.size;
+    return Arrays.equals(valueData, fromIndex, len, that.valueData, that.fromIndex, thatLen);
   }
 
   /**
@@ -609,6 +765,6 @@ public class ArrayLongList implements Cloneable, LongList, RandomAccess, Seriali
    */
   @Override
   public String toString() {
-    return "[" + FastArrays.toString(valueData, ", ", 0, size) + "]";
+    return "[" + FastArrays.toString(valueData, ", ", fromIndex, size()) + "]";
   }
 }

@@ -19,6 +19,11 @@ package org.fastjax.util;
 import java.util.NoSuchElementException;
 import java.util.function.LongConsumer;
 
+/**
+ * A replica of the {@link java.util.Iterator} interface that defines synonymous
+ * methods for the iteration over {@code long} values instead of Object
+ * references.
+ */
 public interface LongIterator {
   /**
    * Returns {@code true} if the iteration has more values. (In other words,
