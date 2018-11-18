@@ -533,6 +533,244 @@ public final class Strings {
     return str.length() > length ? str.substring(0, length - 3) + "..." : str;
   }
 
+  private static void appendElVar(final Map<String,String> variables, final StringBuilder builder, final StringBuilder var) {
+    final String name = var.toString();
+    final String value = variables.get(name);
+    if (value != null)
+      builder.append(value);
+    else
+      builder.append('$').append('{').append(name).append('}');
+
+    var.setLength(0);
+  }
+
+  private static void appendElNoMatch(final StringBuilder builder, final StringBuilder var, final char close) {
+    builder.append('$').append('{');
+    if (var.length() > 0) {
+      builder.append(var.toString());
+      var.setLength(0);
+    }
+
+    if (close != '\0')
+      builder.append(close);
+  }
+
+  /**
+   * Dereferences all Expression Language-encoded names, such as
+   * <code>${foo}</code> or <code>${bar}</code>, in the specified string with
+   * values in the specified map.
+   * <p>
+   * Names encoded in Expression Language follow the same rules as <a href=
+   * "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">Java
+   * Identifiers</a>.
+   *
+   * @param s The string in which EL-encoded names are to be dereferenced.
+   * @param variables The map of name to value pairs.
+   * @return The specified string with EL-encoded names replaced with their
+   *         mapped values. If a name is missing from the specified map, or if a
+   *         name does not conform to the rules of <a href=
+   *         "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">Java
+   *         Identifiers</a>, or if the Expression Language encoding is
+   *         malformed, it will remain in the string as-is.
+   * @throws NullPointerException If {@code s} is null, or if {@code s} contains
+   *           an EL-encoded name and {@code variables} is null.
+   */
+  public static String derefEL(final String s, final Map<String,String> variables) {
+    if (s.length() < 4)
+      return s;
+
+    final StringBuilder builder = new StringBuilder();
+    final StringBuilder var = new StringBuilder();
+    boolean escape = false;
+    final int len = s.length();
+    for (int i = 0; i < len; ++i) {
+      char ch = s.charAt(i);
+      if (ch == '\\') {
+        if (var.length() > 0) {
+          builder.append('$').append('{').append(var.toString());
+          var.setLength(0);
+        }
+
+        if (!(escape = !escape))
+          builder.append(ch);
+      }
+      else if (!escape) {
+        if (ch == '$') {
+          if (var.length() > 0) {
+            appendElVar(variables, builder, var);
+          }
+
+          if (++i == len) {
+            builder.append('$');
+          }
+          else {
+            ch = s.charAt(i);
+            if (ch != '{') {
+              var.setLength(0);
+              builder.append('$');
+              if (ch != '\\')
+                builder.append(ch);
+            }
+            else if (++i == len) {
+              appendElNoMatch(builder, var, '\0');
+            }
+            else {
+              ch = s.charAt(i);
+              if ('a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_')
+                var.append(ch);
+              else
+                appendElNoMatch(builder, var, ch);
+            }
+          }
+        }
+        else if (var.length() > 0) {
+          if ('a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || '0' <= ch && ch <= '9' || ch == '_') {
+            var.append(ch);
+          }
+          else if (ch != '}') {
+            appendElNoMatch(builder, var, ch);
+          }
+          else {
+            appendElVar(variables, builder, var);
+            if (ch != '}')
+              builder.append(ch);
+          }
+        }
+        else {
+          builder.append(ch);
+        }
+      }
+      else {
+        if (var.length() > 0)
+          appendElVar(variables, builder, var);
+
+        builder.append(ch);
+        escape = false;
+      }
+    }
+
+    if (var.length() > 0)
+      appendElNoMatch(builder, var, '\0');
+
+    return builder.toString();
+  }
+
+  private static void appendEvVar(final Map<String,String> variables, final StringBuilder builder, final StringBuilder var) {
+    final String variable = variables.get(var.toString());
+    if (variable != null)
+      builder.append(variable);
+
+    var.setLength(0);
+  }
+
+  /**
+   * Dereferences all POSIX-compliant Environment Variable names, such as
+   * <code>$FOO</code> or <code>${BAR}</code>, in the specified string with
+   * values in the specified map.
+   * <p>
+   * Names encoded in POSIX format follow the rules defined in the POSIX
+   * standard on shells <a href=
+   * "http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_10_02">IEEE
+   * Std 1003.1-2017</a>.
+   *
+   * @param s The string in which POSIX-compliant names are to be dereferenced.
+   * @param variables The map of name to value pairs.
+   * @return The specified string with POSIX-compliant names replaced with their
+   *         mapped values. If a name is missing from the specified map, it will
+   *         remain in the string as-is.
+   * @throws ParseException If the encoding of the environment variable name is
+   *           malformed.
+   * @throws NullPointerException If {@code s} is null, or if {@code s} contains
+   *           an POSIX-compliant name and {@code variables} is null.
+   */
+  public static String derefEV(final String s, final Map<String,String> variables) throws ParseException {
+    if (s.length() < 2)
+      return s;
+
+    final StringBuilder builder = new StringBuilder();
+    final StringBuilder var = new StringBuilder();
+    boolean escape = false;
+    boolean bracket = false;
+    final int len = s.length();
+    for (int i = 0; i < len; i++) {
+      char ch = s.charAt(i);
+      if (ch == '\\') {
+        if (var.length() > 0)
+          appendEvVar(variables, builder, var);
+
+        if (!(escape = !escape))
+          builder.append(ch);
+      }
+      else if (!escape) {
+        if (ch == '$') {
+          if (var.length() > 0)
+            appendEvVar(variables, builder, var);
+
+          if (++i == len) {
+            builder.append('$');
+          }
+          else {
+            ch = s.charAt(i);
+            if (ch == '$')
+              throw new ParseException("$$: not supported", i);
+
+            if (ch == '{') {
+              bracket = true;
+              if (++i == len)
+                throw new ParseException("${: bad substitution", i);
+
+              ch = s.charAt(i);
+            }
+
+            if ('a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_') {
+              var.append(ch);
+            }
+            else if (!bracket) {
+              builder.append('$');
+              if (ch != '\\')
+                builder.append(ch);
+            }
+            else {
+              throw new ParseException("${" + ch + ": bad substitution", i);
+            }
+          }
+        }
+        else if (var.length() > 0) {
+          if ('a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || '0' <= ch && ch <= '9' || ch == '_') {
+            var.append(ch);
+          }
+          else if (bracket && ch != '}') {
+            throw new ParseException("${" + var + ch + ": bad substitution", i);
+          }
+          else {
+            appendEvVar(variables, builder, var);
+            if (!bracket || ch != '}')
+              builder.append(ch);
+          }
+        }
+        else {
+          builder.append(ch);
+        }
+      }
+      else {
+        if (var.length() > 0)
+          appendEvVar(variables, builder, var);
+
+        builder.append(ch);
+        escape = false;
+      }
+    }
+
+    if (var.length() > 0) {
+      if (bracket)
+        throw new ParseException("${" + var + ": bad substitution", len);
+
+      appendEvVar(variables, builder, var);
+    }
+
+    return builder.toString();
+  }
+
   private Strings() {
   }
 }

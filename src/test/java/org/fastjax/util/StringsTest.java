@@ -369,4 +369,154 @@ public class StringsTest {
     assertEquals("aa...", Strings.toTruncatedString("aaaaaa", 5));
     assertEquals("aaa...", Strings.toTruncatedString("aaaaaaa", 6));
   }
+
+  private static void assertEL(final Map<String,String> variables, final String test, final String match) {
+    assertEquals(match, Strings.derefEL(test, variables));
+  }
+
+  @Test
+  public void testDerefEL() {
+    final Map<String,String> variables = new HashMap<>();
+    variables.put("left", "LEFT");
+    variables.put("right", "RIGHT");
+    variables.put("middle", "MIDDLE");
+
+    try {
+      Strings.derefEL(null, variables);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    try {
+      Strings.derefEL("foo ${bar}", null);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    assertEL(null, "string with $A variable", "string with $A variable");
+    assertEL(variables, "this string has a token on the $right", "this string has a token on the $right");
+    assertEL(variables, "this string has a token on the ${right}", "this string has a token on the RIGHT");
+    assertEL(variables, "${left} token here", "LEFT token here");
+    assertEL(variables, "something in the ${middle} of this string", "something in the MIDDLE of this string");
+    assertEL(variables, "something in the ${left} ${middle} ${right} of this string", "something in the LEFT MIDDLE RIGHT of this string");
+    assertEL(variables, "something in the ${left}${middle}${right} of this string", "something in the LEFTMIDDLERIGHT of this string");
+
+    assertEL(variables, "$", "$");
+    assertEL(variables, "$$", "$$");
+    assertEL(variables, " ${} ", " ${} ");
+    assertEL(variables, "a ${} b", "a ${} b");
+    assertEL(variables, "a $\\{} b", "a ${} b");
+    assertEL(variables, "a $\\{left} b", "a ${left} b");
+    assertEL(variables, "a $\\$ b", "a $$ b");
+    assertEL(variables, "a $\\$\\$ b", "a $$$ b");
+    assertEL(variables, "$left} token here", "$left} token here");
+    assertEL(variables, "\\$${left}} token here", "$LEFT} token here");
+    assertEL(variables, "\\{${left}} token here", "{LEFT} token here");
+    assertEL(variables, "${left}\\ token here", "LEFT token here");
+    assertEL(variables, "${le ft} token here", "${le ft} token here");
+    assertEL(variables, "${left}\\\\ token here", "LEFT\\ token here");
+    assertEL(variables, "${left}\\} token here", "LEFT} token here");
+    assertEL(variables, "${left}\\T token here", "LEFTT token here");
+    assertEL(variables, "${left\\} token here", "${left} token here");
+    assertEL(variables, "${{left}} token here", "${{left}} token here");
+    assertEL(variables, "${left token here", "${left token here");
+    assertEL(variables, "this string has a token on the ${right", "this string has a token on the ${right");
+    assertEL(variables, "this string has a token on the ${", "this string has a token on the ${");
+  }
+
+  private static void assertEV(final Map<String,String> variables, final String test, final String match) throws ParseException {
+    assertEquals(match, Strings.derefEV(test, variables));
+  }
+
+  @Test
+  public void testDerefEV() throws ParseException {
+    final Map<String,String> variables = new HashMap<>();
+    variables.put("LEFT", "left");
+    variables.put("RIGHT", "right");
+    variables.put("MIDDLE", "middle");
+
+    try {
+      Strings.derefEV(null, variables);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    try {
+      Strings.derefEV("foo ${bar}", null);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    assertEV(variables, "this string has a token on the $RIGHT", "this string has a token on the right");
+    assertEV(variables, "this string has a token on the ${RIGHT}", "this string has a token on the right");
+    assertEV(variables, "$LEFT token here", "left token here");
+    assertEV(variables, "${LEFT} token here", "left token here");
+    assertEV(variables, "something in the $MIDDLE of this string", "something in the middle of this string");
+    assertEV(variables, "something in the ${MIDDLE} of this string", "something in the middle of this string");
+    assertEV(variables, "something in the $LEFT $MIDDLE $RIGHT of this string", "something in the left middle right of this string");
+    assertEV(variables, "something in the ${LEFT} ${MIDDLE} ${RIGHT} of this string", "something in the left middle right of this string");
+    assertEV(variables, "something in the ${LEFT}${MIDDLE}${RIGHT} of this string", "something in the leftmiddleright of this string");
+
+    assertEV(variables, "$", "$");
+    assertEV(variables, " $ ", " $ ");
+    assertEV(variables, "a $ b", "a $ b");
+    assertEV(variables, "a $\\$ b", "a $$ b");
+    assertEV(variables, "a $\\$\\$ b", "a $$$ b");
+    assertEV(variables, "$LEFT} token here", "left} token here");
+    assertEV(variables, "\\$$LEFT} token here", "$left} token here");
+    assertEV(variables, "\\{$LEFT} token here", "{left} token here");
+    assertEV(variables, "$LEFT\\ token here", "left token here");
+    assertEV(variables, "$LEFT\\\\ token here", "left\\ token here");
+    assertEV(variables, "$LEFT\\} token here", "left} token here");
+    assertEV(variables, "$LEFT\\T token here", "leftT token here");
+
+    try {
+      assertEV(variables, "${LEFT token here", "left token here");
+      fail("Expected a ParseException");
+    }
+    catch (final ParseException e) {
+      if (!"${LEFT : bad substitution".equals(e.getMessage()))
+        throw e;
+    }
+
+    try {
+      assertEV(variables, "this string has a token on the ${RIGHT", "left token here");
+      fail("Expected a ParseException");
+    }
+    catch (final ParseException e) {
+      if (!"${RIGHT: bad substitution".equals(e.getMessage()))
+        throw e;
+    }
+
+    try {
+      assertEV(variables, "this string has a token on the ${", "left token here");
+      fail("Expected a ParseException");
+    }
+    catch (final ParseException e) {
+      if (!"${: bad substitution".equals(e.getMessage()))
+        throw e;
+    }
+
+    try {
+      assertEV(variables, "${{LEFT}} token here", "left token here");
+      fail("Expected a ParseException");
+    }
+    catch (final ParseException e) {
+      if (!"${{: bad substitution".equals(e.getMessage()))
+        throw e;
+    }
+
+    try {
+      Strings.derefEV("expect an $$ here", variables);
+      fail("Expected a ParseException");
+    }
+    catch (final ParseException e) {
+      if (!"$$: not supported".equals(e.getMessage()))
+        throw e;
+    }
+  }
 }
