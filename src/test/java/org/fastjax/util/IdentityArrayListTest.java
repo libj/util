@@ -19,25 +19,34 @@ package org.fastjax.util;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
 public class IdentityArrayListTest {
   @Test
   public void test() {
-    final ArrayList<String> regularSet = new ArrayList<>();
-    final IdentityArrayList<String> identitySet = new IdentityArrayList<>();
+    final ArrayList<String> regularList = new ArrayList<>();
+    final IdentityArrayList<String> identityList = new IdentityArrayList<>();
 
     final String a = "a";
-    regularSet.add(a);
-    identitySet.add(a);
+    regularList.add(a);
+    identityList.add(a);
 
-    assertTrue(regularSet.contains(new String("a")));
-    assertTrue(identitySet.contains(a));
-    assertFalse(identitySet.contains(new String("a")));
+    assertTrue(regularList.contains(new String("a")));
+    assertTrue(identityList.contains(a));
+    assertFalse(identityList.contains(new String("a")));
 
-    final IdentityArrayList<String> cloneIdentitySet = identitySet.clone();
-    assertFalse(cloneIdentitySet.contains(new String("a")));
-    assertTrue(cloneIdentitySet.contains(a));
+    final IdentityArrayList<String> cloneIdentityList = identityList.clone();
+    assertFalse(cloneIdentityList.contains(new String("a")));
+    assertTrue(cloneIdentityList.contains(a));
+
+    List<String> subIdentityList = identityList.subList(0, 1);
+    assertFalse(subIdentityList.contains(new String("a")));
+    assertTrue(subIdentityList.contains(a));
+
+    subIdentityList = subIdentityList.subList(0, 1);
+    assertFalse(subIdentityList.contains(new String("a")));
+    assertTrue(subIdentityList.contains(a));
   }
 }

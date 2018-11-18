@@ -26,39 +26,39 @@ import org.slf4j.Logger;
 public abstract class PartitionedList<E,T> extends ObservableList<E> implements Cloneable {
   public class PartitionList<P extends E> extends ObservableList<P> implements Cloneable {
     protected T type;
-    protected ArrayList<Integer> indexes;
+    protected ArrayIntList indexes;
 
     protected PartitionList(final T type) {
       super(new ArrayList<P>());
       this.type = type;
-      this.indexes = new ArrayList<>();
+      this.indexes = new ArrayIntList();
     }
 
     public T getType() {
       return this.type;
     }
 
-    private ArrayList<Integer> getIndexes() {
+    private ArrayIntList getIndexes() {
       return this.indexes;
     }
 
     private void addUnsafe(final E e) {
-      super.source.add(e);
+      super.target.add(e);
     }
 
     private void addUnsafe(final int index, final E e) {
-      super.source.add(index, e);
+      super.target.add(index, e);
     }
 
     @SuppressWarnings("unchecked")
     private E setUnsafe(final int index, final E e) {
-      return (E)super.source.set(index, e);
+      return (E)super.target.set(index, e);
     }
 
     @SuppressWarnings("unchecked")
     private E removeUnsafe(final int index) {
-      this.indexes.remove(index);
-      return (E)super.source.remove(index);
+      this.indexes.removeIndex(index);
+      return (E)super.target.remove(index);
     }
 
     @Override
@@ -101,10 +101,10 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean beforeRemove(final int index) {
-      final int superIndex = indexes.remove(index);
+      final int superIndex = indexes.removeIndex(index);
       final PartitionedList<E,T> superList = PartitionedList.this;
       superList.removeUnsafe(superIndex);
-      superList.indexes.remove(superIndex);
+      superList.indexes.removeIndex(superIndex);
       final PartitionList<P> subList = (PartitionedList<E,T>.PartitionList<P>)superList.subLists.remove(superIndex);
       final IdentityHashSet<PartitionList<P>> visited = new IdentityHashSet<>();
       for (int i = superIndex; i < superList.size(); ++i) {
@@ -152,9 +152,9 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     public PartitionList<P> clone() {
       try {
         final PartitionList<P> clone = (PartitionList<P>)super.clone();
-        clone.source = (ArrayList<E>)((ArrayList<E>)source).clone();
+        clone.target = (ArrayList<E>)((ArrayList<E>)target).clone();
         clone.type = type;
-        clone.indexes = (ArrayList<Integer>)indexes.clone();
+        clone.indexes = indexes.clone();
         return clone;
       }
       catch (final CloneNotSupportedException e) {
@@ -163,13 +163,13 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     }
   }
 
-  protected ArrayList<Integer> indexes;
+  protected ArrayIntList indexes;
   protected ArrayList<PartitionList<? extends E>> subLists;
   protected HashMap<T,PartitionList<? extends E>> typeToSubList = new HashMap<>();
 
   public PartitionedList() {
     super(new ArrayList<E>());
-    this.indexes = new ArrayList<>();
+    this.indexes = new ArrayIntList();
     this.subLists = new ArrayList<>();
   }
 
@@ -194,21 +194,21 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   protected abstract PartitionList<E> getPartition(final Class<? extends E> type);
 
   private void addUnsafe(final E e) {
-    super.source.add(e);
+    super.target.add(e);
   }
 
   private void addUnsafe(final int index, final E e) {
-    super.source.add(index, e);
+    super.target.add(index, e);
   }
 
   @SuppressWarnings("unchecked")
   private E setUnsafe(final int index, final E e) {
-    return (E)super.source.set(index, e);
+    return (E)super.target.set(index, e);
   }
 
   @SuppressWarnings("unchecked")
   private E removeUnsafe(final int index) {
-    return (E)super.source.remove(index);
+    return (E)super.target.remove(index);
   }
 
   private int add(final Integer superIndex, final Integer subIndex, final E element, final PartitionList<E> subList) {
@@ -230,7 +230,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   }
 
   private void incSuperIndexes(final PartitionList<? extends E> subList, final int index) {
-    final ArrayList<Integer> superIndexes = subList.getIndexes();
+    final ArrayIntList superIndexes = subList.getIndexes();
     for (int j = 0; j < superIndexes.size(); j++) {
       final int superIndex = superIndexes.get(j);
       if (superIndex >= index)
@@ -239,7 +239,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   }
 
   private void decSuperIndexes(final PartitionList<? extends E> subList, final int index) {
-    final ArrayList<Integer> superIndexes = subList.getIndexes();
+    final ArrayIntList superIndexes = subList.getIndexes();
     for (int j = 0; j < superIndexes.size(); j++) {
       final int superIndex = superIndexes.get(j);
       if (superIndex > index)
@@ -251,7 +251,7 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     if (subList.size() == 0)
       return 0;
 
-    final ArrayList<Integer> superIndexes = subList.getIndexes();
+    final ArrayIntList superIndexes = subList.getIndexes();
     for (int i = subList.size() - 1; i >= 0; i--) {
       final int superIndex = superIndexes.get(i);
       if (superIndex < index)
@@ -325,8 +325,8 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   @Override
   protected boolean beforeRemove(final int index) {
     final PartitionList<? extends E> subList = subLists.remove(index);
-    subList.removeUnsafe(indexes.remove(index));
-    final ArrayList<Integer> subIndexes = subList.getIndexes();
+    subList.removeUnsafe(indexes.removeIndex(index));
+    final ArrayIntList subIndexes = subList.getIndexes();
     for (int i = index; i < subIndexes.size(); ++i)
       subIndexes.set(i, subIndexes.get(i) - 1);
 
@@ -367,25 +367,25 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   public PartitionedList<E,T> clone() {
     try {
       final PartitionedList<E,T> clone = (PartitionedList<E,T>)super.clone();
-      clone.source = (ArrayList<E>)((ArrayList<E>)source).clone();
-      clone.indexes = (ArrayList<Integer>)indexes.clone();
+      clone.target = (ArrayList<E>)((ArrayList<E>)target).clone();
+      clone.indexes = indexes.clone();
       clone.subLists = new ArrayList<>();
       for (final PartitionList<? extends E> subList : subLists)
         clone.subLists.add(subList.clone());
 
       final IdentityHashMap<E,E> clones = new IdentityHashMap<>();
-      for (int i = 0; i < clone.source.size(); ++i) {
-        final E item = (E)clone.source.get(i);
+      for (int i = 0; i < clone.target.size(); ++i) {
+        final E item = (E)clone.target.get(i);
         final E copy = clone(item);
         clones.put(item, copy);
-        clone.source.set(i, copy);
+        clone.target.set(i, copy);
       }
 
       clone.typeToSubList = new HashMap<>();
       for (final PartitionList<? extends E> subList : clone.subLists) {
         clone.typeToSubList.put(subList.getType(), subList);
-        for (int i = 0; i < subList.source.size(); ++i)
-          subList.source.set(i, clones.get(subList.source.get(i)));
+        for (int i = 0; i < subList.target.size(); ++i)
+          subList.target.set(i, clones.get(subList.target.get(i)));
       }
 
       return clone;

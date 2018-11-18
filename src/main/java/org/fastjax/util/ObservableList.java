@@ -16,6 +16,7 @@
 
 package org.fastjax.util;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -23,37 +24,51 @@ import java.util.ListIterator;
 import java.util.function.Predicate;
 
 /**
- * Wrapper class for the {@link List} interface that provides callback methods
- * to observe the addition and removal of elements to the wrapped {@link List}.
- * <ul>
- * <li>{@link #beforeGet(int,ListIterator)}</li>
- * <li>{@link #afterGet(int,Object,ListIterator,RuntimeException)}</li>
- * <li>{@link #beforeAdd(int,Object)}</li>
- * <li>{@link #afterAdd(int,Object,RuntimeException)}</li>
- * <li>{@link #beforeRemove(int)}</li>
- * <li>{@link #afterRemove(Object,RuntimeException)}</li>
- * <li>{@link #beforeSet(int,Object)}</li>
- * <li>{@link #afterSet(int,Object,RuntimeException)}</li>
- * <li>{@link List}</li>
- * </ul>
+ * A {@link DelegateList} that provides callback methods to observe the
+ * addition, removal, and retrieval of elements, either due to direct method
+ * invocation on the list instance itself, or via {@link #iterator()},
+ * {@link #listIterator()}, {@link #subList(int,int)}, and any other entrypoint
+ * that facilitates access to the elements in this list, either for modification
+ * or retrieval.
+ *
+ * @see #beforeGet(int,ListIterator)
+ * @see #afterGet(int,Object,ListIterator,RuntimeException)
+ * @see #beforeAdd(int,Object)
+ * @see #afterAdd(int,Object,RuntimeException)
+ * @see #beforeRemove(int)
+ * @see #afterRemove(Object,RuntimeException)
+ * @see #beforeSet(int,Object)
+ * @see #afterSet(int,Object,RuntimeException)
  */
-public class ObservableList<E> extends FilterList<E> {
+public abstract class ObservableList<E> extends DelegateList<E> {
   private final int fromIndex;
   private int toIndex;
 
+  /**
+   * Creates a new {@code ObservableList} with the specified {@code list}.
+   *
+   * @param list The target {@link List} object.
+   * @throws NullPointerException If {@code list} is null.
+   */
   public ObservableList(final List<E> list) {
     this(list, 0, -1);
   }
 
-  private ObservableList(final List<E> list, final int fromIndex, final int toIndex) {
+  /**
+   * Creates a new {@code ObservableList} with the specified target list, and from
+   * and to indexes to limit the scope of the target list.
+   *
+   * @param list The target {@link List} object.
+   * @param fromIndex The starting index as the lower limit of the elements in
+   *          the target list, inclusive.
+   * @param toIndex The starting index as the upper limit of the elements in the
+   *          target list, exclusive.
+   * @throws NullPointerException If {@code list} is null.
+   */
+  protected ObservableList(final List<E> list, final int fromIndex, final int toIndex) {
     super(list);
     this.fromIndex = fromIndex;
     this.toIndex = toIndex;
-  }
-
-  @Override
-  protected FilterList<E> newInstance(final List source) {
-    return new ObservableList<E>(source);
   }
 
   /**
@@ -180,7 +195,7 @@ public class ObservableList<E> extends FilterList<E> {
 
     RuntimeException re = null;
     try {
-      source.add(index + fromIndex, e);
+      target.add(index + fromIndex, e);
       if (toIndex != -1)
         ++toIndex;
     }
@@ -211,7 +226,7 @@ public class ObservableList<E> extends FilterList<E> {
 
     RuntimeException re = null;
     try {
-      source.add(index + fromIndex, element);
+      target.add(index + fromIndex, element);
       if (toIndex != -1)
         ++toIndex;
     }
@@ -237,8 +252,8 @@ public class ObservableList<E> extends FilterList<E> {
   @Override
   public boolean addAll(final Collection<? extends E> c) {
     boolean changed = false;
-    for (final E element : c)
-      changed = add(element) || changed;
+    for (final E e : c)
+      changed |= add(e);
 
     return changed;
   }
@@ -362,12 +377,12 @@ public class ObservableList<E> extends FilterList<E> {
   public int indexOf(final Object o) {
     final ListIterator<E> iterator = listIterator();
     if (o == null) {
-      for (int i = 0; iterator.hasNext(); i++)
+      for (int i = 0; iterator.hasNext(); ++i)
         if (iterator.next() == null)
           return i;
     }
     else {
-      for (int i = 0; iterator.hasNext(); i++)
+      for (int i = 0; iterator.hasNext(); ++i)
         if (o.equals(iterator.next()))
           return i;
     }
@@ -387,12 +402,12 @@ public class ObservableList<E> extends FilterList<E> {
   public int lastIndexOf(final Object o) {
     final ListIterator<E> iterator = listIterator(size());
     if (o == null) {
-      for (int i = 0; iterator.hasPrevious(); i++)
+      for (int i = 0; iterator.hasPrevious(); ++i)
         if (iterator.previous() == null)
           return i;
     }
     else {
-      for (int i = 0; iterator.hasPrevious(); i++)
+      for (int i = 0; iterator.hasPrevious(); ++i)
         if (o.equals(iterator.previous()))
           return i;
     }
@@ -458,7 +473,7 @@ public class ObservableList<E> extends FilterList<E> {
     if (index > size())
       throw new IndexOutOfBoundsException("Invalid index " + index + ", size is " + size());
 
-    final ListIterator<E> listIterator = source.listIterator(index + fromIndex);
+    final ListIterator<E> listIterator = target.listIterator(index + fromIndex);
     return new ListIterator<E>() {
       private E current;
 
@@ -595,13 +610,13 @@ public class ObservableList<E> extends FilterList<E> {
   @Override
   @SuppressWarnings("unchecked")
   public E remove(final int index) {
-    final E element = (E)source.get(index + fromIndex);
+    final E element = (E)target.get(index + fromIndex);
     if (!beforeRemove(index))
       return element;
 
     RuntimeException re = null;
     try {
-      source.remove(index + fromIndex);
+      target.remove(index + fromIndex);
       if (toIndex != -1)
         --toIndex;
     }
@@ -635,7 +650,7 @@ public class ObservableList<E> extends FilterList<E> {
 
     RuntimeException re = null;
     try {
-      source.remove(index + fromIndex);
+      target.remove(index + fromIndex);
       if (toIndex != -1)
         --toIndex;
     }
@@ -665,8 +680,8 @@ public class ObservableList<E> extends FilterList<E> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object element : c)
-      changed = remove(element) || changed;
+    for (final Object e : c)
+      changed |= remove(e);
 
     return changed;
   }
@@ -744,12 +759,12 @@ public class ObservableList<E> extends FilterList<E> {
   @SuppressWarnings("unchecked")
   public E set(final int index, final E element) {
     if (!beforeSet(index, element))
-      return (E)source.get(index + fromIndex);
+      return (E)target.get(index + fromIndex);
 
     E oldElement = null;
     RuntimeException re = null;
     try {
-      oldElement = (E)source.set(index + fromIndex, element);
+      oldElement = (E)target.set(index + fromIndex, element);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -764,12 +779,12 @@ public class ObservableList<E> extends FilterList<E> {
 
   @Override
   public int size() {
-    return (toIndex != -1 ? toIndex : source.size()) - fromIndex;
+    return (toIndex != -1 ? toIndex : target.size()) - fromIndex;
   }
 
   @Override
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {
-    return new ObservableList<E>(source, fromIndex, toIndex) {
+    return new ObservableList<E>(target, fromIndex, toIndex) {
       @Override
       protected void beforeGet(final int index, final ListIterator<E> iterator) {
         ObservableList.this.beforeGet(index, iterator);
@@ -835,10 +850,16 @@ public class ObservableList<E> extends FilterList<E> {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public <T>T[] toArray(final T[] a) {
+  public <T>T[] toArray(T[] a) {
+    if (a.length < size())
+      a = (T[])Array.newInstance(a.getClass().getComponentType(), size());
+
     final ListIterator<E> iterator = listIterator();
-    for (int i = 0; i < a.length && iterator.hasNext(); i++)
+    for (int i = 0; iterator.hasNext(); ++i)
       a[i] = (T)iterator.next();
+
+    if (a.length > size())
+      a[size()] = null;
 
     return a;
   }

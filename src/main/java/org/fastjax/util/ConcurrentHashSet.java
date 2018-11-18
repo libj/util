@@ -193,7 +193,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
     s.defaultReadObject();
 
     // Read capacity and verify non-negative.
-    int capacity = s.readInt();
+    final int capacity = s.readInt();
     if (capacity < 0)
       throw new InvalidObjectException("Illegal capacity: " + capacity);
 

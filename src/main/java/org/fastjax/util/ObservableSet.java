@@ -23,18 +23,17 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Wrapper class for the {@link Set} interface that provides callback
- * methods to observe the addition and removal of elements to the wrapped
- * {@link Set}.
- * <ul>
- * <li>{@link #beforeAdd(Object)}</li>
- * <li>{@link #afterAdd(Object,RuntimeException)}</li>
- * <li>{@link #beforeRemove(Object)}</li>
- * <li>{@link #afterRemove(Object,RuntimeException)}</li>
- * <li>{@link Set}</li>
- * </ul>
+ * A {@link DelegateSet} that provides callback methods to observe the addition
+ * and removal of elements, either due to direct method invocation on the set
+ * instance itself, or via {@link #iterator()}, {@link #stream()}, and any other
+ * entrypoint that facilitates modification of the elements in this set.
+ *
+ * @see #beforeAdd(Object)
+ * @see #afterAdd(Object,RuntimeException)
+ * @see #beforeRemove(Object)
+ * @see #afterRemove(Object,RuntimeException)
  */
-public class ObservableSet<E> extends FilterSet<E> {
+public abstract class ObservableSet<E> extends DelegateSet<E> {
   public ObservableSet(final Set<E> set) {
     super(set);
   }
@@ -96,7 +95,7 @@ public class ObservableSet<E> extends FilterSet<E> {
    */
   @Override
   public Iterator<E> iterator() {
-    final Iterator<E> i = source.iterator();
+    final Iterator<E> i = target.iterator();
     return new Iterator<E>() {
       private E current;
 
@@ -152,7 +151,7 @@ public class ObservableSet<E> extends FilterSet<E> {
     boolean result = false;
     RuntimeException re = null;
     try {
-      result = source.add(e);
+      result = target.add(e);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -177,8 +176,8 @@ public class ObservableSet<E> extends FilterSet<E> {
   @Override
   public boolean addAll(final Collection<? extends E> c) {
     boolean changed = false;
-    for (final E element : c)
-      changed = add(element) || changed;
+    for (final E e : c)
+      changed |= add(e);
 
     return changed;
   }
@@ -200,7 +199,7 @@ public class ObservableSet<E> extends FilterSet<E> {
     boolean result = false;
     RuntimeException re = null;
     try {
-      result = source.remove(o);
+      result = target.remove(o);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -226,8 +225,8 @@ public class ObservableSet<E> extends FilterSet<E> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object element : c)
-      changed = remove(element) || changed;
+    for (final Object e : c)
+      changed |= remove(e);
 
     return changed;
   }

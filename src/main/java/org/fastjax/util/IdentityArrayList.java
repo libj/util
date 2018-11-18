@@ -18,18 +18,58 @@ package org.fastjax.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.RandomAccess;
 
+/**
+ * A {@link ArrayList} that resorts to the {@code ==} operator when checking an
+ * element for equality, instead of the {@link Object#equals(Object)} method.
+ * This class overrides all methods that perform a test for equality of elements
+ * in the list, and supports the sub-list operation by returning an
+ * {@link IdentitySubList}.
+ * <ul>
+ * <li>{@link #contains(Object)}</li>
+ * <li>{@link #containsAll(Collection)}</li>
+ * <li>{@link #indexOf(Object)}</li>
+ * <li>{@link #lastIndexOf(Object)}</li>
+ * <li>{@link #remove(Object)}</li>
+ * <li>{@link #removeAll(Collection)}</li>
+ * <li>{@link #retainAll(Collection)}</li>
+ * <li>{@link #subList(int,int)}</li>
+ * <li>{@link #clone()}</li>
+ * </ul>
+ *
+ * @param <E> The type of elements in this list.
+ * @see ArrayList
+ */
 public class IdentityArrayList<E> extends ArrayList<E> {
-  private static final long serialVersionUID = -5056045452760154513L;
+  private static final long serialVersionUID = 8659556653288662381L;
 
+  /**
+   * Constructs an empty list with the specified initial capacity.
+   *
+   * @param initialCapacity The initial capacity of the list.
+   * @throws IllegalArgumentException If the specified initial capacity is
+   *           negative.
+   */
   public IdentityArrayList(final int initialCapacity) {
     super(initialCapacity);
   }
 
+  /**
+   * Constructs a list containing the elements of the specified collection, in
+   * the order they are returned by the collection's iterator.
+   *
+   * @param c The collection whose elements are to be placed into this list.
+   * @throws NullPointerException If the specified collection is null.
+   */
   public IdentityArrayList(final Collection<? extends E> c) {
     super(c);
   }
 
+  /**
+   * Constructs an empty list with an initial capacity of ten.
+   */
   public IdentityArrayList() {
     super();
   }
@@ -41,7 +81,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public int indexOf(final Object o) {
-    for (int i = 0; i < size(); i++)
+    for (int i = 0; i < size(); ++i)
       if (o == get(i))
         return i;
 
@@ -50,7 +90,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public int lastIndexOf(final Object o) {
-    for (int i = size() - 1; i >= 0; i--)
+    for (int i = size() - 1; i >= 0; --i)
       if (o == get(i))
         return i;
 
@@ -63,7 +103,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     if (index < 0)
       return false;
 
-    return super.remove(index) != null;
+    return remove(index) != null;
   }
 
   @Override
@@ -90,16 +130,111 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     boolean modified = false;
     OUT:
-    for (int i = 0; i < c.size(); i++) {
+    for (int i = 0; i < c.size(); ++i) {
       final Object o = get(i);
       for (final Object obj : c)
         if (obj == o)
           continue OUT;
 
-      modified = remove(i) != null || modified;
+      modified |= remove(i) != null;
     }
 
     return modified;
+  }
+
+  /**
+   * A {@link DelegateList} providing the same behavior of
+   * {@code IdentityArrayList} to the class returned by
+   * {@link ArrayList#subList(int,int)}.
+   */
+  protected class IdentitySubList extends DelegateList<E> implements RandomAccess {
+    /**
+     * Creates a new {@code IdentitySubList} with the specified subList target.
+     *
+     * @param target The subList to which the method calls of this instance will
+     *          be delegated.
+     */
+    public IdentitySubList(final List<E> target) {
+      super(target);
+    }
+
+    @Override
+    public boolean contains(final Object o) {
+      return indexOf(o) > -1;
+    }
+
+    @Override
+    public int indexOf(final Object o) {
+      for (int i = 0; i < target.size(); ++i)
+        if (o == target.get(i))
+          return i;
+
+      return -1;
+    }
+
+    @Override
+    public int lastIndexOf(final Object o) {
+      for (int i = target.size() - 1; i >= 0; --i)
+        if (o == target.get(i))
+          return i;
+
+      return -1;
+    }
+
+    @Override
+    public boolean remove(final Object o) {
+      final int index = indexOf(o);
+      if (index < 0)
+        return false;
+
+      return target.remove(index) != null;
+    }
+
+    @Override
+    public boolean removeAll(final Collection<?> c) {
+      if (c == null)
+        return false;
+
+      final int size = target.size();
+      for (final Object o : c)
+        remove(o);
+
+      return size != target.size();
+    }
+
+    @Override
+    public boolean retainAll(final Collection<?> c) {
+      if (c == null)
+        return false;
+
+      if (c.size() == 0 && target.size() != 0) {
+        target.clear();
+        return true;
+      }
+
+      boolean modified = false;
+      OUT:
+      for (int i = 0; i < c.size(); ++i) {
+        final Object o = target.get(i);
+        for (final Object obj : c)
+          if (obj == o)
+            continue OUT;
+
+        modified |= target.remove(i) != null;
+      }
+
+      return modified;
+    }
+
+    @Override
+    public IdentitySubList subList(final int fromIndex, final int toIndex) {
+      return new IdentitySubList(target.subList(fromIndex, toIndex));
+    }
+  }
+
+  @Override
+  public List<E> subList(final int fromIndex, final int toIndex) {
+    return new IdentitySubList(super.subList(fromIndex, toIndex));
   }
 
   @Override

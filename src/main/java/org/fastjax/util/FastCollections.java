@@ -16,8 +16,6 @@
 
 package org.fastjax.util;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,12 +24,187 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Function;
 
+/**
+ * Utility functions for operations pertaining to {@link Collection} and {@link List}.
+ */
 public final class FastCollections {
-  public static Class<?> getComponentType(final Collection<?> collection) {
-    if (collection.size() == 0)
+  /**
+   * Inserts the one-dimensional representation of the input collection into the
+   * specified output collection, whereby all nested {@code Collection} members
+   * are flattened at every depth. The value of
+   * {@code member instanceof Collection} is used to determine whether a member
+   * represents a {@code Collection} for further recursion.
+   * <p>
+   * Collection members that reference a {@code Collection} are <i>not
+   * included</i> in the resulting collection. This is the equivalent of calling
+   * {@code flatten(Collection,Collection,false)}.
+   *
+   * @param in The input collection.
+   * @param out The output collection.
+   * @return The specified output collection, filled with the one-dimensional
+   *         representation of the input collection.
+   * @throws NullPointerException If {@code in} or {@code out} are null.
+   */
+  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out) {
+    return flatten(in, out, null, false);
+  }
+
+  /**
+   * Inserts the one-dimensional representation of the input collection into the
+   * specified output collection, whereby all nested {@code Collection} members
+   * are flattened at every depth.
+   *
+   * @param in The input collection.
+   * @param out The output collection.
+   * @param retainCollectionReferences If {@code true}, members that reference a
+   *          {@code Collection} are included in the output collection; if
+   *          {@code false}, they are not included in the output collection.
+   * @return The specified output collection, filled with the one-dimensional
+   *         representation of the input collection.
+   * @throws NullPointerException If {@code in} or {@code out} are null.
+   */
+  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final boolean retainCollectionReferences) {
+    return flatten(in, out, null, retainCollectionReferences);
+  }
+
+  /**
+   * Inserts the one-dimensional representation of the input collection into the
+   * specified output collection, whereby all nested {@code Collection} members
+   * are flattened at every depth. The specified resolver {@link Function}
+   * provides a layer of indirection between a member, and a higher-layer value.
+   * This is useful in the situation where the collection contains symbolic
+   * references to other collections. The {@code resolver} parameter is provided
+   * to dereference such a symbolic references.
+   *
+   * @param in The input collection.
+   * @param out The output collection.
+   * @param resolver A {@link Function} to provide a layer of indirection
+   *          between a member, and a higher-layer value. If {@code resolver} is
+   *          null, {@code member instanceof Collection} is used to determine
+   *          whether the member value represents a collection.
+   * @param retainCollectionReferences If {@code true}, members that reference a
+   *          {@code Collection} are included in the output collection; if
+   *          {@code false}, they are not included in the output collection.
+   * @return The specified output collection, filled with the one-dimensional
+   *         representation of the input collection.
+   * @throws NullPointerException If {@code in} or {@code out} are null.
+   */
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final Function<T,Collection<T>> resolver, final boolean retainCollectionReferences) {
+    for (final T member : in) {
+      final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
+      if (inner != null) {
+        if (retainCollectionReferences)
+          out.add(member);
+
+        flatten(inner, out, resolver, retainCollectionReferences);
+      }
+      else {
+        out.add(member);
+      }
+    }
+
+    return out;
+  }
+
+  /**
+   * Flattens the specified list into a one-dimensional representation,
+   * in-place, replacing all nested {@code List} members with their expanded
+   * form, at every depth. The value of {@code member instanceof List} is used
+   * to determine whether a member represents a {@code List} for further
+   * recursion.
+   * <p>
+   * List members that reference a {@code List} are <i>not included</i> in the
+   * resulting array. This is the equivalent of calling
+   * {@code flatten(List,false)}.
+   *
+   * @param list The list.
+   * @return The specified list.
+   * @throws NullPointerException If {@code list} is null.
+   */
+  public static <L extends List<T>,T>L flatten(final L list) {
+    flatten(list, (Function<T,List<T>>)null, false);
+    return list;
+  }
+
+  /**
+   * Flattens the specified list into a one-dimensional representation,
+   * in-place, replacing all nested {@code List} members with their expanded
+   * form, at every depth.
+   *
+   * @param list The list.
+   * @param retainListReferences If {@code true}, members that reference a
+   *          {@code List} are retained; if {@code false}, they are removed.
+   * @return The specified list.
+   * @throws NullPointerException If {@code list} is null.
+   */
+  public static <L extends List<T>,T>L flatten(final L list, final boolean retainListReferences) {
+    flatten(list, (Function<T,List<T>>)null, retainListReferences);
+    return list;
+  }
+
+  /**
+   * Flattens the specified list into a one-dimensional representation,
+   * in-place, replacing all nested {@code List} members with their expanded
+   * form, at every depth. The specified resolver {@link Function} provides a
+   * layer of indirection between a member, and a higher-layer value. This is
+   * useful in the situation where the collection contains symbolic references
+   * to other list. The {@code resolver} parameter is provided to dereference
+   * such a symbolic references.
+   *
+   * @param list The list.
+   * @param retainListReferences If {@code true}, members that reference a
+   *          {@code List} are retained; if {@code false}, they are removed.
+   * @param resolver A {@link Function} to provide a layer of indirection
+   *          between a member, and a higher-layer value. If {@code resolver} is
+   *          null, {@code member instanceof List} is used to determine whether
+   *          the member value represents a list.
+   * @return The specified list.
+   * @throws NullPointerException If {@code list} is null.
+   */
+  @SuppressWarnings({"unchecked"})
+  public static <L extends List<T>,T>L flatten(final L list, final Function<T,List<T>> resolver, final boolean retainListReferences) {
+    final ListIterator<T> iterator = list.listIterator();
+    int i = 0;
+    while (iterator.hasNext()) {
+      final T member = iterator.next();
+      final List<T> inner = resolver != null ? resolver.apply(member) : member instanceof List ? (List<T>)member : null;
+      if (inner != null) {
+        if (retainListReferences)
+          ++i;
+        else
+          iterator.remove();
+
+        for (final T obj : inner)
+          iterator.add(obj);
+
+        while (iterator.nextIndex() > i)
+          iterator.previous();
+      }
+      else {
+        ++i;
+      }
+    }
+
+    return list;
+  }
+
+  /**
+   * Returns a class representing the component type of the specified
+   * collection. Each member of the specified array is instance-assignable to
+   * the returned class.
+   *
+   * @param c The collection.
+   * @return A class representing the component type of the specified
+   *         collection, or {@code null} if the collection has no member
+   *         objects.
+   * @throws NullPointerException If {@code c} is null.
+   */
+  public static Class<?> getComponentType(final Collection<?> c) {
+    if (c.size() == 0)
       return null;
 
-    final Iterator<?> iterator = collection.iterator();
+    final Iterator<?> iterator = c.iterator();
     final Class<?>[] types = getNotNullMembers(iterator, 0);
     return types.length == 0 ? null : Classes.getGreatestCommonSuperclass(types);
   }
@@ -49,42 +222,78 @@ public final class FastCollections {
     return new Class<?>[depth];
   }
 
-  public static boolean isComponentType(final Collection<?> collection, final Class<?> type) {
-    for (final Object member : collection)
+  /**
+   * Returns {@code true} if the specified class is instance-assignable for each
+   * member object of the specified collection; otherwise, {@code false}.
+   *
+   * @param c The collection.
+   * @param type The class.
+   * @return {@code true} if the specified class is instance-assignable for each
+   *         member object of the specified collection; otherwise,
+   *         {@code false}.
+   */
+  public static boolean isComponentType(final Collection<?> c, final Class<?> type) {
+    for (final Object member : c)
       if (member != null && !type.isInstance(member))
         return false;
 
     return true;
   }
 
-  public static String toString(final Collection<?> collection, final char delimiter) {
-    if (collection == null)
-      return null;
+  /**
+   * Returns a string representation of the specified collection, using the
+   * specified delimiter between the string representation of each element. If
+   * the specified collection is null, this method returns the string
+   * {@code "null"}. If the specified collection is empty, this method returns
+   * {@code ""}.
+   *
+   * @param c The collection.
+   * @param del The delimiter.
+   * @return A string representation of the specified collection, using the
+   *         specified delimiter between the string representation of each
+   *         element.
+   */
+  public static String toString(final Collection<?> c, final char del) {
+    if (c == null)
+      return "null";
 
-    if (collection.size() == 0)
+    if (c.size() == 0)
       return "";
 
     final StringBuilder builder = new StringBuilder();
-    final Iterator<?> iterator = collection.iterator();
+    final Iterator<?> iterator = c.iterator();
     builder.append(String.valueOf(iterator.next()));
     while (iterator.hasNext())
-      builder.append(delimiter).append(String.valueOf(iterator.next()));
+      builder.append(del).append(String.valueOf(iterator.next()));
 
     return builder.toString();
   }
 
-  public static String toString(final Collection<?> collection, final String delimiter) {
-    if (collection == null)
-      return null;
+  /**
+   * Returns a string representation of the specified collection, using the
+   * specified delimiter between the string representation of each element. If
+   * the specified collection is null, this method returns the string
+   * {@code "null"}. If the specified collection is empty, this method returns
+   * {@code ""}.
+   *
+   * @param c The collection.
+   * @param del The delimiter.
+   * @return A string representation of the specified collection, using the
+   *         specified delimiter between the string representation of each
+   *         element.
+   */
+  public static String toString(final Collection<?> c, final String del) {
+    if (c == null)
+      return "null";
 
-    if (collection.size() == 0)
+    if (c.size() == 0)
       return "";
 
     final StringBuilder builder = new StringBuilder();
-    final Iterator<?> iterator = collection.iterator();
+    final Iterator<?> iterator = c.iterator();
     builder.append(String.valueOf(iterator.next()));
     while (iterator.hasNext())
-      builder.append(delimiter).append(String.valueOf(iterator.next()));
+      builder.append(del).append(String.valueOf(iterator.next()));
 
     return builder.toString();
   }
@@ -288,28 +497,30 @@ public final class FastCollections {
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the
-   * value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches
+   * the value provided.
    *
    * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted {@link List}.
    * @param key The value to match.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired
+   *         value.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final T key) {
     return binaryClosestSearch0(a, 0, a.size(), key);
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the
-   * value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches
+   * the value provided.
    *
    * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted {@link List}.
    * @param from The starting index of the sorted {@link List} to search from.
    * @param to The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired
+   *         value.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key) {
     rangeCheck(a.size(), from, to);
@@ -317,23 +528,24 @@ public final class FastCollections {
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the
-   * value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches
+   * the value provided.
    *
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
    * @param key The value to match.
    * @param comparator The {@code Comparator} for {@code key} of type
    *          {@code <T>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired
+   *         value.
    */
   public static <T>int binaryClosestSearch(final List<T> a, final T key, final Comparator<T> comparator) {
     return binaryClosestSearch0(a, 0, a.size(), key, comparator);
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the
-   * value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches
+   * the value provided.
    *
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
@@ -342,7 +554,8 @@ public final class FastCollections {
    * @param key The value to match.
    * @param comparator The {@code Comparator} for {@code key} of type
    *          {@code <T>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest index of the sorted {@link List} matching the desired
+   *         value.
    */
   public static <T>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key, final Comparator<T> comparator) {
     rangeCheck(a.size(), from, to);
@@ -380,7 +593,7 @@ public final class FastCollections {
   }
 
   @SuppressWarnings("rawtypes")
-  protected static final Comparator<Comparable> nullComparator = new Comparator<Comparable>() {
+  private static final Comparator<Comparable> nullComparator = new Comparator<Comparable>() {
     @Override
     public int compare(final Comparable o1, final Comparable o2) {
       return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2);
@@ -390,8 +603,8 @@ public final class FastCollections {
   /**
    * Sorts the specified list into ascending order, according to the <i>natural
    * ordering</i> of its elements. This implementation differs from the one in
-   * {@link Collections#sort(List)} in that it allows null entries to
-   * be sorted, which are placed in the beginning of the list.
+   * {@link Collections#sort(List)} in that it allows null entries to be sorted,
+   * which are placed in the beginning of the list.
    *
    * @param <T> The type parameter of Comparable list elements.
    * @param list The list to be sorted.
@@ -408,8 +621,8 @@ public final class FastCollections {
   /**
    * Sorts the specified list according to the order induced by the specified
    * comparator. This implementation differs from the one in
-   * {@link Collections#sort(List,Comparator)} in that it allows null
-   * entries to be sorted, which are placed in the beginning of the list.
+   * {@link Collections#sort(List,Comparator)} in that it allows null entries to
+   * be sorted, which are placed in the beginning of the list.
    *
    * @param <T> The type parameter of list elements.
    * @param list The list to be sorted.
@@ -431,28 +644,36 @@ public final class FastCollections {
     });
   }
 
+  /**
+   * Returns the specified collection with the specified vararg parameters added
+   * as members to the collection.
+   *
+   * @param c The collection.
+   * @param a The members to add to the collection.
+   * @return The specified collection with the specified vararg parameters added
+   *         as members to the collection.
+   * @throws NullPointerException If {@code c} is null.
+   */
   @SafeVarargs
-  public static <C extends Collection<T>,T>C asCollection(final C collection, final T ... a) {
-    for (int i = 0; i < a.length; i++)
-      collection.add(a[i]);
+  public static <C extends Collection<T>,T>C asCollection(final C c, final T ... a) {
+    for (int i = 0; i < a.length; ++i)
+      c.add(a[i]);
 
-    return collection;
+    return c;
   }
 
-  @SuppressWarnings("unchecked")
-  public static <C extends Collection<T>,T>C clone(final C collection) {
-    try {
-      final C clone = (C)collection.getClass().getDeclaredConstructor().newInstance();
-      for (final T member : collection)
-        clone.add(member);
-
-      return clone;
-    }
-    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
-      throw new UnsupportedOperationException(e);
-    }
-  }
-
+  /**
+   * Returns the specified target collection with the elements of the specified
+   * vararg parameter collections concatenated as members to the target
+   * collection.
+   *
+   * @param target The target collection.
+   * @param collections The collections of members to concatenate to the target
+   *          collection.
+   * @return The specified target collection with the elements of the specified
+   *         vararg parameter collections concatenated as members to the target
+   *         collection.
+   */
   @SafeVarargs
   public static <C extends Collection<T>,T>C concat(final C target, final Collection<? extends T> ... collections) {
     for (final Collection<? extends T> collection : collections)
@@ -461,123 +682,29 @@ public final class FastCollections {
     return target;
   }
 
+  /**
+   * Returns an array of sublists of the specified list partitioned to the
+   * specified size. The last sublist member of the resulting array will contain
+   * the divisor remainder of elements ranging from size of {@code 1} to
+   * {@code size}.
+   *
+   * @param list The list to partition.
+   * @param size The size of each partition.
+   * @return An array of sublists of the specified list partitioned to the
+   *         specified size.
+   */
   @SuppressWarnings("unchecked")
   public static <T>List<T>[] partition(final List<T> list, final int size) {
     final int parts = list.size() / size;
     final int remainder = list.size() % size;
-    final List<T>[] partitions = (List<T>[])Array.newInstance(List.class, parts + (remainder != 0 ? 1 : 0));
-    for (int i = 0; i < parts; i++)
+    final List<T>[] partitions = new List[remainder != 0 ? parts + 1 : parts];
+    for (int i = 0; i < parts; ++i)
       partitions[i] = list.subList(i * size, (i + 1) * size);
 
     if (remainder != 0)
       partitions[partitions.length - 1] = list.subList(parts * size, list.size());
 
     return partitions;
-  }
-
-  public static boolean equals(final Collection<?> a, final Collection<?> b) {
-    if (a == null)
-      return b == null;
-
-    if (b == null)
-      return false;
-
-    if (a.size() != b.size())
-      return false;
-
-    final Iterator<?> aIterator = a.iterator();
-    final Iterator<?> bIterator = b.iterator();
-    while (true) {
-      if (!aIterator.hasNext())
-        return !bIterator.hasNext();
-
-      if (!bIterator.hasNext())
-        return false;
-
-      final Object member;
-      if ((member = aIterator.next()) != null ? !member.equals(bIterator.next()) : bIterator.next() != null)
-        return false;
-    }
-  }
-
-  public static int hashCode(final Collection<?> collection) {
-    if (collection == null)
-      return -1;
-
-    int result = 1;
-    for (final Object member : collection) {
-      final int itemHash = member == null ? 0 : member.hashCode();
-      result = 31 * result + itemHash ^ (itemHash >>> 32);
-    }
-
-    return result;
-  }
-
-  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out) {
-    return flatten(in, out, null, false);
-  }
-
-  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final Function<T,Collection<T>> resolver) {
-    return flatten(in, out, resolver, false);
-  }
-
-  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final boolean retainListReferences) {
-    return flatten(in, out, null, retainListReferences);
-  }
-
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final Function<T,Collection<T>> resolver, final boolean retainListReferences) {
-    for (final T member : in) {
-      final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
-      if (inner != null) {
-        if (retainListReferences)
-          out.add(member);
-
-        flatten(inner, out, resolver, retainListReferences);
-      }
-      else {
-        out.add(member);
-      }
-    }
-
-    return out;
-  }
-
-  public static <L extends List<T>,T>void flatten(final L list) {
-    flatten(list, (Function<T,List<T>>)null, false);
-  }
-
-  public static <L extends List<T>,T>void flatten(final L list, final Function<T,List<T>> resolver) {
-    flatten(list, resolver, false);
-  }
-
-  public static <L extends List<T>,T>void flatten(final L list, final boolean retainListReferences) {
-    flatten(list, (Function<T,List<T>>)null, retainListReferences);
-  }
-
-  @SuppressWarnings({"unchecked"})
-  public static <L extends List<T>,T>void flatten(final L list, final Function<T,List<T>> resolver, final boolean retainListReferences) {
-    final ListIterator<T> iterator = list.listIterator();
-    int i = 0;
-    while (iterator.hasNext()) {
-      final T member = iterator.next();
-      final List<T> inner = resolver != null ? resolver.apply(member) : member instanceof List ? (List<T>)member : null;
-      if (inner != null) {
-        if (retainListReferences)
-          ++i;
-        else
-          iterator.remove();
-
-        for (final T obj : inner)
-          iterator.add(obj);
-
-        while (iterator.nextIndex() > i)
-          iterator.previous();
-      }
-      else {
-        ++i;
-      }
-    }
   }
 
   private FastCollections() {

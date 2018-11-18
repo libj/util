@@ -28,23 +28,23 @@ import org.junit.Test;
 public class TransCollectionTest {
   protected static void test(final TransCollection<Integer,String> trans) {
     assertTrue(trans.contains("3"));
-    assertTrue(trans.source.contains(3));
+    assertTrue(trans.target.contains(3));
     assertFalse(trans.contains("11"));
-    assertFalse(trans.source.contains(11));
+    assertFalse(trans.target.contains(11));
 
     trans.addAll(Arrays.asList("11", "12", "13"));
     assertTrue(trans.contains("11"));
-    assertTrue(trans.source.contains(11));
+    assertTrue(trans.target.contains(11));
 
     trans.remove("11");
     assertFalse(trans.contains("11"));
-    assertFalse(trans.source.contains(11));
+    assertFalse(trans.target.contains(11));
 
     trans.toArray(new String[trans.size()]);
 
     trans.remove("5");
     assertFalse(trans.contains("5"));
-    assertFalse(trans.source.contains(5));
+    assertFalse(trans.target.contains(5));
 
     final Iterator<String> iterator = trans.iterator();
     while (iterator.hasNext()) {
@@ -53,7 +53,7 @@ public class TransCollectionTest {
     }
 
     assertEquals(0, trans.size());
-    assertEquals(0, trans.source.size());
+    assertEquals(0, trans.target.size());
   }
 
   @Test

@@ -155,13 +155,13 @@ public class ObservableListTest {
     };
 
     // add()
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       list.add(expectedString = String.valueOf(i));
       assertAdded();
     }
 
     // get()
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       list.get(i);
       assertGot();
     }
@@ -172,9 +172,15 @@ public class ObservableListTest {
       assertGot();
     }
 
+    list.toArray();
+    assertGot();
+
+    list.toArray(new String[1]);
+    assertGot();
+
     // testingGetReplace
     testingGetReplace = true;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       list.get(i);
       assertGot();
     }

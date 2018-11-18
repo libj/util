@@ -18,6 +18,7 @@ package org.fastjax.util;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -31,13 +32,31 @@ import java.util.function.Predicate;
  * @param <T> Type of target {@code Set}.
  * @see Set
  */
-public class TransSet<S,T> extends FilterSet<T> {
+public class TransSet<S,T> extends DelegateSet<T> {
   protected final Function<S,T> sourceToTarget;
   protected final Function<T,S> targetToSource;
 
+  /**
+   * Creates a new {@code TransSet} with the specified source Set, and functions
+   * defining the translation of objects types {@code S -> T} and
+   * {@code T -> S}.
+   * <p>
+   * If {@code sourceToTarget} is null, all methods that require a translation
+   * of {@code S -> T} will throw a {@link UnsupportedOperationException}.
+   * <p>
+   * If {@code targetToSource} is null, all methods that require a translation
+   * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
+   *
+   * @param source The source Set of type {@code <S>}.
+   * @param sourceToTarget The {@code Function} defining the translation from
+   *          {@code S -> T}.
+   * @param targetToSource The {@code Function} defining the translation from
+   *          {@code T -> S}.
+   * @throws NullPointerException If {@code source} is null.
+   */
   public TransSet(final Set<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
     super();
-    super.source = source;
+    super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
   }
@@ -47,7 +66,7 @@ public class TransSet<S,T> extends FilterSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     if (o != null) {
       while (iterator.hasNext())
         if (o.equals(sourceToTarget.apply(iterator.next())))
@@ -64,7 +83,7 @@ public class TransSet<S,T> extends FilterSet<T> {
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     return new Iterator<T>() {
       @Override
       public boolean hasNext() {
@@ -93,7 +112,7 @@ public class TransSet<S,T> extends FilterSet<T> {
       throw new UnsupportedOperationException();
 
     final Object[] array = new Object[size()];
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     for (int i = 0; i < size(); i++) {
       final S e = iterator.next();
       array[i] = e == null ? null : sourceToTarget.apply(e);
@@ -108,7 +127,7 @@ public class TransSet<S,T> extends FilterSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     for (int i = 0; i < size(); i++) {
       final S e = iterator.next();
       a[i] = e == null ? null : (E)sourceToTarget.apply(e);
@@ -122,7 +141,7 @@ public class TransSet<S,T> extends FilterSet<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return source.add(targetToSource.apply(e));
+    return target.add(targetToSource.apply(e));
   }
 
   @Override
@@ -130,7 +149,7 @@ public class TransSet<S,T> extends FilterSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
       final S e = iterator.next();
       if (o != null ? o.equals(sourceToTarget.apply(e)) : sourceToTarget.apply(e) == null) {
@@ -155,7 +174,7 @@ public class TransSet<S,T> extends FilterSet<T> {
   public boolean addAll(final Collection<? extends T> c) {
     boolean changed = false;
     for (final T e : c)
-      changed = add(e) || changed;
+      changed |= add(e);
 
     return changed;
   }
@@ -163,8 +182,8 @@ public class TransSet<S,T> extends FilterSet<T> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object element : c)
-      changed = remove(element) || changed;
+    for (final Object e : c)
+      changed |= remove(e);
 
     return changed;
   }
@@ -172,7 +191,7 @@ public class TransSet<S,T> extends FilterSet<T> {
   @Override
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
       final S e = iterator.next();
       if (!c.contains(e == null ? null : sourceToTarget.apply(e))) {
@@ -189,7 +208,7 @@ public class TransSet<S,T> extends FilterSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    return source.removeIf(new Predicate<S>() {
+    return target.removeIf(new Predicate<S>() {
       @Override
       public boolean test(final S t) {
         return filter.test(sourceToTarget.apply(t));

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * List wrapper that guarantees sorted order of its members.
  */
-public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
+public class SortedList<E extends Comparable<? super E>> extends DelegateList<E> {
   public SortedList(final List<E> list) {
     this(list, true);
   }
@@ -38,13 +38,6 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
   }
 
   @Override
-  protected FilterList<E> newInstance(final List source) {
-    final SortedList<E> list = new SortedList<>();
-    list.source = source;
-    return list;
-  }
-
-  @Override
   public boolean contains(final Object o) {
     return indexOf(o) > -1;
   }
@@ -52,13 +45,13 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
   @Override
   @SuppressWarnings("unchecked")
   public boolean add(final E e) {
-    return addUnsafe(FastCollections.binaryClosestSearch(source, e), e);
+    return addUnsafe(FastCollections.binaryClosestSearch(target, e), e);
   }
 
   protected boolean addUnsafe(final int index, final E e) {
-    final int size = source.size();
-    source.add(index, e);
-    return size != source.size();
+    final int size = target.size();
+    target.add(index, e);
+    return size != target.size();
   }
 
   @Override
@@ -67,7 +60,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
     if (index < 0)
       return false;
 
-    source.remove(index);
+    target.remove(index);
     return true;
   }
 
@@ -92,7 +85,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
   public boolean addAll(final Collection<? extends E> c) {
     boolean changed = false;
     for (final E e : c)
-      changed = add(e) || changed;
+      changed |= add(e);
 
     return changed;
   }
@@ -106,7 +99,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object e : c)
-      changed = remove(e) || changed;
+      changed |= remove(e);
 
     return changed;
   }
@@ -129,7 +122,7 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   private int indexOf(final Object o, final int fromIndex, final int toIndex) {
-    return o instanceof Comparable ? FastCollections.binarySearch(source, fromIndex, toIndex, (Comparable)o) : source.indexOf(o);
+    return o instanceof Comparable ? FastCollections.binarySearch(target, fromIndex, toIndex, (Comparable)o) : target.indexOf(o);
   }
 
   @Override
@@ -143,7 +136,12 @@ public class SortedList<E extends Comparable<? super E>> extends FilterList<E> {
     if (index < 0)
       return index;
 
-    while (source.get(++index).equals(o));
+    while (target.get(++index).equals(o));
     return index;
+  }
+
+  @Override
+  public SortedList<E> subList(final int fromIndex, final int toIndex) {
+    return new SortedList<E>(target.subList(fromIndex, toIndex), false);
   }
 }

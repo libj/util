@@ -18,6 +18,7 @@ package org.fastjax.util;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -29,13 +30,31 @@ import java.util.function.Function;
  * @param <T> Type of target Collection.
  * @see Collection
  */
-public class TransCollection<S,T> extends FilterCollection<T> {
+public class TransCollection<S,T> extends DelegateCollection<T> {
   protected final Function<S,T> sourceToTarget;
   protected final Function<T,S> targetToSource;
 
+  /**
+   * Creates a new {@code TransCollection} with the specified source Collection,
+   * and functions defining the translation of objects types {@code S -> T} and
+   * {@code T -> S}.
+   * <p>
+   * If {@code sourceToTarget} is null, all methods that require a translation
+   * of {@code S -> T} will throw a {@link UnsupportedOperationException}.
+   * <p>
+   * If {@code targetToSource} is null, all methods that require a translation
+   * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
+   *
+   * @param source The source Collection of type {@code <S>}.
+   * @param sourceToTarget The {@code Function} defining the translation from
+   *          {@code S -> T}.
+   * @param targetToSource The {@code Function} defining the translation from
+   *          {@code T -> S}.
+   * @throws NullPointerException If {@code source} is null.
+   */
   public TransCollection(final Collection<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
     super();
-    super.source = source;
+    super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
   }
@@ -45,7 +64,7 @@ public class TransCollection<S,T> extends FilterCollection<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     if (o != null) {
       while (iterator.hasNext())
         if (o.equals(sourceToTarget.apply(iterator.next())))
@@ -62,7 +81,7 @@ public class TransCollection<S,T> extends FilterCollection<T> {
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     return new Iterator<T>() {
       @Override
       public boolean hasNext() {
@@ -90,8 +109,8 @@ public class TransCollection<S,T> extends FilterCollection<T> {
       throw new UnsupportedOperationException();
 
     final Object[] array = new Object[size()];
-    final Iterator<S> iterator = source.iterator();
-    for (int i = 0; i < size(); i++)
+    final Iterator<S> iterator = target.iterator();
+    for (int i = 0; i < size(); ++i)
       array[i] = sourceToTarget.apply(iterator.next());
 
     return array;
@@ -103,8 +122,8 @@ public class TransCollection<S,T> extends FilterCollection<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
-    for (int i = 0; i < size(); i++)
+    final Iterator<S> iterator = target.iterator();
+    for (int i = 0; i < size(); ++i)
       a[i] = (E)sourceToTarget.apply(iterator.next());
 
     return a;
@@ -115,7 +134,7 @@ public class TransCollection<S,T> extends FilterCollection<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return source.add(targetToSource.apply(e));
+    return target.add(targetToSource.apply(e));
   }
 
   @Override
@@ -123,7 +142,7 @@ public class TransCollection<S,T> extends FilterCollection<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
       final S e = iterator.next();
       if (o != null ? o.equals(sourceToTarget.apply(e)) : sourceToTarget.apply(e) == null) {
@@ -148,7 +167,7 @@ public class TransCollection<S,T> extends FilterCollection<T> {
   public boolean addAll(final Collection<? extends T> c) {
     boolean changed = false;
     for (final T e : c)
-      changed = add(e) || changed;
+      changed |= add(e);
 
     return changed;
   }
@@ -156,8 +175,8 @@ public class TransCollection<S,T> extends FilterCollection<T> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object element : c)
-      changed = remove(element) || changed;
+    for (final Object e : c)
+      changed |= remove(e);
 
     return changed;
   }
@@ -165,7 +184,7 @@ public class TransCollection<S,T> extends FilterCollection<T> {
   @Override
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
       if (!c.contains(sourceToTarget.apply(iterator.next()))) {
         iterator.remove();

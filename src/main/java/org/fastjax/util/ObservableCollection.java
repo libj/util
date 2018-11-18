@@ -22,18 +22,18 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Wrapper class for the {@code Collection} interface that provides callback
- * methods to observe the addition and removal of elements to the wrapped
- * {@code Collection}.
- * <ul>
- * <li>{@link #beforeAdd(Object)}</li>
- * <li>{@link #afterAdd(Object,RuntimeException)}</li>
- * <li>{@link #beforeRemove(Object)}</li>
- * <li>{@link #afterRemove(Object,RuntimeException)}</li>
- * <li>{@link Collection}</li>
- * </ul>
+ * A {@link DelegateCollection} that provides callback methods to observe the
+ * addition and removal of elements, either due to direct method
+ * invocation on the collection instance itself, or via {@link #iterator()},
+ * {@link #spliterator()}, {@link #forEach(Consumer)}, and any other entrypoint
+ * that facilitates modification of the elements in this list.
+ *
+ * @see #beforeAdd(Object)
+ * @see #afterAdd(Object,RuntimeException)
+ * @see #beforeRemove(Object)
+ * @see #afterRemove(Object,RuntimeException)
  */
-public class ObservableCollection<E> extends FilterCollection<E> {
+public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   public ObservableCollection(final Collection<E> collection) {
     super(collection);
   }
@@ -94,12 +94,12 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * elements for which {@link #beforeRemove(Object)} returns false will not be
    * removed from this collection.
    *
+   * @return An <tt>Iterator</tt> over the elements in this collection
    * @see Collection#iterator()
-   * @return an <tt>Iterator</tt> over the elements in this collection
    */
   @Override
   public Iterator<E> iterator() {
-    final Iterator<E> iterator = source.iterator();
+    final Iterator<E> iterator = target.iterator();
     return new Iterator<E>() {
       private E current;
 
@@ -154,7 +154,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
     boolean result = false;
     RuntimeException re = null;
     try {
-      result = source.add(e);
+      result = target.add(e);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -180,8 +180,8 @@ public class ObservableCollection<E> extends FilterCollection<E> {
   @Override
   public boolean addAll(final Collection<? extends E> c) {
     boolean changed = false;
-    for (final E element : c)
-      changed = add(element) || changed;
+    for (final E e : c)
+      changed |= add(e);
 
     return changed;
   }
@@ -190,8 +190,8 @@ public class ObservableCollection<E> extends FilterCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
-   * {@link #afterRemove(ObjectRuntimeException)} are called immediately
-   * before and after the enclosed collection is modified. If
+   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed collection is modified. If
    * {@link #beforeRemove(Object)} returns false, the element will not be
    * removed.
    */
@@ -201,7 +201,7 @@ public class ObservableCollection<E> extends FilterCollection<E> {
     boolean result = false;
     RuntimeException re = null;
     try {
-      result = source.remove(o);
+      result = target.remove(o);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -227,8 +227,8 @@ public class ObservableCollection<E> extends FilterCollection<E> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object element : c)
-      changed = remove(element) || changed;
+    for (final Object e : c)
+      changed |= remove(e);
 
     return changed;
   }

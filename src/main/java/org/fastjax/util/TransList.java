@@ -20,32 +20,45 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * An implementation of the {@code List} interface that transforms the elements
- * of the supplied source {@code List} based on {@code sourceToTarget} and
+ * An implementation of the List interface that transforms the elements of
+ * the supplied source List based on {@code sourceToTarget} and
  * {@code targetToSource} lambda functions.
  *
- * @param <S> Type of source {@code List}.
- * @param <T> Type of target {@code List}.
+ * @param <S> Type of source List.
+ * @param <T> Type of target List.
  * @see List
  */
-public class TransList<S,T> extends FilterList<T> {
+public class TransList<S,T> extends DelegateList<T> {
   protected final Function<S,T> sourceToTarget;
   protected final Function<T,S> targetToSource;
 
+  /**
+   * Creates a new {@code TransList} with the specified source List, and
+   * functions defining the translation of objects types {@code S -> T} and
+   * {@code T -> S}.
+   * <p>
+   * If {@code sourceToTarget} is null, all methods that require a translation
+   * of {@code S -> T} will throw a {@link UnsupportedOperationException}.
+   * <p>
+   * If {@code targetToSource} is null, all methods that require a translation
+   * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
+   *
+   * @param source The source List of type {@code <S>}.
+   * @param sourceToTarget The {@code Function} defining the translation from
+   *          {@code S -> T}.
+   * @param targetToSource The {@code Function} defining the translation from
+   *          {@code T -> S}.
+   * @throws NullPointerException If {@code source} is null.
+   */
   public TransList(final List<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
     super();
-    super.source = source;
+    super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  protected TransList<S,T> newInstance(final List source) {
-    return new TransList<>(source, sourceToTarget, targetToSource);
   }
 
   @Override
@@ -53,7 +66,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     if (o != null) {
       while (iterator.hasNext())
         if (o.equals(sourceToTarget.apply(iterator.next())))
@@ -70,7 +83,7 @@ public class TransList<S,T> extends FilterList<T> {
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     return new Iterator<T>() {
       @Override
       public boolean hasNext() {
@@ -99,7 +112,7 @@ public class TransList<S,T> extends FilterList<T> {
       throw new UnsupportedOperationException();
 
     final Object[] array = new Object[size()];
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     for (int i = 0; i < size(); i++) {
       final S e = iterator.next();
       array[i] = e == null ? null : sourceToTarget.apply(e);
@@ -114,7 +127,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     for (int i = 0; i < size(); i++) {
       final S e = iterator.next();
       a[i] = e == null ? null : (E)sourceToTarget.apply(e);
@@ -128,7 +141,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return source.add(targetToSource.apply(e));
+    return target.add(targetToSource.apply(e));
   }
 
   @Override
@@ -136,7 +149,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
       final S e = iterator.next();
       if (o != null ? o.equals(sourceToTarget.apply(e)) : sourceToTarget.apply(e) == null) {
@@ -161,7 +174,7 @@ public class TransList<S,T> extends FilterList<T> {
   public boolean addAll(final Collection<? extends T> c) {
     boolean changed = false;
     for (final T e : c)
-      changed = add(e) || changed;
+      changed |= add(e);
 
     return changed;
   }
@@ -169,8 +182,8 @@ public class TransList<S,T> extends FilterList<T> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object element : c)
-      changed = remove(element) || changed;
+    for (final Object e : c)
+      changed |= remove(e);
 
     return changed;
   }
@@ -178,7 +191,7 @@ public class TransList<S,T> extends FilterList<T> {
   @Override
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
-    final Iterator<S> iterator = source.iterator();
+    final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
       final S e = iterator.next();
       if (!c.contains(e == null ? null : sourceToTarget.apply(e))) {
@@ -207,7 +220,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    return sourceToTarget.apply((S)source.get(index));
+    return sourceToTarget.apply((S)target.get(index));
   }
 
   @Override
@@ -216,7 +229,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (sourceToTarget == null || targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return sourceToTarget.apply((S)source.set(index, targetToSource.apply(element)));
+    return sourceToTarget.apply((S)target.set(index, targetToSource.apply(element)));
   }
 
   @Override
@@ -224,7 +237,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    source.add(index, targetToSource.apply(element));
+    target.add(index, targetToSource.apply(element));
   }
 
   @Override
@@ -233,7 +246,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    return sourceToTarget.apply((S)source.remove(index));
+    return sourceToTarget.apply((S)target.remove(index));
   }
 
   @Override
@@ -242,7 +255,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return source.indexOf(targetToSource.apply((T)o));
+    return target.indexOf(targetToSource.apply((T)o));
   }
 
   @Override
@@ -251,7 +264,7 @@ public class TransList<S,T> extends FilterList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return source.lastIndexOf(targetToSource.apply((T)o));
+    return target.lastIndexOf(targetToSource.apply((T)o));
   }
 
   @Override
@@ -261,7 +274,7 @@ public class TransList<S,T> extends FilterList<T> {
 
   @Override
   public ListIterator<T> listIterator(final int index) {
-    final ListIterator<S> iterator = source.listIterator();
+    final ListIterator<S> iterator = target.listIterator();
     return new ListIterator<T>() {
       @Override
       public boolean hasPrevious() {
@@ -325,6 +338,6 @@ public class TransList<S,T> extends FilterList<T> {
 
   @Override
   public TransList<S,T> subList(final int fromIndex, final int toIndex) {
-    return new TransList<S,T>(source.subList(fromIndex, toIndex), sourceToTarget, targetToSource);
+    return new TransList<S,T>(target.subList(fromIndex, toIndex), sourceToTarget, targetToSource);
   }
 }
