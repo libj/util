@@ -95,6 +95,477 @@ public final class Enums {
     return valueOf(enumClass, names.toArray(new String[names.size()]));
   }
 
+  /**
+   * A utility class that provides functions to encode and decode {@code enum}
+   * instances to and from {@code int} or {@code long} values, whereby the bits
+   * of the {@code int} or {@code long} values represent the ordinal numbers of
+   * the {@code enum} instances.
+   */
+  public static final class Mask {
+    /**
+     * Toggles the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
+     *
+     * @param mask The mask in which to toggle the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be toggled.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>byte toggle(byte mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask ^= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Toggles the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
+     *
+     * @param mask The mask in which to toggle the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be toggled.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>short toggle(short mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask ^= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Toggles the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
+     *
+     * @param mask The mask in which to toggle the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be toggled.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>int toggle(int mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask ^= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Toggles the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
+     *
+     * @param mask The mask in which to toggle the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be toggled.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>long toggle(long mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask ^= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Sets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to set the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be set.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>byte set(byte mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask |= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Sets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to set the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be set.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>short set(short mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask |= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Sets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to set the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be set.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>int set(int mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask |= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Sets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to set the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be set.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>long set(long mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask |= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Unsets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to unset the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be unset.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>byte unset(byte mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask &= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Unsets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to unset the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be unset.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>short unset(short mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask &= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Unsets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to unset the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be unset.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>int unset(int mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask &= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Unsets the bits in the specified {@code mask} at the ordinal values of the
+     * specified {@code enum} instances.
+     *
+     * @param mask The mask in which to unset the bits.
+     * @param enums The {@code enum} instances at ordinals of which the bits in
+     *          {@code mask} will be unset.
+     * @return The {@code mask}.
+     * @throws NullPointerException If any members of the {@code enums} array
+     *           are null.
+     */
+    @SafeVarargs
+    public static <E extends Enum<?>>long unset(long mask, final E ... enums) {
+      for (int i = 0; i < enums.length; ++i)
+        mask &= 1 << enums[i].ordinal();
+
+      return mask;
+    }
+
+    /**
+     * Checks whether the bit position represented by the specified ordinal is
+     * set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param ordinal The ordinal representing the bit to check in the
+     *          {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final byte mask, final int ordinal) {
+      return (mask & (1 << ordinal)) != 0;
+    }
+
+    /**
+     * Checks whether the bit position represented by the specified ordinal is
+     * set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param ordinal The ordinal representing the bit to check in the
+     *          {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final short mask, final int ordinal) {
+      return (mask & (1 << ordinal)) != 0;
+    }
+
+    /**
+     * Checks whether the bit position represented by the specified ordinal is
+     * set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param ordinal The ordinal representing the bit to check in the
+     *          {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final int mask, final int ordinal) {
+      return (mask & (1 << ordinal)) != 0;
+    }
+
+    /**
+     * Checks whether the bit position represented by the specified ordinal is
+     * set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param ordinal The ordinal representing the bit to check in the
+     *          {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final long mask, final int ordinal) {
+      return (mask & (1 << ordinal)) != 0;
+    }
+
+    /**
+     * Checks whether the bit position represented by the ordinal of the
+     * specified {@code enum} is set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param enm The {@code enum} with ordinal representing the bit to check in
+     *          the {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final byte mask, final Enum<?> enm) {
+      return check(mask, enm.ordinal());
+    }
+
+    /**
+     * Checks whether the bit position represented by the ordinal of the
+     * specified {@code enum} is set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param enm The {@code enum} with ordinal representing the bit to check in
+     *          the {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final short mask, final Enum<?> enm) {
+      return check(mask, enm.ordinal());
+    }
+
+    /**
+     * Checks whether the bit position represented by the ordinal of the
+     * specified {@code enum} is set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param enm The {@code enum} with ordinal representing the bit to check in
+     *          the {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final int mask, final Enum<?> enm) {
+      return check(mask, enm.ordinal());
+    }
+
+    /**
+     * Checks whether the bit position represented by the ordinal of the
+     * specified {@code enum} is set in the specified mask.
+     *
+     * @param mask The mask in which to check the bit represented by
+     *          {@code ordinal}.
+     * @param enm The {@code enum} with ordinal representing the bit to check in
+     *          the {@code mask}.
+     * @return {@code true} if the bit position represented by the specified
+     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     */
+    public static boolean check(final long mask, final Enum<?> enm) {
+      return check(mask, enm.ordinal());
+    }
+
+    /**
+     * Returns an array of instances of the specified {@code enum} whose
+     * ordinals are set in the specified mask.
+     *
+     * @param <E> The type parameter representing the {@code enum} class.
+     * @param values The array of {@code enum} values returned by the
+     *          {@code MyEnum.values()} method, where {@code MyEnum} is the
+     *          {@code enum} of interest.
+     * @param mask The mask with bits representing ordinal values of the
+     *          specified {@code enum}.
+     * @return An array of instances of the specified {@code enum} values whose
+     *         ordinals are set in the specified mask.
+     * @throws ArrayIndexOutOfBoundsException If the mask defines an ordinal
+     *           that is out of bounds of the values array of the {@code enum}
+     *           of interest.
+     * @throws NullPointerException If {@code values} is null.
+     */
+    public static <E extends Enum<?>>E[] toArray(final E[] values, final byte mask) {
+      return toArray(values, mask, Byte.SIZE, 0, 0);
+    }
+
+    /**
+     * Returns an array of instances of the specified {@code enum} whose
+     * ordinals are set in the specified mask.
+     *
+     * @param <E> The type parameter representing the {@code enum} class.
+     * @param values The array of {@code enum} values returned by the
+     *          {@code MyEnum.values()} method, where {@code MyEnum} is the
+     *          {@code enum} of interest.
+     * @param mask The mask with bits representing ordinal values of the
+     *          specified {@code enum}.
+     * @return An array of instances of the specified {@code enum} values whose
+     *         ordinals are set in the specified mask.
+     * @throws ArrayIndexOutOfBoundsException If the mask defines an ordinal
+     *           that is out of bounds of the values array of the {@code enum}
+     *           of interest.
+     * @throws NullPointerException If {@code values} is null.
+     */
+    public static <E extends Enum<?>>E[] toArray(final E[] values, final short mask) {
+      return toArray(values, mask, Short.SIZE, 0, 0);
+    }
+
+    /**
+     * Returns an array of instances of the specified {@code enum} whose
+     * ordinals are set in the specified mask.
+     *
+     * @param <E> The type parameter representing the {@code enum} class.
+     * @param values The array of {@code enum} values returned by the
+     *          {@code MyEnum.values()} method, where {@code MyEnum} is the
+     *          {@code enum} of interest.
+     * @param mask The mask with bits representing ordinal values of the
+     *          specified {@code enum}.
+     * @return An array of instances of the specified {@code enum} values whose
+     *         ordinals are set in the specified mask.
+     * @throws ArrayIndexOutOfBoundsException If the mask defines an ordinal
+     *           that is out of bounds of the values array of the {@code enum}
+     *           of interest.
+     * @throws NullPointerException If {@code values} is null.
+     */
+    public static <E extends Enum<?>>E[] toArray(final E[] values, final int mask) {
+      return toArray(values, mask, Integer.SIZE, 0, 0);
+    }
+
+    /**
+     * Returns an array of instances of the specified {@code enum} whose
+     * ordinals are set in the specified mask.
+     *
+     * @param <E> The type parameter representing the {@code enum} class.
+     * @param values The array of {@code enum} values returned by the
+     *          {@code MyEnum.values()} method, where {@code MyEnum} is the
+     *          {@code enum} of interest.
+     * @param mask The mask with bits representing ordinal values of the
+     *          specified {@code enum}.
+     * @return An array of instances of the specified {@code enum} values whose
+     *         ordinals are set in the specified mask.
+     * @throws ArrayIndexOutOfBoundsException If the mask defines an ordinal
+     *           that is out of bounds of the values array of the {@code enum}
+     *           of interest.
+     * @throws NullPointerException If {@code values} is null.
+     */
+    public static <E extends Enum<?>>E[] toArray(final E[] values, final long mask) {
+      return toArray(values, mask, 0, 0);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E extends Enum<?>>E[] toArray(final E[] values, final int mask, final int size, final int index, final int depth) {
+      for (int i = index; i < size; ++i) {
+        if ((mask & (1 << i)) != 0) {
+          final E enm = values[i];
+          final E[] array = toArray(values, mask, size, index + 1, depth + 1);
+          array[depth] = enm;
+          return array;
+        }
+      }
+
+      return (E[])Array.newInstance(values.getClass().getComponentType(), depth);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E extends Enum<?>>E[] toArray(final E[] values, final long mask, final int index, final int depth) {
+      for (int i = index; i < Long.SIZE; ++i) {
+        if ((mask & (1 << i)) != 0) {
+          final E enm = values[i];
+          final E[] array = toArray(values, mask, index + 1, depth + 1);
+          array[depth] = enm;
+          return array;
+        }
+      }
+
+      return (E[])Array.newInstance(values.getClass().getComponentType(), depth);
+    }
+
+    private Mask() {
+    }
+  }
+
   private Enums() {
   }
 }
