@@ -37,11 +37,12 @@ public final class ClassLoaders {
 
   /**
    * Returns a {@link File} array representing the paths in the classpath of the
-   * current Java virtual machine. The classpath is determined via the
+   * system {@code ClassLoader}. The classpath is determined from the
    * {@code "java.class.path"} system property.
    *
    * @return A {@link File} array representing the paths in the classpath of the
-   *         current Java virtual machine.
+   *         system {@code ClassLoader}.
+   * @see ClassLoader#getSystemClassLoader()
    */
   public static File[] getClassPath() {
     final File[] classpath = getClassPath("java.class.path");
@@ -49,16 +50,31 @@ public final class ClassLoaders {
   }
 
   /**
-   * Returns a {@link File} array representing the paths in the surefire test
-   * classpath of the current Java virtual machine. The classpath is determined
-   * via the {@code "surefire.test.class.path"} system property.
+   * Returns a {@link File} array representing the paths in the classpath of the
+   * bootstrap {@code ClassLoader}. The classpath is determined from the
+   * {@code "sun.boot.class.path"} system property.
    *
-   * @return A {@link File} array representing the paths in the surefire test
+   * @return A {@link File} array representing the paths in the classpath of the
+   *         bootstrap {@code ClassLoader}.
+   */
+  public static File[] getBootstrapClassPath() {
+    return getClassPath("sun.boot.class.path");
+  }
+
+  /**
+   * Returns a {@link File} array representing the paths in the Surefire test
+   * classpath of the current Java virtual machine. The classpath is determined
+   * from the {@code "surefire.test.class.path"} system property, which is set
+   * by the Surefire runtime.
+   *
+   * @return A {@link File} array representing the paths in the Surefire test
    *         classpath of the current Java virtual machine.
+   * @see <a href=
+   *      "https://maven.apache.org/surefire/maven-surefire-plugin/">Maven
+   *      Surefire Plugin</a>
    */
   public static File[] getTestClassPath() {
-    final File[] classpath = getClassPath("surefire.test.class.path");
-    return classpath != null ? classpath : getClassPath("user.dir");
+    return getClassPath("surefire.test.class.path");
   }
 
   private ClassLoaders() {

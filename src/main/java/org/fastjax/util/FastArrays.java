@@ -23,20 +23,71 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
+/**
+ * Utility functions for operations pertaining to arrays.
+ */
 public final class FastArrays {
-  public static int lengthDeep(final Object[] array) {
-    return lengthDeep(array, false);
+  /**
+   * Returns the length of the specified array, summed with the lengths of all
+   * nested arrays at every depth. The value of
+   * {@code member.getClass().isArray()} is used to determine whether an array
+   * member represents an array for further recursion.
+   * <p>
+   * Array members that reference an array are <i>not included</i> in the count.
+   * This is the equivalent of calling {@code lengthDeep(Object[],false)}.
+   *
+   * @param a The array.
+   * @return The length of the specified array, summed with the lengths of all
+   *         nested arrays at every depth.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static int lengthDeep(final Object[] a) {
+    return lengthDeep(a, false);
   }
 
-  public static <T>int lengthDeep(final T[] array, final boolean countArrayReferences) {
-    return lengthDeep(array, null, countArrayReferences);
+  /**
+   * Returns the length of the specified array, summed with the lengths of all
+   * nested arrays at every depth. The value of
+   * {@code member.getClass().isArray()} is used to determine whether an array
+   * member represents an array for further recursion.
+   *
+   * @param a The array.
+   * @param countArrayReferences If {@code true}, array members that reference
+   *          an array are included in the count; if {@code false}, they are not
+   *          included in the count.
+   * @return The length of the specified array, summed with the lengths of all
+   *         nested arrays at every depth.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static <T>int lengthDeep(final T[] a, final boolean countArrayReferences) {
+    return lengthDeep(a, null, countArrayReferences);
   }
 
+  /**
+   * Returns the length of the specified array, summed with the lengths of all
+   * nested arrays at every depth. The specified resolver {@link Function}
+   * provides a layer of indirection between an array member, and a higher-layer
+   * value. This is useful in the situation where the array contains symbolic
+   * references to other arrays. The {@code resolver} parameter is provided to
+   * dereference such a symbolic references.
+   *
+   * @param a The array.
+   * @param resolver A {@link Function} to provide a layer of indirection
+   *          between an array member, and a higher-layer value. If
+   *          {@code resolver} is null, {@code member.getClass().isArray()} is
+   *          used to determine whether the member value represents an array.
+   * @param countArrayReferences If {@code true}, array members that reference
+   *          an array are included in the count; if {@code false}, they are not
+   *          included in the count.
+   * @return The length of the specified array, summed with the lengths of all
+   *         nested arrays at every depth.
+   * @throws NullPointerException If {@code a} is null.
+   */
   @SuppressWarnings("unchecked")
-  public static <T>int lengthDeep(final T[] array, final Function<T,T[]> resolver, final boolean countArrayReferences) {
+  public static <T>int lengthDeep(final T[] a, final Function<T,T[]> resolver, final boolean countArrayReferences) {
     int size = 0;
-    for (int i = 0; i < array.length; ++i) {
-      final T member = array[i];
+    for (int i = 0; i < a.length; ++i) {
+      final T member = a[i];
       final T[] inner = member == null ? null : resolver != null ? resolver.apply(member) : member.getClass().isArray() ? (T[])member : null;
       if (inner != null) {
         size += lengthDeep(inner, resolver, countArrayReferences);
@@ -51,22 +102,67 @@ public final class FastArrays {
     return size;
   }
 
-  public static Object[] flatten(final Object[] array) {
-    return flatten(array, null, false);
+  /**
+   * Returns a one-dimensional array with the members of the specified array,
+   * and the members of all nested arrays at every depth. The value of
+   * {@code member.getClass().isArray()} is used to determine whether an array
+   * member represents an array for further recursion.
+   * <p>
+   * Array members that reference an array are <i>not included</i> in the
+   * resulting array. This is the equivalent of calling
+   * {@code flatten(Object[],false)}.
+   *
+   * @param a The array.
+   * @return A one-dimensional array with the members of the specified array,
+   *         and the members of all nested arrays at every depth.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static Object[] flatten(final Object[] a) {
+    return flatten(a, null, false);
   }
 
-  public static Object[] flatten(final Object[] array, final Function<Object,Object[]> resolver) {
-    return flatten(array, resolver, false);
+  /**
+   * Returns a one-dimensional array with the members of the specified array,
+   * and the members of all nested arrays at every depth. The value of
+   * {@code member.getClass().isArray()} is used to determine whether an array
+   * member represents an array for further recursion.
+   *
+   * @param a The array.
+   * @param retainArrayReferences If {@code true}, array members that reference
+   *          an array are included in the resulting array; if {@code false},
+   *          they are not included in the resulting array.
+   * @return A one-dimensional array with the members of the specified array,
+   *         and the members of all nested arrays at every depth.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static Object[] flatten(final Object[] a, final boolean retainArrayReferences) {
+    return flatten(a, null, retainArrayReferences);
   }
 
-  public static Object[] flatten(final Object[] array, final boolean retainArrayReferences) {
-    return flatten(array, null, retainArrayReferences);
-  }
-
+  /**
+   * Returns a one-dimensional array with the members of the specified array,
+   * and the members of all nested arrays at every depth. The specified resolver
+   * {@link Function} provides a layer of indirection between an array member,
+   * and a higher-layer value. This is useful in the situation where the array
+   * contains symbolic references to other arrays. The {@code resolver}
+   * parameter is provided to dereference such a symbolic references.
+   *
+   * @param a The array.
+   * @param resolver A {@link Function} to provide a layer of indirection
+   *          between an array member, and a higher-layer value. If
+   *          {@code resolver} is null, {@code member.getClass().isArray()} is
+   *          used to determine whether the member value represents an array.
+   * @param retainArrayReferences If {@code true}, array members that reference
+   *          an array are included in the resulting array; if {@code false}, they are not
+   *          included in the resulting array.
+   * @return A one-dimensional array with the members of the specified array,
+   *         and the members of all nested arrays at every depth.
+   * @throws NullPointerException If {@code a} is null.
+   */
   @SuppressWarnings("unchecked")
-  public static <T>T[] flatten(final T[] array, final Function<T,T[]> resolver, final boolean retainArrayReferences) {
-    final T[] out = (T[])Array.newInstance(array.getClass().getComponentType(), lengthDeep(array, resolver, retainArrayReferences));
-    flatten0(array, out, resolver, retainArrayReferences, -1);
+  public static <T>T[] flatten(final T[] a, final Function<T,T[]> resolver, final boolean retainArrayReferences) {
+    final T[] out = (T[])Array.newInstance(a.getClass().getComponentType(), lengthDeep(a, resolver, retainArrayReferences));
+    flatten0(a, out, resolver, retainArrayReferences, -1);
     return out;
   }
 
@@ -1752,7 +1848,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final boolean[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1774,7 +1870,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final byte[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1796,7 +1892,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final short[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1818,7 +1914,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final int[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1840,7 +1936,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final long[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1862,7 +1958,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final float[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1884,7 +1980,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final double[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1906,7 +2002,7 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the list to be shuffled.
+   * @param array The list to be shuffled.
    */
   public static void shuffle(final Object[] array) {
     shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
@@ -1924,11 +2020,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final boolean[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -1945,10 +2041,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final byte[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -1964,11 +2060,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final char[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -1984,11 +2080,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final short[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -2004,11 +2100,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final int[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -2024,11 +2120,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final long[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -2044,11 +2140,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final float[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -2064,11 +2160,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final double[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 
@@ -2084,11 +2180,11 @@ public final class FastArrays {
    * <p>
    * This method runs in linear time.
    *
-   * @param array the array to be shuffled.
-   * @param random the source of randomness to use to shuffle the array.
+   * @param array The array to be shuffled.
+   * @param random The source of randomness to use to shuffle the array.
    */
   public static void shuffle(final Object[] array, final Random random) {
-    for (int i = array.length; i > 1; i--)
+    for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
 

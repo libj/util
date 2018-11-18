@@ -27,7 +27,7 @@ public final class Objects {
    * @param obj The object.
    * @return The class name of object {@code obj}, concatenated with '@', and
    *         the hexadecimal representation of its identity hash code.
-   * @throws NullPointerException If obj is null.
+   * @throws NullPointerException If {@code obj} is null.
    * @see System#identityHashCode(Object)
    */
   public static String identity(final Object obj) {
@@ -41,7 +41,7 @@ public final class Objects {
    * @param obj The object.
    * @return The simple class name of object {@code obj}, concatenated with '@',
    *         and the hexadecimal representation of its identity hash code.
-   * @throws NullPointerException If obj is null.
+   * @throws NullPointerException If {@code obj} is null.
    * @see System#identityHashCode(Object)
    */
   public static String simpleIdentity(final Object obj) {

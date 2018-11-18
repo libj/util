@@ -23,6 +23,18 @@ import java.util.List;
 
 import name.fraser.neil.plaintext.diff_match_patch;
 
+/**
+ * This class implements an algorithm and encoding (the diff) for the
+ * representation of the steps necessary to transform a {@code target} string to
+ * the {@code source} string. The generated diff can thereafter be used to
+ * transform the {@code source} string back to the {@code target} string. The
+ * diff information (i.e. the transformation steps) is encoded with bit-level
+ * packing, allowing for a super compact representation.
+ * <p>
+ * This class utilizes a 3rd-party library named
+ * <a href="https://github.com/google/diff-match-patch">diff-match-patch</a> for
+ * synchronizing plain text.
+ */
 public class Diff {
   private static final Charset charset = Charset.forName("UTF-8");
 
@@ -44,7 +56,7 @@ public class Diff {
   }
 
   /**
-   * Write the {@code lengthSize} into {@code dest}. 5 bits are
+   * Writes the {@code lengthSize} into {@code dest}. 5 bits are
    * reserved for {@code lengthSize}, allowing max value of 32.
    *
    * @param dest The destination array.
@@ -57,7 +69,7 @@ public class Diff {
   }
 
   /**
-   * Write the {@code ordinal} into {@code dest} at {@code offset}. 2 bits are
+   * Writes the {@code ordinal} into {@code dest} at {@code offset}. 2 bits are
    * reserved for {@code ordinal}.
    *
    * @param dest The destination array.
@@ -70,7 +82,7 @@ public class Diff {
   }
 
   /**
-   * Write the {@code length} into {@code dest} at {@code offset}.
+   * Writes the {@code length} into {@code dest} at {@code offset}.
    * {@code lengthSize} bits will be used for {@code length}.
    *
    * @param dest The destination array.
@@ -86,7 +98,7 @@ public class Diff {
   }
 
   /**
-   * Write the {@code text} into {@code dest} at {@code offset}.
+   * Writes the {@code text} into {@code dest} at {@code offset}.
    * {@code length} * 8 bits will be used for {@code text}.
    *
    * @param dest The destination array.
@@ -100,19 +112,19 @@ public class Diff {
   }
 
   /**
-   * Decode a byte array encoding of a diff into a {@code Diff} object.
+   * Decodes a byte array encoding of a diff into a {@code Diff} object.
    *
    * @param bytes The {@code byte[]} array.
    * @return The {@code Diff} object decoded from the byte array.
+   * @throws NullPointerException If {@code bytes} is null.
    */
   public static Diff decode(final byte[] bytes) {
     final byte lengthSize = getLengthSize(bytes[0]);
     final int limit = bytes.length * 8 - lengthSize - 2;
 
-    int offset = lengthSizeSize;
     final List<Mod> mods = new ArrayList<>();
     final Diff diff = new Diff(mods, lengthSize);
-    while (offset < limit) {
+    for (int offset = lengthSizeSize; offset < limit;) {
       final byte ordinal = Bytes.readBitsFromByte(bytes, offset, (byte)2);
       offset += 2;
       final Mod mod;
@@ -145,39 +157,96 @@ public class Diff {
     return diff;
   }
 
-  public abstract class Mod {
+  /**
+   * Class representing an abstract modification.
+   */
+  protected abstract class Mod {
     protected final int length;
 
+    /**
+     * Creates a new {@code Mod} with the specified length.
+     *
+     * @param length The length of the modification.
+     */
     protected Mod(final int length) {
       this.length = length;
     }
 
+    /**
+     * Creates a new {@code Mod} with the length encoded in the specified bytes.
+     *
+     * @param src The bytes from which to decode the length.
+     * @param offset The offset in bits specifying the start of the length bits.
+     * @param lengthSize The number of bits representing the length.
+     */
     protected Mod(final byte[] src, final int offset, final byte lengthSize) {
       this.length = Bytes.toInt(Bytes.readBitsFromBytes(src, offset, lengthSize), 0, true);
     }
 
+    /**
+     * @return The 2-bit ordinal identifier for this modification.
+     */
     protected abstract byte ordinal();
+
+    /**
+     * Patches the specified {@link StringBuilder} at the specified position
+     * with the modification represented by this instance, returning the change
+     * in length due to the patch operation.
+     *
+     * @param builder The {@link StringBuilder} in which to perform the patch.
+     * @param position The position at which to perform the patch.
+     * @return The change in length due to the patch operation.
+     */
     protected abstract int patch(final StringBuilder builder, final int position);
 
+    /**
+     * Encodes this modification into the specified byte array, at the specified
+     * offset of bits.
+     *
+     * @param dest The byte array into which this modification will be encoded.
+     * @param offset The offset of bits in the specified array at which this
+     *          modification will be encoded.
+     * @return The new offset adjusted by the written bits.
+     */
     protected int encode(final byte[] dest, int offset) {
       offset = writeOrdinal(dest, offset, ordinal());
       offset = writeLength(dest, offset, length, lengthSize);
       return offset;
     }
 
+    /**
+     * @return The number of bits required for the encoding of this
+     *         modification.
+     */
     protected int getSize() {
       return 2 + lengthSize;
     }
   }
 
-  public class Insert extends Mod {
+  /**
+   * Class representing an insert modification.
+   */
+  protected class Insert extends Mod {
     private final String text;
 
+    /**
+     * Creates a new {@code Insert} modification with the specified text.
+     *
+     * @param text The text representing the insert modification.
+     */
     protected Insert(final String text) {
       super(text.length());
       this.text = text;
     }
 
+    /**
+     * Creates a new {@code Insert} modification with the length encoded in the
+     * specified bytes.
+     *
+     * @param src The bytes from which to decode the length.
+     * @param offset The offset in bits specifying the start of the length bits.
+     * @param lengthSize The number of bits representing the length.
+     */
     protected Insert(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
       this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8));
@@ -212,11 +281,24 @@ public class Diff {
     }
   }
 
-  public class Delete extends Mod {
+  protected class Delete extends Mod {
+    /**
+     * Creates a new {@code Delete} modification with the specified length.
+     *
+     * @param length The length representing the delete modification.
+     */
     protected Delete(final int length) {
       super(length);
     }
 
+    /**
+     * Creates a new {@code Delete} modification with the length encoded in the
+     * specified bytes.
+     *
+     * @param src The bytes from which to decode the length.
+     * @param offset The offset in bits specifying the start of the length bits.
+     * @param lengthSize The number of bits representing the length.
+     */
     protected Delete(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
     }
@@ -238,14 +320,27 @@ public class Diff {
     }
   }
 
-  public class Replace extends Mod {
+  protected class Replace extends Mod {
     private final String text;
 
+    /**
+     * Creates a new {@code Replace} modification with the specified text.
+     *
+     * @param text The text representing the insert modification.
+     */
     protected Replace(final String text) {
       super(text.length());
       this.text = text;
     }
 
+    /**
+     * Creates a new {@code Replace} modification with the length encoded in the
+     * specified bytes.
+     *
+     * @param src The bytes from which to decode the length.
+     * @param offset The offset in bits specifying the start of the length bits.
+     * @param lengthSize The number of bits representing the length.
+     */
     protected Replace(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
       this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8));
@@ -280,11 +375,24 @@ public class Diff {
     }
   }
 
-  public class Equal extends Mod {
+  protected class Equal extends Mod {
+    /**
+     * Creates a new {@code Equal} modification with the specified length.
+     *
+     * @param length The length representing the equal modification.
+     */
     protected Equal(final int length) {
       super(length);
     }
 
+    /**
+     * Creates a new {@code Equal} modification with the length encoded in the
+     * specified bytes.
+     *
+     * @param src The bytes from which to decode the length.
+     * @param offset The offset in bits specifying the start of the length bits.
+     * @param lengthSize The number of bits representing the length.
+     */
     protected Equal(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
     }
@@ -309,7 +417,7 @@ public class Diff {
   private final byte lengthSize;
 
   /**
-   * Create a {@code Diff} that represents the steps necessary to transform a
+   * Creates a {@code Diff} that represents the steps necessary to transform a
    * {@code target} string to the {@code source} string.
    *
    * @param source The source string.
@@ -376,7 +484,7 @@ public class Diff {
   }
 
   /**
-   * Create a {@code Diff} from a list of {@link Diff.Mod} objects,
+   * Creates a {@code Diff} from a list of {@link Diff.Mod} objects,
    * and a {@code lengthSize} (the number of bits in the length number in
    * each {@link Diff.Mod} object).
    *
@@ -402,7 +510,7 @@ public class Diff {
   }
 
   /**
-   * Patch a string with the list of {@link Diff.Mod} objects in this
+   * Patches a string with the list of {@link Diff.Mod} objects in this
    * {@code Diff}.
    *
    * @param string The string.
@@ -419,7 +527,7 @@ public class Diff {
   }
 
   /**
-   * Encode this {@code Diff} object into a byte array representation.
+   * Encodes this {@code Diff} object into a byte array representation.
    *
    * @return This {@code Diff} object encoded to a byte array.
    */

@@ -521,7 +521,7 @@ public final class Bytes {
    * Returns a {@code short} array representing the base-8 values of the
    * specified {@code byte} array.
    *
-   * @param b The {@code byte}.
+   * @param bytes The {@code byte} array.
    * @return A {@code short} array representing the base-8 values of the
    *         specified {@code byte} array.
    */

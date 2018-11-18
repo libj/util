@@ -147,6 +147,7 @@ public final class Classes {
    *           <a href=
    *           "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">Java
    *           Identifier</a>.
+   * @throws NullPointerException If {@code className} is null.
    * @see <a href=
    *      "https://docs.oracle.com/javase/specs/jls/se7/html/jls-6.html#jls-6.7">6.7.
    *      Fully Qualified Names and Canonical Names</a>
@@ -187,6 +188,7 @@ public final class Classes {
    * @param cls The class or interface.
    * @return The "Compound Name" of the class or interface represented by
    *         {@code cls}.
+   * @throws NullPointerException If {@code cls} is null.
    */
   public static String getCompoundName(final Class<?> cls) {
     final String pkg = cls.getPackageName();
@@ -212,6 +214,7 @@ public final class Classes {
    * @param cls The class or interface.
    * @return The canonical "Compound Name" of the class or interface represented
    *         by {@code cls}.
+   * @throws NullPointerException If {@code cls} is null.
    */
   public static String getCanonicalCompoundName(final Class<?> cls) {
     final String pkg = cls.getPackageName();
@@ -237,6 +240,7 @@ public final class Classes {
    * @throws MalformedParameterizedTypeException If the generic superclass
    *           refers to a parameterized type that cannot be instantiated for
    *           any reason.
+   * @throws NullPointerException If {@code cls} is null.
    */
   public static Type[] getGenericSuperclasses(final Class<?> cls) {
     return cls.getGenericSuperclass() instanceof ParameterizedType ? ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments() : null;
@@ -283,7 +287,7 @@ public final class Classes {
    *         field of the class or interface represented by {@code cls}
    *         (including inherited fields). The {@code name} parameter is a
    *         {@code String} specifying the simple name of the desired field.
-   * @throws NullPointerException If {@code name} is null.
+   * @throws NullPointerException If {@code cls} or {@code name} are null.
    * @throws SecurityException If a security manager, <i>s</i>, is present and
    *           the caller's class loader is not the same as or an ancestor of
    *           the class loader for the current class and invocation of
@@ -316,7 +320,7 @@ public final class Classes {
    *         field of the class or interface represented by {@code cls}
    *         (excluding inherited fields). The {@code name} parameter is a
    *         {@code String} specifying the simple name of the desired field.
-   * @throws NullPointerException If {@code name} is null.
+   * @throws NullPointerException If {@code cls} or {@code name} are null.
    * @throws SecurityException If a security manager, <i>s</i>, is present and
    *           the caller's class loader is not the same as or an ancestor of
    *           the class loader for the current class and invocation of
@@ -349,7 +353,7 @@ public final class Classes {
    *         field of the class or interface represented by {@code cls}
    *         (including inherited fields). The {@code name} parameter is a
    *         {@code String} specifying the simple name of the desired field.
-   * @throws NullPointerException If {@code name} is null.
+   * @throws NullPointerException If {@code cls} or {@code name} are null.
    * @throws SecurityException If a security manager, <i>s</i>, is present and
    *           the caller's class loader is not the same as or an ancestor of
    *           the class loader for the current class and invocation of
@@ -384,6 +388,7 @@ public final class Classes {
    * @return A Constructor object that reflects the specified public constructor
    *         of the class or interface represented by {@code cls} (including
    *         inherited constructors), or null if the constructor is not found.
+   * @throws NullPointerException If {@code cls} is null.
    */
   public static Constructor<?> getConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
     final Constructor<?>[] constructors = cls.getConstructors();
@@ -418,6 +423,7 @@ public final class Classes {
    *         constructor of the class or interface represented by {@code cls}
    *         (excluding inherited constructors), or null if the constructor is
    *         not found.
+   * @throws NullPointerException If {@code cls} is null.
    */
   public static Constructor<?> getDeclaredConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
     final Constructor<?>[] constructors = cls.getDeclaredConstructors();
@@ -439,10 +445,14 @@ public final class Classes {
    * @return The previous value assigned to {@code key}.
    * @throws IllegalArgumentException If {@code newValue} does not match the
    *           required type of the value for {@code key}.
+   * @throws NullPointerException If {@code annotation}, {@code key}, or
+   *           {@code newValue} are null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T setAnnotationValue(final Annotation annotation, final String key, final T newValue) {
     final Object handler = Proxy.getInvocationHandler(annotation);
+    Objects.requireNonNull(key);
+    Objects.requireNonNull(newValue);
     final Field field;
     final Map<String,Object> memberValues;
     try {
@@ -458,7 +468,7 @@ public final class Classes {
     if (oldValue == null)
       throw new IllegalArgumentException(key + " is not a valid key");
 
-    if (newValue != null && oldValue.getClass() != newValue.getClass())
+    if (newValue.getClass() != oldValue.getClass())
       throw new IllegalArgumentException(newValue.getClass().getName() + " does not match the required type " + oldValue.getClass().getName());
 
     memberValues.put(key, newValue);
@@ -566,7 +576,7 @@ public final class Classes {
    * @param cls The class in which to find declared fields.
    * @return An array of Field objects declared in {@code cls} (including
    *         inherited fields).
-   * @throws NullPointerException If @{@code cls} is null.
+   * @throws NullPointerException If {@code cls} is null.
    */
   public static Field[] getDeclaredFieldsDeep(final Class<?> cls) {
     return Repeat.Recursive.<Class<?>,Field,Object>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldRecurser, null);
@@ -595,7 +605,7 @@ public final class Classes {
    *          should be included in the returned array.
    * @return An array of Field objects declared in {@code cls} (including
    *         inherited fields).
-   * @throws NullPointerException If @{@code cls} or {@code predicate} are null.
+   * @throws NullPointerException If {@code cls} or {@code predicate} are null.
    */
   public static Field[] getDeclaredFieldsDeep(final Class<?> cls, final Predicate<Field> predicate) {
     return Repeat.Recursive.<Class<?>,Field,Predicate<Field>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithPredicateRecurser, Objects.requireNonNull(predicate));
@@ -622,7 +632,7 @@ public final class Classes {
    * @return An array of Field objects declared in {@code cls} (excluding
    *         inherited fields) that have an annotation of
    *         {@code annotationType}.
-   * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} are null.
    */
   public static Field[] getDeclaredFieldsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.<Field,Class<? extends Annotation>>ordered(cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, Objects.requireNonNull(annotationType));
@@ -650,7 +660,7 @@ public final class Classes {
    * @return An array of Field objects declared in {@code cls} (including
    *         inherited fields) that have an annotation of
    *         {@code annotationType}.
-   * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} are null.
    */
   public static Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.<Class<?>,Field,Class<? extends Annotation>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, Objects.requireNonNull(annotationType));
@@ -684,12 +694,12 @@ public final class Classes {
    * @return A Method object that reflects the specified declared method of the
    *         class or interface represented by {@code cls} (excluding inherited
    *         methods), or null if the method is not found.
-   * @throws NullPointerException If @{@code cls} is null.
+   * @throws NullPointerException If {@code cls} or {@code name} are null.
    */
   public static Method getDeclaredMethod(final Class<?> cls, final String name, final Class<?> ... parameterTypes) {
     final Method[] methods = cls.getDeclaredMethods();
     for (final Method method : methods)
-      if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), parameterTypes))
+      if (name.equals(method.getName()) && Arrays.equals(method.getParameterTypes(), parameterTypes))
         return method;
 
     return null;
@@ -723,7 +733,7 @@ public final class Classes {
    * @return A Method object that reflects the specified declared method of the
    *         class or interface represented by {@code cls} (including inherited
    *         methods), or null if the method is not found.
-   * @throws NullPointerException If @{@code cls} is null.
+   * @throws NullPointerException If {@code cls} or {@code name} are null.
    */
   public static Method getDeclaredMethodDeep(Class<?> cls, final String name, final Class<?> ... parameterTypes) {
     Method method;
@@ -750,7 +760,7 @@ public final class Classes {
    * @param cls The class in which to find declared methods.
    * @return An array of Method objects declared in {@code cls} (including
    *         inherited methods).
-   * @throws NullPointerException If @{@code cls} is null.
+   * @throws NullPointerException If {@code cls} is null.
    */
   public static Method[] getDeclaredMethodsDeep(final Class<?> cls) {
     return Repeat.Recursive.<Class<?>,Method,Object>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodRecurser, null);
@@ -776,7 +786,7 @@ public final class Classes {
    *          should be included in the returned array.
    * @return An array of Method objects declared in {@code cls} (including
    *         inherited methods).
-   * @throws NullPointerException If @{@code cls} or {@code predicate} are null.
+   * @throws NullPointerException If {@code cls} or {@code predicate} are null.
    */
   public static Method[] getDeclaredMethodsDeep(final Class<?> cls, final Predicate<Method> predicate) {
     return Repeat.Recursive.<Class<?>,Method,Predicate<Method>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithPredicateRecurser, Objects.requireNonNull(predicate));
@@ -802,7 +812,7 @@ public final class Classes {
    * @param annotationType The type of the annotation to match.
    * @return An array of Method objects declared in {@code cls} (excluding
    *         inherited methods) that have an annotation of {@code annotationType}.
-   * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} are null.
    */
   public static Method[] getDeclaredMethodsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.<Method,Class<? extends Annotation>>ordered(cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationFilter, Objects.requireNonNull(annotationType));
@@ -826,7 +836,7 @@ public final class Classes {
    * @param annotationType The type of the annotation to match.
    * @return An array of Method objects declared in {@code cls} (including
    *         inherited methods) that have an annotation of {@code annotationType}.
-   * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} are null.
    */
   public static Method[] getDeclaredMethodsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.<Class<?>,Method,Class<? extends Annotation>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, Objects.requireNonNull(annotationType));
@@ -853,7 +863,7 @@ public final class Classes {
    * @return An array of Class objects declared in {@code cls} (excluding
    *         inherited classes) that have an annotation of
    *         {@code annotationType}.
-   * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} are null.
    */
   @SuppressWarnings("unchecked")
   public static Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
@@ -878,7 +888,7 @@ public final class Classes {
    * @param annotationType The type of the annotation to match.
    * @return An array of Class objects declared in {@code cls} (including
    *         inherited classes) that have an annotation of {@code annotationType}.
-   * @throws NullPointerException If @{@code cls} or {@code annotationType} are null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} are null.
    */
   @SuppressWarnings("unchecked")
   public static Class<?>[] getDeclaredClassesWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
@@ -965,9 +975,9 @@ public final class Classes {
    * @return The greatest common superclass of the classes of the specified
    *         {@code Collection} of objects.
    * @throws IllegalArgumentException If the number of elements in the
-   *           {@code objects} {@code Collection} is 0.
+   *           {@code objects} collection is 0.
    * @throws NullPointerException If {@code objects} is null, or if any element
-   *           of the {@code objects} {@code Collection} is null.
+   *           of the {@code objects} collection is null.
    */
   public static <T>Class<?> getGreatestCommonSuperclass(final Collection<T> objects) {
     if (objects.size() == 0)

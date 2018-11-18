@@ -19,7 +19,19 @@ package org.fastjax.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * Utility functions for operations pertaining to {@code Throwable}.
+ */
 public final class Throwables {
+  /**
+   * Returns the string representation of the specified throwable and its
+   * backtrace.
+   *
+   * @param t The throwable.
+   * @return The string representation of the specified throwable and its
+   *         backtrace.
+   * @see Throwable#printStackTrace(PrintStream)
+   */
   public static String toString(final Throwable t) {
     final StringWriter stringWriter = new StringWriter();
     t.printStackTrace(new PrintWriter(stringWriter));

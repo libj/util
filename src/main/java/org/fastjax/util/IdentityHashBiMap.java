@@ -79,7 +79,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
-    return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(source.entrySet()) {
+    return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
       final ThreadLocal<V> value = new ThreadLocal<>();
 
       @Override
@@ -91,7 +91,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
 
       @Override
       protected void afterRemove(final Object o, final RuntimeException re) {
-        IdentityHashBiMap.this.inverse.source.remove(value.get());
+        IdentityHashBiMap.this.inverse.target.remove(value.get());
       }
     } : entrySet;
   }
@@ -114,8 +114,8 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
     clone.keySet = null;
     clone.values = null;
     clone.inverse = ((IdentityHashBiMap<V,K>)inverse).superClone();
-    clone.init((Map<K,V>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)source).source).clone()));
-    clone.inverse.init((Map<V,K>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)inverse.source).source).clone()));
+    clone.init((Map<K,V>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
+    clone.inverse.init((Map<V,K>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)inverse.target).target).clone()));
     clone.inverse.inverse = clone;
     return clone;
   }

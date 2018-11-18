@@ -26,6 +26,12 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
 
   private final TieredRangeFetcher<A,B> next;
 
+  /**
+   * Creates a {@code TieredRangeFetcher} with the specified next
+   * {@code TieredRangeFetcher} that represents the next tier.
+   *
+   * @param next The {@code TieredRangeFetcher} that represents the next tier.
+   */
   public TieredRangeFetcher(final TieredRangeFetcher<A,B> next) {
     this.next = next;
   }
@@ -56,13 +62,12 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   public SortedMap<A,B> fetch(final A from, final A to, final TieredRangeFetcher<A,B> last) {
     final A[] range = range();
     if (range == null || range[0] == range[1]) {
-      if (next != null) {
-        final SortedMap<A,B> data = next.fetch(from, to, last);
-        insert(from, to, data);
-        return data;
-      }
+      if (next == null)
+        return null;
 
-      return null;
+      final SortedMap<A,B> data = next.fetch(from, to, last);
+      insert(from, to, data);
+      return data;
     }
 
     if (this != last) {
@@ -109,7 +114,6 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
    *         the range between {@code from} and {@code to}.
    */
   protected abstract SortedMap<A,B> select(A from, A to);
-
 
   /**
    * Inserts a {@link SortedMap} of {@code data} into this

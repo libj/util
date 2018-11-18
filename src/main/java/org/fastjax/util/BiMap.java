@@ -30,10 +30,10 @@ import java.util.Set;
  * This implementation is not synchronized.
  *
  * @see ObservableMap
- * @see FilterMap
+ * @see DelegateMap
  */
-public abstract class BiMap<K,V> extends FilterMap<K,V> {
-  protected BiMap<V,K> inverse;
+public abstract class BiMap<K,V> extends DelegateMap<K,V> {
+  protected volatile BiMap<V,K> inverse;
 
   /**
    * Construct a new bidirectional map with the provided source maps.
@@ -55,19 +55,19 @@ public abstract class BiMap<K,V> extends FilterMap<K,V> {
   }
 
   protected void init(final Map<K,V> map) {
-    super.source = new ObservableMap<K,V>(map) {
+    super.target = new ObservableMap<K,V>(map) {
       @Override
       protected boolean beforePut(final K key, final V oldValue, final V newValue) {
-        ((ObservableMap<K,V>)BiMap.this.inverse.source).source.put(newValue, key);
+        ((ObservableMap<K,V>)BiMap.this.inverse.target).target.put(newValue, key);
         if (oldValue != null)
-          ((ObservableMap<K,V>)BiMap.this.inverse.source).source.remove(oldValue);
+          ((ObservableMap<K,V>)BiMap.this.inverse.target).target.remove(oldValue);
 
         return true;
       }
 
       @Override
       protected void afterRemove(final Object key, final V value, final RuntimeException re) {
-        ((ObservableMap<K,V>)BiMap.this.inverse.source).source.remove(value);
+        ((ObservableMap<K,V>)BiMap.this.inverse.target).target.remove(value);
       }
     };
   }
@@ -98,11 +98,11 @@ public abstract class BiMap<K,V> extends FilterMap<K,V> {
 
   @Override
   public Set<K> keySet() {
-    return keySet == null ? keySet = new ObservableSet<K>(source.keySet()) {
+    return keySet == null ? keySet = new ObservableSet<K>(target.keySet()) {
       @Override
       @SuppressWarnings("unchecked")
       protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.inverse.source.remove(((Map.Entry<K,V>)o).getValue());
+        BiMap.this.inverse.target.remove(((Map.Entry<K,V>)o).getValue());
       }
     } : keySet;
   }
@@ -111,23 +111,23 @@ public abstract class BiMap<K,V> extends FilterMap<K,V> {
 
   @Override
   public Collection<V> values() {
-    return values == null ? values = new ObservableCollection<V>(source.values()) {
+    return values == null ? values = new ObservableCollection<V>(target.values()) {
       @Override
       protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.inverse.source.remove(o);
+        BiMap.this.inverse.target.remove(o);
       }
     } : values;
   }
 
-  protected ObservableSet<Map.Entry<K,V>> entrySet;
+  protected volatile ObservableSet<Map.Entry<K,V>> entrySet;
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
-    return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(source.entrySet()) {
+    return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
       @Override
       @SuppressWarnings("unchecked")
       protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.inverse.source.remove(((Map.Entry<K,V>)o).getValue());
+        BiMap.this.inverse.target.remove(((Map.Entry<K,V>)o).getValue());
       }
     } : entrySet;
   }

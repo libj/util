@@ -19,7 +19,7 @@ package org.fastjax.util.retry;
 /**
  * Class representing a retryable exception that qualifies for retried
  * invocation, which is the default behavior defined in
- * {@link RetryPolicy#retryOn(Throwable)}.
+ * {@link RetryPolicy#retryOn(Exception)}.
  */
 public class RetryException extends RuntimeException {
   private static final long serialVersionUID = -215964084300420516L;

@@ -24,17 +24,18 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Wrapper class for the {@link Map} interface that provides callback methods to
- * observe the addition and removal of entries to the wrapped {@link Map}.
- * <ul>
- * <li>{@link #beforePut(Object,Object,Object)}</li>
- * <li>{@link #afterPut(Object,Object,Object,RuntimeException)}</li>
- * <li>{@link #beforeRemove(Object,Object)}</li>
- * <li>{@link #afterRemove(Object,Object,RuntimeException)}</li>
- * <li>{@link Map}</li>
- * </ul>
+ * A {@link DelegateMap} that provides callback methods to observe the addition
+ * and removal of elements, either due to direct method invocation on the map
+ * instance itself, or via {@link #entrySet()}, {@link #values()},
+ * {@link #forEach(BiConsumer)}, and any other entrypoint that facilitates
+ * modification of the elements in this map.
+ *
+ * @see #beforePut(Object,Object,Object)
+ * @see #afterPut(Object,Object,Object,RuntimeException)
+ * @see #beforeRemove(Object,Object)
+ * @see #afterRemove(Object,Object,RuntimeException)
  */
-public class ObservableMap<K,V> extends FilterMap<K,V> {
+public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   public ObservableMap(final Map<K,V> map) {
     super(map);
   }
@@ -111,13 +112,13 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V put(final K key, final V value) {
-    final V oldValue = (V)source.get(key);
+    final V oldValue = (V)target.get(key);
     if (!beforePut(key, oldValue, value))
       return oldValue;
 
     RuntimeException re = null;
     try {
-      source.put(key, value);
+      target.put(key, value);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -170,13 +171,13 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V remove(final Object key) {
-    final V value = (V)source.get(key);
+    final V value = (V)target.get(key);
     if (!beforeRemove(key, value))
       return value;
 
     RuntimeException re = null;
     try {
-      source.remove(key);
+      target.remove(key);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -233,10 +234,10 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
    */
   @Override
   public void clear() {
-    final Iterator<K> i = keySet().iterator();
-    while (i.hasNext()) {
-      i.next();
-      i.remove();
+    final Iterator<K> iterator = keySet().iterator();
+    while (iterator.hasNext()) {
+      iterator.next();
+      iterator.remove();
     }
   }
 
@@ -254,7 +255,7 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V compute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return (V)source.compute(key, new BiFunction<K,V,V>() {
+    return (V)target.compute(key, new BiFunction<K,V,V>() {
       @Override
       public V apply(final K t, final V u) {
         final V value = remappingFunction.apply(t, u);
@@ -279,7 +280,7 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V computeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
-    return (V)source.computeIfAbsent(key, new Function<K,V>() {
+    return (V)target.computeIfAbsent(key, new Function<K,V>() {
       @Override
       public V apply(final K t) {
         final V value = mappingFunction.apply(t);
@@ -303,7 +304,7 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V computeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return (V)source.computeIfPresent(key, new BiFunction<K,V,V>() {
+    return (V)target.computeIfPresent(key, new BiFunction<K,V,V>() {
       @Override
       public V apply(final K t, final V u) {
         final V value = remappingFunction.apply(t, u);
@@ -331,7 +332,7 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
   @Override
   @SuppressWarnings({"unchecked", "unlikely-arg-type"})
   public V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
-    return (V)(source.get(key) == null ? source.put(key, value) : source.merge(key, value, new BiFunction<V,V,V>() {
+    return (V)(target.get(key) == null ? target.put(key, value) : target.merge(key, value, new BiFunction<V,V,V>() {
       @Override
       public V apply(final V t, final V u) {
         final V value = remappingFunction.apply(t, u);
@@ -355,7 +356,7 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
    */
   @Override
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
-    source.replaceAll(new BiFunction<K,V,V>() {
+    target.replaceAll(new BiFunction<K,V,V>() {
       @Override
       public V apply(final K t, final V u) {
         final V value = function.apply(t, u);
@@ -365,11 +366,11 @@ public class ObservableMap<K,V> extends FilterMap<K,V> {
     });
   }
 
-  protected ObservableSet<Map.Entry<K,V>> entrySet;
+  protected volatile ObservableSet<Map.Entry<K,V>> entrySet;
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
-    return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(source.entrySet()) {
+    return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
       private final ThreadLocal<K> localKey = new ThreadLocal<>();
       private final ThreadLocal<V> localValue = new ThreadLocal<>();
 

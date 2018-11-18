@@ -71,8 +71,7 @@ public final class Enumerations {
    *         in the specified {@link Enumeration}.
    */
   public static <T>List<T> toList(final Class<T> componentType, final Enumeration<T> enumeration) {
-    final T[] array = recurse(componentType, enumeration, 0);
-    return Arrays.asList(array);
+    return Arrays.asList(toArray(componentType, enumeration));
   }
 
   /**
