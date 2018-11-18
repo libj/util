@@ -21,87 +21,89 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A {@code FilterListIterator} contains some other {@link ListIterator}, which
- * it uses as its basic source of data, possibly transforming the data along the
+ * A {@code DelegateListIterator} contains some other {@link ListIterator}, to
+ * which it delegates its method calls, possibly transforming the data along the
  * way or providing additional functionality. The class
- * {@code FilterListIterator} itself simply overrides all methods of
- * {@link ListIterator} with versions that pass all requests to the source
- * {@link ListIterator}. Subclasses of {@code FilterListIterator} may further
+ * {@code DelegateListIterator} itself simply overrides all methods of
+ * {@link ListIterator} with versions that pass all requests to the target
+ * {@link ListIterator}. Subclasses of {@code DelegateListIterator} may further
  * override some of these methods and may also provide additional methods and
  * fields.
+ *
+ * @param <E> The type of elements returned by this iterator.
  */
-public class FilterListIterator<E> implements ListIterator<E> {
+public abstract class DelegateListIterator<E> implements ListIterator<E> {
   /**
-   * The ListIterator to be filtered.
+   * The target ListIterator.
    */
   @SuppressWarnings("rawtypes")
-  protected volatile ListIterator source;
+  protected volatile ListIterator target;
 
   /**
-   * Creates a new {@code FilterListIterator} with the specified {@code source}.
+   * Creates a new {@code DelegateListIterator} with the specified {@code target}.
    *
-   * @param source The source {@link ListIterator} object.
-   * @throws NullPointerException If {@code source} is null.
+   * @param target The target {@link ListIterator} object.
+   * @throws NullPointerException If {@code target} is null.
    */
-  public FilterListIterator(final ListIterator<? extends E> source) {
-    this.source = Objects.requireNonNull(source);
+  public DelegateListIterator(final ListIterator<? extends E> target) {
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
-   * Creates a new {@code FilterListIterator} with a null source.
+   * Creates a new {@code DelegateListIterator} with a null target.
    */
-  protected FilterListIterator() {
+  protected DelegateListIterator() {
   }
 
   @Override
   public boolean hasNext() {
-    return source.hasNext();
+    return target.hasNext();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public E next() {
-    return (E)source.next();
+    return (E)target.next();
   }
 
   @Override
   public boolean hasPrevious() {
-    return source.hasPrevious();
+    return target.hasPrevious();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public E previous() {
-    return (E)source.previous();
+    return (E)target.previous();
   }
 
   @Override
   public int nextIndex() {
-    return source.nextIndex();
+    return target.nextIndex();
   }
 
   @Override
   public int previousIndex() {
-    return source.previousIndex();
+    return target.previousIndex();
   }
 
   @Override
   public void remove() {
-    source.remove();
+    target.remove();
   }
 
   @Override
   public void set(final E e) {
-    source.set(e);
+    target.set(e);
   }
 
   @Override
   public void add(final E e) {
-    source.add(e);
+    target.add(e);
   }
 
   @Override
   public void forEachRemaining(final Consumer<? super E> action) {
-    source.forEachRemaining(action);
+    target.forEachRemaining(action);
   }
 }

@@ -24,162 +24,163 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * A {@code FilterList} contains some other {@link List}, which it uses as its
- * basic source of data, possibly transforming the data along the way or
- * providing additional functionality. The class {@code FilterList} itself
+ * A {@code DelegateList} contains some other {@link List}, to which it
+ * delegates its method calls, possibly transforming the data along the way or
+ * providing additional functionality. The class {@code DelegateList} itself
  * simply overrides all methods of {@link AbstractList} with versions that pass
- * all requests to the source {@link List}. Subclasses of {@code FilterList} may
- * further override some of these methods and may also provide additional
+ * all requests to the target {@link List}. Subclasses of {@code DelegateList}
+ * may further override some of these methods and may also provide additional
  * methods and fields.
+ *
+ * @param <E> The type of elements in this list.
  */
-public abstract class FilterList<E> extends AbstractList<E> {
+public abstract class DelegateList<E> extends AbstractList<E> {
   /**
-   * The List to be filtered.
+   * The target List.
    */
   @SuppressWarnings("rawtypes")
-  protected volatile List source;
+  protected volatile List target;
 
   /**
-   * Creates a new {@code FilterList} with the specified {@code source}.
+   * Creates a new {@code DelegateList} with the specified {@code target}.
    *
-   * @param source The source {@link List} object.
-   * @throws NullPointerException If {@code source} is null.
+   * @param target The target {@link List} object.
+   * @throws NullPointerException If {@code target} is null.
    */
-  public FilterList(final List<E> source) {
-    this.source = Objects.requireNonNull(source);
+  public DelegateList(final List<E> target) {
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
-   * Creates a new {@code FilterList} with a null source.
+   * Creates a new {@code DelegateList} with a null target.
    */
-  protected FilterList() {
+  protected DelegateList() {
   }
-
-  /**
-   * Returns a new instance of the subclass of {@code FilterList}.
-   *
-   * @param source The source {@link List} object.
-   * @return A new instance of the subclass of {@code FilterList}.
-   */
-  @SuppressWarnings("rawtypes")
-  protected abstract FilterList<E> newInstance(final List source);
 
   @Override
   public int size() {
-    return source.size();
+    return target.size();
   }
 
   @Override
   public boolean isEmpty() {
-    return source.isEmpty();
+    return target.isEmpty();
   }
 
   @Override
   public boolean contains(final Object o) {
-    return source.contains(o);
+    return target.contains(o);
   }
 
   @Override
   public Iterator<E> iterator() {
-    return source.iterator();
+    return target.iterator();
   }
 
   @Override
   public Object[] toArray() {
-    return source.toArray();
+    return target.toArray();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <T>T[] toArray(final T[] a) {
-    return (T[])source.toArray(a);
+    return (T[])target.toArray(a);
   }
 
   @Override
   public boolean add(final E e) {
-    return source.add(e);
+    return target.add(e);
   }
 
   @Override
   public boolean remove(final Object o) {
-    return source.remove(o);
+    return target.remove(o);
   }
 
   @Override
   public boolean containsAll(final Collection<?> c) {
-    return source.containsAll(c);
+    return target.containsAll(c);
   }
 
   @Override
   public boolean addAll(final Collection<? extends E> c) {
-    return source.addAll(c);
+    return target.addAll(c);
   }
 
   @Override
   public boolean removeAll(final Collection<?> c) {
-    return source.removeAll(c);
+    return target.removeAll(c);
   }
 
   @Override
   public boolean retainAll(final Collection<?> c) {
-    return source.retainAll(c);
+    return target.retainAll(c);
   }
 
   @Override
   public void clear() {
-    source.clear();
+    target.clear();
   }
 
   @Override
   public boolean addAll(final int index, final Collection<? extends E> c) {
-    return source.addAll(index, c);
+    return target.addAll(index, c);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public E get(final int index) {
-    return (E)source.get(index);
+    return (E)target.get(index);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public E set(final int index, final E element) {
-    return (E)source.set(index, element);
+    return (E)target.set(index, element);
   }
 
   @Override
   public void add(final int index, final E element) {
-    source.add(index, element);
+    target.add(index, element);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public E remove(final int index) {
-    return (E)source.remove(index);
+    return (E)target.remove(index);
   }
 
   @Override
   public int indexOf(final Object o) {
-    return source.indexOf(o);
+    return target.indexOf(o);
   }
 
   @Override
   public int lastIndexOf(final Object o) {
-    return source.lastIndexOf(o);
+    return target.lastIndexOf(o);
   }
 
   @Override
   public ListIterator<E> listIterator() {
-    return source.listIterator();
+    return target.listIterator();
   }
 
   @Override
   public ListIterator<E> listIterator(final int index) {
-    return source.listIterator(index);
+    return target.listIterator(index);
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The class {@code DelegateList} does not itself implement
+   * {@code #subList(int,int)}, so calling this method on an instance of a
+   * subclass of {@code DelegateList} that does not override this method will
+   * result in a {@link UnsupportedOperationException}.
+   */
   @Override
-  public FilterList<E> subList(final int fromIndex, final int toIndex) {
-    return newInstance(source.subList(fromIndex, toIndex));
+  public DelegateList<E> subList(final int fromIndex, final int toIndex) {
+    throw new UnsupportedOperationException();
   }
 }

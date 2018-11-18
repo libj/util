@@ -26,159 +26,162 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * A {@code FilterMap} contains some other {@link Map}, which it uses as its
- * basic source of data, possibly transforming the data along the way or
- * providing additional functionality. The class {@code FilterMap} itself simply
+ * A {@code DelegateMap} contains some other {@link Map}, to which it delegates
+ * its method calls, possibly transforming the data along the way or providing
+ * additional functionality. The class {@code DelegateMap} itself simply
  * overrides all methods of {@link AbstractMap} with versions that pass all
- * requests to the source {@link Map}. Subclasses of {@code FilterMap} may
+ * requests to the target {@link Map}. Subclasses of {@code DelegateMap} may
  * further override some of these methods and may also provide additional
  * methods and fields.
+ *
+ * @param <K> The type of keys maintained by this map.
+ * @param <V> The type of mapped values.
  */
-public class FilterMap<K,V> extends AbstractMap<K,V> {
+public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   /**
-   * The Map to be filtered.
+   * The target Map.
    */
   @SuppressWarnings("rawtypes")
-  protected volatile Map source;
+  protected volatile Map target;
 
   /**
-   * Creates a new {@code FilterMap} with the specified {@code source}.
+   * Creates a new {@code FilterMap} with the specified {@code target}.
    *
-   * @param source The source {@link Map} object.
-   * @throws NullPointerException If {@code source} is null.
+   * @param target The target {@link Map} object.
+   * @throws NullPointerException If {@code target} is null.
    */
-  public FilterMap(final Map<K,V> source) {
-    this.source = Objects.requireNonNull(source);
+  public DelegateMap(final Map<K,V> target) {
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
-   * Creates a new {@code FilterMap} with a null source.
+   * Creates a new {@code FilterMap} with a null target.
    */
-  protected FilterMap() {
+  protected DelegateMap() {
   }
 
   @Override
   public int size() {
-    return source.size();
+    return target.size();
   }
 
   @Override
   public boolean isEmpty() {
-    return source.isEmpty();
+    return target.isEmpty();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V get(final Object key) {
-    return (V)source.get(key);
+    return (V)target.get(key);
   }
 
   @Override
   public boolean containsKey(final Object key) {
-    return source.containsKey(key);
+    return target.containsKey(key);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V put(final K key, final V value) {
-    return (V)source.put(key, value);
+    return (V)target.put(key, value);
   }
 
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
-    source.putAll(m);
+    target.putAll(m);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V remove(final Object key) {
-    return (V)source.remove(key);
+    return (V)target.remove(key);
   }
 
   @Override
   public void clear() {
-    source.clear();
+    target.clear();
   }
 
   @Override
   public boolean containsValue(final Object value) {
-    return source.containsKey(value);
+    return target.containsKey(value);
   }
 
   @Override
   public Set<K> keySet() {
-    return source.keySet();
+    return target.keySet();
   }
 
   @Override
   public Collection<V> values() {
-    return source.values();
+    return target.values();
   }
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
-    return source.entrySet();
+    return target.entrySet();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V getOrDefault(final Object key, final V defaultValue) {
-    return (V)source.getOrDefault(key, defaultValue);
+    return (V)target.getOrDefault(key, defaultValue);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V putIfAbsent(final K key, final V value) {
-    return (V)source.putIfAbsent(key, value);
+    return (V)target.putIfAbsent(key, value);
   }
 
   @Override
   public boolean remove(final Object key, final Object value) {
-    return source.remove(key, value);
+    return target.remove(key, value);
   }
 
   @Override
   public boolean replace(final K key, final V oldValue, final V newValue) {
-    return source.replace(key, oldValue, newValue);
+    return target.replace(key, oldValue, newValue);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V replace(final K key, final V value) {
-    return (V)source.replace(key, value);
+    return (V)target.replace(key, value);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V computeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
-    return (V)source.computeIfAbsent(key, mappingFunction);
+    return (V)target.computeIfAbsent(key, mappingFunction);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V computeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return (V)source.computeIfPresent(key, remappingFunction);
+    return (V)target.computeIfPresent(key, remappingFunction);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V compute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return (V)source.compute(key, remappingFunction);
+    return (V)target.compute(key, remappingFunction);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
-    return (V)source.merge(key, value, remappingFunction);
+    return (V)target.merge(key, value, remappingFunction);
   }
 
   @Override
   public void forEach(final BiConsumer<? super K,? super V> action) {
-    source.forEach(action);
+    target.forEach(action);
   }
 
   @Override
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
-    source.replaceAll(function);
+    target.replaceAll(function);
   }
 }

@@ -16,136 +16,137 @@
 
 package org.fastjax.util;
 
-import java.util.AbstractSet;
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A {@code FilterSet} contains some other {@link Set}, which it uses as its
- * basic source of data, possibly transforming the data along the way or
- * providing additional functionality. The class {@code FilterSet} itself simply
- * overrides all methods of {@link AbstractSet} with versions that pass all
- * requests to the source {@link Set}. Subclasses of {@code FilterSet} may
- * further override some of these methods and may also provide additional
- * methods and fields.
+ * A {@code DelegateCollection} contains some other {@link Collection}, to which
+ * it delegates its method calls, possibly transforming the data along the way
+ * or providing additional functionality. The class {@code DelegateCollection}
+ * itself simply overrides all methods of {@link AbstractCollection} with
+ * versions that pass all requests to the target {@link Collection}. Subclasses
+ * of {@code DelegateCollection} may further override some of these methods and
+ * may also provide additional methods and fields.
+ *
+ * @param <E> The type of elements in this collection.
  */
-public class FilterSet<E> extends AbstractSet<E> {
+public abstract class DelegateCollection<E> extends AbstractCollection<E> {
   /**
-   * The Set to be filtered.
+   * The target Collection.
    */
   @SuppressWarnings("rawtypes")
-  protected volatile Set source;
+  protected volatile Collection target;
 
   /**
-   * Creates a new {@code FilterSet} with the specified {@code source}.
+   * Creates a new {@code DelegateCollection} with the specified {@code target}.
    *
-   * @param source The source {@link Set} object.
-   * @throws NullPointerException If {@code source} is null.
+   * @param target The target {@link Collection} object.
+   * @throws NullPointerException If {@code target} is null.
    */
-  public FilterSet(final Set<E> source) {
-    this.source = Objects.requireNonNull(source);
+  public DelegateCollection(final Collection<E> target) {
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
-   * Creates a new {@code FilterSet} with a null source.
+   * Creates a new {@code DelegateCollection} with a null target.
    */
-  protected FilterSet() {
+  protected DelegateCollection() {
   }
 
   @Override
   public int size() {
-    return source.size();
+    return target.size();
   }
 
   @Override
   public boolean isEmpty() {
-    return source.isEmpty();
+    return target.isEmpty();
   }
 
   @Override
   public boolean contains(final Object o) {
-    return source.contains(o);
+    return target.contains(o);
   }
 
   @Override
   public Iterator<E> iterator() {
-    return source.iterator();
+    return target.iterator();
   }
 
   @Override
   public Object[] toArray() {
-    return source.toArray();
+    return target.toArray();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <T>T[] toArray(final T[] a) {
-    return (T[])source.toArray(a);
+    return (T[])target.toArray(a);
   }
 
   @Override
   public boolean add(final E e) {
-    return source.add(e);
+    return target.add(e);
   }
 
   @Override
   public boolean remove(final Object o) {
-    return source.remove(o);
+    return target.remove(o);
   }
 
   @Override
   public boolean containsAll(final Collection<?> c) {
-    return source.containsAll(c);
+    return target.containsAll(c);
   }
 
   @Override
   public boolean addAll(final Collection<? extends E> c) {
-    return source.addAll(c);
+    return target.addAll(c);
   }
 
   @Override
   public boolean removeAll(final Collection<?> c) {
-    return source.removeAll(c);
+    return target.removeAll(c);
   }
 
   @Override
   public boolean retainAll(final Collection<?> c) {
-    return source.retainAll(c);
+    return target.retainAll(c);
   }
 
   @Override
   public void clear() {
-    source.clear();
+    target.clear();
   }
 
   @Override
   public void forEach(final Consumer<? super E> action) {
-    source.forEach(action);
+    target.forEach(action);
   }
 
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
-    return source.removeIf(filter);
+    return target.removeIf(filter);
   }
 
   @Override
   public Spliterator<E> spliterator() {
-    return source.spliterator();
+    return target.spliterator();
   }
 
   @Override
   public Stream<E> stream() {
-    return source.stream();
+    return target.stream();
   }
 
   @Override
   public Stream<E> parallelStream() {
-    return source.parallelStream();
+    return target.parallelStream();
   }
 }
