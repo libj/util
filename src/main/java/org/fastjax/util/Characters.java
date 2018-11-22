@@ -38,8 +38,8 @@ public final class Characters {
     return ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t';
   }
 
-  private static final char[] escapableChars = {'0', '1', '2', '3', '4', '5', '6', '7', 'b', 'f', 'n', 'r', 't'};
-  private static final char[] escapedChars = {'\0', '\1', '\2', '\3', '\4', '\5', '\6', '\7', '\b', '\f', '\n', '\r', '\t'};
+  private static final char[] escapableChars = {'"', '\'', '0', '1', '2', '3', '4', '5', '6', '7', '\\', 'b', 'f', 'n', 'r', 't'};
+  private static final char[] escapedChars = {'\"', '\'', '\0', '\1', '\2', '\3', '\4', '\5', '\6', '\7', '\\', '\b', '\f', '\n', '\r', '\t'};
 
   /**
    * Returns an escaped representation of the specified character. The following characters
@@ -54,6 +54,9 @@ public final class Characters {
    * <tr><td><code>\<b>r</b></code></td><td>Carriage return</td></tr>
    * <tr><td><code>\<b>f</b></code></td><td>Formfeed</td></tr>
    * <tr><td><code>\<b>u</b></code></td><td>Unicode</td></tr>
+   * <tr><td><code>\<b>'</b></code></td><td>Single quote</td></tr>
+   * <tr><td><code>\<b>"</b></code></td><td>Double quote</td></tr>
+   * <tr><td><code>\<b>\</b></code></td><td>Backslash</td></tr>
    * <tr><td><code>\<b>0</b></code></td><td>0</td></tr>
    * <tr><td><code>\<b>1</b></code></td><td>1</td></tr>
    * <tr><td><code>\<b>2</b></code></td><td>2</td></tr>
@@ -78,6 +81,18 @@ public final class Characters {
       throw new IllegalArgumentException(ch + " is not an escapable character.");
 
     return escapedChars[i];
+  }
+
+  /**
+   * Tests whether the specified character is escapable as per <a href=
+   * "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6">Escape
+   * Sequences for Character and String Literals</a>.
+   *
+   * @param ch The character to test.
+   * @return {@code true} if the specified character is escapable.
+   */
+  public static boolean isEscapable(final char ch) {
+    return Arrays.binarySearch(escapableChars, ch) > -1;
   }
 
   private Characters() {
