@@ -23,12 +23,12 @@ import java.util.IdentityHashMap;
 
 import org.slf4j.Logger;
 
-public abstract class PartitionedList<E,T> extends ObservableList<E> implements Cloneable {
-  public class PartitionList<P extends E> extends ObservableList<P> implements Cloneable {
+public abstract class MergedList<E,T> extends ObservableList<E> implements Cloneable {
+  public class PartList<P extends E> extends ObservableList<P> implements Cloneable {
     protected T type;
     protected ArrayIntList indexes;
 
-    protected PartitionList(final T type) {
+    protected PartList(final T type) {
       super(new ArrayList<P>());
       this.type = type;
       this.indexes = new ArrayIntList();
@@ -65,34 +65,34 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     @SuppressWarnings("unchecked")
     protected void afterAdd(final int index, final P e, final RuntimeException exception) {
       if (index == size() - 1) {
-        final PartitionedList<E,T> superList = PartitionedList.this;
-        superList.indexes.add(index);
-        superList.subLists.add(this);
-        superList.addUnsafe(e);
+        final MergedList<E,T> mergedList = MergedList.this;
+        mergedList.indexes.add(index);
+        mergedList.partLists.add(this);
+        mergedList.addUnsafe(e);
 
-        indexes.add(superList.size() - 1);
+        indexes.add(mergedList.size() - 1);
       }
       else {
-        final int superIndex = index > 0 ? indexes.get(index - 1) + 1 : indexes.get(index);
-        final PartitionList<P> subList = this;
-        final PartitionedList<E,T> superList = PartitionedList.this;
-        superList.indexes.add(superIndex, index);
-        superList.subLists.add(superIndex, subList);
-        superList.addUnsafe(superIndex, e);
-        final IdentityHashSet<PartitionList<P>> visited = new IdentityHashSet<>();
-        for (int i = superIndex + 1; i < superList.size(); ++i) {
-          final PartitionList<P> nextSubList = (PartitionedList<E,T>.PartitionList<P>)superList.subLists.get(i);
-          if (nextSubList == subList)
-            superList.indexes.set(i, superList.indexes.get(i) + 1);
+        final int mergedIndex = index > 0 ? indexes.get(index - 1) + 1 : indexes.get(index);
+        final PartList<P> partList = this;
+        final MergedList<E,T> mergedList = MergedList.this;
+        mergedList.indexes.add(mergedIndex, index);
+        mergedList.partLists.add(mergedIndex, partList);
+        mergedList.addUnsafe(mergedIndex, e);
+        final IdentityHashSet<PartList<P>> visited = new IdentityHashSet<>();
+        for (int i = mergedIndex + 1; i < mergedList.size(); ++i) {
+          final PartList<P> nextPartList = (MergedList<E,T>.PartList<P>)mergedList.partLists.get(i);
+          if (nextPartList == partList)
+            mergedList.indexes.set(i, mergedList.indexes.get(i) + 1);
 
-          if (visited.contains(nextSubList) || nextSubList == subList)
+          if (visited.contains(nextPartList) || nextPartList == partList)
             continue;
 
-          visited.add(nextSubList);
-          incSuperIndexes(nextSubList, superIndex);
+          visited.add(nextPartList);
+          incSectionIndexes(nextPartList, mergedIndex);
         }
 
-        indexes.add(index, superIndex);
+        indexes.add(index, mergedIndex);
         for (int i = index + 1; i < indexes.size(); ++i)
           indexes.set(i, indexes.get(i) + 1);
       }
@@ -101,22 +101,22 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean beforeRemove(final int index) {
-      final int superIndex = indexes.removeIndex(index);
-      final PartitionedList<E,T> superList = PartitionedList.this;
-      superList.removeUnsafe(superIndex);
-      superList.indexes.removeIndex(superIndex);
-      final PartitionList<P> subList = (PartitionedList<E,T>.PartitionList<P>)superList.subLists.remove(superIndex);
-      final IdentityHashSet<PartitionList<P>> visited = new IdentityHashSet<>();
-      for (int i = superIndex; i < superList.size(); ++i) {
-        final PartitionList<P> nextSubList = (PartitionedList<E,T>.PartitionList<P>)superList.subLists.get(i);
-        if (nextSubList == subList)
-          superList.indexes.set(i, superList.indexes.get(i) - 1);
+      final int mergedIndex = indexes.removeIndex(index);
+      final MergedList<E,T> mergedList = MergedList.this;
+      mergedList.removeUnsafe(mergedIndex);
+      mergedList.indexes.removeIndex(mergedIndex);
+      final PartList<P> partList = (MergedList<E,T>.PartList<P>)mergedList.partLists.remove(mergedIndex);
+      final IdentityHashSet<PartList<P>> visited = new IdentityHashSet<>();
+      for (int i = mergedIndex; i < mergedList.size(); ++i) {
+        final PartList<P> nextPartList = (MergedList<E,T>.PartList<P>)mergedList.partLists.get(i);
+        if (nextPartList == partList)
+          mergedList.indexes.set(i, mergedList.indexes.get(i) - 1);
 
-        if (visited.contains(nextSubList) || nextSubList == subList)
+        if (visited.contains(nextPartList) || nextPartList == partList)
           continue;
 
-        visited.add(nextSubList);
-        decSuperIndexes(nextSubList, superIndex);
+        visited.add(nextPartList);
+        decSectionIndexes(nextPartList, mergedIndex);
       }
 
       for (int i = index; i < indexes.size(); ++i)
@@ -127,19 +127,19 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
     @Override
     protected boolean beforeSet(final int index, final P newElement) {
-      final int superIndex = indexes.get(index);
-      subLists.set(superIndex, this);
-      PartitionedList.this.setUnsafe(superIndex, newElement);
+      final int mergedIndex = indexes.get(index);
+      partLists.set(mergedIndex, this);
+      MergedList.this.setUnsafe(mergedIndex, newElement);
       return true;
     }
 
-    protected PartitionedList<E,T> getSuperList() {
-      return PartitionedList.this;
+    protected MergedList<E,T> getMergedList() {
+      return MergedList.this;
     }
 
     protected void print(final Logger logger) {
       final StringBuilder builder = new StringBuilder();
-      builder.append("    SubList<" + type + "> ").append(Objects.simpleIdentity(this)).append('\n');
+      builder.append("    PartList<" + type + "> ").append(Objects.simpleIdentity(this)).append('\n');
       builder.append("    I:");
       indexes.stream().forEach(i -> builder.append(' ').append(i));
       builder.append("\n    E:");
@@ -149,9 +149,9 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
     @Override
     @SuppressWarnings("unchecked")
-    public PartitionList<P> clone() {
+    public PartList<P> clone() {
       try {
-        final PartitionList<P> clone = (PartitionList<P>)super.clone();
+        final PartList<P> clone = (PartList<P>)super.clone();
         clone.target = (ArrayList<E>)((ArrayList<E>)target).clone();
         clone.type = type;
         clone.indexes = indexes.clone();
@@ -164,34 +164,34 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   }
 
   protected ArrayIntList indexes;
-  protected ArrayList<PartitionList<? extends E>> subLists;
-  protected HashMap<T,PartitionList<? extends E>> typeToSubList = new HashMap<>();
+  protected ArrayList<PartList<? extends E>> partLists;
+  protected HashMap<T,PartList<? extends E>> typeToPartList = new HashMap<>();
 
-  public PartitionedList() {
+  public MergedList() {
     super(new ArrayList<E>());
     this.indexes = new ArrayIntList();
-    this.subLists = new ArrayList<>();
+    this.partLists = new ArrayList<>();
   }
 
   @SafeVarargs
-  public PartitionedList(final T ... types) {
+  public MergedList(final T ... types) {
     this();
     for (final T type : types)
-      typeToSubList.put(type, null);
+      typeToPartList.put(type, null);
   }
 
-  public PartitionedList(final Collection<T> types) {
+  public MergedList(final Collection<T> types) {
     this();
     if (types != null)
       for (final T type : types)
-        typeToSubList.put(type, null);
+        typeToPartList.put(type, null);
   }
 
-  protected PartitionList<E> newPartition(final T type) {
-    return new PartitionList<>(type);
+  protected PartList<E> newPartList(final T type) {
+    return new PartList<>(type);
   }
 
-  protected abstract PartitionList<E> getPartition(final Class<? extends E> type);
+  protected abstract PartList<E> getPartList(final Class<? extends E> type);
 
   private void addUnsafe(final E e) {
     super.target.add(e);
@@ -211,50 +211,50 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     return (E)super.target.remove(index);
   }
 
-  private int add(final Integer superIndex, final Integer subIndex, final E element, final PartitionList<E> subList) {
-    if (superIndex == null) {
-      subList.add(element);
+  private int add(final Integer mergedIndex, final Integer partIndex, final E element, final PartList<E> partList) {
+    if (mergedIndex == null) {
+      partList.add(element);
     }
-    else if (subIndex == null) {
-      subList.indexes.add(superIndex);
-      subList.addUnsafe(element);
+    else if (partIndex == null) {
+      partList.indexes.add(mergedIndex);
+      partList.addUnsafe(element);
     }
     else {
-      subList.addUnsafe(subIndex, element);
-      subList.indexes.add(subIndex, superIndex);
-      for (int i = subIndex + 1; i < subList.indexes.size(); ++i)
-        subList.indexes.set(i, subList.indexes.get(i) + 1);
+      partList.addUnsafe(partIndex, element);
+      partList.indexes.add(partIndex, mergedIndex);
+      for (int i = partIndex + 1; i < partList.indexes.size(); ++i)
+        partList.indexes.set(i, partList.indexes.get(i) + 1);
     }
 
-    return subIndex != null ? subIndex : this.size() - 1;
+    return partIndex != null ? partIndex : this.size() - 1;
   }
 
-  private void incSuperIndexes(final PartitionList<? extends E> subList, final int index) {
-    final ArrayIntList superIndexes = subList.getIndexes();
-    for (int j = 0; j < superIndexes.size(); j++) {
-      final int superIndex = superIndexes.get(j);
-      if (superIndex >= index)
-        superIndexes.set(j, superIndex + 1);
-    }
-  }
-
-  private void decSuperIndexes(final PartitionList<? extends E> subList, final int index) {
-    final ArrayIntList superIndexes = subList.getIndexes();
-    for (int j = 0; j < superIndexes.size(); j++) {
-      final int superIndex = superIndexes.get(j);
-      if (superIndex > index)
-        superIndexes.set(j, superIndex - 1);
+  private void incSectionIndexes(final PartList<? extends E> partList, final int index) {
+    final ArrayIntList mergedIndexes = partList.getIndexes();
+    for (int j = 0; j < mergedIndexes.size(); j++) {
+      final int mergedIndex = mergedIndexes.get(j);
+      if (mergedIndex >= index)
+        mergedIndexes.set(j, mergedIndex + 1);
     }
   }
 
-  private int findSubIndex(final PartitionList<? extends E> subList, final int index) {
-    if (subList.size() == 0)
+  private void decSectionIndexes(final PartList<? extends E> partList, final int index) {
+    final ArrayIntList mergedIndexes = partList.getIndexes();
+    for (int j = 0; j < mergedIndexes.size(); j++) {
+      final int mergedIndex = mergedIndexes.get(j);
+      if (mergedIndex > index)
+        mergedIndexes.set(j, mergedIndex - 1);
+    }
+  }
+
+  private int findPartIndex(final PartList<? extends E> partList, final int index) {
+    if (partList.size() == 0)
       return 0;
 
-    final ArrayIntList superIndexes = subList.getIndexes();
-    for (int i = subList.size() - 1; i >= 0; i--) {
-      final int superIndex = superIndexes.get(i);
-      if (superIndex < index)
+    final ArrayIntList mergedIndexes = partList.getIndexes();
+    for (int i = partList.size() - 1; i >= 0; i--) {
+      final int mergedIndex = mergedIndexes.get(i);
+      if (mergedIndex < index)
         return index;
     }
 
@@ -264,31 +264,31 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   @Override
   @SuppressWarnings("unchecked")
   protected void afterAdd(final int index, final E e, final RuntimeException exception) {
-    final PartitionList<E> subList = getPartition((Class<E>)e.getClass());
-    if (subList == null)
-      throw new IllegalArgumentException("Object of type " + e.getClass() + " is not allowed to appear in " + PartitionedList.class.getName());
+    final PartList<E> partList = getPartList((Class<E>)e.getClass());
+    if (partList == null)
+      throw new IllegalArgumentException("Object of type " + e.getClass() + " is not allowed to appear in " + MergedList.class.getName());
 
-    subLists.add(index, subList);
+    partLists.add(index, partList);
     if (index == size() - 1) {
-      indexes.add(subList.size());
-      add(index, null, e, subList);
+      indexes.add(partList.size());
+      add(index, null, e, partList);
     }
     else {
-      final int subIndex = index == 0 ? 0 : findSubIndex(subList, index);
-      add(index, subIndex, e, subList);
-      if (subIndex != -1) {
-        indexes.add(index, subIndex);
-        final IdentityHashSet<PartitionList<? extends E>> visited = new IdentityHashSet<>();
-        for (int i = index + 1; i < subLists.size(); ++i) {
-          final PartitionList<? extends E> nextSubList = subLists.get(i);
-          if (nextSubList == subList)
+      final int partIndex = index == 0 ? 0 : findPartIndex(partList, index);
+      add(index, partIndex, e, partList);
+      if (partIndex != -1) {
+        indexes.add(index, partIndex);
+        final IdentityHashSet<PartList<? extends E>> visited = new IdentityHashSet<>();
+        for (int i = index + 1; i < partLists.size(); ++i) {
+          final PartList<? extends E> nextPartList = partLists.get(i);
+          if (nextPartList == partList)
             indexes.set(i, indexes.get(i) + 1);
 
-          if (visited.contains(nextSubList) || nextSubList == subList)
+          if (visited.contains(nextPartList) || nextPartList == partList)
             continue;
 
-          visited.add(nextSubList);
-          incSuperIndexes(nextSubList, index);
+          visited.add(nextPartList);
+          incSectionIndexes(nextPartList, index);
         }
       }
     }
@@ -297,26 +297,26 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
   @Override
   @SuppressWarnings("unchecked")
   protected boolean beforeSet(final int index, final E newElement) {
-    final PartitionList<? extends E> subList = subLists.get(index);
+    final PartList<? extends E> partList = partLists.get(index);
     final E element = get(index);
-    final int subIndex = indexes.get(index);
+    final int partIndex = indexes.get(index);
     if (element.getClass() == newElement.getClass()) {
-      subList.setUnsafe(subIndex, newElement);
+      partList.setUnsafe(partIndex, newElement);
     }
     else {
-      final PartitionList<E> newSubList = getPartition((Class<E>)newElement.getClass());
-      if (newSubList == null)
-        throw new IllegalArgumentException("Object of type " + newElement.getClass() + " is not allowed to appear in " + PartitionedList.class.getName());
+      final PartList<E> newPartList = getPartList((Class<E>)newElement.getClass());
+      if (newPartList == null)
+        throw new IllegalArgumentException("Object of type " + newElement.getClass() + " is not allowed to appear in " + MergedList.class.getName());
 
-      subList.removeUnsafe(subIndex);
-      for (int i = index + 1; i < subLists.size(); ++i) {
-        final PartitionList<? extends E> nextSubList = subLists.get(i);
-        if (nextSubList == subList)
+      partList.removeUnsafe(partIndex);
+      for (int i = index + 1; i < partLists.size(); ++i) {
+        final PartList<? extends E> nextPartList = partLists.get(i);
+        if (nextPartList == partList)
           indexes.set(i, indexes.get(i) - 1);
       }
 
-      add(index, 0, newElement, newSubList);
-      subLists.set(index, newSubList);
+      add(index, 0, newElement, newPartList);
+      partLists.set(index, newPartList);
     }
 
     return true;
@@ -324,23 +324,23 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
   @Override
   protected boolean beforeRemove(final int index) {
-    final PartitionList<? extends E> subList = subLists.remove(index);
-    subList.removeUnsafe(indexes.removeIndex(index));
-    final ArrayIntList subIndexes = subList.getIndexes();
-    for (int i = index; i < subIndexes.size(); ++i)
-      subIndexes.set(i, subIndexes.get(i) - 1);
+    final PartList<? extends E> partList = partLists.remove(index);
+    partList.removeUnsafe(indexes.removeIndex(index));
+    final ArrayIntList partIndexes = partList.getIndexes();
+    for (int i = index; i < partIndexes.size(); ++i)
+      partIndexes.set(i, partIndexes.get(i) - 1);
 
-    final IdentityHashSet<PartitionList<? extends E>> visited = new IdentityHashSet<>();
-    for (int i = index; i < subLists.size(); ++i) {
-      final PartitionList<? extends E> nextSubList = subLists.get(i);
-      if (nextSubList == subList)
+    final IdentityHashSet<PartList<? extends E>> visited = new IdentityHashSet<>();
+    for (int i = index; i < partLists.size(); ++i) {
+      final PartList<? extends E> nextPartList = partLists.get(i);
+      if (nextPartList == partList)
         indexes.set(i, indexes.get(i) - 1);
 
-      if (visited.contains(nextSubList) || nextSubList == subList)
+      if (visited.contains(nextPartList) || nextPartList == partList)
         continue;
 
-      visited.add(nextSubList);
-      decSuperIndexes(nextSubList, index);
+      visited.add(nextPartList);
+      decSectionIndexes(nextPartList, index);
     }
 
     return true;
@@ -353,9 +353,9 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
     builder.append("\n  E:");
     stream().forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
     builder.append("\n  A:");
-    subLists.stream().forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
+    partLists.stream().forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
     logger.info(builder.append('\n').toString());
-    new IdentityHashSet<>(subLists).stream().forEach(e -> e.print(logger));
+    new IdentityHashSet<>(partLists).stream().forEach(e -> e.print(logger));
   }
 
   protected E clone(final E item) {
@@ -364,14 +364,14 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
 
   @Override
   @SuppressWarnings("unchecked")
-  public PartitionedList<E,T> clone() {
+  public MergedList<E,T> clone() {
     try {
-      final PartitionedList<E,T> clone = (PartitionedList<E,T>)super.clone();
+      final MergedList<E,T> clone = (MergedList<E,T>)super.clone();
       clone.target = (ArrayList<E>)((ArrayList<E>)target).clone();
       clone.indexes = indexes.clone();
-      clone.subLists = new ArrayList<>();
-      for (final PartitionList<? extends E> subList : subLists)
-        clone.subLists.add(subList.clone());
+      clone.partLists = new ArrayList<>();
+      for (final PartList<? extends E> partList : partLists)
+        clone.partLists.add(partList.clone());
 
       final IdentityHashMap<E,E> clones = new IdentityHashMap<>();
       for (int i = 0; i < clone.target.size(); ++i) {
@@ -381,11 +381,11 @@ public abstract class PartitionedList<E,T> extends ObservableList<E> implements 
         clone.target.set(i, copy);
       }
 
-      clone.typeToSubList = new HashMap<>();
-      for (final PartitionList<? extends E> subList : clone.subLists) {
-        clone.typeToSubList.put(subList.getType(), subList);
-        for (int i = 0; i < subList.target.size(); ++i)
-          subList.target.set(i, clones.get(subList.target.get(i)));
+      clone.typeToPartList = new HashMap<>();
+      for (final PartList<? extends E> partList : clone.partLists) {
+        clone.typeToPartList.put(partList.getType(), partList);
+        for (int i = 0; i < partList.target.size(); ++i)
+          partList.target.set(i, clones.get(partList.target.get(i)));
       }
 
       return clone;
