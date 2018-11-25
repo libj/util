@@ -150,23 +150,23 @@ public class StringsTest {
 
     try {
       Strings.toLowerCase(new StringBuilder(UPPER_CASE), 12, 13);
-      fail("Expected StringIndexOutOfBoundsException");
+      fail("Expected IllegalArgumentException");
     }
-    catch (final StringIndexOutOfBoundsException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Strings.toLowerCase(new StringBuilder(UPPER_CASE), -1, 1);
-      fail("Expected StringIndexOutOfBoundsException");
+      fail("Expected IllegalArgumentException");
     }
-    catch (final StringIndexOutOfBoundsException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Strings.toLowerCase(new StringBuilder(UPPER_CASE), -2, -1);
-      fail("Expected StringIndexOutOfBoundsException");
+      fail("Expected IllegalArgumentException");
     }
-    catch (final StringIndexOutOfBoundsException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
@@ -240,7 +240,6 @@ public class StringsTest {
 
   @Test
   public void testGetAlpha() {
-    System.out.println(Long.toString(0xeab32fl & ((1l << 8 * 3) - 1), 16));
     assertEquals("a", Strings.getAlpha(0));
     assertEquals("aa", Strings.getAlpha(26));
     assertEquals("aaa", Strings.getAlpha(26 * 26 + 26));
@@ -354,11 +353,20 @@ public class StringsTest {
   @Test
   public void testTrim() {
     assertNull(Strings.trim(null, '\0'));
+    assertEquals("foo", Strings.trim("foo", 'x'));
+    assertEquals("a", Strings.trim("xa", 'x'));
+    assertEquals("a", Strings.trim("xxa", 'x'));
+    assertEquals("", Strings.trim("x", 'x'));
+    assertEquals("", Strings.trim("xx", 'x'));
+    assertEquals("a", Strings.trim("ax", 'x'));
+    assertEquals("a", Strings.trim("axx", 'x'));
     assertEquals("string", Strings.trim("xstring", 'x'));
     assertEquals("string", Strings.trim("stringx", 'x'));
     assertEquals("string", Strings.trim("xstringx", 'x'));
     assertEquals("string", Strings.trim("xxstringxx", 'x'));
     assertEquals("string", Strings.trim("xxxstringxxx", 'x'));
+    assertEquals("st", Strings.trim("xxxstxxx", 'x'));
+    assertEquals("s", Strings.trim("xxxsxxx", 'x'));
     assertEquals("string", Strings.trim("\0string\0", '\0'));
   }
 
@@ -378,7 +386,7 @@ public class StringsTest {
     assertEquals(-1, Strings.indexOfUnQuoted(testString, 'o', 5));
     assertEquals(-1, Strings.indexOfUnQuoted(testString, 'q'));
     assertEquals(41, Strings.indexOfUnQuoted(testString, 'e'));
-    assertEquals(46, Strings.indexOfUnQuoted(testString, 'x'));
+    assertEquals(8, Strings.indexOfUnQuoted(testString, 'x'));
     assertEquals(48, Strings.indexOfUnQuoted(testString, 's'));
 
     final String doubleQuote = "\"The \\\"meaning\\\" of life\"";
@@ -401,36 +409,43 @@ public class StringsTest {
     assertEquals(-1, Strings.lastIndexOfUnQuoted(testString, '1'));
     assertEquals(0, Strings.lastIndexOfUnQuoted(testString, 'r'));
     assertEquals(-1, Strings.lastIndexOfUnQuoted(testString, 'q'));
-    assertEquals(2, Strings.lastIndexOfUnQuoted(testString, 'n'));
+    assertEquals(12, Strings.lastIndexOfUnQuoted(testString, 'n'));
     assertEquals(7, Strings.lastIndexOfUnQuoted(testString, 'd'));
     assertEquals(8, Strings.lastIndexOfUnQuoted(testString, 'o'));
     assertEquals(8, Strings.lastIndexOfUnQuoted(testString, 'o', 9));
 
     final String doubleQuote = "\"The \\\"meaning\\\" of life\"";
-    assertEquals(0, Strings.lastIndexOfUnQuoted(doubleQuote, '"', doubleQuote.length() - 1));
+    assertEquals(0, Strings.lastIndexOfUnQuoted(doubleQuote, '"', doubleQuote.length() - 2));
 
     final String singleQuote = "'The \\'meaning\\' of life'";
-    assertEquals(0, Strings.lastIndexOfUnQuoted(singleQuote, '\'', singleQuote.length() - 1));
+    assertEquals(0, Strings.lastIndexOfUnQuoted(singleQuote, '\'', singleQuote.length() - 2));
   }
 
   @Test
-  public void testToTruncatedString() {
+  public void testTruncate() {
     try {
-      Strings.abbreviate("", 3);
+      Strings.truncate("", -1);
       fail("Expected a IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    assertEquals("null", Strings.abbreviate(null, 4));
-    assertEquals("", Strings.abbreviate("", 4));
-    assertEquals("a", Strings.abbreviate("a", 4));
-    assertEquals("aa", Strings.abbreviate("aa", 4));
-    assertEquals("aaa", Strings.abbreviate("aaa", 4));
-    assertEquals("aaaa", Strings.abbreviate("aaaa", 4));
-    assertEquals("aaaaa", Strings.abbreviate("aaaaa", 5));
-    assertEquals("aa...", Strings.abbreviate("aaaaaa", 5));
-    assertEquals("aaa...", Strings.abbreviate("aaaaaaa", 6));
+    try {
+      Strings.truncate(null, 4);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    assertEquals("", Strings.truncate("", 4));
+    assertEquals("a", Strings.truncate("a", 4));
+    assertEquals("aa", Strings.truncate("aa", 4));
+    assertEquals("aaa", Strings.truncate("aaa", 4));
+    assertEquals("aaaa", Strings.truncate("aaaa", 4));
+    assertEquals("aaaaa", Strings.truncate("aaaaa", 5));
+    assertEquals("aa...", Strings.truncate("aaaaaa", 5));
+    assertEquals("aaa...", Strings.truncate("aaaaaaa", 6));
+    assertEquals("...", Strings.truncate("aaaa", 3));
   }
 
   private static void assertEL(final Map<String,String> variables, final String test, final String match) {

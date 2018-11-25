@@ -376,6 +376,9 @@ public final class Strings {
     if (builder.length() == 0)
       return builder;
 
+    if (beginIndex < 0)
+      throw new IllegalArgumentException("start index (" + beginIndex + ") must be non-negative");
+
     if (endIndex < beginIndex)
       throw new IllegalArgumentException("start index (" + beginIndex + ") > end index (" + endIndex + ")");
 
@@ -831,52 +834,110 @@ public final class Strings {
     if (string == null)
       return null;
 
-    int i = 0;
-    while (i < string.length() && string.charAt(i++) == ch);
-    if (i == string.length())
+    int i = -1;
+    final int len = string.length();
+    while (++i < len && string.charAt(i) == ch);
+    if (i == len)
       return "";
 
-    int j = string.length() - 1;
-    while (j > i + 1 && string.charAt(j++) == ch);
-    return i == 0 && j == string.length() - 1 ? string : string.substring(i, j + 1);
+    int j = len;
+    while (j > i && string.charAt(--j) == ch);
+    return i == 0 && j == len - 1 ? string : string.substring(i, j + 1);
   }
 
+  /**
+   * Returns the index within the specified string of the first occurrence of
+   * the provided character that is not within a quoted section of the string,
+   * starting the search at the specified index. A quoted section of a string
+   * starts with a double-quote character ({@code '"'}) and ends with a
+   * double-quote character or the end of the string.
+   *
+   * @param string The string.
+   * @param ch The character to find.
+   * @param fromIndex The index to start the search from. There is no
+   *          restriction on the value of {@code fromIndex}. If it is greater
+   *          than or equal to the length of this string, it has the same effect
+   *          as if it were equal to one less than the length of this string:
+   *          this entire string may be searched. If it is negative, it has the
+   *          same effect as if it were {@code -1}: {@code -1} is returned.
+   * @return The index within the specified string of the first occurrence of
+   *         the provided character that is not within a quoted section of the
+   *         string, or {@code -1} if the character is not found in an unquoted
+   *         section.
+   * @throws NullPointerException If the specified string is null.
+   */
   public static int indexOfUnQuoted(final String string, final char ch, final int fromIndex) {
     boolean esacped = false;
-    boolean inDoubleQuote = false;
-    for (int i = fromIndex; i < string.length(); ++i) {
+    boolean quoted = false;
+    for (int i = fromIndex < 0 ? 0 : fromIndex, len = string.length(); i < len; ++i) {
       final char c = string.charAt(i);
       if (c == '\\')
         esacped = true;
       else if (esacped)
         esacped = false;
-      else if (c == ch && !inDoubleQuote)
+      else if (c == ch && !quoted)
         return i;
       else if (c == '"')
-        inDoubleQuote = !inDoubleQuote;
+        quoted = !quoted;
     }
 
     return -1;
   }
 
+  /**
+   * Returns the index within the specified string of the first occurrence of
+   * the provided character that is not within a quoted section of the string. A
+   * quoted section of a string starts with a double-quote character
+   * ({@code '"'}) and ends with a double-quote character or the end of the
+   * string.
+   *
+   * @param string The string.
+   * @param ch The character to find.
+   * @return The index within the specified string of the first occurrence of
+   *         the provided character that is not within a quoted section of the
+   *         string, or {@code -1} if the character is not found in an unquoted
+   *         section.
+   * @throws NullPointerException If the specified string is null.
+   */
   public static int indexOfUnQuoted(final String string, final char ch) {
     return indexOfUnQuoted(string, ch, 0);
   }
 
-  public static int lastIndexOfUnQuoted(final String string, final char ch, final int fromIndex) {
+  /**
+   * Returns the index within the specified string of the last occurrence of the
+   * provided character that is not within a quoted section of the string,
+   * searching backward starting at the specified index. A quoted section of a
+   * string ends with a double-quote character ({@code '"'}) and starts with a
+   * double-quote character or the start of the string.
+   *
+   * @param string The string.
+   * @param ch The character to find.
+   * @param fromIndex The index to start the search from. There is no
+   *          restriction on the value of {@code fromIndex}. If it is greater
+   *          than or equal to the length of this string, it has the same effect
+   *          as if it were equal to one less than the length of this string:
+   *          this entire string may be searched. If it is negative, it has the
+   *          same effect as if it were {@code -1}: {@code -1} is returned.
+   * @return The index within the specified string of the first occurrence of
+   *         the provided character that is not within a quoted section of the
+   *         string, or {@code -1} if the character is not found in an unquoted
+   *         section.
+   * @throws NullPointerException If the specified string is null.
+   */
+  public static int lastIndexOfUnQuoted(final String string, final char ch, int fromIndex) {
     boolean esacped = false;
-    boolean inDoubleQuote = false;
+    boolean quoted = false;
     char n = '\0';
-    for (int i = fromIndex - 1; i >= 0; --i) {
+    for (int end = string.length() - 1, i = fromIndex > end ? end : fromIndex; i >= 0; --i) {
       final char c = string.charAt(i);
       if (c == '\\')
         esacped = true;
       else if (esacped)
         esacped = false;
-      else if (n == ch && !inDoubleQuote)
+      else if (n == ch && !quoted)
         return i + 1;
       else if (n == '"')
-        inDoubleQuote = !inDoubleQuote;
+        quoted = !quoted;
 
       n = c;
     }
@@ -884,15 +945,52 @@ public final class Strings {
     return n == ch ? 0 : -1;
   }
 
+  /**
+   * Returns the index within the specified string of the last occurrence of the
+   * provided character that is not within a quoted section of the string. A
+   * quoted section of a string ends with a double-quote character ({@code '"'})
+   * and starts with a double-quote character or the start of the string.
+   *
+   * @param string The string.
+   * @param ch The character to find.
+   * @return The index within the specified string of the first occurrence of
+   *         the provided character that is not within a quoted section of the
+   *         string, or {@code -1} if the character is not found in an unquoted
+   *         section.
+   * @throws NullPointerException If the specified string is null.
+   */
   public static int lastIndexOfUnQuoted(final String string, final char ch) {
     return lastIndexOfUnQuoted(string, ch, string.length());
   }
 
-  public static String abbreviate(final String string, final int length) {
-    if (length < 4)
-      throw new IllegalArgumentException("length < 4: " + length);
+  /**
+   * Truncates the specified string to the provided maximum length, adding
+   * ellipses ({@code "..."}) if the string is longer than maximum length.
+   * <p>
+   * Special conditions:
+   * <ul>
+   * <li>If {@code maxLength < 3}, this method throws an
+   * {@code IllegalArgumentException}.</li>
+   * <li>If {@code maxLength == 3}, this method returns {@code "..."}.</li>
+   * <li>If {@code maxLength >= string.length()}, this method returns
+   * {@code string}.</li>
+   * <li>If {@code maxLength < string.length()}, this method returns:
+   * <blockquote>{@code string.substring(0, maxLength - 3) + "..."}
+   * </blockquote></li>
+   * </ul>
+   *
+   * @param string The string to truncate.
+   * @param maxLength The max length of the resulting string (must be
+   *          {@code >= 3}).
+   * @return The truncated string.
+   * @throws IllegalArgumentException If the provided length is less than 3.
+   * @throws NullPointerException If the specified string is null.
+   */
+  public static String truncate(final String string, final int maxLength) {
+    if (maxLength < 3)
+      throw new IllegalArgumentException("length must be >= 3: " + maxLength);
 
-    return string.length() > length ? string.substring(0, length - 3) + "..." : string;
+    return maxLength == 3 ? "..." : string.length() > maxLength ? string.substring(0, maxLength - 3).concat("...") : string;
   }
 
   private static void appendElVar(final Map<String,String> variables, final StringBuilder builder, final StringBuilder var) {
