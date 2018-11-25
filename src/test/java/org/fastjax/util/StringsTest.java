@@ -77,13 +77,13 @@ public class StringsTest {
     }
   }
 
-  private static void assertInterpolate(final String expected, final String test, final Map<String,String> properties, final String open, final String close) throws ParseException {
+  private static void assertInterpolate(final String expected, final String test, final Map<String,String> properties, final String open, final String close) {
     final String actual = Strings.interpolate(test, properties, open, close);
     assertEquals(expected, actual);
   }
 
   @Test
-  public void testInterpolate() throws ParseException {
+  public void testInterpolate() {
     final String open = "{{";
     final String close = "}}";
     final Map<String,String> properties = new HashMap<>();
@@ -142,63 +142,105 @@ public class StringsTest {
     }
 
     try {
-      Strings.toLowerCase(UPPER_CASE, 10, 4);
+      Strings.toLowerCase(new StringBuilder(UPPER_CASE), 10, 4);
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
     try {
-      Strings.toLowerCase(UPPER_CASE, 12, 13);
+      Strings.toLowerCase(new StringBuilder(UPPER_CASE), 12, 13);
       fail("Expected StringIndexOutOfBoundsException");
     }
     catch (final StringIndexOutOfBoundsException e) {
     }
 
     try {
-      Strings.toLowerCase(UPPER_CASE, -1, 1);
+      Strings.toLowerCase(new StringBuilder(UPPER_CASE), -1, 1);
       fail("Expected StringIndexOutOfBoundsException");
     }
     catch (final StringIndexOutOfBoundsException e) {
     }
 
     try {
-      Strings.toLowerCase(UPPER_CASE, -2, -1);
+      Strings.toLowerCase(new StringBuilder(UPPER_CASE), -2, -1);
       fail("Expected StringIndexOutOfBoundsException");
     }
     catch (final StringIndexOutOfBoundsException e) {
     }
 
     try {
-      Strings.toLowerCase(UPPER_CASE, 1, 12);
+      Strings.toLowerCase(new StringBuilder(UPPER_CASE), 1, 12);
       fail("Expected StringIndexOutOfBoundsException");
     }
     catch (final Exception e) {
     }
 
-    assertEquals("", Strings.toLowerCase("", 0, 0));
-    assertEquals(UPPER_CASE, Strings.toLowerCase(UPPER_CASE, 0, 0));
-    assertEquals("hELLO WORLD", Strings.toLowerCase(UPPER_CASE, 0, 1));
-    assertEquals("HeLLO WORLD", Strings.toLowerCase(UPPER_CASE, 1, 2));
-    assertEquals("HelLO WORLD", Strings.toLowerCase(UPPER_CASE, 1, 3));
-    assertEquals("HELLO WORLd", Strings.toLowerCase(UPPER_CASE, 10, 11));
-    assertEquals("HELLO WORld", Strings.toLowerCase(UPPER_CASE, 9, 11));
-    assertEquals("HELLO WOrld", Strings.toLowerCase(UPPER_CASE, 8));
-    assertEquals("HELLO world", Strings.toLowerCase(UPPER_CASE, 6));
+    assertEquals("", Strings.toLowerCase(new StringBuilder(""), 0, 0).toString());
+    assertEquals(UPPER_CASE, Strings.toLowerCase(new StringBuilder(UPPER_CASE), 0, 0).toString());
+    assertEquals("hELLO WORLD", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 0, 1).toString());
+    assertEquals("HeLLO WORLD", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 1, 2).toString());
+    assertEquals("HelLO WORLD", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 1, 3).toString());
+    assertEquals("HELLO WORLd", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 10, 11).toString());
+    assertEquals("HELLO WORld", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 9, 11).toString());
+    assertEquals("HELLO WOrld", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 8).toString());
+    assertEquals("HELLO world", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 6).toString());
 
-    assertEquals("", Strings.toUpperCase("", 0, 0));
-    assertEquals(LOWER_CASE, Strings.toLowerCase(LOWER_CASE, 0, 0));
-    assertEquals("Hello world", Strings.toUpperCase(LOWER_CASE, 0, 1));
-    assertEquals("hEllo world", Strings.toUpperCase(LOWER_CASE, 1, 2));
-    assertEquals("hELlo world", Strings.toUpperCase(LOWER_CASE, 1, 3));
-    assertEquals("hello worlD", Strings.toUpperCase(LOWER_CASE, 10, 11));
-    assertEquals("hello worLD", Strings.toUpperCase(LOWER_CASE, 9, 11));
-    assertEquals("hello woRLD", Strings.toUpperCase(LOWER_CASE, 8));
-    assertEquals("hello WORLD", Strings.toUpperCase(LOWER_CASE, 6));
+    assertEquals("", Strings.toUpperCase(new StringBuilder(""), 0, 0).toString());
+    assertEquals(LOWER_CASE, Strings.toLowerCase(new StringBuilder(LOWER_CASE), 0, 0).toString());
+    assertEquals("Hello world", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 0, 1).toString());
+    assertEquals("hEllo world", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 1, 2).toString());
+    assertEquals("hELlo world", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 1, 3).toString());
+    assertEquals("hello worlD", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 10, 11).toString());
+    assertEquals("hello worLD", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 9, 11).toString());
+    assertEquals("hello woRLD", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 8).toString());
+    assertEquals("hello WORLD", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 6).toString());
+  }
+
+  @Test
+  public void testPad() {
+    try {
+      Strings.padLeft(null, 0);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    try {
+      Strings.padRight(null, 0);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    try {
+      Strings.padLeft(" ", 0);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    try {
+      Strings.padRight(" ", 0);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    assertEquals(" ", Strings.padLeft(" ", 1));
+    assertEquals(" A", Strings.padLeft("A", 2));
+    assertEquals("  A", Strings.padLeft("A", 3));
+    assertEquals("xxxA", Strings.padLeft("A", 4, 'x'));
+
+    assertEquals(" ", Strings.padRight(" ", 1));
+    assertEquals("A ", Strings.padRight("A", 2));
+    assertEquals("A  ", Strings.padRight("A", 3));
+    assertEquals("Axxx", Strings.padRight("A", 4, 'x'));
   }
 
   @Test
   public void testGetAlpha() {
+    System.out.println(Long.toString(0xeab32fl & ((1l << 8 * 3) - 1), 16));
     assertEquals("a", Strings.getAlpha(0));
     assertEquals("aa", Strings.getAlpha(26));
     assertEquals("aaa", Strings.getAlpha(26 * 26 + 26));
@@ -209,6 +251,27 @@ public class StringsTest {
 
     assertEquals("ac", Strings.getAlpha(28));
     assertEquals("za", Strings.getAlpha(676));
+  }
+
+  @Test
+  public void testHex() {
+    final long value = 0xabcdef1234567l;
+    assertEquals("7", Strings.hex(value, 1));
+    assertEquals("67", Strings.hex(value, 2));
+    assertEquals("1234567", Strings.hex(value, 7));
+    assertEquals("-1234567", Strings.hex(-value, 7));
+    assertEquals("00abcdef1234567", Strings.hex(value, 15));
+    assertEquals("-00abcdef1234567", Strings.hex(-value, 15));
+  }
+
+  @Test
+  public void testToUTF8Literal() {
+    assertEquals("\\x00", Strings.toUTF8Literal('\0'));
+    assertEquals("\\x61", Strings.toUTF8Literal('a'));
+    assertEquals("\\x65", Strings.toUTF8Literal('e'));
+    assertEquals("\\x7b", Strings.toUTF8Literal('{'));
+    assertEquals("\\x0a", Strings.toUTF8Literal('\n'));
+    assertEquals("\\x00\\x61\\x65\\x7b\\x0a", Strings.toUTF8Literal("\0ae{\n"));
   }
 
   @Test
@@ -353,21 +416,21 @@ public class StringsTest {
   @Test
   public void testToTruncatedString() {
     try {
-      Strings.toTruncatedString("", 3);
+      Strings.abbreviate("", 3);
       fail("Expected a IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    assertEquals("null", Strings.toTruncatedString(null, 4));
-    assertEquals("", Strings.toTruncatedString("", 4));
-    assertEquals("a", Strings.toTruncatedString("a", 4));
-    assertEquals("aa", Strings.toTruncatedString("aa", 4));
-    assertEquals("aaa", Strings.toTruncatedString("aaa", 4));
-    assertEquals("aaaa", Strings.toTruncatedString("aaaa", 4));
-    assertEquals("aaaaa", Strings.toTruncatedString("aaaaa", 5));
-    assertEquals("aa...", Strings.toTruncatedString("aaaaaa", 5));
-    assertEquals("aaa...", Strings.toTruncatedString("aaaaaaa", 6));
+    assertEquals("null", Strings.abbreviate(null, 4));
+    assertEquals("", Strings.abbreviate("", 4));
+    assertEquals("a", Strings.abbreviate("a", 4));
+    assertEquals("aa", Strings.abbreviate("aa", 4));
+    assertEquals("aaa", Strings.abbreviate("aaa", 4));
+    assertEquals("aaaa", Strings.abbreviate("aaaa", 4));
+    assertEquals("aaaaa", Strings.abbreviate("aaaaa", 5));
+    assertEquals("aa...", Strings.abbreviate("aaaaaa", 5));
+    assertEquals("aaa...", Strings.abbreviate("aaaaaaa", 6));
   }
 
   private static void assertEL(final Map<String,String> variables, final String test, final String match) {

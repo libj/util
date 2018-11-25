@@ -19,6 +19,7 @@ package org.fastjax.util;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,12 +29,12 @@ public final class Strings {
   private static final char[] alphaNumeric = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
   private static final SecureRandom secureRandom = new SecureRandom();
 
-  private static String getRandom(final int length, final int start, final int len) {
-    if (length < 0)
-      throw new IllegalArgumentException("Length must be non-negative: " + length);
-
+  private static String getRandom(final SecureRandom secureRandom, final int length, final int start, final int len) {
     if (length == 0)
       return "";
+
+    if (length < 0)
+      throw new IllegalArgumentException("Length must be non-negative: " + length);
 
     final char[] array = new char[length];
     for (int i = 0; i < length; ++i)
@@ -42,24 +43,87 @@ public final class Strings {
     return new String(array);
   }
 
+  /**
+   * Returns a randomly constructed alphanumeric string of the specified length.
+   *
+   * @param secureRandom The {@link SecureRandom} instance for generation of
+   *          random values.
+   * @param len The length of the string to construct.
+   * @return A randomly constructed alphanumeric string of the specified length.
+   */
+  public static String getRandomAlphaNumeric(final SecureRandom secureRandom, final int len) {
+    return getRandom(secureRandom, len, 0, alphaNumeric.length);
+  }
+
+  /**
+   * Returns a randomly constructed alphanumeric string of the specified length.
+   * <p>
+   * This method uses a static {@link SecureRandom} instance for generation of
+   * random values.
+   *
+   * @param len The length of the string to construct.
+   * @return A randomly constructed alphanumeric string of the specified length.
+   */
   public static String getRandomAlphaNumeric(final int len) {
-    return getRandom(len, 0, alphaNumeric.length);
+    return getRandom(secureRandom, len, 0, alphaNumeric.length);
   }
 
+  /**
+   * Returns a randomly constructed alpha string of the specified length.
+   *
+   * @param secureRandom The {@link SecureRandom} instance for generation of
+   *          random values.
+   * @param len The length of the string to construct.
+   * @return A randomly constructed alpha string of the specified length.
+   */
+  public static String getRandomAlpha(final SecureRandom secureRandom, final int len) {
+    return getRandom(secureRandom, len, 0, alphaNumeric.length - 10);
+  }
+
+  /**
+   * Returns a randomly constructed alpha string of the specified length.
+   * <p>
+   * This method uses a static {@link SecureRandom} instance for generation of
+   * random values.
+   *
+   * @param len The length of the string to construct.
+   * @return A randomly constructed alpha string of the specified length.
+   */
   public static String getRandomAlpha(final int len) {
-    return getRandom(len, 0, alphaNumeric.length - 10);
+    return getRandom(secureRandom, len, 0, alphaNumeric.length - 10);
   }
 
+  /**
+   * Returns a randomly constructed numeric string of the specified length.
+   *
+   * @param secureRandom The {@link SecureRandom} instance for generation of
+   *          random values.
+   * @param len The length of the string to construct.
+   * @return A randomly constructed numeric string of the specified length.
+   */
+  public static String getRandomNumeric(final SecureRandom secureRandom, final int len) {
+    return getRandom(secureRandom, len, alphaNumeric.length - 10, 10);
+  }
+
+  /**
+   * Returns a randomly constructed numeric string of the specified length.
+   * <p>
+   * This method uses a static {@link SecureRandom} instance for generation of
+   * random values.
+   *
+   * @param len The length of the string to construct.
+   * @return A randomly constructed numeric string of the specified length.
+   */
   public static String getRandomNumeric(final int len) {
-    return getRandom(len, alphaNumeric.length - 10, 10);
+    return getRandom(secureRandom, len, alphaNumeric.length - 10, 10);
   }
 
-  private static boolean interpolateShallow(final StringBuilder text, final Map<String,String> properties, final String open, final String close) throws ParseException {
+  private static boolean interpolateShallow(final StringBuilder text, final Map<String,String> properties, final String open, final String close) {
     boolean changed = false;
     for (int start = text.length() - close.length() - 1; (start = text.lastIndexOf(open, start - 1)) > -1;) {
       final int end = text.indexOf(close, start + open.length());
-      if (end < 0)
-        throw new ParseException(text.toString(), start);
+      if (end < start)
+        continue;
 
       final String key = text.substring(start + open.length(), end);
       final String value = properties.get(key);
@@ -72,28 +136,102 @@ public final class Strings {
     return changed;
   }
 
-  private static String interpolateDeep(final StringBuilder text, final Map<String,String> properties, final String open, final String close) throws ParseException {
+  private static String interpolateDeep(final StringBuilder text, final Map<String,String> properties, final String prefix, final String suffix) {
     final int max = properties.size() * properties.size();
-    for (int i = 0; interpolateShallow(text, properties, open, close); ++i)
+    for (int i = 0; interpolateShallow(text, properties, prefix, suffix); ++i)
       if (i == max)
         throw new IllegalArgumentException("Loop detected");
 
     return text.toString();
   }
 
-  public static Map<String,String> interpolate(final Map<String,String> properties, final String open, final String close) throws ParseException {
+  /**
+   * Interpolates all the <i>value</i> strings in the specified {@code Map} by
+   * matching {@code prefix + value + suffix}, where <i>value</i> is a
+   * <i>key</i> in the {@code Map}, and replacing it with the value from the
+   * {@code Map}.
+   * <p>
+   * This performance of this algorithm is {@code O(n^2)} by nature. If the
+   * specified {@code Map} has {@code key=value} entries that result in a loop,
+   * this method will throw a {@code IllegalArgumentException}.
+   * <p>
+   * <blockquote>
+   * <i><b>Example:</b></i>
+   * <p>
+   * <table>
+   * <caption>Input, with prefix=<code>"${"</code>, and suffix=<code>"}"</code></caption>
+   * <tr><td><b>Key</b></td><td><b>Value</b></td></tr>
+   * <tr><td>title</td><td>The ${subject} jumps over the ${object}</td></tr>
+   * <tr><td>subject</td><td>${adj1} fox</td></tr>
+   * <tr><td>object</td><td>${adj2} dog</td></tr>
+   * <tr><td>adj1</td><td>quick brown</td></tr>
+   * <tr><td>adj2</td><td>lazy</td></tr>
+   * </table>
+   * <p>
+   * <table>
+   * <caption>Output</code></caption>
+   * <tr><td><b>Key</b></td><td><b>Value</b></td></tr>
+   * <tr><td>title</td><td>The quick brown fox jumps over the lazy dog</td></tr>
+   * <tr><td>subject</td><td>quick brown fox</td></tr>
+   * <tr><td>object</td><td>lazy dog</td></tr>
+   * <tr><td>adj1</td><td>quick brown</td></tr>
+   * <tr><td>adj2</td><td>lazy</td></tr>
+   * </table>
+   * </blockquote>
+   *
+   * @param properties The map to interpolate.
+   * @param prefix String prefixing the key name.
+   * @param suffix String suffixing the key name.
+   * @return The specified map, with its values interpolated.
+   * @see #interpolate(String,Map,String,String)
+   * @throws IllegalArgumentException If the specified {@code properties} has
+   *           {@code key=value} entries that result in a loop.
+   * @throws NullPointerException If {@code properties}, {@code prefix}, or
+   *           {@code suffix} are null.
+   */
+  public static Map<String,String> interpolate(final Map<String,String> properties, final String prefix, final String suffix) {
     Objects.requireNonNull(properties);
-    Objects.requireNonNull(open);
-    Objects.requireNonNull(close);
+    Objects.requireNonNull(prefix);
+    Objects.requireNonNull(suffix);
     for (final Map.Entry<String,String> entry : properties.entrySet())
       if (entry.getValue() != null)
-        entry.setValue(interpolateDeep(new StringBuilder(entry.getValue()), properties, open, close));
+        entry.setValue(interpolateDeep(new StringBuilder(entry.getValue()), properties, prefix, suffix));
 
     return properties;
   }
 
-  public static String interpolate(final String text, final Map<String,String> properties, final String open, final String close) throws ParseException {
-    return interpolateDeep(new StringBuilder(Objects.requireNonNull(text)), Objects.requireNonNull(properties), Objects.requireNonNull(open), Objects.requireNonNull(close));
+  /**
+   * Interpolates the specified string by matching {@code prefix + key + suffix}
+   * substring and replacing it with the <i>value</i> of the {@code key=value}
+   * mapping in the properties {@code Map}.
+   * <p>
+   * <blockquote>
+   * <i><b>Example:</b></i>
+   * <p>
+   * <b>Input</b>: text=<code>The ${subject} jumps over the ${object}</code>,
+   * prefix=<code>"${"</code>, suffix=<code>"}"</code>
+   * <p>
+   * <table>
+   * <caption>Properties</caption>
+   * <tr><td><b>Key</b></td><td><b>Value</b></td></tr>
+   * <tr><td>subject</td><td>quick brown fox</td></tr>
+   * <tr><td>object</td><td>lazy dog</td></tr>
+   * </table>
+   * <p>
+   * <b>Output</b>: {@code The quick brown fox jumps over the lazy dog}
+   * </blockquote>
+   *
+   * @param text The string to interpolate.
+   * @param properties The map with key=value entries for interpolation.
+   * @param prefix String prefixing the key name.
+   * @param suffix String suffixing the key name.
+   * @return The interpolated string.
+   * @see #interpolate(Map,String,String)
+   * @throws NullPointerException If {@code text}, {@code properties},
+   *           {@code prefix}, or {@code suffix} are null.
+   */
+  public static String interpolate(final String text, final Map<String,String> properties, final String prefix, final String suffix) {
+    return interpolateDeep(new StringBuilder(Objects.requireNonNull(text)), Objects.requireNonNull(properties), Objects.requireNonNull(prefix), Objects.requireNonNull(suffix));
   }
 
   /**
@@ -133,15 +271,18 @@ public final class Strings {
     return builder;
   }
 
-  public static String replaceDeep(String string, final CharSequence target, final CharSequence replacement) {
-    String result;
-    while (string.length() != (result = string.replace(target, replacement)).length())
-      string = result;
-
-    return result;
-  }
-
-  public static StringBuilder replaceDeep(final StringBuilder builder, final CharSequence target, final CharSequence replacement) {
+  /**
+   * Replaces each substring of the specified {@link StringBuilder} that matches
+   * the given {@code target} sequence with the given {@code replacement}
+   * sequence.
+   *
+   * @param builder The {@link StringBuilder} in which all substrings are to be
+   *          replaced.
+   * @param target The sequence to be replaced.
+   * @param replacement The sequence to be substituted for each match.
+   * @return The specified {@link StringBuilder} instance.
+   */
+  public static StringBuilder replaceAll(final StringBuilder builder, final CharSequence target, final CharSequence replacement) {
     while (builder.length() != replace(builder, target, replacement).length());
     return builder;
   }
@@ -231,92 +372,265 @@ public final class Strings {
     return builder;
   }
 
-  private static String changeCase(final String string, final boolean upper, final int beginIndex, final int endIndex) {
-    if (string.length() == 0)
-      return string;
+  private static StringBuilder changeCase(final StringBuilder builder, final boolean upper, final int beginIndex, final int endIndex) {
+    if (builder.length() == 0)
+      return builder;
 
-    if (beginIndex > endIndex)
-      throw new IllegalArgumentException("start {" + beginIndex + "} > end {" + endIndex + "}");
+    if (endIndex < beginIndex)
+      throw new IllegalArgumentException("start index (" + beginIndex + ") > end index (" + endIndex + ")");
 
-    if (string.length() < beginIndex)
-      throw new StringIndexOutOfBoundsException("start index {" + beginIndex + "} > string length {" + string.length() + "}");
-
-    if (endIndex < 0)
-      throw new StringIndexOutOfBoundsException("end index {" + endIndex + "} < 0");
+    if (builder.length() < beginIndex)
+      throw new IllegalArgumentException("start index (" + beginIndex + ") > string length (" + builder.length() + ")");
 
     if (beginIndex == endIndex)
+      return builder;
+
+    for (int i = beginIndex; i < endIndex; ++i)
+      builder.setCharAt(i, upper ? Character.toUpperCase(builder.charAt(i)) : Character.toLowerCase(builder.charAt(i)));
+
+    return builder;
+  }
+
+  /**
+   * Converts the characters in the specified {@link StringBuilder} spanning the
+   * provided index range to lowercase using case mapping information from the
+   * UnicodeData file.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @param beginIndex The beginning index, inclusive.
+   * @param endIndex The ending index, exclusive.
+   * @return The specified {@link StringBuilder}, with the characters spanning
+   *         the index range converted to lowercase.
+   * @exception IllegalArgumentException If the {@code beginIndex} is negative,
+   *              or {@code endIndex} is larger than the length of the
+   *              {@code StringBuilder}, or {@code beginIndex} is larger than
+   *              {@code endIndex}.
+   * @throws NullPointerException If {@code builder} is null.
+   * @see Character#toLowerCase(char)
+   */
+  public static StringBuilder toLowerCase(final StringBuilder builder, final int beginIndex, final int endIndex) {
+    return changeCase(builder, false, beginIndex, endIndex);
+  }
+
+  /**
+   * Converts all of the characters in the specified {@link StringBuilder}
+   * starting at the provided begin index to lowercase using case mapping
+   * information from the UnicodeData file.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @param beginIndex The beginning index, inclusive.
+   * @return The specified {@link StringBuilder}, with all the characters
+   *         following the provided begin index converted to lowercase.
+   * @exception IllegalArgumentException If the {@code beginIndex} is negative
+   *              or larger than the length of the {@code StringBuilder}.
+   * @throws NullPointerException If {@code builder} is null.
+   * @see Character#toLowerCase(char)
+   */
+  public static StringBuilder toLowerCase(final StringBuilder builder, final int beginIndex) {
+    return changeCase(builder, false, beginIndex, builder.length());
+  }
+
+  /**
+   * Converts the characters in the specified {@link StringBuilder} spanning the
+   * provided index range to uppercase using case mapping information from the
+   * UnicodeData file.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @param beginIndex The beginning index, inclusive.
+   * @param endIndex The ending index, exclusive.
+   * @return The specified {@link StringBuilder}, with the characters spanning
+   *         the index range converted to uppercase.
+   * @exception IllegalArgumentException If the {@code beginIndex} is negative,
+   *              or {@code endIndex} is larger than the length of the
+   *              {@code StringBuilder}, or {@code beginIndex} is larger than
+   *              {@code endIndex}.
+   * @throws NullPointerException If {@code builder} is null.
+   * @see Character#toLowerCase(char)
+   */
+  public static StringBuilder toUpperCase(final StringBuilder builder, final int beginIndex, final int endIndex) {
+    return changeCase(builder, true, beginIndex, endIndex);
+  }
+
+  /**
+   * Converts all of the characters in the specified {@link StringBuilder}
+   * starting at the provided begin index to uppercase using case mapping
+   * information from the UnicodeData file.
+   *
+   * @param builder The {@link StringBuilder}.
+   * @param beginIndex The beginning index, inclusive.
+   * @return The specified {@link StringBuilder}, with all the characters
+   *         following the provided begin index converted to uppercase.
+   * @exception IllegalArgumentException If the {@code beginIndex} is negative
+   *              or larger than the length of the {@code StringBuilder}.
+   * @throws NullPointerException If {@code builder} is null.
+   * @see Character#toLowerCase(char)
+   */
+  public static StringBuilder toUpperCase(final StringBuilder builder, final int beginIndex) {
+    return changeCase(builder, true, beginIndex, builder.length());
+  }
+
+  /**
+   * Returns a left-padded representation of the specified length for the
+   * provided string. If {@code length > string.length()}, preceding characters
+   * are filled with spaces ({@code ' '}). If {@code length == string.length()},
+   * the provided string instance is returned. If
+   * {@code length < string.length()}, this method throws
+   * {@code IllegalArgumentException}.
+   * <p>
+   * This method is equivalent to calling {@code padLeft(string, length, ' ')}.
+   *
+   * @param string The string to pad.
+   * @param length The length of the returned, padded string.
+   * @return A left-padded representation of the specified length for the
+   *         provided string.
+   * @throws IllegalArgumentException If {@code length} is less than
+   *           {@code string.length()}.
+   * @throws NullPointerException If {@code string} is null.
+   */
+  public static String padLeft(final String string, final int length) {
+    return pad(string, length, false, ' ');
+  }
+
+  /**
+   * Returns a left-padded representation of the specified length for the
+   * provided string. If {@code length > string.length()}, preceding characters
+   * are filled with the specified {@code pad} char. If
+   * {@code length == string.length()}, the provided string instance is
+   * returned. If {@code length < string.length()}, this method throws
+   * {@code IllegalArgumentException}.
+   *
+   * @param string The string to pad.
+   * @param length The length of the returned, padded string.
+   * @param pad The padding character.
+   * @return A left-padded representation of the specified length for the
+   *         provided string.
+   * @throws IllegalArgumentException If {@code length} is less than
+   *           {@code string.length()}.
+   * @throws NullPointerException If {@code string} is null.
+   */
+  public static String padLeft(final String string, final int length, final char pad) {
+    return pad(string, length, false, pad);
+  }
+
+  /**
+   * Returns a right-padded representation of the specified length for the
+   * provided string. If {@code length > string.length()}, ending characters are
+   * filled with spaces ({@code ' '}). If {@code length == string.length()}, the
+   * provided string instance is returned. If {@code length < string.length()},
+   * this method throws {@code IllegalArgumentException}.
+   * <p>
+   * This method is equivalent to calling {@code padRight(string, length, ' ')}.
+   *
+   * @param string The string to pad.
+   * @param length The length of the returned, padded string.
+   * @param pad The padding character.
+   * @return A right-padded representation of the specified length for the
+   *         provided string.
+   * @throws IllegalArgumentException If {@code length} is less than
+   *           {@code string.length()}.
+   * @throws NullPointerException If {@code string} is null.
+   */
+  public static String padRight(final String string, final int length) {
+    return pad(string, length, true, ' ');
+  }
+
+  /**
+   * Returns a right-padded representation of the specified length for the
+   * provided string. If {@code length > string.length()}, ending characters are
+   * filled with the specified {@code pad} char. If
+   * {@code length == string.length()}, the provided string instance is
+   * returned. If {@code length < string.length()}, this method throws
+   * {@code IllegalArgumentException}.
+   *
+   * @param string The string to pad.
+   * @param length The length of the returned, padded string.
+   * @return A right-padded representation of the specified length for the
+   *         provided string.
+   * @throws IllegalArgumentException If {@code length} is less than
+   *           {@code string.length()}.
+   * @throws NullPointerException If {@code string} is null.
+   */
+  public static String padRight(final String string, final int length, final char pad) {
+    return pad(string, length, true, pad);
+  }
+
+  private static String pad(final String string, final int length, final boolean right, final char pad) {
+    final int len = string.length();
+    if (length == len)
       return string;
 
-    if (beginIndex == 0) {
-      final String caseString = string.substring(beginIndex, endIndex).toLowerCase();
-      final String endString = string.substring(endIndex);
-      return upper ? caseString.toUpperCase() + endString : caseString.toLowerCase() + endString;
+    if (length < len)
+      throw new IllegalArgumentException("length (" + length + ") must be greater or equal to string length (" + len + ")");
+
+    final char[] chars = new char[length];
+    if (right) {
+      Arrays.fill(chars, len, length, pad);
+      for (int i = 0; i < len; ++i)
+        chars[i] = string.charAt(i);
+    }
+    else {
+      final int offset = length - len;
+      Arrays.fill(chars, 0, offset, pad);
+      for (int i = 0; i < len; ++i)
+        chars[i + offset] = string.charAt(i);
     }
 
-    if (endIndex == string.length()) {
-      final String beginString = string.substring(0, beginIndex);
-      final String caseString = string.substring(beginIndex, endIndex).toLowerCase();
-      return upper ? beginString + caseString.toUpperCase() : beginString + caseString.toLowerCase();
-    }
-
-    final String beginString = string.substring(0, beginIndex);
-    final String caseString = string.substring(beginIndex, endIndex).toLowerCase();
-    final String endString = string.substring(endIndex);
-    return upper ? beginString + caseString.toUpperCase() + endString : beginString + caseString.toLowerCase() + endString;
+    return new String(chars);
   }
 
-  public static String toLowerCase(final String string, final int beginIndex, final int endIndex) {
-    return changeCase(string, false, beginIndex, endIndex);
-  }
-
-  public static String toLowerCase(final String string, final int beginIndex) {
-    return changeCase(string, false, beginIndex, string.length());
-  }
-
-  public static String toUpperCase(final String string, final int beginIndex, final int endIndex) {
-    return changeCase(string, true, beginIndex, endIndex);
-  }
-
-  public static String toUpperCase(final String string, final int beginIndex) {
-    return changeCase(string, true, beginIndex, string.length());
-  }
-
-  public static String padFixed(final String string, final int length, final boolean right) {
-    if (length - string.length() < 0)
-      return string;
-
-    final char[] chars = new char[length - string.length()];
-    java.util.Arrays.fill(chars, ' ');
-    return right ? string + String.valueOf(chars) : String.valueOf(chars) + string;
-  }
-
-  private static String hex(long i, final int places) {
-    if (i == Long.MIN_VALUE)
-      return "-8000000000000000";
-
-    boolean negative = i < 0;
+  /**
+   * Returns the hexadecimal representation of the specified value up to the
+   * provided digits. If the number of digits is less than the full length of
+   * the hexadecimal representation, the extra most significant digits are
+   * truncated. If the number of digits is less than the full length of the
+   * hexadecimal representation, the resultant string is left-padded with zeros
+   * ({@code '0'}).
+   *
+   * @param value The value to convert to hexadecimal representation.
+   * @param digits The number of digits to return, least significant digits
+   *          first.
+   * @return The hexadecimal representation of the specified value up to the
+   *         provided digits
+   */
+  static String hex(long value, final int digits) {
+    final boolean negative = value < 0;
     if (negative)
-      i = -i;
+      value = -value;
 
-    String result = Long.toString(i, 16).toUpperCase();
-    if (result.length() < places)
-      result = "0000000000000000".substring(result.length(), places) + result;
+    String hex = Long.toString(value & ((1l << 4 * digits) - 1), 16);
+    if (hex.length() < digits)
+      hex = padLeft(hex, digits, '0');
 
-    return negative ? '-' + result : result;
+    return negative ? "-" + hex : hex;
   }
 
+  /**
+   * Returns the UTF-8 literal hexadecimal encoding of the specified
+   * {@code char}.
+   *
+   * @param ch The {@code char} to encode.
+   * @return The UTF-8 literal hexadecimal encoding of the specified
+   *         {@code char}.
+   */
   public static String toUTF8Literal(final char ch) {
     return "\\x" + hex(ch, 2);
   }
 
+  /**
+   * Returns the string of UTF-8 literal hexadecimal encodings of characters of
+   * the specified {@code String}.
+   *
+   * @param string The {@code String} to encode.
+   * @return The string of UTF-8 literal hexadecimal encodings of characters of
+   *         the specified {@code String}.
+   */
   public static String toUTF8Literal(final String string) {
-    final StringBuilder buffer = new StringBuilder(string.length() * 4);
-    for (int i = 0; i < string.length(); ++i) {
-      char ch = string.charAt(i);
-      buffer.append(toUTF8Literal(ch));
-    }
+    final int len = string.length();
+    final StringBuilder builder = new StringBuilder(len * 4);
+    for (int i = 0; i < len; ++i)
+      builder.append(toUTF8Literal(string.charAt(i)));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   public static String getAlpha(final int number) {
@@ -324,7 +638,14 @@ public final class Strings {
     return number < '{' - 'a' ? String.valueOf((char)('a' + number)) : getAlpha((scale = number / ('{' - 'a')) - 1) + String.valueOf((char)('a' + number - scale * ('{' - 'a')));
   }
 
-  @SafeVarargs
+  /**
+   * Returns the prefix string that is shared amongst all members for the
+   * specified {@code String} array.
+   *
+   * @param strings The {@code String} array in which to find a common prefix.
+   * @return The prefix string that is shared amongst all members for the
+   *         specified {@code String} array.
+   */
   public static String getCommonPrefix(final String ... strings) {
     if (strings == null || strings.length == 0)
       return null;
@@ -340,6 +661,15 @@ public final class Strings {
     return strings[0];
   }
 
+  /**
+   * Returns the prefix string that is shared amongst all members for the
+   * specified {@code Collection}.
+   *
+   * @param strings The {@code Collection} of strings in which to find a common
+   *          prefix.
+   * @return The prefix string that is shared amongst all members for the
+   *         specified {@code Collection}.
+   */
   public static String getCommonPrefix(final Collection<String> strings) {
     if (strings == null || strings.size() == 0)
       return null;
@@ -365,6 +695,14 @@ public final class Strings {
     return string0;
   }
 
+  /**
+   * Returns a representation of the specified string that is able to be
+   * contained in a {@code String} literal in Java.
+   *
+   * @param string The string to transform.
+   * @return A representation of the specified string that is able to be
+   *         contained in a {@code String} literal in Java.
+   */
   public static String escapeForJava(final String string) {
     return string == null ? null : string.replace("\\", "\\\\").replace("\"", "\\\"");
   }
@@ -443,40 +781,68 @@ public final class Strings {
 
     final char[] chars = new char[size];
     string.getChars(0, length, chars, 0);
-    int n;
-    for (n = length; n < size - n; n <<= 1)
+    int n = length;
+    for (; n < size - n; n <<= 1)
       System.arraycopy(chars, 0, chars, n, n);
 
     System.arraycopy(chars, 0, chars, n, size - n);
     return new String(chars);
   }
 
-  public static byte[] getBytes(final String value, final String enc) {
+  /**
+   * Encodes the specified {@code String} into a sequence of bytes using the
+   * named charset, storing the result into a new byte array.
+   * <p>
+   * This method differentiates itself from {@link String#getBytes(String)} by
+   * throwing the unchecked {@link UnsupportedOperationException} instead of the
+   * checked {@link UnsupportedEncodingException} if the named charset is not
+   * supported.
+   *
+   * @param string The string to encode.
+   * @param charsetName The name of a supported
+   *          {@linkplain java.nio.charset.Charset charset}.
+   * @return The resultant byte array.
+   * @throws UnsupportedOperationException If the named charset is not
+   *           supported.
+   * @throws NullPointerException If {@code string} or {@code charsetName} are
+   *           null.
+   * @see String#getBytes(String)
+   */
+  public static byte[] getBytes(final String string, final String charsetName) {
     try {
-      return value.getBytes(enc);
+      return string.getBytes(charsetName);
     }
     catch (final UnsupportedEncodingException e) {
       throw new UnsupportedOperationException(e);
     }
   }
 
-  public static String trim(final String string, char ch) {
+  /**
+   * Returns the specified string with any leading and trailing characters
+   * matching the provided {@code char} removed.
+   *
+   * @param string The string to be trimmed.
+   * @param ch The {@code char} to remove from the front and back of the
+   *          specified string.
+   * @return The specified string with any leading and trailing characters
+   *         matching the provided {@code char} removed.
+   */
+  public static String trim(final String string, final char ch) {
     if (string == null)
       return null;
 
     int i = 0;
-    for (; i < string.length() && string.charAt(i) == ch; ++i);
+    while (i < string.length() && string.charAt(i++) == ch);
     if (i == string.length())
       return "";
 
     int j = string.length() - 1;
-    for (; j > i + 1 && string.charAt(j) == ch; --j);
+    while (j > i + 1 && string.charAt(j++) == ch);
     return i == 0 && j == string.length() - 1 ? string : string.substring(i, j + 1);
   }
 
   public static int indexOfUnQuoted(final String string, final char ch, final int fromIndex) {
     boolean esacped = false;
-    boolean inSingleQuote = false;
     boolean inDoubleQuote = false;
     for (int i = fromIndex; i < string.length(); ++i) {
       final char c = string.charAt(i);
@@ -484,10 +850,8 @@ public final class Strings {
         esacped = true;
       else if (esacped)
         esacped = false;
-      else if (c == ch && !inSingleQuote && !inDoubleQuote)
+      else if (c == ch && !inDoubleQuote)
         return i;
-      else if (c == '\'')
-        inSingleQuote = !inSingleQuote;
       else if (c == '"')
         inDoubleQuote = !inDoubleQuote;
     }
@@ -501,7 +865,6 @@ public final class Strings {
 
   public static int lastIndexOfUnQuoted(final String string, final char ch, final int fromIndex) {
     boolean esacped = false;
-    boolean inSingleQuote = false;
     boolean inDoubleQuote = false;
     char n = '\0';
     for (int i = fromIndex - 1; i >= 0; --i) {
@@ -510,10 +873,8 @@ public final class Strings {
         esacped = true;
       else if (esacped)
         esacped = false;
-      else if (n == ch && !inSingleQuote && !inDoubleQuote)
+      else if (n == ch && !inDoubleQuote)
         return i + 1;
-      else if (n == '\'')
-        inSingleQuote = !inSingleQuote;
       else if (n == '"')
         inDoubleQuote = !inDoubleQuote;
 
@@ -527,12 +888,11 @@ public final class Strings {
     return lastIndexOfUnQuoted(string, ch, string.length());
   }
 
-  public static String toTruncatedString(final Object obj, final int length) {
+  public static String abbreviate(final String string, final int length) {
     if (length < 4)
       throw new IllegalArgumentException("length < 4: " + length);
 
-    final String str = obj == null ? "null" : obj.toString();
-    return str.length() > length ? str.substring(0, length - 3) + "..." : str;
+    return string.length() > length ? string.substring(0, length - 3) + "..." : string;
   }
 
   private static void appendElVar(final Map<String,String> variables, final StringBuilder builder, final StringBuilder var) {

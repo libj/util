@@ -22,23 +22,33 @@ import java.io.Reader;
 
 /**
  * An efficient stream searching class based on the Knuth-Morris-Pratt
- * algorithm. For more on the algorithm works see:
- * http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/kmpen.htm.
+ * algorithm.
+ *
+ * @see <a href=
+ *      "http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/kmpen.htm">Knuth-Morris-Pratt
+ *      algorithm</a>
  */
 public final class StreamSearcher {
+  /**
+   * The Knuth-Morris-Pratt algorithm applied to {@code char} streams.
+   */
   public static class Char {
-    protected final char[][] pattern;
-    protected final int[][] borders;
+    private final char[][] patterns;
+    private final int[][] borders;
 
-    public Char(final char[] ... pattern) {
-      this.pattern = pattern;
-      this.borders = new int[pattern.length][pattern[0].length + 1];
-      for (int p = 0; p < pattern.length; ++p) {
-        int i = 0;
-        int j = -1;
+    /**
+     * Creates a new {@code Char} instance with the specified {@code char[]}
+     * vararg array representing the search patterns.
+     *
+     * @param patterns The vararg array representing the search patterns.
+     */
+    public Char(final char[] ... patterns) {
+      this.patterns = patterns;
+      this.borders = new int[patterns.length][patterns[0].length + 1];
+      for (int p = 0, i = 0, j = -1; p < patterns.length; ++p) {
         borders[p][i] = j;
-        while (i < pattern[0].length) {
-          while (j >= 0 && pattern[p][i] != pattern[p][j])
+        while (i < patterns[0].length) {
+          while (j >= 0 && patterns[p][i] != patterns[p][j])
             j = borders[p][j];
 
           borders[p][++i] = ++j;
@@ -63,12 +73,12 @@ public final class StreamSearcher {
     public int search(final Reader in, final char[] buffer, final int offset) throws IOException {
       int i = 0;
       int b = 0;
-      final int[] j = new int[pattern.length];
+      final int[] j = new int[patterns.length];
 
       while ((b = in.read()) != -1) {
         buffer[offset + i++] = (char)b;
-        for (int p = 0; p < pattern.length; ++p) {
-          while (j[p] >= 0 && (char)b != pattern[p][j[p]])
+        for (int p = 0; p < patterns.length; ++p) {
+          while (j[p] >= 0 && (char)b != patterns[p][j[p]])
             j[p] = borders[p][j[p]];
 
           // Move to the next character in the pattern.
@@ -77,7 +87,7 @@ public final class StreamSearcher {
           // If we've matched up to the full pattern length, we found it. Return,
           // which will automatically save our position in the InputStream at the
           // point immediately following the pattern match.
-          if (j[p] == pattern[p].length)
+          if (j[p] == patterns[p].length)
             return i;
         }
       }
@@ -87,19 +97,26 @@ public final class StreamSearcher {
     }
   }
 
+  /**
+   * The Knuth-Morris-Pratt algorithm applied to {@code byte} streams.
+   */
   public static class Byte {
-    protected final byte[][] pattern;
-    protected final int[][] borders;
+    private final byte[][] patterns;
+    private final int[][] borders;
 
-    public Byte(final byte[] ... pattern) {
-      this.pattern = pattern;
-      this.borders = new int[pattern.length][pattern[0].length + 1];
-      for (int p = 0; p < pattern.length; ++p) {
-        int i = 0;
-        int j = -1;
+    /**
+     * Creates a new {@code Byte} instance with the specified {@code byte[]}
+     * vararg array representing the search patterns.
+     *
+     * @param patterns The vararg array representing the search patterns.
+     */
+    public Byte(final byte[] ... patterns) {
+      this.patterns = patterns;
+      this.borders = new int[patterns.length][patterns[0].length + 1];
+      for (int p = 0, i = 0, j = -1; p < patterns.length; ++p) {
         borders[p][i] = j;
-        while (i < pattern[0].length) {
-          while (j >= 0 && pattern[p][i] != pattern[p][j])
+        while (i < patterns[0].length) {
+          while (j >= 0 && patterns[p][i] != patterns[p][j])
             j = borders[p][j];
 
           borders[p][++i] = ++j;
@@ -123,13 +140,11 @@ public final class StreamSearcher {
      */
     public int search(final InputStream in, final byte[] buffer, final int offset) throws IOException {
       int i = 0;
-      int b = 0;
-      final int[] j = new int[pattern.length];
-
-      while ((b = in.read()) != -1) {
+      final int[] j = new int[patterns.length];
+      for (int b = 0; (b = in.read()) != -1;) {
         buffer[offset + i++] = (byte)b;
-        for (int p = 0; p < pattern.length; ++p) {
-          while (j[p] >= 0 && (byte)b != pattern[p][j[p]])
+        for (int p = 0; p < patterns.length; ++p) {
+          while (j[p] >= 0 && (byte)b != patterns[p][j[p]])
             j[p] = borders[p][j[p]];
 
           // Move to the next character in the pattern.
@@ -138,7 +153,7 @@ public final class StreamSearcher {
           // If we've matched up to the full pattern length, we found it. Return,
           // which will automatically save our position in the InputStream at the
           // point immediately following the pattern match.
-          if (j[p] == pattern[p].length)
+          if (j[p] == patterns[p].length)
             return i;
         }
       }

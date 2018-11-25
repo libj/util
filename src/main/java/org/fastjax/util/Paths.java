@@ -282,8 +282,8 @@ public final class Paths {
     }
 
     final String s = isWindows ? "\\" : "/";
-    Strings.replaceDeep(path, s + s, s);
-    Strings.replaceDeep(path, s + "." + s, s);
+    Strings.replaceAll(path, s + s, s);
+    Strings.replaceAll(path, s + "." + s, s);
     if (Strings.startsWith(path, "." + s))
       path.delete(0, 2);
 
