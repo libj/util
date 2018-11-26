@@ -63,6 +63,7 @@ public abstract class RetryPolicy implements Serializable {
    * the number of {@link #maxRetries} has not been exceeded, and
    * {@link #retryOn(Exception)} returns {@code true}.
    *
+   * @param <T> The type of the result object.
    * @param retryable The {@link Retryable} object to run.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
    * @throws RetryFailureException If retry attempts have exceeded

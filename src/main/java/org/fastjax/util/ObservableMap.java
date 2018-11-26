@@ -27,9 +27,11 @@ import java.util.function.Function;
  * A {@link DelegateMap} that provides callback methods to observe the addition
  * and removal of elements, either due to direct method invocation on the map
  * instance itself, or via {@link #entrySet()}, {@link #values()},
- * {@link #forEach(BiConsumer)}, and any other entrypoint that facilitates
- * modification of the elements in this map.
+ * {@link #forEach(java.util.function.BiConsumer)}, and any other entrypoint
+ * that facilitates modification of the elements in this map.
  *
+ * @param <K> The type of keys maintained by this map.
+ * @param <V> The type of mapped values.
  * @see #beforePut(Object,Object,Object)
  * @see #afterPut(Object,Object,Object,RuntimeException)
  * @see #beforeRemove(Object,Object)

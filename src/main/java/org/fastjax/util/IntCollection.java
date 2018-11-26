@@ -238,7 +238,7 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
   }
 
   /**
-   * Creates a {@link Spliterator.OfInt} over the values in this collection.
+   * Creates a {@link java.util.Spliterator.OfInt} over the values in this collection.
    *
    * @return A {@code Spliterator.OfInt} over the values in this collection.
    */

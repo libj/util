@@ -106,6 +106,7 @@ public final class Enums {
      * Toggles the bits in the specified {@code mask} at the ordinal values of
      * the specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to toggle the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
@@ -125,6 +126,7 @@ public final class Enums {
      * Toggles the bits in the specified {@code mask} at the ordinal values of
      * the specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to toggle the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
@@ -144,6 +146,7 @@ public final class Enums {
      * Toggles the bits in the specified {@code mask} at the ordinal values of
      * the specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to toggle the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
@@ -163,6 +166,7 @@ public final class Enums {
      * Toggles the bits in the specified {@code mask} at the ordinal values of
      * the specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to toggle the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
@@ -182,6 +186,7 @@ public final class Enums {
      * Sets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to set the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
@@ -201,6 +206,7 @@ public final class Enums {
      * Sets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to set the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
@@ -220,6 +226,7 @@ public final class Enums {
      * Sets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to set the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
@@ -239,6 +246,7 @@ public final class Enums {
      * Sets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to set the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
@@ -258,6 +266,7 @@ public final class Enums {
      * Unsets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.
@@ -277,6 +286,7 @@ public final class Enums {
      * Unsets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.
@@ -296,6 +306,7 @@ public final class Enums {
      * Unsets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.
@@ -315,6 +326,7 @@ public final class Enums {
      * Unsets the bits in the specified {@code mask} at the ordinal values of the
      * specified {@code enum} instances.
      *
+     * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.

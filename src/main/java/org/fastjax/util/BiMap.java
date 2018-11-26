@@ -29,6 +29,8 @@ import java.util.Set;
  * will also result in reflected operations to the {@link #inverse()} instance.
  * This implementation is not synchronized.
  *
+ * @param <K> The type of keys maintained by this map.
+ * @param <V> The type of mapped values.
  * @see ObservableMap
  * @see DelegateMap
  */

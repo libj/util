@@ -51,6 +51,7 @@ public final class FastArrays {
    * {@code member.getClass().isArray()} is used to determine whether an array
    * member represents an array for further recursion.
    *
+   * @param <T> The component type of the specified array.
    * @param a The array.
    * @param countArrayReferences If {@code true}, array members that reference
    *          an array are included in the count; if {@code false}, they are not
@@ -71,6 +72,7 @@ public final class FastArrays {
    * references to other arrays. The {@code resolver} parameter is provided to
    * dereference such a symbolic references.
    *
+   * @param <T> The component type of the specified array.
    * @param a The array.
    * @param resolver A {@link Function} to provide a layer of indirection
    *          between an array member, and a higher-layer value. If
@@ -147,6 +149,7 @@ public final class FastArrays {
    * contains symbolic references to other arrays. The {@code resolver}
    * parameter is provided to dereference such a symbolic references.
    *
+   * @param <T> The component type of the specified array.
    * @param a The array.
    * @param resolver A {@link Function} to provide a layer of indirection
    *          between an array member, and a higher-layer value. If

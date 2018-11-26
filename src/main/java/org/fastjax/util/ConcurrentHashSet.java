@@ -27,7 +27,10 @@ import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A concurrent {@link HashSet} implementation backed by a {@link ConcurrentHashMap}.
+ * A concurrent {@link HashSet} implementation backed by a
+ * {@link ConcurrentHashMap}.
+ *
+ * @param <E> The type of elements maintained by this set.
  */
 public class ConcurrentHashSet<E> extends HashSet<E> {
   private static class ClonableConcurrentHashMap<K,V> extends ConcurrentHashMap<K,V> {
@@ -67,8 +70,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   private static final Object PRESENT = new Object();
 
   /**
-   * Constructs a new, empty set; the backing {@link ConcurrentHashMap}
-   * instance has default expected maximum size (16).
+   * Constructs a new, empty set; the backing {@link ConcurrentHashMap} instance
+   * has default expected maximum size (16).
    */
   public ConcurrentHashSet() {
     map = new ClonableConcurrentHashMap<>();
@@ -89,8 +92,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Constructs a new, empty set; the backing {@link ConcurrentHashMap}
-   * instance has the specified initial capacity and default load factor (0.75).
+   * Constructs a new, empty set; the backing {@link ConcurrentHashMap} instance
+   * has the specified initial capacity and default load factor (0.75).
    *
    * @param initialCapacity The initial capacity of the hash table.
    * @throws IllegalArgumentException If the initial capacity is less than zero.
@@ -154,8 +157,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Save the state of this {@code ConcurrentHashSet} instance to a stream
-   * (that is, serialize it).
+   * Save the state of this {@code ConcurrentHashSet} instance to a stream (that
+   * is, serialize it).
    *
    * @serialData The capacity of the backing {@link ConcurrentHashMap} instance
    *             (int), followed by the size of the set (the number of elements
@@ -180,8 +183,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Reconstitute the {@code ConcurrentHashSet} instance from a stream (that
-   * is, deserialize it).
+   * Reconstitute the {@code ConcurrentHashSet} instance from a stream (that is,
+   * deserialize it).
    *
    * @param s The {@code ObjectInputStream}.
    * @throws ClassNotFoundException If the class of a serialized object could

@@ -202,6 +202,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
    * nonempty.)
    *
    * @param list List containing values to be added to this list.
+   * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified list is null.
    */
   public boolean addAll(final ArrayLongList list) {
@@ -219,6 +220,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
    * @param list List containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
+   * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified list is null.
    */
   public boolean addAll(final ArrayLongList list, final int offset, final int length) {
@@ -274,6 +276,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
    * @param list List containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
+   * @return {@code true} if this collection changed as a result of the call.
    * @throws IndexOutOfBoundsException If the index is out of range.
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
@@ -292,6 +295,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
    * @param index Index at which to insert the first value from the specified
    *          list.
    * @param list List containing values to be added to this list.
+   * @return {@code true} if this collection changed as a result of the call.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.

@@ -334,7 +334,7 @@ public interface IntSet extends IntCollection {
    * The {@code Spliterator.OfInt} reports {@link Spliterator#DISTINCT}.
    *
    * @return A {@code Spliterator.OfInt} over the elements in this set.
-   * @see Spliterator.OfInt
+   * @see java.util.Spliterator.OfInt
    */
   @Override
   Spliterator.OfInt spliterator();

@@ -238,7 +238,7 @@ public interface LongCollection extends LongIterable, PrimitiveCollection {
   }
 
   /**
-   * Creates a {@link Spliterator.OfLong} over the values in this collection.
+   * Creates a {@link java.util.Spliterator.OfLong} over the values in this collection.
    *
    * @return A {@code Spliterator.OfLong} over the values in this collection.
    */

@@ -28,6 +28,7 @@ import java.util.function.Predicate;
  * instance itself, or via {@link #iterator()}, {@link #stream()}, and any other
  * entrypoint that facilitates modification of the elements in this set.
  *
+ * @param <E> The type of elements in this set.
  * @see #beforeAdd(Object)
  * @see #afterAdd(Object,RuntimeException)
  * @see #beforeRemove(Object)
@@ -44,8 +45,8 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    *
    * @param e The element being added to the enclosed {@link Set}.
    * @return If this method returns {@code false}, the subsequent add operation
-   *         will not be performed; otherwise, the subsequent add
-   *         operation will be performed.
+   *         will not be performed; otherwise, the subsequent add operation will
+   *         be performed.
    */
   protected boolean beforeAdd(final E e) {
     return true;
@@ -67,8 +68,8 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * from the enclosed {@link Set}.
    *
    * @param e The element being removed from the enclosed {@link Set}.
-   * @return If this method returns {@code false}, the subsequent remove operation
-   *         will not be performed; otherwise, the subsequent remove
+   * @return If this method returns {@code false}, the subsequent remove
+   *         operation will not be performed; otherwise, the subsequent remove
    *         operation will be performed.
    */
   protected boolean beforeRemove(final Object e) {

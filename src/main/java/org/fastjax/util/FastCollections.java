@@ -39,6 +39,8 @@ public final class FastCollections {
    * included</i> in the resulting collection. This is the equivalent of calling
    * {@code flatten(Collection,Collection,false)}.
    *
+   * @param <C> The type of the output collection.
+   * @param <T> The type of collection elements.
    * @param in The input collection.
    * @param out The output collection.
    * @return The specified output collection, filled with the one-dimensional
@@ -54,6 +56,8 @@ public final class FastCollections {
    * specified output collection, whereby all nested {@code Collection} members
    * are flattened at every depth.
    *
+   * @param <C> The type of the output collection.
+   * @param <T> The type of collection elements.
    * @param in The input collection.
    * @param out The output collection.
    * @param retainCollectionReferences If {@code true}, members that reference a
@@ -76,6 +80,8 @@ public final class FastCollections {
    * references to other collections. The {@code resolver} parameter is provided
    * to dereference such a symbolic references.
    *
+   * @param <C> The type of the output collection.
+   * @param <T> The type of collection elements.
    * @param in The input collection.
    * @param out The output collection.
    * @param resolver A {@link Function} to provide a layer of indirection
@@ -118,6 +124,8 @@ public final class FastCollections {
    * resulting array. This is the equivalent of calling
    * {@code flatten(List,false)}.
    *
+   * @param <L> The type of the list.
+   * @param <T> The type of list elements.
    * @param list The list.
    * @return The specified list.
    * @throws NullPointerException If {@code list} is null.
@@ -132,6 +140,8 @@ public final class FastCollections {
    * in-place, replacing all nested {@code List} members with their expanded
    * form, at every depth.
    *
+   * @param <L> The type of the list.
+   * @param <T> The type of list elements.
    * @param list The list.
    * @param retainListReferences If {@code true}, members that reference a
    *          {@code List} are retained; if {@code false}, they are removed.
@@ -152,6 +162,8 @@ public final class FastCollections {
    * to other list. The {@code resolver} parameter is provided to dereference
    * such a symbolic references.
    *
+   * @param <L> The type of the list.
+   * @param <T> The type of list elements.
    * @param list The list.
    * @param retainListReferences If {@code true}, members that reference a
    *          {@code List} are retained; if {@code false}, they are removed.
@@ -648,6 +660,8 @@ public final class FastCollections {
    * Returns the specified collection with the specified vararg parameters added
    * as members to the collection.
    *
+   * @param <C> The type of the collection.
+   * @param <T> The type of collection elements.
    * @param c The collection.
    * @param a The members to add to the collection.
    * @return The specified collection with the specified vararg parameters added
@@ -667,6 +681,8 @@ public final class FastCollections {
    * vararg parameter collections concatenated as members to the target
    * collection.
    *
+   * @param <C> The type of the collection.
+   * @param <T> The type of collection elements.
    * @param target The target collection.
    * @param collections The collections of members to concatenate to the target
    *          collection.
@@ -688,6 +704,7 @@ public final class FastCollections {
    * the divisor remainder of elements ranging from size of {@code 1} to
    * {@code size}.
    *
+   * @param <T> The type of list elements.
    * @param list The list to partition.
    * @param size The size of each partition.
    * @return An array of sublists of the specified list partitioned to the

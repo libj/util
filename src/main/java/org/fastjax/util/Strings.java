@@ -169,7 +169,7 @@ public final class Strings {
    * </table>
    * <p>
    * <table>
-   * <caption>Output</code></caption>
+   * <caption>Output</caption>
    * <tr><td><b>Key</b></td><td><b>Value</b></td></tr>
    * <tr><td>title</td><td>The quick brown fox jumps over the lazy dog</td></tr>
    * <tr><td>subject</td><td>quick brown fox</td></tr>
@@ -526,7 +526,6 @@ public final class Strings {
    *
    * @param string The string to pad.
    * @param length The length of the returned, padded string.
-   * @param pad The padding character.
    * @return A right-padded representation of the specified length for the
    *         provided string.
    * @throws IllegalArgumentException If {@code length} is less than
@@ -547,6 +546,7 @@ public final class Strings {
    *
    * @param string The string to pad.
    * @param length The length of the returned, padded string.
+   * @param pad The padding character.
    * @return A right-padded representation of the specified length for the
    *         provided string.
    * @throws IllegalArgumentException If {@code length} is less than

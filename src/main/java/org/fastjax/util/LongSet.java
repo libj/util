@@ -334,7 +334,7 @@ public interface LongSet extends LongCollection {
    * The {@code Spliterator.OfLong} reports {@link Spliterator#DISTINCT}.
    *
    * @return A {@code Spliterator.OfLong} over the elements in this set.
-   * @see Spliterator.OfLong
+   * @see java.util.Spliterator.OfLong
    */
   @Override
   Spliterator.OfLong spliterator();

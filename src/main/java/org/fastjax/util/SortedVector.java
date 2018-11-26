@@ -22,7 +22,9 @@ import java.util.Iterator;
 import java.util.Vector;
 
 /**
- * TODO:!
+ * {@link Vector} that guarantees sorted order of its members.
+ *
+ * @param <E> The type of elements in this list.
  */
 public class SortedVector<E extends Comparable<E>> extends Vector<E> {
   private static final long serialVersionUID = -4696161917681651124L;

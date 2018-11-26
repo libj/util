@@ -34,8 +34,8 @@ public class RetryFailureException extends Exception {
    *
    * @param cause The exception that was the cause of this exception.
    * @param attemptNo The attempt number on which the exception was thrown.
-   * @param attemptNo The delay (in milliseconds) from the previous
-   *          invocation attempt.
+   * @param delayMs The delay (in milliseconds) from the previous invocation
+   *          attempt.
    */
   public RetryFailureException(final Throwable cause, final int attemptNo, final int delayMs) {
     super(cause);

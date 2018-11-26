@@ -30,7 +30,7 @@ public final class Throwables {
    * @param t The throwable.
    * @return The string representation of the specified throwable and its
    *         backtrace.
-   * @see Throwable#printStackTrace(PrintStream)
+   * @see Throwable#printStackTrace(java.io.PrintStream)
    */
   public static String toString(final Throwable t) {
     final StringWriter stringWriter = new StringWriter();

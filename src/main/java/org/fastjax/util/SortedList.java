@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * List wrapper that guarantees sorted order of its members.
+ * @param <E> The type of elements in this list.
  */
 public class SortedList<E extends Comparable<? super E>> extends DelegateList<E> {
   public SortedList(final List<E> list) {

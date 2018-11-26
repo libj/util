@@ -31,6 +31,7 @@ import java.util.function.Predicate;
  * that facilitates access to the elements in this list, either for modification
  * or retrieval.
  *
+ * @param <E> The type of elements in this list.
  * @see #beforeGet(int,ListIterator)
  * @see #afterGet(int,Object,ListIterator,RuntimeException)
  * @see #beforeAdd(int,Object)
@@ -55,8 +56,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * Creates a new {@code ObservableList} with the specified target list, and from
-   * and to indexes to limit the scope of the target list.
+   * Creates a new {@code ObservableList} with the specified target list, and
+   * from and to indexes to limit the scope of the target list.
    *
    * @param list The target {@link List} object.
    * @param fromIndex The starting index as the lower limit of the elements in
@@ -106,8 +107,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    *          {@link List}.
    * @param e The element being added to the enclosed {@link List}.
    * @return If this method returns {@code false}, the subsequent add operation
-   *         will not be performed; otherwise, the subsequent add
-   *         operation will be performed.
+   *         will not be performed; otherwise, the subsequent add operation will
+   *         be performed.
    */
   protected boolean beforeAdd(final int index, final E e) {
     return true;
@@ -131,8 +132,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    *
    * @param index The index of the element being removed from the enclosed
    *          {@link List}.
-   * @return If this method returns {@code false}, the subsequent remove operation
-   *         will not be performed; otherwise, the subsequent remove
+   * @return If this method returns {@code false}, the subsequent remove
+   *         operation will not be performed; otherwise, the subsequent remove
    *         operation will be performed.
    */
   protected boolean beforeRemove(final int index) {
@@ -158,8 +159,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    *          {@link List}.
    * @param newElement The element being set to the enclosed {@link List}.
    * @return If this method returns {@code false}, the subsequent set operation
-   *         will not be performed; otherwise, the subsequent set
-   *         operation will be performed.
+   *         will not be performed; otherwise, the subsequent set operation will
+   *         be performed.
    */
   protected boolean beforeSet(final int index, final E newElement) {
     return true;

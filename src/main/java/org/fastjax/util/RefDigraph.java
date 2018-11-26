@@ -46,6 +46,8 @@ import java.util.function.Function;
  * <p>
  * Edges can be added with {@link Digraph#addEdge(Object,Object)}.
  *
+ * @param <T> The type of elements in this digraph.
+ * @param <R> The type of references in this digraph.
  * @see Digraph
  */
 public class RefDigraph<T,R> extends Digraph<T> {

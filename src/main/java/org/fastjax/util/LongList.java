@@ -424,6 +424,8 @@ public interface LongList extends LongCollection {
    * there is no such value.
    *
    * @param value Value to search for.
+   * @return The index of the first occurrence of the specified value in this
+   *         list, or -1 if this list does not contain the value.
    */
   int indexOf(long value);
 
@@ -434,6 +436,8 @@ public interface LongList extends LongCollection {
    * there is no such value.
    *
    * @param value Value to search for.
+   * @return The index of the last occurrence of the specified value in this
+   *         list, or -1 if this list does not contain the value.
    */
   int lastIndexOf(long value);
 

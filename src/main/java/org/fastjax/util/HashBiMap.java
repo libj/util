@@ -23,6 +23,8 @@ import java.util.Map;
 /**
  * Bidirectional map ({@link BiMap}) backed by a {@link HashMap}.
  *
+ * @param <K> The type of keys maintained by this map.
+ * @param <V> The type of mapped values.
  * @see BiMap
  * @see HashMap
  */

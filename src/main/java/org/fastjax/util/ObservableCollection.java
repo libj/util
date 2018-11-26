@@ -23,11 +23,12 @@ import java.util.function.Predicate;
 
 /**
  * A {@link DelegateCollection} that provides callback methods to observe the
- * addition and removal of elements, either due to direct method
- * invocation on the collection instance itself, or via {@link #iterator()},
+ * addition and removal of elements, either due to direct method invocation on
+ * the collection instance itself, or via {@link #iterator()},
  * {@link #spliterator()}, {@link #forEach(Consumer)}, and any other entrypoint
  * that facilitates modification of the elements in this list.
  *
+ * @param <E> The type of elements in this collection.
  * @see #beforeAdd(Object)
  * @see #afterAdd(Object,RuntimeException)
  * @see #beforeRemove(Object)
