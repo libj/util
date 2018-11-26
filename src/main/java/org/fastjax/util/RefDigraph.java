@@ -31,10 +31,10 @@ import java.util.function.Function;
  * that is used as the linking value between edges. The required
  * {@code Function<T,R>} parameter in the constructor is used to dereference the
  * object of type {@code T} to objects by which edges are defined of type
- * {@code R}. The references are resolved prior to the {@link Digraph#dfs()}
- * method call.
+ * {@code R}. The references are resolved prior to the {@code dfs()} method
+ * call.
  * <p>
- * Upon invocation of any method that invokes {@link Digraph#dfs()}, the
+ * Upon invocation of any method that invokes {@code dfs()}, the
  * {@code RefDigraph} swaps edges of type {@code R} to their linked object
  * references of type {@code T}, based on the translation of the supplied
  * {@code Function<T,R>} function.
