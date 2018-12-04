@@ -754,45 +754,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -815,45 +815,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -876,45 +876,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -937,45 +937,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -998,45 +998,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -1059,45 +1059,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -1120,45 +1120,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -1181,45 +1181,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -1242,45 +1242,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -1300,45 +1300,45 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -1358,45 +1358,82 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling the
+   * provided function on each member, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param <T> The component type of the specified array.
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param function The {@code toString} function.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   * @throws NullPointerException If the specified array is not null and the
+   *           function is null.
+   */
+  public static <T>String toString(final T[] array, final char delimiter, final Function<T,String> function) {
+    return array == null ? null : toString(array, delimiter, 0, array.length, function);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter {@code char}.
+   * Create a string representation of the specified array by calling the
+   * provided function on each member, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param <T> The component type of the specified array.
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param function The {@code toString} function.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   * @throws NullPointerException If the specified array is not null and the
+   *           function is null.
+   */
+  public static <T>String toString(final T[] array, final char delimiter, final int offset, final Function<T,String> function) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset, function);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
@@ -1416,45 +1453,115 @@ public final class FastArrays {
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling the
+   * provided function on each member, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param <T> The component type of the specified array.
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @param function The {@code toString} function.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   * @throws NullPointerException If the specified array is not null and the
+   *           function is null.
+   */
+  public static <T>String toString(final T[] array, final char delimiter, final int offset, final int length, final Function<T,String> function) {
+    if (array == null)
+      return null;
+
+    if (array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return function.apply(array[offset]);
+
+    final StringBuilder buffer = new StringBuilder(function.apply(array[offset]));
+    for (int i = offset + 1; i < length + offset; ++i)
+      buffer.append(delimiter).append(function.apply(array[i]));
+
+    return buffer.toString();
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling the
+   * provided function on each member, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param <T> The component type of the specified array.
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param function The {@code toString} function.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   * @throws NullPointerException If the specified array is not null and the
+   *           function is null.
+   */
+  public static <T>String toString(final T[] array, final String delimiter, final Function<T,String> function) {
+    return array == null ? null : toString(array, delimiter, 0, array.length, function);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
   }
 
   /**
-   * Create a string representation of the array by calling each
-   * member's {@code toString()} method, delimited by the provided
-   * delimiter string.
+   * Create a string representation of the specified array by calling the
+   * provided function on each member, delimited by the provided delimiter
+   * string.
+   *
+   * @param <T> The component type of the specified array.
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param function The {@code toString} function.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   * @throws NullPointerException If the specified array is not null and the
+   *           function is null.
+   */
+  public static <T>String toString(final T[] array, final String delimiter, final int offset, final Function<T,String> function) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset, function);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@code toString()} method, delimited by the provided delimiter
+   * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of
-   *         the array.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
@@ -1469,6 +1576,39 @@ public final class FastArrays {
     final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
       buffer.append(delimiter).append(String.valueOf(array[i]));
+
+    return buffer.toString();
+  }
+
+  /**
+   * Create a string representation of the specified array by calling the
+   * provided function on each member, delimited by the provided delimiter
+   * string.
+   *
+   * @param <T> The component type of the specified array.
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @param function The {@code toString} function.
+   * @return The delimiter delimited {@code toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   * @throws NullPointerException If the specified array is not null and the
+   *           function is null.
+   */
+  public static <T>String toString(final T[] array, final String delimiter, final int offset, final int length, final Function<T,String> function) {
+    if (array == null)
+      return null;
+
+    if (array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return function.apply(array[offset]);
+
+    final StringBuilder buffer = new StringBuilder(function.apply(array[offset]));
+    for (int i = offset + 1; i < length + offset; ++i)
+      buffer.append(delimiter).append(function.apply(array[i]));
 
     return buffer.toString();
   }

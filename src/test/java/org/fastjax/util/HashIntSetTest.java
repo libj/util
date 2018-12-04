@@ -283,7 +283,6 @@ public class HashIntSetTest {
     assertArrayEquals(result, new Integer[] {});
   }
 
-  // Test case from usage bug.
   @Test
   public void chainCompactionShouldNotCauseElementsToBeMovedBeforeTheirHash() {
     final HashIntSet requiredFields = new HashIntSet(14);
