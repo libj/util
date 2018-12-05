@@ -62,7 +62,7 @@ public interface HexaFunction<T,U,V,W,X,Y,R> {
    *         applies the {@code after} function.
    * @throws NullPointerException If {@code after} is null.
    */
-  default <Z> HexaFunction<T,U,V,W,X,Y,Z> andThen(final Function<? super R,? extends Z> after) {
+  default <Z>HexaFunction<T,U,V,W,X,Y,Z> andThen(final Function<? super R,? extends Z> after) {
     Objects.requireNonNull(after);
     return (T t, U u, V v, W w, X x, Y y) -> after.apply(apply(t, u, v, w, x, y));
   }
