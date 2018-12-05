@@ -24,7 +24,7 @@ public class ExponentialBackoffRetryPolicy extends RetryPolicy {
   private static final long serialVersionUID = -6999301056780454011L;
 
   private final int delayMs;
-  private final float backoffFactor;
+  private final double backoffFactor;
   private final int maxDelayMs;
   private final boolean noDelayOnFirstRetry;
 
@@ -47,7 +47,7 @@ public class ExponentialBackoffRetryPolicy extends RetryPolicy {
    *          immediately, otherwise {@code false} for the first retry to be
    *          attempted after {@code delayMs}.
    */
-  public ExponentialBackoffRetryPolicy(final int maxRetries, final int delayMs, final float backoffFactor, final int maxDelayMs, final boolean noDelayOnFirstRetry) {
+  public ExponentialBackoffRetryPolicy(final int maxRetries, final int delayMs, final double backoffFactor, final int maxDelayMs, final boolean noDelayOnFirstRetry) {
     super(maxRetries);
     this.delayMs = delayMs;
     if (delayMs <= 0)
