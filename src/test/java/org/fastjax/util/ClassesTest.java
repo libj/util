@@ -29,7 +29,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -209,5 +211,22 @@ public class ClassesTest {
     }
 
     assertEquals("Map.Entry", Classes.getCanonicalCompoundName(Map.Entry.class));
+  }
+
+  private static class GetGenericTypesTest {
+    private String nonGeneric;
+    private Optional rawGeneric;
+    private Optional<?> wildGeneric;
+    private Optional<String> stringGeneric;
+    private Map<List<Integer>,Map<List<Integer>,String>> multiGeneric;
+  }
+
+  @Test
+  public void testGetGenericTypes() throws NoSuchFieldException {
+    assertArrayEquals(new Class[0], Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("nonGeneric")));
+    assertArrayEquals(new Class[0], Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("rawGeneric")));
+    assertArrayEquals(new Class[] {null}, Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("wildGeneric")));
+    assertArrayEquals(new Class[] {String.class}, Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("stringGeneric")));
+    assertArrayEquals(new Class[] {List.class, Map.class}, Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("multiGeneric")));
   }
 }

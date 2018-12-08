@@ -191,7 +191,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} is null.
    */
   public static String getCompoundName(final Class<?> cls) {
-    final String pkg = cls.getPackageName();
+    final String pkg = cls.getPackage().getName();
     return pkg.length() == 0 ? cls.getName() : cls.getName().substring(pkg.length() + 1);
   }
 
@@ -217,7 +217,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} is null.
    */
   public static String getCanonicalCompoundName(final Class<?> cls) {
-    final String pkg = cls.getPackageName();
+    final String pkg = cls.getPackage().getName();
     return pkg.length() == 0 ? cls.getCanonicalName() : cls.getCanonicalName().substring(pkg.length() + 1);
   }
 
@@ -244,6 +244,30 @@ public final class Classes {
    */
   public static Type[] getGenericSuperclasses(final Class<?> cls) {
     return cls.getGenericSuperclass() instanceof ParameterizedType ? ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments() : null;
+  }
+
+  /**
+   * Returns the array of generic type classes for the specified field.
+   *
+   * @param field The {@code Field}
+   * @return The array of generic type classes for the specified field.
+   * @throws NullPointerException If {@code field} is null.
+   */
+  public static Class<?>[] getGenericTypes(final Field field) {
+    final Type genericType = field.getGenericType();
+    if (!(genericType instanceof ParameterizedType))
+      return new Class[0];
+
+    final Type[] types = ((ParameterizedType)genericType).getActualTypeArguments();
+    final Class<?>[] classes = new Class[types.length];
+    for (int i = 0; i < classes.length; ++i) {
+      if (types[i] instanceof Class)
+        classes[i] = (Class<?>)types[i];
+      else if (types[i] instanceof ParameterizedType)
+        classes[i] = (Class<?>)((ParameterizedType)types[i]).getRawType();
+    }
+
+    return classes;
   }
 
   private static Field getField(final Class<?> cls, final String fieldName, final boolean declared) {
