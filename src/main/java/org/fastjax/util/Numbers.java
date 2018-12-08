@@ -47,9 +47,10 @@ public final class Numbers {
       return new BigInteger(1, unsigned);
     }
 
-    public static BigInteger toSigned(final byte[] unsigned, final int off, final int len) {
-      return new BigInteger(1, unsigned, off, len);
-    }
+    // FIXME: jdk9+
+//    public static BigInteger toSigned(final byte[] unsigned, final int off, final int len) {
+//      return new BigInteger(1, unsigned, off, len);
+//    }
 
     public static byte toUnsigned(final byte signed) {
       if (signed < 0)
