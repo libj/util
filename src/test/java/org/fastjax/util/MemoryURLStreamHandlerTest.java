@@ -18,8 +18,9 @@ package org.fastjax.util;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import org.junit.Test;
@@ -31,11 +32,18 @@ public class MemoryURLStreamHandlerTest {
 
   @Test
   public void test() throws IOException {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       final byte[] data = new byte[] {random(), random(), random(), random(), random()};
       final URL url = MemoryURLStreamHandler.createURL(data);
-      final byte[] actual = new BufferedInputStream(url.openStream()).readAllBytes();
-      assertArrayEquals(data, actual);
+      final ByteArrayOutputStream out = new ByteArrayOutputStream();
+      try (final InputStream in = url.openStream()) {
+        final byte[] bytes = new byte[1024];
+        for (int len; (len = in.read(bytes)) != -1;)
+          if (len != 0)
+            out.write(bytes, 0, len);
+      }
+
+      assertArrayEquals(data, out.toByteArray());
     }
   }
 }
