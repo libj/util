@@ -348,37 +348,41 @@ public class ArrayIntListTest {
     assertArrayEquals(new int[] {-5, -4, 4, 6, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
     assertArrayEquals(new int[] {-7, -6, -5, -4, 4, 6, 7, 7, 10, 11, 99, 99, -3, -2, -1}, list.toArray());
 
-//    list.removeIndex(1);
-//    assertArrayEquals(new int[] {-5, -4, 4, 6, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
-//    assertArrayEquals(new int[] {4, 6, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
-//
-//    list.removeIndex(4);
-//    assertArrayEquals(new int[] {-5, -4, 4, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
-//    assertArrayEquals(new int[] {4, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
-//
-//    list.removeIndex(10);
-//    assertArrayEquals(new int[] {-5, -4, 4, 7, 7, 10, 11, 99, -3}, subList.toArray());
-//    assertArrayEquals(new int[] {4, 7, 7, 10, 11, 99}, subSubList.toArray());
-//
-//    subList.removeIndex(4);
-//    assertArrayEquals(new int[] {-7, -6, -5, -4, 4, 7, 10, 11, 99, -3, -2, -1}, list.toArray());
-//    assertArrayEquals(new int[] {-5, -4, 4, 7, 10, 11, 99, -3}, subList.toArray());
-//    assertArrayEquals(new int[] {4, 7, 10, 11, 99}, subSubList.toArray());
-//
-//    subList.removeIndex(7);
-//    assertArrayEquals(new int[] {-7, -6, -5, -4, 4, 7, 10, 11, 99, -2, -1}, list.toArray());
-//    assertArrayEquals(new int[] {-5, -4, 4, 7, 10, 11, 99}, subList.toArray());
-//    assertArrayEquals(new int[] {4, 7, 10, 11, 99}, subSubList.toArray());
-//
-//    subList.removeIndex(1);
-//    assertArrayEquals(new int[] {-7, -6, -4, 4, 7, 10, 11, 99, -2, -1}, list.toArray());
-//    assertArrayEquals(new int[] {-4, 4, 7, 10, 11, 99}, subList.toArray());
-//    assertArrayEquals(new int[] {4, 7, 10, 11, 99}, subSubList.toArray());
-//
-//    subSubList.removeIndex(2);
-//    assertArrayEquals(new int[] {-7, -6, -4, 4, 7, 11, 99, -2, -1}, list.toArray());
-//    assertArrayEquals(new int[] {-4, 4, 7, 11, 99}, subList.toArray());
-//    assertArrayEquals(new int[] {4, 7, 11, 99}, subSubList.toArray());
+    list.removeIndex(1);
+    assertArrayEquals(new int[] {-5, -4, 4, 6, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
+    assertArrayEquals(new int[] {4, 6, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
+
+    list.removeIndex(4);
+    assertArrayEquals(new int[] {-5, -4, 4, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
+    assertArrayEquals(new int[] {4, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
+
+    list.removeIndex(10);
+    assertArrayEquals(new int[] {-5, -4, 4, 7, 7, 10, 11, 99, 99}, subList.toArray());
+    assertArrayEquals(new int[] {4, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
+
+    subList.removeIndex(4);
+    assertArrayEquals(new int[] {-7, -5, -4, 4, 7, 10, 11, 99, 99, -2, -1}, list.toArray());
+    assertArrayEquals(new int[] {-5, -4, 4, 7, 10, 11, 99, 99}, subList.toArray());
+    assertArrayEquals(new int[] {4, 7, 10, 11, 99, 99}, subSubList.toArray());
+
+    subList.removeIndex(7);
+    assertArrayEquals(new int[] {-7, -5, -4, 4, 7, 10, 11, 99, -2, -1}, list.toArray());
+    assertArrayEquals(new int[] {-5, -4, 4, 7, 10, 11, 99}, subList.toArray());
+    assertArrayEquals(new int[] {4, 7, 10, 11, 99}, subSubList.toArray());
+
+    subList.removeIndex(1);
+    assertArrayEquals(new int[] {-7, -5, 4, 7, 10, 11, 99, -2, -1}, list.toArray());
+    assertArrayEquals(new int[] {-5, 4, 7, 10, 11, 99}, subList.toArray());
+    assertArrayEquals(new int[] {4, 7, 10, 11, 99}, subSubList.toArray());
+
+    subSubList.removeIndex(2);
+    assertArrayEquals(new int[] {-7, -5, 4, 7, 11, 99, -2, -1}, list.toArray());
+    assertArrayEquals(new int[] {-5, 4, 7, 11, 99}, subList.toArray());
+    assertArrayEquals(new int[] {4, 7, 11, 99}, subSubList.toArray());
+
+    assertEquals(list, list.clone());
+    assertEquals(subList, subList.clone());
+    assertEquals(subSubList, subSubList.clone());
   }
 
   public void testList(final ArrayIntList list) {
