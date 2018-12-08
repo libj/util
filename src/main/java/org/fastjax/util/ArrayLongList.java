@@ -169,7 +169,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
   @Override
   public long get(final int index) {
     if (index < 0 || size() <= index)
-      throw new IndexOutOfBoundsException(index);
+      throw new IndexOutOfBoundsException("Index out of range: " + index);
 
     return valueData[fromIndex + index];
   }
@@ -185,7 +185,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
   @Override
   public boolean add(int index, final long value) {
     if (index < 0 || size() < index)
-      throw new IndexOutOfBoundsException(index);
+      throw new IndexOutOfBoundsException("Index out of range: " + index);
 
     index += fromIndex;
     shiftRight(index, 1);
@@ -375,7 +375,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
   @Override
   public long set(int index, final long value) {
     if (index < 0 || size() <= index)
-      throw new IndexOutOfBoundsException(index);
+      throw new IndexOutOfBoundsException("Index out of range: " + index);
 
     index += fromIndex;
     final long oldValue = valueData[index];
@@ -387,7 +387,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
   @Override
   public long removeIndex(int index) {
     if (index < 0 || size() <= index)
-      throw new IndexOutOfBoundsException(index);
+      throw new IndexOutOfBoundsException("Index out of range: " + index);
 
     index += fromIndex;
     final long value = valueData[index];
@@ -753,9 +753,9 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
     if (size() != that.size())
       return false;
 
-    final int len = toIndex > -1 ? toIndex : size;
-    final int thatLen = that.toIndex > -1 ? that.toIndex : that.size;
-    return Arrays.equals(valueData, fromIndex, len, that.valueData, that.fromIndex, thatLen);
+    final int toIndex = this.toIndex > -1 ? this.toIndex : size;
+    final int thatToIndex = that.toIndex > -1 ? that.toIndex : that.size;
+    return FastArrays.equals(valueData, fromIndex, toIndex, that.valueData, that.fromIndex, thatToIndex);
   }
 
   /**
