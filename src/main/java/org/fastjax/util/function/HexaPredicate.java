@@ -19,8 +19,8 @@ package org.fastjax.util.function;
 import java.util.Objects;
 
 /**
- * Represents a predicate (boolean-valued function) of five arguments. This is
- * the five-arity specialization of {@link java.util.function.Predicate}.
+ * Represents a predicate (boolean-valued function) of six arguments. This is
+ * the six-arity specialization of {@link java.util.function.Predicate}.
  *
  * @param <T> The type of the first argument to the predicate.
  * @param <U> The type of the second argument the predicate.
