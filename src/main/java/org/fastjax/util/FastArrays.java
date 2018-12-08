@@ -28,6 +28,279 @@ import java.util.function.UnaryOperator;
  */
 public final class FastArrays {
   /**
+   * Returns true if the two specified arrays of bytes, over the specified
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * specified ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the specified ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the specified ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is {@code null}.
+   */
+  public static boolean equals(final byte[] a, int aFromIndex, final int aToIndex, final byte[] b, int bFromIndex, final int bToIndex) {
+    rangeCheck(a.length, aFromIndex, aToIndex);
+    rangeCheck(b.length, bFromIndex, bToIndex);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i)
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Returns true if the two specified arrays of chars, over the specified
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * specified ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the specified ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the specified ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is {@code null}.
+   */
+  public static boolean equals(final char[] a, int aFromIndex, final int aToIndex, final char[] b, int bFromIndex, final int bToIndex) {
+    rangeCheck(a.length, aFromIndex, aToIndex);
+    rangeCheck(b.length, bFromIndex, bToIndex);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i)
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Returns true if the two specified arrays of shorts, over the specified
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * specified ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the specified ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the specified ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is {@code null}.
+   */
+  public static boolean equals(final short[] a, int aFromIndex, final int aToIndex, final short[] b, int bFromIndex, final int bToIndex) {
+    rangeCheck(a.length, aFromIndex, aToIndex);
+    rangeCheck(b.length, bFromIndex, bToIndex);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i)
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Returns true if the two specified arrays of ints, over the specified
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * specified ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the specified ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the specified ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is {@code null}.
+   */
+  public static boolean equals(final int[] a, int aFromIndex, final int aToIndex, final int[] b, int bFromIndex, final int bToIndex) {
+    rangeCheck(a.length, aFromIndex, aToIndex);
+    rangeCheck(b.length, bFromIndex, bToIndex);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i)
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Returns true if the two specified arrays of longs, over the specified
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * specified ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the specified ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the specified ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is {@code null}.
+   */
+  public static boolean equals(final long[] a, int aFromIndex, final int aToIndex, final long[] b, int bFromIndex, final int bToIndex) {
+    rangeCheck(a.length, aFromIndex, aToIndex);
+    rangeCheck(b.length, bFromIndex, bToIndex);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i)
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Returns true if the two specified arrays of objects, over the specified
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * specified ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the specified ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the specified ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is {@code null}.
+   */
+  public static boolean equals(final Object[] a, int aFromIndex, final int aToIndex, final Object[] b, int bFromIndex, final int bToIndex) {
+    rangeCheck(a.length, aFromIndex, aToIndex);
+    rangeCheck(b.length, bFromIndex, bToIndex);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i) {
+      final Object oa = a[aFromIndex++];
+      final Object ob = b[bFromIndex++];
+      if (oa == null ? ob != null : !oa.equals(ob))
+        return false;
+    }
+
+    return true;
+  }
+
+  /**
    * Returns the length of the specified array, summed with the lengths of all
    * nested arrays at every depth. The value of
    * {@code member.getClass().isArray()} is used to determine whether an array
