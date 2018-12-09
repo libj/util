@@ -109,7 +109,7 @@ public class BuffersTest {
 
     final byte[] trimmed = Buffers.trimToLength(buf);
     assertArrayEquals(new byte[] {0, 4, 3, 0, 5, 0, 9, 7}, trimmed);
-    assertTrue(trimmed == Buffers.trimToLength(trimmed));
+    assertEquals(trimmed, Buffers.trimToLength(trimmed));
     assertEquals(0, Buffers.trimToLength(new byte[0]).length);
   }
 
@@ -121,7 +121,7 @@ public class BuffersTest {
 
     final long[] trimmed = Buffers.trimToLength(buf);
     assertArrayEquals(new long[] {0, 4, 3, 0, 5, 0, 9, 7}, trimmed);
-    assertTrue(trimmed == Buffers.trimToLength(trimmed));
+    assertEquals(trimmed, Buffers.trimToLength(trimmed));
     assertEquals(0, Buffers.trimToLength(new byte[0]).length);
   }
 }

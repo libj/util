@@ -202,7 +202,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   public boolean replace(final K key, final V oldValue, final V newValue) {
     final V previous = get(key);
-    if (previous == null || oldValue == null || !oldValue.equals(previous))
+    if (oldValue == null || !oldValue.equals(previous))
       return false;
 
     put(key, newValue);

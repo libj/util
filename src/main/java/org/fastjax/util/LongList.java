@@ -152,7 +152,7 @@ public interface LongList extends LongCollection {
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified array is null.
    */
-  boolean addAll(final long[] values, final int offset, final int length);
+  boolean addAll(long[] values, int offset, int length);
 
   /**
    * Appends all of the values in the specified array to the end of this
@@ -197,7 +197,7 @@ public interface LongList extends LongCollection {
    *           collection contains a null element.
    */
   @Override
-  boolean addAll(final Collection<Long> c);
+  boolean addAll(Collection<Long> c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -228,7 +228,7 @@ public interface LongList extends LongCollection {
    * @throws NullPointerException If the specified collection is null.
    */
   @Override
-  boolean addAll(final LongCollection c);
+  boolean addAll(LongCollection c);
 
   /**
    * Replaces the value at the specified position in this list with the

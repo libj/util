@@ -139,11 +139,11 @@ public abstract class MergedList<E,T> extends ObservableList<E> implements Clone
 
     protected void print(final Logger logger) {
       final StringBuilder builder = new StringBuilder();
-      builder.append("    PartList<" + type + "> ").append(Objects.simpleIdentity(this)).append('\n');
+      builder.append("    PartList<").append(type).append("> ").append(Objects.simpleIdentity(this)).append('\n');
       builder.append("    I:");
       indexes.stream().forEach(i -> builder.append(' ').append(i));
       builder.append("\n    E:");
-      stream().forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
+      forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
       logger.info(builder.append('\n').toString());
     }
 
@@ -351,11 +351,11 @@ public abstract class MergedList<E,T> extends ObservableList<E> implements Clone
     builder.append("  I:");
     indexes.stream().forEach(i -> builder.append(' ').append(i));
     builder.append("\n  E:");
-    stream().forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
+    forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
     builder.append("\n  A:");
-    partLists.stream().forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
+    partLists.forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
     logger.info(builder.append('\n').toString());
-    new IdentityHashSet<>(partLists).stream().forEach(e -> e.print(logger));
+    new IdentityHashSet<>(partLists).forEach(e -> e.print(logger));
   }
 
   protected E clone(final E item) {

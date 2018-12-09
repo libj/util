@@ -510,7 +510,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
       if (modCount != expectedModCount)
         throw new ConcurrentModificationException();
     }
-  };
+  }
 
   private class IntListItr extends IntItr implements IntListIterator {
     IntListItr(final int index) {
@@ -591,7 +591,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
         throw new ConcurrentModificationException();
       }
     }
-  };
+  }
 
   @Override
   public IntIterator iterator() {

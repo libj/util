@@ -41,7 +41,7 @@ public interface TriFunction<T,U,V,R> {
    * @param v The third function argument.
    * @return The function result.
    */
-  R apply(final T t, final U u, final V v);
+  R apply(T t, U u, V v);
 
   /**
    * Returns a composed function that first applies this function to its input,

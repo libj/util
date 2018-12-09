@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class EnumsTest {
-  private static enum Fruit {
+  private enum Fruit {
     APPLE, ORANGE, WATERMELLON
   }
 

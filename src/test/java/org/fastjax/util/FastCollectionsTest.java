@@ -16,12 +16,12 @@
 
 package org.fastjax.util;
 
-import static org.junit.Assert.*;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -96,7 +96,7 @@ public class FastCollectionsTest {
 
   @Test
   public void testGetComponentType() {
-    assertEquals(null, FastCollections.getComponentType(Arrays.asList(null, null, null)));
+    assertNull(FastCollections.getComponentType(Arrays.asList(null, null, null)));
     assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
     assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
   }

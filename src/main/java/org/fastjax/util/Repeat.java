@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public final class Repeat {
-  public static interface Recurser<C,M,A> extends BiPredicate<M,A> {
-    public M[] members(final C container);
-    public C next(final C container);
+  public interface Recurser<C,M,A> extends BiPredicate<M,A> {
+    M[] members(C container);
+    C next(C container);
   }
 
   private static abstract class Algorithm {
@@ -106,7 +106,7 @@ public final class Repeat {
           return (M[])Array.newInstance(type, depth);
 
         M member;
-        boolean skip = true;
+        boolean skip;
         while ((skip = !predicate.test(member = array[index++], arg)) && index < array.length);
         final M[] result = recurse(type, predicate, arg, array, index, skip ? depth : depth + 1);
         if (!skip)

@@ -499,28 +499,28 @@ public final class Classes {
     return oldValue;
   }
 
-  private static interface SuperclassRecurser<M,A> extends Repeat.Recurser<Class<?>,M,A> {
+  private interface SuperclassRecurser<M,A> extends Repeat.Recurser<Class<?>,M,A> {
     @Override
     default Class<?> next(final Class<?> container) {
       return container.getSuperclass();
     }
   }
 
-  private static interface DeclaredFieldRecurser<A> extends SuperclassRecurser<Field,A> {
+  private interface DeclaredFieldRecurser<A> extends SuperclassRecurser<Field,A> {
     @Override
     default Field[] members(final Class<?> container) {
       return container.getDeclaredFields();
     }
   }
 
-  private static interface DeclaredMethodRecurser<A> extends SuperclassRecurser<Method,A> {
+  private interface DeclaredMethodRecurser<A> extends SuperclassRecurser<Method,A> {
     @Override
     default Method[] members(final Class<?> container) {
       return container.getDeclaredMethods();
     }
   }
 
-  private static interface DeclaredClassRecurser<A> extends SuperclassRecurser<Class<?>,A> {
+  private interface DeclaredClassRecurser<A> extends SuperclassRecurser<Class<?>,A> {
     @Override
     default Class<?>[] members(final Class<?> container) {
       return container.getDeclaredClasses();

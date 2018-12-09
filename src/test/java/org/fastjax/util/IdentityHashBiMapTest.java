@@ -16,10 +16,10 @@
 
 package org.fastjax.util;
 
-import static org.junit.Assert.*;
-
 import java.util.Iterator;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -30,8 +30,8 @@ public class IdentityHashBiMapTest {
       final Integer index = i + offset;
       final String value = String.valueOf(index).intern();
       map.put(index, value);
-      assertTrue(value + " != " + map.get(index), value == map.get(index));
-      assertTrue(index + " != " + map.inverse().get(value), index == map.inverse().get(value));
+      assertEquals(value + " != " + map.get(index), value, map.get(index));
+      assertEquals(index + " != " + map.inverse().get(value), index, map.inverse().get(value));
     }
 
     map.remove(7 + offset);

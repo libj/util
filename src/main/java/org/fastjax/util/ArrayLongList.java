@@ -510,7 +510,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
       if (modCount != expectedModCount)
         throw new ConcurrentModificationException();
     }
-  };
+  }
 
   private class LongListItr extends LongItr implements LongListIterator {
     LongListItr(final int index) {
@@ -591,7 +591,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
         throw new ConcurrentModificationException();
       }
     }
-  };
+  }
 
   @Override
   public LongIterator iterator() {

@@ -152,7 +152,7 @@ public interface IntList extends IntCollection {
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified array is null.
    */
-  boolean addAll(final int[] values, final int offset, final int length);
+  boolean addAll(int[] values, int offset, int length);
 
   /**
    * Appends all of the values in the specified array to the end of this
@@ -197,7 +197,7 @@ public interface IntList extends IntCollection {
    *           collection contains a null element.
    */
   @Override
-  boolean addAll(final Collection<Integer> c);
+  boolean addAll(Collection<Integer> c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -228,7 +228,7 @@ public interface IntList extends IntCollection {
    * @throws NullPointerException If the specified collection is null.
    */
   @Override
-  boolean addAll(final IntCollection c);
+  boolean addAll(IntCollection c);
 
   /**
    * Replaces the value at the specified position in this list with the

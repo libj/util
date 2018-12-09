@@ -47,7 +47,7 @@ public interface HexaFunction<T,U,V,W,X,Y,R> {
    * @param y The sixth function argument.
    * @return The function result.
    */
-  R apply(final T t, final U u, final V v, final W w, final X x, final Y y);
+  R apply(T t, U u, V v, W w, X x, Y y);
 
   /**
    * Returns a composed function that first applies this function to its input,

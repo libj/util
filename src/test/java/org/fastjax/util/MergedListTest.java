@@ -16,12 +16,12 @@
 
 package org.fastjax.util;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.slf4j.Logger;

@@ -16,13 +16,13 @@
 
 package org.fastjax.util;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -418,7 +418,7 @@ public class HashIntSetTest {
     addTwoElements(testSet);
 
     assertFalse(testSet.removeAll(new HashIntSet(100)));
-    assertFalse(testSet.removeAll(new HashSet<Integer>()));
+    assertFalse(testSet.removeAll(new HashSet<>()));
     assertContainsElements(testSet);
   }
 
@@ -431,7 +431,7 @@ public class HashIntSetTest {
     disjoint.add(1002);
 
     assertFalse(testSet.removeAll(disjoint));
-    assertFalse(testSet.removeAll(new HashSet<Integer>()));
+    assertFalse(testSet.removeAll(new HashSet<>()));
     assertContainsElements(testSet);
   }
 
@@ -541,7 +541,7 @@ public class HashIntSetTest {
 
     final int[] result = testSet.toArray();
     Arrays.sort(result);
-    assertTrue(Arrays.equals(result, new int[] {HashIntSet.NULL, 1, 1001}));
+    assertArrayEquals(new int[] {HashIntSet.NULL, 1, 1001}, result);
   }
 
   @Test

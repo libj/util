@@ -16,13 +16,13 @@
 
 package org.fastjax.util;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -88,11 +88,11 @@ public class TransListTest {
 
     trans.set(7, "0");
     assertEquals("0", trans.get(7));
-    assertEquals(Integer.valueOf(000), ((List<Integer>)trans.target).get(7));
+    assertEquals(Integer.valueOf(0), ((List<Integer>)trans.target).get(7));
 
     trans.remove(7);
     assertNotEquals("0", trans.get(7));
-    assertNotEquals(Integer.valueOf(000), ((List<Integer>)trans.target).get(7));
+    assertNotEquals(Integer.valueOf(0), ((List<Integer>)trans.target).get(7));
 
     final TransList<Integer,String> subList = trans.subList(4, 7);
     for (int i = 3; i < 6; i++)

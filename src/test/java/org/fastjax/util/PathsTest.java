@@ -209,7 +209,7 @@ public class PathsTest {
   public void testGetCanonicalParent() {
     assertEquals("file:///usr", Paths.getCanonicalParent("file:///usr/./share/../share"));
     assertEquals("", Paths.getCanonicalParent("/usr/share/..//./share/.."));
-    assertEquals(null, Paths.getCanonicalParent("arp/../././pom.xml"));
+    assertNull(Paths.getCanonicalParent("arp/../././pom.xml"));
     assertEquals("", Paths.getCanonicalParent("/usr//./././share/../share/../../"));
     assertEquals("file:///usr/local", Paths.getCanonicalParent("file://////usr/local/bin/../lib/../bin"));
   }

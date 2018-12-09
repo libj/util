@@ -43,7 +43,7 @@ public interface QuadFunction<T,U,V,W,R> {
    * @param w The fourth function argument.
    * @return The function result.
    */
-  R apply(final T t, final U u, final V v, final W w);
+  R apply(T t, U u, V v, W w);
 
   /**
    * Returns a composed function that first applies this function to its input,

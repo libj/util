@@ -49,7 +49,7 @@ public final class Bytes {
     if (fromIndex < 0)
       throw new ArrayIndexOutOfBoundsException("fromIndex: " + fromIndex + " < 0");
 
-    if (bytes.length == 0 || sequence.length == 0 || bytes.length < sequence.length)
+    if (sequence.length == 0 || bytes.length < sequence.length)
       return -1;
 
     for (int i = fromIndex; i < bytes.length; ++i) {
