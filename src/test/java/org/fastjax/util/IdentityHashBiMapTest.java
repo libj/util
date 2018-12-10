@@ -26,12 +26,12 @@ import org.junit.Test;
 public class IdentityHashBiMapTest {
   @SuppressWarnings("unlikely-arg-type")
   public static void test(final IdentityHashBiMap<Integer,String> map, final int offset, final boolean testClone) {
-    for (int i = offset; i < 100 + offset; i++) {
+    for (int i = offset; i < 100 + offset; ++i) {
       final Integer index = i + offset;
       final String value = String.valueOf(index).intern();
       map.put(index, value);
-      assertEquals(value + " != " + map.get(index), value, map.get(index));
-      assertEquals(index + " != " + map.inverse().get(value), index, map.inverse().get(value));
+      assertSame(value + " != " + map.get(index), value, map.get(index));
+      assertSame(index + " != " + map.inverse().get(value), index, map.inverse().get(value));
     }
 
     map.remove(7 + offset);
