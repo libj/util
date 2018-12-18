@@ -993,6 +993,53 @@ public final class Strings {
     return maxLength == 3 ? "..." : string.length() > maxLength ? string.substring(0, maxLength - 3).concat("...") : string;
   }
 
+  /**
+   * Flips the capitalization of the first character of the specified string.
+   * If the string is in ALLCAPS from the second character to the end, this
+   * method returns the original string. This method is reversible, as in: if
+   * the resulting string is used as the input, the original input string will
+   * be returned.
+   * <p>
+   * <blockquote>
+   * <i><b>Example:</b></i>
+   * <p>
+   * <table>
+   * <caption>Example</caption>
+   * <tr><td><b>Input</b></td><td><b>Output</b></td></tr>
+   * <tr><td>foo</td><td>Foo</td></tr>
+   * <tr><td>fooBar</td><td>FooBar</td></tr>
+   * <tr><td>BAR</td><td>BAR</td></tr>
+   * <tr><td>fOO</td><td>fOO</td></tr>
+   * <tr><td>baR</td><td>BaR</td></tr>
+   * <tr><td>FooBar</td><td>fooBar</td></tr>
+   * </table>
+   * </blockquote>
+   * @param string
+   * @return The specified string with its first character's capitalization
+   *         flipped, as per the described rules.
+   * @throws NullPointerException If {@code string} is null.
+   */
+  public static String flipFirstCap(final String string) {
+    if (string.length() == 0)
+      return string;
+
+    boolean hasLower = false;
+    boolean hasUpper = false;
+    for (int i = 1; i < string.length(); ++i) {
+      hasLower = hasLower || Character.isLowerCase(string.charAt(i));
+      hasUpper = hasUpper || Character.isUpperCase(string.charAt(i));
+      if (hasLower && hasUpper)
+        break;
+    }
+
+    // If the string is ALLUPPER or aLLUPPER then don't modify it
+    if (hasUpper && !hasLower)
+      return string;
+
+    final char ch = string.charAt(0);
+    return (Character.isLowerCase(ch) ? Character.toUpperCase(ch) : Character.toLowerCase(ch)) + string.substring(1);
+  }
+
   private static void appendElVar(final Map<String,String> variables, final StringBuilder builder, final StringBuilder var) {
     final String name = var.toString();
     final String value = variables.get(name);

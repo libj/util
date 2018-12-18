@@ -448,6 +448,29 @@ public class StringsTest {
     assertEquals("...", Strings.truncate("aaaa", 3));
   }
 
+  private static void assertFlip(final String expected, final String test) {
+    final String actual = Strings.flipFirstCap(test);
+    assertEquals(expected, actual);
+    assertEquals(test, Strings.flipFirstCap(actual));
+  }
+
+  @Test
+  public void testFlipFirstCap() {
+    try {
+      Strings.flipFirstCap(null);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    assertFlip("Foo", "foo");
+    assertFlip("FooBar", "fooBar");
+    assertFlip("BAR", "BAR");
+    assertFlip("fOO", "fOO");
+    assertFlip("BaR", "baR");
+    assertFlip("FooBar", "fooBar");
+  }
+
   private static void assertEL(final Map<String,String> variables, final String test, final String match) {
     assertEquals(match, Strings.derefEL(test, variables));
   }
