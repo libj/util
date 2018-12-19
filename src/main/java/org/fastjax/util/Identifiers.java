@@ -26,7 +26,7 @@ import java.util.Map;
  *      "https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.8">JLS
  *      3.8 Identifiers</a>
  */
-public final class JavaIdentifiers {
+public final class Identifiers {
   private static final String unqualifiedJavaIdentifierPattern = "[a-zA-Z_$][a-zA-Z\\d_$]*";
   private static final String qualifiedJavaIdentifierPattern = "((" + unqualifiedJavaIdentifierPattern + ")\\.)*" + unqualifiedJavaIdentifierPattern;
 
@@ -784,6 +784,6 @@ public final class JavaIdentifiers {
     return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', null));
   }
 
-  private JavaIdentifiers() {
+  private Identifiers() {
   }
 }

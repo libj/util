@@ -67,7 +67,7 @@ public final class Classes {
    * @throws NullPointerException If {@code className} is null.
    */
   public static String getDeclaringClassName(final String className) {
-    if (!JavaIdentifiers.isValid(className))
+    if (!Identifiers.isValid(className))
       throw new IllegalArgumentException("Not a valid java identifier: " + className);
 
     int index = className.length() - 1;
@@ -108,7 +108,7 @@ public final class Classes {
    * @throws NullPointerException If {@code className} is null.
    */
   public static String getRootDeclaringClassName(final String className) {
-    if (!JavaIdentifiers.isValid(className))
+    if (!Identifiers.isValid(className))
       throw new IllegalArgumentException("Not a valid java identifier: " + className);
 
     final int limit = className.length() - 1;
@@ -153,7 +153,7 @@ public final class Classes {
    *      Fully Qualified Names and Canonical Names</a>
    */
   public static String toCanonicalClassName(final String className) {
-    if (!JavaIdentifiers.isValid(className))
+    if (!Identifiers.isValid(className))
       throw new IllegalArgumentException("Not a valid java identifier: " + className);
 
     final StringBuilder builder = new StringBuilder();

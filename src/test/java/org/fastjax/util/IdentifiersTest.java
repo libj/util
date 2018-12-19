@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 import org.junit.Test;
 
-public class JavaIdentifiersTest {
+public class IdentifiersTest {
   private static void test(final String expected, final Function<String,String> function, final String value) {
     final String identifier;
     try {
@@ -36,7 +36,7 @@ public class JavaIdentifiersTest {
     }
 
     if (identifier != null && identifier.length() > 0)
-      assertTrue(JavaIdentifiers.isValid(identifier));
+      assertTrue(Identifiers.isValid(identifier));
 
     assertEquals(expected, identifier);
   }
@@ -44,91 +44,91 @@ public class JavaIdentifiersTest {
   @Test
   public void testIsValid() {
     try {
-      JavaIdentifiers.isValid(null);
+      Identifiers.isValid(null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
-    assertFalse(JavaIdentifiers.isValid(""));
-    assertFalse(JavaIdentifiers.isValid(".A"));
-    assertTrue(JavaIdentifiers.isValid("A.A"));
-    assertTrue(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getName()));
-    assertFalse(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getName(), false));
-    assertTrue(JavaIdentifiers.isValid(JavaIdentifiersTest.class.getSimpleName(), false));
+    assertFalse(Identifiers.isValid(""));
+    assertFalse(Identifiers.isValid(".A"));
+    assertTrue(Identifiers.isValid("A.A"));
+    assertTrue(Identifiers.isValid(IdentifiersTest.class.getName()));
+    assertFalse(Identifiers.isValid(IdentifiersTest.class.getName(), false));
+    assertTrue(Identifiers.isValid(IdentifiersTest.class.getSimpleName(), false));
   }
 
   @Test
   public void testIdentifier() {
-    test(null, JavaIdentifiers::toIdentifier, null);
-    test("", JavaIdentifiers::toIdentifier, "");
-    test("foo$bar", JavaIdentifiers::toIdentifier, "foo$bar");
-    test("foo_bar", JavaIdentifiers::toIdentifier, "foo_bar");
-    test("foobar", JavaIdentifiers::toIdentifier, "foo-bar");
-    test("foobar", JavaIdentifiers::toIdentifier, "foo*bar");
-    test("foobar", JavaIdentifiers::toIdentifier, "foo%bar");
-    test("foobar", JavaIdentifiers::toIdentifier, "foo bar");
-    test("foobar", JavaIdentifiers::toIdentifier, "foo bar");
-    test("_2foobar", JavaIdentifiers::toIdentifier, "2foo bar");
-    test("_abstract", JavaIdentifiers::toIdentifier, "abstract");
-    test("_do", JavaIdentifiers::toIdentifier, "do");
-    test("_foo", JavaIdentifiers::toIdentifier, "_foo");
+    test(null, Identifiers::toIdentifier, null);
+    test("", Identifiers::toIdentifier, "");
+    test("foo$bar", Identifiers::toIdentifier, "foo$bar");
+    test("foo_bar", Identifiers::toIdentifier, "foo_bar");
+    test("foobar", Identifiers::toIdentifier, "foo-bar");
+    test("foobar", Identifiers::toIdentifier, "foo*bar");
+    test("foobar", Identifiers::toIdentifier, "foo%bar");
+    test("foobar", Identifiers::toIdentifier, "foo bar");
+    test("foobar", Identifiers::toIdentifier, "foo bar");
+    test("_2foobar", Identifiers::toIdentifier, "2foo bar");
+    test("_abstract", Identifiers::toIdentifier, "abstract");
+    test("_do", Identifiers::toIdentifier, "do");
+    test("_foo", Identifiers::toIdentifier, "_foo");
   }
 
   @Test
   public void testToPackageCase() {
-    test(null, JavaIdentifiers::toPackageCase, null);
-    test("", JavaIdentifiers::toPackageCase, "");
-    test("hyphenated_name", JavaIdentifiers::toPackageCase, "hyphenated-name");
-    test("int_", JavaIdentifiers::toPackageCase, "int");
-    test("_123name", JavaIdentifiers::toPackageCase, "123name");
+    test(null, Identifiers::toPackageCase, null);
+    test("", Identifiers::toPackageCase, "");
+    test("hyphenated_name", Identifiers::toPackageCase, "hyphenated-name");
+    test("int_", Identifiers::toPackageCase, "int");
+    test("_123name", Identifiers::toPackageCase, "123name");
   }
 
   @Test
   public void testToCamelCase() {
-    test(null, JavaIdentifiers::toCamelCase, null);
-    test("", JavaIdentifiers::toCamelCase, "");
-    test("fooBar", JavaIdentifiers::toCamelCase, "_foo_bar");
-    test("fooBar", JavaIdentifiers::toCamelCase, "foo_bar");
-    test("FOOBarFoO", JavaIdentifiers::toCamelCase, "FOO_bar_foO");
-    test("foo", JavaIdentifiers::toCamelCase, "foo_");
-    test("FOo", JavaIdentifiers::toCamelCase, "FOo");
-    test("FOoBAr", JavaIdentifiers::toCamelCase, "FOo_bAr");
-    test("x2FOoBAr", JavaIdentifiers::toCamelCase, "2FOo_bAr");
-    test("xabstract", JavaIdentifiers::toCamelCase, "abstract");
-    test("xdo", JavaIdentifiers::toCamelCase, "do");
+    test(null, Identifiers::toCamelCase, null);
+    test("", Identifiers::toCamelCase, "");
+    test("fooBar", Identifiers::toCamelCase, "_foo_bar");
+    test("fooBar", Identifiers::toCamelCase, "foo_bar");
+    test("FOOBarFoO", Identifiers::toCamelCase, "FOO_bar_foO");
+    test("foo", Identifiers::toCamelCase, "foo_");
+    test("FOo", Identifiers::toCamelCase, "FOo");
+    test("FOoBAr", Identifiers::toCamelCase, "FOo_bAr");
+    test("x2FOoBAr", Identifiers::toCamelCase, "2FOo_bAr");
+    test("xabstract", Identifiers::toCamelCase, "abstract");
+    test("xdo", Identifiers::toCamelCase, "do");
   }
 
   @Test
   public void testToInstanceCase() {
-    test(null, JavaIdentifiers::toInstanceCase, null);
-    test("", JavaIdentifiers::toInstanceCase, "");
-    test("a", JavaIdentifiers::toInstanceCase, "a");
-    test("xml", JavaIdentifiers::toInstanceCase, "XML");
-    test("a", JavaIdentifiers::toInstanceCase, "A");
-    test("fooBar", JavaIdentifiers::toInstanceCase, "_foo_bar");
-    test("fooBar", JavaIdentifiers::toInstanceCase, "foo_bar");
-    test("fooBarFoO", JavaIdentifiers::toInstanceCase, "FOO_bar_foO");
-    test("foo", JavaIdentifiers::toInstanceCase, "foo_");
-    test("fOo", JavaIdentifiers::toInstanceCase, "FOo");
-    test("fOoBAr", JavaIdentifiers::toInstanceCase, "FOo_bAr");
-    test("_2FOoBAr", JavaIdentifiers::toInstanceCase, "2FOo_bAr");
-    test("_abstract", JavaIdentifiers::toInstanceCase, "abstract");
-    test("_do", JavaIdentifiers::toInstanceCase, "do");
+    test(null, Identifiers::toInstanceCase, null);
+    test("", Identifiers::toInstanceCase, "");
+    test("a", Identifiers::toInstanceCase, "a");
+    test("xml", Identifiers::toInstanceCase, "XML");
+    test("a", Identifiers::toInstanceCase, "A");
+    test("fooBar", Identifiers::toInstanceCase, "_foo_bar");
+    test("fooBar", Identifiers::toInstanceCase, "foo_bar");
+    test("fooBarFoO", Identifiers::toInstanceCase, "FOO_bar_foO");
+    test("foo", Identifiers::toInstanceCase, "foo_");
+    test("fOo", Identifiers::toInstanceCase, "FOo");
+    test("fOoBAr", Identifiers::toInstanceCase, "FOo_bAr");
+    test("_2FOoBAr", Identifiers::toInstanceCase, "2FOo_bAr");
+    test("_abstract", Identifiers::toInstanceCase, "abstract");
+    test("_do", Identifiers::toInstanceCase, "do");
   }
 
   @Test
   public void testToClassCase() {
-    test(null, JavaIdentifiers::toClassCase, null);
-    test("", JavaIdentifiers::toClassCase, "");
-    test("FooBar", JavaIdentifiers::toClassCase, "_foo_bar");
-    test("FooBar", JavaIdentifiers::toClassCase, "foo_bar");
-    test("FOOBarFoO", JavaIdentifiers::toClassCase, "FOO_bar_foO");
-    test("Foo", JavaIdentifiers::toClassCase, "foo_");
-    test("FOo", JavaIdentifiers::toClassCase, "FOo");
-    test("FOoBAr", JavaIdentifiers::toClassCase, "FOo_bAr");
-    test("X2FOoBAr", JavaIdentifiers::toClassCase, "2FOo_bAr");
-    test("Abstract", JavaIdentifiers::toClassCase, "abstract");
-    test("Do", JavaIdentifiers::toClassCase, "do");
+    test(null, Identifiers::toClassCase, null);
+    test("", Identifiers::toClassCase, "");
+    test("FooBar", Identifiers::toClassCase, "_foo_bar");
+    test("FooBar", Identifiers::toClassCase, "foo_bar");
+    test("FOOBarFoO", Identifiers::toClassCase, "FOO_bar_foO");
+    test("Foo", Identifiers::toClassCase, "foo_");
+    test("FOo", Identifiers::toClassCase, "FOo");
+    test("FOoBAr", Identifiers::toClassCase, "FOo_bAr");
+    test("X2FOoBAr", Identifiers::toClassCase, "2FOo_bAr");
+    test("Abstract", Identifiers::toClassCase, "abstract");
+    test("Do", Identifiers::toClassCase, "do");
   }
 }
