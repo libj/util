@@ -20,7 +20,19 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Utility functions for operations pertaining to resources.
+ */
 public final class Resources {
+  /**
+   * Returns an {@code URL} to a resource by the specified name, or, if not
+   * found, to a file by the same name (in the current working directory).
+   *
+   * @param name The name of the resource.
+   * @return An {@code URL} to a resource by the specified name, or, if not
+   *         found, to a file by the same name.
+   * @throws NullPointerException If {@code name} is null.
+   */
   public static URL getResourceOrFile(final String name) {
     final URL resource = Thread.currentThread().getContextClassLoader().getResource(name);
     if (resource != null)
@@ -38,6 +50,15 @@ public final class Resources {
     }
   }
 
+  /**
+   * Returns an {@code URL} to a file by the specified name (in the current
+   * working directory), or, if not found, to a resource by the same name.
+   *
+   * @param name The name of the resource.
+   * @return An {@code URL} to a file by the specified name, or, if not found,
+   *         to a resource by the same name.
+   * @throws NullPointerException If {@code name} is null.
+   */
   public static URL getFileOrResource(final String name) {
     final File file = new File(name);
     if (file.exists()) {

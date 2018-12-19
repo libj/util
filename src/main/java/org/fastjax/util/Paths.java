@@ -258,6 +258,8 @@ public final class Paths {
     return canonicalize(path, isAbsoluteLocalWindows(path.toString()));
   }
 
+  private static final char[] windowsPrefix = {'\\', '\\'};
+
   private static StringBuilder canonicalize(final StringBuilder path, final boolean isWindows) {
     final int p = path.indexOf("://");
     final char[] prefix;
@@ -270,7 +272,7 @@ public final class Paths {
       prefix = null;
     }
     else if (Strings.startsWith(path, "\\\\")) {
-      prefix = new char[] {'\\', '\\'};
+      prefix = windowsPrefix;
       path.delete(0, 2);
     }
     else if (path.charAt(1) == ':') {

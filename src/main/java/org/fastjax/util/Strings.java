@@ -636,9 +636,21 @@ public final class Strings {
     return builder.toString();
   }
 
-  public static String getAlpha(final int number) {
+  /**
+   * Returns a base 26 representation of {@code n} in alphabetical digits. The
+   * {@code 0}th string is {@code "a"}, and the {@code 25}th is {@code "z"}. For
+   * {@code n} between {@code 26} and {@code 51}, the resulting string is 2
+   * characters in length, and starts with {@code 'a'}. For {@code n} between
+   * {@code 52} and {@code 77}, the resulting string is 2 characters in length,
+   * and starts with {@code 'b'}. In effect, this method
+   *
+   * @param n The decimal value to convert into a base 26 representation of
+   *          {@code n} in alphabetical digits.
+   * @return A base 26 representation of {@code n} in alphabetical digits.
+   */
+  public static String getAlpha(final int n) {
     int scale;
-    return number < '{' - 'a' ? String.valueOf((char)('a' + number)) : getAlpha((scale = number / ('{' - 'a')) - 1) + String.valueOf((char)('a' + number - scale * ('{' - 'a')));
+    return n < '{' - 'a' ? String.valueOf((char)('a' + n)) : getAlpha((scale = n / ('{' - 'a')) - 1) + String.valueOf((char)('a' + n - scale * ('{' - 'a')));
   }
 
   /**
