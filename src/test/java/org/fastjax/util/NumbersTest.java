@@ -267,13 +267,13 @@ public class NumbersTest {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void testCast() {
+  public void testValueOf() {
     for (int i = 0; i < numberTypes.length; i++) {
       for (int j = 0; j < numberTypes.length; j++) {
         final Class<? extends Number> from = (Class<? extends Number>)numberTypes[i];
         final Class<? extends Number> to = (Class<? extends Number>)numberTypes[j];
-        final Number value = Numbers.cast(111, from);
-        assertEquals(value, Numbers.cast(Numbers.cast(value, to), from));
+        final Number value = Numbers.valueOf(from, 111);
+        assertEquals(value, Numbers.valueOf(from, Numbers.valueOf(to, value)));
       }
     }
   }

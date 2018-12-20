@@ -20,29 +20,79 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Comparator;
 
+/**
+ * Utility functions for operations pertaining to {@link Number}.
+ */
 public final class Numbers {
+  /** {@code BigInteger} representation of {@code Long.MIN_VALUE}. */
   public static final BigInteger LONG_MIN_VALUE = BigInteger.valueOf(Long.MIN_VALUE);
+
+  /** {@code BigInteger} representation of {@code Long.MAX_VALUE}. */
   public static final BigInteger LONG_MAX_VALUE = BigInteger.valueOf(Long.MAX_VALUE);
 
+  /**
+   * Utility functions to convert between signed and unsigned numbers.
+   */
   public static class Unsigned {
+    /** Max value of an unsigned long: {@code 2^64 - 1}. */
     public static final BigInteger UNSIGNED_LONG_MAX_VALUE = new BigInteger("18446744073709551615");
 
+    /**
+     * Returns the value of the specified unsigned {@code byte} as a signed
+     * {@code short}.
+     *
+     * @param unsigned The unsigned {@code byte}.
+     * @return The value of the specified unsigned {@code byte} as a signed
+     *         {@code short}.
+     */
     public static short toSigned(final byte unsigned) {
       return (short)(unsigned - Byte.MIN_VALUE);
     }
 
+    /**
+     * Returns the value of the specified unsigned {@code short} as a signed
+     * {@code int}.
+     *
+     * @param unsigned The unsigned {@code short}.
+     * @return The value of the specified unsigned {@code short} as a signed
+     *         {@code int}.
+     */
     public static int toSigned(final short unsigned) {
       return unsigned - Short.MIN_VALUE;
     }
 
+    /**
+     * Returns the value of the specified unsigned {@code int} as a signed
+     * {@code long}.
+     *
+     * @param unsigned The unsigned {@code int}.
+     * @return The value of the specified unsigned {@code int} as a signed
+     *         {@code long}.
+     */
     public static long toSigned(final int unsigned) {
       return (long)unsigned - Integer.MIN_VALUE;
     }
 
+    /**
+     * Returns the value of the specified unsigned {@code long} as a signed
+     * {@code BigInteger}.
+     *
+     * @param unsigned The unsigned {@code long}.
+     * @return The value of the specified unsigned {@code long} as a signed
+     *         {@code BigInteger}.
+     */
     public static BigInteger toSigned(final long unsigned) {
       return BigInteger.valueOf(unsigned).subtract(LONG_MIN_VALUE);
     }
 
+    /**
+     * Returns the value of the specified {@code byte} array representing an
+     * unsigned value as a signed {@code BigInteger}.
+     *
+     * @param unsigned The {@code byte} array representing an unsigned value.
+     * @return The value of the specified {@code byte} array representing an
+     *         unsigned value as a signed {@code BigInteger}.
+     */
     public static BigInteger toSigned(final byte[] unsigned) {
       return new BigInteger(1, unsigned);
     }
@@ -52,6 +102,14 @@ public final class Numbers {
 //      return new BigInteger(1, unsigned, off, len);
 //    }
 
+    /**
+     * Returns the unsigned representation of the signed value. The signed value
+     * cannot be less than {@code 0}.
+     *
+     * @param signed The signed value.
+     * @return The unsigned representation of the signed value.
+     * @throws IllegalArgumentException If {@code signed < 0}.
+     */
     public static byte toUnsigned(final byte signed) {
       if (signed < 0)
         throw new IllegalArgumentException("signed < 0");
@@ -59,6 +117,14 @@ public final class Numbers {
       return (byte)(signed + Byte.MIN_VALUE);
     }
 
+    /**
+     * Returns the unsigned representation of the signed value. The signed value
+     * cannot be less than {@code 0}.
+     *
+     * @param signed The signed value.
+     * @return The unsigned representation of the signed value.
+     * @throws IllegalArgumentException If {@code signed < 0}.
+     */
     public static short toUnsigned(final short signed) {
       if (signed < 0)
         throw new IllegalArgumentException("signed < 0: " + signed);
@@ -66,6 +132,14 @@ public final class Numbers {
       return (short)(signed + Short.MIN_VALUE);
     }
 
+    /**
+     * Returns the unsigned representation of the signed value. The signed value
+     * cannot be less than {@code 0}.
+     *
+     * @param signed The signed value.
+     * @return The unsigned representation of the signed value.
+     * @throws IllegalArgumentException If {@code signed < 0}.
+     */
     public static int toUnsigned(final int signed) {
       if (signed < 0)
         throw new IllegalArgumentException("signed < 0: " + signed);
@@ -73,6 +147,14 @@ public final class Numbers {
       return signed + Integer.MIN_VALUE;
     }
 
+    /**
+     * Returns the unsigned representation of the signed value. The signed value
+     * cannot be less than {@code 0}.
+     *
+     * @param signed The signed value.
+     * @return The unsigned representation of the signed value.
+     * @throws IllegalArgumentException If {@code signed < 0}.
+     */
     public static long toUnsigned(final long signed) {
       if (signed < 0)
         throw new IllegalArgumentException("signed < 0: " + signed);
@@ -80,6 +162,15 @@ public final class Numbers {
       return signed + Long.MIN_VALUE;
     }
 
+    /**
+     * Returns the unsigned representation of the signed value as a {@code byte}
+     * array. The signed value cannot be less than {@code 0}.
+     *
+     * @param signed The signed value.
+     * @return The unsigned representation of the signed value as a {@code byte}
+     *         array.
+     * @throws IllegalArgumentException If {@code signed < 0}.
+     */
     public static byte[] toUnsigned(final BigInteger signed) {
       if (signed.signum() == -1)
         throw new IllegalArgumentException("signed < 0: " + signed);
@@ -152,56 +243,181 @@ public final class Numbers {
     }
   };
 
+  /**
+   * Utility functions for the encoding and decoding of "compound values" in
+   * primitive types. A "compound value" in a primitive type is one that
+   * contains multiple values of a smaller sized primitive type. For example, a
+   * {@code short} is 16 bits in size, allowing it to represent a compound value
+   * of 2 {@code byte}s, since a {@code byte} is 8 bits in size.
+   */
   public static class Compound {
+    /**
+     * Encodes two {@code int}s into a {@code long}.
+     *
+     * @param a The first {@code int}.
+     * @param b The second {@code int}.
+     * @return A compounded {@code long} representing two {@code int} values.
+     */
     public static long encode(final int a, final int b) {
       return ((long)b << Integer.SIZE) & 0xffffffff00000000l | a & 0xffffffffl;
     }
 
+    /**
+     * Encodes four {@code short}s into a {@code long}.
+     *
+     * @param a The first {@code short}.
+     * @param b The second {@code short}.
+     * @param c The third {@code short}.
+     * @param d The fourth {@code short}.
+     * @return A compounded {@code long} representing four {@code short} values.
+     */
     public static long encode(final short a, final short b, final short c, final short d) {
       return ((long)d << Short.SIZE * 3) & 0xffff000000000000l | ((long)c << Short.SIZE * 2) & 0xffff00000000l | ((long)b << Short.SIZE) & 0xffff0000l | a & 0xffffl;
     }
 
+    /**
+     * Encodes eight {@code byte}s into a {@code long}.
+     *
+     * @param a The first {@code byte}.
+     * @param b The second {@code byte}.
+     * @param c The third {@code byte}.
+     * @param d The fourth {@code byte}.
+     * @param e The fifth {@code byte}.
+     * @param f The sixth {@code byte}.
+     * @param g The seventh {@code byte}.
+     * @param h The eight {@code byte}.
+     * @return A compounded {@code long} representing eight {@code byte} values.
+     */
     public static long encode(final byte a, final byte b, final byte c, final byte d, final byte e, final byte f, final byte g, final byte h) {
       return ((long)h << Byte.SIZE * 7) & 0xff00000000000000l | ((long)g << Byte.SIZE * 6) & 0xff000000000000l | ((long)f << Byte.SIZE * 5) & 0xff0000000000l | ((long)e << Byte.SIZE * 4) & 0xff00000000l | ((long)d << Byte.SIZE * 3) & 0xff000000l | ((long)c << Byte.SIZE * 2) & 0xff0000l | ((long)b << Byte.SIZE) & 0xff00l | a & 0xffl;
     }
 
+    /**
+     * Encodes two {@code short}s into an {@code int}.
+     *
+     * @param a The first {@code short}.
+     * @param b The second {@code short}.
+     * @return A compounded {@code int} representing two {@code short} values.
+     */
     public static int encode(final short a, final short b) {
       return b << Short.SIZE | a & 0xffff;
     }
 
+    /**
+     * Encodes four {@code byte}s into an {@code int}.
+     *
+     * @param a The first {@code byte}.
+     * @param b The second {@code byte}.
+     * @param c The third {@code byte}.
+     * @param d The fourth {@code byte}.
+     * @return A compounded {@code int} representing two {@code byte} values.
+     */
     public static int encode(final byte a, final byte b, final byte c, final byte d) {
       return (d << Byte.SIZE * 3) & 0xff000000 | (c << Byte.SIZE * 2) & 0xff0000 | (b << Byte.SIZE) & 0xff00 | a & 0xff;
     }
 
+    /**
+     * Encodes two {@code byte}s into a {@code short}.
+     *
+     * @param a The first {@code byte}.
+     * @param b The second {@code byte}.
+     * @return A compounded {@code short} representing two {@code byte} values.
+     */
     public static short encode(final byte a, final byte b) {
       return (short)((b << Byte.SIZE) & 0xff00 | a & 0xff);
     }
 
+    /**
+     * Decodes the {@code int} value at the specified position that is
+     * represented in the provided compounded {@code long} value.
+     *
+     * @param val The compounded {@code long} containing {@code int} values.
+     * @param pos The position of the value to decode (0, 1).
+     * @return The {@code int} value at the specified position that is
+     *         represented in the provided compounded {@code long} value.
+     */
     public static int dencodeInt(final long val, final int pos) {
       return (int)((val >> Integer.SIZE * pos) & 0xffffffff);
     }
 
+    /**
+     * Decodes the {@code short} value at the specified position that is
+     * represented in the provided compounded {@code long} value.
+     *
+     * @param val The compounded {@code long} containing {@code short} values.
+     * @param pos The position of the value to decode (0, 1, 2, 3).
+     * @return The {@code short} value at the specified position that is
+     *         represented in the provided compounded {@code long} value.
+     */
     public static short dencodeShort(final long val, final int pos) {
       return (short)((val >> Short.SIZE * pos) & 0xffff);
     }
 
+    /**
+     * Decodes the {@code byte} value at the specified position that is
+     * represented in the provided compounded {@code long} value.
+     *
+     * @param val The compounded {@code long} containing {@code byte} values.
+     * @param pos The position of the value to decode (0, 1, 2, 3, 4, 5, 6, 7).
+     * @return The {@code byte} value at the specified position that is
+     *         represented in the provided compounded {@code long} value.
+     */
     public static byte dencodeByte(final long val, final int pos) {
       return (byte)((val >> Byte.SIZE * pos) & 0xff);
     }
 
+    /**
+     * Decodes the {@code short} value at the specified position that is
+     * represented in the provided compounded {@code int} value.
+     *
+     * @param val The compounded {@code int} containing {@code short} values.
+     * @param pos The position of the value to decode (0, 1).
+     * @return The {@code short} value at the specified position that is
+     *         represented in the provided compounded {@code int} value.
+     */
     public static short dencodeShort(final int val, final int pos) {
       return (short)((val >> Short.SIZE * pos) & 0xffff);
     }
 
+    /**
+     * Decodes the {@code byte} value at the specified position that is
+     * represented in the provided compounded {@code int} value.
+     *
+     * @param val The compounded {@code int} containing {@code byte} values.
+     * @param pos The position of the value to decode (0, 1, 2, 3).
+     * @return The {@code byte} value at the specified position that is
+     *         represented in the provided compounded {@code int} value.
+     */
     public static byte dencodeByte(final int val, final int pos) {
       return (byte)((val >> Byte.SIZE * pos) & 0xff);
     }
 
+    /**
+     * Decodes the {@code byte} value at the specified position that is
+     * represented in the provided compounded {@code short} value.
+     *
+     * @param val The compounded {@code short} containing {@code byte} values.
+     * @param pos The position of the value to decode (0, 1).
+     * @return The {@code byte} value at the specified position that is
+     *         represented in the provided compounded {@code short} value.
+     */
     public static byte dencodeByte(final short val, final int pos) {
       return (byte)((val >> Byte.SIZE * pos) & 0xff);
     }
   }
 
+  /**
+   * Compares the specified numbers, returning a negative integer, zero, or a
+   * positive integer as the first argument is less than, equal to, or greater
+   * than the second.
+   * <p>
+   * Null values are considered as less than non-null values.
+   *
+   * @param a The first {@code Number} to be compared.
+   * @param b The second {@code Number} to be compared.
+   * @return A negative integer, zero, or a positive integer as the first
+   *         argument is less than, equal to, or greater than the second.
+   */
   public static int compare(final Number a, final Number b) {
     return comparator.compare(a, b);
   }
@@ -241,9 +457,34 @@ public final class Numbers {
     255, 255, 255, 255, 255, 255, 255, 255,
   };
 
+  /** {@code double} representation of log(2) */
   public static final double LOG_2 = 0.6931471805599453;
+
+  /** {@code double} representation of log(10) */
   public static final double LOG_10 = 2.302585092994046;
 
+  /**
+   * Returns a {@code Number} of type {@code <T>} representing type specified
+   * number of generic {@code Number} type.
+   *
+   * @param <T> The type of {@code Number} to be returned.
+   * @param clazz The class representing the type of {@code Number} to be
+   *          returned.
+   * @param number The number to get the value of.
+   * @return A {@code Number} of type {@code <T>} representing type specified
+   *         number of generic {@code Number} type.
+   * @throws UnsupportedOperationException If the specified {@code Class}
+   *           represents a type that is not one of:
+   *           <p>
+   *           <blockquote>{@code byte}, {@code Byte},<br>
+   *           {@code short}, {@code Short},<br>
+   *           {@code int}, {@code Integer},<br>
+   *           {@code long}, {@code Long},<br>
+   *           {@code double}, {@code Double},<br>
+   *           {@code float}, {@code Float},<br>
+   *           {@code short}, {@code Short},<br>
+   *           {@code BigInteger}, {@code BigDecimal}</blockquote>
+   */
   @SuppressWarnings("unchecked")
   public static <T extends Number>T valueOf(final Class<T> clazz, final Number number) {
     if (float.class == clazz || Float.class == clazz)
@@ -297,6 +538,19 @@ public final class Numbers {
     throw new UnsupportedOperationException(clazz.getName() + " is not a supported Number type");
   }
 
+  /**
+   * Returns the value of the specified base raised to the power of the
+   * specified exponent. The algorithm in this implementation takes advantage of
+   * the whole values of the base and exponent to outperform
+   * {@link Math#pow(double,double)}.
+   *
+   * @param base The base.
+   * @param exp The exponent.
+   * @return The value of the specified base raised to the power of the
+   *         specified exponent.
+   * @throws ArithmeticException If the resulting value cannot be represented as
+   *           a {@code long} due to overflow.
+   */
   public static long pow(long base, int exp) {
     long result = 1;
 
@@ -373,14 +627,27 @@ public final class Numbers {
    * @see Short#parseShort(String)
    */
   public static Short parseShort(final String s) {
-    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
-    // FIXME: the implementation is copied.
-    try {
-      return s == null ? null : Short.parseShort(s);
-    }
-    catch (final NumberFormatException e) {
+    return parseShort(s, 10);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns null if the string does not
+   * contain a parsable {@code short}.
+   *
+   * @param s A {@code String} containing the {@code Short} representation to be
+   *          parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or null if the
+   *         string does not contain a parsable {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static Short parseShort(final String s, final int radix) {
+    final Integer i = parseInteger(s, radix);
+    if (i == null || i < Short.MIN_VALUE || i > Short.MAX_VALUE)
       return null;
-    }
+
+    return i.shortValue();
   }
 
   /**
@@ -395,14 +662,66 @@ public final class Numbers {
    * @see Integer#parseInt(String)
    */
   public static Integer parseInteger(final String s) {
-    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
-    // FIXME: the implementation is copied.
-    try {
-      return s == null ? null : Integer.parseInt(s);
-    }
-    catch (final NumberFormatException e) {
+    return parseInteger(s, 10);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns null if the string does not
+   * contain a parsable {@code int}.
+   *
+   * @param s A {@code String} containing the {@code Integer} representation to
+   *          be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code int} value represented by the argument, or null if the
+   *         string does not contain a parsable {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static Integer parseInteger(final String s, final int radix) {
+    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
       return null;
+
+    final int len = s.length();
+    boolean negative = false;
+    int i = 0;
+    int limit = -Integer.MAX_VALUE;
+
+    if (len == 0)
+      return null;
+
+    char firstChar = s.charAt(0);
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Integer.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return null;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return null;
+      }
+
+      i++;
     }
+
+    final int multmin = limit / radix;
+    int result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(s.charAt(i++), radix);
+      if (digit < 0 || result < multmin)
+        return null;
+
+      result *= radix;
+      if (result < limit + digit)
+        return null;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
   }
 
   /**
@@ -417,14 +736,66 @@ public final class Numbers {
    * @see Long#parseLong(String)
    */
   public static Long parseLong(final String s) {
-    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
-    // FIXME: the implementation is copied.
-    try {
-      return s == null ? null : Long.parseLong(s);
-    }
-    catch (final NumberFormatException e) {
+    return parseLong(s, 10);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns null if the string does not
+   * contain a parsable {@code long}.
+   *
+   * @param s A {@code String} containing the {@code Long} representation to be
+   *          parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code long} value represented by the argument, or null if the
+   *         string does not contain a parsable {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static Long parseLong(final String s, final int radix) {
+    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
       return null;
+
+    final int len = s.length();
+    boolean negative = false;
+    int i = 0;
+    long limit = -Long.MAX_VALUE;
+
+    if (len == 0)
+      return null;
+
+    char firstChar = s.charAt(0);
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Long.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return null;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return null;
+      }
+
+      ++i;
     }
+
+    final long multmin = limit / radix;
+    long result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(s.charAt(i++), radix);
+      if (digit < 0 || result < multmin)
+        return null;
+
+      result *= radix;
+      if (result < limit + digit)
+        return null;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
   }
 
   /**
@@ -471,17 +842,37 @@ public final class Numbers {
     }
   }
 
+  /**
+   * Returns an {@code int} array representation of the values in the specified
+   * {@code String} array.
+   *
+   * @param s The {@code String} array.
+   * @return An {@code int} array representation of the values in the specified
+   *         {@code String} array.
+   * @throws NumberFormatException If a string in the specified array does not
+   *           contain a parsable integer.
+   */
   public static int[] parseInt(final String ... s) {
     final int[] values = new int[s.length];
-    for (int i = 0; i < s.length; i++)
+    for (int i = 0; i < s.length; ++i)
       values[i] = Integer.parseInt(s[i]);
 
     return values;
   }
 
+  /**
+   * Returns a {@code double} array representation of the values in the
+   * specified {@code String} array.
+   *
+   * @param s The {@code String} array.
+   * @return An {@code int} array representation of the values in the specified
+   *         {@code String} array.
+   * @throws NumberFormatException If a string in the specified array does not
+   *           contain a parsable double.
+   */
   public static double[] parseDouble(final String ... s) {
     final double[] values = new double[s.length];
-    for (int i = 0; i < s.length; i++)
+    for (int i = 0; i < s.length; ++i)
       values[i] = Double.parseDouble(s[i]);
 
     return values;
@@ -507,11 +898,21 @@ public final class Numbers {
     return scalar;
   }
 
-  public static boolean isNumber(String string) {
-    if (string == null || (string = string.trim()).length() == 0)
+  /**
+   * Tests whether the specified string represents a number, or a number with
+   * a fraction of two numbers (i.e. {@code 23 3/4}).
+   * <p>
+   * This method supports exponent form (i.e. {@code 3.2E-5}).
+   *
+   * @param s The string to test.
+   * @return {@code true} if the specified string represents a number, or a
+   *         number with a fraction of two numbers.
+   */
+  public static boolean isNumber(String s) {
+    if (s == null || (s = s.trim()).length() == 0)
       return false;
 
-    final String[] parts = string.split(" ");
+    final String[] parts = s.split(" ");
     if (parts.length > 2)
       return false;
 
@@ -535,7 +936,7 @@ public final class Numbers {
     boolean minusEncountered = false;
     boolean slashEncountered = false;
     int factor = 0;
-    for (int i = string.length() - 1; i >= 0; i--) {
+    for (int i = string.length() - 1; i >= 0; --i) {
       char c = string.charAt(i);
       if (c < '0') {
         if (c == '/') {
@@ -574,21 +975,48 @@ public final class Numbers {
         if (minusEncountered)
           return false;
 
-        factor++;
+        ++factor;
       }
     }
 
     return true;
   }
 
-  public static boolean isInteger(final float number) {
-    return (int)number == number;
+  /**
+   * Returns {@code true} if the specified {@code float} can be represented as
+   * a whole number without loss of precision.
+   *
+   * @param n The {@code float} to test.
+   * @return {@code true} if the specified {@code float} can be represented as
+   *         a whole number without loss of precision.
+   */
+  public static boolean isWhole(final float n) {
+    return (int)n == n;
   }
 
-  public static boolean isInteger(final double number) {
-    return (int)number == number;
+  /**
+   * Returns {@code true} if the specified {@code double} can be represented as
+   * a whole number without loss of precision.
+   *
+   * @param n The {@code double} to test.
+   * @return {@code true} if the specified {@code double} can be represented as
+   *         a whole number without loss of precision.
+   */
+  public static boolean isWhole(final double n) {
+    return (long)n == n;
   }
 
+  /**
+   * Returns the multiple of the specified values, throwing an
+   * {@code ArithmeticException} if the resulting value cannot be represented as
+   * a {@code long} due to overflow.
+   *
+   * @param a The first value.
+   * @param b The second value.
+   * @return The multiple of the specified values.
+   * @throws ArithmeticException If the resulting value cannot be represented as
+   *           a {@code long} due to overflow.
+   */
   public static long checkedMultiple(final long a, final long b) {
     final long maximum = Long.signum(a) == Long.signum(b) ? Long.MAX_VALUE : Long.MIN_VALUE;
     if (a != 0 && (b > 0 && b > maximum / a || b < 0 && b < maximum / a))
@@ -597,13 +1025,18 @@ public final class Numbers {
     return a * b;
   }
 
-  public static int rotateBits(final int value, final int sizeof, final int distance) {
-    return (int)((distance == 0 ? value : (distance < 0 ? value << -distance | value >> (sizeof + distance) : value >> distance | value << (sizeof - distance))) & (pow(2, sizeof) - 1));
-  }
-
-  public static String toString(final double value, final int decimals) {
+  /**
+   * Returns a string representation of the specified {@code double} to the
+   * provided number of decimal places.
+   *
+   * @param n The {@code double}.
+   * @param decimals The number of decimal places.
+   * @return A string representation of the specified {@code double} to the
+   *         provided number of decimal places.
+   */
+  public static String toString(final double n, final int decimals) {
     final double factor = Math.pow(10, decimals);
-    return String.valueOf(Math.round(value * factor) / factor);
+    return String.valueOf(Math.round(n * factor) / factor);
   }
 
   public static String roundInsignificant(final String value) {
@@ -631,6 +1064,16 @@ public final class Numbers {
     return blex > 0 ? result + blex * LOG_2 : result;
   }
 
+  /**
+   * Determines if the difference of the specified {@code Number} values is less
+   * than the provided epsilon.
+   *
+   * @param a The first {@code Number}.
+   * @param b The second {@code Number}.
+   * @param epsilon The epsilon.
+   * @return {@code true} if the difference of the specified {@code Number}
+   *         values is less than the provided epsilon.
+   */
   public static boolean equivalent(final Number a, final Number b, final double epsilon) {
     if (a == null)
       return b == null;
@@ -792,153 +1235,251 @@ public final class Numbers {
     return Math.abs(a.doubleValue() - b.doubleValue()) < epsilon;
   }
 
-  @SuppressWarnings("unchecked")
-  public static <T extends Number>T cast(final Number number, final Class<T> type) {
-    if (type == Byte.class)
-      return (T)Byte.valueOf(number.byteValue());
-
-    if (type == Short.class)
-      return (T)Short.valueOf(number.shortValue());
-
-    if (type == Integer.class)
-      return (T)Integer.valueOf(number.intValue());
-
-    if (type == Float.class)
-      return (T)Float.valueOf(number.floatValue());
-
-    if (type == Double.class)
-      return (T)Double.valueOf(number.doubleValue());
-
-    if (type == Long.class)
-      return (T)Long.valueOf(number.longValue());
-
-    throw new UnsupportedOperationException("Unsupported Numebr type: " + type.getName());
-  }
-
+  /**
+   * Returns the precision necessary to represent the specified number.
+   *
+   * @param number The number.
+   * @return The precision necessary to represent the specified number.
+   */
   public static byte precision(final int number) {
     return (byte)(number == 0 ? 1 : Math.log10(number != Integer.MIN_VALUE ? Math.abs(number) : Math.abs((long)number)) + 1);
   }
 
+  /**
+   * Returns the precision necessary to represent the specified number.
+   *
+   * @param number The number.
+   * @return The precision necessary to represent the specified number.
+   */
   public static byte precision(final long number) {
     return number != Long.MIN_VALUE ? (byte)(Math.log10(Math.abs(number)) + 1) : (byte)precision(BigInteger.valueOf(number));
   }
 
+  /**
+   * Returns the precision necessary to represent the specified number.
+   *
+   * @param number The number.
+   * @return The precision necessary to represent the specified number.
+   * @throws NullPointerException If {@code number} is null.
+   */
   public static int precision(final BigInteger number) {
     return number.abs().toString().length();
   }
 
+  /**
+   * Returns the precision necessary to represent the specified number.
+   *
+   * @param number The number.
+   * @return The precision necessary to represent the specified number.
+   * @throws NullPointerException If {@code number} is null.
+   */
   public static int precision(final BigDecimal number) {
     return number.precision();
   }
 
+  /**
+   * Returns the number of trailing zeroes in the specified number.
+   *
+   * @param number The number.
+   * @return The number of trailing zeroes in the specified number.
+   */
   public static int trailingZeroes(int number) {
     int zeros = 0;
     while (number % 10 == 0 && number != 0) {
-      zeros++;
+      ++zeros;
       number /= 10;
     }
 
     return zeros;
   }
 
+  /**
+   * Returns the number of trailing zeroes in the specified number.
+   *
+   * @param number The number.
+   * @return The number of trailing zeroes in the specified number.
+   */
   public static int trailingZeroes(long number) {
     int zeroes = 0;
     while (number % 10 == 0 && number != 0) {
-      zeroes++;
+      ++zeroes;
       number /= 10;
     }
 
     return zeroes;
   }
 
-  public static int numberOfDecimalPlaces(final BigDecimal bigDecimal) {
-    return Math.max(0, bigDecimal.stripTrailingZeros().scale());
+  /**
+   * Returns the number of decimal places represented in the specified
+   * {@code BigInteger}.
+   *
+   * @param n The {@code BigInteger} from which to determine the number
+   *          of decimal places.
+   * @return The number of decimal places represented in the specified
+   *         {@code BigInteger}.
+   * @throws NullPointerException If {@code n} is null.
+   */
+  public static int numberOfDecimalPlaces(final BigDecimal n) {
+    return Math.max(0, n.stripTrailingZeros().scale());
   }
 
-  public static BigDecimal toBigDecimal(final Number number) {
-    if (number instanceof BigDecimal)
-      return (BigDecimal)number;
+  /**
+   * Returns the {@code BigDecimal} representation of the specified
+   * {@code Number}.
+   *
+   * @param n The {@code Number} to convert to a {@code BigDecimal}.
+   * @return The {@code BigDecimal} representation of the specified
+   *         {@code Number}.
+   * @throws NullPointerException If {@code n} is null.
+   */
+  public static BigDecimal toBigDecimal(final Number n) {
+    if (n instanceof BigDecimal)
+      return (BigDecimal)n;
 
-    if (number instanceof BigInteger)
-      return new BigDecimal((BigInteger)number);
+    if (n instanceof BigInteger)
+      return new BigDecimal((BigInteger)n);
 
-    if (number instanceof Byte)
-      return BigDecimal.valueOf(number.byteValue());
+    if (n instanceof Byte)
+      return BigDecimal.valueOf(n.byteValue());
 
-    if (number instanceof Short)
-      return BigDecimal.valueOf(number.shortValue());
+    if (n instanceof Short)
+      return BigDecimal.valueOf(n.shortValue());
 
-    if (number instanceof Integer)
-      return BigDecimal.valueOf(number.intValue());
+    if (n instanceof Integer)
+      return BigDecimal.valueOf(n.intValue());
 
-    if (number instanceof Long)
-      return BigDecimal.valueOf(number.longValue());
+    if (n instanceof Long)
+      return BigDecimal.valueOf(n.longValue());
 
-    if (number instanceof Float)
-      return BigDecimal.valueOf(number.floatValue()).stripTrailingZeros();
+    if (n instanceof Float)
+      return BigDecimal.valueOf(n.floatValue()).stripTrailingZeros();
 
-    return BigDecimal.valueOf(number.doubleValue()).stripTrailingZeros();
+    return BigDecimal.valueOf(n.doubleValue()).stripTrailingZeros();
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static BigDecimal average(final BigDecimal ... numbers) {
     BigDecimal sum = numbers[0];
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum = sum.add(numbers[i]);
 
     return sum.divide(BigDecimal.valueOf(numbers.length));
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static BigDecimal average(final BigInteger ... numbers) {
     BigDecimal sum = new BigDecimal(numbers[0]);
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum = sum.add(new BigDecimal(numbers[i]));
 
     return sum.divide(BigDecimal.valueOf(numbers.length));
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static double average(final byte ... numbers) {
     long sum = numbers[0];
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum += numbers[i];
 
     return sum / numbers.length;
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static double average(final short ... numbers) {
     long sum = numbers[0];
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum += numbers[i];
 
     return sum / numbers.length;
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static double average(final int ... numbers) {
     long sum = numbers[0];
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum += numbers[i];
 
     return sum / numbers.length;
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static double average(final long ... numbers) {
     long sum = numbers[0];
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum += numbers[i];
 
     return sum / numbers.length;
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static double average(final float ... numbers) {
     double sum = numbers[0];
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum += numbers[i];
 
     return sum / numbers.length;
   }
 
+  /**
+   * Computes the average of the specified numbers.
+   *
+   * @param numbers The numbers to be used to compute the average.
+   * @return The average of the specified numbers.
+   * @throws NullPointerException If {@code numbers} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code numbers.length == 0}.
+   */
   public static double average(final double ... numbers) {
     double sum = numbers[0];
-    for (int i = 1; i < numbers.length; i++)
+    for (int i = 1; i < numbers.length; ++i)
       sum += numbers[i];
 
     return sum / numbers.length;
