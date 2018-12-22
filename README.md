@@ -110,6 +110,10 @@ Java's `java.util` package provides a wide range of utility classes, yet many co
 
 26. **and more...**
 
+### JavaDocs
+
+JavaDocs are available [here](https://www.fastjax.org/javadocs/org/fastjax/util/package-summary.html).
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
