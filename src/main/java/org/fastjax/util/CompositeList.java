@@ -254,13 +254,13 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
    * {@code ComponentList}s will be created.
    *
    * @param types The types for which {@code ComponentList}s will be created.
-   * @throws NullPointerException If {@code types} is null.
    */
   @SafeVarargs
   public CompositeList(final T ... types) {
     this();
-    for (final T type : types)
-      typeToComponentList.put(type, null);
+    if (types != null)
+      for (final T type : types)
+        typeToComponentList.put(type, null);
   }
 
   /**
@@ -268,12 +268,12 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
    * {@code ComponentList}s will be created.
    *
    * @param types The types for which {@code ComponentList}s will be created.
-   * @throws NullPointerException If {@code types} is null.
    */
   public CompositeList(final Collection<T> types) {
     this();
-    for (final T type : types)
-      typeToComponentList.put(type, null);
+    if (types != null)
+      for (final T type : types)
+        typeToComponentList.put(type, null);
   }
 
   /**
