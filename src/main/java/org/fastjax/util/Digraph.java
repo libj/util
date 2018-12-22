@@ -45,7 +45,7 @@ import java.util.Set;
  * All operations take constant time (in the worst case) except iterating over
  * the vertices adjacent from a given vertex, which takes time proportional to
  * the number of such vertices.
- * 
+ *
  * @param <T> The type of elements in this digraph.
  */
 public class Digraph<T> implements Cloneable, Serializable {

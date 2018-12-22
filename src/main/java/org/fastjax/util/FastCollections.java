@@ -17,7 +17,6 @@
 package org.fastjax.util;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -243,6 +242,7 @@ public final class FastCollections {
    * @return {@code true} if the specified class is instance-assignable for each
    *         member object of the specified collection; otherwise,
    *         {@code false}.
+   * @throws NullPointerException If {@code c} or {@code type} is null.
    */
   public static boolean isComponentType(final Collection<?> c, final Class<?> type) {
     for (final Object member : c)
@@ -314,7 +314,7 @@ public final class FastCollections {
    * Searches a range of the specified list for the specified object using the
    * binary search algorithm. The range must be sorted into ascending order
    * according to the {@linkplain Comparable natural ordering} of its elements
-   * (as by the {@link #sort(List)} method) prior to making this call. If it is
+   * (as by the {@link List#sort(Comparator)} method) prior to making this call. If it is
    * not sorted, the results are undefined. (If the range contains elements that
    * are not mutually comparable (for example, strings and integers), it
    * <i>cannot</i> be sorted according to the natural ordering of its elements,
@@ -340,6 +340,7 @@ public final class FastCollections {
    * @throws IllegalArgumentException If {@code fromIndex > toIndex}
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
     rangeCheck(a.size(), fromIndex, toIndex);
@@ -350,7 +351,7 @@ public final class FastCollections {
    * Searches the specified list for the specified object using the binary
    * search algorithm. The list must be sorted into ascending order according to
    * the {@linkplain Comparable natural ordering} of its elements (as by the
-   * {@link #sort(List)} method) prior to making this call. If it is not sorted,
+   * {@link List#sort(Comparator)} method) prior to making this call. If it is not sorted,
    * the results are undefined. (If the list contains elements that are not
    * mutually comparable (for example, strings and integers), it <i>cannot</i>
    * be sorted according to the natural ordering of its elements, hence results
@@ -369,6 +370,7 @@ public final class FastCollections {
    *         value will be &gt;= 0 if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the
    *           elements of the array.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key) {
     return binarySearch0(a, 0, a.size(), key);
@@ -378,7 +380,7 @@ public final class FastCollections {
    * Searches a range of the specified list for the specified object using the
    * binary search algorithm. The range must be sorted into ascending order
    * according to the specified comparator (as by the
-   * {@link #sort(List,Comparator)} method) prior to making this call. If it is
+   * {@link List#sort(Comparator)} method) prior to making this call. If it is
    * not sorted, the results are undefined. If the range contains multiple
    * elements equal to the specified object, there is no guarantee which one
    * will be found.
@@ -407,6 +409,7 @@ public final class FastCollections {
    * @throws IllegalArgumentException If {@code fromIndex > toIndex}
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}
+   * @throws NullPointerException If {@code a} or {@code c} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     rangeCheck(a.size(), fromIndex, toIndex);
@@ -416,7 +419,7 @@ public final class FastCollections {
   /**
    * Searches the specified list for the specified object using the binary
    * search algorithm. The list must be sorted into ascending order according to
-   * the specified comparator (as by the {@link #sort(List,Comparator)} method)
+   * the specified comparator (as by the {@link List#sort(Comparator)} method)
    * prior to making this call. If it is not sorted, the results are undefined.
    * If the list contains multiple elements equal to the specified object, there
    * is no guarantee which one will be found.
@@ -438,6 +441,7 @@ public final class FastCollections {
    *           <i>mutually comparable</i> using the specified comparator, or the
    *           search key is not comparable to the elements of the list using
    *           this comparator.
+   * @throws NullPointerException If {@code a} or {@code c} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key, final Comparator<? super T> c) {
     return binarySearch0(a, 0, a.size(), key, c);
@@ -517,6 +521,7 @@ public final class FastCollections {
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final T key) {
     return binaryClosestSearch0(a, 0, a.size(), key);
@@ -533,6 +538,7 @@ public final class FastCollections {
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key) {
     rangeCheck(a.size(), from, to);
@@ -546,13 +552,14 @@ public final class FastCollections {
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
    * @param key The value to match.
-   * @param comparator The {@code Comparator} for {@code key} of type
+   * @param c The {@code Comparator} for {@code key} of type
    *          {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
+   * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binaryClosestSearch(final List<T> a, final T key, final Comparator<T> comparator) {
-    return binaryClosestSearch0(a, 0, a.size(), key, comparator);
+  public static <T>int binaryClosestSearch(final List<T> a, final T key, final Comparator<T> c) {
+    return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
   /**
@@ -564,14 +571,15 @@ public final class FastCollections {
    * @param from The starting index of the sorted {@link List} to search from.
    * @param to The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
-   * @param comparator The {@code Comparator} for {@code key} of type
+   * @param c The {@code Comparator} for {@code key} of type
    *          {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
+   * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key, final Comparator<T> comparator) {
+  public static <T>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key, final Comparator<T> c) {
     rangeCheck(a.size(), from, to);
-    return binaryClosestSearch0(a, from, to, key, comparator);
+    return binaryClosestSearch0(a, from, to, key, c);
   }
 
   private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<T> a, int from, int to, final T key) {
@@ -604,58 +612,6 @@ public final class FastCollections {
     return (from + to) / 2;
   }
 
-  @SuppressWarnings("rawtypes")
-  private static final Comparator<Comparable> nullComparator = new Comparator<Comparable>() {
-    @Override
-    public int compare(final Comparable o1, final Comparable o2) {
-      return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2);
-    }
-  };
-
-  /**
-   * Sorts the specified list into ascending order, according to the <i>natural
-   * ordering</i> of its elements. This implementation differs from the one in
-   * {@link Collections#sort(List)} in that it allows null entries to be sorted,
-   * which are placed in the beginning of the list.
-   *
-   * @param <T> The type parameter of Comparable list elements.
-   * @param list The list to be sorted.
-   * @throws ClassCastException If the list contains elements that are not
-   *           <i>mutually comparable</i> (for example, strings and integers).
-   * @throws UnsupportedOperationException If the specified list's list-iterator
-   *           does not support the <tt>set</tt> operation.
-   * @see Collections#sort(List)
-   */
-  public static <T extends Comparable<? super T>>void sort(final List<T> list) {
-    Collections.<T>sort(list, nullComparator);
-  }
-
-  /**
-   * Sorts the specified list according to the order induced by the specified
-   * comparator. This implementation differs from the one in
-   * {@link Collections#sort(List,Comparator)} in that it allows null entries to
-   * be sorted, which are placed in the beginning of the list.
-   *
-   * @param <T> The type parameter of list elements.
-   * @param list The list to be sorted.
-   * @param c The comparator to determine the order of the list. A <tt>null</tt>
-   *          value indicates that the elements' <i>natural ordering</i> should
-   *          be used.
-   * @throws ClassCastException If the list contains elements that are not
-   *           <i>mutually comparable</i> using the specified comparator.
-   * @throws UnsupportedOperationException If the specified list's list-iterator
-   *           does not support the <tt>set</tt> operation.
-   * @see Collections#sort(List,Comparator)
-   */
-  public static <T>void sort(final List<T> list, final Comparator<? super T> c) {
-    Collections.<T>sort(list, new Comparator<T>() {
-      @Override
-      public int compare(final T o1, final T o2) {
-        return o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : c.compare(o1, o2);
-      }
-    });
-  }
-
   /**
    * Returns the specified collection with the specified vararg parameters added
    * as members to the collection.
@@ -666,7 +622,7 @@ public final class FastCollections {
    * @param a The members to add to the collection.
    * @return The specified collection with the specified vararg parameters added
    *         as members to the collection.
-   * @throws NullPointerException If {@code c} is null.
+   * @throws NullPointerException If {@code c} or {@code a} is null.
    */
   @SafeVarargs
   public static <C extends Collection<T>,T>C asCollection(final C c, final T ... a) {
@@ -689,6 +645,8 @@ public final class FastCollections {
    * @return The specified target collection with the elements of the specified
    *         vararg parameter collections concatenated as members to the target
    *         collection.
+   * @throws NullPointerException If {@code target}, {@code collections}, or a
+   *           member element in {@code collections} is null.
    */
   @SafeVarargs
   public static <C extends Collection<T>,T>C concat(final C target, final Collection<? extends T> ... collections) {
@@ -709,9 +667,15 @@ public final class FastCollections {
    * @param size The size of each partition.
    * @return An array of sublists of the specified list partitioned to the
    *         specified size.
+   * @throws IllegalArgumentException If {@code size} is less than or equal to
+   *           0.
+   * @throws NullPointerException If {@code list} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>List<T>[] partition(final List<T> list, final int size) {
+    if (size <= 0)
+      throw new IllegalArgumentException("Size must be positive: " + size);
+
     final int parts = list.size() / size;
     final int remainder = list.size() % size;
     final List<T>[] partitions = new List[remainder != 0 ? parts + 1 : parts];

@@ -106,8 +106,8 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   public HashBiMap<K,V> clone() {
     final HashBiMap<K,V> clone = superClone();
     clone.inverse = ((HashBiMap<V,K>)inverse).superClone();
-    clone.init((Map<K,V>)(((HashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
-    clone.inverse.init((Map<V,K>)(((HashMap<K,V>)((ObservableMap<K,V>)inverse.target).target).clone()));
+    clone.setTarget((Map<K,V>)(((HashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
+    clone.inverse.setTarget((Map<V,K>)(((HashMap<K,V>)((ObservableMap<K,V>)inverse.target).target).clone()));
     clone.inverse.inverse = clone;
     return clone;
   }

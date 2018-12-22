@@ -22,9 +22,9 @@ import java.util.Objects;
  * Represents a predicate (boolean-valued function) of three arguments. This is
  * the three-arity specialization of {@link java.util.function.Predicate}.
  *
- * @param <T> the type of the first argument to the predicate.
- * @param <U> the type of the second argument the predicate.
- * @param <V> the type of the third argument the predicate.
+ * @param <T> The type of the first argument to the predicate.
+ * @param <U> The type of the second argument the predicate.
+ * @param <V> The type of the third argument the predicate.
  * @see java.util.function.Predicate
  */
 @FunctionalInterface
@@ -53,7 +53,7 @@ public interface TriPredicate<T,U,V> {
    * @param other A predicate that will be logically-ANDed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical
    *         AND of this predicate and the {@code other} predicate.
-   * @throws NullPointerException If other is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default TriPredicate<T,U,V> and(final TriPredicate<? super T,? super U,? super V> other) {
     Objects.requireNonNull(other);

@@ -116,8 +116,8 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
     clone.keySet = null;
     clone.values = null;
     clone.inverse = ((IdentityHashBiMap<V,K>)inverse).superClone();
-    clone.init((Map<K,V>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
-    clone.inverse.init((Map<V,K>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)inverse.target).target).clone()));
+    clone.setTarget((Map<K,V>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
+    clone.inverse.setTarget((Map<V,K>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)inverse.target).target).clone()));
     clone.inverse.inverse = clone;
     return clone;
   }

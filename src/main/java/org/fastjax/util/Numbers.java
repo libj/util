@@ -468,9 +468,9 @@ public final class Numbers {
    * number of generic {@code Number} type.
    *
    * @param <T> The type of {@code Number} to be returned.
-   * @param clazz The class representing the type of {@code Number} to be
-   *          returned.
    * @param number The number to get the value of.
+   * @param as The class representing the type of {@code Number} to be
+   *          returned.
    * @return A {@code Number} of type {@code <T>} representing type specified
    *         number of generic {@code Number} type.
    * @throws UnsupportedOperationException If the specified {@code Class}
@@ -486,56 +486,56 @@ public final class Numbers {
    *           {@code BigInteger}, {@code BigDecimal}</blockquote>
    */
   @SuppressWarnings("unchecked")
-  public static <T extends Number>T valueOf(final Class<T> clazz, final Number number) {
-    if (float.class == clazz || Float.class == clazz)
+  public static <T extends Number>T valueOf(final Number number, final Class<T> as) {
+    if (float.class == as || Float.class == as)
       return (T)Float.valueOf(number.floatValue());
 
-    if (double.class == clazz || Double.class == clazz)
+    if (double.class == as || Double.class == as)
       return (T)Double.valueOf(number.doubleValue());
 
-    if (byte.class == clazz || Byte.class == clazz)
+    if (byte.class == as || Byte.class == as)
       return (T)Byte.valueOf(number.byteValue());
 
-    if (short.class == clazz || Short.class == clazz)
+    if (short.class == as || Short.class == as)
       return (T)Short.valueOf(number.shortValue());
 
-    if (int.class == clazz || Integer.class == clazz)
+    if (int.class == as || Integer.class == as)
       return (T)Integer.valueOf(number.intValue());
 
-    if (long.class == clazz || Long.class == clazz)
+    if (long.class == as || Long.class == as)
       return (T)Long.valueOf(number.longValue());
 
     if (number instanceof Float || number instanceof Double || number instanceof Byte || number instanceof Short || number instanceof Integer || number instanceof Long) {
-      if (BigInteger.class.isAssignableFrom(clazz))
+      if (BigInteger.class.isAssignableFrom(as))
         return (T)BigInteger.valueOf(number.longValue());
 
-      if (BigDecimal.class.isAssignableFrom(clazz))
+      if (BigDecimal.class.isAssignableFrom(as))
         return (T)BigDecimal.valueOf(number.doubleValue());
 
-      throw new UnsupportedOperationException(clazz.getName() + " is not a supported Number type");
+      throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
     }
 
     if (number instanceof BigInteger) {
-      if (BigInteger.class.isAssignableFrom(clazz))
+      if (BigInteger.class.isAssignableFrom(as))
         return (T)number;
 
-      if (BigDecimal.class.isAssignableFrom(clazz))
+      if (BigDecimal.class.isAssignableFrom(as))
         return (T)new BigDecimal((BigInteger)number);
 
-      throw new UnsupportedOperationException(clazz.getName() + " is not a supported Number type");
+      throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
     }
 
     if (number instanceof BigDecimal) {
-      if (BigDecimal.class.isAssignableFrom(clazz))
+      if (BigDecimal.class.isAssignableFrom(as))
         return (T)number;
 
-      if (BigInteger.class.isAssignableFrom(clazz))
+      if (BigInteger.class.isAssignableFrom(as))
         return (T)((BigDecimal)number).toBigInteger();
 
-      throw new UnsupportedOperationException(clazz.getName() + " is not a supported Number type");
+      throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
     }
 
-    throw new UnsupportedOperationException(clazz.getName() + " is not a supported Number type");
+    throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
   }
 
   /**
@@ -1039,19 +1039,28 @@ public final class Numbers {
     return String.valueOf(Math.round(n * factor) / factor);
   }
 
-  public static String roundInsignificant(final String value) {
-    if (value == null)
-      return null;
+  /**
+   * Strips trailing zeroes after a decimal point in the specified string.
+   * <p>
+   * This method accepts a string that represents a number. The behavior of this
+   * method is undefined for non-number string.
+   *
+   * @param number The {@code String} representing a number.
+   * @return The string with trailing zeroes stripped if the string represents a
+   *         decimal number; otherwise the original string is returned.
+   */
+  public static String stripTrailingZeros(final String number) {
+    if (number == null || number.length() == 0)
+      return number;
 
-    if (value.length() == 0)
-      return value;
-
-    int i = value.length();
-    while (i-- > 0)
-      if (value.charAt(i) != '0' && value.charAt(i) != '.')
+    final int len = number.length();
+    int i = len;
+    while (i-- > 1)
+      if (number.charAt(i) != '0' && number.charAt(i) != '.')
         break;
 
-    return value.substring(0, i + 1);
+    ++i;
+    return i == len || number.lastIndexOf('.', i + 1) == -1 ? number : number.substring(0, i);
   }
 
   // FIXME: This is not working! it is returning incorrect results

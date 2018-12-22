@@ -17,6 +17,7 @@
 package org.fastjax.util.zip;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
@@ -31,9 +32,10 @@ public class ZipWriter implements AutoCloseable {
    * Creates a new {@code ZipWriter} with the specified {@link ZipOutputStream}.
    *
    * @param out The {@link ZipOutputStream}.
+   * @throws NullPointerException If {@code out} is null.
    */
   public ZipWriter(final ZipOutputStream out) {
-    this.out = out;
+    this.out = Objects.requireNonNull(out);
   }
 
   /**

@@ -35,7 +35,7 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
       System.setProperty(PROPERTY, pkgs != null && pkgs.length() > 0 ? pkgs + "|" + "org.fastjax.util" : "org.fastjax.util");
   }
 
-  public static final HashMap<String,byte[]> idToData = new HashMap<>();
+  protected static final HashMap<String,byte[]> idToData = new HashMap<>();
 
   /**
    * Creates a "memory" protocol {@link URL} for the specified {@code data}.
@@ -54,5 +54,28 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
     catch (final MalformedURLException e) {
       throw new UnsupportedOperationException(e);
     }
+  }
+
+  /**
+   * Returns the data for the provided {@code URL}.
+   * <p>
+   * <i><b>Note</b>: This method only supports URLs with {@code "memory"}
+   * protocol, and a {@code null} or empty host.</i>
+   *
+   * @param url The {@code URL}.
+   * @return The data for the provided {@code URL}.
+   * @throws IllegalArgumentException If the provided {@code URL} specifies a
+   *           protocol that is not {@code "memory"}, or a host that is not
+   *           {@code null} or empty.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static byte[] getData(final URL url) {
+    if (!"memory".equals(url.getProtocol()))
+      throw new IllegalArgumentException("Illegal protocol: " + url.getProtocol());
+
+    if (url.getHost() != null && url.getHost().length() > 0)
+      throw new IllegalArgumentException("Illegal host: " + url.getHost());
+
+    return idToData.get(url.getPath());
   }
 }

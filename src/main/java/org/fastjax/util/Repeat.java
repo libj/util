@@ -21,12 +21,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
 
+/**
+ * {@code Repeat} is an abstraction of operations that execute recursively or
+ * iteratively in order to process collections or arrays (containers), and
+ * return statically allocated arrays, the sizes of which are not able to be
+ * known until evaluation of each member of the specified container.
+ */
 public final class Repeat {
+  /**
+   * An interface defining the behavior of recursive execution for the specified
+   * types.
+   *
+   * @param <C> The type of the object containing the array on which repetition
+   *          is to be performed.
+   * @param <M> The type of the member elements in the array.
+   * @param <A> The type of the optional argument passed to member elements
+   *          during recursion.
+   */
   public interface Recurser<C,M,A> extends BiPredicate<M,A> {
+    /**
+     * Returns the array of members in the specified container.
+     *
+     * @param container The container.
+     * @return The array of members in the specified container.
+     */
     M[] members(C container);
+
+    /**
+     * Returns the container that follows the specified container.
+     *
+     * @param container The container.
+     * @return The container that follows the specified container.
+     */
     C next(C container);
   }
 
+  /**
+   * An abstract class defining the concept of an algorithm supported by the
+   * {@code Repeat} methods.
+   */
   private static abstract class Algorithm {
     /**
      * Default implementation of "simple" variation of abstract
@@ -34,7 +67,7 @@ public final class Repeat {
      *
      * @param <M> The type parameter for the member class of {@code array}.
      * @param <A> The type parameter of {@code arg}.
-     * @param array The array to consume.
+     * @param array The array on which repetition is to be performed.
      * @param type The component type of the {@code array}.
      * @param predicate {@link BiPredicate} to be applied to each member of the
      *          {@code array}.
@@ -58,22 +91,30 @@ public final class Repeat {
     }
   }
 
+  /**
+   * Algorithms that execute with recursive behavior.
+   */
   public static final class Recursive {
+    /**
+     * Abstract class defining common methods for recursive algorithms.
+     */
     private static abstract class RecursiveAlgorithm extends Algorithm {
       @Override
       protected <M,A>M[] simple(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
         super.simple(array, type, predicate, arg);
-        return recurse(type, predicate, arg, array, 0, 0);
+        return recurse(array, type, predicate, arg, 0, 0);
       }
 
       /**
        * Recursive implementation of "contained" variation of {@code Algorithm}.
        *
-       * @param <C> The type parameter of {@code container}.
-       * @param <M> The type parameter for the member class of {@code array}.
-       * @param <A> The type parameter of {@code arg}.
-       * @param array The array to consume.
-       * @param type The component type of the {@code array}.
+       * @param <C> The type of the object containing the array on which
+       *          repetition is to be performed.
+       * @param <M> The type of the member elements in the array.
+       * @param <A> The type of the optional argument passed to member elements
+       *          during recursion.
+       * @param array The array on which recursion is to be performed.
+       * @param type The {@code Class} representing the member type {@code <M>}.
        * @param recurser {@link Recurser} defining the recursion logic.
        * @param arg Argument to be passed to {@code predicate}.
        * @return The {@code type}-typed array of {@code recurser}-accepted
@@ -94,21 +135,67 @@ public final class Repeat {
         return recurse(container, array, type, recurser, arg, 0, 0);
       }
 
-      protected abstract <M,A>M[] recurse(final Class<M> type, final BiPredicate<M,A> predicate, final A arg, final M[] array, int index, final int depth);
+      /**
+       * The recursive algorithm that operates on the specified arguments.
+       *
+       * @param <M> The type of the member elements in the array.
+       * @param <A> The type of the optional argument passed to member elements
+       *          during recursion.
+       * @param array The array on which recursion is to be performed.
+       * @param type The {@code Class} representing the member type {@code <M>}.
+       * @param predicate The {@code BiPredicate} used to test each member in
+       *          the array whether to be included in the resulting array.
+       * @param arg The optional argument of type {@code <A>} that is passed to
+       *          member elements during recursion.
+       * @param index The starting index of recursion ({@code 0} when initially
+       *          called).
+       * @param depth The starting depth of recursion ({@code 0} when initially
+       *          called).
+       * @return The statically allocated array of type {@code <M>} with the
+       *         resulting elements.
+       */
+      protected abstract <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg, int index, final int depth);
+
+      /**
+       * The recursive algorithm that operates on the specified arguments.
+       *
+       * @param <C> The type of the object containing the array on which
+       *          repetition is to be performed.
+       * @param <M> The type of the member elements in the array.
+       * @param <A> The type of the optional argument passed to member elements
+       *          during recursion.
+       * @param container The container of the array on which repetition is to
+       *          be performed.
+       * @param array The array on which recursion is to be performed.
+       * @param type The {@code Class} representing the member type {@code <M>}.
+       * @param recurser The {@code Recurser} defining the recursion behavior.
+       * @param arg The optional argument of type {@code <A>} that is passed to
+       *          member elements during recursion.
+       * @param index The starting index of recursion ({@code 0} when initially
+       *          called).
+       * @param depth The starting depth of recursion ({@code 0} when initially
+       *          called).
+       * @return The statically allocated array of type {@code <M>} with the
+       *         resulting elements.
+       */
       protected abstract <C,M,A>M[] recurse(final C container, final M[] array, final Class<M> type, final Recurser<C,M,A> recurser, final A arg, int index, final int depth);
     }
 
+    /**
+     * A {@code RecursiveAlgorithm} that results in an array of qualifying
+     * members stored in the order of traversal.
+     */
     private static final RecursiveAlgorithm recursiveOrdered = new RecursiveAlgorithm() {
       @Override
       @SuppressWarnings("unchecked")
-      protected <M,A>M[] recurse(final Class<M> type, final BiPredicate<M,A> predicate, final A arg, final M[] array, int index, final int depth) {
+      protected <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg, int index, final int depth) {
         if (index >= array.length)
           return (M[])Array.newInstance(type, depth);
 
         M member;
         boolean skip;
         while ((skip = !predicate.test(member = array[index++], arg)) && index < array.length);
-        final M[] result = recurse(type, predicate, arg, array, index, skip ? depth : depth + 1);
+        final M[] result = recurse(array, type, predicate, arg, index, skip ? depth : depth + 1);
         if (!skip)
           result[depth] = member;
 
@@ -134,17 +221,23 @@ public final class Repeat {
       }
     };
 
+    /**
+     * A {@code RecursiveAlgorithm} that results in an array of qualifying
+     * members stored in the inverse order of traversal (i.e. the first
+     * traversed member is placed in the end of the resulting array, and the
+     * last traversed member is first).
+     */
     private static final RecursiveAlgorithm recursiveInverted = new RecursiveAlgorithm() {
       @Override
       @SuppressWarnings("unchecked")
-      protected <M,A>M[] recurse(final Class<M> type, final BiPredicate<M,A> predicate, final A arg, final M[] array, int index, final int depth) {
+      protected <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg, int index, final int depth) {
         if (index == array.length)
           return (M[])Array.newInstance(type, depth);
 
         M member;
         boolean skip = true;
         while ((skip = !predicate.test(member = array[array.length - ++index], arg)) && index < array.length);
-        final M[] result = recurse(type, predicate, arg, array, index, skip ? depth : depth + 1);
+        final M[] result = recurse(array, type, predicate, arg, index, skip ? depth : depth + 1);
         if (!skip)
           result[result.length - 1 - depth] = member;
 
@@ -170,18 +263,94 @@ public final class Repeat {
       }
     };
 
+    /**
+     * Executes recursive traversal of the specified arguments, resulting in an
+     * array of qualifying members stored in the order of traversal.
+     *
+     * @param <M> The type parameter for the member class of {@code array}.
+     * @param <A> The type parameter of {@code arg}.
+     * @param array The array to consume.
+     * @param type The component type of the {@code array}.
+     * @param predicate {@link BiPredicate} to be applied to each member of the
+     *          {@code array}.
+     * @param arg Argument to be passed to {@code predicate}.
+     * @return The {@code type}-typed array of {@code predicate}-passed members
+     *         of {@code array} argument, stored in the order of traversal.
+     * @throws NullPointerException If {@code array} is not null, and
+     *           {@code type} or {@code predicate} are null.
+     */
     public static <M,A>M[] ordered(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
       return recursiveOrdered.simple(array, type, predicate, arg);
     }
 
+    /**
+     * Executes recursive traversal of the specified arguments, resulting in an
+     * array of qualifying members stored in the order of traversal.
+     *
+     * @param <C> The type of the object containing the array on which
+     *          repetition is to be performed.
+     * @param <M> The type of the member elements in the array.
+     * @param <A> The type of the optional argument passed to member elements
+     *          during recursion.
+     * @param container The container of the array on which repetition is to be
+     *          performed.
+     * @param array The array on which recursion is to be performed.
+     * @param type The {@code Class} representing the member type {@code <M>}.
+     * @param recurser {@link Recurser} defining the recursion logic.
+     * @param arg Argument to be passed to {@code predicate}.
+     * @return The {@code type}-typed array of {@code recurser}-accepted members
+     *         of {@code array} argument, stored in the order of traversal.
+     * @throws NullPointerException If {@code array} is not null, and
+     *           {@code type} or {@code recurser} are null.
+     */
     public static <C,M,A>M[] ordered(final C container, final M[] array, final Class<M> type, final Recurser<C,M,A> recurser, final A arg) {
       return recursiveOrdered.contained(container, array, type, recurser, arg);
     }
 
+    /**
+     * Executes recursive traversal of the specified arguments, resulting in an
+     * array of qualifying members stored in the inverse order of traversal
+     * (i.e. the first traversed member is placed in the end of the resulting
+     * array, and the last traversed member is first).
+     *
+     * @param <M> The type parameter for the member class of {@code array}.
+     * @param <A> The type parameter of {@code arg}.
+     * @param array The array to consume.
+     * @param type The component type of the {@code array}.
+     * @param predicate {@link BiPredicate} to be applied to each member of the
+     *          {@code array}.
+     * @param arg Argument to be passed to {@code predicate}.
+     * @return The {@code type}-typed array of {@code predicate}-passed members
+     *         of {@code array} argument, stored in the inverse order of traversal.
+     * @throws NullPointerException If {@code array} is not null, and
+     *           {@code type} or {@code predicate} are null.
+     */
     public static <M,A>M[] inverted(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
       return recursiveInverted.simple(array, type, predicate, arg);
     }
 
+    /**
+     * Executes recursive traversal of the specified arguments, resulting in an
+     * array of qualifying members stored in the inverse order of traversal
+     * (i.e. the first traversed member is placed in the end of the resulting
+     * array, and the last traversed member is first).
+     *
+     * @param <C> The type of the object containing the array on which
+     *          repetition is to be performed.
+     * @param <M> The type of the member elements in the array.
+     * @param <A> The type of the optional argument passed to member elements
+     *          during recursion.
+     * @param container The container of the array on which repetition is to be
+     *          performed.
+     * @param array The array on which recursion is to be performed.
+     * @param type The {@code Class} representing the member type {@code <M>}.
+     * @param recurser {@link Recurser} defining the recursion logic.
+     * @param arg Argument to be passed to {@code predicate}.
+     * @return The {@code type}-typed array of {@code recurser}-accepted members
+     *         of {@code array} argument, stored in the inverse order of traversal.
+     * @throws NullPointerException If {@code array} is not null, and
+     *           {@code type} or {@code recurser} are null.
+     */
     public static <C,M,A>M[] inverted(final C container, final M[] array, final Class<M> type, final Recurser<C,M,A> recurser, final A arg) {
       return recursiveInverted.contained(container, array, type, recurser, arg);
     }
@@ -190,6 +359,10 @@ public final class Repeat {
     }
   }
 
+  /**
+   * An {@code Algorithm} implementing iterative traversal that results in an
+   * array of qualifying members stored in the order of traversal.
+   */
   private static final Algorithm iterative = new Algorithm() {
     @Override
     @SuppressWarnings("unchecked")
@@ -204,6 +377,22 @@ public final class Repeat {
     }
   };
 
+  /**
+   * Executes iterative traversal of the specified arguments, resulting in an
+   * array of qualifying members stored in the order of traversal.
+   *
+   * @param <M> The type parameter for the member class of {@code array}.
+   * @param <A> The type parameter of {@code arg}.
+   * @param array The array on which iteration is to be performed.
+   * @param type The component type of the {@code array}.
+   * @param predicate {@link BiPredicate} to be applied to each member of the
+   *          {@code array}.
+   * @param arg Argument to be passed to {@code predicate}.
+   * @return The {@code type}-typed array of {@code predicate}-passed members
+   *         of {@code array} argument, stored in the order of traversal.
+   * @throws NullPointerException If {@code array} is not null, and
+   *           {@code type} or {@code predicate} are null.
+   */
   public static <M,A>M[] iterative(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
     return iterative.simple(array, type, predicate, arg);
   }

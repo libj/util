@@ -120,13 +120,13 @@ public class NumbersTest {
   private static double testLogBigInteger(final int[] factors, final int[] exponents) {
     double l1 = 0;
     BigInteger bi = BigInteger.ONE;
-    for (int i = 0; i < factors.length; i++) {
+    for (int i = 0; i < factors.length; ++i) {
       int exponent = exponents[i];
       int factor = factors[i];
       if (factor <= 1)
         continue;
 
-      for (int n = 0; n < exponent; n++)
+      for (int n = 0; n < exponent; ++n)
         bi = bi.multiply(BigInteger.valueOf(factor));
 
       l1 += Math.log(factor) * exponent;
@@ -147,8 +147,8 @@ public class NumbersTest {
     final int[] e = {1, 1, 1, 1, 1};
     final Random r = new Random();
     double maxerr = 0;
-    for (int n = 0; n < tries; n++) {
-      for (int i = 0; i < f.length; i++) {
+    for (int n = 0; n < tries; ++n) {
+      for (int i = 0; i < f.length; ++i) {
         f[i] = r.nextInt(100000) + 2;
         e[i] = r.nextInt(1000) + 1;
       }
@@ -268,12 +268,12 @@ public class NumbersTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testValueOf() {
-    for (int i = 0; i < numberTypes.length; i++) {
-      for (int j = 0; j < numberTypes.length; j++) {
+    for (int i = 0; i < numberTypes.length; ++i) {
+      for (int j = 0; j < numberTypes.length; ++j) {
         final Class<? extends Number> from = (Class<? extends Number>)numberTypes[i];
         final Class<? extends Number> to = (Class<? extends Number>)numberTypes[j];
-        final Number value = Numbers.valueOf(from, 111);
-        assertEquals(value, Numbers.valueOf(from, Numbers.valueOf(to, value)));
+        final Number value = Numbers.valueOf(111, from);
+        assertEquals(value, Numbers.valueOf(Numbers.valueOf(value, to), from));
       }
     }
   }
@@ -311,6 +311,19 @@ public class NumbersTest {
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(1f));
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(1d));
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(BigInteger.ONE));
+  }
+
+  @Test
+  public void testStripTrailingZeros() {
+    assertNull(Numbers.stripTrailingZeros(null));
+    assertEquals("5.4", Numbers.stripTrailingZeros("5.4000"));
+    assertEquals("500", Numbers.stripTrailingZeros("500"));
+    assertEquals("0500", Numbers.stripTrailingZeros("0500"));
+    assertEquals("0.1", Numbers.stripTrailingZeros("0.100"));
+    assertEquals("0", Numbers.stripTrailingZeros("0.000"));
+    assertEquals("1", Numbers.stripTrailingZeros("1.000"));
+    assertEquals("xxx", Numbers.stripTrailingZeros("xxx"));
+    assertEquals("xxx00", Numbers.stripTrailingZeros("xxx00"));
   }
 
   @Test

@@ -30,10 +30,22 @@ import org.fastjax.util.MemoryURLStreamHandler;
  * property.
  */
 public class Handler extends MemoryURLStreamHandler {
+  /**
+   * {@inheritDoc}
+   *
+   * @throws MalformedURLException If the provided {@code URL} specifies a
+   *           protocol that is not {@code "memory"}, or a host that is not
+   *           {@code null} or empty.
+   * @throws IOException If no data is registered for the provided {@code URL},
+   *           or if an I/O error occurs while opening the connection.
+   */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
     if (!"memory".equals(url.getProtocol()))
       throw new MalformedURLException("Unsupported protocol: " + url.getProtocol());
+
+    if (url.getHost() != null && url.getHost().length() > 0)
+      throw new MalformedURLException("Unsupported host: " + url.getHost());
 
     final byte[] data = idToData.get(url.getPath());
     if (data == null)

@@ -45,8 +45,8 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
    */
   protected BiMap(final Map<K,V> forward, final Map<V,K> reverse) {
     inverse = newEmptyInverseMap();
-    init(forward);
-    inverse.init(reverse);
+    setTarget(forward);
+    inverse.setTarget(reverse);
     inverse.inverse = this;
   }
 
@@ -56,7 +56,12 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   protected BiMap() {
   }
 
-  protected void init(final Map<K,V> map) {
+  /**
+   * Sets the specified map as the underlying target map of this {@code BiMap}.
+   *
+   * @param map The map to set at the underlying target of this {@code BiMap}.
+   */
+  protected void setTarget(final Map<K,V> map) {
     super.target = new ObservableMap<K,V>(map) {
       @Override
       protected boolean beforePut(final K key, final V oldValue, final V newValue) {

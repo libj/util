@@ -59,7 +59,7 @@ public interface HexaPredicate<T,U,V,W,X,Y> {
    * @param other A predicate that will be logically-ANDed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical
    *         AND of this predicate and the {@code other} predicate.
-   * @throws NullPointerException If other is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default HexaPredicate<T,U,V,W,X,Y> and(final HexaPredicate<? super T,? super U,? super V,? super W,? super X,? super Y> other) {
     Objects.requireNonNull(other);
@@ -88,7 +88,7 @@ public interface HexaPredicate<T,U,V,W,X,Y> {
    * @param other A predicate that will be logically-ORed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical
    *         OR of this predicate and the {@code other} predicate.
-   * @throws NullPointerException If other is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default HexaPredicate<T,U,V,W,X,Y> or(final HexaPredicate<? super T,? super U,? super V,? super W,? super X,? super Y> other) {
     Objects.requireNonNull(other);

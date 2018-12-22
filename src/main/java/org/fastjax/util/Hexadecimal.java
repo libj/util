@@ -71,7 +71,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
   }
 
   private static void decode0(final String hex, byte[] bytes, final int offset) {
-    for (int i = 0, j = offset; i < hex.length(); i += 2, j++) {
+    for (int i = 0, j = offset; i < hex.length(); i += 2, ++j) {
       final int high = charToNibble(hex.charAt(i));
       final int low = charToNibble(hex.charAt(i + 1));
       bytes[j] = (byte)((high << 4) | low);

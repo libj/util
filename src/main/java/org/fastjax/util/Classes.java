@@ -939,8 +939,8 @@ public final class Classes {
    * @return The greatest common superclass of the specified array of classes.
    * @throws IllegalArgumentException If the number of arguments in the
    *           {@code classes} parameter is 0.
-   * @throws NullPointerException If any member of the {@code classes} parameter
-   *           is null.
+   * @throws NullPointerException If {@code classes}, or a member of
+   *           {@code classes} is null.
    */
   public static Class<?> getGreatestCommonSuperclass(final Class<?> ... classes) {
     if (classes.length == 0)
@@ -978,8 +978,8 @@ public final class Classes {
    *         array of objects.
    * @throws IllegalArgumentException If the number of arguments in the
    *           {@code objects} parameter is 0.
-   * @throws NullPointerException If any member of the {@code classes} parameter
-   *           is null.
+   * @throws NullPointerException If {@code objects}, or a member of
+   *           {@code objects} is null.
    */
   @SafeVarargs
   public static <T>Class<?> getGreatestCommonSuperclass(final T ... objects) {
@@ -1000,8 +1000,8 @@ public final class Classes {
    *         {@code Collection} of objects.
    * @throws IllegalArgumentException If the number of elements in the
    *           {@code objects} collection is 0.
-   * @throws NullPointerException If {@code objects} is null, or if any element
-   *           of the {@code objects} collection is null.
+   * @throws NullPointerException If {@code objects}, or an element of
+   *           {@code objects} is null.
    */
   public static <T>Class<?> getGreatestCommonSuperclass(final Collection<T> objects) {
     if (objects.size() == 0)
