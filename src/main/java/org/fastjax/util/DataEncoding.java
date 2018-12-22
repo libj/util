@@ -17,7 +17,7 @@
 package org.fastjax.util;
 
 /**
- * Class that abstracts a data encoding implementation.
+ * Abstraction of a data encoding.
  *
  * @param <D> The type parameter representing the data class.
  * @param <E> The type parameter representing the encoding class.

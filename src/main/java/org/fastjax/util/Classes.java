@@ -33,7 +33,8 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 /**
- * Utility functions for operations pertaining to {@link Class}.
+ * Utility providing implementations of methods missing from the API of
+ * {@link Class}.
  */
 public final class Classes {
   /**

@@ -478,6 +478,7 @@ public final class Numbers {
    *           <p>
    *           <blockquote>{@code byte}, {@code Byte},<br>
    *           {@code short}, {@code Short},<br>
+   *           {@code char}, {@code Character},<br>
    *           {@code int}, {@code Integer},<br>
    *           {@code long}, {@code Long},<br>
    *           {@code double}, {@code Double},<br>

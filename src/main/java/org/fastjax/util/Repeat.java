@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 /**
- * {@code Repeat} is an abstraction of operations that execute recursively or
- * iteratively in order to process collections or arrays (containers), and
- * return statically allocated arrays, the sizes of which are not able to be
- * known until evaluation of each member of the specified container.
+ * An abstraction of operations that execute recursively or iteratively in order
+ * to process collections or arrays (containers), and return statically
+ * allocated arrays, the sizes of which are not able to be known until
+ * evaluation of each member of the specified container.
  */
 public final class Repeat {
   /**

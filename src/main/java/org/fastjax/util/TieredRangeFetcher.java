@@ -22,15 +22,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The {@code TieredRangeFetcher} is a "data fetcher" that facilitates the
- * retrieval of data representing information pertaining to a dimension that can
- * be denoted as a "range" (such as time or distance). The
- * {@code TieredRangeFetcher} abstracts the concept of tiered data sources. When
- * data is fetched (via the {@link #fetch(Comparable,Comparable)} method), the
- * {@code TieredRangeFetcher} attempts to retrieve the requested range from the
- * "top" tier of the stack. If all or a part of the range is not present in the
- * tier, the {@code TieredRangeFetcher} attempts to fetch the missing portion of
- * the range from the next tier. Upon successfully fetching the data, the
+ * A "data fetcher" that facilitates the retrieval of data representing
+ * information pertaining to a dimension that can be denoted as a "range" (such
+ * as time or distance). The {@code TieredRangeFetcher} abstracts the concept of
+ * tiered data sources. When data is fetched (via the
+ * {@link #fetch(Comparable,Comparable)} method), the {@code TieredRangeFetcher}
+ * attempts to retrieve the requested range from the "top" tier of the stack. If
+ * all or a part of the range is not present in the tier, the
+ * {@code TieredRangeFetcher} attempts to fetch the missing portion of the range
+ * from the next tier. Upon successfully fetching the data, the
  * {@code TieredRangeFetcher} thereafter inserts the fetched data into the top
  * tier, thus resembling a caching mechanism. The {@code TieredRangeFetcher} is
  * intended to provide an abstraction for the caching of range data belonging to

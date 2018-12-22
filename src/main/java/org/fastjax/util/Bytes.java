@@ -17,7 +17,7 @@
 package org.fastjax.util;
 
 /**
- * Utility functions for operations pertaining to {@code byte[]}.
+ * Functions implementing common operations on {@code byte[]} references.
  */
 public final class Bytes {
   /**
