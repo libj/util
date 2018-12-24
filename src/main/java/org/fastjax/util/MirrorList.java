@@ -57,7 +57,7 @@ public class MirrorList<E,M> extends ObservableList<E> {
    *          {@code E -> M} mirror function.
    * @param reverse The {@code Function} instance representing the
    *          {@code M -> E} mirror function.
-   * @throws NullPointerException If any of the specified parameters are null.
+   * @throws NullPointerException If any of the specified parameters is null.
    */
   public MirrorList(final List<E> a, final List<M> b, final Function<E,M> forward, final Function<M,E> reverse) {
     super(a);

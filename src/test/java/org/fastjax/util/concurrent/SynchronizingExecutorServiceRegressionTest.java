@@ -138,7 +138,7 @@ public class SynchronizingExecutorServiceRegressionTest {
           Thread.sleep((long)(Math.random() * threadRuntime));
         }
         catch (final InterruptedException e) {
-          throw new RuntimeException(e);
+          throw new IllegalStateException(e);
         }
 
         logger.debug("    Finished " + id);

@@ -46,7 +46,7 @@ public final class Iterators {
    * @param <E> The type of elements in {@code iterator}.
    * @param iterator The {@link Iterator} to traverse.
    * @param consumer The {@link Consumer} to execute on each element.
-   * @throws NullPointerException If {@code iterator} or {@code consumer} are null.
+   * @throws NullPointerException If {@code iterator} or {@code consumer} is null.
    */
   public static <E>void forEachRemainingReverse(final Iterator<E> iterator, final Consumer<? super E> consumer) {
     recurseNext(iterator, consumer);
@@ -78,7 +78,7 @@ public final class Iterators {
    * @param filter The filter {@link Predicate}.
    * @return An {@code Iterator} that iterates over the elements of
    *         {@code iterator} satisfying the {@code filter} predicate.
-   * @throws NullPointerException If {@code iterator} or {@code filter} are null.
+   * @throws NullPointerException If {@code iterator} or {@code filter} is null.
    */
   public static <E>Iterator<E> filter(final Iterator<E> iterator, final Predicate<E> filter) {
     Objects.requireNonNull(iterator);

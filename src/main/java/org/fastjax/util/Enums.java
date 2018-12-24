@@ -24,19 +24,19 @@ import java.util.List;
  */
 public final class Enums {
   @SuppressWarnings("unchecked")
-  private static <T extends Enum<T>>T[] recurseValueOf(final Class<T> enumClass, final int index, final int depth, final String ... names) {
+  private static <T extends Enum<T>>T[] recurseValueOf(final Class<T> type, final int index, final int depth, final String[] names) {
     if (index == names.length)
-      return (T[])Array.newInstance(enumClass, depth);
+      return (T[])Array.newInstance(type, depth);
 
     T value;
     try {
-      value = Enum.valueOf(enumClass, names[index]);
+      value = Enum.valueOf(type, names[index]);
     }
     catch (final IllegalArgumentException e) {
       value = null;
     }
 
-    final T[] enums = recurseValueOf(enumClass, index + 1, value != null ? depth + 1 : depth, names);
+    final T[] enums = recurseValueOf(type, index + 1, value != null ? depth + 1 : depth, names);
     if (value != null)
       enums[depth] = value;
 
@@ -56,7 +56,7 @@ public final class Enums {
    * elements.</i>
    *
    * @param <T> The type parameter of the specified {@link Enum}.
-   * @param enumClass The class for the type {@code <T>}.
+   * @param type The class for the type {@code <T>}.
    * @param names The string array of names on which to apply
    *          {@link Enum#valueOf(Class,String)}.
    * @return An array of type {@code <T>} containing the results of
@@ -64,9 +64,10 @@ public final class Enums {
    *         {@code names}.
    * @throws IllegalArgumentException If the specified class object does not
    *           represent an enum type.
+   * @throws NullPointerException If {@code type} or {@code names} is null.
    */
-  public static <T extends Enum<T>>T[] valueOf(final Class<T> enumClass, final String ... names) {
-    return recurseValueOf(enumClass, 0, 0, names);
+  public static <T extends Enum<T>>T[] valueOf(final Class<T> type, final String ... names) {
+    return recurseValueOf(type, 0, 0, names);
   }
 
   /**
@@ -82,7 +83,7 @@ public final class Enums {
    * elements.</i>
    *
    * @param <T> The type parameter of the specified {@link Enum}.
-   * @param enumClass The class for the type {@code <T>}.
+   * @param type The class for the type {@code <T>}.
    * @param names The {@link List} of names on which to apply
    *          {@link Enum#valueOf(Class,String)}.
    * @return A {@link List} of type {@code <T>} containing the results of
@@ -91,8 +92,8 @@ public final class Enums {
    * @throws IllegalArgumentException If the specified class object does not
    *           represent an enum type.
    */
-  public static <T extends Enum<T>>T[] valueOf(final Class<T> enumClass, final List<String> names) {
-    return valueOf(enumClass, names.toArray(new String[names.size()]));
+  public static <T extends Enum<T>>T[] valueOf(final Class<T> type, final List<String> names) {
+    return valueOf(type, names.toArray(new String[names.size()]));
   }
 
   /**
@@ -111,8 +112,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>byte toggle(byte mask, final E ... enums) {
@@ -131,8 +132,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>short toggle(short mask, final E ... enums) {
@@ -151,8 +152,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>int toggle(int mask, final E ... enums) {
@@ -171,8 +172,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be toggled.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>long toggle(long mask, final E ... enums) {
@@ -191,8 +192,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>byte set(byte mask, final E ... enums) {
@@ -211,8 +212,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>short set(short mask, final E ... enums) {
@@ -231,8 +232,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>int set(int mask, final E ... enums) {
@@ -251,8 +252,8 @@ public final class Enums {
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be set.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>long set(long mask, final E ... enums) {
@@ -263,16 +264,16 @@ public final class Enums {
     }
 
     /**
-     * Unsets the bits in the specified {@code mask} at the ordinal values of the
-     * specified {@code enum} instances.
+     * Unsets the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
      *
      * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>byte unset(byte mask, final E ... enums) {
@@ -283,16 +284,16 @@ public final class Enums {
     }
 
     /**
-     * Unsets the bits in the specified {@code mask} at the ordinal values of the
-     * specified {@code enum} instances.
+     * Unsets the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
      *
      * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>short unset(short mask, final E ... enums) {
@@ -303,16 +304,16 @@ public final class Enums {
     }
 
     /**
-     * Unsets the bits in the specified {@code mask} at the ordinal values of the
-     * specified {@code enum} instances.
+     * Unsets the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
      *
      * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>int unset(int mask, final E ... enums) {
@@ -323,16 +324,16 @@ public final class Enums {
     }
 
     /**
-     * Unsets the bits in the specified {@code mask} at the ordinal values of the
-     * specified {@code enum} instances.
+     * Unsets the bits in the specified {@code mask} at the ordinal values of
+     * the specified {@code enum} instances.
      *
      * @param <E> The type of the {@code Enum}.
      * @param mask The mask in which to unset the bits.
      * @param enums The {@code enum} instances at ordinals of which the bits in
      *          {@code mask} will be unset.
      * @return The {@code mask}.
-     * @throws NullPointerException If any members of the {@code enums} array
-     *           are null.
+     * @throws NullPointerException If a member of the {@code enums} array is
+     *           null.
      */
     @SafeVarargs
     public static <E extends Enum<?>>long unset(long mask, final E ... enums) {
@@ -412,6 +413,7 @@ public final class Enums {
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
      *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     * @throws NullPointerException If {@code enm} is null.
      */
     public static boolean check(final byte mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());
@@ -427,6 +429,7 @@ public final class Enums {
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
      *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     * @throws NullPointerException If {@code enm} is null.
      */
     public static boolean check(final short mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());
@@ -442,6 +445,7 @@ public final class Enums {
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
      *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     * @throws NullPointerException If {@code enm} is null.
      */
     public static boolean check(final int mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());
@@ -457,6 +461,7 @@ public final class Enums {
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
      *         {@code enum} is set in the specified mask; otherwise, {@code false}.
+     * @throws NullPointerException If {@code enm} is null.
      */
     public static boolean check(final long mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());
@@ -479,7 +484,8 @@ public final class Enums {
      *           of interest.
      * @throws NullPointerException If {@code values} is null.
      */
-    public static <E extends Enum<?>>E[] toArray(final E[] values, final byte mask) {
+    @SafeVarargs
+    public static <E extends Enum<?>>E[] toArray(final byte mask, final E ... values) {
       return toArray(values, mask, Byte.SIZE, 0, 0);
     }
 
@@ -500,7 +506,8 @@ public final class Enums {
      *           of interest.
      * @throws NullPointerException If {@code values} is null.
      */
-    public static <E extends Enum<?>>E[] toArray(final E[] values, final short mask) {
+    @SafeVarargs
+    public static <E extends Enum<?>>E[] toArray(final short mask, final E ... values) {
       return toArray(values, mask, Short.SIZE, 0, 0);
     }
 
@@ -521,7 +528,8 @@ public final class Enums {
      *           of interest.
      * @throws NullPointerException If {@code values} is null.
      */
-    public static <E extends Enum<?>>E[] toArray(final E[] values, final int mask) {
+    @SafeVarargs
+    public static <E extends Enum<?>>E[] toArray(final int mask, final E ... values) {
       return toArray(values, mask, Integer.SIZE, 0, 0);
     }
 
@@ -542,7 +550,8 @@ public final class Enums {
      *           of interest.
      * @throws NullPointerException If {@code values} is null.
      */
-    public static <E extends Enum<?>>E[] toArray(final E[] values, final long mask) {
+    @SafeVarargs
+    public static <E extends Enum<?>>E[] toArray(final long mask, final E ... values) {
       return toArray(values, mask, 0, 0);
     }
 

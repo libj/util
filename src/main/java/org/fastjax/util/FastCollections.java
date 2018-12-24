@@ -44,7 +44,7 @@ public final class FastCollections {
    * @param out The output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
-   * @throws NullPointerException If {@code in} or {@code out} are null.
+   * @throws NullPointerException If {@code in} or {@code out} is null.
    */
   public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out) {
     return flatten(in, out, null, false);
@@ -64,7 +64,7 @@ public final class FastCollections {
    *          {@code false}, they are not included in the output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
-   * @throws NullPointerException If {@code in} or {@code out} are null.
+   * @throws NullPointerException If {@code in} or {@code out} is null.
    */
   public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final boolean retainCollectionReferences) {
     return flatten(in, out, null, retainCollectionReferences);
@@ -92,7 +92,7 @@ public final class FastCollections {
    *          {@code false}, they are not included in the output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
-   * @throws NullPointerException If {@code in} or {@code out} are null.
+   * @throws NullPointerException If {@code in} or {@code out} is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final Function<T,Collection<T>> resolver, final boolean retainCollectionReferences) {

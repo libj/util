@@ -191,7 +191,7 @@ public final class Strings {
    * @throws IllegalArgumentException If the specified {@code properties} has
    *           {@code key=value} entries that result in a loop.
    * @throws NullPointerException If {@code properties}, {@code prefix}, or
-   *           {@code suffix} are null.
+   *           {@code suffix} is null.
    */
   public static Map<String,String> interpolate(final Map<String,String> properties, final String prefix, final String suffix) {
     Objects.requireNonNull(properties);
@@ -232,7 +232,7 @@ public final class Strings {
    * @return The interpolated string.
    * @see #interpolate(Map,String,String)
    * @throws NullPointerException If {@code text}, {@code properties},
-   *           {@code prefix}, or {@code suffix} are null.
+   *           {@code prefix}, or {@code suffix} is null.
    */
   public static String interpolate(final String text, final Map<String,String> properties, final String prefix, final String suffix) {
     return interpolateDeep(new StringBuilder(Objects.requireNonNull(text)), Objects.requireNonNull(properties), Objects.requireNonNull(prefix), Objects.requireNonNull(suffix));
@@ -250,7 +250,7 @@ public final class Strings {
    * @param replacement The replacement sequence of char values
    * @return The resulting string
    * @throws NullPointerException If {@code builder}, {@code target}, or
-   *           {@code replacement} are null.
+   *           {@code replacement} is null.
    * @see String#replace(CharSequence, CharSequence)
    */
   public static StringBuilder replace(final StringBuilder builder, final CharSequence target, final CharSequence replacement) {
@@ -301,7 +301,7 @@ public final class Strings {
    *         of {@code builder}; {@code false} otherwise. Note also that
    *         {@code true} will be returned if {@code prefix} is an empty string
    *         or is equal to {@code builder}.
-   * @throws NullPointerException If {@code builder} or {@code prefix} are null.
+   * @throws NullPointerException If {@code builder} or {@code prefix} is null.
    */
   public static boolean startsWith(final StringBuilder builder, final CharSequence prefix) {
     if (prefix.length() == 0)
@@ -327,7 +327,7 @@ public final class Strings {
    *         of {@code builder}; {@code false} otherwise. Note also that
    *         {@code true} will be returned if {@code suffix} is an empty string
    *         or is equal to {@code builder}.
-   * @throws NullPointerException If {@code builder} or {@code suffix} are null.
+   * @throws NullPointerException If {@code builder} or {@code suffix} is null.
    */
   public static boolean endsWith(final StringBuilder builder, final CharSequence suffix) {
     if (suffix.length() == 0)

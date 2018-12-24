@@ -261,7 +261,7 @@ public final class Temporals {
    * @param t2 The second argument.
    * @return A new {@link LocalTime} instance representing the value of the
    *         first argument {@link LocalTime} minus the second.
-   * @throws NullPointerException If {@code t1} or {@code t2} are null.
+   * @throws NullPointerException If {@code t1} or {@code t2} is null.
    */
   public static LocalTime subtract(final LocalTime t1, final LocalTime t2) {
     return LocalTime.ofNanoOfDay(NANOS_IN_DAY - ChronoUnit.NANOS.between(t1, t2));
