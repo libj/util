@@ -66,6 +66,30 @@ public final class Identifiers {
   private static final String[] reservedWords = {"abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum", "extends", "false", "final", "finally", "float", "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this", "throw", "throws", "transient", "true", "try", "void", "volatile", "while"};
   private static final char[] discardTokens = {'!', '"', '#', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '.', '/', ':', ';', '<', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'};
 
+  private static void checkSubstitutes(final Map<Character,String> substitutes) {
+    if (substitutes != null)
+      for (final String substitute : substitutes.values())
+        for (int i = 0; i < substitute.length(); ++i)
+          if (!Character.isJavaIdentifierPart(substitute.charAt(i)))
+            throw new IllegalArgumentException("Substitution \"" + substitute + "\" contains illegal character: " + substitute.charAt(i));
+  }
+
+  private static boolean substitute(final StringBuilder builder, final char ch, final char substitute, final Map<Character,String> substitutes) {
+    if (substitutes != null) {
+      final String replacement = substitutes.get(ch);
+      if (replacement != null)
+        builder.append(replacement);
+    }
+    else if (substitute != '\0') {
+      builder.append(substitute);
+    }
+    else {
+      return false;
+    }
+
+    return true;
+  }
+
   /**
    * Returns {@code true} if the specified word is a Java reserved word;
    * otherwise, {@code false}.
@@ -220,34 +244,43 @@ public final class Identifiers {
   }
 
   private static StringBuilder toIdentifier0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
+    checkSubstitutes(substitutes);
     final StringBuilder builder = new StringBuilder(string.length());
     if (string.length() == 0)
       return builder;
 
-    final char[] chars = string.toCharArray();
-    char ch = chars[0];
-    if (!Character.isJavaIdentifierStart(ch) && prefix != '\0')
-      builder.append(prefix);
+    int i = 0;
+    char[] chars = string.toCharArray();
+    char ch = chars[i];
+    if (!Character.isJavaIdentifierStart(ch)) {
+      boolean sub = false;
+      if (sub = !Character.isJavaIdentifierPart(ch)) {
+        if (substitute(builder, ch, substitute, substitutes) && builder.length() > 1) {
+          chars = builder.append(chars, 1, chars.length - 1).toString().toCharArray();
+          builder.setLength(0);
+        }
+        else {
+          ++i;
+        }
+
+        ch = chars[i];
+        sub = Character.isJavaIdentifierStart(ch);
+      }
+
+      if (!sub && prefix != '\0') {
+        builder.append(prefix);
+      }
+    }
 
     builder.append(ch);
-    for (int i = 1; i < chars.length; i++) {
+    for (++i; i < chars.length; ++i) {
       ch = chars[i];
       if (Character.isJavaIdentifierPart(ch)) {
         builder.append(ch);
         continue;
       }
 
-      if (substitutes != null) {
-        final String replacement = substitutes.get(ch);
-        if (replacement != null) {
-          builder.append(replacement);
-          continue;
-        }
-      }
-
-      if (substitute != '\0') {
-        builder.append(substitute);
-      }
+      substitute(builder, ch, substitute, substitutes);
     }
 
     return builder;
@@ -425,31 +458,22 @@ public final class Identifiers {
   }
 
   private static StringBuilder toCamelCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
+    checkSubstitutes(substitutes);
     final StringBuilder builder = new StringBuilder(string.length());
     if (string.length() == 0)
       return builder;
 
     final char[] chars = string.toCharArray();
     boolean capNext = false;
-    for (int i = 0; i < chars.length; i++) {
+    for (int i = 0; i < chars.length; ++i) {
       if (i == 0 && !Character.isJavaIdentifierStart(chars[i]))
         builder.append(prefix);
 
       final char ch = chars[i];
-      final int index = java.util.Arrays.binarySearch(discardTokens, ch);
+      final int index = Arrays.binarySearch(discardTokens, ch);
       if (index >= 0) {
         capNext = i != 0;
-        if (substitutes != null) {
-          final String replacement = substitutes.get(ch);
-          if (replacement != null) {
-            builder.append(replacement);
-            continue;
-          }
-        }
-
-        if (substitute != '\0') {
-          builder.append(substitute);
-        }
+        substitute(builder, ch, substitute, substitutes);
       }
       else if (capNext) {
         builder.append(Character.toUpperCase(ch));
@@ -632,7 +656,7 @@ public final class Identifiers {
     }
 
     int i;
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < len; ++i) {
       final char ch = builder.charAt(i);
       if (('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z'))
         break;
@@ -644,7 +668,7 @@ public final class Identifiers {
     if (i == len)
       return Strings.toLowerCase(builder);
 
-    for (int j = 0; j < i - 1; j++)
+    for (int j = 0; j < i - 1; ++j)
       builder.setCharAt(j, Character.toLowerCase(builder.charAt(j)));
 
     return builder;

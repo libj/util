@@ -18,6 +18,7 @@ package org.fastjax.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Collections;
 import java.util.function.Function;
 
 import org.junit.Test;
@@ -60,6 +61,18 @@ public class IdentifiersTest {
 
   @Test
   public void testIdentifier() {
+    try {
+      Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "1!"));
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+    test("foo", Identifiers::toIdentifier, "@fo@o");
+    test("foo", Identifiers::toIdentifier, "@foo");
+    assertEquals("$foo", Identifiers.toIdentifier("@foo", '_', '$'));
+    assertEquals("_1$foo", Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "1$")));
+    assertEquals("$1foo", Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "$1")));
+
     test(null, Identifiers::toIdentifier, null);
     test("", Identifiers::toIdentifier, "");
     test("foo$bar", Identifiers::toIdentifier, "foo$bar");
