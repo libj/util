@@ -29,12 +29,12 @@ import java.util.function.Function;
  * Arrays
  *   .asList(1, 2, 3)
  *   .stream()
- *   .forEach(Throwing.rethrow(i -> {
+ *   .forEach(Throwing.rethrow(i -&gt; {
  *      if (i == 3)
  *        throw new IOException();
  *      return String.valueOf(i);
  *    }))
- *    .forEach(f -> {});
+ *    .forEach(f -&gt; {});
  * </pre></blockquote>
  *
  * @param <T> The type of the input to the operation.

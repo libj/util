@@ -30,7 +30,7 @@ import java.util.function.Consumer;
  * <blockquote><pre>
  * Arrays
  *   .asList(1, 2, 3)
- *   .forEach(Throwing.rethrow(i -> {
+ *   .forEach(Throwing.rethrow(i -&gt; {
  *      if (i == 3)
  *        throw new IOException();
  *    }));

@@ -31,7 +31,7 @@ public final class Throwing {
    * <blockquote><pre>
    * Arrays
    *   .asList(1, 2, 3)
-   *   .forEach(Throwing.rethrow(i -> {
+   *   .forEach(Throwing.rethrow(i -&gt; {
    *      if (i == 3)
    *        throw new IOException();
    *    }));
@@ -52,12 +52,12 @@ public final class Throwing {
    * Arrays
    *   .asList(1, 2, 3)
    *   .stream()
-   *   .map(Throwing.rethrow(i -> {
+   *   .map(Throwing.rethrow(i -&gt; {
    *      if (i == 3)
    *        throw new IOException();
    *      return String.valueOf(i);
    *    }))
-   *    .forEach(f -> {});
+   *    .forEach(f -&gt; {});
    * </pre></blockquote>
    * @param <T> The type of the input to the function's operation.
    * @param <R> The type of the result of the function's function.
