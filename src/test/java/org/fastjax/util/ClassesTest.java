@@ -213,6 +213,7 @@ public class ClassesTest {
     assertEquals("Map.Entry", Classes.getCanonicalCompoundName(Map.Entry.class));
   }
 
+  @SuppressWarnings({"rawtypes", "unused"})
   private static class GetGenericTypesTest {
     private String nonGeneric;
     private Optional rawGeneric;
