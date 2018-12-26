@@ -43,18 +43,18 @@ public class ZipWriterTest {
     final File file = Files.createTempFile("test", ".jar").toFile();
     file.deleteOnExit();
 
-    try (final ZipWriter builder = new ZipWriter(new JarOutputStream(new FileOutputStream(file)))) {
-      builder.write("foo", "foo".getBytes());
-      builder.write("bar", "bar".getBytes());
+    try (final ZipWriter writer = new ZipWriter(new JarOutputStream(new FileOutputStream(file)))) {
+      writer.write("foo", "foo".getBytes());
+      writer.write("bar", "bar".getBytes());
       try {
-        builder.write("bar", "foobar".getBytes());
+        writer.write("bar", "foobar".getBytes());
         fail("Expected ZipException");
       }
       catch (final ZipException e) {
       }
 
-      builder.write("dfoo/foo", "foo/foo".getBytes());
-      builder.write("dbar/bar", "dbar/dbar/bar".getBytes());
+      writer.write("dfoo/foo", "foo/foo".getBytes());
+      writer.write("dbar/bar", "dbar/dbar/bar".getBytes());
     }
 
     final File destDir = Files.createTempDirectory("jar-test").toFile();
