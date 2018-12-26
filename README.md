@@ -112,7 +112,7 @@ Java's `java.util` package provides a wide range of utility classes, yet many co
 
 ### JavaDocs
 
-JavaDocs are available [here](https://www.fastjax.org/javadocs/org/fastjax/util/package-summary.html).
+JavaDocs are available [here](https://util.fastjax.org/javadocs/).
 
 ## Contributing
 
