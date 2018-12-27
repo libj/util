@@ -314,12 +314,13 @@ public final class FastCollections {
    * Searches a range of the specified list for the specified object using the
    * binary search algorithm. The range must be sorted into ascending order
    * according to the {@linkplain Comparable natural ordering} of its elements
-   * (as by the {@link List#sort(Comparator)} method) prior to making this call. If it is
-   * not sorted, the results are undefined. (If the range contains elements that
-   * are not mutually comparable (for example, strings and integers), it
-   * <i>cannot</i> be sorted according to the natural ordering of its elements,
-   * hence results are undefined.) If the range contains multiple elements equal
-   * to the specified object, there is no guarantee which one will be found.
+   * (as by the {@link List#sort(Comparator)} method) prior to making this call.
+   * If it is not sorted, the results are undefined. (If the range contains
+   * elements that are not mutually comparable (for example, strings and
+   * integers), it <i>cannot</i> be sorted according to the natural ordering of
+   * its elements, hence results are undefined.) If the range contains multiple
+   * elements equal to the specified object, there is no guarantee which one
+   * will be found.
    *
    * @param <T> Type parameter of Comparable key object.
    * @param a The list to be searched.
@@ -328,13 +329,12 @@ public final class FastCollections {
    * @param key The value to be searched for.
    * @return Index of the search key, if it is contained in the list within the
    *         specified range; otherwise,
-   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
-   *         point</i> is defined as the point at which the key would be
-   *         inserted into the list: the index of the first element in the range
-   *         greater than the key, or <tt>toIndex</tt> if all elements in the
-   *         range are less than the specified key. Note that this guarantees
-   *         that the return value will be &gt;= 0 if and only if the key is
-   *         found.
+   *         {@code (-(<i>insertion point</i>) - 1)}. The <i>insertion point</i>
+   *         is defined as the point at which the key would be inserted into the
+   *         list: the index of the first element in the range greater than the
+   *         key, or {@code toIndex} if all elements in the range are less than
+   *         the specified key. Note that this guarantees that the return value
+   *         will be &gt;= 0 if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the
    *           elements of the list within the specified range.
    * @throws IllegalArgumentException If {@code fromIndex > toIndex}
@@ -351,23 +351,23 @@ public final class FastCollections {
    * Searches the specified list for the specified object using the binary
    * search algorithm. The list must be sorted into ascending order according to
    * the {@linkplain Comparable natural ordering} of its elements (as by the
-   * {@link List#sort(Comparator)} method) prior to making this call. If it is not sorted,
-   * the results are undefined. (If the list contains elements that are not
-   * mutually comparable (for example, strings and integers), it <i>cannot</i>
-   * be sorted according to the natural ordering of its elements, hence results
-   * are undefined.) If the list contains multiple elements equal to the
-   * specified object, there is no guarantee which one will be found.
+   * {@link List#sort(Comparator)} method) prior to making this call. If it is
+   * not sorted, the results are undefined. (If the list contains elements that
+   * are not mutually comparable (for example, strings and integers), it
+   * <i>cannot</i> be sorted according to the natural ordering of its elements,
+   * hence results are undefined.) If the list contains multiple elements equal
+   * to the specified object, there is no guarantee which one will be found.
    *
    * @param <T> Type parameter of Comparable key object.
    * @param a The list to be searched.
    * @param key The value to be searched for.
    * @return Index of the search key, if it is contained in the list; otherwise,
-   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
-   *         point</i> is defined as the point at which the key would be
-   *         inserted into the list: the index of the first element greater than
-   *         the key, or <tt>a.length</tt> if all elements in the list are less
-   *         than the specified key. Note that this guarantees that the return
-   *         value will be &gt;= 0 if and only if the key is found.
+   *         {@code (-(<i>insertion point</i>) - 1)}. The <i>insertion point</i>
+   *         is defined as the point at which the key would be inserted into the
+   *         list: the index of the first element greater than the key, or
+   *         {@code a.length} if all elements in the list are less than the
+   *         specified key. Note that this guarantees that the return value will
+   *         be &gt;= 0 if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the
    *           elements of the array.
    * @throws NullPointerException If {@code a} is null.
@@ -390,18 +390,17 @@ public final class FastCollections {
    * @param fromIndex The index of the first element (inclusive) to be searched.
    * @param toIndex The index of the last element (exclusive) to be searched.
    * @param key The value to be searched for.
-   * @param c The comparator by which the list is ordered. A <tt>null</tt> value
+   * @param c The comparator by which the list is ordered. A {@code null} value
    *          indicates that the elements' {@linkplain Comparable natural
    *          ordering} should be used.
    * @return Index of the search key, if it is contained in the list within the
    *         specified range; otherwise,
-   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
-   *         point</i> is defined as the point at which the key would be
-   *         inserted into the list: the index of the first element in the range
-   *         greater than the key, or <tt>toIndex</tt> if all elements in the
-   *         range are less than the specified key. Note that this guarantees
-   *         that the return value will be &gt;= 0 if and only if the key is
-   *         found.
+   *         {@code (-(<i>insertion point</i>) - 1)}. The <i>insertion point</i>
+   *         is defined as the point at which the key would be inserted into the
+   *         list: the index of the first element in the range greater than the
+   *         key, or {@code toIndex} if all elements in the range are less than
+   *         the specified key. Note that this guarantees that the return value
+   *         will be &gt;= 0 if and only if the key is found.
    * @throws ClassCastException If the range contains elements that are not
    *           <i>mutually comparable</i> using the specified comparator, or the
    *           search key is not comparable to the elements in the range using
@@ -427,16 +426,16 @@ public final class FastCollections {
    * @param <T> The type parameter of the Comparable key object.
    * @param a The list to be searched.
    * @param key The value to be searched for.
-   * @param c The comparator by which the list is ordered. A <tt>null</tt> value
+   * @param c The comparator by which the list is ordered. A {@code null} value
    *          indicates that the elements' {@linkplain Comparable natural
    *          ordering} should be used.
    * @return Index of the search key, if it is contained in the list; otherwise,
-   *         <tt>(-(<i>insertion point</i>) - 1)</tt>. The <i>insertion
-   *         point</i> is defined as the point at which the key would be
-   *         inserted into the list: the index of the first element greater than
-   *         the key, or <tt>a.length</tt> if all elements in the list are less
-   *         than the specified key. Note that this guarantees that the return
-   *         value will be &gt;= 0 if and only if the key is found.
+   *         {@code (-(<i>insertion point</i>) - 1)}. The <i>insertion point</i>
+   *         is defined as the point at which the key would be inserted into the
+   *         list: the index of the first element greater than the key, or
+   *         {@code a.length} if all elements in the list are less than the
+   *         specified key. Note that this guarantees that the return value will
+   *         be &gt;= 0 if and only if the key is found.
    * @throws ClassCastException If the list contains elements that are not
    *           <i>mutually comparable</i> using the specified comparator, or the
    *           search key is not comparable to the elements of the list using

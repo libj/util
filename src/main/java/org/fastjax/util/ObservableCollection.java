@@ -95,7 +95,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * elements for which {@link #beforeRemove(Object)} returns false will not be
    * removed from this collection.
    *
-   * @return An <tt>Iterator</tt> over the elements in this collection
+   * @return An {@code Iterator} over the elements in this collection.
    * @see Collection#iterator()
    */
   @Override
