@@ -1,10 +1,10 @@
-# FastJAX Util
+# OpenJAX Classic Util
 
 **Java API Extensions to `java.util`**
 
 ## Introduction
 
-Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge a span of the gap, FastJAX Util complements Java's standard utility classes with implementations of such patterns.
+Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge a span of the gap, OpenJAX Classic Util complements Java's standard utility classes with implementations of such patterns.
 
 ## Essential Patterns
 
@@ -112,7 +112,7 @@ Java's `java.util` package provides a wide range of utility classes, yet many co
 
 ### JavaDocs
 
-JavaDocs are available [here](https://util.fastjax.org/javadocs/).
+JavaDocs are available [here](https://classic.openjax.org/util/apidocs/).
 
 ## Contributing
 
