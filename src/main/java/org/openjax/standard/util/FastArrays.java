@@ -17,6 +17,7 @@
 package org.openjax.standard.util;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 import java.util.function.Function;
@@ -2002,7 +2003,7 @@ public final class FastArrays {
    */
   public static boolean[] createRepeat(final boolean value, final int length) {
     final boolean[] array = new boolean[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2017,7 +2018,7 @@ public final class FastArrays {
    */
   public static byte[] createRepeat(final byte value, final int length) {
     final byte[] array = new byte[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2032,7 +2033,7 @@ public final class FastArrays {
    */
   public static char[] createRepeat(final char value, final int length) {
     final char[] array = new char[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2047,7 +2048,7 @@ public final class FastArrays {
    */
   public static double[] createRepeat(final double value, final int length) {
     final double[] array = new double[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2062,7 +2063,7 @@ public final class FastArrays {
    */
   public static float[] createRepeat(final float value, final int length) {
     final float[] array = new float[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2077,7 +2078,7 @@ public final class FastArrays {
    */
   public static int[] createRepeat(final int value, final int length) {
     final int[] array = new int[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2092,7 +2093,7 @@ public final class FastArrays {
    */
   public static long[] createRepeat(final long value, final int length) {
     final long[] array = new long[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2107,7 +2108,7 @@ public final class FastArrays {
    */
   public static short[] createRepeat(final short value, final int length) {
     final short[] array = new short[length];
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
@@ -2124,7 +2125,7 @@ public final class FastArrays {
   @SuppressWarnings("unchecked")
   public static <T>T[] createRepeat(final T value, final int length) {
     final T[] array = (T[])Array.newInstance(value.getClass(), length);
-    java.util.Arrays.fill(array, value);
+    Arrays.fill(array, value);
     return array;
   }
 
