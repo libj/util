@@ -1,6 +1,8 @@
 # OpenJAX Standard Util
 
-**Java API Extensions to `java.util`**
+> Java API Extensions to `java.util`
+
+[![Build Status](https://travis-ci.org/openjax/standard-util.png)](https://travis-ci.org/openjax/standard-util)
 
 ## Introduction
 
