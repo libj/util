@@ -823,7 +823,7 @@ public final class Strings {
    * @return The resultant byte array.
    * @throws UnsupportedOperationException If the named charset is not
    *           supported.
-   * @throws NullPointerException If {@code string} or {@code charsetName} are
+   * @throws NullPointerException If {@code string} or {@code charsetName} is
    *           null.
    * @see String#getBytes(String)
    */

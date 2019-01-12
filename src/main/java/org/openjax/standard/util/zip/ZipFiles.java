@@ -35,7 +35,7 @@ public final class ZipFiles {
    * @param zipFile The {@link ZipFile}.
    * @param destDir The destination directory.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code zipFile} or {@code destDir} are
+   * @throws NullPointerException If {@code zipFile} or {@code destDir} is
    *           null.
    */
   public static void extract(final ZipFile zipFile, final File destDir) throws IOException {
@@ -50,7 +50,7 @@ public final class ZipFiles {
    * @param destDir The destination directory.
    * @param predicate The {@link Predicate} (can be null).
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code zipFile} or {@code destDir} are
+   * @throws NullPointerException If {@code zipFile} or {@code destDir} is
    *           null.
    */
   public static void extract(final ZipFile zipFile, final File destDir, final Predicate<ZipEntry> predicate) throws IOException {
