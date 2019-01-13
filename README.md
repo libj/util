@@ -3,6 +3,7 @@
 > Java API Extensions to `java.util`
 
 [![Build Status](https://travis-ci.org/openjax/standard-util.png)](https://travis-ci.org/openjax/standard-util)
+[![Coverage Status](https://coveralls.io/repos/github/openjax/standard-util/badge.svg)](https://coveralls.io/github/openjax/standard-util)
 
 ## Introduction
 
