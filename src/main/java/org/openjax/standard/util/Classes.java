@@ -223,13 +223,13 @@ public final class Classes {
   }
 
   /**
-   * Returns the {@code Class} array must accurately reflecting the actual type
+   * Returns the {@code Class} array most accurately reflecting the actual type
    * parameters used in the source code for the generic superclasses of the
    * specified {@code Class}, or {@code null} if no generic superclasses exist
    * for the specified {@code Class}.
    *
    * @param cls The {@code Class}.
-   * @return The {@code Class} array must accurately reflecting the actual type
+   * @return The {@code Class} array most accurately reflecting the actual type
    *         parameters used in the source code for the generic superclasses of
    *         the specified {@code Class}, or {@code null} if no generic
    *         superclasses exist for the specified {@code Class}.
@@ -245,6 +245,87 @@ public final class Classes {
    */
   public static Type[] getGenericSuperclasses(final Class<?> cls) {
     return cls.getGenericSuperclass() instanceof ParameterizedType ? ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments() : null;
+  }
+
+  /**
+   * Returns the {@code Class} array most accurately reflecting the actual type
+   * parameters used in the source code for the generic superclasses of the
+   * specified {@code Class} (including all superclasses of the specified
+   * {@code Class}), or {@code null} if no generic superclasses exist for the
+   * class hierarchy of the specified {@code Class}.
+   *
+   * @param cls The {@code Class}.
+   * @return The {@code Class} array most accurately reflecting the actual type
+   *         parameters used in the source code for the generic superclasses of
+   *         the specified {@code Class} (including all superclasses of the
+   *         specified {@code Class}), or {@code null} if no generic
+   *         superclasses exist for class hierarchy of the specified
+   *         {@code Class}.
+   * @throws GenericSignatureFormatError If the generic class signature does not
+   *           conform to the format specified in <cite>The Java&trade; Virtual
+   *           Machine Specification</cite>.
+   * @throws TypeNotPresentException If the generic superclass refers to a
+   *           non-existent type declaration.
+   * @throws MalformedParameterizedTypeException If the generic superclass
+   *           refers to a parameterized type that cannot be instantiated for
+   *           any reason.
+   * @throws NullPointerException If {@code cls} is null.
+   */
+  public static Type[] getGenericSuperclassesDeep(final Class<?> cls) {
+    return getGenericSuperclassesDeep(cls, null);
+  }
+
+  private static Type[] getGenericSuperclassesDeep(final Class<?> cls, Type[] types) {
+    types = getGenericSuperclasses(cls, types);
+    return cls.getSuperclass() == null ? types : getGenericSuperclassesDeep(cls.getSuperclass(), types);
+  }
+
+  private static Type[] getGenericSuperclasses(final Class<?> cls, final Type[] types) {
+    if (cls == null)
+      return types;
+
+    final Type[] genericTypes = getGenericSuperclasses(cls);
+    return genericTypes == null ? types : types == null ? genericTypes : FastArrays.concat(types, genericTypes);
+  }
+
+  // FIXME: Javadoc
+  public static Type[] getGenericInterfacesDeep(final Class<?> cls) {
+    return getGenericInterfacesDeep(cls, null);
+  }
+
+  private static Type[] getGenericInterfacesDeep(final Class<?> cls, Type[] types) {
+    types = getGenericInterfaces(cls, types);
+    for (final Class<?> in : cls.getInterfaces())
+      types = getGenericInterfacesDeep(in, types);
+
+    return types;
+  }
+
+  private static Type[] getGenericInterfaces(final Class<?> cls, final Type[] types) {
+    if (cls == null)
+      return types;
+
+    final Type[] genericTypes = cls.getGenericInterfaces();
+    return genericTypes.length == 0 ? types : types == null ? genericTypes : FastArrays.concat(types, genericTypes);
+  }
+
+  // FIXME: Javadoc
+  public static Type[] getGenericHierarchy(final Class<?> cls) {
+    return getGenericHierarchy(cls, null);
+  }
+
+  private static Type[] getGenericHierarchy(final Class<?> cls, Type[] types) {
+    types = getGenericSuperclassesInterfaces(cls, types);
+    return cls.getSuperclass() == null ? types : getGenericHierarchy(cls.getSuperclass(), types);
+  }
+
+  private static Type[] getGenericSuperclassesInterfaces(final Class<?> cls, final Type[] types) {
+    if (cls == null)
+      return types;
+
+    Type[] genericTypes = getGenericSuperclasses(cls);
+    genericTypes = getGenericInterfaces(cls, genericTypes);
+    return genericTypes == null ? types : types == null ? genericTypes : FastArrays.concat(types, genericTypes);
   }
 
   /**
