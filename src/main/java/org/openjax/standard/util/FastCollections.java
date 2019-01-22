@@ -612,7 +612,7 @@ public final class FastCollections {
   }
 
   /**
-   * Returns the specified collection with the specified vararg parameters added
+   * Returns the specified collection with the provided vararg parameters added
    * as members to the collection.
    *
    * @param <C> The type of the collection.
@@ -626,6 +626,33 @@ public final class FastCollections {
   @SafeVarargs
   public static <C extends Collection<T>,T>C asCollection(final C c, final T ... a) {
     for (int i = 0; i < a.length; ++i)
+      c.add(a[i]);
+
+    return c;
+  }
+
+  /**
+   * Returns the specified collection with the provided array of members added
+   * to the collection.
+   *
+   * @param <C> The type of the collection.
+   * @param <T> The type of collection elements.
+   * @param c The collection.
+   * @param a The members to add to the collection.
+   * @param fromIndex The index of the first member (inclusive) to be added.
+   * @param toIndex The index of the last member (exclusive) to be added.
+   * @return The specified collection with the specified vararg parameters added
+   *         as members to the collection.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than
+   *           {@code toIndex}.
+   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is less than 0,
+   *           or if {@code toIndex} is greater than the length of the specified
+   *           array.
+   * @throws NullPointerException If {@code c} or {@code a} is null.
+   */
+  public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a, final int fromIndex, final int toIndex) {
+    rangeCheck(a.length, fromIndex, toIndex);
+    for (int i = fromIndex; i < toIndex; ++i)
       c.add(a[i]);
 
     return c;

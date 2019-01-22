@@ -28,7 +28,7 @@ import org.junit.Test;
 public class FastCollectionsTest {
   private static List<Object> createRandomNestedList() {
     final List<Object> list = new ArrayList<>(4);
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; ++i)
       list.add(Math.random() < 0.2 ? createRandomNestedList() : Strings.getRandomAlpha(4));
 
     return list;
@@ -53,7 +53,7 @@ public class FastCollectionsTest {
 
   @Test
   public void testFlattenListN() {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       final List<Object> list = createRandomNestedList();
       final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
       FastCollections.flatten(list);
@@ -79,7 +79,7 @@ public class FastCollectionsTest {
 
   @Test
   public void testFlattenCollectionN() {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       final List<Object> list = createRandomNestedList();
       final List<Object> result = FastCollections.flatten(list, new ArrayList<>());
       assertEquals("[" + list.toString().replace("[", "").replace("]", "") + "]", result.toString());
@@ -104,17 +104,17 @@ public class FastCollectionsTest {
   @Test
   public void testPartitions() {
     final List<String> list = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
-    for (int p = 1; p < list.size(); p++) {
+    for (int p = 1; p < list.size(); ++p) {
       final List<String>[] partitions = FastCollections.partition(list, p);
       final int parts = list.size() / p;
       final int remainder = list.size() % p;
       assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);
-      for (int i = 0; i < parts; i++)
-        for (int j = 0; j < p; j++)
+      for (int i = 0; i < parts; ++i)
+        for (int j = 0; j < p; ++j)
           assertEquals(list.get(i * p + j), partitions[i].get(j));
 
       if (remainder != 0)
-        for (int j = 0; j < list.size() % p; j++)
+        for (int j = 0; j < list.size() % p; ++j)
           assertEquals(list.get(p * parts + j), partitions[parts].get(j));
     }
   }

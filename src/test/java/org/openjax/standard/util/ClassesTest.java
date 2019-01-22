@@ -23,10 +23,13 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FilterInputStream;
 import java.io.InputStream;
-import java.lang.reflect.Type;
+import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.AbstractList;
+import java.util.AbstractSequentialList;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -34,9 +37,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -234,66 +237,19 @@ public class ClassesTest {
     assertArrayEquals(new Class[] {List.class, Map.class}, Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("multiGeneric")));
   }
 
-  private static class Cls1<T> {
-  }
-
-  private static class Cls2 extends Cls1<String> {
-  }
-
-  private static class Cls3<T,U> extends Cls2 {
-  }
-
-  private static interface Int1<T> {
-  }
-
-  private static interface Int2 extends Int1<String> {
-  }
-
-  private static interface Int3<T> {
-  }
-
-  private static class Foo extends Cls3<Integer,Number> implements Int2, Int3<Double> {
-  }
-
   @Test
   public void testGenericSuperclassesDeep() {
     try {
-      Classes.getGenericSuperclassesDeep(null);
+      Classes.getClassHierarchy(null, c -> true);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
-    assertArrayEquals(new Class[] {Integer.class, Number.class, String.class}, Classes.getGenericSuperclassesDeep(Foo.class));
-  }
+    final Class<?>[] hierarchy = {AbstractSequentialList.class, List.class, Deque.class, Cloneable.class, Serializable.class, AbstractList.class, Collection.class, Queue.class, AbstractCollection.class, Iterable.class, Object.class};
 
-  @Test
-  @Ignore
-  // FIXME: This needs to be standardized... there's a mix of forms in the resulting array
-  public void testGenericInterfacesDeep() {
-    try {
-      Classes.getGenericInterfacesDeep(null);
-      fail("Expected NullPointerException");
-    }
-    catch (final NullPointerException e) {
-    }
-
-    final Type[] actual = Classes.getGenericInterfacesDeep(Foo.class);
-    assertArrayEquals(new String[] {"interface org.openjax.standard.util.ClassesTest$Int2", "org.openjax.standard.util.ClassesTest$Int3<java.lang.Double>", "org.openjax.standard.util.ClassesTest$Int1<java.lang.String>"}, Arrays.stream(actual).map(c -> c.toString()).toArray(String[]::new));
-  }
-
-  @Test
-  @Ignore
-  // FIXME: This needs to be standardized... there's a mix of forms in the resulting array
-  public void testGenericHierarchy() {
-    try {
-      Classes.getGenericHierarchy(null);
-      fail("Expected NullPointerException");
-    }
-    catch (final NullPointerException e) {
-    }
-
-    final Type[] actual = Classes.getGenericHierarchy(Foo.class);
-    assertArrayEquals(new Object[] {"class " + Integer.class.getName(), "class " + Number.class.getName(), "interface org.openjax.standard.util.ClassesTest$Int2", "org.openjax.standard.util.ClassesTest$Int3<java.lang.Double>", "class " + String.class.getName()}, Arrays.stream(actual).map(c -> c.toString()).toArray(String[]::new));
+    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy), Classes.getClassHierarchy(LinkedList.class, c -> true));
+    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 5), Classes.getClassHierarchy(LinkedList.class, c -> c != Serializable.class));
+    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 8), Classes.getClassHierarchy(LinkedList.class, c -> c != Queue.class));
   }
 }
