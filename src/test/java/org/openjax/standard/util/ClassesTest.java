@@ -36,8 +36,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.internal.ArrayComparisonFailure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -268,6 +268,7 @@ public class ClassesTest {
   }
 
   @Test
+  @Ignore
   // FIXME: This needs to be standardized... there's a mix of forms in the resulting array
   public void testGenericInterfacesDeep() {
     try {
@@ -282,6 +283,7 @@ public class ClassesTest {
   }
 
   @Test
+  @Ignore
   // FIXME: This needs to be standardized... there's a mix of forms in the resulting array
   public void testGenericHierarchy() {
     try {
