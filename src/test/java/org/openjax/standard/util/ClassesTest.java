@@ -240,7 +240,14 @@ public class ClassesTest {
   @Test
   public void testGenericSuperclassesDeep() {
     try {
-      Classes.getClassHierarchy(null, c -> true);
+      Classes.getClassHierarchy(null, c -> false);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
+    try {
+      Classes.getClassHierarchy(String.class, null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {

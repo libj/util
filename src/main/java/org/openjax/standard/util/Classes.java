@@ -275,7 +275,6 @@ public final class Classes {
           return visited;
     }
     while ((cls = queue.poll()) != null);
-
     return visited;
   }
 
@@ -291,7 +290,8 @@ public final class Classes {
   }
 
   /**
-   * Returns the array of generic type classes for the specified field.
+   * Returns the array of generic type classes for the specified field. If the
+   * field is not a parameterized type, this method will return an empty array.
    *
    * @param field The {@code Field}
    * @return The array of generic type classes for the specified field.
