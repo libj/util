@@ -154,7 +154,7 @@ public final class Repeat {
        * @return The statically allocated array of type {@code <M>} with the
        *         resulting elements.
        */
-      protected abstract <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg, int index, final int depth);
+      protected abstract <M,A>M[] recurse(M[] array, Class<M> type, BiPredicate<M,A> predicate, A arg, int index, int depth);
 
       /**
        * The recursive algorithm that operates on the specified arguments.
@@ -178,7 +178,7 @@ public final class Repeat {
        * @return The statically allocated array of type {@code <M>} with the
        *         resulting elements.
        */
-      protected abstract <C,M,A>M[] recurse(final C container, final M[] array, final Class<M> type, final Recurser<C,M,A> recurser, final A arg, int index, final int depth);
+      protected abstract <C,M,A>M[] recurse(C container, M[] array, Class<M> type, Recurser<C,M,A> recurser, A arg, int index, int depth);
     }
 
     /**

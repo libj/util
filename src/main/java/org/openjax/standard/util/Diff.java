@@ -197,7 +197,7 @@ public class Diff {
      * @param position The position at which to perform the patch.
      * @return The change in length due to the patch operation.
      */
-    protected abstract int patch(final StringBuilder builder, final int position);
+    protected abstract int patch(StringBuilder builder, int position);
 
     /**
      * Encodes this modification into the specified byte array, at the specified

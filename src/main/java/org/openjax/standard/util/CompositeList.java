@@ -350,7 +350,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
    * @return The {@code ComponentList} for the specified type. This method must
    *         be implemented by subclasses.
    */
-  protected abstract ComponentList getOrCreateComponentList(final E element);
+  protected abstract ComponentList getOrCreateComponentList(E element);
 
   private void addUnsafe(final E e) {
     super.target.add(e);

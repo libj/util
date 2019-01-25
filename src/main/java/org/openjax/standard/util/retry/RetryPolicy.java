@@ -106,5 +106,5 @@ public abstract class RetryPolicy implements Serializable {
    * @param attemptNo The attempt number, starting with {@code 1}.
    * @return The delay in milliseconds for the specified attempt number.
    */
-  public abstract int getDelayMs(final int attemptNo);
+  public abstract int getDelayMs(int attemptNo);
 }
