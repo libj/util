@@ -171,7 +171,9 @@ public final class Classes {
       last = ch;
     }
 
-    builder.append(className.charAt(className.length() - 1));
+    if (className.length() > 2)
+      builder.append(className.charAt(className.length() - 1));
+
     return builder.toString();
   }
 
@@ -266,6 +268,9 @@ public final class Classes {
   public static Set<Class<?>> getClassHierarchy(Class<?> cls, final Predicate<Class<?>> forEach) {
     final Set<Class<?>> visited = new LinkedHashSet<>();
     final Queue<Class<?>> queue = new LinkedList<>();
+    if (!visitSuperclass(cls, queue, visited, forEach))
+      return visited;
+
     do {
       if (!visitSuperclass(cls.getSuperclass(), queue, visited, forEach))
         return visited;

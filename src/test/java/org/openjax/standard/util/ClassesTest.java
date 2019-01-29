@@ -177,6 +177,8 @@ public class ClassesTest {
     catch (final IllegalArgumentException e) {
     }
 
+    assertEquals("Id", Classes.toCanonicalClassName("Id"));
+    assertEquals("Ids", Classes.toCanonicalClassName("Ids"));
     assertEquals("$Two", Classes.toCanonicalClassName("$Two"));
     assertEquals("Two$", Classes.toCanonicalClassName("Two$"));
     assertEquals("One.Two", Classes.toCanonicalClassName("One$Two"));
@@ -238,7 +240,7 @@ public class ClassesTest {
   }
 
   @Test
-  public void testGenericSuperclassesDeep() {
+  public void testGetClassHierarchy() {
     try {
       Classes.getClassHierarchy(null, c -> false);
       fail("Expected NullPointerException");
@@ -253,10 +255,10 @@ public class ClassesTest {
     catch (final NullPointerException e) {
     }
 
-    final Class<?>[] hierarchy = {AbstractSequentialList.class, List.class, Deque.class, Cloneable.class, Serializable.class, AbstractList.class, Collection.class, Queue.class, AbstractCollection.class, Iterable.class, Object.class};
+    final Class<?>[] hierarchy = {LinkedList.class, AbstractSequentialList.class, List.class, Deque.class, Cloneable.class, Serializable.class, AbstractList.class, Collection.class, Queue.class, AbstractCollection.class, Iterable.class, Object.class};
 
     assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy), Classes.getClassHierarchy(LinkedList.class, c -> true));
-    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 5), Classes.getClassHierarchy(LinkedList.class, c -> c != Serializable.class));
-    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 8), Classes.getClassHierarchy(LinkedList.class, c -> c != Queue.class));
+    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 6), Classes.getClassHierarchy(LinkedList.class, c -> c != Serializable.class));
+    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 9), Classes.getClassHierarchy(LinkedList.class, c -> c != Queue.class));
   }
 }
