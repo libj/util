@@ -63,6 +63,7 @@ public class RefDigraphTest {
     digraph.addEdgeRef(new Obj("f", "d"), "d");
     digraph.addEdgeRef(new Obj("g", "d"), "d");
     digraph.addEdgeRef(new Obj("h", "e"), "e");
+    assertEquals(8, digraph.getVertices().size());
     assertEquals("[c->a, b->c, a->b, c->a]", digraph.getCycle().toString());
   }
 
@@ -77,6 +78,7 @@ public class RefDigraphTest {
     digraph.addEdgeRef(new Obj("f", "d"), "d");
     digraph.addEdgeRef(new Obj("g", "d"), "d");
     digraph.addEdgeRef(new Obj("h", "e"), "e");
+    assertEquals(8, digraph.getVertices().size());
     assertEquals("[h->e, g->d, f->d, e->c, d->c, a->b, b->c, c->null]", digraph.getTopologicalOrder().toString());
   }
 }

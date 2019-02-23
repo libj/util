@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -153,6 +154,13 @@ public class RefDigraph<T,R> extends Digraph<T> {
     vertices.add(from);
     references.add(to);
     return digraph.addEdge(reference.apply(from), to);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public Set<T> getVertices() {
+    swapRefs();
+    return (Set<T>)digraph.getVertices();
   }
 
   @Override

@@ -25,15 +25,15 @@ import org.junit.Test;
 
 public class DigraphTest {
   /**
-   * Create a Digraph&lt;T&gt; of the type {@code type} with the specified
+   * Create a {@code Digraph<T>} of the type {@code type} with the specified
    * number of vertices and edges in (v, w) sequential linear order.
    *
    * @param edges The (v, w) pairs of edges in sequential order.
    * @throws IllegalArgumentException If the endpoints of any edge are not in
    *           prescribed range.
-   * @throws IllegalArgumentException If edges.length is not divisible by 2.
-   * @throws IllegalArgumentException If the input stream is in the wrong format
-   * @return The Digraph&lt;T&gt;.
+   * @throws IllegalArgumentException If edges.length is not divisible by 2, or
+   *           if the input stream is in the wrong format
+   * @return The {@code Digraph<T>}.
    */
   @SafeVarargs
   private static <T extends Serializable> Digraph<T> createDigraph(final T ... edges) {
@@ -44,6 +44,7 @@ public class DigraphTest {
     for (int i = 0; i < edges.length;)
       digraph.addEdge(edges[i++], edges[i++]);
 
+    assertNotEquals(0, digraph.getVertices().size());
     return digraph;
   }
 
