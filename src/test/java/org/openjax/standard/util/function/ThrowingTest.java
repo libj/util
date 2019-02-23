@@ -21,7 +21,6 @@ import static org.openjax.standard.util.function.Throwing.*;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.junit.Test;

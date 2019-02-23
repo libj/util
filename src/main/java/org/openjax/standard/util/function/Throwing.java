@@ -16,12 +16,9 @@
 
 package org.openjax.standard.util.function;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Utility that allows lambda expressions to propagate checked exceptions up the
