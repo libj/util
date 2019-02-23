@@ -23,22 +23,22 @@ import org.junit.Test;
 public class BuffersTest {
   private static void assertSet(final byte[] buf, final int bit) {
 //    System.err.println(Buffers.toString(buf));
-    assertTrue("" + bit, Buffers.get(buf, bit));
+    assertTrue(String.valueOf(bit), Buffers.get(buf, bit));
   }
 
   private static void assertSet(final long[] buf, final int bit) {
 //    System.err.println(Buffers.toString(buf));
-    assertTrue("" + bit, Buffers.get(buf, bit));
+    assertTrue(String.valueOf(bit), Buffers.get(buf, bit));
   }
 
   private static void assertClear(final byte[] buf, final int bit) {
 //    System.err.println(Buffers.toString(buf));
-    assertFalse("" + bit, Buffers.get(buf, bit));
+    assertFalse(String.valueOf(bit), Buffers.get(buf, bit));
   }
 
   private static void assertClear(final long[] buf, final int bit) {
 //    System.err.println(Buffers.toString(buf));
-    assertFalse("" + bit, Buffers.get(buf, bit));
+    assertFalse(String.valueOf(bit), Buffers.get(buf, bit));
   }
 
   @Test
