@@ -157,7 +157,7 @@ public class PathsTest {
 
     assertEquals("share", Paths.getShortName("file:///usr/share/../share.txt"));
     assertEquals("lib", Paths.getShortName("file:///usr/share/../share/../lib"));
-    assertEquals("var", Paths.getShortName("/usr/share/../share/../lib/../../var.old"));
+    assertEquals("var", Paths.getShortName("/usr/share/../share/../lib/../../var.tar.old"));
     assertEquals("var", Paths.getShortName("/usr/share/../share/../lib/../../var/"));
     assertEquals("resolv", Paths.getShortName("/etc/resolv.conf"));
     assertEquals("name", Paths.getShortName("name"));

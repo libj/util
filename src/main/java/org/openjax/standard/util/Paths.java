@@ -387,7 +387,7 @@ public final class Paths {
       throw new IllegalArgumentException("Empty path");
 
     path = getName0(path);
-    final int index = path.lastIndexOf('.');
+    final int index = path.indexOf('.');
     return index == -1 ? path : path.substring(0, index);
   }
 
