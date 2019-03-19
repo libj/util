@@ -958,8 +958,9 @@ public final class Numbers {
 
           minusEncountered = true;
         }
-        else
+        else if (!expEncountered && c != '+') {
           return false;
+        }
       }
       else if ('9' < c) {
         if (c != 'E')

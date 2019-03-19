@@ -206,6 +206,8 @@ public class NumbersTest {
     assertTrue(Numbers.isNumber(" 6.626068E-34"));
     assertTrue(Numbers.isNumber("-6.626068E-34 "));
     assertTrue(Numbers.isNumber("-6.626068E-34 24/49"));
+    assertTrue(Numbers.isNumber("-6.6991202137503775E+18"));
+    assertTrue(Numbers.isNumber("-6.6991202137503775E-18"));
     assertTrue(Numbers.isNumber("3/5"));
 
     assertFalse(Numbers.isNumber(null));
