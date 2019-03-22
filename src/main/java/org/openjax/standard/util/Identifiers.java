@@ -18,6 +18,7 @@ package org.openjax.standard.util;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Utility functions for checking or creating valid Java Identifiers.
@@ -66,6 +67,11 @@ public final class Identifiers {
   private static final String[] reservedWords = {"abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum", "extends", "false", "final", "finally", "float", "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this", "throw", "throws", "transient", "true", "try", "void", "volatile", "while"};
   private static final char[] discardTokens = {'!', '"', '#', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'};
 
+  private static void checkPrefix(final char prefix) {
+    if (prefix != '\0' && !Character.isJavaIdentifierStart(prefix))
+      throw new IllegalArgumentException("Illegal prefix character: " + prefix);
+  }
+
   private static void checkSubstitutes(final Map<Character,String> substitutes) {
     if (substitutes != null)
       for (final String substitute : substitutes.values())
@@ -74,8 +80,18 @@ public final class Identifiers {
             throw new IllegalArgumentException("Substitution \"" + substitute + "\" contains illegal character: " + substitute.charAt(i));
   }
 
-  private static boolean substitute(final StringBuilder builder, final char ch, final char substitute, final Map<Character,String> substitutes) {
-    if (substitutes != null) {
+  private static boolean substitute(final StringBuilder builder, final boolean start, final char ch, final char substitute, final Map<Character,String> substitutes, final Function<Character,String> function) {
+    if (function != null) {
+      final String replacement = function.apply(ch);
+      if (replacement != null) {
+        for (int i = 0; i < replacement.length(); ++i)
+          if (start && i == 0 ? !Character.isJavaIdentifierStart(replacement.charAt(i)) : !Character.isJavaIdentifierPart(replacement.charAt(i)))
+            throw new IllegalArgumentException("Substitution \"" + replacement + "\" contains illegal " + (start ? "start " : "") + "character: '" + replacement.charAt(i) + "'");
+
+        builder.append(replacement);
+      }
+    }
+    else if (substitutes != null) {
       final String replacement = substitutes.get(ch);
       if (replacement != null)
         builder.append(replacement);
@@ -106,9 +122,22 @@ public final class Identifiers {
     return Arrays.binarySearch(reservedWords, word) >= 0;
   }
 
-  private static String transformNotReserved(final char prefix, final char suffix, final StringBuilder builder) {
+  private static String transformNotReserved(final char prefix, final char suffix, final Map<Character,String> substitutes, final Function<Character,String> function, final StringBuilder builder) {
     final String word = builder.toString();
-    return !isReservedWord(word) ? word : suffix == '\0' ? builder.insert(0, prefix).toString() : builder.append(suffix).toString();
+    if (!isReservedWord(word))
+      return word;
+
+    if (suffix != '\0')
+      return builder.append(suffix).toString();
+
+    if (prefix != '\0')
+      return builder.insert(0, prefix).toString();
+
+    final String pre = substitutes != null ? substitutes.get(null) : function != null ? function.apply(null) : null;
+    if (pre != null)
+      return pre + word;
+
+    throw new IllegalArgumentException("Unable to transform reserved word due to unspecified prefix, suffix, nor 'null' substitution rule: " + word);
   }
 
   /**
@@ -132,7 +161,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, substitute, substitutes));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', substitutes, null, toIdentifier0(string, prefix, substitute, substitutes, null));
   }
 
   /**
@@ -157,7 +186,7 @@ public final class Identifiers {
       return string;
 
     final char prefix = '_';
-    return transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, '\0', substitutes));
+    return transformNotReserved(prefix, '\0', substitutes, null, toIdentifier0(string, prefix, '\0', substitutes, null));
   }
 
   /**
@@ -180,7 +209,28 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, '\0', substitutes));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', substitutes, null, toIdentifier0(string, prefix, '\0', substitutes, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier. Strings that start with
+   * an illegal character are prepended with {@code prefix}. Strings that are
+   * Java Reserved Words are prepended with {@code prefix}. All other illegal
+   * characters are substituted with the {@code substitute} char.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *          first character is not valid.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toIdentifier(final String string, final char prefix, final Function<Character,String> substitutes) {
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, substitutes, toIdentifier0(string, prefix, '\0', null, substitutes));
   }
 
   /**
@@ -200,7 +250,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix, final char substitute) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, substitute, null));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, null, toIdentifier0(string, prefix, substitute, null, null));
   }
 
   /**
@@ -219,7 +269,30 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toIdentifier(final String string, final char prefix) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, '\0', null));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, null, toIdentifier0(string, prefix, '\0', null, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier. Strings that start with
+   * an illegal character are prepended with {@code _}. Strings that are Java
+   * Reserved Words are prepended with {@code _}. All other illegal characters
+   * are omitted.
+   *
+   * @param string The input string.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toIdentifier(final String string, final Function<Character,String> substitutes) {
+    if (string.length() == 0)
+      return string;
+
+    final char prefix = '_';
+    return transformNotReserved(prefix, '\0', null, substitutes, toIdentifier0(string, prefix, '\0', null, substitutes));
   }
 
   /**
@@ -240,10 +313,11 @@ public final class Identifiers {
       return string;
 
     final char prefix = '_';
-    return transformNotReserved(prefix, '\0', toIdentifier0(string, prefix, '\0', null));
+    return transformNotReserved(prefix, '\0', null, null, toIdentifier0(string, prefix, '\0', null, null));
   }
 
-  private static StringBuilder toIdentifier0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
+  private static StringBuilder toIdentifier0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes, final Function<Character,String> function) {
+    checkPrefix(prefix);
     checkSubstitutes(substitutes);
     final StringBuilder builder = new StringBuilder(string.length());
     if (string.length() == 0)
@@ -255,7 +329,7 @@ public final class Identifiers {
     if (!Character.isJavaIdentifierStart(ch)) {
       boolean sub = false;
       if (sub = !Character.isJavaIdentifierPart(ch)) {
-        if (substitute(builder, ch, substitute, substitutes) && builder.length() > 1) {
+        if (substitute(builder, prefix == '\0' && i == 0, ch, substitute, substitutes, function) && builder.length() > 1) {
           chars = builder.append(chars, 1, chars.length - 1).toString().toCharArray();
           builder.setLength(0);
         }
@@ -267,8 +341,11 @@ public final class Identifiers {
         sub = Character.isJavaIdentifierStart(ch);
       }
 
-      if (!sub && prefix != '\0') {
-        builder.append(prefix);
+      if (!sub) {
+        if (prefix != '\0')
+          builder.append(prefix);
+        else
+          throw new IllegalArgumentException("Unspecified prefix or substitution for illegal start character: " + ch);
       }
     }
 
@@ -280,10 +357,46 @@ public final class Identifiers {
         continue;
       }
 
-      substitute(builder, ch, substitute, substitutes);
+      substitute(builder, i == 0, ch, substitute, substitutes, function);
     }
 
     return builder;
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier that meets suggested
+   * package name guidelines. Strings that are Java Reserved Words are prepended
+   * with {@code prefix}. Strings that start with an illegal character are
+   * prepended with {@code _}. All other illegal characters are substituted
+   * {@code _}. If the domain name contains a hyphen, or any other special
+   * character not allowed in an identifier, convert it into an underscore. If
+   * any of the resulting package name components are keywords, append an
+   * underscore to them. If any of the resulting package name components start
+   * with a digit, or any other character that is not allowed as an initial
+   * character of an identifier, have an underscore prefixed to the component.
+   *
+   * @param string The input string.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier that meets
+   *         suggested package name guidelines.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html">Package
+   *      Names</a>
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-6.html#d5e8089">Unique
+   *      Package Names</a>
+   */
+  public static String toPackageCase(final String string, final Function<Character,String> substitutes) {
+    if (string.length() == 0)
+      return string;
+
+    final char prefix = '_';
+    return transformNotReserved(prefix, '_', null, substitutes, toPacakgeCase0(string, prefix, '_', null, substitutes));
   }
 
   /**
@@ -317,11 +430,11 @@ public final class Identifiers {
       return string;
 
     final char prefix = '_';
-    return transformNotReserved(prefix, '_', toPacakgeCase0(string, prefix, '_', null));
+    return transformNotReserved(prefix, '_', null, null, toPacakgeCase0(string, prefix, '_', null, null));
   }
 
-  private static StringBuilder toPacakgeCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
-    return Strings.toLowerCase(toIdentifier0(string, prefix, substitute, substitutes));
+  private static StringBuilder toPacakgeCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes, final Function<Character,String> function) {
+    return Strings.toLowerCase(toIdentifier0(string, prefix, substitute, substitutes, function));
   }
 
   /**
@@ -345,7 +458,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, substitute, substitutes));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', substitutes, null, toCamelCase0(string, prefix, substitute, substitutes, null));
   }
 
   /**
@@ -368,7 +481,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, '\0', substitutes));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', substitutes, null, toCamelCase0(string, prefix, '\0', substitutes, null));
   }
 
   /**
@@ -388,7 +501,28 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix, final char substitute) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, substitute, null));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, null, toCamelCase0(string, prefix, substitute, null, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code prefix}. Strings
+   * that are Java Reserved Words are prepended with {@code prefix}. All other
+   * illegal characters are omitted.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *          first character is not valid.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in camelCase.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toCamelCase(final String string, final char prefix, final Function<Character,String> substitutes) {
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, substitutes, toCamelCase0(string, prefix, '\0', null, substitutes));
   }
 
   /**
@@ -407,7 +541,30 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toCamelCase(final String string, final char prefix) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, '\0', null));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, null, toCamelCase0(string, prefix, '\0', null, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in camelCase. Strings that
+   * start with an illegal character are prepended with {@code x}. Strings that
+   * are Java Reserved Words are prepended with {@code x}. All other illegal
+   * characters are omitted.
+   *
+   * @param string The input string.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in camelCase.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toCamelCase(final String string, final Function<Character,String> substitutes) {
+    if (string.length() == 0)
+      return string;
+
+    final char prefix = 'x';
+    return transformNotReserved(prefix, '\0', null, substitutes, toCamelCase0(string, prefix, '\0', null, substitutes));
   }
 
   /**
@@ -428,7 +585,7 @@ public final class Identifiers {
       return string;
 
     final char prefix = 'x';
-    return transformNotReserved(prefix, '\0', toCamelCase0(string, prefix, '\0', null));
+    return transformNotReserved(prefix, '\0', null, null, toCamelCase0(string, prefix, '\0', null, null));
   }
 
   /**
@@ -453,11 +610,12 @@ public final class Identifiers {
       return string;
 
     final char prefix = 'x';
-    final StringBuilder builder = toCamelCase0(string, prefix, '\0', substitutes);
-    return transformNotReserved(prefix, '\0', builder);
+    final StringBuilder builder = toCamelCase0(string, prefix, '\0', substitutes, null);
+    return transformNotReserved(prefix, '\0', substitutes, null, builder);
   }
 
-  private static StringBuilder toCamelCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
+  private static StringBuilder toCamelCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes, final Function<Character,String> function) {
+    checkPrefix(prefix);
     checkSubstitutes(substitutes);
     final StringBuilder builder = new StringBuilder(string.length());
     if (string.length() == 0)
@@ -466,14 +624,20 @@ public final class Identifiers {
     final char[] chars = string.toCharArray();
     boolean capNext = false;
     for (int i = 0; i < chars.length; ++i) {
-      if (i == 0 && !Character.isJavaIdentifierStart(chars[i]))
-        builder.append(prefix);
+      if (i == 0 && !Character.isJavaIdentifierStart(chars[i])) {
+        if (prefix != '\0')
+          builder.append(prefix);
+        else if (substitute(builder, i == 0, chars[i], substitute, substitutes, function))
+          ++i;
+        else
+          throw new IllegalArgumentException("Unspecified prefix or substitution for illegal start character: " + chars[i]);
+      }
 
       final char ch = chars[i];
       final int index = Arrays.binarySearch(discardTokens, ch);
       if (index >= 0) {
         capNext = i != 0;
-        substitute(builder, ch, substitute, substitutes);
+        substitute(builder, i == 0, ch, substitute, substitutes, function);
       }
       else if (capNext) {
         builder.append(Character.toUpperCase(ch));
@@ -510,7 +674,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, substitute, substitutes));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', substitutes, null, toInstanceCase0(string, prefix, substitute, substitutes, null));
   }
 
   /**
@@ -534,7 +698,31 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, '\0', substitutes));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', substitutes, null, toInstanceCase0(string, prefix, '\0', substitutes, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in lower-camelCase.
+   * Strings that start with an illegal character are prepended with
+   * {@code prefix}. Strings that are Java Reserved Words are prepended with
+   * {@code prefix}. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in {@code substitutes}. If
+   * the mapping is missing, the illegal character is omitted.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *          first character is not valid.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toInstanceCase(final String string, final char prefix, final Function<Character,String> substitutes) {
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, substitutes, toInstanceCase0(string, prefix, '\0', null, substitutes));
   }
 
   /**
@@ -556,7 +744,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix, final char substitute) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, substitute, null));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, null, toInstanceCase0(string, prefix, substitute, null, null));
   }
 
   /**
@@ -576,29 +764,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toInstanceCase(final String string, final char prefix) {
-    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, '\0', null));
-  }
-
-  /**
-   * Transforms a string into a valid Java Identifier in lower-camelCase.
-   * Strings that start with an illegal character are prepended with {@code _}.
-   * Strings that are Java Reserved Words are prepended with {@code _}. All
-   * other illegal characters are omitted.
-   *
-   * @param string The input string.
-   * @return The string transformed to a valid Java Identifier in
-   *         lower-CamelCase.
-   * @throws NullPointerException If {@code string} is null.
-   * @see <a href=
-   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
-   *      Identifiers</a>
-   */
-  public static String toInstanceCase(final String string) {
-    if (string.length() == 0)
-      return string;
-
-    final char prefix = '_';
-    return transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, '\0', null));
+    return string.length() == 0 ? string : transformNotReserved(prefix, '\0', null, null, toInstanceCase0(string, prefix, '\0', null, null));
   }
 
   /**
@@ -624,7 +790,53 @@ public final class Identifiers {
       return string;
 
     final char prefix = '_';
-    return transformNotReserved(prefix, '\0', toInstanceCase0(string, prefix, '\0', substitutes));
+    return transformNotReserved(prefix, '\0', substitutes, null, toInstanceCase0(string, prefix, '\0', substitutes, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in lower-camelCase.
+   * Strings that start with an illegal character are prepended with {@code _}.
+   * Strings that are Java Reserved Words are prepended with {@code _}. All
+   * other illegal characters are omitted.
+   *
+   * @param string The input string.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toInstanceCase(final String string, final Function<Character,String> substitutes) {
+    if (string.length() == 0)
+      return string;
+
+    final char prefix = '_';
+    return transformNotReserved(prefix, '\0', null, substitutes, toInstanceCase0(string, prefix, '\0', null, substitutes));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in lower-camelCase.
+   * Strings that start with an illegal character are prepended with {@code _}.
+   * Strings that are Java Reserved Words are prepended with {@code _}. All
+   * other illegal characters are omitted.
+   *
+   * @param string The input string.
+   * @return The string transformed to a valid Java Identifier in
+   *         lower-CamelCase.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toInstanceCase(final String string) {
+    if (string.length() == 0)
+      return string;
+
+    final char prefix = '_';
+    return transformNotReserved(prefix, '\0', null, null, toInstanceCase0(string, prefix, '\0', null, null));
   }
 
   /**
@@ -642,8 +854,8 @@ public final class Identifiers {
    * @return The string transformed to a legal Java [c]amelCase identifier.
    * @throws NullPointerException If {@code string} is null.
    */
-  private static StringBuilder toInstanceCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
-    final StringBuilder builder = toCamelCase0(string, prefix, substitute, substitutes);
+  private static StringBuilder toInstanceCase0(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes, final Function<Character,String> function) {
+    final StringBuilder builder = toCamelCase0(string, prefix, substitute, substitutes, function);
     final int len = builder.length();
     if (len == 0)
       return builder;
@@ -704,7 +916,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, substitutes));
+    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, substitutes, null));
   }
 
   /**
@@ -727,7 +939,30 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', substitutes));
+    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', substitutes, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in Title-CamelCase.
+   * Strings that start with an illegal character are prepended with
+   * {@code prefix}. All other illegal characters are substituted with the
+   * string value mapped to the key of the character in {@code substitutes}. If
+   * the mapping is missing, the illegal character is omitted.
+   *
+   * @param string The input string.
+   * @param prefix The character that will be prepended to the string if the
+   *          first character is not valid.
+   * @param substitutes The mapping of illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toClassCase(final String string, final char prefix, final Function<Character,String> substitutes) {
+    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', null, substitutes));
   }
 
   /**
@@ -748,7 +983,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final char substitute) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, null));
+    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, null, null));
   }
 
   /**
@@ -767,7 +1002,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', null));
+    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', null, null));
   }
 
   /**
@@ -788,7 +1023,26 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', substitutes));
+    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', substitutes, null));
+  }
+
+  /**
+   * Transforms a string into a valid Java Identifier in Title-CamelCase.
+   * Strings that start with an illegal character are prepended with {@code X}.
+   * All other illegal characters are omitted.
+   *
+   * @param string The input string.
+   * @param substitutes Function to dereference illegal characters to their
+   *          substitutions.
+   * @return The string transformed to a valid Java Identifier in
+   *         Title-CamelCase.
+   * @throws NullPointerException If {@code string} is null.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">Java
+   *      Identifiers</a>
+   */
+  public static String toClassCase(final String string, final Function<Character,String> substitutes) {
+    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', null, substitutes));
   }
 
   /**
@@ -805,7 +1059,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', null));
+    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', null, null));
   }
 
   private Identifiers() {

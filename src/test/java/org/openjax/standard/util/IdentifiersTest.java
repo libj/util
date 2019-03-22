@@ -67,11 +67,19 @@ public class IdentifiersTest {
     }
     catch (final IllegalArgumentException e) {
     }
+    try {
+      Identifiers.toIdentifier("@foo", c -> c == '@' ? "1!" : null);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
     test("foo", Identifiers::toIdentifier, "@fo@o");
     test("foo", Identifiers::toIdentifier, "@foo");
     assertEquals("$foo", Identifiers.toIdentifier("@foo", '_', '$'));
     assertEquals("_1$foo", Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "1$")));
+    assertEquals("_1$foo", Identifiers.toIdentifier("@foo", c -> c == '@' ? "1$" : null));
     assertEquals("$1foo", Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "$1")));
+    assertEquals("$1foo", Identifiers.toIdentifier("@foo", c -> c == '@' ? "$1" : null));
 
     test(null, Identifiers::toIdentifier, null);
     test("", Identifiers::toIdentifier, "");
@@ -86,6 +94,33 @@ public class IdentifiersTest {
     test("_abstract", Identifiers::toIdentifier, "abstract");
     test("_do", Identifiers::toIdentifier, "do");
     test("_foo", Identifiers::toIdentifier, "_foo");
+
+    try {
+      Identifiers.toIdentifier("@foo", '\0', c -> "1$");
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+      assertEquals("Substitution \"1$\" contains illegal start character: '1'", e.getMessage());
+    }
+
+    try {
+      Identifiers.toIdentifier("class", '\0');
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+      assertTrue(e.getMessage().startsWith("Unable to transform"));
+    }
+
+    assertEquals("_class", Identifiers.toIdentifier("class", '\0', Collections.singletonMap(null, "_")));
+    assertEquals("_class", Identifiers.toIdentifier("class", '\0', c -> c == null ? "_" : null));
+  }
+
+  @Test
+  public void testUnicode() {
+    final char prefix = '\0';
+    final Function<Character,String> substitutions = c -> c == null ? "_" : c != '_' ? "_" + Integer.toHexString(c) : "__";
+    assertEquals("__", Identifiers.toInstanceCase("_", prefix, substitutions));
+    assertEquals("_2e_2a", Identifiers.toInstanceCase(".*", prefix, substitutions));
   }
 
   @Test
