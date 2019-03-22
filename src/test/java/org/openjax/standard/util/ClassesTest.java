@@ -232,11 +232,11 @@ public class ClassesTest {
 
   @Test
   public void testGetGenericTypes() throws NoSuchFieldException {
-    assertArrayEquals(new Class[0], Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("nonGeneric")));
-    assertArrayEquals(new Class[0], Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("rawGeneric")));
-    assertArrayEquals(new Class[] {null}, Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("wildGeneric")));
-    assertArrayEquals(new Class[] {String.class}, Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("stringGeneric")));
-    assertArrayEquals(new Class[] {List.class, Map.class}, Classes.getGenericTypes(GetGenericTypesTest.class.getDeclaredField("multiGeneric")));
+    assertArrayEquals(new Class[0], Classes.getGenericClasses(GetGenericTypesTest.class.getDeclaredField("nonGeneric")));
+    assertArrayEquals(new Class[0], Classes.getGenericClasses(GetGenericTypesTest.class.getDeclaredField("rawGeneric")));
+    assertArrayEquals(new Class[] {null}, Classes.getGenericClasses(GetGenericTypesTest.class.getDeclaredField("wildGeneric")));
+    assertArrayEquals(new Class[] {String.class}, Classes.getGenericClasses(GetGenericTypesTest.class.getDeclaredField("stringGeneric")));
+    assertArrayEquals(new Class[] {List.class, Map.class}, Classes.getGenericClasses(GetGenericTypesTest.class.getDeclaredField("multiGeneric")));
   }
 
   @Test

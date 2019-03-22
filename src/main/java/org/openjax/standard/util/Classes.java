@@ -302,7 +302,7 @@ public final class Classes {
    * @return The array of generic type classes for the specified field.
    * @throws NullPointerException If {@code field} is null.
    */
-  public static Class<?>[] getGenericTypes(final Field field) {
+  public static Class<?>[] getGenericClasses(final Field field) {
     final Type genericType = field.getGenericType();
     if (!(genericType instanceof ParameterizedType))
       return new Class[0];
