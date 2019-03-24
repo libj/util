@@ -620,4 +620,45 @@ public class StringsTest {
         throw e;
     }
   }
+
+  @Test
+  public void testIsRegex() {
+    assertFalse(Strings.isRegex(null));
+    assertFalse(Strings.isRegex("abc"));
+    assertFalse(Strings.isRegex(""));
+
+    assertFalse(Strings.isRegex("\\\\s"));
+    assertTrue(Strings.isRegex("\\s"));
+
+    assertFalse(Strings.isRegex("?"));
+    assertFalse(Strings.isRegex("a\\?"));
+    assertTrue(Strings.isRegex("a?"));
+
+    assertFalse(Strings.isRegex("+"));
+    assertFalse(Strings.isRegex("a\\+"));
+    assertTrue(Strings.isRegex("a+"));
+
+    assertFalse(Strings.isRegex("*"));
+    assertFalse(Strings.isRegex("a\\*"));
+    assertTrue(Strings.isRegex("a*"));
+
+    assertFalse(Strings.isRegex("x\\{\\}"));
+    assertFalse(Strings.isRegex("x\\{1}"));
+    assertFalse(Strings.isRegex("x{1\\}"));
+    assertFalse(Strings.isRegex("x{}"));
+    assertFalse(Strings.isRegex("x{a}"));
+    assertTrue(Strings.isRegex("x{1}"));
+
+    assertFalse(Strings.isRegex("\\[\\]"));
+    assertFalse(Strings.isRegex("\\[a]"));
+    assertFalse(Strings.isRegex("[a\\]"));
+    assertFalse(Strings.isRegex("[]"));
+    assertTrue(Strings.isRegex("[a]"));
+
+    assertFalse(Strings.isRegex("\\."));
+    assertTrue(Strings.isRegex("\\\\."));
+
+    assertFalse(Strings.isRegex("\\*"));
+    assertTrue(Strings.isRegex("\\\\*"));
+  }
 }

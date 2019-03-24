@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Utility functions that provide common operations pertaining to {@link String}
@@ -1292,6 +1294,57 @@ public final class Strings {
     }
 
     return builder.toString();
+  }
+
+  /**
+   * Tests if the specified string represents a regular expression that <i>can
+   * match more than 1 string (i.e. "abc" is technically a regular expression,
+   * however it can only match a single string: "abc")</i>.
+   *
+   * @param string The {@code String} to test.
+   * @return {@code true} if the specified string represents a regular
+   *         expression that <i>can match more than 1 string</i>. This method
+   *         returns {@code false} for a null input.
+   */
+  public static boolean isRegex(final String string) {
+    if (string == null)
+      return false;
+
+    try {
+      Pattern.compile(string);
+    }
+    catch (final PatternSyntaxException e) {
+      return false;
+    }
+
+    final int len = string.length();
+    boolean escaped = false;
+    boolean hasOpenBracket = false;
+    boolean hasOpenBrace = false;
+    boolean hasOpenParentheses = false;
+    for (int i = 0; i < len; ++i) {
+      final char ch = string.charAt(i);
+      if (i == 0 && ch == '^' || i == len - 1 && !escaped && ch == '$')
+        return true;
+
+      if (escaped) {
+        if (ch == 'd' || ch == 'D' || ch == 's' || ch == 'S' || ch == 'w' || ch == 'W' || ch == 'b' || ch == 'B' || ch == 'b' || ch == 'A' || ch == 'G' || ch == 'Z' || ch == 'z' || ch == 'Q' || ch == 'E')
+          return true;
+      }
+      else if (!hasOpenBracket && ch == '[')
+        hasOpenBracket = true;
+      else if (!hasOpenBrace && ch == '{')
+        hasOpenBrace = true;
+      else if (!hasOpenParentheses && ch == '(')
+        hasOpenParentheses = true;
+      else if (ch == '.' || (i > 0 && (ch == '?' || ch == '*' || ch == '+' || ch == '*' || (hasOpenBracket && ch == ']') || (hasOpenBrace && ch == '}') || (hasOpenParentheses && ch == ')') || ch == '|'))) {
+        return true;
+      }
+
+      escaped ^= ch == '\\';
+    }
+
+    return false;
   }
 
   private Strings() {
