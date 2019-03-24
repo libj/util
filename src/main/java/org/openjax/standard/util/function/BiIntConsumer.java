@@ -51,7 +51,7 @@ public interface BiIntConsumer {
    */
   default BiIntConsumer andThen(final BiIntConsumer after) {
     Objects.requireNonNull(after);
-    return (int v1, int v2) -> {
+    return (v1, v2) -> {
       accept(v1, v2);
       after.accept(v1, v2);
     };

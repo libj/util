@@ -22,8 +22,8 @@ package org.openjax.standard.util.function;
  * functional interfaces, {@code BiObjBiLongConsumer} is expected to operate via
  * side-effects.
  *
- * @param <T> The type of the object argument to the operation.
- * @param <U> The type of the object argument to the operation.
+ * @param <T> The type of the first object argument to the operation.
+ * @param <U> The type of the second object argument to the operation.
  * @see ObjBiLongConsumer
  */
 @FunctionalInterface

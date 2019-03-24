@@ -51,7 +51,7 @@ public interface BiDoubleConsumer {
    */
   default BiDoubleConsumer andThen(final BiDoubleConsumer after) {
     Objects.requireNonNull(after);
-    return (double v1, double v2) -> {
+    return (v1, v2) -> {
       accept(v1, v2);
       after.accept(v1, v2);
     };

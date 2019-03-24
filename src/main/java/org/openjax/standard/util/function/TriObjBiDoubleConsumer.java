@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 OpenJAX
+/* Copyright (c) 2019 OpenJAX
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -17,24 +17,26 @@
 package org.openjax.standard.util.function;
 
 /**
- * Represents an operation that accepts two object-valued and two
- * {@code int}-valued arguments, and returns no result. Unlike most other
- * functional interfaces, {@code BiObjBiIntConsumer} is expected to operate via
- * side-effects.
+ * Represents an operation that accepts three object-valued and two
+ * {@code double}-valued arguments, and returns no result. Unlike most other
+ * functional interfaces, {@code TriObjBiDoubleConsumer} is expected to operate
+ * via side-effects.
  *
  * @param <T> The type of the first object argument to the operation.
  * @param <U> The type of the second object argument to the operation.
- * @see ObjBiIntConsumer
+ * @param <V> The type of the third object argument to the operation.
+ * @see ObjBiDoubleConsumer
  */
 @FunctionalInterface
-public interface BiObjBiIntConsumer<T,U> {
+public interface TriObjBiDoubleConsumer<T,U,V> {
   /**
    * Performs this operation on the given arguments.
    *
    * @param t The first input argument.
    * @param u The second input argument.
-   * @param v1 The third input argument.
-   * @param v2 The fourth input argument.
+   * @param v The third input argument.
+   * @param w1 The third input argument.
+   * @param w2 The fourth input argument.
    */
-  void accept(T t, U u, int v1, int v2);
+  void accept(T t, U u, V v, double w1, double w2);
 }

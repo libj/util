@@ -16,6 +16,7 @@
 
 package org.openjax.standard.util.function;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -42,6 +43,51 @@ public final class Throwing {
    * @return The specified {@code Consumer} instance.
    */
   public static <T>Consumer<T> rethrow(final ThrowingConsumer<T> consumer) {
+    return consumer;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified
+   * {@code ThrowingBiConsumer}.
+   * <p>
+   * An example of this pattern:
+   * <blockquote><pre>
+   * Arrays
+   *   .asList(1, 2, 3)
+   *   .forEach(Throwing.rethrow((i,j) -&gt; {
+   *      if (i == 3)
+   *        throw new IOException();
+   *    }));
+   * </pre></blockquote>
+   * @param <T> The type of the first input to the consumer's operation.
+   * @param <U> The type of the second input to the consumer's operation.
+   * @param consumer The {@code ThrowingBiConsumer}.
+   * @return The specified {@code BiConsumer} instance.
+   */
+  public static <T,U>BiConsumer<T,U> rethrow(final ThrowingBiConsumer<T,U> consumer) {
+    return consumer;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified
+   * {@code ThrowingTriConsumer}.
+   * <p>
+   * An example of this pattern:
+   * <blockquote><pre>
+   * Arrays
+   *   .asList(1, 2, 3)
+   *   .forEach(Throwing.rethrow((i,j,k) -&gt; {
+   *      if (i == 3)
+   *        throw new IOException();
+   *    }));
+   * </pre></blockquote>
+   * @param <T> The type of the first input to the consumer's operation.
+   * @param <U> The type of the second input to the consumer's operation.
+   * @param <V> The type of the third input to the consumer's operation.
+   * @param consumer The {@code ThrowingTriConsumer}.
+   * @return The specified {@code TriConsumer} instance.
+   */
+  public static <T,U,V>TriConsumer<T,U,V> rethrow(final ThrowingTriConsumer<T,U,V> consumer) {
     return consumer;
   }
 
