@@ -16,6 +16,7 @@
 
 package org.openjax.standard.util;
 
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
 /**
@@ -106,6 +107,17 @@ public final class Characters {
    */
   public static boolean isEscapable(final char ch) {
     return Arrays.binarySearch(escapableChars, ch) > -1;
+  }
+
+  /**
+   * Tests whether the specified character is printable.
+   *
+   * @param ch The character to test.
+   * @return {@code true} if the specified character is printable.
+   */
+  public static boolean isPrintable(final char ch) {
+    final Character.UnicodeBlock block = Character.UnicodeBlock.of(ch);
+    return block != null && block != Character.UnicodeBlock.SPECIALS && ch != KeyEvent.CHAR_UNDEFINED && !Character.isISOControl(ch);
   }
 
   private Characters() {
