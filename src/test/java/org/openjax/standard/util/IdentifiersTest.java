@@ -68,7 +68,7 @@ public class IdentifiersTest {
     catch (final IllegalArgumentException e) {
     }
     try {
-      Identifiers.toIdentifier("@foo", c -> c == '@' ? "1!" : null);
+      Identifiers.toIdentifier("@foo", '\0', c -> c == '@' ? "1!" : null);
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
