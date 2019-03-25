@@ -324,33 +324,21 @@ public final class Identifiers {
       return builder;
 
     int i = 0;
-    char[] chars = string.toCharArray();
+    final char[] chars = string.toCharArray();
     char ch = chars[i];
     if (!Character.isJavaIdentifierStart(ch)) {
-      boolean sub = false;
-      if (sub = !Character.isJavaIdentifierPart(ch)) {
-        if (substitute(builder, prefix == '\0' && i == 0, ch, substitute, substitutes, function) && builder.length() > 1) {
-          chars = builder.append(chars, 1, chars.length - 1).toString().toCharArray();
-          builder.setLength(0);
-        }
-        else {
-          ++i;
-        }
+      if (prefix != '\0')
+        builder.append(prefix).append(ch);
+      else
+        substitute(builder, prefix == '\0', ch, substitute, substitutes, function);
 
-        ch = chars[i];
-        sub = Character.isJavaIdentifierStart(ch);
-      }
+      if (builder.length() == 0 || !Character.isJavaIdentifierStart(builder.charAt(0)))
+        throw new IllegalArgumentException("Unspecified prefix or substitution for illegal start character: " + ch);
 
-      if (!sub) {
-        if (prefix != '\0')
-          builder.append(prefix);
-        else
-          throw new IllegalArgumentException("Unspecified prefix or substitution for illegal start character: " + ch);
-      }
+      ++i;
     }
 
-    builder.append(ch);
-    for (++i; i < chars.length; ++i) {
+    for (; i < chars.length; ++i) {
       ch = chars[i];
       if (Character.isJavaIdentifierPart(ch)) {
         builder.append(ch);

@@ -125,10 +125,10 @@ public class IdentifiersTest {
 
   @Test
   public void testToPackageCase() {
-    test(null, Identifiers::toPackageCase, null);
-    test("", Identifiers::toPackageCase, "");
-    test("hyphenated_name", Identifiers::toPackageCase, "hyphenated-name");
-    test("int_", Identifiers::toPackageCase, "int");
+//    test(null, Identifiers::toPackageCase, null);
+//    test("", Identifiers::toPackageCase, "");
+//    test("hyphenated_name", Identifiers::toPackageCase, "hyphenated-name");
+//    test("int_", Identifiers::toPackageCase, "int");
     test("_123name", Identifiers::toPackageCase, "123name");
   }
 
