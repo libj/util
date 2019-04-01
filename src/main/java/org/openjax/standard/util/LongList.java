@@ -570,8 +570,8 @@ public interface LongList extends LongCollection {
    * @param fromIndex Low endpoint (inclusive) of the subList.
    * @param toIndex High endpoint (exclusive) of the subList.
    * @return A view of the specified range within this list.
-   * @throws IndexOutOfBoundsException For an illegal endpoint index value
-   *           ({@code fromIndex < 0 || toIndex > size ||
+   * @throws IndexOutOfBoundsException For range parameters that are
+   *           out-of-bounds ({@code fromIndex < 0 || toIndex > size ||
    *         fromIndex > toIndex}).
    */
   LongList subList(int fromIndex, int toIndex);
