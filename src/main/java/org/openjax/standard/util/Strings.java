@@ -1297,6 +1297,26 @@ public final class Strings {
   }
 
   /**
+   * Tests if the specified string is fully comprised of whitespace characters.
+   *
+   * @param string The {@code String} to test.
+   * @return {@code true} if the specified string is fully comprised of
+   *         whitespace characters. This method returns {@code true} for empty
+   *         strings and {@code false} for null.
+   */
+  public static boolean isWhitespace(final CharSequence string) {
+    if (string == null)
+      return false;
+
+    final int len = string.length();
+    for (int i = 0; i < len; ++i)
+      if (!Character.isWhitespace(string.charAt(i)))
+        return false;
+
+    return true;
+  }
+
+  /**
    * Tests if the specified string represents a regular expression that <i>can
    * match more than 1 string (i.e. "abc" is technically a regular expression,
    * however it can only match a single string: "abc")</i>.
