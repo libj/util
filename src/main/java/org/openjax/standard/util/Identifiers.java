@@ -886,7 +886,7 @@ public final class Identifiers {
     return builder;
   }
 
-  private static String transform(final StringBuilder builder) {
+  private static String toClassCase(final StringBuilder builder) {
     if (Character.isUpperCase(builder.charAt(0)))
       return builder.toString();
 
@@ -916,7 +916,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final char substitute, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, substitutes, null));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, prefix, substitute, substitutes, null));
   }
 
   /**
@@ -939,7 +939,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', substitutes, null));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, prefix, '\0', substitutes, null));
   }
 
   /**
@@ -962,7 +962,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final Function<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', null, substitutes));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, prefix, '\0', null, substitutes));
   }
 
   /**
@@ -983,7 +983,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix, final char substitute) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, substitute, null, null));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, prefix, substitute, null, null));
   }
 
   /**
@@ -1002,7 +1002,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final char prefix) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, prefix, '\0', null, null));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, prefix, '\0', null, null));
   }
 
   /**
@@ -1023,7 +1023,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final Map<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', substitutes, null));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, 'X', '\0', substitutes, null));
   }
 
   /**
@@ -1042,7 +1042,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string, final Function<Character,String> substitutes) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', null, substitutes));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, 'X', '\0', null, substitutes));
   }
 
   /**
@@ -1059,7 +1059,7 @@ public final class Identifiers {
    *      Identifiers</a>
    */
   public static String toClassCase(final String string) {
-    return string.length() == 0 ? string : transform(toCamelCase0(string, 'X', '\0', null, null));
+    return string.length() == 0 ? string : toClassCase(toCamelCase0(string, 'X', '\0', null, null));
   }
 
   private Identifiers() {
