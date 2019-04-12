@@ -26,17 +26,84 @@ import java.util.Locale;
  */
 public final class Locales {
   /**
+   * Returns {@code true} if the provided {@code Locale} specifies an ISO
+   * country and ISO language, otherwise {@code false}.
+   *
+   * @param locale The {@code Locale}.
+   * @return {@code true} if the provided {@code Locale} specifies an ISO
+   *         country and ISO language, otherwise {@code false}.
+   */
+  public static boolean isIso(final Locale locale) {
+    if (!isIsoCountry(locale))
+      return false;
+
+    if (!isIsoLanguage(locale))
+      return false;
+
+    return true;
+  }
+
+  /**
+   * Returns {@code true} if the provided {@code Locale} specifies an ISO
+   * country, otherwise {@code false}.
+   *
+   * @param locale The {@code Locale}.
+   * @return {@code true} if the provided {@code Locale} specifies an ISO
+   *         country, otherwise {@code false}.
+   */
+  public static boolean isIsoCountry(final Locale locale) {
+    if (locale == null)
+      return false;
+
+    final String country = locale.getCountry();
+    if (country == null)
+      return false;
+
+    for (final String isoCountry : Locale.getISOCountries())
+      if (country.equals(isoCountry))
+        return true;
+
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if the provided {@code Locale} specifies an ISO
+   * language, otherwise {@code false}.
+   *
+   * @param locale The {@code Locale}.
+   * @return {@code true} if the provided {@code Locale} specifies an ISO
+   *         language, otherwise {@code false}.
+   */
+  public static boolean isIsoLanguage(final Locale locale) {
+    if (locale == null)
+      return false;
+
+    final String language = locale.getLanguage();
+    if (language == null)
+      return false;
+
+    for (final String isoLanguage : Locale.getISOLanguages())
+      if (language.equals(isoLanguage))
+        return true;
+
+    return false;
+  }
+
+  /**
    * Returns a {@link Locale} representation of a string based locale that has
-   * the form {@code "{language}_{country}_{variant}"}. Examples: {@code "en"},
-   * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
-   * {@code "fr_MAC"}.
+   * the form {@code "{language}_{country}_{variant}"}, or {@code null} if the
+   * specified string is null. Examples: {@code "en"}, {@code "de_DE"},
+   * {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"}, {@code "fr_MAC"}.
    *
    * @param string The string.
    * @return A {@link Locale} representation of a string based locale that has
-   *         the form {@code "{language}_{country}_{variant}"}.
-   * @throws NullPointerException If {@code string} is null.
+   *         the form {@code "{language}_{country}_{variant}"}, or {@code null}
+   *         if the specified string is null.
    */
   public static Locale parse(String string) {
+    if (string == null)
+      return null;
+
     string = string.trim();
     if ("default".equals(string.toLowerCase()))
       return Locale.getDefault();
