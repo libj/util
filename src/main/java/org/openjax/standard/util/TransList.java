@@ -113,7 +113,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
     final Object[] array = new Object[size()];
     final Iterator<S> iterator = target.iterator();
-    for (int i = 0; i < size(); i++) {
+    for (int i = 0; i < size(); ++i) {
       final S e = iterator.next();
       array[i] = e == null ? null : sourceToTarget.apply(e);
     }
@@ -128,7 +128,7 @@ public class TransList<S,T> extends DelegateList<T> {
       throw new UnsupportedOperationException();
 
     final Iterator<S> iterator = target.iterator();
-    for (int i = 0; i < size(); i++) {
+    for (int i = 0; i < size(); ++i) {
       final S e = iterator.next();
       a[i] = e == null ? null : (E)sourceToTarget.apply(e);
     }

@@ -38,6 +38,26 @@ public final class Throwables {
     return stringWriter.toString();
   }
 
+  /**
+   * Copies the cause, stack trace elements, and suppressed exceptions from the
+   * first specified {@code Throwable}, to the second.
+   *
+   * @param <T> The type parameter of the {@code Throwable}.
+   * @param from The {@code Throwable} to copy from.
+   * @param to The {@code Throwable} to copy to.
+   * @return The {@code Throwable} being copied to.
+   * @throws NullPointerException If {@code from} or {@code to} are null.
+   */
+  public static <T extends Throwable>T copy(final T from, final T to) {
+    to.initCause(from.getCause());
+    to.setStackTrace(from.getStackTrace());
+    if (from.getSuppressed() != null)
+      for (final Throwable suppressed : from.getSuppressed())
+        to.addSuppressed(suppressed);
+
+    return to;
+  }
+
   private Throwables() {
   }
 }

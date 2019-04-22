@@ -312,7 +312,7 @@ public final class FastCollections {
 
   /**
    * Searches a range of the specified list for the specified object using the
-   * binary search algorithm. The range must be sorted into ascending order
+   * binary search algorithm. The range must be sorted in ascending order
    * according to the {@linkplain Comparable natural ordering} of its elements
    * (as by the {@link List#sort(Comparator)} method) prior to making this call.
    * If it is not sorted, the results are undefined. (If the range contains
@@ -349,7 +349,7 @@ public final class FastCollections {
 
   /**
    * Searches the specified list for the specified object using the binary
-   * search algorithm. The list must be sorted into ascending order according to
+   * search algorithm. The list must be sorted in ascending order according to
    * the {@linkplain Comparable natural ordering} of its elements (as by the
    * {@link List#sort(Comparator)} method) prior to making this call. If it is
    * not sorted, the results are undefined. (If the list contains elements that
@@ -378,7 +378,7 @@ public final class FastCollections {
 
   /**
    * Searches a range of the specified list for the specified object using the
-   * binary search algorithm. The range must be sorted into ascending order
+   * binary search algorithm. The range must be sorted in ascending order
    * according to the specified comparator (as by the
    * {@link List#sort(Comparator)} method) prior to making this call. If it is
    * not sorted, the results are undefined. If the range contains multiple
@@ -417,7 +417,7 @@ public final class FastCollections {
 
   /**
    * Searches the specified list for the specified object using the binary
-   * search algorithm. The list must be sorted into ascending order according to
+   * search algorithm. The list must be sorted in ascending order according to
    * the specified comparator (as by the {@link List#sort(Comparator)} method)
    * prior to making this call. If it is not sorted, the results are undefined.
    * If the list contains multiple elements equal to the specified object, there
@@ -472,7 +472,6 @@ public final class FastCollections {
   private static <T extends Comparable<? super T>>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key) {
     int low = fromIndex;
     int high = toIndex - 1;
-
     while (low <= high) {
       int mid = (low + high) >>> 1;
       final Comparable<? super T> midVal = a.get(mid);
@@ -495,7 +494,6 @@ public final class FastCollections {
 
     int low = fromIndex;
     int high = toIndex - 1;
-
     while (low <= high) {
       int mid = (low + high) >>> 1;
       T midVal = a.get(mid);

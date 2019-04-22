@@ -17,7 +17,7 @@
 package org.openjax.standard.util;
 
 /**
- * An {@code enum} representing week days.
+ * An {@code enum} representing weekdays.
  */
 public enum WeekDay {
   MONDAY,

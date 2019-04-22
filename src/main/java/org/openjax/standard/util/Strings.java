@@ -1217,7 +1217,7 @@ public final class Strings {
     boolean escape = false;
     boolean bracket = false;
     final int len = s.length();
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < len; ++i) {
       char ch = s.charAt(i);
       if (ch == '\\') {
         if (var.length() > 0)
