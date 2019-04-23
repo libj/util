@@ -55,7 +55,7 @@ public final class FastArrays {
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is {@code null}.
+   * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final byte[] a, int aFromIndex, final int aToIndex, final byte[] b, int bFromIndex, final int bToIndex) {
     rangeCheck(a.length, aFromIndex, aToIndex);
@@ -100,7 +100,7 @@ public final class FastArrays {
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is {@code null}.
+   * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final char[] a, int aFromIndex, final int aToIndex, final char[] b, int bFromIndex, final int bToIndex) {
     rangeCheck(a.length, aFromIndex, aToIndex);
@@ -145,7 +145,7 @@ public final class FastArrays {
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is {@code null}.
+   * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final short[] a, int aFromIndex, final int aToIndex, final short[] b, int bFromIndex, final int bToIndex) {
     rangeCheck(a.length, aFromIndex, aToIndex);
@@ -190,7 +190,7 @@ public final class FastArrays {
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is {@code null}.
+   * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final int[] a, int aFromIndex, final int aToIndex, final int[] b, int bFromIndex, final int bToIndex) {
     rangeCheck(a.length, aFromIndex, aToIndex);
@@ -235,7 +235,7 @@ public final class FastArrays {
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is {@code null}.
+   * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final long[] a, int aFromIndex, final int aToIndex, final long[] b, int bFromIndex, final int bToIndex) {
     rangeCheck(a.length, aFromIndex, aToIndex);
@@ -280,7 +280,7 @@ public final class FastArrays {
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is {@code null}.
+   * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final Object[] a, int aFromIndex, final int aToIndex, final Object[] b, int bFromIndex, final int bToIndex) {
     rangeCheck(a.length, aFromIndex, aToIndex);
@@ -470,6 +470,7 @@ public final class FastArrays {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<T>>int binaryClosestSearch(final T[] a, final T key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -485,6 +486,7 @@ public final class FastArrays {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<T>>int binaryClosestSearch(final T[] a, final int from, final int to, final T key) {
     rangeCheck(a.length, from, to);
@@ -500,6 +502,7 @@ public final class FastArrays {
    * @param key The value to match.
    * @param comparator The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<T> comparator) {
     return binaryClosestSearch0(a, 0, a.length, key, comparator);
@@ -516,6 +519,7 @@ public final class FastArrays {
    * @param key The value to match.
    * @param comparator The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int from, final int to, final T key, final Comparator<T> comparator) {
     rangeCheck(a.length, from, to);
@@ -574,6 +578,7 @@ public final class FastArrays {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -588,6 +593,7 @@ public final class FastArrays {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int from, final int to, final byte key) {
     rangeCheck(a.length, from, to);
@@ -615,6 +621,7 @@ public final class FastArrays {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -629,6 +636,7 @@ public final class FastArrays {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final short[] a, final int from, final int to, final short key) {
     rangeCheck(a.length, from, to);
@@ -656,6 +664,7 @@ public final class FastArrays {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -670,6 +679,7 @@ public final class FastArrays {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final int[] a, final int from, final int to, final int key) {
     rangeCheck(a.length, from, to);
@@ -697,6 +707,7 @@ public final class FastArrays {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -711,6 +722,7 @@ public final class FastArrays {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final float[] a, final int from, final int to, final float key) {
     rangeCheck(a.length, from, to);
@@ -738,6 +750,7 @@ public final class FastArrays {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -752,6 +765,7 @@ public final class FastArrays {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final double[] a, final int from, final int to, final double key) {
     rangeCheck(a.length, from, to);
@@ -779,6 +793,7 @@ public final class FastArrays {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -793,6 +808,7 @@ public final class FastArrays {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final long[] a, final int from, final int to, final long key) {
     rangeCheck(a.length, from, to);
@@ -823,6 +839,7 @@ public final class FastArrays {
    * @param array The array whose members are to be replaced.
    * @return The the original array instance with its members replaced by the
    *         operator.
+   * @throws NullPointerException If {@code operator} or {@code array} is null.
    */
   @SafeVarargs
   public static <T>T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
@@ -833,14 +850,14 @@ public final class FastArrays {
   }
 
   /**
-   * Filter the provided array with the provided {@link Predicate}. This
-   * method recursive walks the members of the array to attain highest runtime
-   * and memory performance.
+   * Filter the provided array with the specified {@link Predicate}. This
+   * method is recursive.
    *
    * @param <T> Type parameter of object.
    * @param precicate The {@link Predicate} that defines the filter.
    * @param array The array whose members are to be filtered.
    * @return A new array instance with members that pass the filter.
+   * @throws NullPointerException If {@code predicate} or {@code array} is null.
    */
   @SafeVarargs
   public static <T>T[] filter(final Predicate<T> precicate, final T ... array) {
@@ -880,6 +897,7 @@ public final class FastArrays {
    * @param <T> Type parameter of object.
    * @param arrays The arrays to be concatenated.
    * @return The concatenated array.
+   * @throws NullPointerException If {@code arrays} is null.
    */
   @SafeVarargs
   public static <T>T[] concat(final T[] ... arrays) {
@@ -893,6 +911,7 @@ public final class FastArrays {
    * @param array The base array to be concatenated.
    * @param elements The additional elements to be concatenated.
    * @return The concatenated array.
+   * @throws NullPointerException If {@code array} or {@code elements} is null.
    */
   @SafeVarargs
   public static <T>T[] concat(final T[] array, final T ... elements) {
@@ -906,6 +925,7 @@ public final class FastArrays {
    * @param array The base array to be concatenated.
    * @param element The additional element to be concatenated.
    * @return The concatenated array.
+   * @throws NullPointerException If {@code array} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T[] array, final T element) {
@@ -924,6 +944,7 @@ public final class FastArrays {
    *          array (with origin 0). If negative, index will be set to its
    *          calculated value from the end of the array (with origin 1).
    * @return A new array with elements removed from the provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static <T>T[] splice(final T[] array, int start) {
     if (start < 0)
@@ -944,6 +965,7 @@ public final class FastArrays {
    *          remove. If deleteCount is 0, no elements are removed, but a new
    *          reference to the array is returned.
    * @return A new array with elements removed from the provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount) {
@@ -977,6 +999,7 @@ public final class FastArrays {
    * @param items The elements to add to the array, beginning at the start
    *          index.
    * @return A new array with elements removed from the provided array.
+   * @throws NullPointerException If {@code array} or {@code items} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount, final T ... items) {
@@ -991,7 +1014,6 @@ public final class FastArrays {
       System.arraycopy(array, 0, spliced, 0, start);
 
     System.arraycopy(items, 0, spliced, start, items.length);
-
     if (start + deleteCount != array.length)
       System.arraycopy(array, start + deleteCount, spliced, start + items.length, array.length - start - deleteCount);
 
@@ -1005,6 +1027,7 @@ public final class FastArrays {
    * @param array The array to search.
    * @param obj The object to locate.
    * @return The index of the object if it is found, or -1 otherwise.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static <T>int indexOf(final T[] array, final T obj) {
     for (int i = 0; i < array.length; ++i)
@@ -1022,6 +1045,7 @@ public final class FastArrays {
    * @param obj The object to locate.
    * @return {@code true} if the object exists, {@code false}
    *         otherwise.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static <T>boolean contains(final T[] array, final T obj) {
     return indexOf(array, obj) >= 0;
@@ -1894,6 +1918,7 @@ public final class FastArrays {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static byte[] fillIncremental(final byte[] array, byte start) {
     for (int i = 0; i < array.length; ++i)
@@ -1909,6 +1934,7 @@ public final class FastArrays {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static char[] fillIncremental(final char[] array, char start) {
     for (int i = 0; i < array.length; ++i)
@@ -1924,6 +1950,7 @@ public final class FastArrays {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static short[] fillIncremental(final short[] array, short start) {
     for (int i = 0; i < array.length; ++i)
@@ -1939,6 +1966,7 @@ public final class FastArrays {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static int[] fillIncremental(final int[] array, int start) {
     for (int i = 0; i < array.length; ++i)
@@ -1954,6 +1982,7 @@ public final class FastArrays {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static long[] fillIncremental(final long[] array, long start) {
     for (int i = 0; i < array.length; ++i)
@@ -1969,6 +1998,7 @@ public final class FastArrays {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static float[] fillIncremental(final float[] array, float start) {
     for (int i = 0; i < array.length; ++i)
@@ -1984,6 +2014,7 @@ public final class FastArrays {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static double[] fillIncremental(final double[] array, double start) {
     for (int i = 0; i < array.length; ++i)
@@ -2138,6 +2169,7 @@ public final class FastArrays {
    * @param array The specified {@code array}.
    * @param beginIndex The index to become the start of the new array.
    * @return The subArray of the specified {@code array}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static <T>T[] subArray(final T[] array, final int beginIndex) {
     return subArray(array, beginIndex, array.length);
@@ -2151,6 +2183,7 @@ public final class FastArrays {
    * @param beginIndex The index to become the start of the new array.
    * @param endIndex The index to become the end of the new array.
    * @return The subArray of the specified {@code array}.
+   * @throws NullPointerException If {@code array} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] subArray(final T[] array, final int beginIndex, final int endIndex) {
@@ -2249,6 +2282,10 @@ public final class FastArrays {
 
   private static Random DEFAULT_RANDOM;
 
+  private static Random getRandom() {
+    return DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM;
+  }
+
   /**
    * Randomly permutes the specified array using a default source of randomness.
    * All permutations occur with approximately equal likelihood.
@@ -2266,9 +2303,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final boolean[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2288,9 +2326,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final byte[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2310,9 +2349,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final short[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2332,9 +2372,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final int[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2354,9 +2395,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final long[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2376,9 +2418,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final float[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2398,9 +2441,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final double[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2420,9 +2464,10 @@ public final class FastArrays {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final Object[] array) {
-    shuffle(array, DEFAULT_RANDOM == null ? DEFAULT_RANDOM = new Random() : DEFAULT_RANDOM); // harmless race.
+    shuffle(array, getRandom());
   }
 
   /**
@@ -2439,6 +2484,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final boolean[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2459,6 +2505,7 @@ public final class FastArrays {
    *
    * @param array the array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final byte[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2479,6 +2526,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final char[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2499,6 +2547,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final short[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2519,6 +2568,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final int[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2539,6 +2589,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final long[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2559,6 +2610,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final float[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2579,6 +2631,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final double[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -2599,6 +2652,7 @@ public final class FastArrays {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shuffle(final Object[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
