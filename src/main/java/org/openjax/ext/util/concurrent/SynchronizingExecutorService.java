@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.concurrent;
+package org.openjax.ext.util.concurrent;
 
 import java.util.List;
 import java.util.Objects;

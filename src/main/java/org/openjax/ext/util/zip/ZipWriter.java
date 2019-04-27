@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.zip;
+package org.openjax.ext.util.zip;
 
 import java.io.IOException;
 import java.util.Objects;

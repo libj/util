@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util;
+package org.openjax.ext.util;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +27,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.junit.Test;
-import org.openjax.standard.util.zip.ZipFiles;
+import org.openjax.ext.util.zip.ZipFiles;
 
 public class ZipFilesTest {
   private static final File extractDir = new File("target/generated-test-resources/extract");

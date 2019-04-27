@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.function;
+package org.openjax.ext.util.function;
 
 import java.util.Objects;
 import java.util.function.LongConsumer;

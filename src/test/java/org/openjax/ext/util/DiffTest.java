@@ -14,12 +14,12 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util;
+package org.openjax.ext.util;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.openjax.standard.util.Diff.Mod;
+import org.openjax.ext.util.Diff.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

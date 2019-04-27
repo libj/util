@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.retry;
+package org.openjax.ext.util.retry;
 
 /**
  * Thrown to indicate the ultimate failure of retried invocation(s) by a

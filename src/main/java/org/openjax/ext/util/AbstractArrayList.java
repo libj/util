@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util;
+package org.openjax.ext.util;
 
 /**
  * This class provides a skeletal implementation of an array-backed list of the

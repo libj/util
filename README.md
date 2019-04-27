@@ -1,15 +1,15 @@
-# OpenJAX Standard Util
+# OpenJAX Extensions Util
 
 > Java API Extensions to `java.util`
 
-[![Build Status](https://travis-ci.org/openjax/standard-util.png)](https://travis-ci.org/openjax/standard-util)
-[![Coverage Status](https://coveralls.io/repos/github/openjax/standard-util/badge.svg)](https://coveralls.io/github/openjax/standard-util)
-[![Javadocs](https://www.javadoc.io/badge/org.openjax.standard/util.svg)](https://www.javadoc.io/doc/org.openjax.standard/util)
-[![Released Version](https://img.shields.io/maven-central/v/org.openjax.standard/util.svg)](https://mvnrepository.com/artifact/org.openjax.standard/util)
+[![Build Status](https://travis-ci.org/openjax/ext-util.png)](https://travis-ci.org/openjax/ext-util)
+[![Coverage Status](https://coveralls.io/repos/github/openjax/ext-util/badge.svg)](https://coveralls.io/github/openjax/ext-util)
+[![Javadocs](https://www.javadoc.io/badge/org.openjax.ext/util.svg)](https://www.javadoc.io/doc/org.openjax.ext/util)
+[![Released Version](https://img.shields.io/maven-central/v/org.openjax.ext/util.svg)](https://mvnrepository.com/artifact/org.openjax.ext/util)
 
 ## Introduction
 
-Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge a span of the gap, OpenJAX Standard Util complements Java's standard utility classes with implementations of such patterns.
+Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge a span of the gap, OpenJAX Extensions Util complements Java's standard utility classes with implementations of such patterns.
 
 ## Essential Patterns
 

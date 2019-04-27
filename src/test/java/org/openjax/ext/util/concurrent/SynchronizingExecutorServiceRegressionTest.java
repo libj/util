@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.concurrent;
+package org.openjax.ext.util.concurrent;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
-import org.openjax.standard.logging.DeferredLogger;
+import org.openjax.ext.logging.DeferredLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;

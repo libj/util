@@ -14,10 +14,10 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.function;
+package org.openjax.ext.util.function;
 
 import static org.junit.Assert.*;
-import static org.openjax.standard.util.function.Throwing.*;
+import static org.openjax.ext.util.function.Throwing.*;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.retry;
+package org.openjax.ext.util.retry;
 
 import java.io.Serializable;
 

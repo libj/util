@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.util.function;
+package org.openjax.ext.util.function;
 
 /**
  * Represents an operation that accepts three object-valued and two
