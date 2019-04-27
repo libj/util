@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/openjax/standard-util.png)](https://travis-ci.org/openjax/standard-util)
 [![Coverage Status](https://coveralls.io/repos/github/openjax/standard-util/badge.svg)](https://coveralls.io/github/openjax/standard-util)
+[![Javadocs](https://www.javadoc.io/badge/org.openjax.standard/util.svg)](https://www.javadoc.io/doc/org.openjax.standard/util)
+[![Released Version](https://img.shields.io/maven-central/v/org.openjax.standard/util.svg)](https://mvnrepository.com/artifact/org.openjax.standard/util)
 
 ## Introduction
 
@@ -112,10 +114,6 @@ Java's `java.util` package provides a wide range of utility classes, yet many co
     Convenience utility functions for operations pertaining to zip files.
 
 26. **and more...**
-
-### JavaDocs
-
-JavaDocs are available [here](https://standard.openjax.org/util/apidocs/).
 
 ## Contributing
 
