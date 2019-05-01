@@ -26,9 +26,9 @@
   </parent>
   <artifactId>util</artifactId>
   <version>0.7.9-SNAPSHOT</version>
-  <name>${project.groupId}:${project.artifactId}</name>
+  <name>OpenJAX Extensions Util</name>
   <description>
-    General utilities.
+    Provides supplementary utilities for classes that belong to java.util, or are considered essential as to justify existence in java.util.
   </description>
   <dependencies>
     <dependency>
