@@ -1,15 +1,15 @@
-# OpenJAX Util
+# LibJ Util
 
 > Java API Extensions to `java.util`
 
-[![Build Status](https://travis-ci.org/openjax/util.png)](https://travis-ci.org/openjax/util)
-[![Coverage Status](https://coveralls.io/repos/github/openjax/util/badge.svg)](https://coveralls.io/github/openjax/util)
-[![Javadocs](https://www.javadoc.io/badge/org.openjax/util.svg)](https://www.javadoc.io/doc/org.openjax/util)
-[![Released Version](https://img.shields.io/maven-central/v/org.openjax/util.svg)](https://mvnrepository.com/artifact/org.openjax/util)
+[![Build Status](https://travis-ci.org/libj/util.png)](https://travis-ci.org/libj/util)
+[![Coverage Status](https://coveralls.io/repos/github/libj/util/badge.svg)](https://coveralls.io/github/libj/util)
+[![Javadocs](https://www.javadoc.io/badge/org.libj/util.svg)](https://www.javadoc.io/doc/org.libj/util)
+[![Released Version](https://img.shields.io/maven-central/v/org.libj/util.svg)](https://mvnrepository.com/artifact/org.libj/util)
 
 ## Introduction
 
-Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge a span of the gap, OpenJAX Util complements Java's standard utility classes with implementations of such patterns.
+Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge a span of the gap, LibJ Util complements Java's standard utility classes with implementations of such patterns.
 
 ## Essential Patterns
 
