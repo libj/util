@@ -26,7 +26,7 @@ import java.util.function.Function;
 /**
  * Utility functions for operations pertaining to {@link Collection} and {@link List}.
  */
-public final class FastCollections {
+public final class CollectionUtil {
   /**
    * Inserts the one-dimensional representation of the input collection into the
    * specified output collection, whereby all nested {@code Collection} members
@@ -712,6 +712,6 @@ public final class FastCollections {
     return partitions;
   }
 
-  private FastCollections() {
+  private CollectionUtil() {
   }
 }

@@ -104,7 +104,7 @@ public class RefDigraph<T,R> extends Digraph<T> {
 
     vertices.clear();
     if (references.size() != 0)
-      throw new IllegalStateException("Missing vertex references: " + FastCollections.toString(references, ", "));
+      throw new IllegalStateException("Missing vertex references: " + CollectionUtil.toString(references, ", "));
   }
 
   @Override

@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class FastCollectionsTest {
+public class CollectionUtilTest {
   private static List<Object> createRandomNestedList() {
     final List<Object> list = new ArrayList<>(4);
     for (int i = 0; i < 4; ++i)
@@ -47,7 +47,7 @@ public class FastCollectionsTest {
   public void testFlattenList0() {
     final List<Object> list = createTestList();
     final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
-    FastCollections.flatten(list);
+    CollectionUtil.flatten(list);
     assertEquals(expected, list.toString());
   }
 
@@ -56,7 +56,7 @@ public class FastCollectionsTest {
     for (int i = 0; i < 100; ++i) {
       final List<Object> list = createRandomNestedList();
       final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
-      FastCollections.flatten(list);
+      CollectionUtil.flatten(list);
       assertEquals(expected, list.toString());
     }
   }
@@ -65,7 +65,7 @@ public class FastCollectionsTest {
   public void testFlattenListRetainingReferences() {
     final List<Object> list = createTestList();
     final List<Object> expected = createExpectedList(list);
-    FastCollections.flatten(list, true);
+    CollectionUtil.flatten(list, true);
     assertEquals(expected, list);
   }
 
@@ -73,7 +73,7 @@ public class FastCollectionsTest {
   public void testFlattenCollection0() {
     final List<Object> list = createTestList();
     final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
-    final List<Object> result = FastCollections.flatten(list, new ArrayList<>());
+    final List<Object> result = CollectionUtil.flatten(list, new ArrayList<>());
     assertEquals(expected, result.toString());
   }
 
@@ -81,7 +81,7 @@ public class FastCollectionsTest {
   public void testFlattenCollectionN() {
     for (int i = 0; i < 100; ++i) {
       final List<Object> list = createRandomNestedList();
-      final List<Object> result = FastCollections.flatten(list, new ArrayList<>());
+      final List<Object> result = CollectionUtil.flatten(list, new ArrayList<>());
       assertEquals("[" + list.toString().replace("[", "").replace("]", "") + "]", result.toString());
     }
   }
@@ -90,22 +90,22 @@ public class FastCollectionsTest {
   public void testFlattenCollectionRetainingReferences() {
     final List<Object> list = createTestList();
     final List<Object> expected = createExpectedList(list);
-    final List<Object> result = FastCollections.flatten(list, new ArrayList<>(), true);
+    final List<Object> result = CollectionUtil.flatten(list, new ArrayList<>(), true);
     assertEquals(expected, result);
   }
 
   @Test
   public void testGetComponentType() {
-    assertNull(FastCollections.getComponentType(Arrays.asList(null, null, null)));
-    assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
-    assertEquals(Number.class, FastCollections.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
+    assertNull(CollectionUtil.getComponentType(Arrays.asList(null, null, null)));
+    assertEquals(Number.class, CollectionUtil.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
+    assertEquals(Number.class, CollectionUtil.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
   }
 
   @Test
   public void testPartitions() {
     final List<String> list = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
     for (int p = 1; p < list.size(); ++p) {
-      final List<String>[] partitions = FastCollections.partition(list, p);
+      final List<String>[] partitions = CollectionUtil.partition(list, p);
       final int parts = list.size() / p;
       final int remainder = list.size() % p;
       assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);

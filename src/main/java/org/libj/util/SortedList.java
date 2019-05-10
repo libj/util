@@ -52,7 +52,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
   @Override
   @SuppressWarnings("unchecked")
   protected boolean beforeAdd(final int index, final E e) {
-    target.add(FastCollections.binaryClosestSearch(target, e), e);
+    target.add(CollectionUtil.binaryClosestSearch(target, e), e);
     return false;
   }
 
@@ -124,7 +124,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   private int indexOf(final Object o, final int fromIndex, final int toIndex) {
-    return o instanceof Comparable ? FastCollections.binarySearch(target, fromIndex, toIndex, (Comparable)o) : target.indexOf(o);
+    return o instanceof Comparable ? CollectionUtil.binarySearch(target, fromIndex, toIndex, (Comparable)o) : target.indexOf(o);
   }
 
   /**

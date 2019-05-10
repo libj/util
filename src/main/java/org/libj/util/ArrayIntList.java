@@ -755,7 +755,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
     final int toIndex = this.toIndex > -1 ? this.toIndex : size;
     final int thatToIndex = that.toIndex > -1 ? that.toIndex : that.size;
-    return FastArrays.equals(valueData, fromIndex, toIndex, that.valueData, that.fromIndex, thatToIndex);
+    return ArrayUtil.equals(valueData, fromIndex, toIndex, that.valueData, that.fromIndex, thatToIndex);
   }
 
   /**
@@ -769,6 +769,6 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
    */
   @Override
   public String toString() {
-    return "[" + FastArrays.toString(valueData, ", ", fromIndex, size()) + "]";
+    return "[" + ArrayUtil.toString(valueData, ", ", fromIndex, size()) + "]";
   }
 }

@@ -257,8 +257,8 @@ public class ClassesTest {
 
     final Class<?>[] hierarchy = {LinkedList.class, AbstractSequentialList.class, List.class, Deque.class, Cloneable.class, Serializable.class, AbstractList.class, Collection.class, Queue.class, AbstractCollection.class, Iterable.class, Object.class};
 
-    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy), Classes.getClassHierarchy(LinkedList.class, c -> true));
-    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 6), Classes.getClassHierarchy(LinkedList.class, c -> c != Serializable.class));
-    assertEquals(FastCollections.asCollection(new LinkedHashSet<>(), hierarchy, 0, 9), Classes.getClassHierarchy(LinkedList.class, c -> c != Queue.class));
+    assertEquals(CollectionUtil.asCollection(new LinkedHashSet<>(), hierarchy), Classes.getClassHierarchy(LinkedList.class, c -> true));
+    assertEquals(CollectionUtil.asCollection(new LinkedHashSet<>(), hierarchy, 0, 6), Classes.getClassHierarchy(LinkedList.class, c -> c != Serializable.class));
+    assertEquals(CollectionUtil.asCollection(new LinkedHashSet<>(), hierarchy, 0, 9), Classes.getClassHierarchy(LinkedList.class, c -> c != Queue.class));
   }
 }

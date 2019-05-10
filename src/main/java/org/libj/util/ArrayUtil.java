@@ -27,7 +27,7 @@ import java.util.function.UnaryOperator;
 /**
  * Utility functions for operations pertaining to arrays.
  */
-public final class FastArrays {
+public final class ArrayUtil {
   /**
    * Returns true if the two specified arrays of bytes, over the specified
    * ranges, are <i>equal</i> to one another.
@@ -2659,6 +2659,6 @@ public final class FastArrays {
       swap(array, i - 1, random.nextInt(i));
   }
 
-  private FastArrays() {
+  private ArrayUtil() {
   }
 }

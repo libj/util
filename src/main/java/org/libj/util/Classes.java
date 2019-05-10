@@ -1077,7 +1077,7 @@ public final class Classes {
    * @return The current execution stack as an array of classes.
    */
   public static Class<?>[] getExecutionStack() {
-    return FastArrays.subArray(new CallingClass().getClassContext(), 3);
+    return ArrayUtil.subArray(new CallingClass().getClassContext(), 3);
   }
 
   private Classes() {
