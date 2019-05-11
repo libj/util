@@ -9,7 +9,7 @@
 
 ## Introduction
 
-Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge a span of the gap, LibJ Util complements Java's standard utility classes with implementations of such patterns.
+Java's `java.util` package provides a wide range of utility classes, yet many common patterns are left for developers to implement themselves. To bridge the gap, LibJ Util complements Java's standard utility classes with implementations of such patterns.
 
 ## Essential Patterns
 
