@@ -1032,7 +1032,7 @@ public final class Strings {
    * <tr><td>FooBar</td><td>fooBar</td></tr>
    * </table>
    * </blockquote>
-   * @param string
+   * @param string The string.
    * @return The specified string with its first character's capitalization
    *         flipped, as per the described rules.
    * @throws NullPointerException If {@code string} is null.
