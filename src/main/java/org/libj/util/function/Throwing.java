@@ -17,6 +17,7 @@
 package org.libj.util.function;
 
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -135,6 +136,31 @@ public final class Throwing {
    * @return The specified {@code Function} instance.
    */
   public static <T,R>Function<T,R> rethrow(final ThrowingFunction<T,R> function) {
+    return function;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified {@code ThrowingBiFunction}.
+   * <p>
+   * An example of this pattern:
+   * <blockquote><pre>
+   * Arrays
+   *   .asList(new int[] {0, 1}, new int[] {2, 3}, new int[] {4, 5})
+   *   .stream()
+   *   .map(Throwing.rethrow((i,j) -&gt; {
+   *      if (i == 3)
+   *        throw new IOException();
+   *      return String.valueOf(i + " " + j);
+   *    }))
+   *    .forEach(f -&gt; {});
+   * </pre></blockquote>
+   * @param <T> The type of the first input to the function's operation.
+   * @param <U> The type of the second input to the function's operation.
+   * @param <R> The type of the result of the function's function.
+   * @param function The {@code ThrowingFunction}.
+   * @return The specified {@code Function} instance.
+   */
+  public static <T,U,R>BiFunction<T,U,R> rethrow(final ThrowingBiFunction<T,U,R> function) {
     return function;
   }
 
