@@ -294,10 +294,10 @@ public final class Strings {
   }
 
   /**
-   * Tests if the specified {@link StringBuilder} starts with the specified
+   * Tests if the specified {@link CharSequence} starts with the specified
    * prefix.
    *
-   * @param builder The {@link StringBuilder}.
+   * @param string The {@link CharSequence}.
    * @param prefix The prefix.
    * @return {@code true} if the {@code prefix} character sequence is a prefix
    *         of {@code builder}; {@code false} otherwise. Note also that
@@ -305,25 +305,25 @@ public final class Strings {
    *         or is equal to {@code builder}.
    * @throws NullPointerException If {@code builder} or {@code prefix} is null.
    */
-  public static boolean startsWith(final StringBuilder builder, final CharSequence prefix) {
+  public static boolean startsWith(final CharSequence string, final CharSequence prefix) {
     if (prefix.length() == 0)
       return true;
 
-    if (builder.length() < prefix.length())
+    if (string.length() < prefix.length())
       return false;
 
     for (int i = 0; i < prefix.length(); ++i)
-      if (builder.charAt(i) != prefix.charAt(i))
+      if (string.charAt(i) != prefix.charAt(i))
         return false;
 
     return true;
   }
 
   /**
-   * Tests if the specified {@link StringBuilder} ends with the specified
+   * Tests if the specified {@link CharSequence} ends with the specified
    * suffix.
    *
-   * @param builder The {@link StringBuilder}.
+   * @param string The {@link CharSequence}.
    * @param suffix The suffix.
    * @return {@code true} if the {@code suffix} character sequence is a suffix
    *         of {@code builder}; {@code false} otherwise. Note also that
@@ -331,16 +331,16 @@ public final class Strings {
    *         or is equal to {@code builder}.
    * @throws NullPointerException If {@code builder} or {@code suffix} is null.
    */
-  public static boolean endsWith(final StringBuilder builder, final CharSequence suffix) {
+  public static boolean endsWith(final CharSequence string, final CharSequence suffix) {
     if (suffix.length() == 0)
       return true;
 
-    if (builder.length() < suffix.length())
+    if (string.length() < suffix.length())
       return false;
 
-    final int offset = builder.length() - suffix.length();
+    final int offset = string.length() - suffix.length();
     for (int i = suffix.length() - 1; i >= 0; --i)
-      if (builder.charAt(offset + i) != suffix.charAt(i))
+      if (string.charAt(offset + i) != suffix.charAt(i))
         return false;
 
     return true;
@@ -627,13 +627,13 @@ public final class Strings {
 
   /**
    * Returns the string of UTF-8 literal hexadecimal encodings of characters of
-   * the specified {@code String}.
+   * the specified {@code CharSequence}.
    *
-   * @param string The {@code String} to encode.
+   * @param string The {@code CharSequence} to encode.
    * @return The string of UTF-8 literal hexadecimal encodings of characters of
-   *         the specified {@code String}.
+   *         the specified {@code CharSequence}.
    */
-  public static String toUTF8Literal(final String string) {
+  public static String toUTF8Literal(final CharSequence string) {
     final int len = string.length();
     final StringBuilder builder = new StringBuilder(len * 4);
     for (int i = 0; i < len; ++i)
@@ -874,17 +874,17 @@ public final class Strings {
    * @param ch The character to find.
    * @param fromIndex The index to start the search from. There is no
    *          restriction on the value of {@code fromIndex}. If it is greater
-   *          than or equal to the length of this string, it has the same effect
-   *          as if it were equal to one less than the length of this string:
-   *          this entire string may be searched. If it is negative, it has the
-   *          same effect as if it were {@code -1}: {@code -1} is returned.
+   *          than or equal to the length of the string, it has the same effect
+   *          as if it were equal to one less than the length of the string: the
+   *          entire string may be searched. If it is negative, it has the same
+   *          effect as if it were {@code -1}: {@code -1} is returned.
    * @return The index within the specified string of the first occurrence of
    *         the provided character that is not within a quoted section of the
    *         string, or {@code -1} if the character is not found in an unquoted
    *         section.
    * @throws NullPointerException If the specified string is null.
    */
-  public static int indexOfUnQuoted(final String string, final char ch, final int fromIndex) {
+  public static int indexOfUnQuoted(final CharSequence string, final char ch, final int fromIndex) {
     boolean esacped = false;
     boolean quoted = false;
     for (int i = fromIndex < 0 ? 0 : fromIndex, len = string.length(); i < len; ++i) {
@@ -917,7 +917,7 @@ public final class Strings {
    *         section.
    * @throws NullPointerException If the specified string is null.
    */
-  public static int indexOfUnQuoted(final String string, final char ch) {
+  public static int indexOfUnQuoted(final CharSequence string, final char ch) {
     return indexOfUnQuoted(string, ch, 0);
   }
 
@@ -932,17 +932,17 @@ public final class Strings {
    * @param ch The character to find.
    * @param fromIndex The index to start the search from. There is no
    *          restriction on the value of {@code fromIndex}. If it is greater
-   *          than or equal to the length of this string, it has the same effect
-   *          as if it were equal to one less than the length of this string:
-   *          this entire string may be searched. If it is negative, it has the
-   *          same effect as if it were {@code -1}: {@code -1} is returned.
+   *          than or equal to the length of the string, it has the same effect
+   *          as if it were equal to one less than the length of the string: the
+   *          entire string may be searched. If it is negative, it has the same
+   *          effect as if it were {@code -1}: {@code -1} is returned.
    * @return The index within the specified string of the first occurrence of
    *         the provided character that is not within a quoted section of the
    *         string, or {@code -1} if the character is not found in an unquoted
    *         section.
    * @throws NullPointerException If the specified string is null.
    */
-  public static int lastIndexOfUnQuoted(final String string, final char ch, int fromIndex) {
+  public static int lastIndexOfUnQuoted(final CharSequence string, final char ch, int fromIndex) {
     boolean esacped = false;
     boolean quoted = false;
     char n = '\0';
@@ -977,7 +977,7 @@ public final class Strings {
    *         section.
    * @throws NullPointerException If the specified string is null.
    */
-  public static int lastIndexOfUnQuoted(final String string, final char ch) {
+  public static int lastIndexOfUnQuoted(final CharSequence string, final char ch) {
     return lastIndexOfUnQuoted(string, ch, string.length());
   }
 
@@ -1365,6 +1365,52 @@ public final class Strings {
     }
 
     return false;
+  }
+
+  /**
+   * Determines whether all characters in the specified {@code CharSequence} are
+   * in the general category type of {@link Character#LOWERCASE_LETTER}.
+   *
+   * @param builder The {@code CharSequence}.
+   * @return {@code true} if all characters in the specified
+   *         {@code CharSequence} are lower-case characters; otherwise
+   *         {@code false}.
+   * @throws IllegalArgumentException If the specified {@code CharSequence} is
+   *           empty.
+   * @throws NullPointerException If the specified {@code CharSequence} is null.
+   */
+  public static boolean isLowerCase(final CharSequence builder) {
+    if (builder.length() == 0)
+      throw new IllegalArgumentException("Empty string");
+
+    for (int i = 0, len = builder.length(); i < len; ++i)
+      if (!Character.isLowerCase(builder.charAt(i)))
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Determines whether all characters in the specified {@code CharSequence} are
+   * in the general category type of {@link Character#UPPERCASE_LETTER}.
+   *
+   * @param builder The {@code CharSequence}.
+   * @return {@code true} if all characters in the specified
+   *         {@code CharSequence} are upper-case characters; otherwise
+   *         {@code false}.
+   * @throws IllegalArgumentException If the specified {@code CharSequence} is
+   *           empty.
+   * @throws NullPointerException If the specified {@code CharSequence} is null.
+   */
+  public static boolean isUpperCase(final CharSequence builder) {
+    if (builder.length() == 0)
+      throw new IllegalArgumentException("Empty string");
+
+    for (int i = 0, len = builder.length(); i < len; ++i)
+      if (!Character.isUpperCase(builder.charAt(i)))
+        return false;
+
+    return true;
   }
 
   private Strings() {
