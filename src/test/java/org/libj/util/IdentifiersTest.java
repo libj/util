@@ -61,10 +61,11 @@ public class IdentifiersTest {
 
   @Test
   public void testIdentifier() {
-    test("a", Identifiers::toIdentifier, "a");
-    test("XML", Identifiers::toIdentifier, "XML");
-    test("A", Identifiers::toIdentifier, "A");
-    test("HelloWorld", Identifiers::toIdentifier, "HelloWorld");
+    final Function<String,String> function = Identifiers::toIdentifier;
+    test("a", function, "a");
+    test("XML", function, "XML");
+    test("A", function, "A");
+    test("HelloWorld", function, "HelloWorld");
 
     try {
       Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "1!"));
@@ -78,27 +79,27 @@ public class IdentifiersTest {
     }
     catch (final IllegalArgumentException e) {
     }
-    test("foo", Identifiers::toIdentifier, "@fo@o");
-    test("foo", Identifiers::toIdentifier, "@foo");
+    test("foo", function, "@fo@o");
+    test("foo", function, "@foo");
     assertEquals("$foo", Identifiers.toIdentifier("@foo", '_', '$'));
     assertEquals("_1$foo", Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "1$")));
     assertEquals("_1$foo", Identifiers.toIdentifier("@foo", c -> c == '@' ? "1$" : null));
     assertEquals("$1foo", Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "$1")));
     assertEquals("$1foo", Identifiers.toIdentifier("@foo", c -> c == '@' ? "$1" : null));
 
-    test(null, Identifiers::toIdentifier, null);
-    test("", Identifiers::toIdentifier, "");
-    test("foo$bar", Identifiers::toIdentifier, "foo$bar");
-    test("foo_bar", Identifiers::toIdentifier, "foo_bar");
-    test("foobar", Identifiers::toIdentifier, "foo-bar");
-    test("foobar", Identifiers::toIdentifier, "foo*bar");
-    test("foobar", Identifiers::toIdentifier, "foo%bar");
-    test("foobar", Identifiers::toIdentifier, "foo bar");
-    test("foobar", Identifiers::toIdentifier, "foo bar");
-    test("_2foobar", Identifiers::toIdentifier, "2foo bar");
-    test("_abstract", Identifiers::toIdentifier, "abstract");
-    test("_do", Identifiers::toIdentifier, "do");
-    test("_foo", Identifiers::toIdentifier, "_foo");
+    test(null, function, null);
+    test("", function, "");
+    test("foo$bar", function, "foo$bar");
+    test("foo_bar", function, "foo_bar");
+    test("foobar", function, "foo-bar");
+    test("foobar", function, "foo*bar");
+    test("foobar", function, "foo%bar");
+    test("foobar", function, "foo bar");
+    test("foobar", function, "foo bar");
+    test("_2foobar", function, "2foo bar");
+    test("_abstract", function, "abstract");
+    test("_do", function, "do");
+    test("_foo", function, "_foo");
 
     try {
       Identifiers.toIdentifier("@foo", '\0', c -> "1$");
@@ -130,67 +131,74 @@ public class IdentifiersTest {
 
   @Test
   public void testToPackageCase() {
-    test(null, Identifiers::toPackageCase, null);
-    test("", Identifiers::toPackageCase, "");
-    test("hyphenated_name", Identifiers::toPackageCase, "hyphenated-name");
-    test("int_", Identifiers::toPackageCase, "int");
-    test("_123name", Identifiers::toPackageCase, "123name");
+    final Function<String,String> function = Identifiers::toPackageCase;
+    test(null, function, null);
+    test("", function, "");
+    test("hyphenated_name", function, "hyphenated-name");
+    test("int_", function, "int");
+    test("_123name", function, "123name");
   }
 
   @Test
   public void testToCamelCase() {
-    test(null, Identifiers::toCamelCase, null);
-    test("", Identifiers::toCamelCase, "");
-    test("a", Identifiers::toCamelCase, "a");
-    test("XML", Identifiers::toCamelCase, "XML");
-    test("A", Identifiers::toCamelCase, "A");
-    test("HelloWorld", Identifiers::toCamelCase, "HelloWorld");
-    test("fooBar", Identifiers::toCamelCase, "_foo_bar");
-    test("fooBar", Identifiers::toCamelCase, "foo_bar");
-    test("FooBarFoO", Identifiers::toCamelCase, "FOO_bar_foO");
-    test("foo", Identifiers::toCamelCase, "foo_");
-    test("FOo", Identifiers::toCamelCase, "FOo");
-    test("FOoBAr", Identifiers::toCamelCase, "FOo_bAr");
-    test("x2FOoBAr", Identifiers::toCamelCase, "2FOo_bAr");
-    test("xabstract", Identifiers::toCamelCase, "abstract");
-    test("xdo", Identifiers::toCamelCase, "do");
+    final Function<String,String> function = Identifiers::toCamelCase;
+    test(null, function, null);
+    test("", function, "");
+    test("a", function, "a");
+    test("XML", function, "XML");
+    test("A", function, "A");
+    test("elementXPath", function, "elementXPath");
+    test("HelloWorld", function, "HelloWorld");
+    test("fooBar", function, "_foo_bar");
+    test("fooBar", function, "foo_bar");
+    test("FooBarFoO", function, "FOO_bar_foO");
+    test("foo", function, "foo_");
+    test("FOo", function, "FOo");
+    test("FOoBAr", function, "FOo_bAr");
+    test("x2FOoBAr", function, "2FOo_bAr");
+    test("xabstract", function, "abstract");
+    test("xdo", function, "do");
   }
 
   @Test
   public void testToInstanceCase() {
-    test(null, Identifiers::toInstanceCase, null);
-    test("", Identifiers::toInstanceCase, "");
-    test("a", Identifiers::toInstanceCase, "a");
-    test("xml", Identifiers::toInstanceCase, "XML");
-    test("a", Identifiers::toInstanceCase, "A");
-    test("helloWorld", Identifiers::toInstanceCase, "HelloWorld");
-    test("fooBar", Identifiers::toInstanceCase, "_foo_bar");
-    test("fooBar", Identifiers::toInstanceCase, "foo_bar");
-    test("fooBarFoO", Identifiers::toInstanceCase, "FOO_bar_foO");
-    test("foo", Identifiers::toInstanceCase, "foo_");
-    test("fOo", Identifiers::toInstanceCase, "FOo");
-    test("fOoBAr", Identifiers::toInstanceCase, "FOo_bAr");
-    test("_2FOoBAr", Identifiers::toInstanceCase, "2FOo_bAr");
-    test("_abstract", Identifiers::toInstanceCase, "abstract");
-    test("_do", Identifiers::toInstanceCase, "do");
+    final Function<String,String> function = Identifiers::toInstanceCase;
+    test(null, function, null);
+    test("", function, "");
+    test("a", function, "a");
+    test("xml", function, "XML");
+    test("a", function, "A");
+    test("elementXPath", function, "elementXPath");
+    test("helloWorld", function, "HelloWorld");
+    test("fooBar", function, "_foo_bar");
+    test("fooBar", function, "foo_bar");
+    test("fooBarFoO", function, "FOO_bar_foO");
+    test("foo", function, "foo_");
+    test("fOo", function, "FOo");
+    test("fOoBAr", function, "FOo_bAr");
+    test("_2FOoBAr", function, "2FOo_bAr");
+    test("_abstract", function, "abstract");
+    test("_do", function, "do");
   }
 
   @Test
   public void testToClassCase() {
-    test(null, Identifiers::toClassCase, null);
-    test("", Identifiers::toClassCase, "");
-    test("A", Identifiers::toClassCase, "a");
-    test("Xml", Identifiers::toClassCase, "XML");
-    test("A", Identifiers::toClassCase, "A");
-    test("HelloWorld", Identifiers::toClassCase, "HelloWorld");
-    test("FooBar", Identifiers::toClassCase, "_foo_bar");
-    test("FooBar", Identifiers::toClassCase, "foo_bar");
-    test("FooBarFoO", Identifiers::toClassCase, "FOO_bar_foO");
-    test("Foo", Identifiers::toClassCase, "foo_");
-    test("FOo", Identifiers::toClassCase, "FOo");
-    test("FOoBAr", Identifiers::toClassCase, "FOo_bAr");
-    test("X2FOoBAr", Identifiers::toClassCase, "2FOo_bAr");
-    test("Abstract", Identifiers::toClassCase, "abstract");
-    test("Do", Identifiers::toClassCase, "do");
+    final Function<String,String> function = Identifiers::toClassCase;
+    test(null, function, null);
+    test("", function, "");
+    test("A", function, "a");
+    test("Xml", function, "XML");
+    test("A", function, "A");
+    test("ElementXPath", function, "elementXPath");
+    test("HelloWorld", function, "HelloWorld");
+    test("FooBar", function, "_foo_bar");
+    test("FooBar", function, "foo_bar");
+    test("FooBarFoO", function, "FOO_bar_foO");
+    test("Foo", function, "foo_");
+    test("FOo", function, "FOo");
+    test("FOoBAr", function, "FOo_bAr");
+    test("X2FOoBAr", function, "2FOo_bAr");
+    test("Abstract", function, "abstract");
+    test("Do", function, "do");
   }
 }
