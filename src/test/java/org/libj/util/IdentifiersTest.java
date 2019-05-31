@@ -61,6 +61,11 @@ public class IdentifiersTest {
 
   @Test
   public void testIdentifier() {
+    test("a", Identifiers::toIdentifier, "a");
+    test("XML", Identifiers::toIdentifier, "XML");
+    test("A", Identifiers::toIdentifier, "A");
+    test("HelloWorld", Identifiers::toIdentifier, "HelloWorld");
+
     try {
       Identifiers.toIdentifier("@foo", Collections.singletonMap('@', "1!"));
       fail("Expected IllegalArgumentException");
@@ -125,10 +130,10 @@ public class IdentifiersTest {
 
   @Test
   public void testToPackageCase() {
-//    test(null, Identifiers::toPackageCase, null);
-//    test("", Identifiers::toPackageCase, "");
-//    test("hyphenated_name", Identifiers::toPackageCase, "hyphenated-name");
-//    test("int_", Identifiers::toPackageCase, "int");
+    test(null, Identifiers::toPackageCase, null);
+    test("", Identifiers::toPackageCase, "");
+    test("hyphenated_name", Identifiers::toPackageCase, "hyphenated-name");
+    test("int_", Identifiers::toPackageCase, "int");
     test("_123name", Identifiers::toPackageCase, "123name");
   }
 
@@ -136,9 +141,13 @@ public class IdentifiersTest {
   public void testToCamelCase() {
     test(null, Identifiers::toCamelCase, null);
     test("", Identifiers::toCamelCase, "");
+    test("a", Identifiers::toCamelCase, "a");
+    test("XML", Identifiers::toCamelCase, "XML");
+    test("A", Identifiers::toCamelCase, "A");
+    test("HelloWorld", Identifiers::toCamelCase, "HelloWorld");
     test("fooBar", Identifiers::toCamelCase, "_foo_bar");
     test("fooBar", Identifiers::toCamelCase, "foo_bar");
-    test("FOOBarFoO", Identifiers::toCamelCase, "FOO_bar_foO");
+    test("FooBarFoO", Identifiers::toCamelCase, "FOO_bar_foO");
     test("foo", Identifiers::toCamelCase, "foo_");
     test("FOo", Identifiers::toCamelCase, "FOo");
     test("FOoBAr", Identifiers::toCamelCase, "FOo_bAr");
@@ -154,6 +163,7 @@ public class IdentifiersTest {
     test("a", Identifiers::toInstanceCase, "a");
     test("xml", Identifiers::toInstanceCase, "XML");
     test("a", Identifiers::toInstanceCase, "A");
+    test("helloWorld", Identifiers::toInstanceCase, "HelloWorld");
     test("fooBar", Identifiers::toInstanceCase, "_foo_bar");
     test("fooBar", Identifiers::toInstanceCase, "foo_bar");
     test("fooBarFoO", Identifiers::toInstanceCase, "FOO_bar_foO");
@@ -169,9 +179,13 @@ public class IdentifiersTest {
   public void testToClassCase() {
     test(null, Identifiers::toClassCase, null);
     test("", Identifiers::toClassCase, "");
+    test("A", Identifiers::toClassCase, "a");
+    test("Xml", Identifiers::toClassCase, "XML");
+    test("A", Identifiers::toClassCase, "A");
+    test("HelloWorld", Identifiers::toClassCase, "HelloWorld");
     test("FooBar", Identifiers::toClassCase, "_foo_bar");
     test("FooBar", Identifiers::toClassCase, "foo_bar");
-    test("FOOBarFoO", Identifiers::toClassCase, "FOO_bar_foO");
+    test("FooBarFoO", Identifiers::toClassCase, "FOO_bar_foO");
     test("Foo", Identifiers::toClassCase, "foo_");
     test("FOo", Identifiers::toClassCase, "FOo");
     test("FOoBAr", Identifiers::toClassCase, "FOo_bAr");

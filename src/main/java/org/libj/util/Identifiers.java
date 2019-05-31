@@ -621,6 +621,7 @@ public final class Identifiers {
     if (string.length() == 0)
       return builder;
 
+    int startUpper = -1;
     final char[] chars = string.toCharArray();
     boolean capNext = false;
     for (int i = 0; i < chars.length; ++i) {
@@ -634,8 +635,20 @@ public final class Identifiers {
       }
 
       final char ch = chars[i];
+      if (startUpper == -1 && Character.isUpperCase(ch))
+        startUpper = i;
+      else if (startUpper != -1 && Character.isLowerCase(ch))
+        startUpper = -1;
+
       final int index = Arrays.binarySearch(discardTokens, ch);
       if (index >= 0) {
+        if (startUpper != -1) {
+          for (int j = startUpper + 1; j < i; ++j)
+            builder.setCharAt(j, Character.toLowerCase(builder.charAt(j)));
+
+          startUpper = -1;
+        }
+
         capNext = i != 0;
         substitute(builder, i == 0, ch, substitute, substitutes, function);
       }
@@ -868,17 +881,20 @@ public final class Identifiers {
     }
 
     int i;
-    for (i = 0; i < len; ++i) {
-      final char ch = builder.charAt(i);
-      if (('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z'))
+    for (i = 0; i < len; ++i)
+      if (!Character.isUpperCase(builder.charAt(i)))
         break;
-    }
 
-    if (i <= 1)
+    if (i == 0)
       return builder;
 
     if (i == len)
       return Strings.toLowerCase(builder);
+
+    if (i == 1) {
+      builder.setCharAt(0, Character.toLowerCase(builder.charAt(0)));
+      return builder;
+    }
 
     for (int j = 0; j < i - 1; ++j)
       builder.setCharAt(j, Character.toLowerCase(builder.charAt(j)));
@@ -887,10 +903,12 @@ public final class Identifiers {
   }
 
   private static String toClassCase(final StringBuilder builder) {
-    if (Character.isUpperCase(builder.charAt(0)))
-      return builder.toString();
+    if (Strings.isUpperCase(builder))
+      return Strings.toLowerCase(builder, 1, builder.length()).toString();
 
-    builder.setCharAt(0, Character.toUpperCase(builder.charAt(0)));
+    if (!Character.isUpperCase(builder.charAt(0)))
+      builder.setCharAt(0, Character.toUpperCase(builder.charAt(0)));
+
     return builder.toString();
   }
 
