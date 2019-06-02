@@ -968,19 +968,6 @@ public final class Classes {
     return Repeat.Recursive.<Class<?>,Class<?>,Class<? extends Annotation>>inverted(cls, cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, Objects.requireNonNull(annotationType));
   }
 
-  private static Class<?> getGreatestCommonSuperclass(Class<?> c1, Class<?> c2) {
-    final Class<?> c0 = c2;
-    do {
-      do
-        if (c1.isAssignableFrom(c2))
-          return c1;
-      while ((c2 = c2.getSuperclass()) != null);
-      c2 = c0;
-    }
-    while ((c1 = c1.getSuperclass()) != null);
-    return null;
-  }
-
   /**
    * Returns the greatest common superclass of the specified array of classes.
    *
@@ -1001,18 +988,6 @@ public final class Classes {
     Class<?> gcc = getGreatestCommonSuperclass(classes[0], classes[1]);
     for (int i = 2; i < classes.length && gcc != null; ++i)
       gcc = getGreatestCommonSuperclass(gcc, classes[i]);
-
-    return gcc;
-  }
-
-  @SafeVarargs
-  private static <T>Class<?> getGreatestCommonSuperclass0(final T ... objects) {
-    if (objects.length == 1)
-      return objects[0].getClass();
-
-    Class<?> gcc = getGreatestCommonSuperclass(objects[0].getClass(), objects[1].getClass());
-    for (int i = 2; i < objects.length && gcc != null; ++i)
-      gcc = getGreatestCommonSuperclass(gcc, objects[i].getClass());
 
     return gcc;
   }
@@ -1057,6 +1032,31 @@ public final class Classes {
       throw new IllegalArgumentException("Collection size must be greater than 0");
 
     return getGreatestCommonSuperclass0(objects.toArray());
+  }
+
+  private static Class<?> getGreatestCommonSuperclass(Class<?> c1, Class<?> c2) {
+    final Class<?> c0 = c2;
+    do {
+      do
+        if (c1.isAssignableFrom(c2))
+          return c1;
+      while ((c2 = c2.getSuperclass()) != null);
+      c2 = c0;
+    }
+    while ((c1 = c1.getSuperclass()) != null);
+    return null;
+  }
+
+  @SafeVarargs
+  private static <T>Class<?> getGreatestCommonSuperclass0(final T ... objects) {
+    if (objects.length == 1)
+      return objects[0].getClass();
+
+    Class<?> gcc = getGreatestCommonSuperclass(objects[0].getClass(), objects[1].getClass());
+    for (int i = 2; i < objects.length && gcc != null; ++i)
+      gcc = getGreatestCommonSuperclass(gcc, objects[i].getClass());
+
+    return gcc;
   }
 
   private static class CallingClass extends SecurityManager {
