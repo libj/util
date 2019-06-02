@@ -28,6 +28,26 @@ import java.util.function.Predicate;
  */
 public final class Throwing {
   /**
+   * Rethrows the checked exception from the specified {@code ThrowingRunnable}.
+   * <p>
+   * An example of this pattern:
+   * <blockquote><pre>
+   * Arrays
+   *   .asList(1, 2, 3)
+   *   .forEach(Throwing.rethrow(() -&gt; {
+   *      if (i == 3)
+   *        throw new IOException();
+   *    }));
+   * </pre></blockquote>
+   *
+   * @param runnable The {@code ThrowingRunnable}.
+   * @return The specified {@code Runnable} instance.
+   */
+  public static Runnable rethrow(final ThrowingRunnable runnable) {
+    return runnable;
+  }
+
+  /**
    * Rethrows the checked exception from the specified {@code ThrowingConsumer}.
    * <p>
    * An example of this pattern:
