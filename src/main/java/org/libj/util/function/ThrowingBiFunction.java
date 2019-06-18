@@ -26,15 +26,13 @@ import java.util.function.BiFunction;
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  * <blockquote><pre>
- * Arrays
- *   .asList(new int[] {0, 1}, new int[] {2, 3}, new int[] {4, 5})
- *   .stream()
- *   .map(Throwing.rethrow((i,j) -&gt; {
- *      if (i == 3)
- *        throw new IOException();
- *      return String.valueOf(i + " " + j);
- *    }))
- *    .forEach(f -&gt; {});
+ * BiFunction&lt;Integer,Integer,String&gt; function = Throwing.&lt;Integer,Integer,String&gt;rethrow((i, j) -&gt; {
+ *   if (i == 0)
+ *     throw new IllegalArgumentException("i=" + i);
+ *   return String.valueOf(i);
+ * });
+ * for (int i = 3; i &gt;= 0; --i)
+ *   function.accept(i, -i);
  * </pre></blockquote>
  *
  * @param <T> The type of the first input to the operation.

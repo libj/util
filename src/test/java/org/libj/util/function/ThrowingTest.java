@@ -17,10 +17,12 @@
 package org.libj.util.function;
 
 import static org.junit.Assert.*;
-import static org.libj.util.function.Throwing.*;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
@@ -30,9 +32,9 @@ public class ThrowingTest {
   public void testConsumer() {
     try {
       Arrays
-        .asList(1, 2, 3)
-        .forEach(rethrow(i -> {
-          if (i == 3)
+        .asList(2, 1, 0)
+        .forEach(Throwing.rethrow(i -> {
+          if (i == 0)
             throw new IOException("i=" + i);
         }));
 
@@ -40,7 +42,45 @@ public class ThrowingTest {
     }
     catch (final Exception e) {
       assertEquals(IOException.class, e.getClass());
-      assertEquals("i=3", e.getMessage());
+      assertEquals("i=0", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testBiConsumer() {
+    try {
+      final BiConsumer<Integer,Integer> consumer = Throwing.<Integer,Integer>rethrow((i, j) -> {
+        if (i == 0)
+          throw new IOException("i=" + i);
+      });
+
+      for (int i = 3; i >= 0; --i)
+        consumer.accept(i, -i);
+
+      fail("Expected IOException");
+    }
+    catch (final Exception e) {
+      assertEquals(IOException.class, e.getClass());
+      assertEquals("i=0", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testTriConsumer() {
+    try {
+      final TriConsumer<Integer,Integer,Integer> consumer = Throwing.<Integer,Integer,Integer>rethrow((i, j, k) -> {
+        if (i == 0)
+          throw new IOException("i=" + i);
+      });
+
+      for (int i = 3; i >= 0; --i)
+        consumer.accept(i, -i, i);
+
+      fail("Expected IOException");
+    }
+    catch (final Exception e) {
+      assertEquals(IOException.class, e.getClass());
+      assertEquals("i=0", e.getMessage());
     }
   }
 
@@ -48,10 +88,10 @@ public class ThrowingTest {
   public void testPredicate() {
     try {
       Arrays
-        .asList(1, 2, 3)
+        .asList(2, 1, 0)
         .stream()
         .filter(Throwing.<Integer>rethrow(i -> {
-          if (i == 3)
+          if (i == 0)
             throw new IOException("i=" + i);
 
           return false;
@@ -62,7 +102,28 @@ public class ThrowingTest {
     }
     catch (final Exception e) {
       assertEquals(IOException.class, e.getClass());
-      assertEquals("i=3", e.getMessage());
+      assertEquals("i=0", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testBiPredicate() {
+    try {
+      final BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i, j) -> {
+        if (i == 0)
+          throw new IOException("i=" + i);
+
+        return false;
+      });
+
+      for (int i = 3; i >= 0; --i)
+        predicate.test(i, -i);
+
+      fail("Expected IOException");
+    }
+    catch (final Exception e) {
+      assertEquals(IOException.class, e.getClass());
+      assertEquals("i=0", e.getMessage());
     }
   }
 
@@ -70,10 +131,10 @@ public class ThrowingTest {
   public void testFunction() {
     try {
       Arrays
-        .asList(1, 2, 3)
+        .asList(2, 1, 0)
         .stream()
-        .map(rethrow((Integer i) -> {
-          if (i == 3)
+        .map(Throwing.rethrow((Integer i) -> {
+          if (i == 0)
             throw new IOException("i=" + i);
 
           return String.valueOf(i);
@@ -84,7 +145,28 @@ public class ThrowingTest {
     }
     catch (final Exception e) {
       assertEquals(IOException.class, e.getClass());
-      assertEquals("i=3", e.getMessage());
+      assertEquals("i=0", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testBiFunction() {
+    try {
+      final BiFunction<Integer,Integer,String> function = Throwing.rethrow((Integer i, Integer j) -> {
+        if (i == 0)
+          throw new IOException("i=" + i);
+
+        return String.valueOf(i);
+      });
+
+      for (int i = 3; i >= 0; --i)
+        function.apply(i, -i);
+
+      fail("Expected IOException");
+    }
+    catch (final Exception e) {
+      assertEquals(IOException.class, e.getClass());
+      assertEquals("i=0", e.getMessage());
     }
   }
 }

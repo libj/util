@@ -29,11 +29,11 @@ import java.util.function.Consumer;
  * expression's call stack. An example of this pattern:
  * <blockquote><pre>
  * Arrays
- *   .asList(1, 2, 3)
+ *   .asList(2, 1, 0)
  *   .forEach(Throwing.rethrow(i -&gt; {
- *      if (i == 3)
- *        throw new IOException();
- *    }));
+ *     if (i == 0)
+ *       throw new IllegalArgumentException("i=" + i);
+ *   }));
  * </pre></blockquote>
  *
  * @param <T> The type of the input to the operation.

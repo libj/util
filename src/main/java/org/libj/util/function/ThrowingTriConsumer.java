@@ -28,12 +28,12 @@ import java.util.function.BiConsumer;
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  * <blockquote><pre>
- * Arrays
- *   .asList(1, 2, 3)
- *   .forEach(Throwing.rethrow((i,j) -&gt; {
- *      if (i == 3)
- *        throw new IOException();
- *    }));
+ * TriConsumer&lt;Integer,Integer,Integer&gt; consumer = Throwing.&lt;Integer,Integer,Integer&gt;rethrow((i, j, k) -&gt; {
+ *   if (i == 0)
+ *     throw new IllegalArgumentException("i=" + i);
+ * });
+ * for (int i = 3; i &gt;= 0; --i)
+ *   consumer.accept(i, -i, i);
  * </pre></blockquote>
  *
  * @param <T> The type of the first input to the operation.

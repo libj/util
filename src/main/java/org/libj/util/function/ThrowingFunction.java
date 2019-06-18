@@ -27,14 +27,14 @@ import java.util.function.Function;
  * expression's call stack. An example of this pattern:
  * <blockquote><pre>
  * Arrays
- *   .asList(1, 2, 3)
+ *   .asList(2, 1, 0)
  *   .stream()
- *   .forEach(Throwing.rethrow(i -&gt; {
- *      if (i == 3)
- *        throw new IOException();
- *      return String.valueOf(i);
- *    }))
- *    .forEach(f -&gt; {});
+ *   .map(Throwing.rethrow((Integer i) -&gt; {
+ *     if (i == 0)
+ *       throw new IOException("i=" + i);
+ *     return String.valueOf(i);
+ *   }))
+ *   .forEach(f -&gt; {});
  * </pre></blockquote>
  *
  * @param <T> The type of the input to the operation.

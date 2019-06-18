@@ -27,17 +27,17 @@ import java.util.function.Predicate;
  * expression's call stack. An example of this pattern:
  * <blockquote><pre>
  * Arrays
- *   .asList(1, 2, 3)
+ *   .asList(2, 1, 0)
  *   .stream()
  *   .filter(Throwing.&lt;Integer&gt;rethrow(i -&gt; {
- *     if (i == 3)
+ *     if (i == 0)
  *       throw new IOException("i=" + i);
  *     return false;
  *   }))
  *   .collect(Collectors.toList());
  * </pre></blockquote>
  *
- * @param <T> The type of the first argument to the predicate.
+ * @param <T> The type of the input to the predicate.
  * @see Predicate
  */
 @FunctionalInterface
