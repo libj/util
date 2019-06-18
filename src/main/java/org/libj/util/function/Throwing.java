@@ -22,6 +22,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * Utility that allows lambda expressions to propagate checked exceptions up the
@@ -33,12 +34,11 @@ public final class Throwing {
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
-   * Arrays
-   *   .asList(1, 2, 3)
-   *   .forEach(Throwing.rethrow(() -&gt; {
-   *      if (i == 3)
-   *        throw new IOException();
-   *    }));
+   * Runnable runnable = Throwing.rethrow(() -&gt; {
+   *   if (true)
+   *     throw new IOException();
+   * });
+   * runnable.run();
    * </pre></blockquote>
    *
    * @param runnable The {@code ThrowingRunnable}.
@@ -46,6 +46,28 @@ public final class Throwing {
    */
   public static Runnable rethrow(final ThrowingRunnable runnable) {
     return runnable;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified {@code ThrowingSupplier}.
+   * <p>
+   * An example of this pattern:
+   * <blockquote><pre>
+   * Supplier&lt;String&gt; supplier = Throwing.rethrow(() -&gt; {
+   *   if (true)
+   *     throw new IOException();
+
+   *   return "hello world";
+   * });
+   * supplier.get();
+   * </pre></blockquote>
+   *
+   * @param <T> The type of results supplied by this supplier.
+   * @param supplier The {@code ThrowingSupplier}.
+   * @return The specified {@code Supplier} instance.
+   */
+  public static <T>Supplier<T> rethrow(final ThrowingSupplier<T> supplier) {
+    return supplier;
   }
 
   /**
@@ -60,6 +82,7 @@ public final class Throwing {
    *       throw new IllegalArgumentException("i=" + i);
    *   }));
    * </pre></blockquote>
+   *
    * @param <T> The type of the input to the consumer's operation.
    * @param consumer The {@code ThrowingConsumer}.
    * @return The specified {@code Consumer} instance.
@@ -81,6 +104,7 @@ public final class Throwing {
    * for (int i = 3; i &gt;= 0; --i)
    *   consumer.accept(i, -i);
    * </pre></blockquote>
+   *
    * @param <T> The type of the first input to the consumer's operation.
    * @param <U> The type of the second input to the consumer's operation.
    * @param consumer The {@code ThrowingBiConsumer}.
@@ -103,6 +127,7 @@ public final class Throwing {
    * for (int i = 3; i &gt;= 0; --i)
    *   consumer.accept(i, -i, i);
    * </pre></blockquote>
+   *
    * @param <T> The type of the first input to the consumer's operation.
    * @param <U> The type of the second input to the consumer's operation.
    * @param <V> The type of the third input to the consumer's operation.
@@ -128,6 +153,7 @@ public final class Throwing {
    *   }))
    *   .collect(Collectors.toList());
    * </pre></blockquote>
+   *
    * @param <T> The type of the input to the consumer's operation.
    * @param predicate The {@code ThrowingConsumer}.
    * @return The specified {@code Consumer} instance.
@@ -150,6 +176,7 @@ public final class Throwing {
    * for (int i = 3; i &gt;= 0; --i)
    *   predicate.accept(i, -i);
    * </pre></blockquote>
+   *
    * @param <T> The type of the first input to the predicate's operation.
    * @param <U> The type of the second input to the predicate's operation.
    * @param predicate The {@code ThrowingBiPredicate}.
@@ -174,6 +201,7 @@ public final class Throwing {
    *   }))
    *   .forEach(f -&gt; {});
    * </pre></blockquote>
+   *
    * @param <T> The type of the input to the function's operation.
    * @param <R> The type of the result of the function's function.
    * @param function The {@code ThrowingFunction}.
@@ -196,6 +224,7 @@ public final class Throwing {
    * for (int i = 3; i &gt;= 0; --i)
    *   function.accept(i, -i);
    * </pre></blockquote>
+   *
    * @param <T> The type of the first input to the function's operation.
    * @param <U> The type of the second input to the function's operation.
    * @param <R> The type of the result of the function's function.

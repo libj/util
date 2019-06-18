@@ -23,11 +23,47 @@ import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
 
+@SuppressWarnings("unused")
 public class ThrowingTest {
+  @Test
+  public void testRunnable() {
+    try {
+      final Runnable runnable = Throwing.rethrow(() -> {
+        if (true)
+          throw new IOException();
+      });
+
+      runnable.run();
+      fail("Expected IOException");
+    }
+    catch (final Exception e) {
+      assertEquals(IOException.class, e.getClass());
+    }
+  }
+
+  @Test
+  public void testSupplier() {
+    try {
+      final Supplier<String> supplier = Throwing.rethrow(() -> {
+        if (true)
+          throw new IOException();
+
+        return "hello world";
+      });
+
+      supplier.get();
+      fail("Expected IOException");
+    }
+    catch (final Exception e) {
+      assertEquals(IOException.class, e.getClass());
+    }
+  }
+
   @Test
   public void testConsumer() {
     try {
