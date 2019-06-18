@@ -26,14 +26,13 @@ package org.libj.util.function;
  * expression's call stack. An example of this pattern:
  * <p>
  * <blockquote><pre>
- * Arrays
- *   .asList(1, 2, 3)
- *   .forEach(Throwing.rethrow(() -&gt; {
- *      if (i == 3)
- *        throw new IOException();
- *    }));
+ * Runnable runnable = Throwing.rethrow(() -&gt; {
+ *   if (true)
+ *     throw new IOException();
+ * });
+ * runnable.run();
  * </pre></blockquote>
-
+ *
  * @see Runnable#run()
  */
 @FunctionalInterface
