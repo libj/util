@@ -18,6 +18,7 @@ package org.libj.util.function;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -53,11 +54,11 @@ public final class Throwing {
    * An example of this pattern:
    * <blockquote><pre>
    * Arrays
-   *   .asList(1, 2, 3)
+   *   .asList(2, 1, 0)
    *   .forEach(Throwing.rethrow(i -&gt; {
-   *      if (i == 3)
-   *        throw new IOException();
-   *    }));
+   *     if (i == 0)
+   *       throw new IllegalArgumentException("i=" + i);
+   *   }));
    * </pre></blockquote>
    * @param <T> The type of the input to the consumer's operation.
    * @param consumer The {@code ThrowingConsumer}.
@@ -73,12 +74,12 @@ public final class Throwing {
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
-   * Arrays
-   *   .asList(1, 2, 3)
-   *   .forEach(Throwing.rethrow((i,j) -&gt; {
-   *      if (i == 3)
-   *        throw new IOException();
-   *    }));
+   * BiConsumer&lt;Integer,Integer&gt; consumer = Throwing.&lt;Integer,Integer&gt;rethrow((i, j) -&gt; {
+   *   if (i == 0)
+   *     throw new IllegalArgumentException("i=" + i);
+   * });
+   * for (int i = 3; i &gt;= 0; --i)
+   *   consumer.accept(i, -i);
    * </pre></blockquote>
    * @param <T> The type of the first input to the consumer's operation.
    * @param <U> The type of the second input to the consumer's operation.
@@ -95,12 +96,12 @@ public final class Throwing {
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
-   * Arrays
-   *   .asList(1, 2, 3)
-   *   .forEach(Throwing.rethrow((i,j,k) -&gt; {
-   *      if (i == 3)
-   *        throw new IOException();
-   *    }));
+   * TriConsumer&lt;Integer,Integer,Integer&gt; consumer = Throwing.&lt;Integer,Integer,Integer&gt;rethrow((i, j, k) -&gt; {
+   *   if (i == 0)
+   *     throw new IllegalArgumentException("i=" + i);
+   * });
+   * for (int i = 3; i &gt;= 0; --i)
+   *   consumer.accept(i, -i, i);
    * </pre></blockquote>
    * @param <T> The type of the first input to the consumer's operation.
    * @param <U> The type of the second input to the consumer's operation.
@@ -118,10 +119,10 @@ public final class Throwing {
    * An example of this pattern:
    * <blockquote><pre>
    * Arrays
-   *   .asList(1, 2, 3)
+   *   .asList(2, 1, 0)
    *   .stream()
    *   .filter(Throwing.&lt;Integer&gt;rethrow(i -&gt; {
-   *     if (i == 3)
+   *     if (i == 0)
    *       throw new IOException("i=" + i);
    *     return false;
    *   }))
@@ -136,19 +137,42 @@ public final class Throwing {
   }
 
   /**
+   * Rethrows the checked exception from the specified
+   * {@code ThrowingBiPredicate}.
+   * <p>
+   * An example of this pattern:
+   * <blockquote><pre>
+   * BiPredicate&lt;Integer,Integer&gt; predicate = Throwing.&lt;Integer,Integer&gt;rethrow((i, j) -&gt; {
+   *   if (i == 0)
+   *     throw new IllegalArgumentException("i=" + i);
+   *   return false;
+   * });
+   * for (int i = 3; i &gt;= 0; --i)
+   *   predicate.accept(i, -i);
+   * </pre></blockquote>
+   * @param <T> The type of the first input to the predicate's operation.
+   * @param <U> The type of the second input to the predicate's operation.
+   * @param predicate The {@code ThrowingBiPredicate}.
+   * @return The specified {@code BiPredicate} instance.
+   */
+  public static <T,U>BiPredicate<T,U> rethrow(final ThrowingBiPredicate<T,U> predicate) {
+    return predicate;
+  }
+
+  /**
    * Rethrows the checked exception from the specified {@code ThrowingFunction}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
    * Arrays
-   *   .asList(1, 2, 3)
+   *   .asList(2, 1, 0)
    *   .stream()
-   *   .map(Throwing.rethrow(i -&gt; {
-   *      if (i == 3)
-   *        throw new IOException();
-   *      return String.valueOf(i);
-   *    }))
-   *    .forEach(f -&gt; {});
+   *   .map(Throwing.rethrow((Integer i) -&gt; {
+   *     if (i == 0)
+   *       throw new IOException("i=" + i);
+   *     return String.valueOf(i);
+   *   }))
+   *   .forEach(f -&gt; {});
    * </pre></blockquote>
    * @param <T> The type of the input to the function's operation.
    * @param <R> The type of the result of the function's function.
@@ -164,15 +188,13 @@ public final class Throwing {
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
-   * Arrays
-   *   .asList(new int[] {0, 1}, new int[] {2, 3}, new int[] {4, 5})
-   *   .stream()
-   *   .map(Throwing.rethrow((i,j) -&gt; {
-   *      if (i == 3)
-   *        throw new IOException();
-   *      return String.valueOf(i + " " + j);
-   *    }))
-   *    .forEach(f -&gt; {});
+   * BiFunction&lt;Integer,Integer,String&gt; function = Throwing.&lt;Integer,Integer,String&gt;rethrow((i, j) -&gt; {
+   *   if (i == 0)
+   *     throw new IllegalArgumentException("i=" + i);
+   *   return String.valueOf(i);
+   * });
+   * for (int i = 3; i &gt;= 0; --i)
+   *   function.accept(i, -i);
    * </pre></blockquote>
    * @param <T> The type of the first input to the function's operation.
    * @param <U> The type of the second input to the function's operation.
