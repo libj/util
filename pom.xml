@@ -22,10 +22,10 @@
   <parent>
     <groupId>org.libj</groupId>
     <artifactId>libj</artifactId>
-    <version>0.9.6</version>
+    <version>0.9.7-SNAPSHOT</version>
   </parent>
   <artifactId>util</artifactId>
-  <version>0.8.0</version>
+  <version>0.8.1-SNAPSHOT</version>
   <name>LibJ Util</name>
   <description>
     Supplementary utilities for classes that belong to java.util, or are considered essential as to justify existence in java.util.
@@ -39,13 +39,13 @@
     <dependency>
       <groupId>org.libj</groupId>
       <artifactId>test</artifactId>
-      <version>0.7.0</version>
+      <version>0.7.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.libj</groupId>
       <artifactId>logging</artifactId>
-      <version>0.4.2</version>
+      <version>0.4.5-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
