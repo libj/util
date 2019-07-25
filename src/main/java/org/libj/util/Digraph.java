@@ -23,6 +23,7 @@ import java.util.BitSet;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -59,6 +60,7 @@ public class Digraph<T> implements Cloneable, Serializable {
   };
 
   protected HashBiMap<T,Integer> objectToIndex = new HashBiMap<>();
+  protected Map<Integer,T> indexToObject = objectToIndex.inverse();
 
   private final int initialCapacity;
   private ArrayList<LinkedHashSet<Integer>> adj;
@@ -290,12 +292,13 @@ public class Digraph<T> implements Cloneable, Serializable {
   public Digraph<T> reverse() {
     final Digraph<T> reverse = new Digraph<>();
     reverse.objectToIndex = objectToIndex.clone();
+    reverse.indexToObject = reverse.objectToIndex.inverse();
     for (int v = 0; v < adj.size(); ++v) {
       final LinkedHashSet<Integer> edges = adj.get(v);
       if (edges != null) {
         for (final int w : edges) {
           reverse.addEdge(w, v);
-          reverse.edges.add(objectToIndex.inverse().get(v));
+          reverse.edges.add(indexToObject.get(v));
         }
       }
     }
@@ -356,17 +359,17 @@ public class Digraph<T> implements Cloneable, Serializable {
         else if (v != w && onStack.get(w)) {
           final ArrayList<T> cycle = new ArrayList<>(initialCapacity / 3);
           for (int x = v; x != w; x = edgeTo[x])
-            cycle.add(objectToIndex.inverse().get(x));
+            cycle.add(indexToObject.get(x));
 
-          cycle.add(objectToIndex.inverse().get(w));
-          cycle.add(objectToIndex.inverse().get(v));
+          cycle.add(indexToObject.get(w));
+          cycle.add(indexToObject.get(v));
           return cycle;
         }
       }
     }
 
     onStack.clear(v);
-    reversePostOrder.add(0, objectToIndex.inverse().get(v));
+    reversePostOrder.add(0, indexToObject.get(v));
     return null;
   }
 
@@ -432,7 +435,7 @@ public class Digraph<T> implements Cloneable, Serializable {
       final Object[] vertices = flatAdj[i++] = new Object[edges.size()];
       int j = 0;
       for (final Integer index : edges)
-        vertices[j++] = objectToIndex.inverse().get(index);
+        vertices[j++] = indexToObject.get(index);
     }
 
     Arrays.sort(flatAdj, arrayComparator);
@@ -506,12 +509,13 @@ public class Digraph<T> implements Cloneable, Serializable {
   @Override
   public String toString() {
     final StringBuilder builder = new StringBuilder().append(adj.size()).append(" vertices, ").append(edges).append(" edges").append('\n');
+    final Map<Integer,T> inverse = indexToObject;
     for (int v = 0; v < adj.size(); ++v) {
-      builder.append(objectToIndex.inverse().get(v)).append(':');
+      builder.append(inverse.get(v)).append(':');
       final LinkedHashSet<Integer> edges = adj.get(v);
       if (edges != null)
         for (final int w : edges)
-          builder.append(' ').append(objectToIndex.inverse().get(w));
+          builder.append(' ').append(inverse.get(w));
 
       if (v < adj.size() - 1)
         builder.append('\n');
@@ -526,6 +530,7 @@ public class Digraph<T> implements Cloneable, Serializable {
     try {
       final Digraph<T> clone = (Digraph<T>)super.clone();
       clone.objectToIndex = objectToIndex.clone();
+      clone.indexToObject = clone.objectToIndex.inverse();
       clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
       clone.flatAdj = flatAdj == null ? null : flatAdj.clone();
       clone.indegree = indegree.clone();
