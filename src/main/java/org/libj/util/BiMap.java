@@ -44,8 +44,8 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
    * @param reverse The reverse source map.
    */
   protected BiMap(final Map<K,V> forward, final Map<V,K> reverse) {
-    inverse = newEmptyInverseMap();
     setTarget(forward);
+    inverse = newEmptyInverseMap();
     inverse.setTarget(reverse);
     inverse.inverse = this;
   }
@@ -107,10 +107,26 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   @Override
   public Set<K> keySet() {
     return keySet == null ? keySet = new ObservableSet<K>(target.keySet()) {
+      private final ThreadLocal<V> localValue = new ThreadLocal<>();
+
       @Override
-      @SuppressWarnings("unchecked")
+      protected boolean beforeAdd(final K e) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected boolean beforeRemove(final Object e) {
+        if (!BiMap.this.containsKey(e))
+          return false;
+
+        final V value = BiMap.this.get(e);
+        localValue.set(value);
+        return true;
+      }
+
+      @Override
       protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.inverse.target.remove(((Map.Entry<K,V>)o).getValue());
+        BiMap.this.inverse.target.remove(localValue.get());
       }
     } : keySet;
   }
@@ -120,6 +136,11 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   @Override
   public Collection<V> values() {
     return values == null ? values = new ObservableCollection<V>(target.values()) {
+      @Override
+      protected boolean beforeAdd(final V e) {
+        throw new UnsupportedOperationException();
+      }
+
       @Override
       protected void afterRemove(final Object o, final RuntimeException re) {
         BiMap.this.inverse.target.remove(o);
@@ -132,6 +153,11 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
+      @Override
+      protected boolean beforeAdd(final Entry<K,V> e) {
+        throw new UnsupportedOperationException();
+      }
+
       @Override
       @SuppressWarnings("unchecked")
       protected void afterRemove(final Object o, final RuntimeException re) {

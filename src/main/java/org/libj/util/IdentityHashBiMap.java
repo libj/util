@@ -19,6 +19,7 @@ package org.libj.util;
 import java.io.Serializable;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -85,6 +86,11 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
       final ThreadLocal<V> value = new ThreadLocal<>();
 
       @Override
+      protected boolean beforeAdd(final Entry<K,V> e) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
       @SuppressWarnings("unchecked")
       protected boolean beforeRemove(final Object e) {
         value.set(((Map.Entry<K,V>)e).getValue());
@@ -104,7 +110,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
       return (IdentityHashBiMap<K,V>)super.clone();
     }
     catch (final CloneNotSupportedException e) {
-      throw new UnsupportedOperationException(e);
+      throw new IllegalStateException(e);
     }
   }
 
