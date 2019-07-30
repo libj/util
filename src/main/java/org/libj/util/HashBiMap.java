@@ -97,7 +97,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
       return (HashBiMap<K,V>)super.clone();
     }
     catch (final CloneNotSupportedException e) {
-      throw new UnsupportedOperationException(e);
+      throw new IllegalStateException(e);
     }
   }
 

@@ -714,7 +714,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
       return clone;
     }
     catch (final CloneNotSupportedException e) {
-      throw new UnsupportedOperationException(e);
+      throw new IllegalStateException(e);
     }
   }
 

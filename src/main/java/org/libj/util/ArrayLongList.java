@@ -714,7 +714,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
       return clone;
     }
     catch (final CloneNotSupportedException e) {
-      throw new UnsupportedOperationException(e);
+      throw new IllegalStateException(e);
     }
   }
 
