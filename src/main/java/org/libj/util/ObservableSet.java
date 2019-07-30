@@ -35,6 +35,12 @@ import java.util.function.Predicate;
  * @see #afterRemove(Object,RuntimeException)
  */
 public abstract class ObservableSet<E> extends DelegateSet<E> {
+  /**
+   * Creates a new {@code ObservableList} with the specified target {@code set}.
+   *
+   * @param set The target {@link Set}.
+   * @throws NullPointerException If {@code set} is null.
+   */
   public ObservableSet(final Set<E> set) {
     super(set);
   }
@@ -197,10 +203,9 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
     if (!beforeRemove(o))
       return false;
 
-    boolean result = false;
     RuntimeException re = null;
     try {
-      result = target.remove(o);
+      target.remove(o);
     }
     catch (final RuntimeException t) {
       re = t;
@@ -210,7 +215,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
     if (re != null)
       throw re;
 
-    return result;
+    return !contains(o);
   }
 
   /**
