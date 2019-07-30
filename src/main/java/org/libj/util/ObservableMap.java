@@ -38,6 +38,13 @@ import java.util.function.Function;
  * @see #afterRemove(Object,Object,RuntimeException)
  */
 public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
+  /**
+   * Creates a new {@code ObservableList} with the specified target
+   * {@code Map}.
+   *
+   * @param map The target {@link Map}.
+   * @throws NullPointerException If {@code map} is null.
+   */
   public ObservableMap(final Map<K,V> map) {
     super(map);
   }
@@ -374,31 +381,72 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
       private final ThreadLocal<K> localKey = new ThreadLocal<>();
-      private final ThreadLocal<V> localValue = new ThreadLocal<>();
+      private final ThreadLocal<V> localOldValue = new ThreadLocal<>();
+      private final ThreadLocal<V> localNewValue = new ThreadLocal<>();
+
+      @Override
+      protected boolean beforeAdd(final Entry<K,V> e) {
+        localKey.set(e.getKey());
+        localNewValue.set(e.getValue());
+        localOldValue.set(ObservableMap.this.get(e.getKey()));
+        return ObservableMap.this.beforePut(e.getKey(), localOldValue.get(), e.getValue());
+      }
+
+      @Override
+      protected void afterAdd(final Entry<K,V> e, final RuntimeException re) {
+        ObservableMap.this.afterPut(localKey.get(), localOldValue.get(), localNewValue.get(), re);
+      }
 
       @Override
       @SuppressWarnings("unchecked")
       protected boolean beforeRemove(final Object e) {
         final Map.Entry<K,V> entry = (Map.Entry<K,V>)e;
         localKey.set(entry.getKey());
-        localValue.set(entry.getValue());
+        localNewValue.set(entry.getValue());
         return ObservableMap.this.beforeRemove(entry.getKey(), entry.getValue());
       }
 
       @Override
       protected void afterRemove(final Object e, final RuntimeException re) {
-        ObservableMap.this.afterRemove(localKey.get(), localValue.get(), re);
+        ObservableMap.this.afterRemove(localKey.get(), localNewValue.get(), re);
       }
     } : entrySet;
   }
 
+  protected volatile ObservableSet<K> keySet;
+
   @Override
   public Set<K> keySet() {
-    return new TransSet<>(entrySet(), entry -> entry.getKey(), null);
+    return keySet == null ? keySet = new ObservableSet<K>(target.keySet()) {
+      private final ThreadLocal<K> localKey = new ThreadLocal<>();
+      private final ThreadLocal<V> localNewValue = new ThreadLocal<>();
+
+      @Override
+      protected boolean beforeAdd(final K e) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      @SuppressWarnings("unchecked")
+      protected boolean beforeRemove(final Object e) {
+        final K key = (K)e;
+        localKey.set(key);
+        final V value = (V)ObservableMap.this.target.get(e);
+        localNewValue.set(value);
+        return ObservableMap.this.beforeRemove(key, value);
+      }
+
+      @Override
+      protected void afterRemove(final Object e, final RuntimeException re) {
+        ObservableMap.this.afterRemove(localKey.get(), localNewValue.get(), re);
+      }
+    } : keySet;
   }
+
+  protected volatile TransCollection<Map.Entry<K,V>,V> values;
 
   @Override
   public Collection<V> values() {
-    return new TransCollection<>(entrySet(), entry -> entry.getValue(), null);
+    return values == null ? values = new TransCollection<>(entrySet(), entry -> entry.getValue(), null) : values;
   }
 }
