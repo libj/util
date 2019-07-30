@@ -148,11 +148,6 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * @param e The element removed from the enclosed {@link List}.
    * @param re A {@code RuntimeException} that occurred during the remove
    *          operation, or null if no exception occurred.
-   * @return If this method returns {@code true} or {@code false}, the value
-   *         will override the return of the
-   *         {@link ObservableSet#remove(Object)} method. If this method returns
-   *         {@code null}, the value of the {@link ObservableSet#remove(Object)}
-   *         method will not be overridden.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
   }
