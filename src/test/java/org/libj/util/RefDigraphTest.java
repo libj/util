@@ -39,9 +39,9 @@ public class RefDigraphTest {
   @Test
   public void testUnspecifiedReference() {
     final RefDigraph<Obj,String> digraph = new RefDigraph<>(obj -> obj.id);
-    digraph.addEdgeRef(new Obj("a", "b"), "b");
-    digraph.addEdgeRef(new Obj("b", "c"), "c");
-    digraph.addEdgeRef(new Obj("c", "a"), "d");
+    digraph.add(new Obj("a", "b"), "b");
+    digraph.add(new Obj("b", "c"), "c");
+    digraph.add(new Obj("c", "a"), "d");
     try {
       digraph.getCycle().toString();
       fail("Expected IllegalStateException");
@@ -55,30 +55,30 @@ public class RefDigraphTest {
   @Test
   public void testCycle() {
     final RefDigraph<Obj,String> digraph = new RefDigraph<>(obj -> obj.id);
-    digraph.addEdgeRef(new Obj("a", "b"), "b");
-    digraph.addEdgeRef(new Obj("b", "c"), "c");
-    digraph.addEdgeRef(new Obj("c", "a"), "a");
-    digraph.addEdgeRef(new Obj("d", "c"), "c");
-    digraph.addEdgeRef(new Obj("e", "c"), "c");
-    digraph.addEdgeRef(new Obj("f", "d"), "d");
-    digraph.addEdgeRef(new Obj("g", "d"), "d");
-    digraph.addEdgeRef(new Obj("h", "e"), "e");
-    assertEquals(8, digraph.getVertices().size());
+    digraph.add(new Obj("a", "b"), "b");
+    digraph.add(new Obj("b", "c"), "c");
+    digraph.add(new Obj("c", "a"), "a");
+    digraph.add(new Obj("d", "c"), "c");
+    digraph.add(new Obj("e", "c"), "c");
+    digraph.add(new Obj("f", "d"), "d");
+    digraph.add(new Obj("g", "d"), "d");
+    digraph.add(new Obj("h", "e"), "e");
+    assertEquals(8, digraph.keySet().size());
     assertEquals("[c->a, b->c, a->b, c->a]", digraph.getCycle().toString());
   }
 
   @Test
   public void testTopological() {
     final RefDigraph<Obj,String> digraph = new RefDigraph<>(obj -> obj.id);
-    digraph.addEdgeRef(new Obj("a", "b"), "b");
-    digraph.addEdgeRef(new Obj("b", "c"), "c");
-    digraph.addEdgeRef(new Obj("c", null), null);
-    digraph.addEdgeRef(new Obj("d", "c"), "c");
-    digraph.addEdgeRef(new Obj("e", "c"), "c");
-    digraph.addEdgeRef(new Obj("f", "d"), "d");
-    digraph.addEdgeRef(new Obj("g", "d"), "d");
-    digraph.addEdgeRef(new Obj("h", "e"), "e");
-    assertEquals(8, digraph.getVertices().size());
+    digraph.add(new Obj("a", "b"), "b");
+    digraph.add(new Obj("b", "c"), "c");
+    digraph.add(new Obj("c", null), null);
+    digraph.add(new Obj("d", "c"), "c");
+    digraph.add(new Obj("e", "c"), "c");
+    digraph.add(new Obj("f", "d"), "d");
+    digraph.add(new Obj("g", "d"), "d");
+    digraph.add(new Obj("h", "e"), "e");
+    assertEquals(8, digraph.keySet().size());
     assertEquals("[h->e, g->d, f->d, e->c, d->c, a->b, b->c, c->null]", digraph.getTopologicalOrder().toString());
   }
 }

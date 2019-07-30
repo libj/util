@@ -43,59 +43,81 @@ import java.util.function.Function;
  * It is important to note that this implementation assumes that an object of
  * type {@code T} will be encountered for each reference of type {@code R}.
  * <p>
- * Vertices can be added with {@link Digraph#addVertex(Object)}.
+ * Vertices can be added with {@link Digraph#add(Object)}.
  * <p>
- * Edges can be added with {@link Digraph#addEdge(Object,Object)}.
+ * Edges can be added with {@link Digraph#add(Object,Object)}.
+ * <p>
+ * The {@code RefDigraph} implements {@code Map<K,Set<V>>}, supporting all
+ * required and optional operations.
  *
- * @param <T> The type of elements in this digraph.
- * @param <R> The type of references in this digraph.
+ * @param <K> The type of elements in this digraph.
+ * @param <V> The type of referenced values.
  * @see Digraph
  */
-public class RefDigraph<T,R> extends Digraph<T> {
-  private static final long serialVersionUID = -8038282541169001107L;
+public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
+  private static final long serialVersionUID = -4965000032572168585L;
 
-  private ArrayList<T> vertices = new ArrayList<>();
-  private HashSet<R> references = new HashSet<>();
-  private Digraph<Object> digraph = new Digraph<>();
-  protected final Function<T,R> reference;
+  protected final Function<K,V> reference;
+  private Digraph<Object> digraph;
+  private ArrayList<K> vertices;
+  private HashSet<V> references;
 
   /**
    * Creates an empty digraph with the specified initial capacity.
    *
-   * @param reference The function to obtain the reference of type {@code R}
-   *          from an object of type {@code T}.
+   * @param keyToValue The function to obtain the referenced value of type
+   *          {@code V} from a key of type {@code K}.
    * @param initialCapacity The initial capacity of the digraph.
    * @throws IllegalArgumentException If the specified initial capacity is
    *           negative.
-   * @throws NullPointerException If {@code reference} is null.
+   * @throws NullPointerException If {@code keyToValue} is null.
    */
-  public RefDigraph(final int initialCapacity, final Function<T,R> reference) {
-    super(initialCapacity);
-    this.reference = Objects.requireNonNull(reference);
+  public RefDigraph(final int initialCapacity, final Function<K,V> keyToValue) {
+    super(0, true);
+    digraph = new Digraph<>(initialCapacity);
+    vertices = new ArrayList<>(initialCapacity);
+    references = new HashSet<>(initialCapacity);
+    this.reference = Objects.requireNonNull(keyToValue);
   }
 
   /**
    * Creates an empty digraph with an initial capacity of ten.
    *
-   * @param reference The function to obtain the reference of type {@code R}
-   *          from an object of type {@code T}.
-   * @throws NullPointerException If {@code reference} is null.
+   * @param keyToValue The function to obtain the referenced value of type
+   *          {@code V} from a key of type {@code K}.
+   * @throws NullPointerException If {@code keyToValue} is null.
    */
-  public RefDigraph(final Function<T,R> reference) {
-    super();
-    this.reference = Objects.requireNonNull(reference);
+  public RefDigraph(final Function<K,V> keyToValue) {
+    this(10, keyToValue);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  protected K indexToKey(final int v) {
+    swapRefs();
+    return (K)indexToObject.get(v);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  protected V indexToValue(final int v) {
+    swapRefs();
+    return reference.apply((K)indexToObject.get(v));
   }
 
   /**
-   * Swap vertex reference objects of type {@code R} with their equivalent
-   * object of type {@code T}.
+   * Swap vertex reference objects of type {@code V} with their equivalent
+   * object of type {@code K}.
    *
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
    */
   private void swapRefs() {
-    for (final T vertex : vertices) {
-      final R ref = reference.apply(vertex);
+    if (vertices.size() == 0)
+      return;
+
+    for (final K vertex : vertices) {
+      final V ref = reference.apply(vertex);
       references.remove(ref);
       final Integer index = digraph.objectToIndex.remove(ref);
       if (index != null)
@@ -108,64 +130,43 @@ public class RefDigraph<T,R> extends Digraph<T> {
   }
 
   @Override
-  public boolean addVertex(final T vertex) {
+  public boolean add(final K vertex) {
     vertices.add(Objects.requireNonNull(vertex));
-    return digraph.addVertex(reference.apply(vertex));
-  }
-
-  /**
-   * Add a vertex reference to the graph.
-   *
-   * @param vertex The vertex reference.
-   * @return {@code true} if this digraph has been modified, and {@code false}
-   *         if the specified vertex already existed in the digraph.
-   * @throws NullPointerException If {@code vertex} is null.
-   */
-  public boolean addVertexRef(final R vertex) {
-    references.add(Objects.requireNonNull(vertex));
-    return digraph.addVertex(vertex);
-  }
-
-  @Override
-  public boolean addEdge(final T from, final T to) {
-    if (to == null)
-      return addVertex(from);
-
-    vertices.add(from);
-    vertices.add(to);
-    return digraph.addEdge(reference.apply(from), reference.apply(to));
+    return digraph.add(reference.apply(vertex));
   }
 
   /**
    * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
    * this with {@code to = null} is the equivalent of calling
-   * {@code addVertex(from)} (not synchronized).
+   * {@code addVertex(from)}.
+   * <p>
+   * <i><b>Note:</b> This method is not thread safe.</i>
    *
    * @param from The tail vertex.
    * @param to The head vertex reference.
    * @return {@code true} if this digraph has been modified, and {@code false}
    *         if the specified edge already existed in the digraph.
-   * @throws NullPointerException If {@code from} is null.
    */
-  public boolean addEdgeRef(final T from, final R to) {
+  @Override
+  public boolean add(final K from, final V to) {
     if (to == null)
-      return addVertex(from);
+      return add(from);
 
     vertices.add(from);
     references.add(to);
-    return digraph.addEdge(reference.apply(from), to);
+    return digraph.add(reference.apply(from), to);
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public Set<T> getVertices() {
+  public Set<K> keySet() {
     swapRefs();
-    return (Set<T>)digraph.getVertices();
+    return (Set<K>)digraph.keySet();
   }
 
   @Override
-  public int getSize() {
-    return digraph.getSize();
+  public int size() {
+    return digraph.size();
   }
 
   /**
@@ -175,10 +176,9 @@ public class RefDigraph<T,R> extends Digraph<T> {
    *           specified before the call of this method.
    */
   @Override
-  @SuppressWarnings("unchecked")
-  public List<T> getEdges() {
+  public int getInDegree(final K vertex) {
     swapRefs();
-    return (List<T>)digraph.getEdges();
+    return digraph.getInDegree(vertex);
   }
 
   /**
@@ -186,59 +186,27 @@ public class RefDigraph<T,R> extends Digraph<T> {
    *
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
-   * @throws NullPointerException If {@code v} is null.
    */
   @Override
-  public int getInDegree(final T v) {
+  public int getOutDegree(final K vertex) {
     swapRefs();
-    return digraph.getInDegree(v);
+    return digraph.getOutDegree(vertex);
   }
 
   /**
-   * {@inheritDoc}
+   * Returns a directed cycle (as a list of reference {@code V} objects) if the
+   * digraph has one, and null otherwise.
    *
-   * @throws IllegalStateException If some vertex references have not been
-   *           specified before the call of this method.
-   * @throws NullPointerException If {@code v} is null.
-   */
-  @Override
-  public int getOutDegree(final T v) {
-    swapRefs();
-    return digraph.getOutDegree(v);
-  }
-
-  /**
-   * {@inheritDoc}
-   *
+   * @return A directed cycle (as a list of reference {@code V} objects) if the
+   *         digraph has one, and null otherwise.
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
    */
   @Override
   @SuppressWarnings("unchecked")
-  public List<T> getCycle() {
+  public List<V> getCycle() {
     swapRefs();
-    return (List<T>)digraph.getCycle();
-  }
-
-  /**
-   * Returns a directed cycle (as a list of reference {@code R} objects) if the
-   * digraph has one, and null otherwise (not synchronized).
-   *
-   * @return A directed cycle (as a list of reference {@code R} objects) if the
-   *         digraph has one, and null otherwise (not synchronized).
-   * @throws IllegalStateException If some vertex references have not been
-   *           specified before the call of this method.
-   */
-  public List<R> getCycleRef() {
-    final List<T> cycle = getCycle();
-    if (cycle == null)
-      return null;
-
-    final List<R> refCycle = new ArrayList<>(cycle.size());
-    for (final T vertex : cycle)
-      refCycle.add(reference.apply(vertex));
-
-    return refCycle;
+    return (List<V>)digraph.getCycle();
   }
 
   /**
@@ -249,23 +217,57 @@ public class RefDigraph<T,R> extends Digraph<T> {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public List<T> getTopologicalOrder() {
+  public List<K> getTopologicalOrder() {
     swapRefs();
-    return (List<T>)digraph.getTopologicalOrder();
+    return (List<K>)digraph.getTopologicalOrder();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public RefDigraph<K,V> clone() {
+    final RefDigraph<K,V> clone = (RefDigraph<K,V>)super.clone();
+    clone.vertices = (ArrayList<K>)vertices.clone();
+    clone.references = (HashSet<V>)references.clone();
+    clone.digraph = digraph.clone();
+    return clone;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof RefDigraph))
+      return false;
+
+    final RefDigraph<K,V> that = (RefDigraph<K,V>)obj;
+    if (!reference.equals(that.reference))
+      return false;
+
+    if (vertices == null ? that.vertices != null : !vertices.equals(that.vertices))
+      return false;
+
+    if (references == null ? that.references != null : !references.equals(that.references))
+      return false;
+
+    if (digraph == null ? that.digraph != null : !digraph.equals(that.digraph))
+      return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hashCode = reference.hashCode();
+    hashCode = hashCode * 31 + vertices.hashCode();
+    hashCode = hashCode * 31 + references.hashCode();
+    hashCode = hashCode * 31 + digraph.hashCode();
+    return hashCode;
   }
 
   @Override
   public String toString() {
     return digraph.toString();
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public RefDigraph<T,R> clone() {
-    final RefDigraph<T,R> clone = (RefDigraph<T,R>)super.clone();
-    clone.vertices = (ArrayList<T>)vertices.clone();
-    clone.references = (HashSet<R>)references.clone();
-    clone.digraph = digraph.clone();
-    return clone;
   }
 }

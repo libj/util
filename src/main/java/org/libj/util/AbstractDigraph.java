@@ -17,24 +17,25 @@
 package org.libj.util;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
-import java.util.Comparator;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
  * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
  * permitting self-loops and parallel edges.
  * <p>
- * Edges can be dynamically added with {@link Digraph#addEdge(Object,Object)}.
- * Cycle can be found with {@link Digraph#hasCycle()} and
- * {@link Digraph#getCycle()}. If no cycle exists, a topological order can be
- * found with {@link Digraph#getTopologicalOrder()}.
+ * Edges can be dynamically added with {@link AbstractDigraph#add(Object,Object)}.
+ * Cycle can be found with {@link AbstractDigraph#hasCycle()} and
+ * {@link AbstractDigraph#getCycle()}. If no cycle exists, a topological order can be
+ * found with {@link AbstractDigraph#getTopologicalOrder()}.
  * <p>
  * This implementation uses {@code Integer}-based vertex indices as references
  * to the arbitrary-typed object vertices via {@link HashBiMap}.
@@ -46,31 +47,29 @@ import java.util.Set;
  * All operations take constant time (in the worst case) except iterating over
  * the vertices adjacent from a given vertex, which takes time proportional to
  * the number of such vertices.
+ * <p>
+ * The {@code AbstractDigraph} implements {@code Map<K,Set<V>>}, supporting all required
+ * and optional operations.
  *
- * @param <T> The type of elements in this digraph.
+ * @param <K> The type of keys maintained by this digraph.
+ * @param <V> The type of mapped values.
  */
-public class Digraph<T> implements Cloneable, Serializable {
-  private static final long serialVersionUID = -1725638737276587152L;
-
-  private static final Comparator<Object[]> arrayComparator = new Comparator<Object[]>() {
-    @Override
-    public int compare(final Object[] o1, final Object[] o2) {
-      return o1 == null ? (o2 == null ? 0 : 1) : o2 == null ? -1 : Integer.compare(Arrays.hashCode(o1), Arrays.hashCode(o2));
-    }
-  };
-
-  protected HashBiMap<T,Integer> objectToIndex = new HashBiMap<>();
-  protected Map<Integer,T> indexToObject = objectToIndex.inverse();
+abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Serializable {
+  private static final long serialVersionUID = -2609255900717369490L;
 
   private final int initialCapacity;
-  private ArrayList<LinkedHashSet<Integer>> adj;
-  private Object[][] flatAdj;
+  protected AbstractDigraph<K,V> transverse;
 
-  private ArrayIntList indegree;
-  private ArrayList<T> edges;
+  protected HashBiMap<Object,Integer> objectToIndex;
+  protected Map<Integer,Object> indexToObject;
+  protected ArrayIntList adjRemoved;
+  protected ArrayList<LinkedHashSet<Integer>> adj;
+  protected ObservableMap<K,Integer> observableObjectToIndex;
+  protected ArrayIntList inDegree;
 
-  private ArrayList<T> cycle;
-  private ArrayList<T> reversePostOrder;
+  protected volatile Object[][] flatAdj;
+  protected volatile ArrayList<V> cycle;
+  protected volatile ArrayList<K> reversePostOrder;
 
   /**
    * Creates an empty digraph with the specified initial capacity.
@@ -79,236 +78,566 @@ public class Digraph<T> implements Cloneable, Serializable {
    * @throws IllegalArgumentException If the specified initial capacity is
    *           negative.
    */
-  public Digraph(final int initialCapacity) {
+  @SuppressWarnings("unchecked")
+  public AbstractDigraph(final int initialCapacity) {
     if (initialCapacity < 0)
       throw new IllegalArgumentException("Initial Capacity cannot be negative: " + initialCapacity);
 
     this.initialCapacity = initialCapacity;
-    this.adj = new ArrayList<>(initialCapacity);
-    this.indegree = new ArrayIntList(initialCapacity);
-    this.edges = new ArrayList<>(initialCapacity);
+    try {
+      this.transverse = (AbstractDigraph<K,V>)super.clone();
+    }
+    catch (final CloneNotSupportedException e) {
+      throw new IllegalStateException(e);
+    }
+    init(this);
+    init(this.transverse);
+    this.transverse.transverse = this;
+  }
+
+  protected static <K,V>void init(final AbstractDigraph<K,V> digraph) {
+    digraph.adj = new ArrayList<>(digraph.initialCapacity);
+    digraph.inDegree = new ArrayIntList(digraph.initialCapacity);
+    digraph.objectToIndex = new HashBiMap<>();
+    digraph.indexToObject = digraph.objectToIndex.inverse();
+    digraph.adjRemoved = new ArrayIntList();
   }
 
   /**
    * Creates an empty digraph with an initial capacity of ten.
    */
-  public Digraph() {
+  public AbstractDigraph() {
     this(10);
   }
 
   /**
-   * Returns the number of vertices in this digraph.
+   * Creates an uninitialized and empty digraph with the specified initial
+   * capacity.
    *
-   * @return The number of vertices in this digraph.
+   * @param initialCapacity The initial capacity of the digraph.
+   * @param ignored Ignored.
    */
-  public int getSize() {
-    return adj.size();
+  protected AbstractDigraph(final int initialCapacity, final boolean ignored) {
+    this.initialCapacity = initialCapacity;
   }
 
   /**
-   * Returns heads of all directed edges.
+   * Dereference a vertex index to the key of type {@code K}.
    *
-   * @return Heads of all directed edges.
+   * @param v The vertex index.
+   * @return A dereference key of type {@code K} at the specified vertex index.
    */
-  public List<T> getEdges() {
-    return edges;
-  }
+  protected abstract K indexToKey(int v);
 
   /**
-   * Add a vertex to the graph.
+   * Dereference a vertex index to the value of type {@code V}.
    *
-   * @param vertex The vertex.
-   * @return {@code true} if this digraph has been modified, and {@code false}
-   *         if the specified vertex already existed in the digraph.
-   * @throws NullPointerException If {@code vertex} is null.
+   * @param v The vertex index.
+   * @return A dereference value of type {@code K} at the specified vertex
+   *         index.
    */
-  public boolean addVertex(final T vertex) {
-    return addVertex(getCreateIndex(vertex));
-  }
+  protected abstract V indexToValue(int v);
 
   /**
-   * Returns the set of vertices in this digraph.
-   *
-   * @return The set of vertices in this digraph.
-   */
-  public Set<T> getVertices() {
-    return objectToIndex.keySet();
-  }
-
-  /**
-   * Add a vertex to the graph.
-   *
-   * @param vertex The vertex index.
-   * @return {@code true} if this digraph has been modified, and {@code false}
-   *         if the specified vertex already existed in the digraph.
-   */
-  private boolean addVertex(final int vertex) {
-    if (vertex < adj.size())
-      return false;
-
-    for (int i = adj.size(); i <= vertex; ++i)
-      adj.add(null);
-
-    return true;
-  }
-
-  /**
-   * Get if exists or create an index for the specified vertex
+   * Get if exists or create an index for the specified vertex.
    * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
+   * <i><b>Note:</b> This method is not thread safe.</i>
    *
    * @param vertex The vertex.
    * @return The index of the vertex.
-   * @throws NullPointerException If {@code vertex} is null.
    */
-  private int getCreateIndex(final T vertex) {
-    Integer index = objectToIndex.get(Objects.requireNonNull(vertex));
-    if (index == null)
-      objectToIndex.put(vertex, index = objectToIndex.size());
+  private int getIndexCreate(final Object vertex) {
+    Integer v = objectToIndex.get(vertex);
+    if (v != null)
+      return v;
 
-    return index;
+    if (adjRemoved.isEmpty()) {
+      v = objectToIndex.size();
+      adj.add(null);
+      inDegree.add(0);
+    }
+    else {
+      v = adjRemoved.pop();
+    }
+
+    objectToIndex.put(vertex, v);
+    return v;
   }
 
   /**
-   * Returns the index of {@code vertex} if exists, or fails with
-   * {@link IllegalArgumentException}.
-   *
-   * @param vertex The vertex.
-   * @return The index of {@code vertex} if exists, or fails with
-   *         {@link IllegalArgumentException}.
-   * @throws IllegalArgumentException If {@code vertex} does not exist in this
-   *           digraph.
-   * @throws NullPointerException If {@code vertex} is null.
-   */
-  private int getFailIndex(final T vertex) {
-    final Integer index = objectToIndex.get(Objects.requireNonNull(vertex));
-    if (index == null)
-      throw new IllegalArgumentException("Vertex does not exist in this digraph");
-
-    return index;
-  }
-
-  /**
-   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
-   * this with {@code to = null} is the equivalent of calling
-   * {@code Digraph.addVertex(from)}.
+   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph.
    * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
+   * <i><b>Note:</b> This method is not thread safe.</i>
    *
    * @param from The tail vertex.
    * @param to The head vertex.
    * @return {@code true} if this digraph has been modified, and {@code false}
    *         if the specified edge already existed in the digraph.
-   * @throws NullPointerException If {@code from} is null.
    */
-  public boolean addEdge(final T from, final T to) {
-    if (to == null)
-      return addVertex(getCreateIndex(from));
-
-    if (!addEdge(getCreateIndex(from), getCreateIndex(to)))
+  private boolean addEdge(final Object from, final Object to) {
+    final int v = getIndexCreate(from);
+    final int w = getIndexCreate(to);
+    LinkedHashSet<Integer> edges = adj.get(v);
+    if (edges == null)
+      adj.set(v, edges = new LinkedHashSet<>());
+    else if (edges.contains(w))
       return false;
 
-    edges.add(to);
-    return true;
-  }
-
-  /**
-   * Add directed edge (from -&gt; to) to this digraph.
-   * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
-   *
-   * @param v The index of the tail vertex.
-   * @param w The index of the head vertex.
-   * @return {@code true} if this digraph has been modified, and {@code false}
-   *         if the specified edge already existed in the digraph.
-   */
-  private boolean addEdge(final int v, final int w) {
-    LinkedHashSet<Integer> edges;
-    if (v < adj.size()) {
-      edges = adj.get(v);
-      if (edges == null)
-        adj.set(v, edges = new LinkedHashSet<>());
-      else if (edges.contains(w))
-        return false;
-    }
-    else {
-      for (int i = adj.size(); i < v; ++i)
-        adj.add(null);
-
-      adj.add(edges = new LinkedHashSet<>());
-    }
-
-    for (int i = adj.size(); i <= w; ++i)
-      adj.add(null);
-
     edges.add(w);
-
-    if (w < indegree.size()) {
-      indegree.set(w, indegree.get(w) + 1);
-    }
-    else {
-      for (int i = indegree.size(); i < w; ++i)
-        indegree.add(0);
-
-      indegree.add(1);
-    }
+    inDegree.set(w, inDegree.get(w) + 1);
 
     // Invalidate the previous dfs() and getFlatAdj() operations, as the
     // digraph has changed
     reversePostOrder = null;
     flatAdj = null;
+    cycle = null;
     return true;
+  }
+
+  /**
+   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
+   * this with {@code to = null} is the equivalent of calling
+   * {@code AbstractDigraph.add(from)}.
+   * <p>
+   * <i><b>Note:</b> This method is not thread safe.</i>
+   *
+   * @param from The tail vertex.
+   * @param to The head vertex.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified edge already existed in the digraph.
+   */
+  public boolean add(final K from, final V to) {
+    boolean modified = false;
+    modified |= addEdge(from, to);
+    modified |= transverse.addEdge(to, from);
+    return modified;
+  }
+
+  /**
+   * Add a vertex to the graph.
+   * <p>
+   * <i><b>Note:</b> This method is not thread safe.</i>
+   *
+   * @param vertex The vertex.
+   * @return {@code true} if this digraph has been modified, and {@code false}
+   *         if the specified vertex already existed in the digraph.
+   */
+  public boolean add(final K vertex) {
+    return getIndexCreate(vertex) >= size();
+  }
+
+  /**
+   * Associate the set of directed {@code edges} to the {@code vertex}.
+   * <p>
+   * <blockquote>{@code vertex} -&gt;&gt; {@code edges}</blockquote>
+   * <p>
+   * If the digraph previously contained a mapping for the vertex, the old edges
+   * are replaced by the specified value.
+   * <p>
+   * <i><b>Note:</b> This method is not thread safe.</i>
+   */
+  @Override
+  public Set<V> put(final K vertex, final Set<V> edges) {
+    final Set<V> previous = remove(vertex);
+    for (final V edge : edges)
+      add(vertex, edge);
+
+    return previous;
+  }
+
+  /**
+   * Copies all of the mappings from the specified map to this digraph. The
+   * effect of this call is equivalent to that of calling
+   * {@link AbstractDigraph#put(Object,Set)} on this map once for each mapping
+   * from {@code key} to {@code value} in the specified map. The behavior of
+   * this operation is undefined if the specified map is modified while the
+   * operation is in progress.
+   * <p>
+   * <i><b>Note:</b> This method is not thread safe.</i>
+   */
+  @Override
+  public void putAll(final Map<? extends K,? extends Set<V>> m) {
+    for (final Map.Entry<? extends K,? extends Set<V>> entry : m.entrySet())
+      put(entry.getKey(), entry.getValue());
+  }
+
+  /**
+   * Returns a {@link TransSet} of edges for the specified vertex index
+   * {@code v}, an empty {@link TransSet} if no edges exist at {@code v} and
+   * {@code makeNew == true}, or {@code Collections.EMPTY_SET} if no edges exist
+   * at {@code v} and {@code makeNew == false}.
+   * <p>
+   * If an instance of {@link TransSet} is returned, modifications made to the
+   * set are reflected in this digraph.
+   * <p>
+   * <i><b>Note:</b> This method is not thread safe.</i>
+   *
+   * @param v The vertex index.
+   * @param makeNew Whether a new empty set should be instantiated if the set of
+   *          edges at the specified vertex is null.
+   * @return A {@link TransSet} of edges for the specified vertex index
+   *         {@code v}, an empty {@link TransSet} if no edges exist at {@code v}
+   *         and {@code makeNew == true}, or {@code Collections.EMPTY_SET} if no
+   *         edges exist at {@code v} and {@code makeNew == false}.
+   */
+  private Set<V> getEdgesAtIndex(final int v, final boolean makeNew) {
+    LinkedHashSet<Integer> indices = adj.get(v);
+    if (indices == null) {
+      if (!makeNew)
+        return Collections.EMPTY_SET;
+
+      adj.set(v, indices = new LinkedHashSet<>());
+    }
+
+    return new TransSet<>(indices, w -> indexToValue(w), o -> objectToIndex.get(o));
+  }
+
+  /**
+   * Returns the set of edges mapped to the specified {@code vertex}.
+   * <p>
+   * If {@code withObserver == true}, an instance of {@link ObservableSet} is
+   * returned, whereby modifications made to this digraph are reflected in the
+   * set, and modifications made to the set are reflected in this digraph.
+   * <p>
+   * If {@code withObserver == false}, an instance of {@link TransSet} is
+   * returned, whereby modifications made to this digraph are reflected in the
+   * set.
+   * <p>
+   * If {@code withObserver == null}, an instance of {@link LinkedHashSet} is
+   * returned.
+   *
+   * @param vertex The vertex.
+   * @param withObserver Whether a {@link ObservableSet}, {@link TransSet}, or
+   *          {@link LinkedHashSet} are to be returned.
+   * @return The set of edges mapped to the specified {@code vertex}.
+   */
+  private Set<V> get(final Object vertex, final Boolean withObserver) {
+    final Integer v = objectToIndex.get(vertex);
+    if (v == null)
+      return null;
+
+    if (withObserver == null) {
+      final LinkedHashSet<Integer> indices = adj.get(v);
+      if (indices == null)
+        return Collections.EMPTY_SET;
+
+      final LinkedHashSet<V> edges = new LinkedHashSet<>(indices.size());
+      for (final int index : indices)
+        edges.add(indexToValue(index));
+
+      return edges;
+    }
+
+    Set<V> edges = getEdgesAtIndex(v, withObserver);
+    if (!withObserver)
+      return edges;
+
+    return new ObservableSet<V>(edges) {
+      @Override
+      @SuppressWarnings("unchecked")
+      protected boolean beforeAdd(final V e) {
+        AbstractDigraph.this.add((K)vertex, e);
+        return false;
+      }
+
+      @Override
+      protected boolean beforeRemove(final Object e) {
+        final Integer w = objectToIndex.get(e);
+        if (w == null)
+          return false;
+
+        AbstractDigraph.this.removeEdge((int)v, (int)w);
+        return super.beforeRemove(e);
+      }
+    };
+  }
+
+  /**
+   * Returns the set of edges mapped to the specified {@code vertex}.
+   * Modifications made to this digraph are reflected in the set, and
+   * modifications made to the set are reflected in this digraph.
+   *
+   * @param vertex The vertex.
+   * @return The set of edges mapped to the specified {@code vertex}.
+   */
+  @Override
+  public Set<V> get(final Object vertex) {
+    return get(vertex, true);
+  }
+
+  /**
+   * @return An {@link ObservableMap} of {@link #objectToIndex}, whereby
+   *         modifications made to this digraph are reflected in the set, and
+   *         modifications made to the set are reflected in this digraph.
+   */
+  @SuppressWarnings({"rawtypes", "unchecked", "unlikely-arg-type"})
+  private ObservableMap<K,Integer> getObservableObjectToIndex() {
+    return observableObjectToIndex == null ? observableObjectToIndex = new ObservableMap(objectToIndex) {
+      @Override
+      protected boolean beforeRemove(final Object key, final Object value) {
+        return AbstractDigraph.this.remove(key) != null;
+      }
+    } : observableObjectToIndex;
+  }
+
+  /**
+   * Returns {@code true} if this digraph contains the specified {@code vertex}.
+   *
+   * @return {@code true} if this digraph contains the specified {@code vertex}.
+   * @param vertex The vertex.
+   */
+  @Override
+  public boolean containsKey(final Object vertex) {
+    return objectToIndex.containsKey(vertex);
+  }
+
+  /**
+   * Returns {@code true} if at least one vertex in this digraph contains the
+   * specified {@code edges}.
+   * <p>
+   * <i><b>Note:</b> If a vertex is not associated to any edges, its value is
+   * not {@code null}, but rather an empty set. Therefore, this method will
+   * return {@code null} if the specified {@code edges} is null.</i>
+   * <p>
+   * <i><b>Note:</b> The expected type of the {@code edges} is {@code Set<V>},
+   * but this method accepts type {@code Object} to match the interface for
+   * {@link Map#containsValue(Object)}.</i>
+   *
+   * @return {@code true} if at least one vertex in this digraph contains the
+   *         specified {@code edges}.
+   * @param edges The edges.
+   */
+  @Override
+  public boolean containsValue(final Object edges) {
+    if (edges == null)
+      return false;
+
+    for (int i : indexToObject.keySet()) {
+      final Set<V> set = getEdgesAtIndex(i, false);
+      if (edges.equals(set))
+        return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * @return The set of vertices in this digraph. Modifications made to this
+   *         digraph are reflected in the set, and modifications made to the set
+   *         are reflected in this digraph.
+   */
+  @Override
+  public Set<K> keySet() {
+    return getObservableObjectToIndex().keySet();
+  }
+
+  /**
+   * @return A collection of edges in this digraph. Modifications made to this
+   *         digraph are reflected in the collection, and modifications made to
+   *         the collection are reflected in this digraph.
+   */
+  @Override
+  @SuppressWarnings("unlikely-arg-type")
+  public Collection<Set<V>> values() {
+    final ThreadLocal<Integer> localVertex = new ThreadLocal<>();
+    return new ObservableCollection<Set<V>>(new TransSet<>(indexToObject.keySet(), v -> {
+      localVertex.set(v);
+      return get(indexToObject.get(v));
+    }, null)) {
+      @Override
+      protected boolean beforeAdd(final Set<V> e) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected boolean beforeRemove(final Object e) {
+        if (e instanceof Set)
+          AbstractDigraph.this.remove(localVertex.get());
+
+        return false;
+      }
+    };
+  }
+
+  /**
+   * @return A set of {@link java.util.Map.Entry} objects representing the
+   *         ({@code vertex} -&gt;&gt; {@code edges}) mappings in this digraph.
+   *         Modifications made to this digraph are reflected in the set, and
+   *         modifications made to the set are reflected in this digraph.
+   */
+  @Override
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public Set<Map.Entry<K,Set<V>>> entrySet() {
+    return new ObservableSet<Map.Entry<K,Set<V>>>(new TransSet<Integer,Map.Entry<K,Set<V>>>(indexToObject.keySet(), i -> new AbstractMap.SimpleEntry(indexToObject.get(i), getEdgesAtIndex(i, true)), null)) {
+      @Override
+      protected boolean beforeAdd(final Map.Entry<K,Set<V>> e) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      @SuppressWarnings("unlikely-arg-type")
+      protected boolean beforeRemove(final Object e) {
+        if (e instanceof Map.Entry)
+          AbstractDigraph.this.remove(((Map.Entry<?,?>)e).getKey());
+
+        return false;
+      }
+    };
+  }
+
+  /**
+   * Remove the vertex and its associated edges from this digraph.
+   *
+   * @param vertex The vertex to remove.
+   * @return {@code true} if this digraph changed due to the method call.
+   */
+  private boolean removeKey(final Object vertex) {
+    final Integer v = objectToIndex.remove(vertex);
+    if (v == null)
+      return false;
+
+    final LinkedHashSet<Integer> ws = adj.set(v, null);
+    if (ws != null)
+      for (final int w : ws)
+        inDegree.set(w, inDegree.get(w) - 1);
+
+    adjRemoved.add(v);
+    return true;
+  }
+
+  /**
+   * Remove the association of ({@code vertex} -&gt;&gt; {@code edges}) from
+   * this digraph.
+   *
+   * @param from The tail vertex.
+   * @param to The head vertex.
+   * @return {@code true} if this digraph changed due to the method call.
+   */
+  private boolean removeEdge(final Object from, final Object to) {
+    final Integer v = objectToIndex.get(from);
+    final Integer w = objectToIndex.get(to);
+    return v != null && w != null && removeEdge((int)v, (int)w);
+  }
+
+  /**
+   * Remove the association of ({@code vertex} -&gt;&gt; {@code edges}) from
+   * this digraph.
+   *
+   * @param v The index of the tail vertex.
+   * @param w The index of the head vertex.
+   * @return {@code true} if this digraph changed due to the method call.
+   */
+  private boolean removeEdge(final int v, final int w) {
+    inDegree.set(w, inDegree.get(w) - 1);
+
+    // Invalidate the previous dfs() and getFlatAdj() operations, as the
+    // digraph has changed
+    reversePostOrder = null;
+    flatAdj = null;
+
+    return adj.get(v).remove(w);
+  }
+
+  /**
+   * Remove the vertex and its associated edges from this digraph.
+   *
+   * @param vertex The vertex to remove.
+   * @return {@code true} if this digraph changed due to the method call.
+   */
+  @Override
+  @SuppressWarnings("unlikely-arg-type")
+  public Set<V> remove(final Object vertex) {
+    final Set<V> edges = get(vertex, null);
+    if (edges == null && !containsKey(vertex))
+      return null;
+
+    final Set<V> transEdges = transverse.get(vertex, false);
+
+    if (edges != null)
+      for (final V edge : edges)
+        transverse.removeEdge(edge, vertex);
+
+    if (transEdges != null)
+      for (final V edge : transEdges)
+        removeEdge(edge, vertex);
+
+    transverse.removeKey(vertex);
+    removeKey(vertex);
+
+    return edges;
+  }
+
+  private void clearData() {
+    this.adj.clear();
+    this.adjRemoved.clear();
+    this.inDegree.clear();
+    this.objectToIndex.clear();
+    this.flatAdj = null;
+    this.cycle = null;
+    this.reversePostOrder = null;
+  }
+
+  /**
+   * Removes all vertices and associated edges in this digraph.
+   */
+  @Override
+  public void clear() {
+    clearData();
+    transverse.clearData();
+  }
+
+  /**
+   * @return The number of vertices in this digraph.
+   */
+  @Override
+  public int size() {
+    return objectToIndex.size();
+  }
+
+  /**
+   * @return {@code true} if this digraph contains no vertices.
+   */
+  @Override
+  public boolean isEmpty() {
+    return size() == 0;
+  }
+
+  /**
+   * Returns the index of {@code vertex} if exists, or fails with
+   * {@link NoSuchElementException}.
+   *
+   * @param vertex The vertex.
+   * @return The index of {@code vertex} if exists, or fails with
+   *         {@link NoSuchElementException}.
+   * @throws NoSuchElementException If {@code vertex} does not exist in this
+   *           digraph.
+   */
+  private int getIndexFail(final K vertex) {
+    final Integer v = objectToIndex.get(vertex);
+    if (v == null)
+      throw new NoSuchElementException("Vertex does not exist in this digraph");
+
+    return v;
   }
 
   /**
    * @param vertex The vertex.
    * @return The number of directed edges incident to vertex {@code vertex}.
-   * @throws IllegalArgumentException If vertex {@code vertex} does not exist in
+   * @throws NoSuchElementException If vertex {@code vertex} does not exist in
    *           this digraph.
-   * @throws NullPointerException If {@code vertex} is null.
    */
-  public int getInDegree(final T vertex) {
-    return indegree.get(getFailIndex(vertex));
+  public int getInDegree(final K vertex) {
+    return inDegree.get(getIndexFail(vertex));
   }
 
   /**
    * @param vertex The vertex.
    * @return The number of directed edges incident from vertex {@code vertex}.
-   * @throws IllegalArgumentException If vertex {@code vertex} does not exist in
+   * @throws NoSuchElementException If vertex {@code vertex} does not exist in
    *           this digraph.
-   * @throws NullPointerException If {@code vertex} is null.
    */
-  public int getOutDegree(final T vertex) {
-    return adj.get(getFailIndex(vertex)).size();
-  }
-
-  /**
-   * Returns a new {@code Digraph} instance with all edges of this digraph
-   * reversed.
-   *
-   * @return A new {@code Digraph} instance with all edges of this digraph
-   *         reversed.
-   */
-  public Digraph<T> reverse() {
-    final Digraph<T> reverse = new Digraph<>();
-    reverse.objectToIndex = objectToIndex.clone();
-    reverse.indexToObject = reverse.objectToIndex.inverse();
-    for (int v = 0; v < adj.size(); ++v) {
-      final LinkedHashSet<Integer> edges = adj.get(v);
-      if (edges != null) {
-        for (final int w : edges) {
-          reverse.addEdge(w, v);
-          reverse.edges.add(indexToObject.get(v));
-        }
-      }
-    }
-
-    return reverse;
-  }
-
-  private void dfs() {
-    if (reversePostOrder == null && (cycle = dfs(reversePostOrder = new ArrayList<>(edges.size()))) != null)
-      reversePostOrder = null;
+  public int getOutDegree(final K vertex) {
+    return adj.get(getIndexFail(vertex)).size();
   }
 
   /**
@@ -318,19 +647,25 @@ public class Digraph<T> implements Cloneable, Serializable {
    * @param reversePostOrder List of vertices filled in reverse post order.
    * @return A cycle list, if one was found.
    */
-  private ArrayList<T> dfs(final List<T> reversePostOrder) {
-    final BitSet marked = new BitSet(adj.size());
-    final BitSet onStack = new BitSet(adj.size());
-    final int[] edgeTo = new int[adj.size()];
-    for (int v = 0; v < adj.size(); ++v) {
-      if (!marked.get(v)) {
-        final ArrayList<T> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, v);
+  private ArrayList<V> dfs(final List<K> reversePostOrder) {
+    final int size = adj.size();
+    final BitSet marked = new BitSet(size);
+    final BitSet onStack = new BitSet(size);
+    final int[] edgeTo = new int[size];
+    for (int v = 0; v < size; ++v) {
+      if (indexToObject.containsKey(v) && !marked.get(v)) {
+        final ArrayList<V> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, v);
         if (cycle != null)
           return cycle;
       }
     }
 
     return null;
+  }
+
+  private void dfs() {
+    if (reversePostOrder == null && (cycle = dfs(reversePostOrder = new ArrayList<>(size()))) != null)
+      reversePostOrder = null;
   }
 
   /**
@@ -344,39 +679,48 @@ public class Digraph<T> implements Cloneable, Serializable {
    * @param v The index of the vertex.
    * @return A cycle list, if one was found.
    */
-  private ArrayList<T> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<T> reversePostOrder, final int v) {
+  private ArrayList<V> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<K> reversePostOrder, final int v) {
     onStack.set(v);
     marked.set(v);
-    final LinkedHashSet<Integer> edges = adj.get(v);
-    if (edges != null) {
-      for (final int w : edges) {
+    final LinkedHashSet<Integer> ws = adj.get(v);
+    if (ws != null) {
+      for (final int w : ws) {
         if (!marked.get(w)) {
           edgeTo[w] = v;
-          final ArrayList<T> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, w);
+          final ArrayList<V> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, w);
           if (cycle != null)
             return cycle;
         }
         else if (v != w && onStack.get(w)) {
-          final ArrayList<T> cycle = new ArrayList<>(initialCapacity / 3);
+          final ArrayList<V> cycle = new ArrayList<>(initialCapacity / 3);
           for (int x = v; x != w; x = edgeTo[x])
-            cycle.add(indexToObject.get(x));
+            cycle.add(indexToValue(x));
 
-          cycle.add(indexToObject.get(w));
-          cycle.add(indexToObject.get(v));
+          cycle.add(indexToValue(w));
+          cycle.add(indexToValue(v));
           return cycle;
         }
       }
     }
 
     onStack.clear(v);
-    reversePostOrder.add(0, indexToObject.get(v));
+    reversePostOrder.add(0, indexToKey(v));
     return null;
   }
 
   /**
+   * Returns a directed cycle if the digraph has one, and {@code null}
+   * otherwise.
+   *
+   * @return A directed cycle if the digraph has one; otherwise {@code null}.
+   */
+  public List<V> getCycle() {
+    dfs();
+    return cycle;
+  }
+
+  /**
    * Specifies whether the digraph has a cycle.
-   * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @return {@code true} if the digraph has a cycle; otherwise {@code false}.
    */
@@ -385,69 +729,101 @@ public class Digraph<T> implements Cloneable, Serializable {
   }
 
   /**
-   * Returns a directed cycle if the digraph has one, and {@code null}
-   * otherwise.
-   * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
-   *
-   * @return A directed cycle if the digraph has one; otherwise {@code null}.
-   */
-  public List<T> getCycle() {
-    dfs();
-    return cycle;
-  }
-
-  /**
    * Returns the reverse post order of a depth first search analysis of the
    * digraph, or null if no such order exists due to a cycle.
    * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
+   * <i><b>Note:</b> This method is not thread safe.</i>
    *
    * @return The reverse post order of a depth first search analysis of the
-   *         digraph, or {@code null} if no such order exists due to a cycle..
+   *         digraph, or {@code null} if no such order exists due to a cycle.
    */
-  public List<T> getTopologicalOrder() {
+  public List<K> getTopologicalOrder() {
     dfs();
     return reversePostOrder;
   }
 
   /**
-   * Returns a flat representation of the {@code adj} data structure, where each
-   * member of the flat representation is the java reference to the
-   * arbitrary-typed vertex.
-   * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
-   *
-   * @return A flat representation of the {@code adj} data structure, where each
-   *         member of the flat representation is the java reference to the
-   *         arbitrary-typed vertex.
+   * @return The transverse of this digraph. Any changes made to the
+   *         transverse instance are reflected in this instance.
    */
-  private Object[][] getFlatAdj() {
-    if (flatAdj != null)
-      return flatAdj;
+  public AbstractDigraph<K,V> transverse() {
+    return transverse;
+  }
 
-    final Object[][] flatAdj = new Object[adj.size()][];
-    int i = 0;
-    for (final LinkedHashSet<Integer> edges : adj) {
-      if (edges == null)
-        continue;
+  @SuppressWarnings("unchecked")
+  private AbstractDigraph<K,V> superClone() {
+    try {
+      final AbstractDigraph<K,V> clone = (AbstractDigraph<K,V>)super.clone();
+      clone.objectToIndex = objectToIndex.clone();
+      clone.indexToObject = clone.objectToIndex.inverse();
+      clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
+      for (int i = 0; i < clone.adj.size(); ++i) {
+        final LinkedHashSet<Integer> set = clone.adj.get(i);
+        clone.adj.set(i, set == null ? null : (LinkedHashSet<Integer>)set.clone());
+      }
 
-      final Object[] vertices = flatAdj[i++] = new Object[edges.size()];
-      int j = 0;
-      for (final Integer index : edges)
-        vertices[j++] = indexToObject.get(index);
+      clone.adjRemoved = adjRemoved.clone();
+      clone.observableObjectToIndex = observableObjectToIndex == null ? null : clone.getObservableObjectToIndex();
+      clone.flatAdj = flatAdj == null ? null : flatAdj.clone();
+      clone.inDegree = inDegree.clone();
+      clone.cycle = cycle == null ? null : (ArrayList<V>)cycle.clone();
+      clone.reversePostOrder = reversePostOrder == null ? null : (ArrayList<K>)reversePostOrder.clone();
+      return clone;
+    }
+    catch (final CloneNotSupportedException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * Returns a clone of this digraph. The returned object does not share any
+   * references to this object.
+   */
+  @Override
+  public AbstractDigraph<K,V> clone() {
+    final AbstractDigraph<K,V> clone = superClone();
+    clone.transverse = transverse.superClone();
+    clone.transverse.transverse = clone;
+    return clone;
+  }
+
+  /**
+   * Tests whether {@code this} digraph is equal to {@code obj}.
+   *
+   * @param obj The object to test for equality.
+   * @return {@code true} if {@code this} digraph is equal to {@code obj};
+   *         otherwise {@code false}.
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof AbstractDigraph))
+      return false;
+
+    final AbstractDigraph<K,V> that = (AbstractDigraph<K,V>)obj;
+    if (size() != that.size())
+      return false;
+
+    if (!objectToIndex.keySet().equals(that.objectToIndex.keySet()))
+      return false;
+
+    for (final Object key : objectToIndex.keySet()) {
+      final Set<V> edges = get(key, null);
+      final Set<V> thatEdges = that.get(key, null);
+      if (edges.size() != thatEdges.size() || !edges.containsAll(thatEdges))
+        return false;
     }
 
-    Arrays.sort(flatAdj, arrayComparator);
-    return this.flatAdj = flatAdj;
+    return true;
   }
 
   /**
    * Returns the hash code value for this digraph. The hash code of a digraph is
    * computed by evaluating the hash codes of the member vertices with respect
    * to the directed edge definitions.
-   * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @return The hash code value for this digraph. The hash code of a digraph is
    *         computed by evaluating the hash codes of the member vertices with
@@ -455,52 +831,17 @@ public class Digraph<T> implements Cloneable, Serializable {
    */
   @Override
   public int hashCode() {
-    int hashCode = objectToIndex.keySet().hashCode();
-    final Object[][] thisFlat = getFlatAdj();
-    for (final Object[] vertices : thisFlat)
-      hashCode ^= vertices.hashCode() * 31;
+    final Set<Object> keys = objectToIndex.keySet();
+    int hashCode = keys.hashCode();
+    for (final Object key : keys)
+      hashCode ^= get(key, null).hashCode();
 
     return hashCode;
   }
 
   /**
-   * Tests whether {@code this} digraph is equal to {@code obj}.
-   * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
-   *
-   * @param obj The object to test for equality.
-   * @return {@code true} if {@code this} digraph is equal to {@code obj};
-   *         otherwise {@code false}.
-   */
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-
-    if (!(obj instanceof Digraph))
-      return false;
-
-    final Digraph<?> that = (Digraph<?>)obj;
-    if (adj.size() != that.adj.size())
-      return false;
-
-    if (!objectToIndex.keySet().equals(that.objectToIndex.keySet()))
-      return false;
-
-    final Object[][] thisFlat = getFlatAdj();
-    final Object[][] thatFlat = that.getFlatAdj();
-    for (int i = 0; i < thisFlat.length; ++i)
-      if (!Arrays.equals(thisFlat[i], thatFlat[i]))
-        return false;
-
-    return true;
-  }
-
-  /**
    * Returns a string representation of this digraph, containing: the number of
    * vertices, followed by the number of edges, followed by the adjacency lists.
-   * <p>
-   * <i><b>Note:</b> This method is not synchronized.</i>
    *
    * @return A string representation of this digraph, containing: the number of
    *         vertices, followed by the number of edges, followed by the
@@ -508,39 +849,19 @@ public class Digraph<T> implements Cloneable, Serializable {
    */
   @Override
   public String toString() {
-    final StringBuilder builder = new StringBuilder().append(adj.size()).append(" vertices, ").append(edges).append(" edges").append('\n');
-    final Map<Integer,T> inverse = indexToObject;
+    final StringBuilder builder = new StringBuilder();
     for (int v = 0; v < adj.size(); ++v) {
-      builder.append(inverse.get(v)).append(':');
-      final LinkedHashSet<Integer> edges = adj.get(v);
-      if (edges != null)
-        for (final int w : edges)
-          builder.append(' ').append(inverse.get(w));
+      final Object obj = indexToObject.get(v);
+      final LinkedHashSet<Integer> ws = adj.get(v);
+      builder.append(obj).append(':');
+      if (ws != null)
+        for (final int w : ws)
+          builder.append(' ').append(indexToObject.get(w));
 
       if (v < adj.size() - 1)
         builder.append('\n');
     }
 
     return builder.toString();
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public Digraph<T> clone() {
-    try {
-      final Digraph<T> clone = (Digraph<T>)super.clone();
-      clone.objectToIndex = objectToIndex.clone();
-      clone.indexToObject = clone.objectToIndex.inverse();
-      clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
-      clone.flatAdj = flatAdj == null ? null : flatAdj.clone();
-      clone.indegree = indegree.clone();
-      clone.edges = (ArrayList<T>)edges.clone();
-      clone.cycle = cycle == null ? null : (ArrayList<T>)cycle.clone();
-      clone.reversePostOrder = reversePostOrder == null ? null : (ArrayList<T>)reversePostOrder.clone();
-      return clone;
-    }
-    catch (final CloneNotSupportedException e) {
-      throw new UnsupportedOperationException(e);
-    }
   }
 }

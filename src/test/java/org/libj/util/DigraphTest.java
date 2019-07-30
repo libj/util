@@ -17,72 +17,137 @@
 package org.libj.util;
 
 import static org.junit.Assert.*;
+import static org.libj.util.DigraphTestUtil.*;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.junit.Test;
 
 public class DigraphTest {
-  /**
-   * Create a {@code Digraph<T>} of the type {@code type} with the specified
-   * number of vertices and edges in (v, w) sequential linear order.
-   *
-   * @param edges The (v, w) pairs of edges in sequential order.
-   * @throws IllegalArgumentException If the endpoints of any edge are not in
-   *           prescribed range.
-   * @throws IllegalArgumentException If edges.length is not divisible by 2, or
-   *           if the input stream is in the wrong format
-   * @return The {@code Digraph<T>}.
-   */
-  @SafeVarargs
-  private static <T extends Serializable> Digraph<T> createDigraph(final T ... edges) {
-    final Digraph<T> digraph = new Digraph<>();
-    if (edges.length % 2 != 0)
-      throw new IllegalArgumentException("edges array must be (v, w) vertex pairs");
+  private static final Digraph<String> digraph1 = createDigraph("a", null, null, "c", null, "d", "c", "d", "c", "e", "d", "e", "e", "f", "e", "g", "e", "h", "f", "h");
+  private static final Digraph<String> transverse1 = createDigraph(null, "a", "c", null, "d", null, "d", "c", "e", "c", "e", "d", "f", "e", "g", "e", "h", "e", "h", "f");
 
-    for (int i = 0; i < edges.length;)
-      digraph.addEdge(edges[i++], edges[i++]);
+  private static final Digraph<String> digraph2 = createDigraph("c", "d", "c", "e", "d", "e", "e", "f", "e", "g", "e", "h", "f", "h", "a", null, null, "c", null, "d");
+  private static final Digraph<String> transverse2 = createDigraph("d", "c", "e", "c", "e", "d", "f", "e", "g", "e", "h", "e", "h", "f", null, "a", "c", null, "d", null);
 
-    assertNotEquals(0, digraph.getVertices().size());
-    return digraph;
+  private static final Digraph<String> digraph3 = createDigraph("2", "3", "0", "6", "0", "1", "2", "0", "11", "12", "9", "12", "9", "10", "9", "11", "3", "5", "8", "7", "5", "4", "0", "5", "6", "4", "6", "9", "7", "6");
+  private static final Digraph<String> transverse3 = createDigraph("3", "2", "6", "0", "1", "0", "0", "2", "12", "11", "12", "9", "10", "9", "11", "9", "5", "3", "7", "8", "4", "5", "5", "0", "4", "6", "9", "6", "6", "7");
+
+  @Test
+  public void testClone() {
+    assertEquals(digraph1, digraph1.clone());
+    assertEquals(digraph2, digraph2.clone());
+    assertEquals(digraph3, digraph3.clone());
+    assertEquals(digraph1, digraph2.clone());
+    assertEquals(digraph1.clone(), digraph2);
   }
 
-  private static Digraph<Integer> makeDirectedAcyclicGraph() {
-    return createDigraph(2, 3, 0, 6, 0, 1, 2, 0, 11, 12, 9, 12, 9, 10, 9, 11, 3, 5, 8, 7, 5, 4, 0, 5, 6, 4, 6, 9, 7, 6);
+  @Test
+  public void testTransverse() {
+    assertEquals(transverse1, digraph1.transverse());
+    assertEquals(transverse2, digraph2.transverse());
+    assertEquals(transverse3, digraph3.transverse());
   }
 
-  private static Digraph<Integer> makeTinyDirectedGraph() {
-    return createDigraph(4, 2, 2, 3, 3, 2, 6, 0, 0, 1, 2, 0, 11, 12, 12, 9, 9, 10, 9, 11, 7, 9, 10, 12, 11, 4, 4, 3, 3, 5, 6, 8, 8, 6, 5, 4, 0, 5, 6, 4, 6, 9, 7, 6);
+  @Test
+  public void testTopologicalOrder() {
+    assertArrayEquals(digraph1.getTopologicalOrder().toString(), new String[] {"a", null, "c", "d", "e", "g", "f", "h"}, digraph1.getTopologicalOrder().toArray());
   }
 
-  private static Digraph<Integer> makeMediumDirectedGraph() {
-    return createDigraph(0, 7, 0, 34, 1, 14, 1, 45, 1, 21, 1, 22, 1, 22, 1, 49, 2, 19, 2, 25, 2, 33, 3, 4, 3, 17, 3, 27, 3, 36, 3, 42, 4, 17, 4, 17, 4, 27, 5, 43, 6, 13, 6, 13, 6, 28, 6, 28, 7, 41, 7, 44, 8, 19, 8, 48, 9, 9, 9, 11, 9, 30, 9, 46, 10, 0, 10, 7, 10, 28, 10, 28, 10, 28, 10, 29, 10, 29, 10, 34, 10, 41, 11, 21, 11, 30, 12, 9, 12, 11, 12, 21, 12, 21, 12, 26, 13, 22, 13, 23, 13, 47, 14, 8, 14, 21, 14, 48, 15, 8, 15, 34, 15, 49, 16, 9, 17, 20, 17, 24, 17, 38, 18, 6, 18, 28, 18, 32, 18, 42, 19, 15, 19, 40, 20, 3, 20, 35, 20, 38, 20, 46, 22, 6, 23, 11, 23, 21, 23, 22, 24, 4, 24, 5, 24, 38, 24, 43, 25, 2, 25, 34, 26, 9, 26, 12, 26, 16, 27, 5, 27, 24, 27, 32, 27, 31, 27, 42, 28, 22, 28, 29, 28, 39, 28, 44, 29, 22, 29, 49, 30, 23, 30, 37, 31, 18, 31, 32, 32, 5, 32, 6, 32, 13, 32, 37, 32, 47, 33, 2, 33, 8, 33, 19, 34, 2, 34, 19, 34, 40, 35, 9, 35, 37, 35, 46, 36, 20, 36, 42, 37, 5, 37, 9, 37, 35, 37, 47, 37, 47, 38, 35, 38, 37, 38, 38, 39, 18, 39, 42, 40, 15, 41, 28, 41, 44, 42, 31, 43, 37, 43, 38, 44, 39, 45, 8, 45, 14, 45, 14, 45, 15, 45, 49, 46, 16, 47, 23, 47, 30, 48, 12, 48, 21, 48, 33, 48, 33, 49, 34, 49, 22, 49, 49);
+  @Test
+  public void testGetEdges() {
+    assertEquals(Collections.singleton(null), digraph1.get("a"));
+    assertEquals(CollectionUtil.asCollection(new HashSet<>(), "c", "d"), digraph1.get(null));
+    assertEquals(CollectionUtil.asCollection(new HashSet<>(), "d", "e"), digraph1.get("c"));
+    assertEquals(Collections.singleton("e"), digraph1.get("d"));
+    assertEquals(CollectionUtil.asCollection(new HashSet<>(), "f", "g", "h"), digraph1.get("e"));
+    assertEquals(Collections.singleton("h"), digraph1.get("f"));
+    assertTrue(digraph1.containsKey("g"));
+    assertEquals(0, digraph1.get("g").size());
+    assertTrue(digraph1.containsKey("h"));
+    assertEquals(0, digraph1.get("h").size());
+
+    assertFalse(digraph1.containsKey("i"));
   }
 
-  private static List<Integer> testDirectedCycle(final Digraph<Integer> digraph) {
-    final List<Integer> cycle = digraph.getCycle();
-    if (cycle != null) {
-      verifyCycle(cycle);
-      return digraph.getCycle();
+  private static void testRemoveAdd(final Digraph<String> digraph) {
+    final Digraph<String> clone = digraph.clone();
+    assertCloneEquals(digraph, clone);
+    final Iterator<String> iterator = new ArrayList<>(digraph.keySet()).iterator();
+    while (iterator.hasNext()) {
+      final List<String> keys = new ArrayList<>();
+      final List<Set<String>> forwards = new ArrayList<>();
+      final List<Set<String>> reverses = new ArrayList<>();
+      while (iterator.hasNext() && Math.random() < 0.5) {
+        final String key = iterator.next();
+        keys.add(key);
+        final Set<String> reverse = digraph.transverse().get(key);
+        reverses.add(reverse == null ? null : new HashSet<>(reverse));
+
+        final Set<String> forward = digraph.remove(key);
+        forwards.add(forward);
+      }
+
+      for (int i = 0; i < keys.size(); ++i) {
+        final String key = keys.get(i);
+        addEdges(digraph, key, forwards.get(i), true);
+        addEdges(digraph, key, reverses.get(i), false);
+      }
+
+      assertEquals(clone, digraph);
+    }
+  }
+
+  private static boolean addEdges(final Digraph<String> digraph, final String key, final Set<String> edges, final boolean forward) {
+    if (edges == null || edges.size() == 0)
+      return digraph.add(key);
+
+    boolean changed = false;
+    for (final String edge : edges) {
+      if (forward)
+        changed |= digraph.add(key, edge);
+      else
+        changed |= digraph.add(edge, key);
     }
 
-    return null;
+    return changed;
   }
 
-  // verify the digraph has a directed cycle if it reports one
-  private static void verifyCycle(final List<Integer> cycle) {
-    // verify cycle
-    Object first = null, last = null;
-    for (final Object v : cycle) {
-      if (first == null)
-        first = v;
+  @Test
+  public void testRemoveAdd() {
+    testRemoveAdd(digraph1);
+    testRemoveAdd(digraph2);
+    testRemoveAdd(digraph3);
+    for (int i = 0; i < 1000; ++i)
+      testRemoveAdd(createRandomDigraph((int)(Math.random() * 20), true));
+  }
 
-      last = v;
+  @Test
+  public void testInOutDegree() {
+    final Digraph<Integer> directedAcyclicDigraph = makeDirectedAcyclicGraph();
+    assertEquals(2, directedAcyclicDigraph.getInDegree(12));
+    try {
+      directedAcyclicDigraph.getInDegree(-1);
+      fail("Expected NoSuchElementException");
+    }
+    catch (final NoSuchElementException e) {
     }
 
-    if (first != last)
-      throw new IllegalStateException("cycle begins with " + first + " and ends with " + last);
+    assertEquals(3, directedAcyclicDigraph.getOutDegree(9));
+    try {
+      directedAcyclicDigraph.getOutDegree(-1);
+      fail("Expected NoSuchElementException");
+    }
+    catch (final NoSuchElementException e) {
+    }
   }
 
   @Test
@@ -90,48 +155,97 @@ public class DigraphTest {
     final Digraph<Integer> directedAcyclicDigraph = makeDirectedAcyclicGraph();
     assertNull(testDirectedCycle(directedAcyclicDigraph));
     assertFalse(directedAcyclicDigraph.hasCycle());
-    assertArrayEquals(new Integer[] {
-      8, 7, 2, 0, 1, 6, 9, 11, 10, 12, 3, 5, 4
-    }, directedAcyclicDigraph.getTopologicalOrder().toArray());
+    assertArrayEquals(new Integer[] {8, 7, 2, 0, 1, 6, 9, 11, 10, 12, 3, 5, 4}, directedAcyclicDigraph.getTopologicalOrder().toArray());
 
     final Digraph<Integer> directedTinyDigraph = makeTinyDirectedGraph();
-    assertArrayEquals(new Integer[] {
-      3, 2, 3
-    }, testDirectedCycle(directedTinyDigraph).toArray());
+    assertArrayEquals(new Integer[] {3, 2, 3}, testDirectedCycle(directedTinyDigraph).toArray());
     assertTrue(directedTinyDigraph.hasCycle());
     assertNull(directedTinyDigraph.getTopologicalOrder());
 
     final Digraph<Integer> directedMediumDigraph = makeMediumDirectedGraph();
-    assertArrayEquals(new Integer[] {
-      13, 6, 22, 13
-    }, testDirectedCycle(directedMediumDigraph).toArray());
+    assertArrayEquals(new Integer[] {13, 6, 22, 13}, testDirectedCycle(directedMediumDigraph).toArray());
     assertTrue(directedMediumDigraph.hasCycle());
     assertNull(directedMediumDigraph.getTopologicalOrder());
   }
 
-  private static final Digraph<String> digraph1 = createDigraph("a", "b", "b", "c", "b", "d", "c", "d", "c", "e", "d", "e", "e", "f", "e", "g", "e", "h", "f", "h");
-  private static final Digraph<String> digraph2 = createDigraph("c", "d", "c", "e", "d", "e", "e", "f", "e", "g", "e", "h", "f", "h", "a", "b", "b", "c", "b", "d");
-  private static final Digraph<String> reverse = createDigraph("b", "a", "c", "b", "d", "b", "d", "c", "e", "c", "e", "d", "f", "e", "g", "e", "h", "e", "h", "f");
-
   @Test
-  public void testEquals() {
-    assertEquals(digraph1, digraph2);
+  @SuppressWarnings("unlikely-arg-type")
+  public void testContainsValue() {
+    final Digraph<Integer> digraph = makeDirectedAcyclicGraph();
+    assertTrue(digraph.containsValue(Collections.singleton(12)));
+    assertTrue(digraph.containsValue(Collections.EMPTY_SET));
+    assertTrue(digraph.containsValue(CollectionUtil.asCollection(new HashSet<>(), 12, 11, 10)));
+    assertFalse(digraph.containsValue(-1));
   }
 
   @Test
-  public void testClone() {
-    assertEquals(digraph1.clone(), digraph2.clone());
+  public void testClear() {
+    final Digraph<Integer> digraph = makeDirectedAcyclicGraph();
+    final Digraph<Integer> empty = new Digraph<>();
+
+    assertNotEquals(empty, digraph);
+    digraph.clear();
+    assertTrue(digraph.isEmpty());
+    assertEquals(empty, digraph);
   }
 
   @Test
-  public void testReverse() {
-    assertEquals(reverse, digraph1.reverse());
+  public void testKeySetObservable() {
+    final Digraph<Integer> digraph = makeDirectedAcyclicGraph();
+    final Set<Integer> w6 = CollectionUtil.asCollection(new HashSet<>(), 4, 9);
+    assertEquals(w6, digraph.get(6));
+    final Collection<Set<Integer>> values = digraph.values();
+    assertTrue(values.contains(Collections.EMPTY_SET));
+    assertTrue(values.contains(w6));
+    assertFalse(values.contains(Collections.singleton(9)));
+    final Set<Integer> keys = digraph.keySet();
+    final Set<Map.Entry<Integer,Set<Integer>>> entries = digraph.entrySet();
+    assertTrue(keys.remove(4));
+    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();)
+      if (iterator.next().getKey() == 4)
+        fail("Expected 4 to be removed");
+
+    assertFalse(keys.contains(4));
+    assertFalse(values.contains(w6));
+    assertTrue(values.contains(Collections.singleton(9)));
+    final Set<Integer> set = digraph.get(6);
+    assertEquals(Collections.singleton(9), set);
   }
 
   @Test
-  public void testTopologicalOrder() {
-    assertArrayEquals(new String[] {
-      "a", "b", "c", "d", "e", "g", "f", "h"
-    }, digraph1.getTopologicalOrder().toArray());
+  public void testEntrySetObservable() {
+    final Digraph<Integer> digraph = makeDirectedAcyclicGraph();
+    final Set<Integer> w6 = CollectionUtil.asCollection(new HashSet<>(), 4, 9);
+    assertEquals(w6, digraph.get(6));
+    final Collection<Set<Integer>> values = digraph.values();
+    assertTrue(values.contains(w6));
+    assertFalse(values.contains(Collections.singleton(9)));
+    final Set<Integer> keys = digraph.keySet();
+    assertTrue(keys.contains(4));
+    final Set<Map.Entry<Integer,Set<Integer>>> entries = digraph.entrySet();
+    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();)
+      if (iterator.next().getKey() == 4)
+        iterator.remove();
+
+    assertFalse(keys.contains(4));
+    assertFalse(values.contains(w6));
+    assertTrue(values.contains(Collections.singleton(9)));
+    final Set<Integer> set = digraph.get(6);
+    assertEquals(Collections.singleton(9), set);
+  }
+
+  @Test
+  public void testHashCode() {
+    final Digraph<Integer> digraph = makeDirectedAcyclicGraph();
+    final int hashCode = digraph.hashCode();
+    digraph.remove(6);
+    assertNotEquals(hashCode, digraph.hashCode());
+    digraph.add(6, 4);
+    digraph.add(6, 9);
+    assertNotEquals(hashCode, digraph.hashCode());
+    digraph.add(7, 6);
+    assertNotEquals(hashCode, digraph.hashCode());
+    digraph.add(0, 6);
+    assertEquals(hashCode, digraph.hashCode());
   }
 }
