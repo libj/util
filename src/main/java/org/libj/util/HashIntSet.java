@@ -255,6 +255,9 @@ public class HashIntSet implements Cloneable, IntSet, Serializable {
 
   @Override
   public boolean containsAll(final IntCollection c) {
+    if (c.size() == 0)
+      return true;
+
     for (final IntIterator i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
@@ -264,6 +267,9 @@ public class HashIntSet implements Cloneable, IntSet, Serializable {
 
   @Override
   public boolean containsAll(final Collection<Integer> c) {
+    if (c.size() == 0)
+      return true;
+
     for (final Iterator<Integer> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
@@ -579,7 +585,7 @@ public class HashIntSet implements Cloneable, IntSet, Serializable {
       return clone;
     }
     catch (final CloneNotSupportedException e) {
-      throw new UnsupportedOperationException(e);
+      throw new IllegalStateException(e);
     }
   }
 

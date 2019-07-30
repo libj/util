@@ -107,6 +107,9 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
   @Override
   @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
+    if (c.size() == 0)
+      return true;
+
     final Iterator<?> iterator = c.iterator();
     if (c instanceof SortedList) {
       for (int i = 0; iterator.hasNext();)

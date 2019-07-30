@@ -157,6 +157,9 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
   @Override
   @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
+    if (c.size() == 0)
+      return true;
+
     for (final Object e : c)
       if (contains(e))
         return true;

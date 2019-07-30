@@ -46,9 +46,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   private int toIndex;
 
   /**
-   * Creates a new {@code ObservableList} with the specified {@code list}.
+   * Creates a new {@code ObservableList} with the specified target
+   * {@code List}.
    *
-   * @param list The target {@link List} object.
+   * @param list The target {@link List}.
    * @throws NullPointerException If {@code list} is null.
    */
   public ObservableList(final List<E> list) {
@@ -147,6 +148,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * @param e The element removed from the enclosed {@link List}.
    * @param re A {@code RuntimeException} that occurred during the remove
    *          operation, or null if no exception occurred.
+   * @return If this method returns {@code true} or {@code false}, the value
+   *         will override the return of the
+   *         {@link ObservableSet#remove(Object)} method. If this method returns
+   *         {@code null}, the value of the {@link ObservableSet#remove(Object)}
+   *         method will not be overridden.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
   }
@@ -334,6 +340,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
+    if (c.size() == 0)
+      return true;
+
     for (final Object o : c)
       if (!contains(o))
         return false;

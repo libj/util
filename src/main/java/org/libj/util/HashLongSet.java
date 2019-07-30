@@ -255,6 +255,9 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
 
   @Override
   public boolean containsAll(final LongCollection c) {
+    if (c.size() == 0)
+      return true;
+
     for (final LongIterator i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
@@ -264,6 +267,9 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
 
   @Override
   public boolean containsAll(final Collection<Long> c) {
+    if (c.size() == 0)
+      return true;
+
     for (final Iterator<Long> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
@@ -579,7 +585,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
       return clone;
     }
     catch (final CloneNotSupportedException e) {
-      throw new UnsupportedOperationException(e);
+      throw new IllegalStateException(e);
     }
   }
 

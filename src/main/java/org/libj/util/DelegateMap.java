@@ -38,9 +38,7 @@ import java.util.function.Function;
  * @param <V> The type of mapped values.
  */
 public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
-  /**
-   * The target Map.
-   */
+  /** The target Map. */
   @SuppressWarnings("rawtypes")
   protected volatile Map target;
 
