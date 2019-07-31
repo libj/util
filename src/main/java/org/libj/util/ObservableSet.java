@@ -199,6 +199,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * removed.
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     if (!beforeRemove(o))
       return false;
