@@ -292,11 +292,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public void clear() {
-    final Iterator<E> iterator = iterator();
-    while (iterator.hasNext()) {
-      iterator.next();
-      iterator.remove();
-    }
+    for (int i = size() - 1; i >= 0; --i)
+      remove(i);
   }
 
   /**
@@ -309,15 +306,15 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public boolean contains(final Object o) {
-    final ListIterator<E> iterator = listIterator();
+    final int size = size();
     if (o == null) {
-      while (iterator.hasNext())
-        if (iterator.next() == null)
+      for (int i = 0; i < size; ++i)
+        if (get(i) == null)
           return true;
     }
     else {
-      while (iterator.hasNext())
-        if (o.equals(iterator.next()))
+      for (int i = 0; i < size; ++i)
+        if (o.equals(get(i)))
           return true;
     }
 
@@ -353,12 +350,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * immediately before and after the get operation on the enclosed collection.
    */
   @Override
+  @SuppressWarnings("unchecked")
   public E get(final int index) {
     beforeGet(index, null);
     E object = null;
     RuntimeException re = null;
     try {
-      object = super.get(index);
+      object = (E)target.get(index + fromIndex);
     }
     catch (final RuntimeException e) {
       re = e;
@@ -381,15 +379,15 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public int indexOf(final Object o) {
-    final ListIterator<E> iterator = listIterator();
+    final int size = size();
     if (o == null) {
-      for (int i = 0; iterator.hasNext(); ++i)
-        if (iterator.next() == null)
+      for (int i = 0; i < size; ++i)
+        if (get(i) == null)
           return i;
     }
     else {
-      for (int i = 0; iterator.hasNext(); ++i)
-        if (o.equals(iterator.next()))
+      for (int i = 0; i < size; ++i)
+        if (o.equals(get(i)))
           return i;
     }
 
@@ -406,15 +404,14 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public int lastIndexOf(final Object o) {
-    final ListIterator<E> iterator = listIterator(size());
     if (o == null) {
-      for (int i = 0; iterator.hasPrevious(); ++i)
-        if (iterator.previous() == null)
+      for (int i = size() - 1; i >= 0; --i)
+        if (get(i) == null)
           return i;
     }
     else {
-      for (int i = 0; iterator.hasPrevious(); ++i)
-        if (o.equals(iterator.previous()))
+      for (int i = size() - 1; i >= 0; --i)
+        if (o.equals(get(i)))
           return i;
     }
 
@@ -652,8 +649,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (index == -1)
       return false;
 
+    final int size = size();
     if (!beforeRemove(index))
-      return false;
+      return size != size();
 
     RuntimeException re = null;
     try {
@@ -704,15 +702,15 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * will not be removed from this collection.
    */
   @Override
+  @SuppressWarnings("unchecked")
   public boolean removeIf(final Predicate<? super E> filter) {
-    boolean changed = false;
-    final ListIterator<E> iterator = listIterator();
-    while (iterator.hasNext()) {
-      final E element = iterator.next();
-      if (filter.test(element) && beforeRemove(iterator.nextIndex() - 1 - fromIndex)) {
+    final int size = size();
+    for (int i = size - 1; i >= 0; --i) {
+      final E element = (E)target.get(i + fromIndex);
+      if (filter.test(element) && beforeRemove(i)) {
         RuntimeException re = null;
         try {
-          iterator.remove();
+          target.remove(i++ + fromIndex);
           if (toIndex != -1)
             --toIndex;
         }
@@ -723,12 +721,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
         afterRemove(element, re);
         if (re != null)
           throw re;
-
-        changed = true;
       }
     }
 
-    return changed;
+    return size != size();
   }
 
   /**
@@ -744,12 +740,20 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
+    if (c.size() == 0) {
+      if (size() == 0)
+        return false;
+
+      clear();
+      return true;
+    }
+
     boolean changed = false;
-    final Iterator<E> iterator = iterator();
-    while (iterator.hasNext()) {
-      if (!c.contains(iterator.next())) {
-        iterator.remove();
-        changed = true;
+    for (int i = size() - 1; i >= 0; --i) {
+      if (!c.contains(target.get(i + fromIndex))) {
+        final int beforeSize = size();
+        remove(i);
+        changed = beforeSize != size();
       }
     }
 
@@ -863,9 +867,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (a.length < size())
       a = (T[])Array.newInstance(a.getClass().getComponentType(), size());
 
-    final ListIterator<E> iterator = listIterator();
-    for (int i = 0; iterator.hasNext(); ++i)
-      a[i] = (T)iterator.next();
+    final int size = size();
+    for (int i = 0; i < size; ++i)
+      a[i] = (T)get(i);
 
     if (a.length > size())
       a[size()] = null;

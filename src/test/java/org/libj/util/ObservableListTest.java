@@ -64,7 +64,8 @@ public class ObservableListTest {
   }
 
   private void assertRemoved() {
-    assertTrue(beforeRemove && afterRemove);
+    assertTrue(beforeRemove);
+    assertTrue(afterRemove);
     assertFalse(beforeAdd || afterAdd || beforeSet || afterSet);
     reset();
   }
@@ -268,11 +269,12 @@ public class ObservableListTest {
 
     // clear()
     try {
+      expectedString = String.valueOf(101);
       list.clear();
       fail("Expected ComparisonFailure");
     }
     catch (final ComparisonFailure e) {
-      if (!"expected:<[37]> but was:<[1]>".equals(e.getMessage()))
+      if (!"expected:<[101]> but was:<[99]>".equals(e.getMessage()))
         throw e;
     }
   }
