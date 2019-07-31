@@ -64,11 +64,12 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   protected Map<Integer,Object> indexToObject;
   protected ArrayIntList adjRemoved;
   protected ArrayList<LinkedHashSet<Integer>> adj;
+  protected TransList<LinkedHashSet<Integer>,TransSet<Integer,V>> adjEdges;
   protected ObservableMap<K,Integer> observableObjectToIndex;
   protected ArrayIntList inDegree;
 
   protected volatile Object[][] flatAdj;
-  protected volatile ArrayList<V> cycle;
+  protected volatile ArrayList<K> cycle;
   protected volatile ArrayList<K> reversePostOrder;
 
   /**
@@ -98,7 +99,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   protected static <K,V>void init(final AbstractDigraph<K,V> digraph) {
     digraph.adj = new ArrayList<>(digraph.initialCapacity);
     digraph.inDegree = new ArrayIntList(digraph.initialCapacity);
-    digraph.objectToIndex = new HashBiMap<>();
+    digraph.objectToIndex = new HashBiMap<>(digraph.initialCapacity);
     digraph.indexToObject = digraph.objectToIndex.inverse();
     digraph.adjRemoved = new ArrayIntList();
   }
@@ -262,13 +263,47 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * @return The {@link TransList} instance that relates the edges of type
+   *         {@code V} to vertex indices. Changes made to this digraph are
+   *         reflected in this list.
+   */
+  private TransList<LinkedHashSet<Integer>,TransSet<Integer,V>> getAdjEdges() {
+    if (adjEdges != null)
+      return adjEdges;
+
+    final ArrayList<TransSet<Integer,V>> transEdges = new ArrayList<>(initialCapacity);
+    return adjEdges = new TransList<>(adj, (v,ws) -> {
+      if (ws == null)
+        return null;
+
+      TransSet<Integer,V> edges;
+      if (v >= transEdges.size()) {
+        transEdges.ensureCapacity(v);
+        for (int i = transEdges.size(); i <= v; ++i)
+          transEdges.add(null);
+
+        edges = null;
+      }
+      else {
+        edges = transEdges.get(v);
+      }
+
+      if (edges == null)
+        transEdges.set(v, edges = new TransSet<>(ws, w -> indexToValue(w), o -> objectToIndex.get(o)));
+
+      return edges;
+    }, null);
+  }
+
+  /**
    * Returns a {@link TransSet} of edges for the specified vertex index
    * {@code v}, an empty {@link TransSet} if no edges exist at {@code v} and
    * {@code makeNew == true}, or {@code Collections.EMPTY_SET} if no edges exist
    * at {@code v} and {@code makeNew == false}.
    * <p>
-   * If an instance of {@link TransSet} is returned, modifications made to the
-   * set are reflected in this digraph.
+   * If an instance of {@link TransSet} is returned, modifications made to this
+   * digraph are reflected in the set, and modifications made to the set are
+   * reflected in this digraph.
    * <p>
    * <i><b>Note:</b> This method is not thread safe.</i>
    *
@@ -281,15 +316,15 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    *         edges exist at {@code v} and {@code makeNew == false}.
    */
   private Set<V> getEdgesAtIndex(final int v, final boolean makeNew) {
-    LinkedHashSet<Integer> indices = adj.get(v);
-    if (indices == null) {
-      if (!makeNew)
-        return Collections.EMPTY_SET;
+    Set<V> edges = getAdjEdges().get(v);
+    if (edges != null)
+      return edges;
 
-      adj.set(v, indices = new LinkedHashSet<>());
-    }
+    if (!makeNew)
+      return Collections.EMPTY_SET;
 
-    return new TransSet<>(indices, w -> indexToValue(w), o -> objectToIndex.get(o));
+    adj.set(v, new LinkedHashSet<>());
+    return adjEdges.get(v);
   }
 
   /**
@@ -534,6 +569,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     // digraph has changed
     reversePostOrder = null;
     flatAdj = null;
+    cycle = null;
 
     return adj.get(v).remove(w);
   }
@@ -572,9 +608,9 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     this.adjRemoved.clear();
     this.inDegree.clear();
     this.objectToIndex.clear();
+    this.reversePostOrder = null;
     this.flatAdj = null;
     this.cycle = null;
-    this.reversePostOrder = null;
   }
 
   /**
@@ -647,14 +683,14 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * @param reversePostOrder List of vertices filled in reverse post order.
    * @return A cycle list, if one was found.
    */
-  private ArrayList<V> dfs(final List<K> reversePostOrder) {
+  private ArrayList<K> dfs(final List<K> reversePostOrder) {
     final int size = adj.size();
     final BitSet marked = new BitSet(size);
     final BitSet onStack = new BitSet(size);
     final int[] edgeTo = new int[size];
     for (int v = 0; v < size; ++v) {
       if (indexToObject.containsKey(v) && !marked.get(v)) {
-        final ArrayList<V> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, v);
+        final ArrayList<K> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, v);
         if (cycle != null)
           return cycle;
       }
@@ -679,7 +715,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * @param v The index of the vertex.
    * @return A cycle list, if one was found.
    */
-  private ArrayList<V> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<K> reversePostOrder, final int v) {
+  private ArrayList<K> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<K> reversePostOrder, final int v) {
     onStack.set(v);
     marked.set(v);
     final LinkedHashSet<Integer> ws = adj.get(v);
@@ -687,17 +723,17 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
       for (final int w : ws) {
         if (!marked.get(w)) {
           edgeTo[w] = v;
-          final ArrayList<V> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, w);
+          final ArrayList<K> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, w);
           if (cycle != null)
             return cycle;
         }
         else if (v != w && onStack.get(w)) {
-          final ArrayList<V> cycle = new ArrayList<>(initialCapacity / 3);
+          final ArrayList<K> cycle = new ArrayList<>(initialCapacity / 3);
           for (int x = v; x != w; x = edgeTo[x])
-            cycle.add(indexToValue(x));
+            cycle.add(indexToKey(x));
 
-          cycle.add(indexToValue(w));
-          cycle.add(indexToValue(v));
+          cycle.add(indexToKey(w));
+          cycle.add(indexToKey(v));
           return cycle;
         }
       }
@@ -714,7 +750,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    *
    * @return A directed cycle if the digraph has one; otherwise {@code null}.
    */
-  public List<V> getCycle() {
+  public List<K> getCycle() {
     dfs();
     return cycle;
   }
@@ -762,11 +798,12 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
         clone.adj.set(i, set == null ? null : (LinkedHashSet<Integer>)set.clone());
       }
 
+      clone.adjEdges = null;
       clone.adjRemoved = adjRemoved.clone();
       clone.observableObjectToIndex = observableObjectToIndex == null ? null : clone.getObservableObjectToIndex();
       clone.flatAdj = flatAdj == null ? null : flatAdj.clone();
       clone.inDegree = inDegree.clone();
-      clone.cycle = cycle == null ? null : (ArrayList<V>)cycle.clone();
+      clone.cycle = cycle == null ? null : (ArrayList<K>)cycle.clone();
       clone.reversePostOrder = reversePostOrder == null ? null : (ArrayList<K>)reversePostOrder.clone();
       return clone;
     }

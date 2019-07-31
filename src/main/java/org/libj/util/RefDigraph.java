@@ -194,19 +194,19 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * Returns a directed cycle (as a list of reference {@code V} objects) if the
+   * Returns a directed cycle (as a list of vertex {@code K} objects) if the
    * digraph has one, and null otherwise.
    *
-   * @return A directed cycle (as a list of reference {@code V} objects) if the
+   * @return A directed cycle (as a list of vertex {@code K} objects) if the
    *         digraph has one, and null otherwise.
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
    */
   @Override
   @SuppressWarnings("unchecked")
-  public List<V> getCycle() {
+  public List<K> getCycle() {
     swapRefs();
-    return (List<V>)digraph.getCycle();
+    return (List<K>)digraph.getCycle();
   }
 
   /**
