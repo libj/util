@@ -60,20 +60,20 @@ public class TransListTest {
   @Test
   public void test() {
     final List<Integer> source = new ArrayList<>();
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; ++i)
       source.add(i);
 
-    test(new TransList<Integer,String>(source, integer -> String.valueOf(integer), string -> Integer.valueOf(string)));
+    test(new TransList<Integer,String>(source, (i,integer) -> String.valueOf(integer), (i,string) -> Integer.valueOf(string)));
   }
 
   @Test
   @SuppressWarnings("unchecked")
   public void testList() {
     final List<Integer> source = new ArrayList<>();
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; ++i)
       source.add(i);
 
-    final TransList<Integer,String> trans = new TransList<>(source, integer -> String.valueOf(integer), string -> Integer.valueOf(string));
+    final TransList<Integer,String> trans = new TransList<>(source, (i,integer) -> String.valueOf(integer), (i,string) -> Integer.valueOf(string));
     trans.add(3, "555");
     assertEquals("555", trans.get(3));
     assertEquals(Integer.valueOf(555), ((List<Integer>)trans.target).get(3));
@@ -95,7 +95,7 @@ public class TransListTest {
     assertNotEquals(Integer.valueOf(0), ((List<Integer>)trans.target).get(7));
 
     final TransList<Integer,String> subList = trans.subList(4, 7);
-    for (int i = 3; i < 6; i++)
+    for (int i = 3; i < 6; ++i)
       assertEquals(String.valueOf(i), subList.get(i - 3));
 
     final ListIterator<String> iterator = trans.listIterator();

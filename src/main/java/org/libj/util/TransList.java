@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 /**
  * An implementation of the List interface that transforms the elements of
@@ -33,8 +33,8 @@ import java.util.function.Function;
  * @see List
  */
 public class TransList<S,T> extends DelegateList<T> {
-  protected final Function<S,T> sourceToTarget;
-  protected final Function<T,S> targetToSource;
+  protected final BiFunction<Integer,S,T> sourceToTarget;
+  protected final BiFunction<Integer,T,S> targetToSource;
 
   /**
    * Creates a new {@code TransList} with the specified source List, and
@@ -54,7 +54,7 @@ public class TransList<S,T> extends DelegateList<T> {
    *          {@code T -> S}.
    * @throws NullPointerException If {@code source} is null.
    */
-  public TransList(final List<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
+  public TransList(final List<S> source, final BiFunction<Integer,S,T> sourceToTarget, final BiFunction<Integer,T,S> targetToSource) {
     super();
     super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
@@ -62,19 +62,22 @@ public class TransList<S,T> extends DelegateList<T> {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public boolean contains(final Object o) {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = target.iterator();
+    final int size = size();
     if (o != null) {
-      while (iterator.hasNext())
-        if (o.equals(sourceToTarget.apply(iterator.next())))
+      for (int i = 0; i < size; ++i) {
+        final S e = (S)target.get(i);
+        if (o.equals(sourceToTarget.apply(i, e)))
           return true;
+      }
     }
     else {
-      while (iterator.hasNext())
-        if (iterator.next() == null)
+      for (int i = 0; i < size; ++i)
+        if ((S)target.get(i) == null)
           return true;
     }
 
@@ -85,6 +88,8 @@ public class TransList<S,T> extends DelegateList<T> {
   public Iterator<T> iterator() {
     final Iterator<S> iterator = target.iterator();
     return new Iterator<T>() {
+      private int index = -1;
+
       @Override
       public boolean hasNext() {
         return iterator.hasNext();
@@ -96,26 +101,27 @@ public class TransList<S,T> extends DelegateList<T> {
           throw new UnsupportedOperationException();
 
         final S e = iterator.next();
-        return e == null ? null : sourceToTarget.apply(e);
+        return e == null ? null : sourceToTarget.apply(++index, e);
       }
 
       @Override
       public void remove() {
         iterator.remove();
+        --index;
       }
     };
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public Object[] toArray() {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
     final Object[] array = new Object[size()];
-    final Iterator<S> iterator = target.iterator();
     for (int i = 0; i < size(); ++i) {
-      final S e = iterator.next();
-      array[i] = e == null ? null : sourceToTarget.apply(e);
+      final S e = (S)target.get(i);
+      array[i] = e == null ? null : sourceToTarget.apply(i, e);
     }
 
     return array;
@@ -127,10 +133,10 @@ public class TransList<S,T> extends DelegateList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = target.iterator();
-    for (int i = 0; i < size(); ++i) {
-      final S e = iterator.next();
-      a[i] = e == null ? null : (E)sourceToTarget.apply(e);
+    final int size = size();
+    for (int i = 0; i < size; ++i) {
+      final S e = (S)target.get(i);
+      a[i] = e == null ? null : (E)sourceToTarget.apply(i, e);
     }
 
     return a;
@@ -141,19 +147,21 @@ public class TransList<S,T> extends DelegateList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return target.add(targetToSource.apply(e));
+    return target.add(targetToSource.apply(size(), e));
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public boolean remove(final Object o) {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = target.iterator();
-    while (iterator.hasNext()) {
-      final S e = iterator.next();
-      if (o != null ? o.equals(sourceToTarget.apply(e)) : sourceToTarget.apply(e) == null) {
-        iterator.remove();
+    final int size = size();
+    for (int i = 0; i < size; ++i) {
+      final S e = (S)target.get(i);
+      final T t = sourceToTarget.apply(i, e);
+      if (o != null ? o.equals(t) : t == null) {
+        target.remove(i);
         return true;
       }
     }
@@ -194,14 +202,14 @@ public class TransList<S,T> extends DelegateList<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
+  @SuppressWarnings({"unchecked", "unlikely-arg-type"})
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
-    final Iterator<S> iterator = target.iterator();
-    while (iterator.hasNext()) {
-      final S e = iterator.next();
-      if (!c.contains(e == null ? null : sourceToTarget.apply(e))) {
-        iterator.remove();
+    final int size = size();
+    for (int i = 0; i < size; ++i) {
+      final S e = (S)target.get(i);
+      if (!c.contains(e == null ? null : sourceToTarget.apply(i, e))) {
+        target.remove(i);
         changed = true;
       }
     }
@@ -226,7 +234,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    return sourceToTarget.apply((S)target.get(index));
+    return sourceToTarget.apply(index, (S)target.get(index));
   }
 
   @Override
@@ -235,7 +243,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (sourceToTarget == null || targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return sourceToTarget.apply((S)target.set(index, targetToSource.apply(element)));
+    return sourceToTarget.apply(index, (S)target.set(index, targetToSource.apply(index, element)));
   }
 
   @Override
@@ -243,7 +251,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    target.add(index, targetToSource.apply(element));
+    target.add(index, targetToSource.apply(index, element));
   }
 
   @Override
@@ -252,7 +260,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    return sourceToTarget.apply((S)target.remove(index));
+    return sourceToTarget.apply(index, (S)target.remove(index));
   }
 
   @Override
@@ -261,7 +269,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return target.indexOf(targetToSource.apply((T)o));
+    return target.indexOf(targetToSource.apply(null, (T)o));
   }
 
   @Override
@@ -270,7 +278,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
-    return target.lastIndexOf(targetToSource.apply((T)o));
+    return target.lastIndexOf(targetToSource.apply(null, (T)o));
   }
 
   @Override
@@ -292,7 +300,7 @@ public class TransList<S,T> extends DelegateList<T> {
         if (sourceToTarget == null)
           throw new UnsupportedOperationException();
 
-        return sourceToTarget.apply(iterator.previous());
+        return sourceToTarget.apply(previousIndex(), iterator.previous());
       }
 
       @Override
@@ -310,7 +318,7 @@ public class TransList<S,T> extends DelegateList<T> {
         if (targetToSource == null)
           throw new UnsupportedOperationException();
 
-        iterator.set(targetToSource.apply(e));
+        iterator.set(targetToSource.apply(nextIndex() - 1, e));
       }
 
       @Override
@@ -318,7 +326,7 @@ public class TransList<S,T> extends DelegateList<T> {
         if (targetToSource == null)
           throw new UnsupportedOperationException();
 
-        iterator.add(targetToSource.apply(e));
+        iterator.add(targetToSource.apply(nextIndex(), e));
       }
 
       @Override
@@ -331,8 +339,9 @@ public class TransList<S,T> extends DelegateList<T> {
         if (sourceToTarget == null)
           throw new UnsupportedOperationException();
 
+        final int i = nextIndex();
         final S e = iterator.next();
-        return e == null ? null : sourceToTarget.apply(e);
+        return e == null ? null : sourceToTarget.apply(i, e);
       }
 
       @Override
