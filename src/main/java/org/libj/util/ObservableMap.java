@@ -418,7 +418,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   public Set<K> keySet() {
     return keySet == null ? keySet = new ObservableSet<K>(target.keySet()) {
-      private final ThreadLocal<K> localKey = new ThreadLocal<>();
+      private final ThreadLocal<Object> localKey = new ThreadLocal<>();
       private final ThreadLocal<V> localNewValue = new ThreadLocal<>();
 
       @Override
@@ -429,11 +429,10 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
       @Override
       @SuppressWarnings("unchecked")
       protected boolean beforeRemove(final Object e) {
-        final K key = (K)e;
-        localKey.set(key);
+        localKey.set(e);
         final V value = (V)ObservableMap.this.target.get(e);
         localNewValue.set(value);
-        return ObservableMap.this.beforeRemove(key, value);
+        return ObservableMap.this.beforeRemove(e, value);
       }
 
       @Override

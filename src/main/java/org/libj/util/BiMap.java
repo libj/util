@@ -102,7 +102,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
     return inverse.containsKey(value);
   }
 
-  protected ObservableSet<K> keySet;
+  protected volatile ObservableSet<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -115,6 +115,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
       }
 
       @Override
+      @SuppressWarnings("unlikely-arg-type")
       protected boolean beforeRemove(final Object e) {
         if (!BiMap.this.containsKey(e))
           return false;
@@ -131,7 +132,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
     } : keySet;
   }
 
-  protected ObservableCollection<V> values;
+  protected volatile ObservableCollection<V> values;
 
   @Override
   public Collection<V> values() {

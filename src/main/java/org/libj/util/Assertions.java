@@ -1,0 +1,62 @@
+/* Copyright (c) 2019 LibJ
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
+package org.libj.util;
+
+/**
+ * Utility methods implementing common assertion operations.
+ */
+public final class Assertions {
+  /**
+   * Checks if the given {@code fromIndex} and {@code toIndex} are in range. If
+   * not, throws an {@code IndexOutOfBoundsException} or
+   * {@code IllegalArgumentException}.
+   *
+   * @param fromIndex The from index.
+   * @param toIndex The to index.
+   * @param size The size.
+   * @throws IndexOutOfBoundsException If the given {@code fromIndex} or
+   *           {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
+   */
+  public static void assertRange(final int fromIndex, final int toIndex, final int size) {
+    if (fromIndex < 0)
+      throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
+
+    if (toIndex > size)
+      throw new IndexOutOfBoundsException("toIndex = " + toIndex);
+
+    if (fromIndex > toIndex)
+      throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
+  }
+
+  /**
+   * Checks if the given index is in range. If not, throws an
+   * {@link IndexOutOfBoundsException}.
+   *
+   * @param index The index to check.
+   * @param size The size.
+   * @param forAdd Whether the range check is for an add operation or not.
+   * @throws IndexOutOfBoundsException If the given index is out of range.
+   */
+  public static void assertRange(final int index, final int size, final boolean forAdd) {
+    if (index < 0 || (forAdd ? size < index : size <= index))
+      throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+  }
+
+  private Assertions() {
+  }
+}

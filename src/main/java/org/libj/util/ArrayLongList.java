@@ -168,9 +168,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public long get(final int index) {
-    if (index < 0 || size() <= index)
-      throw new IndexOutOfBoundsException("Index out of range: " + index);
-
+    Assertions.assertRange(index, size(), false);
     return valueData[fromIndex + index];
   }
 
@@ -184,9 +182,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean add(int index, final long value) {
-    if (index < 0 || size() < index)
-      throw new IndexOutOfBoundsException("Index out of range: " + index);
-
+    Assertions.assertRange(index, size(), true);
     index += fromIndex;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -221,6 +217,8 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
    * @return {@code true} if this collection changed as a result of the call.
+   * @throws IndexOutOfBoundsException If the offset or length are out of range
+   *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified list is null.
    */
   public boolean addAll(final ArrayLongList list, final int offset, final int length) {
@@ -306,6 +304,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean addAll(int index, final long[] values, final int offset, final int length) {
+    Assertions.assertRange(index, size(), true);
     if (values.length == 0)
       return false;
 
@@ -346,6 +345,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean addAll(int index, final Collection<Long> c) {
+    Assertions.assertRange(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -360,6 +360,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean addAll(int index, final LongCollection c) {
+    Assertions.assertRange(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -374,9 +375,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public long set(int index, final long value) {
-    if (index < 0 || size() <= index)
-      throw new IndexOutOfBoundsException("Index out of range: " + index);
-
+    Assertions.assertRange(index, size(), false);
     index += fromIndex;
     final long oldValue = valueData[index];
     valueData[index] = value;
@@ -386,9 +385,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public long removeIndex(int index) {
-    if (index < 0 || size() <= index)
-      throw new IndexOutOfBoundsException("Index out of range: " + index);
-
+    Assertions.assertRange(index, size(), false);
     index += fromIndex;
     final long value = valueData[index];
     shiftLeft(index, 1);
@@ -600,20 +597,13 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public LongListIterator listIterator(final int index) {
+    Assertions.assertRange(index, size(), true);
     return new LongListItr(index);
   }
 
   @Override
   public ArrayLongList subList(final int fromIndex, final int toIndex) {
-    if (fromIndex < 0)
-      throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
-
-    if (toIndex > size())
-      throw new IndexOutOfBoundsException("toIndex = " + toIndex);
-
-    if (fromIndex > toIndex)
-      throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
-
+    Assertions.assertRange(fromIndex, toIndex, size());
     if (this.toIndex < 0)
       this.toIndex = size;
 
@@ -693,8 +683,6 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
   }
 
   /**
-   * Returns a clone of this {@code ArrayLongList} instance.
-   *
    * @return A clone of this {@code ArrayLongList} instance.
    */
   @Override

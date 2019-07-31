@@ -167,6 +167,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
+    Assertions.assertRange(index, size(), false);
     return new DelegateListIterator<E>(super.listIterator(index)) {
       @Override
       public void set(final E e) {
@@ -182,6 +183,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
 
   @Override
   public SortedList<E> subList(final int fromIndex, final int toIndex) {
+    Assertions.assertRange(fromIndex, toIndex, size());
     return new SortedList<E>(target.subList(fromIndex, toIndex), false);
   }
 }
