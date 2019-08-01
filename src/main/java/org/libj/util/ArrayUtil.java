@@ -59,7 +59,7 @@ public final class ArrayUtil {
    */
   public static boolean equals(final byte[] a, int aFromIndex, final int aToIndex, final byte[] b, int bFromIndex, final int bToIndex) {
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -104,7 +104,7 @@ public final class ArrayUtil {
    */
   public static boolean equals(final char[] a, int aFromIndex, final int aToIndex, final char[] b, int bFromIndex, final int bToIndex) {
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -149,7 +149,7 @@ public final class ArrayUtil {
    */
   public static boolean equals(final short[] a, int aFromIndex, final int aToIndex, final short[] b, int bFromIndex, final int bToIndex) {
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -194,7 +194,7 @@ public final class ArrayUtil {
    */
   public static boolean equals(final int[] a, int aFromIndex, final int aToIndex, final int[] b, int bFromIndex, final int bToIndex) {
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -239,7 +239,7 @@ public final class ArrayUtil {
    */
   public static boolean equals(final long[] a, int aFromIndex, final int aToIndex, final long[] b, int bFromIndex, final int bToIndex) {
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -284,7 +284,7 @@ public final class ArrayUtil {
    */
   public static boolean equals(final Object[] a, int aFromIndex, final int aToIndex, final Object[] b, int bFromIndex, final int bToIndex) {
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;

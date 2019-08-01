@@ -30,27 +30,28 @@ public final class Bytes {
    *         {@code sequence} in {@code bytes}.
    */
   public static int indexOf(final byte[] bytes, final byte ... sequence) {
-    return indexOf(bytes, 0, sequence);
+    return bytes.length == 0 ? -1 : indexOf(bytes, 0, sequence);
   }
 
   /**
    * Returns the index of the first occurrence (starting the search from the
-   * {@code fromIndex} index) of the specified byte {@code sequence} in
+   * {@code offset} index) of the specified byte {@code sequence} in
    * {@code bytes}.
    *
    * @param bytes The {@code byte} array in which to search.
-   * @param fromIndex The index to start the search from.
+   * @param offset The index to start the search from.
    * @param sequence The {@code byte} array sequence for which to search.
    * @return The index of the first occurrence of the specified byte
    *         {@code sequence} in {@code bytes}.
-   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is negative.
+   * @throws ArrayIndexOutOfBoundsException If {@code offset} is out of range.
+   * @throws NullPointerException If {@code bytes} or {@code sequence} is null.
    */
-  public static int indexOf(final byte[] bytes, final int fromIndex, final byte ... sequence) {
-    Assertions.assertRangeArray(fromIndex, bytes.length);
+  public static int indexOf(final byte[] bytes, final int offset, final byte ... sequence) {
+    Assertions.assertRangeArray(offset, bytes.length);
     if (sequence.length == 0 || bytes.length < sequence.length)
       return -1;
 
-    for (int i = fromIndex; i < bytes.length; ++i) {
+    for (int i = offset; i < bytes.length; ++i) {
       if (bytes[i] == sequence[0]) {
         boolean match = true;
         for (int j = 0; j < sequence.length && (match = bytes.length > i + j && sequence[j] == bytes[i + j]); ++j);

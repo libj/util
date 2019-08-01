@@ -207,7 +207,6 @@ public class DigraphTest {
 
     assertFalse(keys.contains(4));
     assertFalse(values.contains(w6));
-    System.out.println(values);
     assertTrue(values.contains(Collections.singleton(9)));
     final Set<Integer> set = digraph.get(6);
     assertEquals(Collections.singleton(9), set);
