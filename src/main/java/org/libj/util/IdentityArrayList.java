@@ -234,14 +234,14 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public IdentitySubList subList(final int fromIndex, final int toIndex) {
-      Assertions.assertRange(fromIndex, toIndex, size());
+      Assertions.assertRangeList(fromIndex, toIndex, size());
       return new IdentitySubList(target.subList(fromIndex, toIndex));
     }
   }
 
   @Override
   public List<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRangeList(fromIndex, toIndex, size());
     return new IdentitySubList(super.subList(fromIndex, toIndex));
   }
 

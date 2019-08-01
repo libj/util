@@ -58,8 +58,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final byte[] a, int aFromIndex, final int aToIndex, final byte[] b, int bFromIndex, final int bToIndex) {
-    rangeCheck(a.length, aFromIndex, aToIndex);
-    rangeCheck(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -103,8 +103,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final char[] a, int aFromIndex, final int aToIndex, final char[] b, int bFromIndex, final int bToIndex) {
-    rangeCheck(a.length, aFromIndex, aToIndex);
-    rangeCheck(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -148,8 +148,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final short[] a, int aFromIndex, final int aToIndex, final short[] b, int bFromIndex, final int bToIndex) {
-    rangeCheck(a.length, aFromIndex, aToIndex);
-    rangeCheck(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -193,8 +193,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final int[] a, int aFromIndex, final int aToIndex, final int[] b, int bFromIndex, final int bToIndex) {
-    rangeCheck(a.length, aFromIndex, aToIndex);
-    rangeCheck(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -238,8 +238,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final long[] a, int aFromIndex, final int aToIndex, final long[] b, int bFromIndex, final int bToIndex) {
-    rangeCheck(a.length, aFromIndex, aToIndex);
-    rangeCheck(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -283,8 +283,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If either array is null.
    */
   public static boolean equals(final Object[] a, int aFromIndex, final int aToIndex, final Object[] b, int bFromIndex, final int bToIndex) {
-    rangeCheck(a.length, aFromIndex, aToIndex);
-    rangeCheck(b.length, bFromIndex, bToIndex);
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(b.length, bFromIndex, bToIndex);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -489,7 +489,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<T>>int binaryClosestSearch(final T[] a, final int from, final int to, final T key) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
 
@@ -522,23 +522,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int from, final int to, final T key, final Comparator<T> comparator) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key, comparator);
-  }
-
-  /**
-   * Checks that {@code fromIndex} and {@code toIndex} are in the range and
-   * throws an exception if they aren't.
-   */
-  private static void rangeCheck(final int arrayLength, final int fromIndex, final int toIndex) {
-    if (fromIndex > toIndex)
-      throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
-
-    if (fromIndex < 0)
-      throw new ArrayIndexOutOfBoundsException(fromIndex);
-
-    if (toIndex > arrayLength)
-      throw new ArrayIndexOutOfBoundsException(toIndex);
   }
 
   private static <T extends Comparable<T>>int binaryClosestSearch0(final T[] a, int from, int to, final T key) {
@@ -596,7 +581,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int from, final int to, final byte key) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
 
@@ -639,7 +624,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final short[] a, final int from, final int to, final short key) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
 
@@ -682,7 +667,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final int[] a, final int from, final int to, final int key) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
 
@@ -725,7 +710,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final float[] a, final int from, final int to, final float key) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
 
@@ -768,7 +753,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final double[] a, final int from, final int to, final double key) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
 
@@ -811,7 +796,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final long[] a, final int from, final int to, final long key) {
-    rangeCheck(a.length, from, to);
+    Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
 
@@ -1094,22 +1079,20 @@ public final class ArrayUtil {
    */
   public static String toString(final byte[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
-
+    Assertions.assertRangeArray(offset, array.length);
     if (array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1155,22 +1138,20 @@ public final class ArrayUtil {
    */
   public static String toString(final byte[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
-
+    Assertions.assertRangeArray(offset, array.length);
     if (array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1216,22 +1197,20 @@ public final class ArrayUtil {
    */
   public static String toString(final char[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
-
+    Assertions.assertRangeArray(offset, array.length);
     if (array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1277,22 +1256,20 @@ public final class ArrayUtil {
    */
   public static String toString(final char[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
-
+    Assertions.assertRangeArray(offset, array.length);
     if (array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1338,22 +1315,22 @@ public final class ArrayUtil {
    */
   public static String toString(final short[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
+    Assertions.assertRangeArray(offset, array.length);
 
+    Assertions.assertRangeArray(offset, array.length);
     if (array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1399,22 +1376,20 @@ public final class ArrayUtil {
    */
   public static String toString(final short[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
-
+    Assertions.assertRangeArray(offset, array.length);
     if (array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1460,22 +1435,20 @@ public final class ArrayUtil {
    */
   public static String toString(final int[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
-
+    Assertions.assertRangeArray(offset, array.length);
     if (array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1521,22 +1494,20 @@ public final class ArrayUtil {
    */
   public static String toString(final int[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
-    if (array.length < offset)
-      throw new ArrayIndexOutOfBoundsException(offset);
-
+    Assertions.assertRangeArray(offset, array.length);
     if (length == 0 || array.length == offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1582,7 +1553,7 @@ public final class ArrayUtil {
    */
   public static String toString(final long[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
     if (array.length <= offset)
       return "";
@@ -1590,11 +1561,11 @@ public final class ArrayUtil {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1640,7 +1611,7 @@ public final class ArrayUtil {
    */
   public static String toString(final long[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
     if (array.length <= offset)
       return "";
@@ -1648,11 +1619,11 @@ public final class ArrayUtil {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1735,7 +1706,7 @@ public final class ArrayUtil {
    */
   public static String toString(final Object[] array, final char delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
     if (array.length <= offset)
       return "";
@@ -1743,11 +1714,11 @@ public final class ArrayUtil {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1768,7 +1739,7 @@ public final class ArrayUtil {
    */
   public static <T>String toString(final T[] array, final char delimiter, final int offset, final int length, final Function<T,String> function) {
     if (array == null)
-      return null;
+      return "null";
 
     if (array.length <= offset)
       return "";
@@ -1776,11 +1747,11 @@ public final class ArrayUtil {
     if (array.length == offset + 1)
       return function.apply(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(function.apply(array[offset]));
+    final StringBuilder builder = new StringBuilder(function.apply(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(function.apply(array[i]));
+      builder.append(delimiter).append(function.apply(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1863,7 +1834,7 @@ public final class ArrayUtil {
    */
   public static String toString(final Object[] array, final String delimiter, final int offset, final int length) {
     if (array == null)
-      return null;
+      return "null";
 
     if (array.length <= offset)
       return "";
@@ -1871,11 +1842,11 @@ public final class ArrayUtil {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(String.valueOf(array[offset]));
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(String.valueOf(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**
@@ -1896,7 +1867,7 @@ public final class ArrayUtil {
    */
   public static <T>String toString(final T[] array, final String delimiter, final int offset, final int length, final Function<T,String> function) {
     if (array == null)
-      return null;
+      return "null";
 
     if (array.length <= offset)
       return "";
@@ -1904,11 +1875,11 @@ public final class ArrayUtil {
     if (array.length == offset + 1)
       return function.apply(array[offset]);
 
-    final StringBuilder buffer = new StringBuilder(function.apply(array[offset]));
+    final StringBuilder builder = new StringBuilder(function.apply(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      buffer.append(delimiter).append(function.apply(array[i]));
+      builder.append(delimiter).append(function.apply(array[i]));
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   /**

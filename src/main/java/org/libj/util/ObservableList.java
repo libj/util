@@ -223,7 +223,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public void add(final int index, final E element) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     if (!beforeAdd(index, element))
       return;
 
@@ -353,7 +353,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   @SuppressWarnings("unchecked")
   public E get(final int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     beforeGet(index, null);
     E object = null;
     RuntimeException re = null;
@@ -475,7 +475,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     final ListIterator<E> listIterator = target.listIterator(index + fromIndex);
     return new ListIterator<E>() {
       private E current;
@@ -613,7 +613,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   @SuppressWarnings("unchecked")
   public E remove(final int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
 
     final E element = (E)target.get(index + fromIndex);
     if (!beforeRemove(index))
@@ -773,7 +773,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   @SuppressWarnings("unchecked")
   public E set(final int index, final E element) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
 
     if (!beforeSet(index, element))
       return (E)target.get(index + fromIndex);
@@ -801,7 +801,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
   @Override
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRangeList(fromIndex, toIndex, size());
     return new ObservableList<E>(target, fromIndex, toIndex) {
       @Override
       protected void beforeGet(final int index, final ListIterator<E> iterator) {

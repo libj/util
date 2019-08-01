@@ -22,6 +22,42 @@ package org.libj.util;
 public final class Assertions {
   /**
    * Checks if the given {@code fromIndex} and {@code toIndex} are in range. If
+   * not, throws an {@code ArrayIndexOutOfBoundsException} or
+   * {@code IllegalArgumentException}.
+   *
+   * @param fromIndex The from index.
+   * @param toIndex The to index.
+   * @param length The array length.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or
+   *           {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
+   */
+  public static void assertRangeArray(final int fromIndex, final int toIndex, final int length) {
+    if (fromIndex < 0)
+      throw new ArrayIndexOutOfBoundsException(fromIndex);
+
+    if (toIndex > length)
+      throw new ArrayIndexOutOfBoundsException(toIndex);
+
+    if (fromIndex > toIndex)
+      throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
+  }
+
+  /**
+   * Checks if the given index is in range. If not, throws an
+   * {@link ArrayIndexOutOfBoundsException}.
+   *
+   * @param index The index to check.
+   * @param length The size.
+   * @throws ArrayIndexOutOfBoundsException If the given index is out of range.
+   */
+  public static void assertRangeArray(final int index, final int length) {
+    if (index < 0 || length <= index)
+      throw new ArrayIndexOutOfBoundsException("Index: " + index + ", Length: " + length);
+  }
+
+  /**
+   * Checks if the given {@code fromIndex} and {@code toIndex} are in range. If
    * not, throws an {@code IndexOutOfBoundsException} or
    * {@code IllegalArgumentException}.
    *
@@ -32,7 +68,7 @@ public final class Assertions {
    *           {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
    */
-  public static void assertRange(final int fromIndex, final int toIndex, final int size) {
+  public static void assertRangeList(final int fromIndex, final int toIndex, final int size) {
     if (fromIndex < 0)
       throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
 
@@ -52,7 +88,7 @@ public final class Assertions {
    * @param forAdd Whether the range check is for an add operation or not.
    * @throws IndexOutOfBoundsException If the given index is out of range.
    */
-  public static void assertRange(final int index, final int size, final boolean forAdd) {
+  public static void assertRangeList(final int index, final int size, final boolean forAdd) {
     if (index < 0 || (forAdd ? size < index : size <= index))
       throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
   }

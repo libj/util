@@ -343,7 +343,7 @@ public final class CollectionUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
-    rangeCheck(a.size(), fromIndex, toIndex);
+    Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key);
   }
 
@@ -411,7 +411,7 @@ public final class CollectionUtil {
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
-    rangeCheck(a.size(), fromIndex, toIndex);
+    Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -444,29 +444,6 @@ public final class CollectionUtil {
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key, final Comparator<? super T> c) {
     return binarySearch0(a, 0, a.size(), key, c);
-  }
-
-  /**
-   * Checks that {@code fromIndex} and {@code toIndex} are properly specified
-   * with regard to each other, and to {@code arrayLength}.
-   *
-   * @param arrayLength A length of an array.
-   * @param fromIndex The "from" index representing the lower bound.
-   * @param toIndex The "to" index representing the upper bound.
-   * @throws IllegalArgumentException If {@code fromIndex} is greater than
-   *           {@code toIndex}.
-   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is less than 0,
-   *           or if {@code toIndex} is greater than {@code arrayLength},
-   */
-  private static void rangeCheck(final int arrayLength, final int fromIndex, final int toIndex) {
-    if (fromIndex > toIndex)
-      throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
-
-    if (fromIndex < 0)
-      throw new ArrayIndexOutOfBoundsException(fromIndex);
-
-    if (toIndex > arrayLength)
-      throw new ArrayIndexOutOfBoundsException(toIndex);
   }
 
   private static <T extends Comparable<? super T>>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key) {
@@ -530,16 +507,16 @@ public final class CollectionUtil {
    *
    * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted {@link List}.
-   * @param from The starting index of the sorted {@link List} to search from.
-   * @param to The ending index of the sorted {@link List} to search to.
+   * @param fromIndex The starting index of the sorted {@link List} to search from.
+   * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key) {
-    rangeCheck(a.size(), from, to);
-    return binaryClosestSearch0(a, from, to, key);
+  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
 
   /**
@@ -565,8 +542,8 @@ public final class CollectionUtil {
    *
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
-   * @param from The starting index of the sorted {@link List} to search from.
-   * @param to The ending index of the sorted {@link List} to search to.
+   * @param fromIndex The starting index of the sorted {@link List} to search from.
+   * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
    * @param c The {@code Comparator} for {@code key} of type
    *          {@code <T>}.
@@ -574,9 +551,9 @@ public final class CollectionUtil {
    *         value.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binaryClosestSearch(final List<T> a, final int from, final int to, final T key, final Comparator<T> c) {
-    rangeCheck(a.size(), from, to);
-    return binaryClosestSearch0(a, from, to, key, c);
+  public static <T>int binaryClosestSearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<T> c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
   private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<T> a, int from, int to, final T key) {
@@ -649,7 +626,7 @@ public final class CollectionUtil {
    * @throws NullPointerException If {@code c} or {@code a} is null.
    */
   public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a, final int fromIndex, final int toIndex) {
-    rangeCheck(a.length, fromIndex, toIndex);
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     for (int i = fromIndex; i < toIndex; ++i)
       c.add(a[i]);
 

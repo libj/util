@@ -107,7 +107,7 @@ public class MirrorList<E,M> extends ObservableList<E> {
 
   @Override
   public MirrorList<E,M> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRangeList(fromIndex, toIndex, size());
     return new MirrorList<E,M>(target.subList(fromIndex, toIndex), mirror.target.subList(fromIndex, toIndex), reflect, mirror.reflect);
   }
 }

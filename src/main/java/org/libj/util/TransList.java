@@ -231,7 +231,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T get(final int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
@@ -241,7 +241,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T set(final int index, final T element) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     if (sourceToTarget == null || targetToSource == null)
       throw new UnsupportedOperationException();
 
@@ -250,7 +250,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public void add(final int index, final T element) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
@@ -260,7 +260,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T remove(final int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
@@ -292,7 +292,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public ListIterator<T> listIterator(final int index) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     final ListIterator<S> iterator = target.listIterator();
     return new ListIterator<T>() {
       @Override
@@ -358,7 +358,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public TransList<S,T> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRangeList(fromIndex, toIndex, size());
     return new TransList<S,T>(target.subList(fromIndex, toIndex), sourceToTarget, targetToSource);
   }
 }

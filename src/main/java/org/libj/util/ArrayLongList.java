@@ -168,7 +168,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public long get(final int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     return valueData[fromIndex + index];
   }
 
@@ -182,7 +182,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean add(int index, final long value) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     index += fromIndex;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -304,7 +304,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean addAll(int index, final long[] values, final int offset, final int length) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     if (values.length == 0)
       return false;
 
@@ -345,7 +345,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean addAll(int index, final Collection<Long> c) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -360,7 +360,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public boolean addAll(int index, final LongCollection c) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -375,7 +375,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public long set(int index, final long value) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
     final long oldValue = valueData[index];
     valueData[index] = value;
@@ -385,7 +385,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public long removeIndex(int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
     final long value = valueData[index];
     shiftLeft(index, 1);
@@ -597,13 +597,13 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
 
   @Override
   public LongListIterator listIterator(final int index) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     return new LongListItr(index);
   }
 
   @Override
   public ArrayLongList subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRangeList(fromIndex, toIndex, size());
     if (this.toIndex < 0)
       this.toIndex = size;
 

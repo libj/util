@@ -46,9 +46,7 @@ public final class Bytes {
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is negative.
    */
   public static int indexOf(final byte[] bytes, final int fromIndex, final byte ... sequence) {
-    if (fromIndex < 0)
-      throw new ArrayIndexOutOfBoundsException("fromIndex: " + fromIndex + " < 0");
-
+    Assertions.assertRangeArray(fromIndex, bytes.length);
     if (sequence.length == 0 || bytes.length < sequence.length)
       return -1;
 

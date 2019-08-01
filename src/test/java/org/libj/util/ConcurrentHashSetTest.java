@@ -44,7 +44,7 @@ public class ConcurrentHashSetTest {
             }
           }
           catch (final InterruptedException e) {
-            throw new UnsupportedOperationException(e);
+            throw new IllegalStateException(e);
           }
         }
       }.start();

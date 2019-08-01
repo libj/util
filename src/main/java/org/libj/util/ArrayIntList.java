@@ -168,7 +168,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public int get(final int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     return valueData[fromIndex + index];
   }
 
@@ -182,7 +182,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public boolean add(int index, final int value) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     index += fromIndex;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -304,7 +304,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public boolean addAll(int index, final int[] values, final int offset, final int length) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     if (values.length == 0)
       return false;
 
@@ -345,7 +345,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public boolean addAll(int index, final Collection<Integer> c) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -360,7 +360,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public boolean addAll(int index, final IntCollection c) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -375,7 +375,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public int set(int index, final int value) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
     final int oldValue = valueData[index];
     valueData[index] = value;
@@ -385,7 +385,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public int removeIndex(int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
     final int value = valueData[index];
     shiftLeft(index, 1);
@@ -597,13 +597,13 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
 
   @Override
   public IntListIterator listIterator(final int index) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRangeList(index, size(), true);
     return new IntListItr(index);
   }
 
   @Override
   public ArrayIntList subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRangeList(fromIndex, toIndex, size());
     if (this.toIndex < 0)
       this.toIndex = size;
 
