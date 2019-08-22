@@ -16,17 +16,17 @@
 
 package org.libj.util;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.ListIterator;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 public class MirrorListTest {
   @Test
   public void test() {
-    final MirrorList<String,Integer> list = new MirrorList<>(new ArrayList<String>(), new ArrayList<Integer>(), s -> Integer.valueOf(s), i -> String.valueOf(i));
+    final MirrorList<String,Integer> list = new MirrorList<>(new ArrayList<String>(), new ArrayList<Integer>(), Integer::valueOf, String::valueOf);
 
     list.add("1");
     assertTrue(list.getMirror().contains(1));
@@ -46,10 +46,10 @@ public class MirrorListTest {
     assertTrue(list.contains("7"));
 
     assertTrue(list.remove("1"));
-    assertTrue(!list.getMirror().contains(1));
+    assertFalse(list.getMirror().contains(1));
 
     assertEquals(Integer.valueOf(2), list.getMirror().remove(2));
-    assertTrue(!list.contains("2"));
+    assertFalse(list.contains("2"));
 
     list.getMirror().clear();
     assertEquals(0, list.size());

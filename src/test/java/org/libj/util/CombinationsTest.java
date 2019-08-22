@@ -57,6 +57,6 @@ public class CombinationsTest {
       {"km", "sec", "kg"}
     };
 
-    assertArrayEquals(expected, Combinations.<String>combine(test));
+    assertArrayEquals(expected, Combinations.combine(test));
   }
 }

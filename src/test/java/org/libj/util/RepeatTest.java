@@ -31,12 +31,7 @@ public class RepeatTest {
 
   private static final Integer[] values1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 4, 0, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8};
   private static final Integer[] values2 = {0, 0, 0, 0, 0, 0, 0, 0};
-  private static final BiPredicate<Integer,Object> filter = new BiPredicate<Integer,Object>() {
-    @Override
-    public boolean test(final Integer member, final Object arg) {
-      return 1 == member || (3 < member && member < 7) || member == 8;
-    }
-  };
+  private static final BiPredicate<Integer,Object> filter = (member, arg) -> 1 == member || (3 < member && member < 7) || member == 8;
 
   private static String[] fieldNames = new String[] {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
 

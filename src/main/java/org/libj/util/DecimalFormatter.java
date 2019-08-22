@@ -34,12 +34,7 @@ public final class DecimalFormatter {
    */
   public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {
     final DecimalFormat format = new DecimalFormat(pattern);
-    return new ThreadLocal<DecimalFormat>() {
-      @Override
-      protected DecimalFormat initialValue() {
-        return format;
-      }
-    };
+    return ThreadLocal.withInitial(() -> format);
   }
 
   private DecimalFormatter() {

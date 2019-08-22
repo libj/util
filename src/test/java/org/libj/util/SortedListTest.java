@@ -49,9 +49,9 @@ public class SortedListTest {
     list.remove(4);
     list.add("h");
     assertArrayEquals(new String[] {"b", "d", "d", "e", "g", "h"}, list.toArray());
-    list.retainAll(Arrays.<String>asList(new String[] {"a", "d", "f", "g", "h"}));
+    list.retainAll(Arrays.asList(new String[] {"a", "d", "f", "g", "h"}));
     assertArrayEquals(new String[] {"d", "d", "g", "h"}, list.toArray());
-    list.retainAll(Arrays.<String>asList(new String[] {"a", "d", "d", "d", "h"}));
+    list.retainAll(Arrays.asList(new String[] {"a", "d", "d", "d", "h"}));
     assertArrayEquals(new String[] {"d", "d", "h"}, list.toArray());
   }
 }

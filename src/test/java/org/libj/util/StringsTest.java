@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
-import static org.junit.Assert.*;
-
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -176,7 +176,7 @@ public class StringsTest {
     catch (final Exception e) {
     }
 
-    assertEquals("", Strings.toLowerCase(new StringBuilder(""), 0, 0).toString());
+    assertEquals("", Strings.toLowerCase(new StringBuilder(), 0, 0).toString());
     assertEquals(UPPER_CASE, Strings.toLowerCase(new StringBuilder(UPPER_CASE), 0, 0).toString());
     assertEquals("hELLO WORLD", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 0, 1).toString());
     assertEquals("HeLLO WORLD", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 1, 2).toString());
@@ -186,7 +186,7 @@ public class StringsTest {
     assertEquals("HELLO WOrld", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 8).toString());
     assertEquals("HELLO world", Strings.toLowerCase(new StringBuilder(UPPER_CASE), 6).toString());
 
-    assertEquals("", Strings.toUpperCase(new StringBuilder(""), 0, 0).toString());
+    assertEquals("", Strings.toUpperCase(new StringBuilder(), 0, 0).toString());
     assertEquals(LOWER_CASE, Strings.toLowerCase(new StringBuilder(LOWER_CASE), 0, 0).toString());
     assertEquals("Hello world", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 0, 1).toString());
     assertEquals("hEllo world", Strings.toUpperCase(new StringBuilder(LOWER_CASE), 1, 2).toString());

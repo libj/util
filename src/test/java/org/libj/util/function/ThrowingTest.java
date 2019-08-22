@@ -85,7 +85,7 @@ public class ThrowingTest {
   @Test
   public void testBiConsumer() {
     try {
-      final BiConsumer<Integer,Integer> consumer = Throwing.<Integer,Integer>rethrow((i, j) -> {
+      final BiConsumer<Integer,Integer> consumer = Throwing.rethrow((i, j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });
@@ -104,7 +104,7 @@ public class ThrowingTest {
   @Test
   public void testTriConsumer() {
     try {
-      final TriConsumer<Integer,Integer,Integer> consumer = Throwing.<Integer,Integer,Integer>rethrow((i, j, k) -> {
+      final TriConsumer<Integer,Integer,Integer> consumer = Throwing.rethrow((i, j, k) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });

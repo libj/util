@@ -141,19 +141,16 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   @Override
   public void execute(final Runnable command) {
     Objects.requireNonNull(command);
-    final Runnable wrapper = new Runnable() {
-      @Override
-      public void run() {
-        try {
-          command.run();
-        }
-        finally {
-          logger.debug("Remaining threads: " + (runningThreadCount.get() - 1));
-          if (runningThreadCount.decrementAndGet() == 0 && synchronizing) {
-            synchronized (finishLock) {
-              logger.debug("notify() synchronize to continue...");
-              finishLock.notify();
-            }
+    final Runnable wrapper = () -> {
+      try {
+        command.run();
+      }
+      finally {
+        logger.debug("Remaining threads: " + (runningThreadCount.get() - 1));
+        if (runningThreadCount.decrementAndGet() == 0 && synchronizing) {
+          synchronized (finishLock) {
+            logger.debug("notify() synchronize to continue...");
+            finishLock.notify();
           }
         }
       }

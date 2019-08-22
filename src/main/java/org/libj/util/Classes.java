@@ -652,7 +652,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} is null.
    */
   public static Field[] getDeclaredFieldsDeep(final Class<?> cls) {
-    return Repeat.Recursive.<Class<?>,Field,Object>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldRecurser, null);
+    return Repeat.Recursive.inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldRecurser, null);
   }
 
   /**
@@ -681,7 +681,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} or {@code predicate} is null.
    */
   public static Field[] getDeclaredFieldsDeep(final Class<?> cls, final Predicate<Field> predicate) {
-    return Repeat.Recursive.<Class<?>,Field,Predicate<Field>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithPredicateRecurser, Objects.requireNonNull(predicate));
+    return Repeat.Recursive.inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithPredicateRecurser, Objects.requireNonNull(predicate));
   }
 
   /**
@@ -708,7 +708,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
    */
   public static Field[] getDeclaredFieldsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Field,Class<? extends Annotation>>ordered(cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.ordered(cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, Objects.requireNonNull(annotationType));
   }
 
   /**
@@ -736,7 +736,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
    */
   public static Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Class<?>,Field,Class<? extends Annotation>>inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, Objects.requireNonNull(annotationType));
   }
 
   /**
@@ -836,7 +836,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} is null.
    */
   public static Method[] getDeclaredMethodsDeep(final Class<?> cls) {
-    return Repeat.Recursive.<Class<?>,Method,Object>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodRecurser, null);
+    return Repeat.Recursive.inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodRecurser, null);
   }
 
   /**
@@ -862,7 +862,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} or {@code predicate} is null.
    */
   public static Method[] getDeclaredMethodsDeep(final Class<?> cls, final Predicate<Method> predicate) {
-    return Repeat.Recursive.<Class<?>,Method,Predicate<Method>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithPredicateRecurser, Objects.requireNonNull(predicate));
+    return Repeat.Recursive.inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithPredicateRecurser, Objects.requireNonNull(predicate));
   }
 
   /**
@@ -888,7 +888,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
    */
   public static Method[] getDeclaredMethodsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Method,Class<? extends Annotation>>ordered(cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationFilter, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.ordered(cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationFilter, Objects.requireNonNull(annotationType));
   }
 
   /**
@@ -912,7 +912,7 @@ public final class Classes {
    * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
    */
   public static Method[] getDeclaredMethodsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Class<?>,Method,Class<? extends Annotation>>inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, Objects.requireNonNull(annotationType));
   }
 
   /**
@@ -940,7 +940,7 @@ public final class Classes {
    */
   @SuppressWarnings("unchecked")
   public static Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Class<?>,Class<? extends Annotation>>ordered(cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationFilter, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.ordered(cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationFilter, Objects.requireNonNull(annotationType));
   }
 
   /**
@@ -965,7 +965,7 @@ public final class Classes {
    */
   @SuppressWarnings("unchecked")
   public static Class<?>[] getDeclaredClassesWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
-    return Repeat.Recursive.<Class<?>,Class<?>,Class<? extends Annotation>>inverted(cls, cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, Objects.requireNonNull(annotationType));
+    return Repeat.Recursive.inverted(cls, cls.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, Objects.requireNonNull(annotationType));
   }
 
   /**

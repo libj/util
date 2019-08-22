@@ -188,59 +188,56 @@ public final class Numbers {
     }
   }
 
-  private static final Comparator<Number> comparator = new Comparator<Number>() {
-    @Override
-    public int compare(final Number o1, final Number o2) {
-      if (o1 == null)
-        return o2 == null ? 0 : 1;
+  private static final Comparator<Number> comparator = (o1, o2) -> {
+    if (o1 == null)
+      return o2 == null ? 0 : 1;
 
-      if (o2 == null)
-        return -1;
+    if (o2 == null)
+      return -1;
 
-      if (o1 instanceof BigDecimal) {
-        if (o2 instanceof BigDecimal)
-          return ((BigDecimal)o1).compareTo((BigDecimal)o2);
-
-        if (o2 instanceof BigInteger)
-          return ((BigDecimal)o1).compareTo(new BigDecimal((BigInteger)o2));
-
-        if (o2 instanceof Byte || o2 instanceof Short || o2 instanceof Integer || o2 instanceof Long)
-          return ((BigDecimal)o1).compareTo(BigDecimal.valueOf(o2.longValue()));
-
-        return ((BigDecimal)o1).compareTo(BigDecimal.valueOf(o2.doubleValue()));
-      }
-
-      if (o1 instanceof BigInteger) {
-        if (o2 instanceof BigInteger)
-          return ((BigInteger)o1).compareTo((BigInteger)o2);
-
-        if (o2 instanceof BigDecimal)
-          return new BigDecimal((BigInteger)o1).compareTo((BigDecimal)o2);
-
-        if (o2 instanceof Byte || o2 instanceof Short || o2 instanceof Integer || o2 instanceof Long)
-          return ((BigInteger)o1).compareTo(BigInteger.valueOf(o2.longValue()));
-
-        return new BigDecimal((BigInteger)o1).compareTo(BigDecimal.valueOf(o2.doubleValue()));
-      }
-
-      if (o1 instanceof Byte || o1 instanceof Short || o1 instanceof Integer || o1 instanceof Long) {
-        if (o2 instanceof BigInteger)
-          return BigInteger.valueOf(o1.longValue()).compareTo((BigInteger)o2);
-
-        if (o2 instanceof BigDecimal)
-          return BigDecimal.valueOf(o1.doubleValue()).compareTo((BigDecimal)o2);
-
-        return (o1.doubleValue() < o2.doubleValue()) ? -1 : ((o1.doubleValue() == o2.doubleValue()) ? 0 : 1);
-      }
+    if (o1 instanceof BigDecimal) {
+      if (o2 instanceof BigDecimal)
+        return ((BigDecimal)o1).compareTo((BigDecimal)o2);
 
       if (o2 instanceof BigInteger)
-        return BigDecimal.valueOf(o1.doubleValue()).compareTo(new BigDecimal((BigInteger)o2));
+        return ((BigDecimal)o1).compareTo(new BigDecimal((BigInteger)o2));
+
+      if (o2 instanceof Byte || o2 instanceof Short || o2 instanceof Integer || o2 instanceof Long)
+        return ((BigDecimal)o1).compareTo(BigDecimal.valueOf(o2.longValue()));
+
+      return ((BigDecimal)o1).compareTo(BigDecimal.valueOf(o2.doubleValue()));
+    }
+
+    if (o1 instanceof BigInteger) {
+      if (o2 instanceof BigInteger)
+        return ((BigInteger)o1).compareTo((BigInteger)o2);
+
+      if (o2 instanceof BigDecimal)
+        return new BigDecimal((BigInteger)o1).compareTo((BigDecimal)o2);
+
+      if (o2 instanceof Byte || o2 instanceof Short || o2 instanceof Integer || o2 instanceof Long)
+        return ((BigInteger)o1).compareTo(BigInteger.valueOf(o2.longValue()));
+
+      return new BigDecimal((BigInteger)o1).compareTo(BigDecimal.valueOf(o2.doubleValue()));
+    }
+
+    if (o1 instanceof Byte || o1 instanceof Short || o1 instanceof Integer || o1 instanceof Long) {
+      if (o2 instanceof BigInteger)
+        return BigInteger.valueOf(o1.longValue()).compareTo((BigInteger)o2);
 
       if (o2 instanceof BigDecimal)
         return BigDecimal.valueOf(o1.doubleValue()).compareTo((BigDecimal)o2);
 
-      return (o1.doubleValue() < o2.doubleValue()) ? -1 : ((o1.doubleValue() == o2.doubleValue()) ? 0 : 1);
+      return o1.doubleValue() < o2.doubleValue() ? -1 : ((o1.doubleValue() == o2.doubleValue()) ? 0 : 1);
     }
+
+    if (o2 instanceof BigInteger)
+      return BigDecimal.valueOf(o1.doubleValue()).compareTo(new BigDecimal((BigInteger)o2));
+
+    if (o2 instanceof BigDecimal)
+      return BigDecimal.valueOf(o1.doubleValue()).compareTo((BigDecimal)o2);
+
+    return o1.doubleValue() < o2.doubleValue() ? -1 : ((o1.doubleValue() == o2.doubleValue()) ? 0 : 1);
   };
 
   /**
@@ -337,7 +334,7 @@ public final class Numbers {
      *         represented in the provided compounded {@code long} value.
      */
     public static int dencodeInt(final long val, final int pos) {
-      return (int)((val >> Integer.SIZE * pos) & 0xffffffff);
+      return (int)(val >> Integer.SIZE * pos);
     }
 
     /**
@@ -892,7 +889,7 @@ public final class Numbers {
 
     final int slash = string.indexOf('/');
     if (slash == 1)
-      scalar += (double)Integer.parseInt(string.substring(0, slash)) / (double)Integer.parseInt(string.substring(slash + 1, string.length()));
+      scalar += (double)Integer.parseInt(string.substring(0, slash)) / (double)Integer.parseInt(string.substring(slash + 1));
     else
       scalar += new BigDecimal(string).doubleValue();
 
@@ -1194,53 +1191,53 @@ public final class Numbers {
 
     if (a instanceof BigInteger) {
       if (b instanceof Byte)
-        return ((BigInteger)a).equals(BigInteger.valueOf(b.byteValue()));
+        return a.equals(BigInteger.valueOf(b.byteValue()));
 
       if (b instanceof Short)
-        return ((BigInteger)a).equals(BigInteger.valueOf(b.shortValue()));
+        return a.equals(BigInteger.valueOf(b.shortValue()));
 
       if (b instanceof Integer)
-        return ((BigInteger)a).equals(BigInteger.valueOf(b.intValue()));
+        return a.equals(BigInteger.valueOf(b.intValue()));
 
       if (b instanceof Long)
-        return ((BigInteger)a).equals(BigInteger.valueOf(b.longValue()));
+        return a.equals(BigInteger.valueOf(b.longValue()));
 
       if (b instanceof BigInteger)
-        return ((BigInteger)a).equals(b);
+        return a.equals(b);
 
       if (b instanceof BigDecimal)
         return new BigDecimal((BigInteger)a).equals(b);
 
       if (b instanceof Float)
-        return ((BigInteger)a).equals(BigDecimal.valueOf(b.floatValue()).toBigInteger());
+        return a.equals(BigDecimal.valueOf(b.floatValue()).toBigInteger());
 
       if (b instanceof Double)
-        return ((BigInteger)a).equals(BigDecimal.valueOf(b.doubleValue()).toBigInteger());
+        return a.equals(BigDecimal.valueOf(b.doubleValue()).toBigInteger());
     }
     else if (a instanceof BigDecimal) {
       if (b instanceof Byte)
-        return ((BigDecimal)a).equals(BigDecimal.valueOf(b.byteValue()));
+        return a.equals(BigDecimal.valueOf(b.byteValue()));
 
       if (b instanceof Short)
-        return ((BigDecimal)a).equals(BigDecimal.valueOf(b.shortValue()));
+        return a.equals(BigDecimal.valueOf(b.shortValue()));
 
       if (b instanceof Integer)
-        return ((BigDecimal)a).equals(BigDecimal.valueOf(b.intValue()));
+        return a.equals(BigDecimal.valueOf(b.intValue()));
 
       if (b instanceof Long)
-        return ((BigDecimal)a).equals(BigDecimal.valueOf(b.longValue()));
+        return a.equals(BigDecimal.valueOf(b.longValue()));
 
       if (b instanceof BigInteger)
-        return ((BigDecimal)a).equals(new BigDecimal((BigInteger)b));
+        return a.equals(new BigDecimal((BigInteger)b));
 
       if (b instanceof BigDecimal)
-        return ((BigDecimal)a).equals(b);
+        return a.equals(b);
 
       if (b instanceof Float)
-        return ((BigInteger)a).equals(BigDecimal.valueOf(b.floatValue()).toBigInteger());
+        return a.equals(BigDecimal.valueOf(b.floatValue()).toBigInteger());
 
       if (b instanceof Double)
-        return ((BigDecimal)a).equals(BigDecimal.valueOf(b.doubleValue()));
+        return a.equals(BigDecimal.valueOf(b.doubleValue()));
     }
 
     return Math.abs(a.doubleValue() - b.doubleValue()) < epsilon;

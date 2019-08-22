@@ -36,15 +36,12 @@ public class RetryPolicyTest {
       public int getDelayMs(final int attemptNo) {
         return 0;
       }
-    }.run(new Retryable<String>() {
-      @Override
-      public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
-        if (called[0])
-          return "PASS";
+    }.run((retryPolicy, attemptNo) -> {
+      if (called[0])
+        return "PASS";
 
-        called[0] = true;
-        throw new RetryException();
-      }
+      called[0] = true;
+      throw new RetryException();
     }));
 
     assertTrue(called[0]);
@@ -65,20 +62,17 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new LinearDelayRetryPolicy(attempts, delayMs, true).run(new Retryable<String>() {
-      @Override
-      public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
-        if (index[0] < attempts) {
-          final int delayMs = retryPolicy.getDelayMs(attemptNo);
-          assertEquals(delays[index[0]++], delayMs);
-          assertTrue(0 < attemptNo && attemptNo <= attempts);
-          assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
-          logger.info("Attempt: " + attemptNo + ", delay: " + delayMs + ", t: " + RetryException.class.getSimpleName());
-          throw new RetryException();
-        }
-
-        return "PASS";
+    assertEquals("PASS", new LinearDelayRetryPolicy(attempts, delayMs, true).run((retryPolicy, attemptNo) -> {
+      if (index[0] < attempts) {
+        final int delayMs1 = retryPolicy.getDelayMs(attemptNo);
+        assertEquals(delays[index[0]++], delayMs1);
+        assertTrue(0 < attemptNo && attemptNo <= attempts);
+        assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
+        logger.info("Attempt: " + attemptNo + ", delay: " + delayMs1 + ", t: " + RetryException.class.getSimpleName());
+        throw new RetryException();
       }
+
+      return "PASS";
     }));
   }
 
@@ -101,20 +95,17 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new ExponentialBackoffRetryPolicy(attempts, startDelay, factor, maxDelay, true).run(new Retryable<String>() {
-      @Override
-      public String retry(final RetryPolicy retryPolicy, final int attemptNo) throws Exception {
-        if (index[0] < attempts) {
-          final int delayMs = retryPolicy.getDelayMs(attemptNo);
-          assertEquals(delays[index[0]++], delayMs);
-          assertTrue(0 < attemptNo && attemptNo <= attempts);
-          assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
-          logger.info("Attempt: " + attemptNo + ", delay: " + delayMs + ", t: " + RetryException.class.getSimpleName());
-          throw new RetryException();
-        }
-
-        return "PASS";
+    assertEquals("PASS", new ExponentialBackoffRetryPolicy(attempts, startDelay, factor, maxDelay, true).run((retryPolicy, attemptNo) -> {
+      if (index[0] < attempts) {
+        final int delayMs = retryPolicy.getDelayMs(attemptNo);
+        assertEquals(delays[index[0]++], delayMs);
+        assertTrue(0 < attemptNo && attemptNo <= attempts);
+        assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
+        logger.info("Attempt: " + attemptNo + ", delay: " + delayMs + ", t: " + RetryException.class.getSimpleName());
+        throw new RetryException();
       }
+
+      return "PASS";
     }));
   }
 }

@@ -18,9 +18,6 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-
 import org.junit.Test;
 
 public class ArrayUtilTest {
@@ -36,7 +33,7 @@ public class ArrayUtilTest {
   public void testFlattenArrayRetainingReferences() {
     final Object[] array = {"a", "b", new Object[] {"c", "d"}, "e", new Object[] {"f", new Object[] {"g", "h"}}, "i"};
     final Object[] result = ArrayUtil.flatten(array);
-    assertEquals("[" + java.util.Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", java.util.Arrays.deepToString(result).toString());
+    assertEquals("[" + java.util.Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", java.util.Arrays.deepToString(result));
 
     final Object[] expected = {array[0], array[1], array[2], ((Object[])array[2])[0], ((Object[])array[2])[1], array[3], array[4], ((Object[])array[4])[0], ((Object[])array[4])[1], ((Object[])((Object[])array[4])[1])[0], ((Object[])((Object[])array[4])[1])[1], array[5]};
     final Object[] resultRetainingReferences = ArrayUtil.flatten(array, true);
@@ -48,7 +45,7 @@ public class ArrayUtilTest {
     for (int i = 0; i < 100; ++i) {
       final Object[] array = createRandomNestedArray();
       final Object[] result = ArrayUtil.flatten(array);
-      assertEquals("[" + java.util.Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", java.util.Arrays.deepToString(result).toString());
+      assertEquals("[" + java.util.Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", java.util.Arrays.deepToString(result));
     }
   }
 
@@ -79,30 +76,14 @@ public class ArrayUtilTest {
 
   @Test
   public void testTransform() {
-    assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, ArrayUtil.<String>replaceAll(new UnaryOperator<String>() {
-      @Override
-      public String apply(final String value) {
-        return value.toUpperCase();
-      }
-    }, new String[] {"one", "two", "three"}));
-
-    assertArrayEquals(new String[] {}, ArrayUtil.<String>replaceAll(new UnaryOperator<String>() {
-      @Override
-      public String apply(final String value) {
-        return value.toUpperCase();
-      }
-    }, new String[] {}));
+    assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, ArrayUtil.replaceAll(value -> value.toUpperCase(), new String[] {"one", "two", "three"}));
+    assertArrayEquals(new String[] {}, ArrayUtil.replaceAll(value -> value.toUpperCase(), new String[] {}));
   }
 
   @Test
   public void testFilter() {
     final String[] expected = {"ONE", "TWO", "THREE"};
-    final String[] filtered = ArrayUtil.filter(new Predicate<String>() {
-      @Override
-      public boolean test(final String value) {
-        return value != null;
-      }
-    }, new String[] {"ONE", null, "TWO", null, "THREE"});
+    final String[] filtered = ArrayUtil.filter(value -> value != null, new String[] {"ONE", null, "TWO", null, "THREE"});
     assertArrayEquals(expected, filtered);
   }
 

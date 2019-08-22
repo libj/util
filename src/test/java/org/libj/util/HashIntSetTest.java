@@ -16,13 +16,13 @@
 
 package org.libj.util;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -184,7 +184,7 @@ public class HashIntSetTest {
     other.add(1);
 
     testSet.removeAll(other);
-    assertTrue(testSet.containsAll(Arrays.asList(1001)));
+    assertTrue(testSet.contains(1001));
   }
 
   @Test
@@ -494,7 +494,7 @@ public class HashIntSetTest {
         iterator.remove();
 
     assertEquals(1, testSet.size());
-    assertTrue(testSet.containsAll(Arrays.asList(1001)));
+    assertTrue(testSet.contains(1001));
   }
 
   @Test

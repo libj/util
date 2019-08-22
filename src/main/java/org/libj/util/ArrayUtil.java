@@ -1090,7 +1090,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1149,7 +1149,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1208,7 +1208,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1267,7 +1267,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1328,7 +1328,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1387,7 +1387,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1446,7 +1446,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1505,7 +1505,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1563,7 +1563,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1621,7 +1621,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1716,7 +1716,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }
@@ -1844,7 +1844,7 @@ public final class ArrayUtil {
 
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
     for (int i = offset + 1; i < length + offset; ++i)
-      builder.append(delimiter).append(String.valueOf(array[i]));
+      builder.append(delimiter).append(array[i]);
 
     return builder.toString();
   }

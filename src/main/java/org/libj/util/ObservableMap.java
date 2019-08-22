@@ -264,17 +264,14 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V compute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return (V)target.compute(key, new BiFunction<K,V,V>() {
-      @Override
-      public V apply(final K t, final V u) {
-        final V value = remappingFunction.apply(t, u);
-        if (value == null)
-          remove(t);
-        else
-          put(t, value);
+    return (V)target.compute(key, (BiFunction<K,V,V>)(t, u) -> {
+      final V value = remappingFunction.apply(t, u);
+      if (value == null)
+        remove(t);
+      else
+        put(t, value);
 
-        return value;
-      }
+      return value;
     });
   }
 
@@ -289,13 +286,10 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V computeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
-    return (V)target.computeIfAbsent(key, new Function<K,V>() {
-      @Override
-      public V apply(final K t) {
-        final V value = mappingFunction.apply(t);
-        put(t, value);
-        return value;
-      }
+    return (V)target.computeIfAbsent(key, (Function<K,V>)t -> {
+      final V value = mappingFunction.apply(t);
+      put(t, value);
+      return value;
     });
   }
 
@@ -313,17 +307,14 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public V computeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return (V)target.computeIfPresent(key, new BiFunction<K,V,V>() {
-      @Override
-      public V apply(final K t, final V u) {
-        final V value = remappingFunction.apply(t, u);
-        if (value == null)
-          remove(t);
-        else
-          put(t, value);
+    return (V)target.computeIfPresent(key, (BiFunction<K,V,V>)(t, u) -> {
+      final V value = remappingFunction.apply(t, u);
+      if (value == null)
+        remove(t);
+      else
+        put(t, value);
 
-        return value;
-      }
+      return value;
     });
   }
 
@@ -341,17 +332,14 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   @SuppressWarnings({"unchecked", "unlikely-arg-type"})
   public V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
-    return (V)(target.get(key) == null ? target.put(key, value) : target.merge(key, value, new BiFunction<V,V,V>() {
-      @Override
-      public V apply(final V t, final V u) {
-        final V value = remappingFunction.apply(t, u);
-        if (value == null)
-          remove(t);
-        else
-          put(key, value);
+    return (V)(target.get(key) == null ? target.put(key, value) : target.merge(key, value, (BiFunction<V,V,V>)(t, u) -> {
+      final V value1 = remappingFunction.apply(t, u);
+      if (value1 == null)
+        remove(t);
+      else
+        put(key, value1);
 
-        return value;
-      }
+      return value1;
     }));
   }
 
@@ -365,13 +353,10 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
-    target.replaceAll(new BiFunction<K,V,V>() {
-      @Override
-      public V apply(final K t, final V u) {
-        final V value = function.apply(t, u);
-        put(t, value);
-        return value;
-      }
+    target.replaceAll((BiFunction<K,V,V>)(t, u) -> {
+      final V value = function.apply(t, u);
+      put(t, value);
+      return value;
     });
   }
 
@@ -446,6 +431,6 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
 
   @Override
   public Collection<V> values() {
-    return values == null ? values = new TransCollection<>(entrySet(), entry -> entry.getValue(), null) : values;
+    return values == null ? values = new TransCollection<>(entrySet(), Entry::getValue, null) : values;
   }
 }

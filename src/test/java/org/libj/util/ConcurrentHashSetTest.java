@@ -25,29 +25,26 @@ public class ConcurrentHashSetTest {
   public void test() {
     final ConcurrentHashSet<String> set = new ConcurrentHashSet<>();
     for (int i = 0; i < 100; ++i) {
-      new Thread() {
-        @Override
-        public void run() {
-          try {
-            for (int i = 0; i < 1000; ++i) {
-              Thread.sleep((int)(Math.random() * 10));
+      new Thread(() -> {
+        try {
+          for (int i1 = 0; i1 < 1000; ++i1) {
+            Thread.sleep((int)(Math.random() * 10));
 
-              set.add(Strings.getRandomAlpha(3));
-              final Iterator<String> it = set.iterator();
-              while (it.hasNext()) {
-                it.next();
-                if (Math.random() < .1)
-                  break;
-              }
-
-              it.remove();
+            set.add(Strings.getRandomAlpha(3));
+            final Iterator<String> it = set.iterator();
+            while (it.hasNext()) {
+              it.next();
+              if (Math.random() < .1)
+                break;
             }
-          }
-          catch (final InterruptedException e) {
-            throw new IllegalStateException(e);
+
+            it.remove();
           }
         }
-      }.start();
+        catch (final InterruptedException e) {
+          throw new IllegalStateException(e);
+        }
+      }).start();
     }
   }
 }

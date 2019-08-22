@@ -34,44 +34,41 @@ public final class Temporals {
   /**
    * A general comparator that compares two {@link Temporal} objects.
    */
-  private static final Comparator<Temporal> COMPARATOR = new Comparator<Temporal>() {
-    @Override
-    public int compare(final Temporal o1, final Temporal o2) {
-      if (o1 == null)
-        return o2 == null ? 0 : 1;
+  private static final Comparator<Temporal> COMPARATOR = (o1, o2) -> {
+    if (o1 == null)
+      return o2 == null ? 0 : 1;
 
-      if (o2 == null)
-        return -1;
+    if (o2 == null)
+      return -1;
 
-      if (o1 instanceof LocalTime) {
-        if (o2 instanceof LocalTime)
-          return ((LocalTime)o1).compareTo((LocalTime)o2);
+    if (o1 instanceof LocalTime) {
+      if (o2 instanceof LocalTime)
+        return ((LocalTime)o1).compareTo((LocalTime)o2);
 
-        throw new IllegalArgumentException(o1.getClass() + " cannot be compared to " + o2.getClass());
-      }
-
-      if (o1 instanceof LocalDate) {
-        if (o2 instanceof LocalDate)
-          return ((LocalDate)o1).compareTo((LocalDate)o2);
-
-        if (o2 instanceof LocalDateTime)
-          return ((LocalDate)o1).atStartOfDay().compareTo((LocalDateTime)o2);
-
-        throw new UnsupportedOperationException("Unsupported Temporal type: " + o2.getClass().getName());
-      }
-
-      if (o1 instanceof LocalDateTime) {
-        if (o2 instanceof LocalDateTime)
-          return ((LocalDateTime)o1).compareTo((LocalDateTime)o2);
-
-        if (o2 instanceof LocalDate)
-          return ((LocalDateTime)o1).toLocalDate().compareTo((LocalDate)o2);
-
-        throw new UnsupportedOperationException("Unsupported Temporal type: " + o2.getClass().getName());
-      }
-
-      throw new UnsupportedOperationException("Unsupported Temporal type: " + o1.getClass().getName());
+      throw new IllegalArgumentException(o1.getClass() + " cannot be compared to " + o2.getClass());
     }
+
+    if (o1 instanceof LocalDate) {
+      if (o2 instanceof LocalDate)
+        return ((LocalDate)o1).compareTo((LocalDate)o2);
+
+      if (o2 instanceof LocalDateTime)
+        return ((LocalDate)o1).atStartOfDay().compareTo((LocalDateTime)o2);
+
+      throw new UnsupportedOperationException("Unsupported Temporal type: " + o2.getClass().getName());
+    }
+
+    if (o1 instanceof LocalDateTime) {
+      if (o2 instanceof LocalDateTime)
+        return ((LocalDateTime)o1).compareTo((LocalDateTime)o2);
+
+      if (o2 instanceof LocalDate)
+        return ((LocalDateTime)o1).toLocalDate().compareTo((LocalDate)o2);
+
+      throw new UnsupportedOperationException("Unsupported Temporal type: " + o2.getClass().getName());
+    }
+
+    throw new UnsupportedOperationException("Unsupported Temporal type: " + o1.getClass().getName());
   };
 
   /** Number of microseconds in a millisecond. */

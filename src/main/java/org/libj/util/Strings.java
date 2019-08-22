@@ -656,7 +656,7 @@ public final class Strings {
    */
   public static String getAlpha(final int n) {
     int scale;
-    return n < '{' - 'a' ? String.valueOf((char)('a' + n)) : getAlpha((scale = n / ('{' - 'a')) - 1) + String.valueOf((char)('a' + n - scale * ('{' - 'a')));
+    return n < '{' - 'a' ? String.valueOf((char)('a' + n)) : getAlpha((scale = n / ('{' - 'a')) - 1) + (char)('a' + n - scale * ('{' - 'a'));
   }
 
   /**
@@ -1348,7 +1348,7 @@ public final class Strings {
         return true;
 
       if (escaped) {
-        if (ch == 'd' || ch == 'D' || ch == 's' || ch == 'S' || ch == 'w' || ch == 'W' || ch == 'b' || ch == 'B' || ch == 'b' || ch == 'A' || ch == 'G' || ch == 'Z' || ch == 'z' || ch == 'Q' || ch == 'E')
+        if (ch == 'd' || ch == 'D' || ch == 's' || ch == 'S' || ch == 'w' || ch == 'W' || ch == 'b' || ch == 'B' || ch == 'A' || ch == 'G' || ch == 'Z' || ch == 'z' || ch == 'Q' || ch == 'E')
           return true;
       }
       else if (!hasOpenBracket && ch == '[')
@@ -1357,7 +1357,7 @@ public final class Strings {
         hasOpenBrace = true;
       else if (!hasOpenParentheses && ch == '(')
         hasOpenParentheses = true;
-      else if (ch == '.' || (i > 0 && (ch == '?' || ch == '*' || ch == '+' || ch == '*' || (hasOpenBracket && ch == ']') || (hasOpenBrace && ch == '}') || (hasOpenParentheses && ch == ')') || ch == '|'))) {
+      else if (ch == '.' || (i > 0 && (ch == '?' || ch == '*' || ch == '+' || (hasOpenBracket && ch == ']') || (hasOpenBrace && ch == '}') || (hasOpenParentheses && ch == ')') || ch == '|'))) {
         return true;
       }
 

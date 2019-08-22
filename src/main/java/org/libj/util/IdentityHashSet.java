@@ -50,9 +50,8 @@ import java.util.TreeSet;
  * threads modifies the set, it <i>must</i> be synchronized externally. This is
  * typically accomplished by synchronizing on some object that naturally
  * encapsulates the set. If no such object exists, the set should be "wrapped"
- * using the {@link Collections#synchronizedSet Collections.synchronizedSet}
- * method. This is best done at creation time, to prevent accidental
- * unsynchronized access to the set:
+ * using the {@link Collections#synchronizedSet(Set)} method. This is best done
+ * at creation time, to prevent accidental unsynchronized access to the set:
  *
  * <pre>
  *   Set s = Collections.synchronizedSet(new IdentityHashSet(...));

@@ -16,8 +16,6 @@
 
 package org.libj.util.zip;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,6 +23,8 @@ import java.nio.file.Files;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -56,12 +56,7 @@ public class ZipWriterTest {
     }
 
     final File destDir = Files.createTempDirectory("jar-test").toFile();
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        deleteDir(destDir);
-      }
-    });
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> deleteDir(destDir)));
 
     ZipFiles.extract(new ZipFile(file), destDir);
     assertFile(destDir, "foo", "foo");

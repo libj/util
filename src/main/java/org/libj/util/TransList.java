@@ -77,7 +77,7 @@ public class TransList<S,T> extends DelegateList<T> {
     }
     else {
       for (int i = 0; i < size; ++i)
-        if ((S)target.get(i) == null)
+        if (target.get(i) == null)
           return true;
     }
 

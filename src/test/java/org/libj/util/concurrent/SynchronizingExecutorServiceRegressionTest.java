@@ -91,19 +91,16 @@ public class SynchronizingExecutorServiceRegressionTest {
       executorService.submit(new Consumer(testConsumerCounter++));
       if (lastSync + syncPeriod <= System.currentTimeMillis()) {
         lastSync = System.currentTimeMillis();
-        new Thread() {
-          @Override
-          public void run() {
-            logger.debug("Starting sync with " + consumerCount + " running consumers");
-            try {
-              syncTs = System.currentTimeMillis();
-              executorService.synchronize();
-            }
-            catch (final InterruptedException e) {
-              error = e.getMessage();
-            }
+        new Thread(() -> {
+          logger.debug("Starting sync with " + consumerCount + " running consumers");
+          try {
+            syncTs = System.currentTimeMillis();
+            executorService.synchronize();
           }
-        }.start();
+          catch (final InterruptedException e) {
+            error = e.getMessage();
+          }
+        }).start();
       }
 
       Thread.sleep((long)(Math.random() * 10));

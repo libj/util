@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -62,6 +62,6 @@ public class TransSetTest {
     for (int i = 0; i < 10; i++)
       source.add(i);
 
-    test(new TransSet<Integer,String>(source, integer -> String.valueOf(integer), string -> Integer.valueOf(string)));
+    test(new TransSet<Integer,String>(source, String::valueOf, Integer::valueOf));
   }
 }

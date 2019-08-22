@@ -274,9 +274,9 @@ public final class CollectionUtil {
 
     final StringBuilder builder = new StringBuilder();
     final Iterator<?> iterator = c.iterator();
-    builder.append(String.valueOf(iterator.next()));
+    builder.append(iterator.next());
     while (iterator.hasNext())
-      builder.append(del).append(String.valueOf(iterator.next()));
+      builder.append(del).append(iterator.next());
 
     return builder.toString();
   }
@@ -303,9 +303,9 @@ public final class CollectionUtil {
 
     final StringBuilder builder = new StringBuilder();
     final Iterator<?> iterator = c.iterator();
-    builder.append(String.valueOf(iterator.next()));
+    builder.append(iterator.next());
     while (iterator.hasNext())
-      builder.append(del).append(String.valueOf(iterator.next()));
+      builder.append(del).append(iterator.next());
 
     return builder.toString();
   }

@@ -93,7 +93,7 @@ public class DiffTest {
     final String target = "http://org.safris.xml/schema/binding/test/unit/complexTypes.xsd";
     final Diff diff = new Diff(source, target);
     final String patch = diff.patch(source);
-    logger.info(patch.toString());
+    logger.info(patch);
   }
 
   @Test

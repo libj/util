@@ -57,12 +57,7 @@ public class ZipFilesTest {
   public void testExtractSome() throws IOException, ZipException {
     final File file = findJar("junit");
     final File destDir = new File(extractDir, "meta");
-    ZipFiles.extract(new ZipFile(file), destDir, new Predicate<ZipEntry>() {
-      @Override
-      public boolean test(final ZipEntry t) {
-        return t.getName().startsWith("META-INF/");
-      }
-    });
+    ZipFiles.extract(new ZipFile(file), destDir, t -> t.getName().startsWith("META-INF/"));
 
     assertEquals(1, destDir.list().length);
     assertTrue(new File(destDir, "META-INF/MANIFEST.MF").exists());

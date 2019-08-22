@@ -289,7 +289,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
       }
 
       if (edges == null)
-        transEdges.set(v, edges = new TransSet<>(ws, w -> indexToValue(w), o -> objectToIndex.get(o)));
+        transEdges.set(v, edges = new TransSet<>(ws, this::indexToValue, o -> objectToIndex.get(o)));
 
       return edges;
     }, null);

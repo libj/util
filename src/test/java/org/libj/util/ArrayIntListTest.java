@@ -16,13 +16,13 @@
 
 package org.libj.util;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -50,42 +50,36 @@ public class ArrayIntListTest {
     final ArrayIntList slx2 = slx1.subList(1, 3);
     final ArrayIntList slx3 = slx1.subList(3, 5);
 
-    final Runnable test = new Runnable() {
-      @Override
-      public void run() {
-        assertEquals(list.modCount, sl1.modCount);
-        assertEquals(list.modCount, sl2.modCount);
-        assertEquals(list.modCount, sl11.modCount);
-        assertEquals(list.modCount, sl12.modCount);
-        assertEquals(list.modCount, sl111.modCount);
-        assertEquals(list.modCount, sl121.modCount);
-        assertEquals(list.modCount, sl21.modCount);
-        assertEquals(list.modCount, sl22.modCount);
-        assertEquals(list.modCount, sl211.modCount);
-        assertEquals(list.modCount, sl221.modCount);
-        assertEquals(list.modCount, slx1.modCount);
-        assertEquals(list.modCount, slx2.modCount);
-        assertEquals(list.modCount, slx3.modCount);
-      }
+    final Runnable test = () -> {
+      assertEquals(list.modCount, sl1.modCount);
+      assertEquals(list.modCount, sl2.modCount);
+      assertEquals(list.modCount, sl11.modCount);
+      assertEquals(list.modCount, sl12.modCount);
+      assertEquals(list.modCount, sl111.modCount);
+      assertEquals(list.modCount, sl121.modCount);
+      assertEquals(list.modCount, sl21.modCount);
+      assertEquals(list.modCount, sl22.modCount);
+      assertEquals(list.modCount, sl211.modCount);
+      assertEquals(list.modCount, sl221.modCount);
+      assertEquals(list.modCount, slx1.modCount);
+      assertEquals(list.modCount, slx2.modCount);
+      assertEquals(list.modCount, slx3.modCount);
     };
 
-    final Consumer<ArrayIntList> consumer = new Consumer<ArrayIntList>() {
-      @Override
-      public void accept(final ArrayIntList list) {
-        list.add(10);
-        test.run();
+    final Consumer<ArrayIntList> consumer = list1 -> {
+      list1.add(10);
+      test.run();
 
-        list.removeIndex(0);
-        test.run();
+      list1.removeIndex(0);
+      test.run();
 
-        final IntListIterator i = list.listIterator();
-        i.add(10);
-        test.run();
+      final IntListIterator i = list1.listIterator();
+      i.add(10);
+      test.run();
 
-        i.previous();
-        i.remove();
-        test.run();
-      }
+      i.previous();
+      i.remove();
+      test.run();
     };
 
     consumer.accept(list);

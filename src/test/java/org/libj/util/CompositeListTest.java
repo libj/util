@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -45,17 +45,17 @@ public class CompositeListTest {
     }
   }
 
-  private class TestCompositeList extends CompositeList<Object,Class<? extends Object>> {
-    private TestCompositeList(final Class<? extends Object> ... types) {
+  private class TestCompositeList extends CompositeList<Object,Class<?>> {
+    private TestCompositeList(final Class<?> ... types) {
       super(types);
     }
 
     @Override
-    protected CompositeList<Object,Class<? extends Object>>.ComponentList getOrCreateComponentList(final Object element) {
+    protected CompositeList<Object,Class<?>>.ComponentList getOrCreateComponentList(final Object element) {
       return getOrCreateComponentList(element.getClass());
     }
 
-    protected CompositeList<Object,Class<? extends Object>>.ComponentList getOrCreateComponentList(Class<? extends Object> type) {
+    protected CompositeList<Object,Class<?>>.ComponentList getOrCreateComponentList(Class<?> type) {
       do {
         if (containsComponentType(type)) {
           ComponentList componentList = getComponentList(type);
@@ -269,8 +269,8 @@ public class CompositeListTest {
     assertElementCount(null, expected, 1, compositeList.getOrCreateComponentList(Boolean.class));
   }
 
-  public void testClone(final CompositeList<Object,Class<? extends Object>> list) {
-    final CompositeList<Object,Class<? extends Object>> clone = list.clone();
+  public void testClone(final CompositeList<Object,Class<?>> list) {
+    final CompositeList<Object,Class<?>> clone = list.clone();
     assertEquals(list.size(), clone.size());
     final ListIterator listIterator = list.listIterator();
     final ListIterator cloneIterator = clone.listIterator();
@@ -278,7 +278,7 @@ public class CompositeListTest {
       final Object listItem = listIterator.next();
       final Object cloneItem = cloneIterator.next();
       assertEquals(listItem, cloneItem);
-      assertFalse(listItem == cloneItem);
+      assertNotSame(listItem, cloneItem);
     }
   }
 }

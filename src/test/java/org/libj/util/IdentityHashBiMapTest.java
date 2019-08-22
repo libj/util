@@ -16,10 +16,10 @@
 
 package org.libj.util;
 
-import static org.junit.Assert.*;
-
 import java.util.Iterator;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -68,9 +68,9 @@ public class IdentityHashBiMapTest {
 
     if (testClone) {
       final Integer xx = 17;
-      map.put(xx, "xx".intern());
-      assertFalse(map.inverse.containsKey("17".intern()));
-      assertTrue(map.inverse.containsKey("xx".intern()));
+      map.put(xx, "xx");
+      assertFalse(map.inverse.containsKey("17"));
+      assertTrue(map.inverse.containsKey("xx"));
 
       test(map.clone(), 1000, false);
     }
