@@ -100,7 +100,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     digraph.adj = new ArrayList<>(digraph.initialCapacity);
     digraph.inDegree = new ArrayIntList(digraph.initialCapacity);
     digraph.objectToIndex = new HashBiMap<>(digraph.initialCapacity);
-    digraph.indexToObject = digraph.objectToIndex.inverse();
+    digraph.indexToObject = digraph.objectToIndex.reverse();
     digraph.adjRemoved = new ArrayIntList();
   }
 
@@ -791,7 +791,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     try {
       final AbstractDigraph<K,V> clone = (AbstractDigraph<K,V>)super.clone();
       clone.objectToIndex = objectToIndex.clone();
-      clone.indexToObject = clone.objectToIndex.inverse();
+      clone.indexToObject = clone.objectToIndex.reverse();
       clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
       for (int i = 0; i < clone.adj.size(); ++i) {
         final LinkedHashSet<Integer> set = clone.adj.get(i);

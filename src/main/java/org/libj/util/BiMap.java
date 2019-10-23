@@ -24,9 +24,9 @@ import java.util.Set;
  * Bidirectional map that maintains both key-&gt;value and value-&gt;key
  * mappings. This implementation utilizes the mechanisms of the
  * {@link ObservableMap} to guarantee operational symmetry between the
- * {@code this} map and the {@link #inverse()} map. Methods defined in the
+ * {@code this} map and the {@link #reverse()} map. Methods defined in the
  * {@code Map} interface that result in a mutation to the {@code this} instance
- * will also result in reflected operations to the {@link #inverse()} instance.
+ * will also result in reflected operations to the {@link #reverse()} instance.
  * This implementation is not synchronized.
  *
  * @param <K> The type of keys maintained by this map.
@@ -35,7 +35,7 @@ import java.util.Set;
  * @see DelegateMap
  */
 public abstract class BiMap<K,V> extends DelegateMap<K,V> {
-  protected volatile BiMap<V,K> inverse;
+  protected volatile BiMap<V,K> reverse;
 
   /**
    * Construct a new bidirectional map with the provided source maps.
@@ -45,9 +45,9 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
    */
   protected BiMap(final Map<K,V> forward, final Map<V,K> reverse) {
     setTarget(forward);
-    inverse = newEmptyInverseMap();
-    inverse.setTarget(reverse);
-    inverse.inverse = this;
+    this.reverse = newEmptyReverseMap();
+    this.reverse.setTarget(reverse);
+    this.reverse.reverse = this;
   }
 
   /**
@@ -65,41 +65,41 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
     super.target = new ObservableMap<K,V>(map) {
       @Override
       protected boolean beforePut(final K key, final V oldValue, final V newValue) {
-        ((ObservableMap<K,V>)BiMap.this.inverse.target).target.put(newValue, key);
+        ((ObservableMap<K,V>)BiMap.this.reverse.target).target.put(newValue, key);
         if (oldValue != null)
-          ((ObservableMap<K,V>)BiMap.this.inverse.target).target.remove(oldValue);
+          ((ObservableMap<K,V>)BiMap.this.reverse.target).target.remove(oldValue);
 
         return true;
       }
 
       @Override
       protected void afterRemove(final Object key, final V value, final RuntimeException re) {
-        ((ObservableMap<K,V>)BiMap.this.inverse.target).target.remove(value);
+        ((ObservableMap<K,V>)BiMap.this.reverse.target).target.remove(value);
       }
     };
   }
 
   /**
-   * Returns a new instance of an empty inverse subclass of {@code BiMap}.
+   * Returns a new instance of an empty reverse subclass of {@code BiMap}.
    *
-   * @return A new instance of an empty inverse {@code BiMap}.
+   * @return A new instance of an empty reverse subclass of {@code BiMap}.
    */
-  protected abstract BiMap<V,K> newEmptyInverseMap();
+  protected abstract BiMap<V,K> newEmptyReverseMap();
 
   /**
-   * Returns the inverse of this map, maintaining value-&gt;key mappings.
-   * Mutations to the {@code inverse()} map are reflected in {@code this} map.
+   * Returns the reverse of this map, maintaining value-&gt;key mappings.
+   * Mutations to the {@code reverse()} map are reflected in {@code this} map.
    *
-   * @return The inverse map.
+   * @return The reverse map.
    */
-  public Map<V,K> inverse() {
-    return inverse;
+  public Map<V,K> reverse() {
+    return reverse;
   }
 
   @Override
   @SuppressWarnings("unlikely-arg-type")
   public boolean containsValue(final Object value) {
-    return inverse.containsKey(value);
+    return reverse.containsKey(value);
   }
 
   protected volatile ObservableSet<K> keySet;
@@ -127,7 +127,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
 
       @Override
       protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.inverse.target.remove(localValue.get());
+        BiMap.this.reverse.target.remove(localValue.get());
       }
     } : keySet;
   }
@@ -144,7 +144,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
 
       @Override
       protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.inverse.target.remove(o);
+        BiMap.this.reverse.target.remove(o);
       }
     } : values;
   }
@@ -162,7 +162,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
       @Override
       @SuppressWarnings("unchecked")
       protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.inverse.target.remove(((Map.Entry<K,V>)o).getValue());
+        BiMap.this.reverse.target.remove(((Map.Entry<K,V>)o).getValue());
       }
     } : entrySet;
   }

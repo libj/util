@@ -30,13 +30,13 @@ public class HashBiMapTest {
       final String value = String.valueOf(i + offset);
       map.put(i + offset, value);
       assertEquals(value, map.get(i + offset));
-      assertEquals(Integer.valueOf(i + offset), map.inverse().get(value));
+      assertEquals(Integer.valueOf(i + offset), map.reverse().get(value));
     }
 
     map.remove(7 + offset);
     assertFalse(map.containsValue(7 + offset));
 
-    map.inverse().remove(String.valueOf(8 + offset));
+    map.reverse().remove(String.valueOf(8 + offset));
     assertFalse(map.containsKey(8 + offset));
 
     final Iterator<Map.Entry<Integer,String>> entryIterator = map.entrySet().iterator();
@@ -68,8 +68,8 @@ public class HashBiMapTest {
     if (testClone) {
       final Integer xx = 17;
       map.put(xx, "xx");
-      assertFalse(map.inverse.containsKey("17"));
-      assertTrue(map.inverse.containsKey("xx"));
+      assertFalse(map.reverse.containsKey("17"));
+      assertTrue(map.reverse.containsKey("xx"));
 
       test(map.clone(), 1000, false);
     }

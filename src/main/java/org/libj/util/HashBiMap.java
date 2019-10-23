@@ -87,7 +87,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   }
 
   @Override
-  protected BiMap<V,K> newEmptyInverseMap() {
+  protected BiMap<V,K> newEmptyReverseMap() {
     return new HashBiMap<>(true);
   }
 
@@ -105,10 +105,10 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   @SuppressWarnings("unchecked")
   public HashBiMap<K,V> clone() {
     final HashBiMap<K,V> clone = superClone();
-    clone.inverse = ((HashBiMap<V,K>)inverse).superClone();
+    clone.reverse = ((HashBiMap<V,K>)reverse).superClone();
     clone.setTarget((Map<K,V>)(((HashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
-    clone.inverse.setTarget((Map<V,K>)(((HashMap<K,V>)((ObservableMap<K,V>)inverse.target).target).clone()));
-    clone.inverse.inverse = clone;
+    clone.reverse.setTarget((Map<V,K>)(((HashMap<K,V>)((ObservableMap<K,V>)reverse.target).target).clone()));
+    clone.reverse.reverse = clone;
     return clone;
   }
 }

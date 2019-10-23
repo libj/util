@@ -665,8 +665,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String,int)}, but returns null if the string does not
-   * contain a parsable {@code int}.
+   * {@link Integer#parseInt(String,int)}, but returns null if the string does
+   * not contain a parsable {@code int}.
    *
    * @param s A {@code String} containing the {@code Integer} representation to
    *          be parsed.

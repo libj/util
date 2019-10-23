@@ -75,7 +75,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
   }
 
   @Override
-  protected BiMap<V,K> newEmptyInverseMap() {
+  protected BiMap<V,K> newEmptyReverseMap() {
     return new IdentityHashBiMap<>(true);
   }
 
@@ -98,7 +98,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
 
       @Override
       protected void afterRemove(final Object o, final RuntimeException re) {
-        IdentityHashBiMap.this.inverse.target.remove(value.get());
+        IdentityHashBiMap.this.reverse.target.remove(value.get());
       }
     } : entrySet;
   }
@@ -120,10 +120,10 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
     clone.entrySet = null;
     clone.keySet = null;
     clone.values = null;
-    clone.inverse = ((IdentityHashBiMap<V,K>)inverse).superClone();
+    clone.reverse = ((IdentityHashBiMap<V,K>)reverse).superClone();
     clone.setTarget((Map<K,V>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
-    clone.inverse.setTarget((Map<V,K>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)inverse.target).target).clone()));
-    clone.inverse.inverse = clone;
+    clone.reverse.setTarget((Map<V,K>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)reverse.target).target).clone()));
+    clone.reverse.reverse = clone;
     return clone;
   }
 }

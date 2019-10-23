@@ -31,13 +31,13 @@ public class IdentityHashBiMapTest {
       final String value = String.valueOf(index).intern();
       map.put(index, value);
       assertSame(value + " != " + map.get(index), value, map.get(index));
-      assertSame(index + " != " + map.inverse().get(value), index, map.inverse().get(value));
+      assertSame(index + " != " + map.reverse().get(value), index, map.reverse().get(value));
     }
 
     map.remove(7 + offset);
     assertFalse(map.containsValue(7 + offset));
 
-    map.inverse().remove(String.valueOf(8 + offset).intern());
+    map.reverse().remove(String.valueOf(8 + offset).intern());
     assertFalse(map.containsKey(8 + offset));
 
     final Iterator<Map.Entry<Integer,String>> entryIterator = map.entrySet().iterator();
@@ -69,8 +69,8 @@ public class IdentityHashBiMapTest {
     if (testClone) {
       final Integer xx = 17;
       map.put(xx, "xx");
-      assertFalse(map.inverse.containsKey("17"));
-      assertTrue(map.inverse.containsKey("xx"));
+      assertFalse(map.reverse.containsKey("17"));
+      assertTrue(map.reverse.containsKey("xx"));
 
       test(map.clone(), 1000, false);
     }
