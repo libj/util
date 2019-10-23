@@ -93,6 +93,32 @@ public final class Assertions {
       throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
   }
 
+  /**
+   * Checks the given {@code offset} and {@code count} against {@code 0} and
+   * {@code length} bounds.
+   *
+   * @param length The length of the range.
+   * @param offset The offset in the range.
+   * @param count The count in the range.
+   * @throws IllegalArgumentException If {@code length} is negative.
+   * @throws IndexOutOfBoundsException If {@code offset} is negative,
+   *           {@code count} is negative, or {@code length} is less than
+   *           {@code offset + count}.
+   */
+  public static void assertBoundsOffsetCount(final int length, final int offset, final int count) {
+    if (length < 0)
+      throw new IllegalArgumentException("length = " + length);
+
+    if (offset < 0)
+      throw new IndexOutOfBoundsException("offset = " + offset);
+
+    if (count < 0)
+      throw new IndexOutOfBoundsException("count = " + count);
+
+    if (length < offset + count)
+      throw new IndexOutOfBoundsException("length (" + length + ") < offset (" + offset + ") + count (" + count + ")");
+  }
+
   private Assertions() {
   }
 }
