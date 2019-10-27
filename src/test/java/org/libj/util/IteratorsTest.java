@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,7 +29,7 @@ import org.junit.Test;
 public class IteratorsTest {
   @Test
   public void testFilter() {
-    final List<Number> list = CollectionUtil.asCollection(new ArrayList<Number>(), 0, 0d, 1, 1d, 2, BigInteger.ZERO, 3.4f, BigDecimal.ONE, 3, 2d, BigInteger.ONE, 10l, 4f, (short)8, (byte)62, 4, BigInteger.valueOf(2l));
+    final List<Number> list = Arrays.asList(0, 0d, 1, 1d, 2, BigInteger.ZERO, 3.4f, BigDecimal.ONE, 3, 2d, BigInteger.ONE, 10l, 4f, (short)8, (byte)62, 4, BigInteger.valueOf(2l));
 
     final Iterator<? super Integer> integerIterator = Iterators.filter(list.iterator(), m -> m instanceof Integer);
     for (int i = 0; integerIterator.hasNext(); i++)

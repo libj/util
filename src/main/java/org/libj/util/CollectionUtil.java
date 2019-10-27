@@ -587,7 +587,7 @@ public final class CollectionUtil {
   }
 
   /**
-   * Returns the specified collection with the provided vararg parameters added
+   * Returns the specified collection with the provided parameters array added
    * as members to the collection.
    *
    * @param <C> The type of the collection.
@@ -598,10 +598,31 @@ public final class CollectionUtil {
    *         as members to the collection.
    * @throws NullPointerException If {@code c} or {@code a} is null.
    */
-  @SafeVarargs
-  public static <C extends Collection<T>,T>C asCollection(final C c, final T ... a) {
+  public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a) {
     for (int i = 0; i < a.length; ++i)
       c.add(a[i]);
+
+    return c;
+  }
+
+  /**
+   * Returns the specified collection with the provided vararg parameters added
+   * as members to the collection.
+   *
+   * @param <C> The type of the collection.
+   * @param <T> The type of collection elements.
+   * @param c The collection.
+   * @param a0 The first member to add to the collection.
+   * @param an The remaining members to add to the collection.
+   * @return The specified collection with the specified vararg parameters added
+   *         as members to the collection.
+   * @throws NullPointerException If {@code c} or {@code a} is null.
+   */
+  @SafeVarargs
+  public static <C extends Collection<T>,T>C asCollection(final C c, final T a0, final T ... an) {
+    c.add(a0);
+    for (int i = 0; i < an.length; ++i)
+      c.add(an[i]);
 
     return c;
   }
