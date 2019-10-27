@@ -51,7 +51,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
         return (ConcurrentHashMap<K,V>)super.clone();
       }
       catch (final CloneNotSupportedException e) {
-        throw new IllegalStateException(e);
+        throw new RuntimeException(e);
       }
     }
   }

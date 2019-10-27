@@ -585,7 +585,7 @@ public class HashIntSet implements Cloneable, IntSet, Serializable {
       return clone;
     }
     catch (final CloneNotSupportedException e) {
-      throw new IllegalStateException(e);
+      throw new RuntimeException(e);
     }
   }
 

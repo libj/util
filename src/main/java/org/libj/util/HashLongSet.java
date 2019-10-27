@@ -585,7 +585,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
       return clone;
     }
     catch (final CloneNotSupportedException e) {
-      throw new IllegalStateException(e);
+      throw new RuntimeException(e);
     }
   }
 

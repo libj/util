@@ -231,7 +231,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
         return clone;
       }
       catch (final CloneNotSupportedException e) {
-        throw new IllegalStateException(e);
+        throw new RuntimeException(e);
       }
     }
   }
@@ -564,7 +564,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       return clone;
     }
     catch (final CloneNotSupportedException e) {
-      throw new IllegalStateException(e);
+      throw new RuntimeException(e);
     }
   }
 }
