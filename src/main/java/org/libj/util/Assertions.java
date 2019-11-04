@@ -100,23 +100,26 @@ public final class Assertions {
    * @param length The length of the range.
    * @param offset The offset in the range.
    * @param count The count in the range.
+   * @param lengthLabel The string label of the "length" parameter.
+   * @param offsetLabel The string label of the "offset" parameter.
+   * @param countLabel The string label of the "count" parameter.
    * @throws IllegalArgumentException If {@code length} is negative.
    * @throws IndexOutOfBoundsException If {@code offset} is negative,
    *           {@code count} is negative, or {@code length} is less than
    *           {@code offset + count}.
    */
-  public static void assertBoundsOffsetCount(final int length, final int offset, final int count) {
+  public static void assertBoundsOffsetCount(final int length, final int offset, final int count, final String lengthLabel, final String offsetLabel, final String countLabel) {
     if (length < 0)
-      throw new IllegalArgumentException("length = " + length);
+      throw new IllegalArgumentException(lengthLabel + " = " + length);
 
     if (offset < 0)
-      throw new IndexOutOfBoundsException("offset = " + offset);
+      throw new IndexOutOfBoundsException(offsetLabel + " = " + offset);
 
     if (count < 0)
-      throw new IndexOutOfBoundsException("count = " + count);
+      throw new IndexOutOfBoundsException(countLabel + " = " + count);
 
     if (length < offset + count)
-      throw new IndexOutOfBoundsException("length (" + length + ") < offset (" + offset + ") + count (" + count + ")");
+      throw new IndexOutOfBoundsException(lengthLabel + " (" + length + ") < " + offsetLabel + " (" + offset + ") + " + countLabel + " (" + count + ")");
   }
 
   private Assertions() {
