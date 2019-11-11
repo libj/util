@@ -244,7 +244,7 @@ public final class Throwing {
    * @throws T The {@code Throwable} instance.
    */
   @SuppressWarnings("unchecked")
-  static <T extends Throwable>void rethrow(final Throwable t) throws T {
+  public static <T extends Throwable>void rethrow(final Throwable t) throws T {
     throw (T)t;
   }
 
