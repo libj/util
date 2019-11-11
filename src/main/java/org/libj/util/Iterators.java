@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -118,6 +119,38 @@ public final class Iterators {
         return next;
       }
     };
+  }
+
+  /**
+   * Returns a "flat" {@link Iterator} for the specified N-dimensional array of
+   * type {@code <T>}, whereby all nested array members are flattened at every
+   * depth.
+   *
+   * @param <T> The type of the array.
+   * @param <E> The type of the array members.
+   * @param array The input array.
+   * @return A "flat" {@link Iterator} for the specified N-dimensional array of
+   *         type {@code <T>}.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static <T,E>Iterator<E> flatIterator(final T[] array) {
+    return new FlatArrayIterator<>(array);
+  }
+
+  /**
+   * Returns a "flat" {@link Iterator} for the specified N-dimensional list of
+   * type {@code <T>}, whereby all nested list members are flattened at every
+   * depth.
+   *
+   * @param <T> The type of the list.
+   * @param <E> The type of the list elements.
+   * @param list The input list.
+   * @return A "flat" {@link Iterator} for the specified N-dimensional array of
+   *         type {@code <T>}.
+   * @throws NullPointerException If the specified list is null.
+   */
+  public static <T,E>Iterator<E> flatIterator(final List<T> list) {
+    return new FlatListIterator<>(list);
   }
 
   private Iterators() {
