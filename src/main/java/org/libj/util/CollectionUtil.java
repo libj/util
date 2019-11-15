@@ -209,7 +209,7 @@ public final class CollectionUtil {
    * @return A class representing the component type of the specified
    *         collection, or {@code null} if the collection has no member
    *         objects.
-   * @throws NullPointerException If {@code c} is null.
+   * @throws NullPointerException If the specified collection is null.
    */
   public static Class<?> getComponentType(final Collection<?> c) {
     if (c.size() == 0)
@@ -264,6 +264,7 @@ public final class CollectionUtil {
    * @return A string representation of the specified collection, using the
    *         specified delimiter between the string representation of each
    *         element.
+   * @throws NullPointerException If the specified collection is null.
    */
   public static String toString(final Collection<?> c, final char del) {
     if (c == null)
@@ -293,6 +294,7 @@ public final class CollectionUtil {
    * @return A string representation of the specified collection, using the
    *         specified delimiter between the string representation of each
    *         element.
+   * @throws NullPointerException If the specified collection is null.
    */
   public static String toString(final Collection<?> c, final String del) {
     if (c == null)
