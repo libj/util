@@ -183,4 +183,26 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   public DelegateList<E> subList(final int fromIndex, final int toIndex) {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof DelegateList))
+      return false;
+
+    final DelegateList<?> that = (DelegateList<?>)obj;
+    return target != null ? target.equals(that.target) : that.target == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return target == null ? 733 : target.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(target);
+  }
 }

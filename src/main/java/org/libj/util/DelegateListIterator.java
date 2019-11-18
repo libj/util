@@ -106,4 +106,26 @@ public abstract class DelegateListIterator<E> implements ListIterator<E> {
   public void forEachRemaining(final Consumer<? super E> action) {
     target.forEachRemaining(action);
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof DelegateListIterator))
+      return false;
+
+    final DelegateListIterator<?> that = (DelegateListIterator<?>)obj;
+    return target != null ? target.equals(that.target) : that.target == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return target == null ? 733 : target.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(target);
+  }
 }

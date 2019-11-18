@@ -150,4 +150,26 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   public Stream<E> parallelStream() {
     return target.parallelStream();
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof DelegateSet))
+      return false;
+
+    final DelegateSet<?> that = (DelegateSet<?>)obj;
+    return target != null ? target.equals(that.target) : that.target == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return target == null ? 733 : target.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(target);
+  }
 }

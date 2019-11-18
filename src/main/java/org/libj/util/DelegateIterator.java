@@ -74,4 +74,26 @@ public abstract class DelegateIterator<E> implements Iterator<E> {
   public void forEachRemaining(final Consumer<? super E> action) {
     target.forEachRemaining(action);
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof DelegateIterator))
+      return false;
+
+    final DelegateIterator<?> that = (DelegateIterator<?>)obj;
+    return target != null ? target.equals(that.target) : that.target == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return target == null ? 733 : target.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(target);
+  }
 }

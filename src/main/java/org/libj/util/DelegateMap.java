@@ -182,4 +182,26 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
     target.replaceAll(function);
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof DelegateMap))
+      return false;
+
+    final DelegateMap<?,?> that = (DelegateMap<?,?>)obj;
+    return target != null ? target.equals(that.target) : that.target == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return target == null ? 733 : target.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(target);
+  }
 }
