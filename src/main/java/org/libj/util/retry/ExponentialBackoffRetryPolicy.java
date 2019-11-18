@@ -29,12 +29,12 @@ public class ExponentialBackoffRetryPolicy extends RetryPolicy {
   private final boolean noDelayOnFirstRetry;
 
   /**
-   * Creates a new {@code ExponentialBackoffRetryPolicy} with the specified
+   * Creates a new {@link ExponentialBackoffRetryPolicy} with the specified
    * maximum number of retries, and a delay for retry attempts that increases
    * exponentially based on a backoff factor.
    *
    * @param maxRetries A positive value representing the number of retry
-   *          attempts allowed by the {@code ExponentialBackoffRetryPolicy}.
+   *          attempts allowed by the {@link ExponentialBackoffRetryPolicy}.
    * @param delayMs A positive value representing the delay for the first retry,
    *          in milliseconds, which is also used as the multiplicative factor
    *          for subsequent backed-off delays.

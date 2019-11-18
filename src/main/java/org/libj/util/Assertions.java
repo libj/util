@@ -22,8 +22,8 @@ package org.libj.util;
 public final class Assertions {
   /**
    * Checks if the given {@code fromIndex} and {@code toIndex} are in range. If
-   * not, throws an {@code ArrayIndexOutOfBoundsException} or
-   * {@code IllegalArgumentException}.
+   * not, throws an {@link ArrayIndexOutOfBoundsException} or
+   * {@link IllegalArgumentException}.
    *
    * @param fromIndex The from index.
    * @param toIndex The to index.
@@ -58,8 +58,8 @@ public final class Assertions {
 
   /**
    * Checks if the given {@code fromIndex} and {@code toIndex} are in range. If
-   * not, throws an {@code IndexOutOfBoundsException} or
-   * {@code IllegalArgumentException}.
+   * not, throws an {@link IndexOutOfBoundsException} or
+   * {@link IllegalArgumentException}.
    *
    * @param fromIndex The from index.
    * @param toIndex The to index.

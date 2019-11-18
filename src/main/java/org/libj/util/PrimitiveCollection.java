@@ -46,8 +46,8 @@ public interface PrimitiveCollection {
 
   /**
    * Returns the number of values in this collection. If this collection
-   * contains more than {@code Integer.MAX_VALUE} values, returns
-   * {@code Integer.MAX_VALUE}.
+   * contains more than {@link Integer#MAX_VALUE} values, returns
+   * {@link Integer#MAX_VALUE}.
    *
    * @return The number of values in this collection.
    */
@@ -63,15 +63,15 @@ public interface PrimitiveCollection {
   /**
    * Compares the specified object with this collection for equality.
    * <p>
-   * While the {@code IntCollection} interface adds no stipulations to the
+   * While the {@link IntCollection} interface adds no stipulations to the
    * general contract for the {@code Object.equals}, programmers who implement
-   * the {@code IntCollection} interface "directly" (in other words, create a
-   * class that is a {@code IntCollection} but is not a {@code IntSet} or a
-   * {@code IntList}) must exercise care if they choose to override the
+   * the {@link IntCollection} interface "directly" (in other words, create a
+   * class that is a {@link IntCollection} but is not a {@link IntSet} or a
+   * {@link IntList}) must exercise care if they choose to override the
    * {@code Object.equals}. It is not necessary to do so, and the simplest
-   * course of action is to rely on {@code Object}'s implementation, but the
+   * course of action is to rely on {@link Object}'s implementation, but the
    * implementor may wish to implement a "value comparison" in place of the
-   * default "reference comparison." (The {@code IntList} and {@code IntSet}
+   * default "reference comparison." (The {@link IntList} and {@link IntSet}
    * interfaces mandate such value comparisons.)
    * <p>
    * The general contract for the {@code Object.equals} method states that
@@ -79,10 +79,10 @@ public interface PrimitiveCollection {
    * if {@code b.equals(a)}). The contracts for {@code IntList.equals} and
    * {@code IntSet.equals} state that lists are only equal to other lists, and
    * sets to other sets. Thus, a custom {@code equals} method for a collection
-   * class that implements neither the {@code IntList} nor {@code IntSet}
+   * class that implements neither the {@link IntList} nor {@link IntSet}
    * interface must return {@code false} when this collection is compared to any
    * list or set. (By the same logic, it is not possible to write a class that
-   * correctly implements both the {@code IntSet} and {@code IntList}
+   * correctly implements both the {@link IntSet} and {@link IntList}
    * interfaces.)
    *
    * @param obj Object to be compared for equality with this collection.
@@ -96,7 +96,7 @@ public interface PrimitiveCollection {
 
   /**
    * Returns the hash code value for this collection. While the
-   * {@code IntCollection} interface adds no stipulations to the general
+   * {@link IntCollection} interface adds no stipulations to the general
    * contract for the {@code Object.hashCode} method, programmers should take
    * note that any class that overrides the {@code Object.equals} method must
    * also override the {@code Object.hashCode} method in order to satisfy the

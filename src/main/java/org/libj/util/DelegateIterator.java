@@ -21,11 +21,11 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A {@code DelegateIterator} contains some other {@link Iterator}, to which
+ * A {@link DelegateIterator} contains some other {@link Iterator}, to which
  * it delegates its method calls, possibly transforming the data along the way or
- * providing additional functionality. The class {@code DelegateIterator} itself
+ * providing additional functionality. The class {@link DelegateIterator} itself
  * simply overrides all methods of {@link Iterator} with versions that pass all
- * requests to the source {@link Iterator}. Subclasses of {@code DelegateIterator}
+ * requests to the source {@link Iterator}. Subclasses of {@link DelegateIterator}
  * may further override some of these methods and may also provide additional
  * methods and fields.
  *
@@ -39,7 +39,7 @@ public abstract class DelegateIterator<E> implements Iterator<E> {
   protected volatile Iterator target;
 
   /**
-   * Creates a new {@code DelegateIterator} with the specified {@code target}.
+   * Creates a new {@link DelegateIterator} with the specified {@code target}.
    *
    * @param target The target {@link Iterator} object.
    * @throws NullPointerException If {@code target} is null.
@@ -49,7 +49,7 @@ public abstract class DelegateIterator<E> implements Iterator<E> {
   }
 
   /**
-   * Creates a new {@code DelegateIterator} with a null source.
+   * Creates a new {@link DelegateIterator} with a null source.
    */
   protected DelegateIterator() {
   }

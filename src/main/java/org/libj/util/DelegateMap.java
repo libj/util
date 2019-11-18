@@ -26,11 +26,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * A {@code DelegateMap} contains some other {@link Map}, to which it delegates
+ * A {@link DelegateMap} contains some other {@link Map}, to which it delegates
  * its method calls, possibly transforming the data along the way or providing
- * additional functionality. The class {@code DelegateMap} itself simply
+ * additional functionality. The class {@link DelegateMap} itself simply
  * overrides all methods of {@link AbstractMap} with versions that pass all
- * requests to the target {@link Map}. Subclasses of {@code DelegateMap} may
+ * requests to the target {@link Map}. Subclasses of {@link DelegateMap} may
  * further override some of these methods and may also provide additional
  * methods and fields.
  *
@@ -43,7 +43,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   protected volatile Map target;
 
   /**
-   * Creates a new {@code FilterMap} with the specified {@code target}.
+   * Creates a new {@link DelegateMap} with the specified {@code target}.
    *
    * @param target The target {@link Map} object.
    * @throws NullPointerException If {@code target} is null.
@@ -53,7 +53,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Creates a new {@code FilterMap} with a null target.
+   * Creates a new {@link DelegateMap} with a null target.
    */
   protected DelegateMap() {
   }

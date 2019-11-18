@@ -27,7 +27,7 @@ public abstract class DataEncoding<D,E> {
   protected E encoded;
 
   /**
-   * Creates a new {@code DataEncoding}.
+   * Creates a new {@link DataEncoding}.
    *
    * @param data The unencoded value.
    * @param encoded The encoded value.

@@ -36,7 +36,7 @@ import java.util.function.Predicate;
  */
 public abstract class ObservableSet<E> extends DelegateSet<E> {
   /**
-   * Creates a new {@code ObservableList} with the specified target {@code set}.
+   * Creates a new {@link ObservableList} with the specified target {@code set}.
    *
    * @param set The target {@link Set}.
    * @throws NullPointerException If {@code set} is null.
@@ -63,7 +63,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * the enclosed {@link Set}.
    *
    * @param e The element added to the enclosed {@link Set}.
-   * @param re A {@code RuntimeException} that occurred during the add
+   * @param re A {@link RuntimeException} that occurred during the add
    *          operation, or null if no exception occurred.
    */
   protected void afterAdd(final E e, final RuntimeException re) {
@@ -87,7 +87,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * from the enclosed {@link Set}.
    *
    * @param e The element removed from the enclosed {@link Set}.
-   * @param re A {@code RuntimeException} that occurred during the remove
+   * @param re A {@link RuntimeException} that occurred during the remove
    *          operation, or null if no exception occurred.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {

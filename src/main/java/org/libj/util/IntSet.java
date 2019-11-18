@@ -57,7 +57,7 @@ public interface IntSet extends IntCollection {
    * @param c Collection containing values to be added to this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
    * @see #addAll(IntCollection)
@@ -104,7 +104,7 @@ public interface IntSet extends IntCollection {
    * @return {@code true} if this set contains all of the values of the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
    * @see #containsAll(IntCollection)
@@ -149,7 +149,7 @@ public interface IntSet extends IntCollection {
    * @param c Collection containing values to be removed from this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #removeAll(IntCollection)
@@ -186,7 +186,7 @@ public interface IntSet extends IntCollection {
    * @param c Collection containing values to be retained in this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #retainAll(IntCollection)
@@ -223,8 +223,8 @@ public interface IntSet extends IntCollection {
 
   /**
    * Returns the number of values in this set (its cardinality). If this set
-   * contains more than {@code Integer.MAX_VALUE} values, returns
-   * {@code Integer.MAX_VALUE}.
+   * contains more than {@link Integer#MAX_VALUE} values, returns
+   * {@link Integer#MAX_VALUE}.
    *
    * @return The number of values in this set (its cardinality).
    */
@@ -271,7 +271,7 @@ public interface IntSet extends IntCollection {
    * <p>
    * Suppose {@code x} is a set known to contain only strings. The following
    * code can be used to dump the set into a newly allocated array of
-   * {@code String}:
+   * {@link String}:
    *
    * <pre>
    * int[] y = x.toArray(new int[0]);
@@ -304,7 +304,7 @@ public interface IntSet extends IntCollection {
    * <p>
    * Suppose {@code x} is a set known to contain only strings. The following
    * code can be used to dump the set into a newly allocated array of
-   * {@code String}:
+   * {@link String}:
    *
    * <pre>
    * Integer[] y = x.toArray(new Integer[0]);

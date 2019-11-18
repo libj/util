@@ -41,9 +41,9 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
   /**
    * Callback method that is invoked immediately before an element is added to
-   * the enclosed {@code Collection}.
+   * the enclosed {@link Collection}.
    *
-   * @param e The element being added to the enclosed {@code Collection}.
+   * @param e The element being added to the enclosed {@link Collection}.
    * @return If this method returns {@code false}, the subsequent add operation
    *         will not be performed; otherwise, the subsequent add
    *         operation will be performed.
@@ -54,10 +54,10 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
   /**
    * Callback method that is invoked immediately after an element is added to
-   * the enclosed {@code Collection}.
+   * the enclosed {@link Collection}.
    *
-   * @param e The element added to the enclosed {@code Collection}.
-   * @param re A {@code RuntimeException} that occurred during the add
+   * @param e The element added to the enclosed {@link Collection}.
+   * @param re A {@link RuntimeException} that occurred during the add
    *          operation, or null if no exception occurred.
    */
   protected void afterAdd(final E e, final RuntimeException re) {
@@ -65,9 +65,9 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
   /**
    * Callback method that is invoked immediately before an element is removed
-   * from the enclosed {@code Collection}.
+   * from the enclosed {@link Collection}.
    *
-   * @param e The element being removed from the enclosed {@code Collection}.
+   * @param e The element being removed from the enclosed {@link Collection}.
    * @return If this method returns {@code false}, the subsequent remove operation
    *         will not be performed; otherwise, the subsequent remove
    *         operation will be performed.
@@ -78,10 +78,10 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
   /**
    * Callback method that is invoked immediately after an element is removed
-   * from the enclosed {@code Collection}.
+   * from the enclosed {@link Collection}.
    *
-   * @param e The element removed from the enclosed {@code Collection}.
-   * @param re A {@code RuntimeException} that occurred during the add
+   * @param e The element removed from the enclosed {@link Collection}.
+   * @param re A {@link RuntimeException} that occurred during the add
    *          operation, or null if no exception occurred.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
@@ -95,7 +95,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * elements for which {@link #beforeRemove(Object)} returns false will not be
    * removed from this collection.
    *
-   * @return An {@code Iterator} over the elements in this collection.
+   * @return An {@link Iterator} over the elements in this collection.
    * @see Collection#iterator()
    */
   @Override

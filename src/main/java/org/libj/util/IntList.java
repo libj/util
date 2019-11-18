@@ -53,7 +53,7 @@ public interface IntList extends IntCollection {
    * <blockquote><pre>removeIndex(size() - 1)</pre></blockquote>
    *
    * @return The value at the top of this list (the last item of the
-   *         {@code IntList} object).
+   *         {@link IntList} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
   default int pop() {
@@ -67,7 +67,7 @@ public interface IntList extends IntCollection {
    * <blockquote><pre>get(size() - 1)</pre></blockquote>
    *
    * @return The value at the top of this list (the last item of the
-   *         {@code IntList} object).
+   *         {@link IntList} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
   default int peek() {
@@ -178,7 +178,7 @@ public interface IntList extends IntCollection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
@@ -192,7 +192,7 @@ public interface IntList extends IntCollection {
    * @param c Collection containing values to be added to this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
@@ -314,12 +314,12 @@ public interface IntList extends IntCollection {
 
   /**
    * Removes from this list all of its values that are contained in the
-   * specified {@code Collection}.
+   * specified {@link Collection}.
    *
    * @param c Collection containing values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    * @see #remove(int)
@@ -344,7 +344,7 @@ public interface IntList extends IntCollection {
    * @param c Collection containing values to be retained in this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #remove(int)
@@ -374,7 +374,7 @@ public interface IntList extends IntCollection {
    * relayed to the caller.
    * <p>
    * If the list's list-iterator does not support the {@code set} operation,
-   * then an {@code UnsupportedOperationException} will be thrown when replacing
+   * then an {@link UnsupportedOperationException} will be thrown when replacing
    * the first value.
    *
    * @param operator The operator to apply to each value.
@@ -479,7 +479,7 @@ public interface IntList extends IntCollection {
 
   /**
    * Returns the number of values in this list. If this list contains more than
-   * {@code Integer.MAX_VALUE} values, returns {@code Integer.MAX_VALUE}.
+   * {@link Integer#MAX_VALUE} values, returns {@link Integer#MAX_VALUE}.
    *
    * @return The number of values in this list.
    */
@@ -489,7 +489,7 @@ public interface IntList extends IntCollection {
   /**
    * Returns {@code true} if this list contains no values.
    *
-   * @return {@code true} if this list contains no values
+   * @return {@code true} if this list contains no values.
    */
   @Override
   boolean isEmpty();
@@ -526,8 +526,8 @@ public interface IntList extends IntCollection {
    * </pre>
    *
    * Similar idioms may be constructed for {@code indexOf} and
-   * {@code lastIndexOf}, and all of the algorithms in the
-   * {@code IntCollections} class can be applied to a subList.
+   * {@code lastIndexOf}, and all of the algorithms in the {@link IntList} class
+   * can be applied to a subList.
    * <p>
    * The semantics of the list returned by this method <b>are defined</b> if the
    * backing list (i.e., this list) is <i>structurally modified</i> in any way

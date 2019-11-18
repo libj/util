@@ -145,10 +145,10 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Returns a shallow copy of this {@code ConcurrentHashSet} instance (the
+   * Returns a shallow copy of this {@link ConcurrentHashSet} instance (the
    * elements themselves are not cloned).
    *
-   * @return A shallow copy of this {@code ConcurrentHashSet} instance.
+   * @return A shallow copy of this {@link ConcurrentHashSet} instance.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -159,14 +159,14 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Save the state of this {@code ConcurrentHashSet} instance to a stream (that
+   * Save the state of this {@link ConcurrentHashSet} instance to a stream (that
    * is, serialize it).
    *
    * @serialData The capacity of the backing {@link ConcurrentHashMap} instance
    *             (int), followed by the size of the set (the number of elements
    *             it contains) (int), followed by all of its elements (each an
    *             Object) in no particular order.
-   * @param s The {@code ObjectInputStream}.
+   * @param s The {@link ObjectInputStream}.
    * @throws IOException If an I/O error has occurred.
    */
   private void writeObject(final ObjectOutputStream s) throws IOException {
@@ -185,10 +185,10 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Reconstitute the {@code ConcurrentHashSet} instance from a stream (that is,
+   * Reconstitute the {@link ConcurrentHashSet} instance from a stream (that is,
    * deserialize it).
    *
-   * @param s The {@code ObjectInputStream}.
+   * @param s The {@link ObjectInputStream}.
    * @throws ClassNotFoundException If the class of a serialized object could
    *           not be found.
    * @throws IOException If an I/O error has occurred.

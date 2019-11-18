@@ -23,7 +23,7 @@ import java.util.function.IntConsumer;
  * Represents an operation that accepts two {@code int}-valued arguments and
  * returns no result. This is the two-arity specialization of
  * {@link IntConsumer}. Unlike most other functional interfaces,
- * {@code BiIntConsumer} is expected to operate via side-effects.
+ * {@link BiIntConsumer} is expected to operate via side-effects.
  *
  * @see IntConsumer
  */
@@ -38,14 +38,14 @@ public interface BiIntConsumer {
   void accept(int v1, int v2);
 
   /**
-   * Returns a composed {@code BiIntConsumer} that performs, in sequence, this
+   * Returns a composed {@link BiIntConsumer} that performs, in sequence, this
    * operation followed by the {@code after} operation. If performing either
    * operation throws an exception, it is relayed to the caller of the composed
    * operation. If performing this operation throws an exception, the
    * {@code after} operation will not be performed.
    *
    * @param after The operation to perform after this operation.
-   * @return A composed {@code BiIntConsumer} that performs in sequence this
+   * @return A composed {@link BiIntConsumer} that performs in sequence this
    *         operation followed by the {@code after} operation.
    * @throws NullPointerException If {@code after} is null.
    */

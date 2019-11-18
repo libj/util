@@ -112,10 +112,10 @@ public class Diff {
   }
 
   /**
-   * Decodes a byte array encoding of a diff into a {@code Diff} object.
+   * Decodes a byte array encoding of a diff into a {@link Diff} object.
    *
    * @param bytes The {@code byte[]} array.
-   * @return The {@code Diff} object decoded from the byte array.
+   * @return The {@link Diff} object decoded from the byte array.
    * @throws NullPointerException If {@code bytes} is null.
    */
   public static Diff decode(final byte[] bytes) {
@@ -164,7 +164,7 @@ public class Diff {
     protected final int length;
 
     /**
-     * Creates a new {@code Mod} with the specified length.
+     * Creates a new {@link Mod} with the specified length.
      *
      * @param length The length of the modification.
      */
@@ -173,7 +173,7 @@ public class Diff {
     }
 
     /**
-     * Creates a new {@code Mod} with the length encoded in the specified bytes.
+     * Creates a new {@link Mod} with the length encoded in the specified bytes.
      *
      * @param src The bytes from which to decode the length.
      * @param offset The offset in bits specifying the start of the length bits.
@@ -184,6 +184,8 @@ public class Diff {
     }
 
     /**
+     * Returns the 2-bit ordinal identifier for this modification.
+     *
      * @return The 2-bit ordinal identifier for this modification.
      */
     protected abstract byte ordinal();
@@ -215,6 +217,9 @@ public class Diff {
     }
 
     /**
+     * Returns the number of bits required for the encoding of this
+     * modification.
+     *
      * @return The number of bits required for the encoding of this
      *         modification.
      */
@@ -230,7 +235,7 @@ public class Diff {
     private final String text;
 
     /**
-     * Creates a new {@code Insert} modification with the specified text.
+     * Creates a new {@link Insert} modification with the specified text.
      *
      * @param text The text representing the insert modification.
      */
@@ -240,7 +245,7 @@ public class Diff {
     }
 
     /**
-     * Creates a new {@code Insert} modification with the length encoded in the
+     * Creates a new {@link Insert} modification with the length encoded in the
      * specified bytes.
      *
      * @param src The bytes from which to decode the length.
@@ -283,7 +288,7 @@ public class Diff {
 
   protected class Delete extends Mod {
     /**
-     * Creates a new {@code Delete} modification with the specified length.
+     * Creates a new {@link Delete} modification with the specified length.
      *
      * @param length The length representing the delete modification.
      */
@@ -292,7 +297,7 @@ public class Diff {
     }
 
     /**
-     * Creates a new {@code Delete} modification with the length encoded in the
+     * Creates a new {@link Delete} modification with the length encoded in the
      * specified bytes.
      *
      * @param src The bytes from which to decode the length.
@@ -324,7 +329,7 @@ public class Diff {
     private final String text;
 
     /**
-     * Creates a new {@code Replace} modification with the specified text.
+     * Creates a new {@link Replace} modification with the specified text.
      *
      * @param text The text representing the insert modification.
      */
@@ -334,7 +339,7 @@ public class Diff {
     }
 
     /**
-     * Creates a new {@code Replace} modification with the length encoded in the
+     * Creates a new {@link Replace} modification with the length encoded in the
      * specified bytes.
      *
      * @param src The bytes from which to decode the length.
@@ -377,7 +382,7 @@ public class Diff {
 
   protected class Equal extends Mod {
     /**
-     * Creates a new {@code Equal} modification with the specified length.
+     * Creates a new {@link Equal} modification with the specified length.
      *
      * @param length The length representing the equal modification.
      */
@@ -386,7 +391,7 @@ public class Diff {
     }
 
     /**
-     * Creates a new {@code Equal} modification with the length encoded in the
+     * Creates a new {@link Equal} modification with the length encoded in the
      * specified bytes.
      *
      * @param src The bytes from which to decode the length.
@@ -417,7 +422,7 @@ public class Diff {
   private final byte lengthSize;
 
   /**
-   * Creates a {@code Diff} that represents the steps necessary to transform a
+   * Creates a {@link Diff} that represents the steps necessary to transform a
    * {@code target} string to the {@code source} string.
    *
    * @param source The source string.
@@ -484,7 +489,7 @@ public class Diff {
   }
 
   /**
-   * Creates a {@code Diff} from a list of {@link Diff.Mod} objects,
+   * Creates a {@link Diff} from a list of {@link Diff.Mod} objects,
    * and a {@code lengthSize} (the number of bits in the length number in
    * each {@link Diff.Mod} object).
    *
@@ -511,7 +516,7 @@ public class Diff {
 
   /**
    * Patches a string with the list of {@link Diff.Mod} objects in this
-   * {@code Diff}.
+   * {@link Diff}.
    *
    * @param string The string.
    * @return The resulting string from applying the diff onto the argument
@@ -527,9 +532,9 @@ public class Diff {
   }
 
   /**
-   * Encodes this {@code Diff} object into a byte array representation.
+   * Encodes this {@link Diff} object into a byte array representation.
    *
-   * @return This {@code Diff} object encoded to a byte array.
+   * @return This {@link Diff} object encoded to a byte array.
    */
   public byte[] toBytes() {
     int bits = lengthSizeSize;
@@ -545,9 +550,9 @@ public class Diff {
   }
 
   /**
-   * Returns the list of {@link Diff.Mod} objects in this {@code Diff}.
+   * Returns the list of {@link Diff.Mod} objects in this {@link Diff}.
    *
-   * @return The list of {@link Diff.Mod} objects in this {@code Diff}.
+   * @return The list of {@link Diff.Mod} objects in this {@link Diff}.
    */
   public List<Mod> getMods() {
     return this.mods;

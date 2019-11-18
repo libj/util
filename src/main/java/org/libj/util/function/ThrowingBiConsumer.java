@@ -20,11 +20,11 @@ import java.util.function.BiConsumer;
 
 /**
  * Represents an operation that accepts two input arguments and returns no
- * result. Unlike most other functional interfaces, {@code Consumer} is expected
- * to operate via side-effects.
+ * result. Unlike most other functional interfaces, {@link BiConsumer} is
+ * expected to operate via side-effects.
  * <p>
- * The {@code ThrowingBiConsumer} distinguishes itself from {@link BiConsumer} by
- * allowing the functional interface to throw an {@code Exception}. This can be
+ * The {@link ThrowingBiConsumer} distinguishes itself from {@link BiConsumer} by
+ * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  * <blockquote><pre>

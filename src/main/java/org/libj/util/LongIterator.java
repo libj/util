@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.LongConsumer;
 
 /**
@@ -76,26 +77,24 @@ public interface LongIterator {
    * <p>
    * The behavior of an iterator is unspecified if the action modifies the
    * collection in any way (even by calling the {@link #remove()} method or
-   * other mutator methods of {@code Iterator} subtypes), unless an overriding
-   * class has specified a concurrent modification policy.
+   * other mutator methods of {@link java.util.Iterator} subtypes), unless an
+   * overriding class has specified a concurrent modification policy.
    * <p>
    * Subsequent behavior of an iterator is unspecified if the action throws an
    * exception.
    * <p>
    * The default implementation behaves as if:
    *
-   * <pre><code>
+   * <pre>
    *   while (hasNext())
    *     action.accept(next());
-   * </code></pre>
+   * </pre>
    *
    * @param action The action to be performed for each value.
    * @throws NullPointerException If the specified action is null.
    */
   default void forEachRemaining(final LongConsumer action) {
-    if (action == null)
-      throw new NullPointerException();
-
+    Objects.requireNonNull(action);
     while (hasNext())
       action.accept(next());
   }

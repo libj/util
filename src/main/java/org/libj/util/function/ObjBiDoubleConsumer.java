@@ -21,7 +21,7 @@ package org.libj.util.function;
  * {@code double}-valued arguments, and returns no result. This is the
  * {@code (reference, double, double)} specialization of
  * {@link BiDoubleConsumer}. Unlike most other functional interfaces,
- * {@code ObjBiDoubleConsumer} is expected to operate via side-effects.
+ * {@link ObjBiDoubleConsumer} is expected to operate via side-effects.
  *
  * @param <T> The type of the object argument to the operation.
  * @see BiDoubleConsumer

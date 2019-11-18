@@ -152,14 +152,14 @@ public final class Strings {
   }
 
   /**
-   * Interpolates all the <i>value</i> strings in the specified {@code Map} by
+   * Interpolates all the <i>value</i> strings in the specified {@link Map} by
    * matching {@code prefix + value + suffix}, where <i>value</i> is a
-   * <i>key</i> in the {@code Map}, and replacing it with the value from the
-   * {@code Map}.
+   * <i>key</i> in the {@link Map}, and replacing it with the value from the
+   * {@link Map}.
    * <p>
    * This performance of this algorithm is {@code O(n^2)} by nature. If the
-   * specified {@code Map} has {@code key=value} entries that result in a loop,
-   * this method will throw a {@code IllegalArgumentException}.
+   * specified {@link Map} has {@code key=value} entries that result in a loop,
+   * this method will throw a {@link IllegalArgumentException}.
    * <p>
    * <blockquote>
    * <i><b>Example:</b></i>
@@ -209,7 +209,7 @@ public final class Strings {
   /**
    * Interpolates the specified string by matching {@code prefix + key + suffix}
    * substring and replacing it with the <i>value</i> of the {@code key=value}
-   * mapping in the properties {@code Map}.
+   * mapping in the properties {@link Map}.
    * <p>
    * <blockquote>
    * <i><b>Example:</b></i>
@@ -241,7 +241,7 @@ public final class Strings {
   }
 
   /**
-   * Replaces each substring in the specified {@code StringBuilder} that matches
+   * Replaces each substring in the specified {@link StringBuilder} that matches
    * the literal target sequence with the specified literal replacement
    * sequence. The replacement proceeds from the beginning of the string to the
    * end, for example, replacing "aa" with "b" in the string "aaa" will result
@@ -412,7 +412,7 @@ public final class Strings {
    *         the index range converted to lowercase.
    * @exception IllegalArgumentException If the {@code beginIndex} is negative,
    *              or {@code endIndex} is larger than the length of the
-   *              {@code StringBuilder}, or {@code beginIndex} is larger than
+   *              {@link StringBuilder}, or {@code beginIndex} is larger than
    *              {@code endIndex}.
    * @throws NullPointerException If {@code builder} is null.
    * @see Character#toLowerCase(char)
@@ -431,7 +431,7 @@ public final class Strings {
    * @return The specified {@link StringBuilder}, with all the characters
    *         following the provided begin index converted to lowercase.
    * @exception IllegalArgumentException If the {@code beginIndex} is negative
-   *              or larger than the length of the {@code StringBuilder}.
+   *              or larger than the length of the {@link StringBuilder}.
    * @throws NullPointerException If {@code builder} is null.
    * @see Character#toLowerCase(char)
    */
@@ -451,7 +451,7 @@ public final class Strings {
    *         the index range converted to uppercase.
    * @exception IllegalArgumentException If the {@code beginIndex} is negative,
    *              or {@code endIndex} is larger than the length of the
-   *              {@code StringBuilder}, or {@code beginIndex} is larger than
+   *              {@link StringBuilder}, or {@code beginIndex} is larger than
    *              {@code endIndex}.
    * @throws NullPointerException If {@code builder} is null.
    * @see Character#toLowerCase(char)
@@ -470,7 +470,7 @@ public final class Strings {
    * @return The specified {@link StringBuilder}, with all the characters
    *         following the provided begin index converted to uppercase.
    * @exception IllegalArgumentException If the {@code beginIndex} is negative
-   *              or larger than the length of the {@code StringBuilder}.
+   *              or larger than the length of the {@link StringBuilder}.
    * @throws NullPointerException If {@code builder} is null.
    * @see Character#toLowerCase(char)
    */
@@ -484,7 +484,7 @@ public final class Strings {
    * are filled with spaces ({@code ' '}). If {@code length == string.length()},
    * the provided string instance is returned. If
    * {@code length < string.length()}, this method throws
-   * {@code IllegalArgumentException}.
+   * {@link IllegalArgumentException}.
    * <p>
    * This method is equivalent to calling {@code padLeft(string, length, ' ')}.
    *
@@ -506,7 +506,7 @@ public final class Strings {
    * are filled with the specified {@code pad} char. If
    * {@code length == string.length()}, the provided string instance is
    * returned. If {@code length < string.length()}, this method throws
-   * {@code IllegalArgumentException}.
+   * {@link IllegalArgumentException}.
    *
    * @param string The string to pad.
    * @param length The length of the returned, padded string.
@@ -526,7 +526,7 @@ public final class Strings {
    * provided string. If {@code length > string.length()}, ending characters are
    * filled with spaces ({@code ' '}). If {@code length == string.length()}, the
    * provided string instance is returned. If {@code length < string.length()},
-   * this method throws {@code IllegalArgumentException}.
+   * this method throws {@link IllegalArgumentException}.
    * <p>
    * This method is equivalent to calling {@code padRight(string, length, ' ')}.
    *
@@ -548,7 +548,7 @@ public final class Strings {
    * filled with the specified {@code pad} char. If
    * {@code length == string.length()}, the provided string instance is
    * returned. If {@code length < string.length()}, this method throws
-   * {@code IllegalArgumentException}.
+   * {@link IllegalArgumentException}.
    *
    * @param string The string to pad.
    * @param length The length of the returned, padded string.
@@ -627,11 +627,11 @@ public final class Strings {
 
   /**
    * Returns the string of UTF-8 literal hexadecimal encodings of characters of
-   * the specified {@code CharSequence}.
+   * the specified {@link CharSequence}.
    *
-   * @param string The {@code CharSequence} to encode.
+   * @param string The {@link CharSequence} to encode.
    * @return The string of UTF-8 literal hexadecimal encodings of characters of
-   *         the specified {@code CharSequence}.
+   *         the specified {@link CharSequence}.
    */
   public static String toUTF8Literal(final CharSequence string) {
     final int len = string.length();
@@ -661,11 +661,11 @@ public final class Strings {
 
   /**
    * Returns the prefix string that is shared amongst all members for the
-   * specified {@code String} array.
+   * specified {@link String} array.
    *
-   * @param strings The {@code String} array in which to find a common prefix.
+   * @param strings The {@link String} array in which to find a common prefix.
    * @return The prefix string that is shared amongst all members for the
-   *         specified {@code String} array.
+   *         specified {@link String} array.
    */
   public static String getCommonPrefix(final String ... strings) {
     if (strings == null || strings.length == 0)
@@ -684,12 +684,12 @@ public final class Strings {
 
   /**
    * Returns the prefix string that is shared amongst all members for the
-   * specified {@code Collection}.
+   * specified {@link Collection}.
    *
-   * @param strings The {@code Collection} of strings in which to find a common
+   * @param strings The {@link Collection} of strings in which to find a common
    *          prefix.
    * @return The prefix string that is shared amongst all members for the
-   *         specified {@code Collection}.
+   *         specified {@link Collection}.
    */
   public static String getCommonPrefix(final Collection<String> strings) {
     if (strings == null || strings.size() == 0)
@@ -718,11 +718,11 @@ public final class Strings {
 
   /**
    * Returns a representation of the specified string that is able to be
-   * contained in a {@code String} literal in Java.
+   * contained in a {@link String} literal in Java.
    *
    * @param string The string to transform.
    * @return A representation of the specified string that is able to be
-   *         contained in a {@code String} literal in Java.
+   *         contained in a {@link String} literal in Java.
    */
   public static String escapeForJava(final String string) {
     return string == null ? null : string.replace("\\", "\\\\").replace("\"", "\\\"");
@@ -811,7 +811,7 @@ public final class Strings {
   }
 
   /**
-   * Encodes the specified {@code String} into a sequence of bytes using the
+   * Encodes the specified {@link String} into a sequence of bytes using the
    * named charset, storing the result into a new byte array.
    * <p>
    * This method differentiates itself from {@link String#getBytes(String)} by
@@ -988,7 +988,7 @@ public final class Strings {
    * Special conditions:
    * <ul>
    * <li>If {@code maxLength < 3}, this method throws an
-   * {@code IllegalArgumentException}.</li>
+   * {@link IllegalArgumentException}.</li>
    * <li>If {@code maxLength == 3}, this method returns {@code "..."}.</li>
    * <li>If {@code maxLength >= string.length()}, this method returns
    * {@code string}.</li>
@@ -1299,7 +1299,7 @@ public final class Strings {
   /**
    * Tests if the specified string is fully comprised of whitespace characters.
    *
-   * @param string The {@code String} to test.
+   * @param string The {@link String} to test.
    * @return {@code true} if the specified string is fully comprised of
    *         whitespace characters. This method returns {@code true} for empty
    *         strings and {@code false} for null.
@@ -1321,7 +1321,7 @@ public final class Strings {
    * match more than 1 string (i.e. "abc" is technically a regular expression,
    * however it can only match a single string: "abc")</i>.
    *
-   * @param string The {@code String} to test.
+   * @param string The {@link String} to test.
    * @return {@code true} if the specified string represents a regular
    *         expression that <i>can match more than 1 string</i>. This method
    *         returns {@code false} for a null input.
@@ -1368,16 +1368,16 @@ public final class Strings {
   }
 
   /**
-   * Determines whether all characters in the specified {@code CharSequence} are
+   * Determines whether all characters in the specified {@link CharSequence} are
    * in the general category type of {@link Character#LOWERCASE_LETTER}.
    *
-   * @param builder The {@code CharSequence}.
+   * @param builder The {@link CharSequence}.
    * @return {@code true} if all characters in the specified
-   *         {@code CharSequence} are lower-case characters; otherwise
+   *         {@link CharSequence} are lower-case characters; otherwise
    *         {@code false}.
-   * @throws IllegalArgumentException If the specified {@code CharSequence} is
+   * @throws IllegalArgumentException If the specified {@link CharSequence} is
    *           empty.
-   * @throws NullPointerException If the specified {@code CharSequence} is null.
+   * @throws NullPointerException If the specified {@link CharSequence} is null.
    */
   public static boolean isLowerCase(final CharSequence builder) {
     if (builder.length() == 0)
@@ -1391,16 +1391,16 @@ public final class Strings {
   }
 
   /**
-   * Determines whether all characters in the specified {@code CharSequence} are
+   * Determines whether all characters in the specified {@link CharSequence} are
    * in the general category type of {@link Character#UPPERCASE_LETTER}.
    *
-   * @param builder The {@code CharSequence}.
+   * @param builder The {@link CharSequence}.
    * @return {@code true} if all characters in the specified
-   *         {@code CharSequence} are upper-case characters; otherwise
+   *         {@link CharSequence} are upper-case characters; otherwise
    *         {@code false}.
-   * @throws IllegalArgumentException If the specified {@code CharSequence} is
+   * @throws IllegalArgumentException If the specified {@link CharSequence} is
    *           empty.
-   * @throws NullPointerException If the specified {@code CharSequence} is null.
+   * @throws NullPointerException If the specified {@link CharSequence} is null.
    */
   public static boolean isUpperCase(final CharSequence builder) {
     if (builder.length() == 0)

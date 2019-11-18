@@ -36,7 +36,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   private static final long serialVersionUID = 4998484758818755246L;
 
   /**
-   * Constructs an empty {@code TreeBiMap} ordered according to the given
+   * Constructs an empty {@link TreeBiMap} ordered according to the given
    * comparator.
    *
    * @param keyComparator The comparator that will be used to order the forward
@@ -51,8 +51,8 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   /**
-   * Constructs a new {@code TreeBiMap} with the same mappings as the specified
-   * {@code Map}.
+   * Constructs a new {@link TreeBiMap} with the same mappings as the specified
+   * {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
    * @throws NullPointerException If the specified map is null.
@@ -63,8 +63,8 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   /**
-   * Constructs a new {@code TreeBiMap} with the same mappings as the specified
-   * {@code SortedMap}.
+   * Constructs a new {@link TreeBiMap} with the same mappings as the specified
+   * {@link SortedMap}.
    *
    * @param m The map whose mappings are to be placed in this map.
    * @param valueComparator The comparator that will be used to order the
@@ -79,7 +79,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   /**
-   * Constructs an empty {@code TreeBiMap}.
+   * Constructs an empty {@link TreeBiMap}.
    */
   public TreeBiMap() {
     super(new TreeMap<K,V>(), new TreeMap<V,K>());

@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * Utility functions for operations pertaining to {@code Throwable}.
+ * Utility functions for operations pertaining to {@link Throwable}.
  */
 public final class Throwables {
   /**
@@ -40,12 +40,12 @@ public final class Throwables {
 
   /**
    * Copies the cause, stack trace elements, and suppressed exceptions from the
-   * first specified {@code Throwable}, to the second.
+   * first specified {@link Throwable}, to the second.
    *
-   * @param <T> The type parameter of the {@code Throwable}.
-   * @param from The {@code Throwable} to copy from.
-   * @param to The {@code Throwable} to copy to.
-   * @return The {@code Throwable} being copied to.
+   * @param <T> The type parameter of the {@link Throwable}.
+   * @param from The {@link Throwable} to copy from.
+   * @param to The {@link Throwable} to copy to.
+   * @return The {@link Throwable} being copied to.
    * @throws NullPointerException If {@code from} or {@code to} are null.
    */
   public static <T extends Throwable>T copy(final T from, final T to) {

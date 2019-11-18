@@ -24,10 +24,10 @@ import java.util.Comparator;
  * Utility functions for operations pertaining to {@link Number}.
  */
 public final class Numbers {
-  /** {@code BigInteger} representation of {@code Long.MIN_VALUE}. */
+  /** {@link BigInteger} representation of {@link Long#MIN_VALUE}. */
   public static final BigInteger LONG_MIN_VALUE = BigInteger.valueOf(Long.MIN_VALUE);
 
-  /** {@code BigInteger} representation of {@code Long.MAX_VALUE}. */
+  /** {@link BigInteger} representation of {@link Long#MAX_VALUE}. */
   public static final BigInteger LONG_MAX_VALUE = BigInteger.valueOf(Long.MAX_VALUE);
 
   /**
@@ -75,11 +75,11 @@ public final class Numbers {
 
     /**
      * Returns the value of the specified unsigned {@code long} as a signed
-     * {@code BigInteger}.
+     * {@link BigInteger}.
      *
      * @param unsigned The unsigned {@code long}.
      * @return The value of the specified unsigned {@code long} as a signed
-     *         {@code BigInteger}.
+     *         {@link BigInteger}.
      */
     public static BigInteger toSigned(final long unsigned) {
       return BigInteger.valueOf(unsigned).subtract(LONG_MIN_VALUE);
@@ -87,11 +87,11 @@ public final class Numbers {
 
     /**
      * Returns the value of the specified {@code byte} array representing an
-     * unsigned value as a signed {@code BigInteger}.
+     * unsigned value as a signed {@link BigInteger}.
      *
      * @param unsigned The {@code byte} array representing an unsigned value.
      * @return The value of the specified {@code byte} array representing an
-     *         unsigned value as a signed {@code BigInteger}.
+     *         unsigned value as a signed {@link BigInteger}.
      */
     public static BigInteger toSigned(final byte[] unsigned) {
       return new BigInteger(1, unsigned);
@@ -410,8 +410,8 @@ public final class Numbers {
    * <p>
    * Null values are considered as less than non-null values.
    *
-   * @param a The first {@code Number} to be compared.
-   * @param b The second {@code Number} to be compared.
+   * @param a The first {@link Number} to be compared.
+   * @param b The second {@link Number} to be compared.
    * @return A negative integer, zero, or a positive integer as the first
    *         argument is less than, equal to, or greater than the second.
    */
@@ -461,27 +461,27 @@ public final class Numbers {
   public static final double LOG_10 = 2.302585092994046;
 
   /**
-   * Returns a {@code Number} of type {@code <T>} representing type specified
-   * number of generic {@code Number} type.
+   * Returns a {@link Number} of type {@code <T>} representing type specified
+   * number of generic {@link Number} type.
    *
-   * @param <T> The type of {@code Number} to be returned.
+   * @param <T> The type of {@link Number} to be returned.
    * @param number The number to get the value of.
-   * @param as The class representing the type of {@code Number} to be
+   * @param as The class representing the type of {@link Number} to be
    *          returned.
-   * @return A {@code Number} of type {@code <T>} representing type specified
-   *         number of generic {@code Number} type.
-   * @throws UnsupportedOperationException If the specified {@code Class}
+   * @return A {@link Number} of type {@code <T>} representing type specified
+   *         number of generic {@link Number} type.
+   * @throws UnsupportedOperationException If the specified {@link Class}
    *           represents a type that is not one of:
    *           <p>
-   *           <blockquote>{@code byte}, {@code Byte},<br>
-   *           {@code short}, {@code Short},<br>
-   *           {@code char}, {@code Character},<br>
-   *           {@code int}, {@code Integer},<br>
-   *           {@code long}, {@code Long},<br>
-   *           {@code double}, {@code Double},<br>
-   *           {@code float}, {@code Float},<br>
-   *           {@code short}, {@code Short},<br>
-   *           {@code BigInteger}, {@code BigDecimal}</blockquote>
+   *           <blockquote>{@code byte}, {@link Byte},<br>
+   *           {@code short}, {@link Short},<br>
+   *           {@code char}, {@link Character},<br>
+   *           {@code int}, {@link Integer},<br>
+   *           {@code long}, {@link Long},<br>
+   *           {@code double}, {@link Double},<br>
+   *           {@code float}, {@link Float},<br>
+   *           {@code short}, {@link Short},<br>
+   *           {@link BigInteger}, {@link BigDecimal}</blockquote>
    */
   @SuppressWarnings("unchecked")
   public static <T extends Number>T valueOf(final Number number, final Class<T> as) {
@@ -596,7 +596,7 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as a boolean. The {@code Boolean} returned is
+   * Parses the string argument as a boolean. The {@link Boolean} returned is
    * null if the string argument is null, and the value {@code true} if the
    * string argument is equal, ignoring case, to the string {@code "true"}.
    * <ul>
@@ -604,9 +604,9 @@ public final class Numbers {
    * <li>{@code Boolean.parseBoolean("yes")} returns {@code false}.</li>
    * </ul>
    *
-   * @param s The {@code String} containing the boolean representation to be
+   * @param s The {@link String} containing the boolean representation to be
    *          parsed.
-   * @return The {@code Boolean} represented by the string argument.
+   * @return The {@link Boolean} represented by the string argument.
    * @see Boolean#parseBoolean(String)
    */
   public static Boolean parseBoolean(final String s) {
@@ -618,7 +618,7 @@ public final class Numbers {
    * {@link Short#parseShort(String)}, but returns null if the string does not
    * contain a parsable {@code short}.
    *
-   * @param s A {@code String} containing the {@code Short} representation to be
+   * @param s A {@link String} containing the {@link Short} representation to be
    *          parsed.
    * @return The integer value represented by the argument, or null if the
    *         string does not contain a parsable {@code short}.
@@ -633,7 +633,7 @@ public final class Numbers {
    * {@link Short#parseShort(String,int)}, but returns null if the string does not
    * contain a parsable {@code short}.
    *
-   * @param s A {@code String} containing the {@code Short} representation to be
+   * @param s A {@link String} containing the {@link Short} representation to be
    *          parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The integer value represented by the argument, or null if the
@@ -653,7 +653,7 @@ public final class Numbers {
    * {@link Integer#parseInt(String)}, but returns null if the string does not
    * contain a parsable {@code int}.
    *
-   * @param s A {@code String} containing the {@code Integer} representation to
+   * @param s A {@link String} containing the {@link Integer} representation to
    *          be parsed.
    * @return The {@code int} value represented by the argument, or null if the
    *         string does not contain a parsable {@code int}.
@@ -668,7 +668,7 @@ public final class Numbers {
    * {@link Integer#parseInt(String,int)}, but returns null if the string does
    * not contain a parsable {@code int}.
    *
-   * @param s A {@code String} containing the {@code Integer} representation to
+   * @param s A {@link String} containing the {@link Integer} representation to
    *          be parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The {@code int} value represented by the argument, or null if the
@@ -727,7 +727,7 @@ public final class Numbers {
    * {@link Long#parseLong(String)}, but returns null if the string does not
    * contain a parsable {@code long}.
    *
-   * @param s A {@code String} containing the {@code Long} representation to be
+   * @param s A {@link String} containing the {@link Long} representation to be
    *          parsed.
    * @return The {@code long} value represented by the argument, or null if the
    *         string does not contain a parsable {@code long}.
@@ -742,7 +742,7 @@ public final class Numbers {
    * {@link Long#parseLong(String,int)}, but returns null if the string does not
    * contain a parsable {@code long}.
    *
-   * @param s A {@code String} containing the {@code Long} representation to be
+   * @param s A {@link String} containing the {@link Long} representation to be
    *          parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The {@code long} value represented by the argument, or null if the
@@ -801,7 +801,7 @@ public final class Numbers {
    * {@link Float#parseFloat(String)}, but returns null if the string does not
    * contain a parsable {@code float}.
    *
-   * @param s A {@code String} containing the {@code Float} representation to be
+   * @param s A {@link String} containing the {@link Float} representation to be
    *          parsed.
    * @return The {@code float} value represented by the argument, or null if the
    *         string does not contain a parsable {@code float}.
@@ -823,7 +823,7 @@ public final class Numbers {
    * {@link Double#parseDouble(String)}, but returns null if the string does not
    * contain a parsable {@code double}.
    *
-   * @param s A {@code String} containing the {@code Double} representation to
+   * @param s A {@link String} containing the {@link Double} representation to
    *          be parsed.
    * @return The {@code double} value represented by the argument, or null if
    *         the string does not contain a parsable {@code double}.
@@ -842,11 +842,11 @@ public final class Numbers {
 
   /**
    * Returns an {@code int} array representation of the values in the specified
-   * {@code String} array.
+   * {@link String} array.
    *
-   * @param s The {@code String} array.
+   * @param s The {@link String} array.
    * @return An {@code int} array representation of the values in the specified
-   *         {@code String} array.
+   *         {@link String} array.
    * @throws NumberFormatException If a string in the specified array does not
    *           contain a parsable integer.
    */
@@ -860,11 +860,11 @@ public final class Numbers {
 
   /**
    * Returns a {@code double} array representation of the values in the
-   * specified {@code String} array.
+   * specified {@link String} array.
    *
-   * @param s The {@code String} array.
+   * @param s The {@link String} array.
    * @return An {@code int} array representation of the values in the specified
-   *         {@code String} array.
+   *         {@link String} array.
    * @throws NumberFormatException If a string in the specified array does not
    *           contain a parsable double.
    */
@@ -1007,7 +1007,7 @@ public final class Numbers {
 
   /**
    * Returns the multiple of the specified values, throwing an
-   * {@code ArithmeticException} if the resulting value cannot be represented as
+   * {@link ArithmeticException} if the resulting value cannot be represented as
    * a {@code long} due to overflow.
    *
    * @param a The first value.
@@ -1044,7 +1044,7 @@ public final class Numbers {
    * This method accepts a string that represents a number. The behavior of this
    * method is undefined for non-number string.
    *
-   * @param number The {@code String} representing a number.
+   * @param number The {@link String} representing a number.
    * @return The string with trailing zeroes stripped if the string represents a
    *         decimal number; otherwise the original string is returned.
    */
@@ -1073,13 +1073,13 @@ public final class Numbers {
   }
 
   /**
-   * Determines if the difference of the specified {@code Number} values is less
+   * Determines if the difference of the specified {@link Number} values is less
    * than the provided epsilon.
    *
-   * @param a The first {@code Number}.
-   * @param b The second {@code Number}.
+   * @param a The first {@link Number}.
+   * @param b The second {@link Number}.
    * @param epsilon The epsilon.
-   * @return {@code true} if the difference of the specified {@code Number}
+   * @return {@code true} if the difference of the specified {@link Number}
    *         values is less than the provided epsilon.
    */
   public static boolean equivalent(final Number a, final Number b, final double epsilon) {
@@ -1319,12 +1319,12 @@ public final class Numbers {
 
   /**
    * Returns the number of decimal places represented in the specified
-   * {@code BigInteger}.
+   * {@link BigInteger}.
    *
-   * @param n The {@code BigInteger} from which to determine the number
+   * @param n The {@link BigInteger} from which to determine the number
    *          of decimal places.
    * @return The number of decimal places represented in the specified
-   *         {@code BigInteger}.
+   *         {@link BigInteger}.
    * @throws NullPointerException If {@code n} is null.
    */
   public static int numberOfDecimalPlaces(final BigDecimal n) {
@@ -1332,12 +1332,12 @@ public final class Numbers {
   }
 
   /**
-   * Returns the {@code BigDecimal} representation of the specified
-   * {@code Number}.
+   * Returns the {@link BigDecimal} representation of the specified
+   * {@link Number}.
    *
-   * @param n The {@code Number} to convert to a {@code BigDecimal}.
-   * @return The {@code BigDecimal} representation of the specified
-   *         {@code Number}.
+   * @param n The {@link Number} to convert to a {@link BigDecimal}.
+   * @return The {@link BigDecimal} representation of the specified
+   *         {@link Number}.
    * @throws NullPointerException If {@code n} is null.
    */
   public static BigDecimal toBigDecimal(final Number n) {

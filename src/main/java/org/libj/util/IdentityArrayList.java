@@ -147,12 +147,12 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   /**
    * A {@link DelegateList} providing the same behavior of
-   * {@code IdentityArrayList} to the class returned by
+   * {@link IdentityArrayList} to the class returned by
    * {@link ArrayList#subList(int,int)}.
    */
   protected class IdentitySubList extends DelegateList<E> implements RandomAccess {
     /**
-     * Creates a new {@code IdentitySubList} with the specified subList target.
+     * Creates a new {@link IdentitySubList} with the specified subList target.
      *
      * @param target The subList to which the method calls of this instance will
      *          be delegated.

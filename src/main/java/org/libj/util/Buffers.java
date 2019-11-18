@@ -30,7 +30,7 @@ public final class Buffers {
    * The {@code resize} argument behaves by the following rules:
    * <ul>
    * <li>If {@code resize == 0}, do not resize the array. An
-   * {@code ArrayIndexOutOfBoundsException} will be thrown.</li>
+   * {@link ArrayIndexOutOfBoundsException} will be thrown.</li>
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the byte that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
@@ -72,7 +72,7 @@ public final class Buffers {
    * The {@code resize} argument behaves by the following rules:
    * <ul>
    * <li>If {@code resize == 0}, do not resize the array. An
-   * {@code ArrayIndexOutOfBoundsException} will be thrown.</li>
+   * {@link ArrayIndexOutOfBoundsException} will be thrown.</li>
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the char that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
@@ -114,7 +114,7 @@ public final class Buffers {
    * The {@code resize} argument behaves by the following rules:
    * <ul>
    * <li>If {@code resize == 0}, do not resize the array. An
-   * {@code ArrayIndexOutOfBoundsException} will be thrown.</li>
+   * {@link ArrayIndexOutOfBoundsException} will be thrown.</li>
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the short that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
@@ -156,7 +156,7 @@ public final class Buffers {
    * The {@code resize} argument behaves by the following rules:
    * <ul>
    * <li>If {@code resize == 0}, do not resize the array. An
-   * {@code ArrayIndexOutOfBoundsException} will be thrown.</li>
+   * {@link ArrayIndexOutOfBoundsException} will be thrown.</li>
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the int that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
@@ -198,7 +198,7 @@ public final class Buffers {
    * The {@code resize} argument behaves by the following rules:
    * <ul>
    * <li>If {@code resize == 0}, do not resize the array. An
-   * {@code ArrayIndexOutOfBoundsException} will be thrown.</li>
+   * {@link ArrayIndexOutOfBoundsException} will be thrown.</li>
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the long that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:

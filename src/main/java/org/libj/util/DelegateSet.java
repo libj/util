@@ -27,11 +27,11 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A {@code DelegateSet} contains some other {@link Set}, to which it delegates
+ * A {@link DelegateSet} contains some other {@link Set}, to which it delegates
  * its method calls, possibly transforming the data along the way or providing
- * additional functionality. The class {@code DelegateSet} itself simply
+ * additional functionality. The class {@link DelegateSet} itself simply
  * overrides all methods of {@link AbstractSet} with versions that pass all
- * requests to the target {@link Set}. Subclasses of {@code DelegateSet} may
+ * requests to the target {@link Set}. Subclasses of {@link DelegateSet} may
  * further override some of these methods and may also provide additional
  * methods and fields.
  *
@@ -45,7 +45,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   protected volatile Set target;
 
   /**
-   * Creates a new {@code FilterSet} with the specified {@code target}.
+   * Creates a new {@link DelegateSet} with the specified {@code target}.
    *
    * @param target The target {@link Set} object.
    * @throws NullPointerException If {@code target} is null.
@@ -55,7 +55,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   }
 
   /**
-   * Creates a new {@code FilterSet} with a null target.
+   * Creates a new {@link DelegateSet} with a null target.
    */
   protected DelegateSet() {
   }

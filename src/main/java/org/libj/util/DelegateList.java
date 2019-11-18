@@ -24,11 +24,11 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * A {@code DelegateList} contains some other {@link List}, to which it
+ * A {@link DelegateList} contains some other {@link List}, to which it
  * delegates its method calls, possibly transforming the data along the way or
- * providing additional functionality. The class {@code DelegateList} itself
+ * providing additional functionality. The class {@link DelegateList} itself
  * simply overrides all methods of {@link AbstractList} with versions that pass
- * all requests to the target {@link List}. Subclasses of {@code DelegateList}
+ * all requests to the target {@link List}. Subclasses of {@link DelegateList}
  * may further override some of these methods and may also provide additional
  * methods and fields.
  *
@@ -42,7 +42,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   protected volatile List target;
 
   /**
-   * Creates a new {@code DelegateList} with the specified {@code target}.
+   * Creates a new {@link DelegateList} with the specified {@code target}.
    *
    * @param target The target {@link List} object.
    * @throws NullPointerException If {@code target} is null.
@@ -52,7 +52,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   }
 
   /**
-   * Creates a new {@code DelegateList} with a null target.
+   * Creates a new {@link DelegateList} with a null target.
    */
   protected DelegateList() {
   }
@@ -174,9 +174,9 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The class {@code DelegateList} does not itself implement
+   * The class {@link DelegateList} does not itself implement
    * {@code #subList(int,int)}, so calling this method on an instance of a
-   * subclass of {@code DelegateList} that does not override this method will
+   * subclass of {@link DelegateList} that does not override this method will
    * result in a {@link UnsupportedOperationException}.
    */
   @Override

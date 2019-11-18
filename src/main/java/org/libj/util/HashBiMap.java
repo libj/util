@@ -32,7 +32,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   private static final long serialVersionUID = 2588014751081881163L;
 
   /**
-   * Constructs an empty {@code HashBiMap} with the specified initial capacity
+   * Constructs an empty {@link HashBiMap} with the specified initial capacity
    * and load factor.
    *
    * @param initialCapacity The initial capacity.
@@ -45,7 +45,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   }
 
   /**
-   * Constructs an empty {@code HashBiMap} with the specified initial capacity
+   * Constructs an empty {@link HashBiMap} with the specified initial capacity
    * and the default load factor (0.75).
    *
    * @param initialCapacity The initial capacity.
@@ -56,10 +56,10 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   }
 
   /**
-   * Constructs a new {@code HashBiMap} with the same mappings as the specified
-   * {@code Map}. The {@code HashBiMap} is created with default load factor
+   * Constructs a new {@link HashBiMap} with the same mappings as the specified
+   * {@link Map}. The {@link HashBiMap} is created with default load factor
    * (0.75) and an initial capacity sufficient to hold the mappings in the
-   * specified {@code Map}.
+   * specified {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
    * @throws NullPointerException If the specified map is null.
@@ -70,7 +70,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   }
 
   /**
-   * Constructs an empty {@code HashBiMap} with the default initial capacity
+   * Constructs an empty {@link HashBiMap} with the default initial capacity
    * (16) and the default load factor (0.75).
    */
   public HashBiMap() {

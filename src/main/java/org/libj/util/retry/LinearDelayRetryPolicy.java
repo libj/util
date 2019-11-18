@@ -27,11 +27,11 @@ public class LinearDelayRetryPolicy extends RetryPolicy {
   private final boolean noDelayOnFirstRetry;
 
   /**
-   * Creates a new {@code LinearDelayRetryPolicy} with the specified maximum
+   * Creates a new {@link LinearDelayRetryPolicy} with the specified maximum
    * number of retries, and a constant delay for retry attempts.
    *
    * @param maxRetries A positive value representing the number of retry
-   *          attempts allowed by the {@code LinearDelayRetryPolicy}.
+   *          attempts allowed by the {@link LinearDelayRetryPolicy}.
    * @param delayMs A positive value representing the constant delay between
    *          retry attempts, in milliseconds.
    * @param noDelayOnFirstRetry {@code true} for the first retry to be attempted

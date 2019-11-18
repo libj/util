@@ -71,13 +71,13 @@ public final class Iterators {
   }
 
   /**
-   * Returns an {@code Iterator} that iterates over the elements of
+   * Returns an {@link Iterator} that iterates over the elements of
    * {@code iterator} satisfying the {@code filter} predicate.
    *
    * @param <E> The type of elements in {@code iterator}.
    * @param iterator The source {@link Iterator}.
    * @param filter The filter {@link Predicate}.
-   * @return An {@code Iterator} that iterates over the elements of
+   * @return An {@link Iterator} that iterates over the elements of
    *         {@code iterator} satisfying the {@code filter} predicate.
    * @throws NullPointerException If {@code iterator} or {@code filter} is null.
    */

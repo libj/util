@@ -19,7 +19,7 @@ package org.libj.util;
 import java.io.File;
 
 /**
- * Utility functions for operations pertaining to {@code ClassLoader}.
+ * Utility functions for operations pertaining to {@link ClassLoader}.
  */
 public final class ClassLoaders {
   private static File[] getClassPath(final String property) {
@@ -37,11 +37,11 @@ public final class ClassLoaders {
 
   /**
    * Returns a {@link File} array representing the paths in the classpath of the
-   * system {@code ClassLoader}. The classpath is determined from the
+   * system {@link ClassLoader}. The classpath is determined from the
    * {@code "java.class.path"} system property.
    *
    * @return A {@link File} array representing the paths in the classpath of the
-   *         system {@code ClassLoader}.
+   *         system {@link ClassLoader}.
    * @see ClassLoader#getSystemClassLoader()
    */
   public static File[] getClassPath() {
@@ -51,14 +51,14 @@ public final class ClassLoaders {
 
   /**
    * Returns a {@link File} array representing the paths in the classpath of the
-   * bootstrap {@code ClassLoader}. The classpath is determined from the
+   * bootstrap {@link ClassLoader}. The classpath is determined from the
    * {@code "sun.boot.class.path"} system property.
    * <p>
    * <i><b>Note</b>: The {@code "sun.boot.class.path"} property has been
    * removed in Java 9+.</i>
    *
    * @return A {@link File} array representing the paths in the classpath of the
-   *         bootstrap {@code ClassLoader}.
+   *         bootstrap {@link ClassLoader}.
    */
   public static File[] getBootstrapClassPath() {
     return getClassPath("sun.boot.class.path");

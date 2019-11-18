@@ -22,9 +22,9 @@ package org.libj.util;
  */
 public interface IntIterable {
   /**
-   * Returns an iterator over values of type {@code IntIterator}.
+   * Returns an iterator over values of type {@link IntIterator}.
    *
-   * @return An iterator over values of type {@code IntIterator}.
+   * @return An iterator over values of type {@link IntIterator}.
    */
   IntIterator iterator();
 }

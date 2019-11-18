@@ -26,11 +26,11 @@ import java.util.Locale;
  */
 public final class Locales {
   /**
-   * Returns {@code true} if the provided {@code Locale} specifies an ISO
+   * Returns {@code true} if the provided {@link Locale} specifies an ISO
    * country and ISO language, otherwise {@code false}.
    *
-   * @param locale The {@code Locale}.
-   * @return {@code true} if the provided {@code Locale} specifies an ISO
+   * @param locale The {@link Locale}.
+   * @return {@code true} if the provided {@link Locale} specifies an ISO
    *         country and ISO language, otherwise {@code false}.
    */
   public static boolean isIso(final Locale locale) {
@@ -44,11 +44,11 @@ public final class Locales {
   }
 
   /**
-   * Returns {@code true} if the provided {@code Locale} specifies an ISO
+   * Returns {@code true} if the provided {@link Locale} specifies an ISO
    * country, otherwise {@code false}.
    *
-   * @param locale The {@code Locale}.
-   * @return {@code true} if the provided {@code Locale} specifies an ISO
+   * @param locale The {@link Locale}.
+   * @return {@code true} if the provided {@link Locale} specifies an ISO
    *         country, otherwise {@code false}.
    */
   public static boolean isIsoCountry(final Locale locale) {
@@ -67,11 +67,11 @@ public final class Locales {
   }
 
   /**
-   * Returns {@code true} if the provided {@code Locale} specifies an ISO
+   * Returns {@code true} if the provided {@link Locale} specifies an ISO
    * language, otherwise {@code false}.
    *
-   * @param locale The {@code Locale}.
-   * @return {@code true} if the provided {@code Locale} specifies an ISO
+   * @param locale The {@link Locale}.
+   * @return {@code true} if the provided {@link Locale} specifies an ISO
    *         language, otherwise {@code false}.
    */
   public static boolean isIsoLanguage(final Locale locale) {

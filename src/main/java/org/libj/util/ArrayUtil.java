@@ -29,13 +29,13 @@ import java.util.function.UnaryOperator;
  */
 public final class ArrayUtil {
   /**
-   * Returns true if the two specified arrays of bytes, over the specified
+   * Returns true if the two specified arrays of bytes, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * specified ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the specified ranges, the same elements in
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
    * the same order.
    *
    * @param a The first array to be tested for equality.
@@ -48,7 +48,7 @@ public final class ArrayUtil {
    *          array to be tested.
    * @param bToIndex The index (exclusive) of the last element in the second
    *          array to be tested.
-   * @return {@code true} If the two arrays, over the specified ranges, are
+   * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
    * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
    *           {@code bFromIndex > bToIndex}.
@@ -74,13 +74,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of chars, over the specified
+   * Returns true if the two specified arrays of chars, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * specified ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the specified ranges, the same elements in
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
    * the same order.
    *
    * @param a The first array to be tested for equality.
@@ -93,7 +93,7 @@ public final class ArrayUtil {
    *          array to be tested.
    * @param bToIndex The index (exclusive) of the last element in the second
    *          array to be tested.
-   * @return {@code true} If the two arrays, over the specified ranges, are
+   * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
    * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
    *           {@code bFromIndex > bToIndex}.
@@ -119,13 +119,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of shorts, over the specified
+   * Returns true if the two specified arrays of shorts, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * specified ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the specified ranges, the same elements in
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
    * the same order.
    *
    * @param a The first array to be tested for equality.
@@ -138,7 +138,7 @@ public final class ArrayUtil {
    *          array to be tested.
    * @param bToIndex The index (exclusive) of the last element in the second
    *          array to be tested.
-   * @return {@code true} If the two arrays, over the specified ranges, are
+   * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
    * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
    *           {@code bFromIndex > bToIndex}.
@@ -164,13 +164,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of ints, over the specified
+   * Returns true if the two specified arrays of ints, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * specified ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the specified ranges, the same elements in
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
    * the same order.
    *
    * @param a The first array to be tested for equality.
@@ -183,7 +183,7 @@ public final class ArrayUtil {
    *          array to be tested.
    * @param bToIndex The index (exclusive) of the last element in the second
    *          array to be tested.
-   * @return {@code true} If the two arrays, over the specified ranges, are
+   * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
    * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
    *           {@code bFromIndex > bToIndex}.
@@ -209,13 +209,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of longs, over the specified
+   * Returns true if the two specified arrays of longs, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * specified ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the specified ranges, the same elements in
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
    * the same order.
    *
    * @param a The first array to be tested for equality.
@@ -228,7 +228,7 @@ public final class ArrayUtil {
    *          array to be tested.
    * @param bToIndex The index (exclusive) of the last element in the second
    *          array to be tested.
-   * @return {@code true} If the two arrays, over the specified ranges, are
+   * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
    * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
    *           {@code bFromIndex > bToIndex}.
@@ -254,13 +254,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of objects, over the specified
+   * Returns true if the two specified arrays of objects, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * specified ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the specified ranges, the same elements in
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
    * the same order.
    *
    * @param a The first array to be tested for equality.
@@ -273,7 +273,7 @@ public final class ArrayUtil {
    *          array to be tested.
    * @param bToIndex The index (exclusive) of the last element in the second
    *          array to be tested.
-   * @return {@code true} If the two arrays, over the specified ranges, are
+   * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
    * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
    *           {@code bFromIndex > bToIndex}.
@@ -308,12 +308,16 @@ public final class ArrayUtil {
    * member represents an array for further recursion.
    * <p>
    * Array members that reference an array are <i>not included</i> in the count.
-   * This is the equivalent of calling {@code lengthDeep(Object[],false)}.
+   * This is the equivalent of calling:
+   *
+   * <pre>
+   * {@code lengthDeep(Object[],false)}.
+   * </pre>
    *
    * @param a The array.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int lengthDeep(final Object[] a) {
     return lengthDeep(a, false);
@@ -332,7 +336,7 @@ public final class ArrayUtil {
    *          included in the count.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static <T>int lengthDeep(final T[] a, final boolean countArrayReferences) {
     return lengthDeep(a, null, countArrayReferences);
@@ -357,7 +361,7 @@ public final class ArrayUtil {
    *          included in the count.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>int lengthDeep(final T[] a, final Function<T,T[]> resolver, final boolean countArrayReferences) {
@@ -391,7 +395,7 @@ public final class ArrayUtil {
    * @param a The array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static Object[] flatten(final Object[] a) {
     return flatten(a, null, false);
@@ -409,7 +413,7 @@ public final class ArrayUtil {
    *          they are not included in the resulting array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static Object[] flatten(final Object[] a, final boolean retainArrayReferences) {
     return flatten(a, null, retainArrayReferences);
@@ -430,11 +434,11 @@ public final class ArrayUtil {
    *          {@code resolver} is null, {@code member.getClass().isArray()} is
    *          used to determine whether the member value represents an array.
    * @param retainArrayReferences If {@code true}, array members that reference
-   *          an array are included in the resulting array; if {@code false}, they are not
-   *          included in the resulting array.
+   *          an array are included in the resulting array; if {@code false},
+   *          they are not included in the resulting array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] flatten(final T[] a, final Function<T,T[]> resolver, final boolean retainArrayReferences) {
@@ -470,9 +474,9 @@ public final class ArrayUtil {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
-  public static <T extends Comparable<T>>int binaryClosestSearch(final T[] a, final T key) {
+  public static <T extends Comparable<T>> int binaryClosestSearch(final T[] a, final T key) {
     return binaryClosestSearch0(a, 0, a.length, key);
   }
 
@@ -486,9 +490,9 @@ public final class ArrayUtil {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
-  public static <T extends Comparable<T>>int binaryClosestSearch(final T[] a, final int from, final int to, final T key) {
+  public static <T extends Comparable<T>> int binaryClosestSearch(final T[] a, final int from, final int to, final T key) {
     Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key);
   }
@@ -502,7 +506,7 @@ public final class ArrayUtil {
    * @param key The value to match.
    * @param comparator The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<T> comparator) {
     return binaryClosestSearch0(a, 0, a.length, key, comparator);
@@ -519,14 +523,14 @@ public final class ArrayUtil {
    * @param key The value to match.
    * @param comparator The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int from, final int to, final T key, final Comparator<T> comparator) {
     Assertions.assertRangeArray(from, to, a.length);
     return binaryClosestSearch0(a, from, to, key, comparator);
   }
 
-  private static <T extends Comparable<T>>int binaryClosestSearch0(final T[] a, int from, int to, final T key) {
+  private static <T extends Comparable<T>> int binaryClosestSearch0(final T[] a, int from, int to, final T key) {
     for (int mid; from < to;) {
       mid = (from + to) / 2;
       final int comparison = key.compareTo(a[mid]);
@@ -563,7 +567,7 @@ public final class ArrayUtil {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -578,7 +582,7 @@ public final class ArrayUtil {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int from, final int to, final byte key) {
     Assertions.assertRangeArray(from, to, a.length);
@@ -606,7 +610,7 @@ public final class ArrayUtil {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -621,7 +625,7 @@ public final class ArrayUtil {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int from, final int to, final short key) {
     Assertions.assertRangeArray(from, to, a.length);
@@ -649,7 +653,7 @@ public final class ArrayUtil {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -664,7 +668,7 @@ public final class ArrayUtil {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int from, final int to, final int key) {
     Assertions.assertRangeArray(from, to, a.length);
@@ -692,7 +696,7 @@ public final class ArrayUtil {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -707,7 +711,7 @@ public final class ArrayUtil {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int from, final int to, final float key) {
     Assertions.assertRangeArray(from, to, a.length);
@@ -735,7 +739,7 @@ public final class ArrayUtil {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -750,7 +754,7 @@ public final class ArrayUtil {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int from, final int to, final double key) {
     Assertions.assertRangeArray(from, to, a.length);
@@ -778,7 +782,7 @@ public final class ArrayUtil {
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
     return binaryClosestSearch0(a, 0, a.length, key);
@@ -793,7 +797,7 @@ public final class ArrayUtil {
    * @param to The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int from, final int to, final long key) {
     Assertions.assertRangeArray(from, to, a.length);
@@ -835,8 +839,8 @@ public final class ArrayUtil {
   }
 
   /**
-   * Filter the provided array with the specified {@link Predicate}. This
-   * method is recursive.
+   * Filter the provided array with the specified {@link Predicate}. This method
+   * is recursive.
    *
    * @param <T> Type parameter of object.
    * @param precicate The {@link Predicate} that defines the filter.
@@ -1028,8 +1032,7 @@ public final class ArrayUtil {
    * @param <T> Type parameter of object.
    * @param array The array to search.
    * @param obj The object to locate.
-   * @return {@code true} if the object exists, {@code false}
-   *         otherwise.
+   * @return {@code true} if the object exists, {@code false} otherwise.
    * @throws NullPointerException If {@code array} is null.
    */
   public static <T>boolean contains(final T[] array, final T obj) {
@@ -1038,12 +1041,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final char delimiter) {
@@ -1052,13 +1055,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset) {
@@ -1067,14 +1070,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset, final int length) {
@@ -1097,12 +1100,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final String delimiter) {
@@ -1111,13 +1114,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset) {
@@ -1126,14 +1129,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset, final int length) {
@@ -1156,12 +1159,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final char delimiter) {
@@ -1170,13 +1173,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final char delimiter, final int offset) {
@@ -1185,14 +1188,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final char delimiter, final int offset, final int length) {
@@ -1215,12 +1218,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final String delimiter) {
@@ -1229,13 +1232,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final String delimiter, final int offset) {
@@ -1244,14 +1247,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final char[] array, final String delimiter, final int offset, final int length) {
@@ -1274,12 +1277,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final char delimiter) {
@@ -1288,13 +1291,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final char delimiter, final int offset) {
@@ -1303,14 +1306,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final char delimiter, final int offset, final int length) {
@@ -1335,12 +1338,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final String delimiter) {
@@ -1349,13 +1352,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final String delimiter, final int offset) {
@@ -1364,14 +1367,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final short[] array, final String delimiter, final int offset, final int length) {
@@ -1394,12 +1397,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final char delimiter) {
@@ -1408,13 +1411,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final char delimiter, final int offset) {
@@ -1423,14 +1426,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final char delimiter, final int offset, final int length) {
@@ -1453,12 +1456,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final String delimiter) {
@@ -1467,13 +1470,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final String delimiter, final int offset) {
@@ -1482,14 +1485,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final int[] array, final String delimiter, final int offset, final int length) {
@@ -1512,12 +1515,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final char delimiter) {
@@ -1526,13 +1529,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final char delimiter, final int offset) {
@@ -1541,14 +1544,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final char delimiter, final int offset, final int length) {
@@ -1570,12 +1573,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final String delimiter) {
@@ -1584,13 +1587,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final String delimiter, final int offset) {
@@ -1599,14 +1602,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final long[] array, final String delimiter, final int offset, final int length) {
@@ -1628,12 +1631,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final char delimiter) {
@@ -1649,7 +1652,7 @@ public final class ArrayUtil {
    * @param array The array.
    * @param delimiter The delimiter.
    * @param function The {@code toString} function.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
@@ -1660,13 +1663,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset) {
@@ -1683,7 +1686,7 @@ public final class ArrayUtil {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param function The {@code toString} function.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
@@ -1694,14 +1697,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * {@code char}.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset, final int length) {
@@ -1732,7 +1735,7 @@ public final class ArrayUtil {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @param function The {@code toString} function.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
@@ -1756,12 +1759,12 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final String delimiter) {
@@ -1777,7 +1780,7 @@ public final class ArrayUtil {
    * @param array The array.
    * @param delimiter The delimiter.
    * @param function The {@code toString} function.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
@@ -1788,13 +1791,13 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset) {
@@ -1811,7 +1814,7 @@ public final class ArrayUtil {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param function The {@code toString} function.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
@@ -1822,14 +1825,14 @@ public final class ArrayUtil {
 
   /**
    * Create a string representation of the specified array by calling each
-   * member's {@code toString()} method, delimited by the provided delimiter
+   * member's {@link #toString()} method, delimited by the provided delimiter
    * string.
    *
    * @param array The array.
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset, final int length) {
@@ -1860,7 +1863,7 @@ public final class ArrayUtil {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @param function The {@code toString} function.
-   * @return The delimiter delimited {@code toString()} representation of the
+   * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
@@ -1884,7 +1887,8 @@ public final class ArrayUtil {
 
   /**
    * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
+   * {@code start} value from {@code array[0]}, to
+   * {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
@@ -1900,7 +1904,8 @@ public final class ArrayUtil {
 
   /**
    * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
+   * {@code start} value from {@code array[0]}, to
+   * {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
@@ -1916,7 +1921,8 @@ public final class ArrayUtil {
 
   /**
    * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
+   * {@code start} value from {@code array[0]}, to
+   * {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
@@ -1932,7 +1938,8 @@ public final class ArrayUtil {
 
   /**
    * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
+   * {@code start} value from {@code array[0]}, to
+   * {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
@@ -1948,7 +1955,8 @@ public final class ArrayUtil {
 
   /**
    * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
+   * {@code start} value from {@code array[0]}, to
+   * {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
@@ -1964,7 +1972,8 @@ public final class ArrayUtil {
 
   /**
    * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
+   * {@code start} value from {@code array[0]}, to
+   * {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
@@ -1980,7 +1989,8 @@ public final class ArrayUtil {
 
   /**
    * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to {@code array[array.length - 1]}.
+   * {@code start} value from {@code array[0]}, to
+   * {@code array[array.length - 1]}.
    *
    * @param array The target array.
    * @param start The starting value.
@@ -1995,13 +2005,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static boolean[] createRepeat(final boolean value, final int length) {
     final boolean[] array = new boolean[length];
@@ -2010,13 +2020,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static byte[] createRepeat(final byte value, final int length) {
     final byte[] array = new byte[length];
@@ -2025,13 +2035,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static char[] createRepeat(final char value, final int length) {
     final char[] array = new char[length];
@@ -2040,13 +2050,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static double[] createRepeat(final double value, final int length) {
     final double[] array = new double[length];
@@ -2055,13 +2065,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static float[] createRepeat(final float value, final int length) {
     final float[] array = new float[length];
@@ -2070,13 +2080,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static int[] createRepeat(final int value, final int length) {
     final int[] array = new int[length];
@@ -2085,13 +2095,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static long[] createRepeat(final long value, final int length) {
     final long[] array = new long[length];
@@ -2100,13 +2110,13 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   public static short[] createRepeat(final short value, final int length) {
     final short[] array = new short[length];
@@ -2115,14 +2125,14 @@ public final class ArrayUtil {
   }
 
   /**
-   * Create a new array by repeating the provided {@code value} by the
-   * provided {@code length} number of times.
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
    *
    * @param <T> Type parameter of object.
    * @param value The value to repeat.
    * @param length The number of times to repeat the value.
-   * @return A new array with {@code length} number of repeated
-   *         {@code value} members.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] createRepeat(final T value, final int length) {
@@ -2171,7 +2181,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final boolean[] arr, final int i, final int j) {
     final boolean tmp = arr[i];
@@ -2180,7 +2190,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final byte[] arr, final int i, final int j) {
     final byte tmp = arr[i];
@@ -2189,7 +2199,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final char[] arr, final int i, final int j) {
     final char tmp = arr[i];
@@ -2198,7 +2208,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final short[] arr, final int i, final int j) {
     final short tmp = arr[i];
@@ -2207,7 +2217,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final int[] arr, final int i, final int j) {
     final int tmp = arr[i];
@@ -2216,7 +2226,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final long[] arr, final int i, final int j) {
     final long tmp = arr[i];
@@ -2225,7 +2235,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final float[] arr, final int i, final int j) {
     final float tmp = arr[i];
@@ -2234,7 +2244,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final double[] arr, final int i, final int j) {
     final double tmp = arr[i];
@@ -2243,7 +2253,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Swaps the two specified elements in the specified array.
+   * Swaps the two specified elements in the provided array.
    */
   private static void swap(final Object[] arr, final int i, final int j) {
     final Object tmp = arr[i];
@@ -2463,7 +2473,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>
@@ -2484,7 +2494,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>
@@ -2505,7 +2515,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>
@@ -2526,7 +2536,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>
@@ -2547,7 +2557,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>
@@ -2568,7 +2578,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>
@@ -2589,7 +2599,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>
@@ -2610,7 +2620,7 @@ public final class ArrayUtil {
   }
 
   /**
-   * Randomly permute the specified array using the specified source of
+   * Randomly permute the specified array using the provided source of
    * randomness. All permutations occur with equal likelihood assuming that the
    * source of randomness is fair.
    * <p>

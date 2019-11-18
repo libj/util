@@ -25,11 +25,11 @@ import java.net.URL;
  */
 public final class Resources {
   /**
-   * Returns an {@code URL} to a resource by the specified name, or, if not
+   * Returns an {@link URL} to a resource by the specified name, or, if not
    * found, to a file by the same name (in the current working directory).
    *
    * @param name The name of the resource.
-   * @return An {@code URL} to a resource by the specified name, or, if not
+   * @return An {@link URL} to a resource by the specified name, or, if not
    *         found, to a file by the same name.
    * @throws NullPointerException If {@code name} is null.
    */
@@ -51,11 +51,11 @@ public final class Resources {
   }
 
   /**
-   * Returns an {@code URL} to a file by the specified name (in the current
+   * Returns an {@link URL} to a file by the specified name (in the current
    * working directory), or, if not found, to a resource by the same name.
    *
    * @param name The name of the resource.
-   * @return An {@code URL} to a file by the specified name, or, if not found,
+   * @return An {@link URL} to a file by the specified name, or, if not found,
    *         to a resource by the same name.
    * @throws NullPointerException If {@code name} is null.
    */

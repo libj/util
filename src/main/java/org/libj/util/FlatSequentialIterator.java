@@ -43,12 +43,17 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
   }
 
   /**
+   * Returns the size of the sequentially accessible collection.
+   *
    * @param c The sequentially accessible collection.
    * @return The size of the sequentially accessible collection.
    */
   protected abstract int size(T c);
 
   /**
+   * Returns the element at index {@code i} of the sequentially accessible
+   * collection {@code obj}.
+   *
    * @param c The sequentially accessible collection.
    * @param i The index of the element.
    * @return The element at index {@code i} of the sequentially accessible
@@ -57,6 +62,9 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
   protected abstract Object get(T c, int i);
 
   /**
+   * Returns whether the specified object is a sequentially accessible
+   * collection.
+   *
    * @param obj The object to test.
    * @return Whether the specified object is a sequentially accessible
    *         collection.

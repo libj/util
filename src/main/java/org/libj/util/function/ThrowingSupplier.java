@@ -21,8 +21,8 @@ import java.util.function.Supplier;
 /**
  * Represents a supplier of results.
  * <p>
- * The {@code ThrowingSupplier} distinguishes itself from {@link Supplier} by
- * allowing the functional interface to throw an {@code Exception}. This can be
+ * The {@link ThrowingSupplier} distinguishes itself from {@link Supplier} by
+ * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  * <p>

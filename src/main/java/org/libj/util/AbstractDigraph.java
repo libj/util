@@ -37,7 +37,7 @@ import java.util.Set;
  * {@link AbstractDigraph#getCycle()}. If no cycle exists, a topological order can be
  * found with {@link AbstractDigraph#getTopologicalOrder()}.
  * <p>
- * This implementation uses {@code Integer}-based vertex indices as references
+ * This implementation uses {@link Integer}-based vertex indices as references
  * to the arbitrary-typed object vertices via {@link HashBiMap}.
  * <p>
  * The digraph is internally represented as a dynamically scalable
@@ -48,7 +48,7 @@ import java.util.Set;
  * the vertices adjacent from a given vertex, which takes time proportional to
  * the number of such vertices.
  * <p>
- * The {@code AbstractDigraph} implements {@code Map<K,Set<V>>}, supporting all required
+ * The {@link AbstractDigraph} implements {@code Map<K,Set<V>>}, supporting all required
  * and optional operations.
  *
  * @param <K> The type of keys maintained by this digraph.
@@ -263,9 +263,12 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns the {@link TransList} instance that relates the edges of type
+   * {@code V} to vertex indices. Changes made to this digraph are reflected in
+   * this list.
+   *
    * @return The {@link TransList} instance that relates the edges of type
-   *         {@code V} to vertex indices. Changes made to this digraph are
-   *         reflected in this list.
+   *         {@code V} to vertex indices.
    */
   private TransList<LinkedHashSet<Integer>,TransSet<Integer,V>> getAdjEdges() {
     if (adjEdges != null)
@@ -401,6 +404,10 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns an {@link ObservableMap} of {@link #objectToIndex}, whereby
+   * modifications made to this digraph are reflected in the set, and
+   * modifications made to the set are reflected in this digraph.
+   *
    * @return An {@link ObservableMap} of {@link #objectToIndex}, whereby
    *         modifications made to this digraph are reflected in the set, and
    *         modifications made to the set are reflected in this digraph.
@@ -435,7 +442,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * return {@code null} if the specified {@code edges} is null.</i>
    * <p>
    * <i><b>Note:</b> The expected type of the {@code edges} is {@code Set<V>},
-   * but this method accepts type {@code Object} to match the interface for
+   * but this method accepts type {@link Object} to match the interface for
    * {@link Map#containsValue(Object)}.</i>
    *
    * @return {@code true} if at least one vertex in this digraph contains the
@@ -457,6 +464,10 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns the set of vertices in this digraph. Modifications made to this
+   * digraph are reflected in the set, and modifications made to the set are
+   * reflected in this digraph.
+   *
    * @return The set of vertices in this digraph. Modifications made to this
    *         digraph are reflected in the set, and modifications made to the set
    *         are reflected in this digraph.
@@ -467,6 +478,10 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns a collection of edges in this digraph. Modifications made to this
+   * digraph are reflected in the collection, and modifications made to the
+   * collection are reflected in this digraph.
+   *
    * @return A collection of edges in this digraph. Modifications made to this
    *         digraph are reflected in the collection, and modifications made to
    *         the collection are reflected in this digraph.
@@ -495,6 +510,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns a set of {@link java.util.Map.Entry} objects representing the
+   * ({@code vertex} -&gt;&gt; {@code edges}) mappings in this digraph.
+   * Modifications made to this digraph are reflected in the set, and
+   * modifications made to the set are reflected in this digraph.
+   *
    * @return A set of {@link java.util.Map.Entry} objects representing the
    *         ({@code vertex} -&gt;&gt; {@code edges}) mappings in this digraph.
    *         Modifications made to this digraph are reflected in the set, and
@@ -623,6 +643,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns the number of vertices in this digraph.
+   *
    * @return The number of vertices in this digraph.
    */
   @Override
@@ -631,6 +653,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns {@code true} if this digraph contains no vertices.
+   *
    * @return {@code true} if this digraph contains no vertices.
    */
   @Override
@@ -657,6 +681,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns the number of directed edges incident to vertex {@code vertex}.
+   *
    * @param vertex The vertex.
    * @return The number of directed edges incident to vertex {@code vertex}.
    * @throws NoSuchElementException If vertex {@code vertex} does not exist in
@@ -667,6 +693,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
+   * Returns the number of directed edges incident from vertex {@code vertex}.
+   *
    * @param vertex The vertex.
    * @return The number of directed edges incident from vertex {@code vertex}.
    * @throws NoSuchElementException If vertex {@code vertex} does not exist in
@@ -708,8 +736,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * Run the depth-first-search algorithm on this digraph to detect a cycle, or
    * construct the reversePostOrder list.
    *
-   * @param marked {@code BitSet} maintaining marked state.
-   * @param onStack {@code BitSet} maintaining on-stack state.
+   * @param marked {@link BitSet} maintaining marked state.
+   * @param onStack {@link BitSet} maintaining on-stack state.
    * @param edgeTo Vertex index array maintaining state for cycle detection.
    * @param reversePostOrder List of vertices filled in reverse post order.
    * @param v The index of the vertex.
@@ -779,8 +807,10 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
-   * @return The transverse of this digraph. Any changes made to the
-   *         transverse instance are reflected in this instance.
+   * Returns the transverse of this digraph. Any changes made to the transverse
+   * instance are reflected in this instance.
+   *
+   * @return The transverse of this digraph.
    */
   public AbstractDigraph<K,V> transverse() {
     return transverse;

@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
- * Utility functions that perform a variety of operations on {@code String}
+ * Utility functions that perform a variety of operations on {@link String}
  * objects representing either system paths (UNIX or Windows), or file URL paths
  * (resembling {@code file:/...}).
  */

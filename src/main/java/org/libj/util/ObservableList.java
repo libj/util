@@ -46,8 +46,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   private int toIndex;
 
   /**
-   * Creates a new {@code ObservableList} with the specified target
-   * {@code List}.
+   * Creates a new {@link ObservableList} with the specified target
+   * {@link List}.
    *
    * @param list The target {@link List}.
    * @throws NullPointerException If {@code list} is null.
@@ -57,7 +57,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * Creates a new {@code ObservableList} with the specified target list, and
+   * Creates a new {@link ObservableList} with the specified target list, and
    * from and to indexes to limit the scope of the target list.
    *
    * @param list The target {@link List} object.
@@ -94,7 +94,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * @param e The element being retrieved from the enclosed {@link List}.
    * @param iterator The {@link Iterator} instance if the get is a result of an
    *          iterator reference, or null if otherwise.
-   * @param re A {@code RuntimeException} that occurred during the get
+   * @param re A {@link RuntimeException} that occurred during the get
    *          operation, or null if no exception occurred.
    */
   protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
@@ -121,7 +121,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    *
    * @param index The index of the element added to the enclosed {@link List}.
    * @param e The element being added to the enclosed {@link List}.
-   * @param re A {@code RuntimeException} that occurred during the add
+   * @param re A {@link RuntimeException} that occurred during the add
    *          operation, or null if no exception occurred.
    */
   protected void afterAdd(final int index, final E e, final RuntimeException re) {
@@ -146,7 +146,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * from the enclosed {@link List}.
    *
    * @param e The element removed from the enclosed {@link List}.
-   * @param re A {@code RuntimeException} that occurred during the remove
+   * @param re A {@link RuntimeException} that occurred during the remove
    *          operation, or null if no exception occurred.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
@@ -174,7 +174,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * @param index The index of the element set in the enclosed {@link List}.
    * @param oldElement The old element at the index of the enclosed
    *          {@link List}.
-   * @param re A {@code RuntimeException} that occurred during the set
+   * @param re A {@link RuntimeException} that occurred during the set
    *          operation, or null if no exception occurred.
    */
   protected void afterSet(final int index, final E oldElement, final RuntimeException re) {

@@ -167,7 +167,7 @@ public class AbstractArrayList<T> implements PrimitiveCollection {
 
   /**
    * Returns the number of values in this list. If this list contains more than
-   * {@code Integer.MAX_VALUE} values, returns {@code Integer.MAX_VALUE}.
+   * {@link Integer#MAX_VALUE} values, returns {@link Integer#MAX_VALUE}.
    *
    * @return The number of values in this list.
    */
@@ -179,7 +179,7 @@ public class AbstractArrayList<T> implements PrimitiveCollection {
   /**
    * Returns {@code true} if this list contains no values.
    *
-   * @return {@code true} if this list contains no values
+   * @return {@code true} if this list contains no values.
    */
   @Override
   public boolean isEmpty() {

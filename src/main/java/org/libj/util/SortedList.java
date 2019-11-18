@@ -32,12 +32,12 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
   private static final Comparator comparator = Comparator.nullsFirst(Comparator.naturalOrder());
 
   /**
-   * Creates a new {@code SortedList} with the provided list as the underlying
+   * Creates a new {@link SortedList} with the provided list as the underlying
    * target.
    * <p>
    * <i><b>Note</b>: This constructor sorts the provided list.</i>
    *
-   * @param list The {@code List}.
+   * @param list The {@link List}.
    */
   public SortedList(final List<E> list) {
     this(list, true);
@@ -102,7 +102,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
    * {@inheritDoc}
    * <p>
    * <b>Runtime performance</b>: {@code O(log2(n) * m)} if the provided
-   * collection is a {@code SortedList}; otherwise {@code O(n * m)}.
+   * collection is a {@link SortedList}; otherwise {@code O(n * m)}.
    */
   @Override
   @SuppressWarnings("unlikely-arg-type")
@@ -134,7 +134,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
    * {@inheritDoc}
    * <p>
    * <b>Runtime performance</b>: {@code O(log2(n))} if the provided object
-   * implements {@code Comparable}; otherwise {@code O(n)}.
+   * implements {@link Comparable}; otherwise {@code O(n)}.
    */
   @Override
   public int indexOf(final Object o) {
@@ -145,7 +145,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
    * {@inheritDoc}
    * <p>
    * <b>Runtime performance</b>: {@code O(log2(n))} if the provided object
-   * implements {@code Comparable}; otherwise {@code O(n)}.
+   * implements {@link Comparable}; otherwise {@code O(n)}.
    */
   @Override
   @SuppressWarnings("unlikely-arg-type")
@@ -161,7 +161,7 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
   /**
    * {@inheritDoc}
    * <p>
-   * <i><b>Note</b>: The {@code ListIterator} returned by this method does not
+   * <i><b>Note</b>: The {@link ListIterator} returned by this method does not
    * support {@link ListIterator#add(Object)} or
    * {@link ListIterator#set(Object)}.</i>
    */

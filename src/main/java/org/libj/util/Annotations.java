@@ -33,7 +33,7 @@ public final class Annotations {
    * Returns a map of name-value pairs representing the attributes in the
    * specified annotation.
    *
-   * @param annotation The {@code Annotation} whose attributes to get.
+   * @param annotation The {@link Annotation} whose attributes to get.
    * @return A map of name-value pairs representing the attributes in the
    *         specified annotation.
    * @throws NullPointerException If the specified annotation is null.
@@ -54,15 +54,18 @@ public final class Annotations {
   }
 
   /**
-   * Returns a {@code toString()} representation of {@code annotation}, with its
-   * property names sorted alphabetically.
+   * Returns a {@link #toString()} representation of {@code annotation}, with
+   * its property names sorted alphabetically.
    * <p>
-   * This method is equivalent to calling
+   * This method is equivalent to calling:
+   *
+   * <pre>
    * {@code toSortedString(annotation, null)}
+   * </pre>
    *
    * @param annotation The {@link Annotation}.
-   * @return A {@code toString()} representation of {@code annotation}, with its
-   *         property names sorted by {@code comparator}.
+   * @return A {@link #toString()} representation of {@code annotation}, with
+   *         its property names sorted by {@code comparator}.
    * @throws NullPointerException If the specified annotation is null.
    */
   public static String toSortedString(final Annotation annotation) {
@@ -70,13 +73,13 @@ public final class Annotations {
   }
 
   /**
-   * Returns a {@code toString()} representation of {@code annotation}, with its
-   * property names sorted by {@code comparator}.
+   * Returns a {@link #toString()} representation of {@code annotation}, with
+   * its property names sorted by {@code comparator}.
    *
    * @param annotation The {@link Annotation}.
    * @param comparator The {@link Comparator}.
-   * @return A {@code toString()} representation of {@code annotation}, with its
-   *         property names sorted by {@code comparator}.
+   * @return A {@link #toString()} representation of {@code annotation}, with
+   *         its property names sorted by {@code comparator}.
    * @throws NullPointerException If the specified annotation is null.
    */
   public static String toSortedString(final Annotation annotation, final Comparator<String> comparator) {

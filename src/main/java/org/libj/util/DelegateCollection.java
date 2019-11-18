@@ -26,12 +26,12 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A {@code DelegateCollection} contains some other {@link Collection}, to which
+ * A {@link DelegateCollection} contains some other {@link Collection}, to which
  * it delegates its method calls, possibly transforming the data along the way
- * or providing additional functionality. The class {@code DelegateCollection}
+ * or providing additional functionality. The class {@link DelegateCollection}
  * itself simply overrides all methods of {@link AbstractCollection} with
  * versions that pass all requests to the target {@link Collection}. Subclasses
- * of {@code DelegateCollection} may further override some of these methods and
+ * of {@link DelegateCollection} may further override some of these methods and
  * may also provide additional methods and fields.
  *
  * @param <E> The type of elements in this collection.
@@ -44,7 +44,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
   protected volatile Collection target;
 
   /**
-   * Creates a new {@code DelegateCollection} with the specified {@code target}.
+   * Creates a new {@link DelegateCollection} with the specified {@code target}.
    *
    * @param target The target {@link Collection} object.
    * @throws NullPointerException If {@code target} is null.
@@ -54,7 +54,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
   }
 
   /**
-   * Creates a new {@code DelegateCollection} with a null target.
+   * Creates a new {@link DelegateCollection} with a null target.
    */
   protected DelegateCollection() {
   }

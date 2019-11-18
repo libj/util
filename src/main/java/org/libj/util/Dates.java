@@ -169,12 +169,12 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date} and the
+   * Returns a new {@link Date} object with its time set by {@code date} and the
    * specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
-   * @return A new {@code Date} object with its time set by {@code date} and the
+   * @return A new {@link Date} object with its time set by {@code date} and the
    *         specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours) {
@@ -182,13 +182,13 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date} and the
+   * Returns a new {@link Date} object with its time set by {@code date} and the
    * specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
-   * @return A new {@code Date} object with its time set by {@code date} and the
+   * @return A new {@link Date} object with its time set by {@code date} and the
    *         specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours, final int minutes) {
@@ -196,14 +196,14 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date} and the
+   * Returns a new {@link Date} object with its time set by {@code date} and the
    * specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
-   * @return A new {@code Date} object with its time set by {@code date} and the
+   * @return A new {@link Date} object with its time set by {@code date} and the
    *         specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours, final int minutes, final int seconds) {
@@ -211,7 +211,7 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date} and the
+   * Returns a new {@link Date} object with its time set by {@code date} and the
    * specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
@@ -219,7 +219,7 @@ public final class Dates {
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
-   * @return A new {@code Date} object with its time set by {@code date} and the
+   * @return A new {@link Date} object with its time set by {@code date} and the
    *         specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
@@ -229,8 +229,8 @@ public final class Dates {
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified
-   * temporal parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal
+   * parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
@@ -242,8 +242,8 @@ public final class Dates {
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified
-   * temporal parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal
+   * parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
@@ -256,8 +256,8 @@ public final class Dates {
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified
-   * temporal parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal
+   * parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
@@ -271,8 +271,8 @@ public final class Dates {
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified
-   * temporal parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal
+   * parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
@@ -291,12 +291,12 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date}, and
+   * Returns a new {@link Date} object with its time set by {@code date}, and
    * the specified temporal parameters added each current value.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
-   * @return A new {@code Date} object with its time set by {@code date}, and
+   * @return A new {@link Date} object with its time set by {@code date}, and
    *         the specified temporal parameters added each current value.
    */
   public static Date addTime(final Date date, final int hours) {
@@ -304,13 +304,13 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date}, and
+   * Returns a new {@link Date} object with its time set by {@code date}, and
    * the specified temporal parameters added each current value.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
-   * @return A new {@code Date} object with its time set by {@code date}, and
+   * @return A new {@link Date} object with its time set by {@code date}, and
    *         the specified temporal parameters added each current value.
    */
   public static Date addTime(final Date date, final int hours, final int minutes) {
@@ -318,14 +318,14 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date}, and
+   * Returns a new {@link Date} object with its time set by {@code date}, and
    * the specified temporal parameters added each current value.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
-   * @return A new {@code Date} object with its time set by {@code date}, and
+   * @return A new {@link Date} object with its time set by {@code date}, and
    *         the specified temporal parameters added each current value.
    */
   public static Date addTime(final Date date, final int hours, final int minutes, final int seconds) {
@@ -333,7 +333,7 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@code Date} object with its time set by {@code date}, and
+   * Returns a new {@link Date} object with its time set by {@code date}, and
    * the specified temporal parameters added each current value.
    *
    * @param date The {@link Date} specifying the time.
@@ -341,7 +341,7 @@ public final class Dates {
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
-   * @return A new {@code Date} object with its time set by {@code date}, and
+   * @return A new {@link Date} object with its time set by {@code date}, and
    *         the specified temporal parameters added each current value.
    */
   public static Date addTime(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {

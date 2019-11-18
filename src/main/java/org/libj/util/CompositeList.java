@@ -32,16 +32,17 @@ import org.slf4j.Logger;
  * {@code new CompositeList<Number,Class<? extends Number>>(Integer.class, Long.class, Double.class)}
  * </blockquote>
  * <p>
- * This {@code CompositeList} is comprised of {@code ComponentList<Number>}
+ * This {@link CompositeList} is comprised of {@code ComponentList<Number>}
  * lists that each maintains elements specific to the types:
  * {@code Integer.class}, {@code Long.class}, and {@code Double.class}. This
- * {@code CompositeList} can be used to store instances of {@code Integer},
- * {@code Long} or {@code Double}, which will internally be stored in the
+ * {@link CompositeList} can be used to store instances of {@link Integer},
+ * {@link Long} or {@link Double}, which will internally be stored in the
  * appropriate {@code ComponentList<Number>}.
  * <p>
- * Each {@code ComponentList<Number>} of the {@code CompositeList} is created
- * with the abstract method {@link #getOrCreateComponentList(Object)} in the order in
- * which it was instantiated. For instance, consider the following procedure:
+ * Each {@code ComponentList<Number>} of the {@link CompositeList} is created
+ * with the abstract method {@link #getOrCreateComponentList(Object)} in the
+ * order in which it was instantiated. For instance, consider the following
+ * procedure:
  * <p>
  * <blockquote><code>
  * compositeList.add(1);<br>
@@ -49,8 +50,8 @@ import org.slf4j.Logger;
  * compositeList.add(99999L);
  * </code></blockquote>
  * <p>
- * This procedure will result in a {@code CompositeList} that has 3
- * {@code ComponentList}s:
+ * This procedure will result in a {@link CompositeList} that has 3
+ * {@link ComponentList}s:
  * <p>
  * <blockquote><code>
  * ComponentList&lt;Integer&gt;<br>
@@ -58,45 +59,45 @@ import org.slf4j.Logger;
  * ComponentList&lt;Long&gt;
  * </code></blockquote>
  * <p>
- * Thereafter, all elements of type {@code Integer} will go into the
- * {@code ComponentList<Integer>}, all elements of type {@code Double} will go
- * into the {@code ComponentList<Double>}, and all elements of type {@code Long}
+ * Thereafter, all elements of type {@link Integer} will go into the
+ * {@code ComponentList<Integer>}, all elements of type {@link Double} will go
+ * into the {@code ComponentList<Double>}, and all elements of type {@link Long}
  * will go into the {@code ComponentList<Long>}.
  * <p>
- * The {@code CompositeList} guarantees the following:
+ * The {@link CompositeList} guarantees the following:
  * <ul>
- * <li>The order of the {@code ComponentList}s inside the {@code CompositeList}
+ * <li>The order of the {@link ComponentList}s inside the {@link CompositeList}
  * is maintained.</li>
- * <li>Elements added to the individual {@code ComponentList}s will be reflected
- * in the {@code CompositeList} in proper order (i.e. all {@code Double}s will
- * always come before all {@code Integer}s).</li>
- * <li>Elements added to the {@code CompositeList} will be reflected in the
- * appropriate {@code ComponentList}s.</li>
+ * <li>Elements added to the individual {@link ComponentList}s will be reflected
+ * in the {@link CompositeList} in proper order (i.e. all {@link Double}s will
+ * always come before all {@link Integer}s).</li>
+ * <li>Elements added to the {@link CompositeList} will be reflected in the
+ * appropriate {@link ComponentList}s.</li>
  * <li>All list mutation operations will uphold proper order for both the
- * {@code CompositeList} and the {@code ComponentList}s within (including those
- * via {@code Iterator} and {@code ListIterator}).</li>
+ * {@link CompositeList} and the {@link ComponentList}s within (including those
+ * via {@link java.util.Iterator} and {@link java.util.ListIterator}).</li>
  * </ul>
  *
  * @param <E> The type of elements in this list and internal
- *          {@code ComponentList}s.
- * @param <T> The type for separation of {@code ComponentList}s.
+ *          {@link ComponentList}s.
+ * @param <T> The type for separation of {@link ComponentList}s.
  */
 @SuppressWarnings("static-method")
 public abstract class CompositeList<E,T> extends ObservableList<E> implements Cloneable {
   /**
-   * The component list of the {@code CompositeList} that stores instances
+   * The component list of the {@link CompositeList} that stores instances
    * extending type {@code <E>}, which is separated from other such
-   * {@code ComponentList}s by objects of type {@code <T>}.
+   * {@link ComponentList}s by objects of type {@code <T>}.
    */
   public class ComponentList extends ObservableList<E> implements Cloneable {
     protected final T type;
     protected ArrayIntList indexes;
 
     /**
-     * Creates a new {@code ComponentList} that maintains elements for the
+     * Creates a new {@link ComponentList} that maintains elements for the
      * specified type.
      *
-     * @param type The type this {@code ComponentList} will maintain.
+     * @param type The type this {@link ComponentList} will maintain.
      */
     protected ComponentList(final T type) {
       super(new ArrayList<E>());
@@ -198,7 +199,9 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     }
 
     /**
-     * @return The {@code CompositeList} of which this list is a component.
+     * Returns the {@link CompositeList} of which this list is a component.
+     *
+     * @return The {@link CompositeList} of which this list is a component.
      */
     protected CompositeList<E,T> getCompositeList() {
       return CompositeList.this;
@@ -241,7 +244,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   private HashMap<T,ComponentList> typeToComponentList = new HashMap<>();
 
   /**
-   * Creates a new {@code CompositeList} with type values unspecified.
+   * Creates a new {@link CompositeList} with type values unspecified.
    */
   public CompositeList() {
     super(new ArrayList<E>());
@@ -250,10 +253,10 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Creates a new {@code CompositeList} with the specified types for which
-   * {@code ComponentList}s will be created.
+   * Creates a new {@link CompositeList} with the specified types for which
+   * {@link ComponentList}s will be created.
    *
-   * @param types The types for which {@code ComponentList}s will be created.
+   * @param types The types for which {@link ComponentList}s will be created.
    */
   @SafeVarargs
   public CompositeList(final T ... types) {
@@ -264,10 +267,10 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Creates a new {@code CompositeList} with the specified types for which
-   * {@code ComponentList}s will be created.
+   * Creates a new {@link CompositeList} with the specified types for which
+   * {@link ComponentList}s will be created.
    *
-   * @param types The types for which {@code ComponentList}s will be created.
+   * @param types The types for which {@link ComponentList}s will be created.
    */
   public CompositeList(final Collection<T> types) {
     this();
@@ -277,40 +280,40 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Returns {@code true} if this {@code CompositeList} contains the specified
-   * type registered for {@code ComponentList}s, regardless of whether the
-   * {@code ComponentList} has been instantiated or not.
+   * Returns {@code true} if this {@link CompositeList} contains the specified
+   * type registered for {@link ComponentList}s, regardless of whether the
+   * {@link ComponentList} has been instantiated or not.
    *
    * @param type The type.
-   * @return {@code true} if this {@code CompositeList} contains the specified
-   *         type registered for {@code ComponentList}s.
+   * @return {@code true} if this {@link CompositeList} contains the specified
+   *         type registered for {@link ComponentList}s.
    */
   protected boolean containsComponentType(final T type) {
     return typeToComponentList.containsKey(type);
   }
 
   /**
-   * Returns the {@code ComponentList} for the specified type.
+   * Returns the {@link ComponentList} for the specified type.
    * <p>
    * <i><b>Note</b>: If the specified type is registered in the
-   * {@code CompositeList} but a {@code ComponentList} has not yet been
+   * {@link CompositeList} but a {@link ComponentList} has not yet been
    * instantiated for the type, this method will return null. Refer to
    * {@link #containsComponentType(Object)} to determine if type is
    * registered.</i>
    *
    * @param type The type.
-   * @return The {@code ComponentList} for the specified type.
+   * @return The {@link ComponentList} for the specified type.
    */
   protected ComponentList getComponentList(final T type) {
     return typeToComponentList.get(type);
   }
 
   /**
-   * Returns the {@code ComponentList} at the specified index of component
+   * Returns the {@link ComponentList} at the specified index of component
    * lists.
    *
    * @param index The index.
-   * @return The {@code ComponentList} at the specified index of component
+   * @return The {@link ComponentList} at the specified index of component
    *         lists.
    * @throws IndexOutOfBoundsException If the index is out of range.
    */
@@ -319,35 +322,35 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Registers the specified {@code ComponentList} for the provided type.
+   * Registers the specified {@link ComponentList} for the provided type.
    *
-   * @param type The type for which the {@code ComponentList} is to be
+   * @param type The type for which the {@link ComponentList} is to be
    *          registered.
-   * @param componentList The {@code ComponentList}.
+   * @param componentList The {@link ComponentList}.
    */
   protected void registerComponentList(final T type, final ComponentList componentList) {
     typeToComponentList.put(type, componentList);
   }
 
   /**
-   * Creates a new {@code ComponentList} for the specified type. This method can
+   * Creates a new {@link ComponentList} for the specified type. This method can
    * be overridden by subclasses.
    *
-   * @param type The type for which {@code ComponentList}s is to be created.
-   * @return The {@code ComponentList}.
+   * @param type The type for which {@link ComponentList}s is to be created.
+   * @return The {@link ComponentList}.
    */
   protected ComponentList newComponentList(final T type) {
     return new ComponentList(type);
   }
 
   /**
-   * Returns the {@code ComponentList} for the specified element, creating one
-   * if the {@code ComponentList} has not yet been instantiated. This method
+   * Returns the {@link ComponentList} for the specified element, creating one
+   * if the {@link ComponentList} has not yet been instantiated. This method
    * must be implemented by subclasses.
    *
-   * @param element The element for which {@code ComponentList}s is to be
+   * @param element The element for which {@link ComponentList}s is to be
    *          retrieved.
-   * @return The {@code ComponentList} for the specified type. This method must
+   * @return The {@link ComponentList} for the specified type. This method must
    *         be implemented by subclasses.
    */
   protected abstract ComponentList getOrCreateComponentList(E element);

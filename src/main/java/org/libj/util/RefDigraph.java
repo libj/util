@@ -36,7 +36,7 @@ import java.util.function.Function;
  * call.
  * <p>
  * Upon invocation of any method that invokes {@code dfs()}, the
- * {@code RefDigraph} swaps edges of type {@code R} to their linked object
+ * {@link RefDigraph} swaps edges of type {@code R} to their linked object
  * references of type {@code T}, based on the translation of the supplied
  * {@code Function<T,R>} function.
  * <p>
@@ -47,7 +47,7 @@ import java.util.function.Function;
  * <p>
  * Edges can be added with {@link Digraph#add(Object,Object)}.
  * <p>
- * The {@code RefDigraph} implements {@code Map<K,Set<V>>}, supporting all
+ * The {@link RefDigraph} implements {@code Map<K,Set<V>>}, supporting all
  * required and optional operations.
  *
  * @param <K> The type of elements in this digraph.
@@ -137,8 +137,9 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
 
   /**
    * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
-   * this with {@code to = null} is the equivalent of calling
-   * {@code addVertex(from)}.
+   * this with {@code to = null} is the equivalent of calling:
+   *
+   * <pre>{@code addVertex(from)}.</pre>
    * <p>
    * <i><b>Note:</b> This method is not thread safe.</i>
    *

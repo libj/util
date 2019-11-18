@@ -37,7 +37,7 @@ public final class StreamSearcher {
     protected final int[][] borders;
 
     /**
-     * Creates a new {@code Char} instance with the specified {@code char[]}
+     * Creates a new {@link Char} instance with the specified {@code char[]}
      * vararg array representing the search patterns.
      *
      * @param patterns The vararg array representing the search patterns.
@@ -66,7 +66,7 @@ public final class StreamSearcher {
      * The latter is because InputStream semantics make it difficult to have
      * another reasonable default, i.e. leave the stream unchanged.
      *
-     * @param in The {@code Reader}.
+     * @param in The {@link Reader}.
      * @param buffer Buffer into which read bytes are written.
      * @param offset Offset in buffer where bytes are written.
      * @return Number of bytes the stream is advanced.
@@ -105,7 +105,7 @@ public final class StreamSearcher {
     protected final int[][] borders;
 
     /**
-     * Creates a new {@code Byte} instance with the specified {@code byte[]}
+     * Creates a new {@link Byte} instance with the specified {@code byte[]}
      * vararg array representing the search patterns.
      *
      * @param patterns The vararg array representing the search patterns.
@@ -134,7 +134,7 @@ public final class StreamSearcher {
      * The latter is because InputStream semantics make it difficult to have
      * another reasonable default, i.e. leave the stream unchanged.
      *
-     * @param in The {@code InputStream}.
+     * @param in The {@link InputStream}.
      * @param buffer Buffer into which read bytes are written.
      * @param offset Offset in buffer where bytes are written.
      * @return Number of bytes the stream is advanced.

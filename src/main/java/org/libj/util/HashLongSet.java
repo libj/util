@@ -101,7 +101,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
   private transient int modCount;
 
   /**
-   * Creates an empty {@code HashLongSet} with the default initial capacity
+   * Creates an empty {@link HashLongSet} with the default initial capacity
    * (16) and the default load factor (0.55).
    */
   public HashLongSet() {
@@ -109,7 +109,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
   }
 
   /**
-   * Creates an empty {@code HashLongSet} with the specified initial capacity and
+   * Creates an empty {@link HashLongSet} with the specified initial capacity and
    * load factor.
    *
    * @param initialCapacity The initial capacity.
@@ -130,7 +130,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
   }
 
   /**
-   * Creates an empty {@code HashLongSet} with the specified initial capacity and
+   * Creates an empty {@link HashLongSet} with the specified initial capacity and
    * the default load factor (0.55).
    *
    * @param initialCapacity The initial capacity.
@@ -141,8 +141,8 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
   }
 
   /**
-   * Creates a new {@code HashLongSet} with the same values as the specified
-   * collection. The {@code HashLongSet} is created with default load factor
+   * Creates a new {@link HashLongSet} with the same values as the specified
+   * collection. The {@link HashLongSet} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *
@@ -155,8 +155,8 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
   }
 
   /**
-   * Creates a new {@code HashLongSet} with the same values as the specified
-   * collection. The {@code HashLongSet} is created with default load factor
+   * Creates a new {@link HashLongSet} with the same values as the specified
+   * collection. The {@link HashLongSet} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *

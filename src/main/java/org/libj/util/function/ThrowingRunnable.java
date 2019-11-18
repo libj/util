@@ -20,8 +20,8 @@ package org.libj.util.function;
  * Represents an operation that accepts no input arguments and returns no
  * result.
  * <p>
- * The {@code ThrowingRunnable} distinguishes itself from {@link Runnable} by
- * allowing the functional interface to throw an {@code Exception}. This can be
+ * The {@link ThrowingRunnable} distinguishes itself from {@link Runnable} by
+ * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  * <p>

@@ -20,7 +20,7 @@ package org.libj.util.function;
  * Represents an operation that accepts an object-valued and two
  * {@code long}-valued arguments, and returns no result. This is the
  * {@code (reference, long, long)} specialization of {@link BiLongConsumer}.
- * Unlike most other functional interfaces, {@code ObjBiLongConsumer} is
+ * Unlike most other functional interfaces, {@link ObjBiLongConsumer} is
  * expected to operate via side-effects.
  *
  * @param <T> The type of the object argument to the operation.

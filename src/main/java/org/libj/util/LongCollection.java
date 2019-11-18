@@ -75,7 +75,7 @@ public interface LongCollection extends LongIterable, PrimitiveCollection {
    * @param c Collection containing values to be added to this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Long}.
+   *           collection is not {@link Long}.
    * @throws NullPointerException If the specified collection is null.
    */
   boolean addAll(Collection<Long> c);
@@ -113,7 +113,7 @@ public interface LongCollection extends LongIterable, PrimitiveCollection {
    * @param c Collection containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@code Long}.
+   *           collection is not an {@link Long}.
    * @see #remove(long)
    * @see #contains(long)
    */
@@ -135,7 +135,7 @@ public interface LongCollection extends LongIterable, PrimitiveCollection {
    * The default implementation traverses all values of the collection using its
    * {@link #iterator()}. Each matching value is removed using
    * {@link IntIterator#remove()}. If the collection's iterator does not support
-   * removal then an {@code UnsupportedOperationException} will be thrown on the
+   * removal then an {@link UnsupportedOperationException} will be thrown on the
    * first matching value.
    *
    * @param filter A predicate which returns {@code true} for values to be
@@ -169,7 +169,7 @@ public interface LongCollection extends LongIterable, PrimitiveCollection {
    * @param c Collection containing values to be retained in this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Long}.
+   *           collection is not {@link Long}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #remove(long)
@@ -226,7 +226,7 @@ public interface LongCollection extends LongIterable, PrimitiveCollection {
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@code Long}.
+   *           collection is not an {@link Long}.
    * @see #contains(long)
    */
   default boolean containsAll(final Collection<Long> c) {
@@ -245,17 +245,17 @@ public interface LongCollection extends LongIterable, PrimitiveCollection {
   Spliterator.OfLong spliterator();
 
   /**
-   * Returns a sequential {@code LongStream} over the values in this collection.
+   * Returns a sequential {@link LongStream} over the values in this collection.
    *
-   * @return A sequential {@code LongStream} over the values in this collection.
+   * @return A sequential {@link LongStream} over the values in this collection.
    */
   LongStream stream();
 
   /**
-   * Returns a possibly parallel {@code LongStream} over the values in this
+   * Returns a possibly parallel {@link LongStream} over the values in this
    * collection.
    *
-   * @return A possibly parallel {@code LongStream} over the values in this
+   * @return A possibly parallel {@link LongStream} over the values in this
    *         collection.
    */
   LongStream parallelStream();

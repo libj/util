@@ -187,7 +187,7 @@ public final class Classes {
    * <p>
    * For example:
    * <ol>
-   * <li>The "Compound Name" of {@code java.lang.String} is {@code String}.</li>
+   * <li>The "Compound Name" of {@code java.lang.String} is {@link String}.</li>
    * <li>The "Compound Name" of {@code java.lang.Map.Entry} is
    * {@code Map$Entry}.</li>
    * </ol>
@@ -213,7 +213,7 @@ public final class Classes {
    * For example:
    * <ol>
    * <li>The canonical "Compound Name" of {@code java.lang.String} is
-   * {@code String}.</li>
+   * {@link String}.</li>
    * <li>The canonical "Compound Name" of {@code java.lang.Map.Entry} is
    * {@code Map.Entry}.</li>
    * </ol>
@@ -229,14 +229,14 @@ public final class Classes {
   }
 
   /**
-   * Returns the {@code Class} array most accurately reflecting the actual type
+   * Returns the {@link Class} array most accurately reflecting the actual type
    * parameters used in the source code for the generic superclass of the
-   * specified {@code Class}, or {@code null} if no generic superclass exist.
+   * specified {@link Class}, or {@code null} if no generic superclass exist.
    *
-   * @param cls The {@code Class}.
-   * @return The {@code Class} array most accurately reflecting the actual type
+   * @param cls The {@link Class}.
+   * @return The {@link Class} array most accurately reflecting the actual type
    *         parameters used in the source code for the generic superclass of
-   *         the specified {@code Class}, or {@code null} if no generic
+   *         the specified {@link Class}, or {@code null} if no generic
    *         superclass exist.
    * @throws GenericSignatureFormatError If the generic class signature does not
    *           conform to the format specified in <cite>The Java&trade; Virtual
@@ -253,16 +253,16 @@ public final class Classes {
   }
 
   /**
-   * Traverses and returns the class hierarchy of the specified {@code Class}.
+   * Traverses and returns the class hierarchy of the specified {@link Class}.
    * This method visits the superclasses and superinterfaces with Breadth First
    * Search.
    *
-   * @param cls The {@code Class}.
+   * @param cls The {@link Class}.
    * @param forEach The {@link Predicate} called for each visited superclass and
    *          superinterface. If the {@link Predicate} returns {@code false},
    *          traversal will terminate, and the method will return the set of
    *          classes that had been visited before termination.
-   * @return The class hierarchy of the specified {@code Class}.
+   * @return The class hierarchy of the specified {@link Class}.
    * @throws NullPointerException If {@code cls} or {@code forEach} is null.
    */
   public static Set<Class<?>> getClassHierarchy(Class<?> cls, final Predicate<Class<?>> forEach) {
@@ -298,7 +298,7 @@ public final class Classes {
    * Returns the array of generic type classes for the specified field. If the
    * field is not a parameterized type, this method will return an empty array.
    *
-   * @param field The {@code Field}
+   * @param field The {@link Field}
    * @return The array of generic type classes for the specified field.
    * @throws NullPointerException If {@code field} is null.
    */
@@ -329,9 +329,9 @@ public final class Classes {
   }
 
   /**
-   * Returns a {@code Field} object that reflects the specified public member
+   * Returns a {@link Field} object that reflects the specified public member
    * field of the class or interface represented by {@code cls} (including
-   * inherited fields). The {@code name} parameter is a {@code String}
+   * inherited fields). The {@code name} parameter is a {@link String}
    * specifying the simple name of the desired field.
    * <p>
    * The field to be reflected is determined by the algorithm that follows. Let
@@ -347,7 +347,7 @@ public final class Classes {
    * then this method returns null.</li>
    * </ol>
    * <p>
-   * If this {@code Class} object represents an array type, then this method
+   * If this {@link Class} object represents an array type, then this method
    * does not find the {@code length} field of the array type.
    * <p>
    * This method differentiates itself from {@link Class#getField(String)} by
@@ -356,10 +356,10 @@ public final class Classes {
    *
    * @param cls The class in which to find the public field.
    * @param name The field name.
-   * @return A {@code Field} object that reflects the specified public member
+   * @return A {@link Field} object that reflects the specified public member
    *         field of the class or interface represented by {@code cls}
    *         (including inherited fields). The {@code name} parameter is a
-   *         {@code String} specifying the simple name of the desired field.
+   *         {@link String} specifying the simple name of the desired field.
    * @throws NullPointerException If {@code cls} or {@code name} is null.
    * @throws SecurityException If a security manager, <i>s</i>, is present and
    *           the caller's class loader is not the same as or an ancestor of
@@ -372,15 +372,15 @@ public final class Classes {
   }
 
   /**
-   * Returns a {@code Field} object that reflects the specified declared member
+   * Returns a {@link Field} object that reflects the specified declared member
    * field of the class or interface represented by {@code cls} (excluding
-   * inherited fields). The {@code name} parameter is a {@code String}
+   * inherited fields). The {@code name} parameter is a {@link String}
    * specifying the simple name of the desired field.
    * <p>
    * Declared fields include public, protected, default (package) access,
    * and private visibility.
    * <p>
-   * If this {@code Class} object represents an array type, then this method
+   * If this {@link Class} object represents an array type, then this method
    * does not find the {@code length} field of the array type.
    * <p>
    * This method differentiates itself from {@link Class#getDeclaredField(String)} by
@@ -389,10 +389,10 @@ public final class Classes {
    *
    * @param cls The class in which to find the declared field.
    * @param name The field name.
-   * @return A {@code Field} object that reflects the specified public member
+   * @return A {@link Field} object that reflects the specified public member
    *         field of the class or interface represented by {@code cls}
    *         (excluding inherited fields). The {@code name} parameter is a
-   *         {@code String} specifying the simple name of the desired field.
+   *         {@link String} specifying the simple name of the desired field.
    * @throws NullPointerException If {@code cls} or {@code name} is null.
    * @throws SecurityException If a security manager, <i>s</i>, is present and
    *           the caller's class loader is not the same as or an ancestor of
@@ -405,15 +405,15 @@ public final class Classes {
   }
 
   /**
-   * Returns a {@code Field} object that reflects the specified declared member
+   * Returns a {@link Field} object that reflects the specified declared member
    * field of the class or interface represented by {@code cls} (including
-   * inherited fields). The {@code name} parameter is a {@code String}
+   * inherited fields). The {@code name} parameter is a {@link String}
    * specifying the simple name of the desired field.
    * <p>
    * Declared fields include public, protected, default (package) access,
    * and private visibility.
    * <p>
-   * If this {@code Class} object represents an array type, then this method
+   * If this {@link Class} object represents an array type, then this method
    * does not find the {@code length} field of the array type.
    * <p>
    * This method differentiates itself from {@link Class#getDeclaredField(String)} by
@@ -422,10 +422,10 @@ public final class Classes {
    *
    * @param cls The class in which to find the declared field.
    * @param name The field name.
-   * @return A {@code Field} object that reflects the specified public member
+   * @return A {@link Field} object that reflects the specified public member
    *         field of the class or interface represented by {@code cls}
    *         (including inherited fields). The {@code name} parameter is a
-   *         {@code String} specifying the simple name of the desired field.
+   *         {@link String} specifying the simple name of the desired field.
    * @throws NullPointerException If {@code cls} or {@code name} is null.
    * @throws SecurityException If a security manager, <i>s</i>, is present and
    *           the caller's class loader is not the same as or an ancestor of
@@ -1015,13 +1015,13 @@ public final class Classes {
 
   /**
    * Returns the greatest common superclass of the classes of the specified
-   * {@code Collection} of objects.
+   * {@link Collection} of objects.
    *
-   * @param <T> The type parameter of the specified {@code Collection} of
+   * @param <T> The type parameter of the specified {@link Collection} of
    *          objects.
    * @param objects The array of objects.
    * @return The greatest common superclass of the classes of the specified
-   *         {@code Collection} of objects.
+   *         {@link Collection} of objects.
    * @throws IllegalArgumentException If the number of elements in the
    *           {@code objects} collection is 0.
    * @throws NullPointerException If {@code objects}, or an element of

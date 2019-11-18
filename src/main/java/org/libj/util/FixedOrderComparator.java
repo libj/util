@@ -33,7 +33,7 @@ public class FixedOrderComparator<T extends Comparable<T>> implements Comparator
   private final T[] order;
 
   /**
-   * Creates a new {@code FixedOrderComparator} with the specified order of
+   * Creates a new {@link FixedOrderComparator} with the specified order of
    * terms. The vararg array cannot be {@code null}, but member terms can be
    * {@code null}.
    *

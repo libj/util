@@ -22,9 +22,9 @@ package org.libj.util;
  */
 public interface LongIterable {
   /**
-   * Returns an iterator over values of type {@code LongIterator}.
+   * Returns an iterator over values of type {@link LongIterator}.
    *
-   * @return An iterator over values of type {@code LongIterator}.
+   * @return An iterator over values of type {@link LongIterator}.
    */
   LongIterator iterator();
 }

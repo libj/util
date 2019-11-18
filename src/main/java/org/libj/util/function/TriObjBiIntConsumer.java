@@ -19,7 +19,7 @@ package org.libj.util.function;
 /**
  * Represents an operation that accepts three object-valued and two
  * {@code int}-valued arguments, and returns no result. Unlike most other
- * functional interfaces, {@code TriObjBiIntConsumer} is expected to operate via
+ * functional interfaces, {@link TriObjBiIntConsumer} is expected to operate via
  * side-effects.
  *
  * @param <T> The type of the first object argument to the operation.

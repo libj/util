@@ -53,7 +53,7 @@ public interface LongList extends LongCollection {
    * <blockquote><pre>removeIndex(size() - 1)</pre></blockquote>
    *
    * @return The value at the top of this list (the last item of the
-   *         {@code LongList} object).
+   *         {@link LongList} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
   default long pop() {
@@ -67,7 +67,7 @@ public interface LongList extends LongCollection {
    * <blockquote><pre>get(size() - 1)</pre></blockquote>
    *
    * @return The value at the top of this list (the last item of the
-   *         {@code LongList} object).
+   *         {@link LongList} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
   default long peek() {
@@ -178,7 +178,7 @@ public interface LongList extends LongCollection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Long}.
+   *           collection is not {@link Long}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
@@ -192,7 +192,7 @@ public interface LongList extends LongCollection {
    * @param c Collection containing values to be added to this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Long}.
+   *           collection is not {@link Long}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
@@ -314,12 +314,12 @@ public interface LongList extends LongCollection {
 
   /**
    * Removes from this list all of its values that are contained in the
-   * specified {@code Collection}.
+   * specified {@link Collection}.
    *
    * @param c Collection containing values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Long}.
+   *           collection is not {@link Long}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    * @see #remove(long)
@@ -344,7 +344,7 @@ public interface LongList extends LongCollection {
    * @param c Collection containing values to be retained in this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Long}.
+   *           collection is not {@link Long}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #remove(long)
@@ -374,7 +374,7 @@ public interface LongList extends LongCollection {
    * relayed to the caller.
    * <p>
    * If the list's list-iterator does not support the {@code set} operation,
-   * then an {@code UnsupportedOperationException} will be thrown when replacing
+   * then an {@link UnsupportedOperationException} will be thrown when replacing
    * the first value.
    *
    * @param operator The operator to apply to each value.
@@ -479,7 +479,7 @@ public interface LongList extends LongCollection {
 
   /**
    * Returns the number of values in this list. If this list contains more than
-   * {@code Long.MAX_VALUE} values, returns {@code Long.MAX_VALUE}.
+   * {@link Long#MAX_VALUE} values, returns {@link Long#MAX_VALUE}.
    *
    * @return The number of values in this list.
    */
@@ -489,7 +489,7 @@ public interface LongList extends LongCollection {
   /**
    * Returns {@code true} if this list contains no values.
    *
-   * @return {@code true} if this list contains no values
+   * @return {@code true} if this list contains no values.
    */
   @Override
   boolean isEmpty();
@@ -526,8 +526,8 @@ public interface LongList extends LongCollection {
    * </pre>
    *
    * Similar idioms may be constructed for {@code indexOf} and
-   * {@code lastIndexOf}, and all of the algorithms in the
-   * {@code LongCollections} class can be applied to a subList.
+   * {@code lastIndexOf}, and all of the algorithms in the {@link LongList}
+   * class can be applied to a subList.
    * <p>
    * The semantics of the list returned by this method <b>are defined</b> if the
    * backing list (i.e., this list) is <i>structurally modified</i> in any way

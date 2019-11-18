@@ -31,7 +31,7 @@ import java.util.Spliterator;
 import java.util.TreeSet;
 
 /**
- * This class implements the {@code Set} interface, backed by a hash table
+ * This class implements the {@link Set} interface, backed by a hash table
  * (actually a {@link IdentityHashMap} instance). It makes no guarantees as to
  * the iteration order of the set; in particular, it does not guarantee that the
  * order will remain constant over time. This class permits the null element.
@@ -40,7 +40,7 @@ import java.util.TreeSet;
  * ({@code add}, {@code remove}, {@code contains} and {@code size}), assuming
  * the hash function disperses the elements properly among the buckets.
  * Iterating over this set requires time proportional to the sum of the
- * {@code IdentityHashSet} instance's size (the number of elements) plus the
+ * {@link IdentityHashSet} instance's size (the number of elements) plus the
  * "capacity" of the backing {@link IdentityHashMap} instance (the number of
  * buckets). Thus, it's very important not to set the initial capacity too high
  * (or the load factor too low) if iteration performance is important.
@@ -68,7 +68,7 @@ import java.util.TreeSet;
  * Note that the fail-fast behavior of an iterator cannot be guaranteed as it
  * is, generally speaking, impossible to make any hard guarantees in the
  * presence of unsynchronized concurrent modification. Fail-fast iterators throw
- * {@code ConcurrentModificationException} on a best-effort basis. Therefore, it
+ * {@link ConcurrentModificationException} on a best-effort basis. Therefore, it
  * would be wrong to write a program that depended on this exception for its
  * correctness: <i>the fail-fast behavior of iterators should be used only to
  * detect bugs.</i>
@@ -169,10 +169,10 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Returns a shallow copy of this {@code IdentityHashSet} instance (the
+   * Returns a shallow copy of this {@link IdentityHashSet} instance (the
    * elements themselves are not cloned).
    *
-   * @return A shallow copy of this {@code IdentityHashSet} instance.
+   * @return A shallow copy of this {@link IdentityHashSet} instance.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -183,14 +183,14 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Save the state of this {@code IdentityHashSet} instance to a stream (that
+   * Save the state of this {@link IdentityHashSet} instance to a stream (that
    * is, serialize it).
    *
    * @serialData The capacity of the backing {@link IdentityHashMap} instance
    *             (int), followed by the size of the set (the number of elements
    *             it contains) (int), followed by all of its elements (each an
    *             Object) in no particular order.
-   * @param s The {@code ObjectInputStream}.
+   * @param s The {@link ObjectInputStream}.
    * @throws IOException If an I/O error has occurred.
    */
   private void writeObject(final ObjectOutputStream s) throws IOException {
@@ -209,10 +209,10 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Reconstitute the {@code IdentityHashSet} instance from a stream (that is,
+   * Reconstitute the {@link IdentityHashSet} instance from a stream (that is,
    * deserialize it).
    *
-   * @param s The {@code ObjectInputStream}.
+   * @param s The {@link ObjectInputStream}.
    * @throws ClassNotFoundException If the class of a serialized object could
    *           not be found.
    * @throws IOException If an I/O error has occurred.

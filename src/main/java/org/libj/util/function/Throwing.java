@@ -30,7 +30,7 @@ import java.util.function.Supplier;
  */
 public final class Throwing {
   /**
-   * Rethrows the checked exception from the specified {@code ThrowingRunnable}.
+   * Rethrows the checked exception from the specified {@link ThrowingRunnable}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -41,15 +41,15 @@ public final class Throwing {
    * runnable.run();
    * </pre></blockquote>
    *
-   * @param runnable The {@code ThrowingRunnable}.
-   * @return The specified {@code Runnable} instance.
+   * @param runnable The {@link ThrowingRunnable}.
+   * @return The specified {@link Runnable} instance.
    */
   public static Runnable rethrow(final ThrowingRunnable runnable) {
     return runnable;
   }
 
   /**
-   * Rethrows the checked exception from the specified {@code ThrowingSupplier}.
+   * Rethrows the checked exception from the specified {@link ThrowingSupplier}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -63,15 +63,15 @@ public final class Throwing {
    * </pre></blockquote>
    *
    * @param <T> The type of results supplied by this supplier.
-   * @param supplier The {@code ThrowingSupplier}.
-   * @return The specified {@code Supplier} instance.
+   * @param supplier The {@link ThrowingSupplier}.
+   * @return The specified {@link Supplier} instance.
    */
   public static <T>Supplier<T> rethrow(final ThrowingSupplier<T> supplier) {
     return supplier;
   }
 
   /**
-   * Rethrows the checked exception from the specified {@code ThrowingConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingConsumer}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -84,8 +84,8 @@ public final class Throwing {
    * </pre></blockquote>
    *
    * @param <T> The type of the input to the consumer's operation.
-   * @param consumer The {@code ThrowingConsumer}.
-   * @return The specified {@code Consumer} instance.
+   * @param consumer The {@link ThrowingConsumer}.
+   * @return The specified {@link Consumer} instance.
    */
   public static <T>Consumer<T> rethrow(final ThrowingConsumer<T> consumer) {
     return consumer;
@@ -93,7 +93,7 @@ public final class Throwing {
 
   /**
    * Rethrows the checked exception from the specified
-   * {@code ThrowingBiConsumer}.
+   * {@link ThrowingBiConsumer}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -107,8 +107,8 @@ public final class Throwing {
    *
    * @param <T> The type of the first input to the consumer's operation.
    * @param <U> The type of the second input to the consumer's operation.
-   * @param consumer The {@code ThrowingBiConsumer}.
-   * @return The specified {@code BiConsumer} instance.
+   * @param consumer The {@link ThrowingBiConsumer}.
+   * @return The specified {@link BiConsumer} instance.
    */
   public static <T,U>BiConsumer<T,U> rethrow(final ThrowingBiConsumer<T,U> consumer) {
     return consumer;
@@ -116,7 +116,7 @@ public final class Throwing {
 
   /**
    * Rethrows the checked exception from the specified
-   * {@code ThrowingTriConsumer}.
+   * {@link ThrowingTriConsumer}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -131,15 +131,15 @@ public final class Throwing {
    * @param <T> The type of the first input to the consumer's operation.
    * @param <U> The type of the second input to the consumer's operation.
    * @param <V> The type of the third input to the consumer's operation.
-   * @param consumer The {@code ThrowingTriConsumer}.
-   * @return The specified {@code TriConsumer} instance.
+   * @param consumer The {@link ThrowingTriConsumer}.
+   * @return The specified {@link TriConsumer} instance.
    */
   public static <T,U,V>TriConsumer<T,U,V> rethrow(final ThrowingTriConsumer<T,U,V> consumer) {
     return consumer;
   }
 
   /**
-   * Rethrows the checked exception from the specified {@code ThrowingConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingConsumer}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -155,8 +155,8 @@ public final class Throwing {
    * </pre></blockquote>
    *
    * @param <T> The type of the input to the consumer's operation.
-   * @param predicate The {@code ThrowingConsumer}.
-   * @return The specified {@code Consumer} instance.
+   * @param predicate The {@link ThrowingConsumer}.
+   * @return The specified {@link Consumer} instance.
    */
   public static <T>Predicate<T> rethrow(final ThrowingPredicate<T> predicate) {
     return predicate;
@@ -164,7 +164,7 @@ public final class Throwing {
 
   /**
    * Rethrows the checked exception from the specified
-   * {@code ThrowingBiPredicate}.
+   * {@link ThrowingBiPredicate}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -179,15 +179,15 @@ public final class Throwing {
    *
    * @param <T> The type of the first input to the predicate's operation.
    * @param <U> The type of the second input to the predicate's operation.
-   * @param predicate The {@code ThrowingBiPredicate}.
-   * @return The specified {@code BiPredicate} instance.
+   * @param predicate The {@link ThrowingBiPredicate}.
+   * @return The specified {@link BiPredicate} instance.
    */
   public static <T,U>BiPredicate<T,U> rethrow(final ThrowingBiPredicate<T,U> predicate) {
     return predicate;
   }
 
   /**
-   * Rethrows the checked exception from the specified {@code ThrowingFunction}.
+   * Rethrows the checked exception from the specified {@link ThrowingFunction}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -204,15 +204,15 @@ public final class Throwing {
    *
    * @param <T> The type of the input to the function's operation.
    * @param <R> The type of the result of the function's function.
-   * @param function The {@code ThrowingFunction}.
-   * @return The specified {@code Function} instance.
+   * @param function The {@link ThrowingFunction}.
+   * @return The specified {@link Function} instance.
    */
   public static <T,R>Function<T,R> rethrow(final ThrowingFunction<T,R> function) {
     return function;
   }
 
   /**
-   * Rethrows the checked exception from the specified {@code ThrowingBiFunction}.
+   * Rethrows the checked exception from the specified {@link ThrowingBiFunction}.
    * <p>
    * An example of this pattern:
    * <blockquote><pre>
@@ -228,8 +228,8 @@ public final class Throwing {
    * @param <T> The type of the first input to the function's operation.
    * @param <U> The type of the second input to the function's operation.
    * @param <R> The type of the result of the function's function.
-   * @param function The {@code ThrowingFunction}.
-   * @return The specified {@code Function} instance.
+   * @param function The {@link ThrowingFunction}.
+   * @return The specified {@link Function} instance.
    */
   public static <T,U,R>BiFunction<T,U,R> rethrow(final ThrowingBiFunction<T,U,R> function) {
     return function;
@@ -239,9 +239,9 @@ public final class Throwing {
    * Rethrows the specified throwable. This method tricks the compiler to
    * allow checked exceptions to be thrown from lambda expressions.
    *
-   * @param <T> The type of the {@code Throwable}.
-   * @param t The {@code Throwable} instance to rethrow.
-   * @throws T The {@code Throwable} instance.
+   * @param <T> The type of the {@link Throwable}.
+   * @param t The {@link Throwable} instance to rethrow.
+   * @throws T The {@link Throwable} instance.
    */
   @SuppressWarnings("unchecked")
   public static <T extends Throwable>void rethrow(final Throwable t) throws T {

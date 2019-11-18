@@ -24,12 +24,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * An implementation of the {@code Set} interface that transforms the elements
- * of the supplied source {@code Set} based on {@code sourceToTarget} and
+ * An implementation of the {@link Set} interface that transforms the elements
+ * of the supplied source {@link Set} based on {@code sourceToTarget} and
  * {@code targetToSource} lambda functions.
  *
- * @param <S> Type of source {@code Set}.
- * @param <T> Type of target {@code Set}.
+ * @param <S> Type of source {@link Set}.
+ * @param <T> Type of target {@link Set}.
  * @see Set
  */
 public class TransSet<S,T> extends DelegateSet<T> {
@@ -37,7 +37,7 @@ public class TransSet<S,T> extends DelegateSet<T> {
   protected final Function<T,S> targetToSource;
 
   /**
-   * Creates a new {@code TransSet} with the specified source Set, and functions
+   * Creates a new {@link TransSet} with the specified source Set, and functions
    * defining the translation of objects types {@code S -> T} and
    * {@code T -> S}.
    * <p>
@@ -48,9 +48,9 @@ public class TransSet<S,T> extends DelegateSet<T> {
    * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
    *
    * @param source The source Set of type {@code <S>}.
-   * @param sourceToTarget The {@code Function} defining the translation from
+   * @param sourceToTarget The {@link Function} defining the translation from
    *          {@code S -> T}.
-   * @param targetToSource The {@code Function} defining the translation from
+   * @param targetToSource The {@link Function} defining the translation from
    *          {@code T -> S}.
    * @throws NullPointerException If {@code source} is null.
    */

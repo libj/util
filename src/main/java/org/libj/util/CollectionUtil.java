@@ -29,12 +29,12 @@ import java.util.function.Function;
 public final class CollectionUtil {
   /**
    * Inserts the one-dimensional representation of the input collection into the
-   * specified output collection, whereby all nested {@code Collection} members
+   * specified output collection, whereby all nested {@link Collection} members
    * are flattened at every depth. The value of
    * {@code member instanceof Collection} is used to determine whether a member
-   * represents a {@code Collection} for further recursion.
+   * represents a {@link Collection} for further recursion.
    * <p>
-   * Collection members that reference a {@code Collection} are <i>not
+   * Collection members that reference a {@link Collection} are <i>not
    * included</i> in the resulting collection. This is the equivalent of calling
    * {@code flatten(Collection,Collection,false)}.
    *
@@ -52,7 +52,7 @@ public final class CollectionUtil {
 
   /**
    * Inserts the one-dimensional representation of the input collection into the
-   * specified output collection, whereby all nested {@code Collection} members
+   * specified output collection, whereby all nested {@link Collection} members
    * are flattened at every depth.
    *
    * @param <C> The type of the output collection.
@@ -60,7 +60,7 @@ public final class CollectionUtil {
    * @param in The input collection.
    * @param out The output collection.
    * @param retainCollectionReferences If {@code true}, members that reference a
-   *          {@code Collection} are included in the output collection; if
+   *          {@link Collection} are included in the output collection; if
    *          {@code false}, they are not included in the output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
@@ -72,7 +72,7 @@ public final class CollectionUtil {
 
   /**
    * Inserts the one-dimensional representation of the input collection into the
-   * specified output collection, whereby all nested {@code Collection} members
+   * specified output collection, whereby all nested {@link Collection} members
    * are flattened at every depth. The specified resolver {@link Function}
    * provides a layer of indirection between a member, and a higher-layer value.
    * This is useful in the situation where the collection contains symbolic
@@ -88,7 +88,7 @@ public final class CollectionUtil {
    *          null, {@code member instanceof Collection} is used to determine
    *          whether the member value represents a collection.
    * @param retainCollectionReferences If {@code true}, members that reference a
-   *          {@code Collection} are included in the output collection; if
+   *          {@link Collection} are included in the output collection; if
    *          {@code false}, they are not included in the output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
@@ -114,12 +114,12 @@ public final class CollectionUtil {
 
   /**
    * Flattens the specified list into a one-dimensional representation,
-   * in-place, replacing all nested {@code List} members with their expanded
+   * in-place, replacing all nested {@link List} members with their expanded
    * form, at every depth. The value of {@code member instanceof List} is used
-   * to determine whether a member represents a {@code List} for further
+   * to determine whether a member represents a {@link List} for further
    * recursion.
    * <p>
-   * List members that reference a {@code List} are <i>not included</i> in the
+   * List members that reference a {@link List} are <i>not included</i> in the
    * resulting array. This is the equivalent of calling
    * {@code flatten(List,false)}.
    *
@@ -136,14 +136,14 @@ public final class CollectionUtil {
 
   /**
    * Flattens the specified list into a one-dimensional representation,
-   * in-place, replacing all nested {@code List} members with their expanded
+   * in-place, replacing all nested {@link List} members with their expanded
    * form, at every depth.
    *
    * @param <L> The type of the list.
    * @param <T> The type of list elements.
    * @param list The list.
    * @param retainListReferences If {@code true}, members that reference a
-   *          {@code List} are retained; if {@code false}, they are removed.
+   *          {@link List} are retained; if {@code false}, they are removed.
    * @return The specified list.
    * @throws NullPointerException If {@code list} is null.
    */
@@ -154,7 +154,7 @@ public final class CollectionUtil {
 
   /**
    * Flattens the specified list into a one-dimensional representation,
-   * in-place, replacing all nested {@code List} members with their expanded
+   * in-place, replacing all nested {@link List} members with their expanded
    * form, at every depth. The specified resolver {@link Function} provides a
    * layer of indirection between a member, and a higher-layer value. This is
    * useful in the situation where the collection contains symbolic references
@@ -165,7 +165,7 @@ public final class CollectionUtil {
    * @param <T> The type of list elements.
    * @param list The list.
    * @param retainListReferences If {@code true}, members that reference a
-   *          {@code List} are retained; if {@code false}, they are removed.
+   *          {@link List} are retained; if {@code false}, they are removed.
    * @param resolver A {@link Function} to provide a layer of indirection
    *          between a member, and a higher-layer value. If {@code resolver} is
    *          null, {@code member instanceof List} is used to determine whether
@@ -528,7 +528,7 @@ public final class CollectionUtil {
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
    * @param key The value to match.
-   * @param c The {@code Comparator} for {@code key} of type
+   * @param c The {@link Comparator} for {@code key} of type
    *          {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
@@ -547,7 +547,7 @@ public final class CollectionUtil {
    * @param fromIndex The starting index of the sorted {@link List} to search from.
    * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
-   * @param c The {@code Comparator} for {@code key} of type
+   * @param c The {@link Comparator} for {@code key} of type
    *          {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.

@@ -674,7 +674,7 @@ public final class Bytes {
   }
 
   /**
-   * Return the byte representation from reading a number of bits (0 to 8) from
+   * Returns the byte representation from reading a number of bits (0 to 8) from
    * a source byte array at an offset, read in the direction of most significant
    * bit to least significant bit. This method returns the value of the read
    * byte as shifted to fill the least significant bits first, allowing the
@@ -697,7 +697,7 @@ public final class Bytes {
   }
 
   /**
-   * Return the byte array representation from reading a number of bits from a
+   * Returns the byte array representation from reading a number of bits from a
    * source byte array at an offset, read in the direction of most significant
    * bit to least significant bit. This method returns the value of the read
    * byte as shifted to fill the least significant bits first, allowing the

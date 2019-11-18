@@ -28,7 +28,7 @@ import java.util.LinkedHashSet;
  * If no cycle exists, a topological order can be found with
  * {@link Digraph#getTopologicalOrder()}.
  * <p>
- * This implementation uses {@code Integer}-based vertex indices as references
+ * This implementation uses {@link Integer}-based vertex indices as references
  * to the arbitrary-typed object vertices via {@link HashBiMap}.
  * <p>
  * The digraph is internally represented as a dynamically scalable
@@ -39,7 +39,7 @@ import java.util.LinkedHashSet;
  * the vertices adjacent from a given vertex, which takes time proportional to
  * the number of such vertices.
  * <p>
- * The {@code Digraph} implements {@code Map<T,Set<T>>}, supporting all required
+ * The {@link Digraph} implements {@code Map<T,Set<T>>}, supporting all required
  * and optional operations.
  *
  * @param <T> The type of elements in this digraph.

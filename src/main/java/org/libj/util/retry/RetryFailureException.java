@@ -29,7 +29,7 @@ public class RetryFailureException extends Exception {
   private final int delayMs;
 
   /**
-   * Constructs a {@code RetryFailureException} with the specified exception
+   * Constructs a {@link RetryFailureException} with the specified exception
    * that was the cause of this exception.
    *
    * @param cause The exception that was the cause of this exception.
@@ -44,6 +44,8 @@ public class RetryFailureException extends Exception {
   }
 
   /**
+   * Returns the attempt number on which the exception was thrown.
+   *
    * @return The attempt number on which the exception was thrown.
    */
   public int getAttemptNo() {
@@ -51,6 +53,8 @@ public class RetryFailureException extends Exception {
   }
 
   /**
+   * Returns the delay (in milliseconds) from the previous invocation attempt.
+   *
    * @return The delay (in milliseconds) from the previous invocation attempt.
    */
   public int getDelayMs() {

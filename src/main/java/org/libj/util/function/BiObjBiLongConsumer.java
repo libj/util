@@ -19,7 +19,7 @@ package org.libj.util.function;
 /**
  * Represents an operation that accepts two object-valued and two
  * {@code long}-valued arguments, and returns no result. Unlike most other
- * functional interfaces, {@code BiObjBiLongConsumer} is expected to operate via
+ * functional interfaces, {@link BiObjBiLongConsumer} is expected to operate via
  * side-effects.
  *
  * @param <T> The type of the first object argument to the operation.

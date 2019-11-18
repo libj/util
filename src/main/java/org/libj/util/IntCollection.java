@@ -75,7 +75,7 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
    * @param c Collection containing values to be added to this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection is null.
    */
   boolean addAll(Collection<Integer> c);
@@ -113,7 +113,7 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
    * @param c Collection containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@code Integer}.
+   *           collection is not an {@link Integer}.
    * @see #remove(int)
    * @see #contains(int)
    */
@@ -135,7 +135,7 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
    * The default implementation traverses all values of the collection using its
    * {@link #iterator()}. Each matching value is removed using
    * {@link IntIterator#remove()}. If the collection's iterator does not support
-   * removal then an {@code UnsupportedOperationException} will be thrown on the
+   * removal then an {@link UnsupportedOperationException} will be thrown on the
    * first matching value.
    *
    * @param filter A predicate which returns {@code true} for values to be
@@ -169,7 +169,7 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
    * @param c Collection containing values to be retained in this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@code Integer}.
+   *           collection is not {@link Integer}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #remove(int)
@@ -226,7 +226,7 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@code Integer}.
+   *           collection is not an {@link Integer}.
    * @see #contains(int)
    */
   default boolean containsAll(final Collection<Integer> c) {
@@ -245,17 +245,17 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
   Spliterator.OfInt spliterator();
 
   /**
-   * Returns a sequential {@code IntStream} over the values in this collection.
+   * Returns a sequential {@link IntStream} over the values in this collection.
    *
-   * @return A sequential {@code IntStream} over the values in this collection.
+   * @return A sequential {@link IntStream} over the values in this collection.
    */
   IntStream stream();
 
   /**
-   * Returns a possibly parallel {@code IntStream} over the values in this
+   * Returns a possibly parallel {@link IntStream} over the values in this
    * collection.
    *
-   * @return A possibly parallel {@code IntStream} over the values in this
+   * @return A possibly parallel {@link IntStream} over the values in this
    *         collection.
    */
   IntStream parallelStream();

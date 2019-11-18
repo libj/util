@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * from executing any new threads, and blocks until all running threads have
  * finished, signifying a synchronized state.
  * <p>
- * If the {@code SynchronizingExecutorService} is in a {@link #synchronizing}
+ * If the {@link SynchronizingExecutorService} is in a {@link #synchronizing}
  * state, newly submitted tasks wait until {@link #synchronize()} returns,
  * either successfully, or due to {@link InterruptedException}. Once
  * synchronized, the {@link #onSynchronize()} method is called.
@@ -52,15 +52,15 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   private volatile boolean synchronizing;
 
   /**
-   * The source {@code ExecutorService}.
+   * The source {@link ExecutorService}.
    */
   private final ExecutorService executorService;
 
   /**
-   * Construct a new {@code SynchronizingExecutorService} with the specified
-   * source {@code ExecutorService}.
+   * Construct a new {@link SynchronizingExecutorService} with the specified
+   * source {@link ExecutorService}.
    *
-   * @param executorService The source {@code ExecutorService}.
+   * @param executorService The source {@link ExecutorService}.
    */
   public SynchronizingExecutorService(final ExecutorService executorService) {
     this.executorService = executorService;
@@ -83,10 +83,10 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
 
   /**
    * Stop execution of new threads, and wait for all running threads to finish.
-   * Once all threads have finished, {@code onSynchronize()} is called. If this
+   * Once all threads have finished, {@link #onSynchronize()} is called. If this
    * method's thread is interrupted waiting for this instance's threads to
    * finish, the command to synchronize is aborted, and this method throws an
-   * {@code InterruptedException}.
+   * {@link InterruptedException}.
    *
    * @throws InterruptedException If this method's thread is interrupted waiting
    *           for this instance's threads to finish.
@@ -128,10 +128,21 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
     }
   }
 
+  private void doExecute(final Runnable command) {
+    runningThreadCount.incrementAndGet();
+    try {
+      executorService.execute(command);
+    }
+    catch (final Throwable t) {
+      runningThreadCount.decrementAndGet();
+      throw t;
+    }
+  }
+
   /**
    * Executes the given command at some time in the future. If the
-   * {@code SynchronizingExecutor} is synchronizing, the given command will wait
-   * until {@code onSynchronize()} returns.
+   * {@link SynchronizingExecutorService} is synchronizing, the given command
+   * will wait until {@link #onSynchronize()} returns.
    *
    * @param command The runnable task.
    * @throws RejectedExecutionException If this task cannot be accepted for
@@ -157,28 +168,13 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
     };
 
     if (!synchronizing) {
-      runningThreadCount.incrementAndGet();
-      try {
-        executorService.execute(wrapper);
-      }
-      catch (final Throwable e) {
-        runningThreadCount.decrementAndGet();
-        throw e;
-      }
-
+      doExecute(wrapper);
       return;
     }
 
     logger.debug("Waiting for unlock to exec new threads...");
     synchronized (startLock) {
-      runningThreadCount.incrementAndGet();
-      try {
-        executorService.execute(wrapper);
-      }
-      catch (final Throwable e) {
-        runningThreadCount.decrementAndGet();
-        throw e;
-      }
+      doExecute(wrapper);
     }
   }
 

@@ -23,12 +23,12 @@ package org.libj.util.retry;
  * This is a functional interface whose functional method is
  * {@link #retry(RetryPolicy,int)}.
  *
- * @param <T> The type of the result of this {@code Retryable}.
+ * @param <T> The type of the result of this {@link Retryable}.
  */
 @FunctionalInterface
 public interface Retryable<T> {
   /**
-   * Main run method of the {@code Retryable} that is invoked by a
+   * Main run method of the {@link Retryable} that is invoked by a
    * {@link RetryPolicy}, which defines the rules of retry invocations.
    *
    * @param retryPolicy The invoking {@link RetryPolicy}.

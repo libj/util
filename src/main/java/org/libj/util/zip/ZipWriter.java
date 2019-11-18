@@ -29,7 +29,7 @@ public class ZipWriter implements AutoCloseable {
   private final ZipOutputStream out;
 
   /**
-   * Creates a new {@code ZipWriter} with the specified {@link ZipOutputStream}.
+   * Creates a new {@link ZipWriter} with the specified {@link ZipOutputStream}.
    *
    * @param out The {@link ZipOutputStream}.
    * @throws NullPointerException If {@code out} is null.

@@ -25,13 +25,13 @@ public class RetryException extends RuntimeException {
   private static final long serialVersionUID = -215964084300420516L;
 
   /**
-   * Creates a {@code RetryException} with no detail message.
+   * Creates a {@link RetryException} with no detail message.
    */
   public RetryException() {
   }
 
   /**
-   * Creates a {@code RetryException} with the specified detail message.
+   * Creates a {@link RetryException} with the specified detail message.
    *
    * @param message The detail message.
    */
@@ -40,7 +40,7 @@ public class RetryException extends RuntimeException {
   }
 
   /**
-   * Constructs a {@code RetryException} with the specified exception that was
+   * Constructs a {@link RetryException} with the specified exception that was
    * the cause of this exception.
    *
    * @param cause The exception that was the cause of this exception.
@@ -50,7 +50,7 @@ public class RetryException extends RuntimeException {
   }
 
   /**
-   * Constructs a {@code RetryException} with the specified detail message and
+   * Constructs a {@link RetryException} with the specified detail message and
    * exception that was the cause of this exception.
    *
    * @param message The detail message.
@@ -61,7 +61,7 @@ public class RetryException extends RuntimeException {
   }
 
   /**
-   * Constructs a {@code RetryException} with the specified detail message,
+   * Constructs a {@link RetryException} with the specified detail message,
    * cause, suppression enabled or disabled, and writable stack trace enabled or
    * disabled.
    *

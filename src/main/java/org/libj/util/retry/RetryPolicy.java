@@ -34,11 +34,11 @@ public abstract class RetryPolicy implements Serializable {
   private final int maxRetries;
 
   /**
-   * Creates a new {@code RetryPolicy} with the specified {@code maxRetries}
+   * Creates a new {@link RetryPolicy} with the specified {@code maxRetries}
    * value.
    *
    * @param maxRetries A positive value representing the number of retry
-   *          attempts allowed by the {@code RetryPolicy}.
+   *          attempts allowed by the {@link RetryPolicy}.
    */
   public RetryPolicy(final int maxRetries) {
     this.maxRetries = maxRetries;
@@ -92,7 +92,9 @@ public abstract class RetryPolicy implements Serializable {
   }
 
   /**
-   * @return The number of retry attempts allowed by this {@code RetryPolicy}.
+   * Returns the number of retry attempts allowed by this {@link RetryPolicy}.
+   *
+   * @return The number of retry attempts allowed by this {@link RetryPolicy}.
    */
   public int getMaxRetries() {
     return this.maxRetries;

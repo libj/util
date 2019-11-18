@@ -21,8 +21,8 @@ import java.util.function.Function;
 /**
  * Represents a function that accepts one argument and produces a result.
  * <p>
- * The {@code ThrowingFunction} distinguishes itself from {@link Function} by
- * allowing the functional interface to throw an {@code Exception}. This can be
+ * The {@link ThrowingFunction} distinguishes itself from {@link Function} by
+ * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  * <blockquote><pre>

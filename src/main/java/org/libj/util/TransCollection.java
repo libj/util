@@ -35,7 +35,7 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
   protected final Function<T,S> targetToSource;
 
   /**
-   * Creates a new {@code TransCollection} with the specified source Collection,
+   * Creates a new {@link TransCollection} with the specified source Collection,
    * and functions defining the translation of objects types {@code S -> T} and
    * {@code T -> S}.
    * <p>
@@ -46,9 +46,9 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
    * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
    *
    * @param source The source Collection of type {@code <S>}.
-   * @param sourceToTarget The {@code Function} defining the translation from
+   * @param sourceToTarget The {@link Function} defining the translation from
    *          {@code S -> T}.
-   * @param targetToSource The {@code Function} defining the translation from
+   * @param targetToSource The {@link Function} defining the translation from
    *          {@code T -> S}.
    * @throws NullPointerException If {@code source} is null.
    */

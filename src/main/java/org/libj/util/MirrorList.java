@@ -28,11 +28,11 @@ import java.util.function.Function;
  * <li>For elements of type {@code <M>}, which is the generic type of the list
  * returned by {@link #getMirror()}</li>
  * </ol>
- * Elements added to the {@code MirrorList} are added to both representations,
+ * Elements added to the {@link MirrorList} are added to both representations,
  * the first added directly, and the second through a mirror function that is
  * specified on the constructor.
  * <p>
- * The {@link #getMirror()} method returns a {@code MirrorList} instance of type
+ * The {@link #getMirror()} method returns a {@link MirrorList} instance of type
  * {@code <M>} that retains the one-to-one mapping with its mirror of type
  * {@code <E>}.
  *
@@ -44,18 +44,18 @@ public class MirrorList<E,M> extends ObservableList<E> {
   private final MirrorList<M,E> mirror;
 
   /**
-   * Creates a new {@code MirrorList} with the specified lists and mirror
+   * Creates a new {@link MirrorList} with the specified lists and mirror
    * functions. The specified lists are meant to be empty, as they become the
-   * underlying lists of the new {@code MirrorList} instance. The specified
-   * {@code Function} instances represent the {@code E -> M} mirror function for
-   * the new {@code MirrorList} instance, and the and {@code M -> E} mirror
+   * underlying lists of the new {@link MirrorList} instance. The specified
+   * {@link Function} instances represent the {@code E -> M} mirror function for
+   * the new {@link MirrorList} instance, and the and {@code M -> E} mirror
    * function for the instance returned by {@link #getMirror()}.
    *
    * @param a The underlying list of type {@code <E>}.
    * @param b The underlying list of type {@code <M>}.
-   * @param forward The {@code Function} instance representing the
+   * @param forward The {@link Function} instance representing the
    *          {@code E -> M} mirror function.
-   * @param reverse The {@code Function} instance representing the
+   * @param reverse The {@link Function} instance representing the
    *          {@code M -> E} mirror function.
    * @throws NullPointerException If any of the specified parameters is null.
    */
@@ -72,11 +72,11 @@ public class MirrorList<E,M> extends ObservableList<E> {
   }
 
   /**
-   * Returns a {@code MirrorList} instance of type {@code <M>} that retains the
+   * Returns a {@link MirrorList} instance of type {@code <M>} that retains the
    * one-to-one mapping with its mirror of type {@code <E>} (i.e. {@code this}
    * instance).
    *
-   * @return A {@code MirrorList} instance of type {@code <M>} that retains the
+   * @return A {@link MirrorList} instance of type {@code <M>} that retains the
    *         one-to-one mapping with its mirror of type {@code <E>} (i.e.
    *         {@code this} instance).
    */

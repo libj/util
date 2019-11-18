@@ -37,7 +37,7 @@ public class TransList<S,T> extends DelegateList<T> {
   protected final BiFunction<Integer,T,S> targetToSource;
 
   /**
-   * Creates a new {@code TransList} with the specified source List, and
+   * Creates a new {@link TransList} with the specified source List, and
    * functions defining the translation of objects types {@code S -> T} and
    * {@code T -> S}.
    * <p>
@@ -48,9 +48,9 @@ public class TransList<S,T> extends DelegateList<T> {
    * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
    *
    * @param source The source List of type {@code <S>}.
-   * @param sourceToTarget The {@code Function} defining the translation from
+   * @param sourceToTarget The {@link BiFunction} defining the translation from
    *          {@code S -> T}.
-   * @param targetToSource The {@code Function} defining the translation from
+   * @param targetToSource The {@link BiFunction} defining the translation from
    *          {@code T -> S}.
    * @throws NullPointerException If {@code source} is null.
    */

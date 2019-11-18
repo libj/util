@@ -23,7 +23,7 @@ import java.util.function.DoubleConsumer;
  * Represents an operation that accepts two {@code double}-valued arguments and
  * returns no result. This is the two-arity specialization of
  * {@link DoubleConsumer}. Unlike most other functional interfaces,
- * {@code BiDoubleConsumer} is expected to operate via side-effects.
+ * {@link BiDoubleConsumer} is expected to operate via side-effects.
  *
  * @see DoubleConsumer
  */
@@ -38,14 +38,14 @@ public interface TriDoubleConsumer {
   void accept(double v1, double v2);
 
   /**
-   * Returns a composed {@code BiDoubleConsumer} that performs, in sequence, this
+   * Returns a composed {@link BiDoubleConsumer} that performs, in sequence, this
    * operation followed by the {@code after} operation. If performing either
    * operation throws an exception, it is relayed to the caller of the composed
    * operation. If performing this operation throws an exception, the
    * {@code after} operation will not be performed.
    *
    * @param after The operation to perform after this operation.
-   * @return A composed {@code BiDoubleConsumer} that performs in sequence this
+   * @return A composed {@link BiDoubleConsumer} that performs in sequence this
    *         operation followed by the {@code after} operation.
    * @throws NullPointerException If {@code after} is null.
    */

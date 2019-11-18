@@ -58,12 +58,12 @@ public final class Repeat {
 
   /**
    * An abstract class defining the concept of an algorithm supported by the
-   * {@code Repeat} methods.
+   * {@link Repeat} methods.
    */
   private static abstract class Algorithm {
     /**
      * Default implementation of "simple" variation of abstract
-     * {@code Algorithm}.
+     * {@link Algorithm}.
      *
      * @param <M> The type parameter for the member class of {@code array}.
      * @param <A> The type parameter of {@code arg}.
@@ -106,7 +106,7 @@ public final class Repeat {
       }
 
       /**
-       * Recursive implementation of "contained" variation of {@code Algorithm}.
+       * Recursive implementation of "contained" variation of {@link Algorithm}.
        *
        * @param <C> The type of the object containing the array on which
        *          repetition is to be performed.
@@ -114,7 +114,7 @@ public final class Repeat {
        * @param <A> The type of the optional argument passed to member elements
        *          during recursion.
        * @param array The array on which recursion is to be performed.
-       * @param type The {@code Class} representing the member type {@code <M>}.
+       * @param type The {@link Class} representing the member type {@code <M>}.
        * @param recurser {@link Recurser} defining the recursion logic.
        * @param arg Argument to be passed to {@code predicate}.
        * @return The {@code type}-typed array of {@code recurser}-accepted
@@ -142,8 +142,8 @@ public final class Repeat {
        * @param <A> The type of the optional argument passed to member elements
        *          during recursion.
        * @param array The array on which recursion is to be performed.
-       * @param type The {@code Class} representing the member type {@code <M>}.
-       * @param predicate The {@code BiPredicate} used to test each member in
+       * @param type The {@link Class} representing the member type {@code <M>}.
+       * @param predicate The {@link BiPredicate} used to test each member in
        *          the array whether to be included in the resulting array.
        * @param arg The optional argument of type {@code <A>} that is passed to
        *          member elements during recursion.
@@ -167,8 +167,8 @@ public final class Repeat {
        * @param container The container of the array on which repetition is to
        *          be performed.
        * @param array The array on which recursion is to be performed.
-       * @param type The {@code Class} representing the member type {@code <M>}.
-       * @param recurser The {@code Recurser} defining the recursion behavior.
+       * @param type The {@link Class} representing the member type {@code <M>}.
+       * @param recurser The {@link Recurser} defining the recursion behavior.
        * @param arg The optional argument of type {@code <A>} that is passed to
        *          member elements during recursion.
        * @param index The starting index of recursion ({@code 0} when initially
@@ -182,7 +182,7 @@ public final class Repeat {
     }
 
     /**
-     * A {@code RecursiveAlgorithm} that results in an array of qualifying
+     * A {@link RecursiveAlgorithm} that results in an array of qualifying
      * members stored in the order of traversal.
      */
     private static final RecursiveAlgorithm recursiveOrdered = new RecursiveAlgorithm() {
@@ -222,7 +222,7 @@ public final class Repeat {
     };
 
     /**
-     * A {@code RecursiveAlgorithm} that results in an array of qualifying
+     * A {@link RecursiveAlgorithm} that results in an array of qualifying
      * members stored in the inverse order of traversal (i.e. the first
      * traversed member is placed in the end of the resulting array, and the
      * last traversed member is first).
@@ -295,7 +295,7 @@ public final class Repeat {
      * @param container The container of the array on which repetition is to be
      *          performed.
      * @param array The array on which recursion is to be performed.
-     * @param type The {@code Class} representing the member type {@code <M>}.
+     * @param type The {@link Class} representing the member type {@code <M>}.
      * @param recurser {@link Recurser} defining the recursion logic.
      * @param arg Argument to be passed to {@code predicate}.
      * @return The {@code type}-typed array of {@code recurser}-accepted members
@@ -343,7 +343,7 @@ public final class Repeat {
      * @param container The container of the array on which repetition is to be
      *          performed.
      * @param array The array on which recursion is to be performed.
-     * @param type The {@code Class} representing the member type {@code <M>}.
+     * @param type The {@link Class} representing the member type {@code <M>}.
      * @param recurser {@link Recurser} defining the recursion logic.
      * @param arg Argument to be passed to {@code predicate}.
      * @return The {@code type}-typed array of {@code recurser}-accepted members
@@ -360,7 +360,7 @@ public final class Repeat {
   }
 
   /**
-   * An {@code Algorithm} implementing iterative traversal that results in an
+   * An {@link Algorithm} implementing iterative traversal that results in an
    * array of qualifying members stored in the order of traversal.
    */
   private static final Algorithm iterative = new Algorithm() {

@@ -28,7 +28,7 @@ public class ArrayCharSequence implements CharSequence, Serializable {
   private final int count;
 
   /**
-   * Creates a new {@code ArrayCharSequence} with the specified {@code char[]},
+   * Creates a new {@link ArrayCharSequence} with the specified {@code char[]},
    * with the char sequence range as {@code 0} to {@code buf.length}.
    *
    * @param buf The {@code char[]}.
@@ -39,7 +39,7 @@ public class ArrayCharSequence implements CharSequence, Serializable {
   }
 
   /**
-   * Creates a new {@code ArrayCharSequence} with the specified {@code char[]},
+   * Creates a new {@link ArrayCharSequence} with the specified {@code char[]},
    * with the char sequence range as {@code 0} to {@code count}.
    *
    * @param buf The {@code char[]}.
@@ -53,7 +53,7 @@ public class ArrayCharSequence implements CharSequence, Serializable {
   }
 
   /**
-   * Creates a new {@code ArrayCharSequence} with the specified {@code char[]},
+   * Creates a new {@link ArrayCharSequence} with the specified {@code char[]},
    * with the char sequence range as {@code offset} to {@code count}.
    *
    * @param buf The {@code char[]}.

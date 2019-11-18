@@ -116,7 +116,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
   }
 
   /**
-   * Create a new {@code Hexadecimal} object with the provided raw bytes.
+   * Create a new {@link Hexadecimal} object with the provided raw bytes.
    *
    * @param bytes The raw bytes.
    */
@@ -125,7 +125,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
   }
 
   /**
-   * Create a new {@code Hexadecimal} object with the provided hex-encoded
+   * Create a new {@link Hexadecimal} object with the provided hex-encoded
    * string value.
    *
    * @param hex The hex-encoded string value.

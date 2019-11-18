@@ -36,19 +36,19 @@ import java.util.stream.IntStream;
  * time</i>, that is, adding n elements requires O(n) time. All of the other
  * operations run in linear time (roughly speaking).
  * <p>
- * Each {@code ArrayIntList} instance has a <i>capacity</i>. The capacity is the
+ * Each {@link ArrayIntList} instance has a <i>capacity</i>. The capacity is the
  * size of the array used to store the elements in the list. It is always at
  * least as large as the list size. As elements are added to an ArrayIntList,
  * its capacity grows automatically. The details of the growth policy are not
  * specified beyond the fact that adding an element has constant amortized time
  * cost.
  * <p>
- * An application can increase the capacity of an {@code ArrayIntList} instance
+ * An application can increase the capacity of an {@link ArrayIntList} instance
  * before adding a large number of elements using the {@code ensureCapacity}
  * operation. This may reduce the amount of incremental reallocation.
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
- * multiple threads access an {@code ArrayIntList} instance concurrently, and at
+ * multiple threads access an {@link ArrayIntList} instance concurrently, and at
  * least one of the threads modifies the list structurally, it <i>must</i> be
  * synchronized externally. (A structural modification is any operation that
  * adds or deletes one or more elements, or explicitly resizes the backing
@@ -638,9 +638,9 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
   }
 
   /**
-   * Trims the capacity of this {@code ArrayIntList} instance to be the list's
+   * Trims the capacity of this {@link ArrayIntList} instance to be the list's
    * current size. An application can use this operation to minimize the storage
-   * of an {@code ArrayIntList} instance.
+   * of an {@link ArrayIntList} instance.
    */
   public void trimToSize() {
     if (size < valueData.length) {
@@ -650,7 +650,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
   }
 
   /**
-   * Increases the capacity of this {@code ArrayIntList} instance, if necessary,
+   * Increases the capacity of this {@link ArrayIntList} instance, if necessary,
    * to ensure that it can hold at least the number of values specified by the
    * minimum capacity argument.
    *
@@ -683,7 +683,9 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
   }
 
   /**
-   * @return A clone of this {@code ArrayIntList} instance.
+   * Returns a clone of this {@link ArrayIntList} instance.
+   *
+   * @return A clone of this {@link ArrayIntList} instance.
    */
   @Override
   protected ArrayIntList clone() {
@@ -724,7 +726,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
   /**
    * Compares the specified object with this list for equality. Returns
    * {@code true} if and only if the specified object is also a
-   * {@code ArrayIntList}, both lists have the same size, and all corresponding
+   * {@link ArrayIntList}, both lists have the same size, and all corresponding
    * pairs of values in the two lists are <i>equal</i>. In other words, two
    * lists are defined to be equal if they contain the same values in the same
    * order.
