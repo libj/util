@@ -27,9 +27,10 @@ public final class Combinations {
    * Combines all subsets of elements in the specified 2-dimensional array,
    * where:
    * <ul>
-   * <li>{@code n} = the total number of elements in the 2-dimensional array.
+   * <li>{@code n} = the total number of elements in the 2-dimensional
+   * array.</li>
    * <li>{@code r} = the length of the first dimension of the 2-dimensional
-   * array.
+   * array.</li>
    * </ul>
    * Time Complexity: {@code O(n choose r)}
    *
