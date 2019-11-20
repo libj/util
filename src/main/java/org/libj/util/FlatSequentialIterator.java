@@ -61,16 +61,6 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
    */
   protected abstract Object get(T c, int i);
 
-  /**
-   * Returns whether the specified object is a sequentially accessible
-   * collection.
-   *
-   * @param obj The object to test.
-   * @return Whether the specified object is a sequentially accessible
-   *         collection.
-   */
-  protected abstract boolean isIterable(Object obj);
-
   @Override
   public boolean hasNext() {
     if (hasNext)

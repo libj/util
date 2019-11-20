@@ -29,4 +29,12 @@ import java.util.Iterator;
 public abstract class FlatIterator<E,T> implements Iterator<E> {
   protected final ArrayList<T> stack = new ArrayList<>();
   protected volatile boolean hasNext;
+
+  /**
+   * Specifies whether the provided object is an iterable collection.
+   *
+   * @param obj The object to test.
+   * @return Whether the provided object is a iterable collection.
+   */
+  protected abstract boolean isIterable(Object obj);
 }
