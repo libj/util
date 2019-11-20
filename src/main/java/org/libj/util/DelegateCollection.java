@@ -37,17 +37,16 @@ import java.util.stream.Stream;
  * @param <E> The type of elements in this collection.
  */
 public abstract class DelegateCollection<E> extends AbstractCollection<E> {
-  /**
-   * The target Collection.
-   */
+  /** The target {@link Collection}. */
   @SuppressWarnings("rawtypes")
   protected volatile Collection target;
 
   /**
-   * Creates a new {@link DelegateCollection} with the specified {@code target}.
+   * Creates a new {@link DelegateCollection} with the specified target
+   * {@link Collection}.
    *
-   * @param target The target {@link Collection} object.
-   * @throws NullPointerException If {@code target} is null.
+   * @param target The target {@link Collection}.
+   * @throws NullPointerException If the target {@link Collection} is null.
    */
   public DelegateCollection(final Collection<E> target) {
     this.target = Objects.requireNonNull(target);

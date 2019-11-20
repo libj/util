@@ -35,17 +35,15 @@ import java.util.Objects;
  * @param <E> The type of elements in this list.
  */
 public abstract class DelegateList<E> extends AbstractList<E> {
-  /**
-   * The target List.
-   */
+  /** The target List. */
   @SuppressWarnings("rawtypes")
   protected volatile List target;
 
   /**
-   * Creates a new {@link DelegateList} with the specified {@code target}.
+   * Creates a new {@link DelegateList} with the specified target {@link List}.
    *
-   * @param target The target {@link List} object.
-   * @throws NullPointerException If {@code target} is null.
+   * @param target The target {@link List}.
+   * @throws NullPointerException If the target {@link List} is null.
    */
   public DelegateList(final List<E> target) {
     this.target = Objects.requireNonNull(target);

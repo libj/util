@@ -32,24 +32,23 @@ import java.util.function.Consumer;
  * @param <E> The type of elements returned by this iterator.
  */
 public abstract class DelegateIterator<E> implements Iterator<E> {
-  /**
-   * The target Iterator.
-   */
+  /** The target {@link Iterator}. */
   @SuppressWarnings("rawtypes")
   protected volatile Iterator target;
 
   /**
-   * Creates a new {@link DelegateIterator} with the specified {@code target}.
+   * Creates a new {@link DelegateIterator} with the specified target
+   * {@link Iterator}.
    *
-   * @param target The target {@link Iterator} object.
-   * @throws NullPointerException If {@code target} is null.
+   * @param target The target {@link Iterator}.
+   * @throws NullPointerException If the target {@link Iterator} is null.
    */
   public DelegateIterator(final Iterator<E> target) {
     this.target = Objects.requireNonNull(target);
   }
 
   /**
-   * Creates a new {@link DelegateIterator} with a null source.
+   * Creates a new {@link DelegateIterator} with a null target.
    */
   protected DelegateIterator() {
   }

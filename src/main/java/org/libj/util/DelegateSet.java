@@ -38,17 +38,15 @@ import java.util.stream.Stream;
  * @param <E> The type of elements in this set.
  */
 public abstract class DelegateSet<E> extends AbstractSet<E> {
-  /**
-   * The target Set.
-   */
+  /** The target {@link Set}. */
   @SuppressWarnings("rawtypes")
   protected volatile Set target;
 
   /**
-   * Creates a new {@link DelegateSet} with the specified {@code target}.
+   * Creates a new {@link DelegateSet} with the specified target {@link Set}.
    *
-   * @param target The target {@link Set} object.
-   * @throws NullPointerException If {@code target} is null.
+   * @param target The target {@link Set}.
+   * @throws NullPointerException If the target {@link Set} is null.
    */
   public DelegateSet(final Set<E> target) {
     this.target = Objects.requireNonNull(target);
