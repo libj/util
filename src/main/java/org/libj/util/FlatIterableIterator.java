@@ -50,6 +50,7 @@ public abstract class FlatIterableIterator<T,E> extends FlatIterator<E,Iterator<
   protected abstract Iterator<?> iterator(T c);
 
   @Override
+  @SuppressWarnings("unchecked")
   public boolean hasNext() {
     if (hasNext)
       return true;

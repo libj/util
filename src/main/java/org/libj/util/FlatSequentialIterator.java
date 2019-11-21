@@ -62,6 +62,7 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
   protected abstract Object get(T c, int i);
 
   @Override
+  @SuppressWarnings("unchecked")
   public boolean hasNext() {
     if (hasNext)
       return true;
@@ -88,6 +89,7 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public E next() {
     if (!hasNext && !hasNext())
       throw new NoSuchElementException();
