@@ -254,6 +254,96 @@ public final class ArrayUtil {
   }
 
   /**
+   * Returns true if the two specified arrays of floats, over the provided
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the provided ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is null.
+   */
+  public static boolean equals(final float[] a, int aFromIndex, final int aToIndex, final float[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i)
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Returns true if the two specified arrays of doubles, over the provided
+   * ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each
+   * range is the same, and all corresponding pairs of elements over the
+   * provided ranges in the two arrays are equal. In other words, two arrays
+   * are equal if they contain, over the provided ranges, the same elements in
+   * the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first
+   *          array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first
+   *          array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second
+   *          array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second
+   *          array to be tested.
+   * @return {@code true} If the two arrays, over the provided ranges, are
+   *         equal.
+   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
+   *           {@code bFromIndex > bToIndex}.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is null.
+   */
+  public static boolean equals(final double[] a, int aFromIndex, final int aToIndex, final double[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
+    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i)
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
+
+  /**
    * Returns true if the two specified arrays of objects, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
@@ -1639,6 +1729,238 @@ public final class ArrayUtil {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
+  public static String toString(final float[] array, final char delimiter) {
+    return array == null ? null : toString(array, delimiter, 0, array.length);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final float[] array, final char delimiter, final int offset) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final float[] array, final char delimiter, final int offset, final int length) {
+    if (array == null)
+      return "null";
+
+    if (array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return String.valueOf(array[offset]);
+
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
+    for (int i = offset + 1; i < length + offset; ++i)
+      builder.append(delimiter).append(array[i]);
+
+    return builder.toString();
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final float[] array, final String delimiter) {
+    return array == null ? null : toString(array, delimiter, 0, array.length);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final float[] array, final String delimiter, final int offset) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final float[] array, final String delimiter, final int offset, final int length) {
+    if (array == null)
+      return "null";
+
+    if (array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return String.valueOf(array[offset]);
+
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
+    for (int i = offset + 1; i < length + offset; ++i)
+      builder.append(delimiter).append(array[i]);
+
+    return builder.toString();
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final double[] array, final char delimiter) {
+    return array == null ? null : toString(array, delimiter, 0, array.length);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final double[] array, final char delimiter, final int offset) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final double[] array, final char delimiter, final int offset, final int length) {
+    if (array == null)
+      return "null";
+
+    if (array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return String.valueOf(array[offset]);
+
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
+    for (int i = offset + 1; i < length + offset; ++i)
+      builder.append(delimiter).append(array[i]);
+
+    return builder.toString();
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final double[] array, final String delimiter) {
+    return array == null ? null : toString(array, delimiter, 0, array.length);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final double[] array, final String delimiter, final int offset) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
+  public static String toString(final double[] array, final String delimiter, final int offset, final int length) {
+    if (array == null)
+      return "null";
+
+    if (array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return String.valueOf(array[offset]);
+
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
+    for (int i = offset + 1; i < length + offset; ++i)
+      builder.append(delimiter).append(array[i]);
+
+    return builder.toString();
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each
+   * member's {@link #toString()} method, delimited by the provided delimiter
+   * {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @return The delimiter delimited {@link #toString()} representation of the
+   *         array, or {@code null} if the specified array is null.
+   */
   public static String toString(final Object[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
   }
@@ -2638,6 +2960,51 @@ public final class ArrayUtil {
   public static void shuffle(final Object[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
+  }
+
+  /**
+   * Sorts the specified array of {@code int}s, according to the specified
+   * {@link IntComparator}.
+   *
+   * @param a The array of {@code int}s.
+   * @param c The {@link IntComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final int[] a, final IntComparator c) {
+    if (c == null)
+      Arrays.sort(a);
+    else
+      IntTimSort.sort(a, 0, a.length, c, null, 0, 0);
+  }
+
+  /**
+   * Sorts the specified array of {@code long}s, according to the specified
+   * {@link LongComparator}.
+   *
+   * @param a The array of {@code long}s.
+   * @param c The {@link LongComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final long[] a, final LongComparator c) {
+    if (c == null)
+      Arrays.sort(a);
+    else
+      LongTimSort.sort(a, 0, a.length, c, null, 0, 0);
+  }
+
+  /**
+   * Sorts the specified array of {@code double}s, according to the specified
+   * {@link DoubleComparator}.
+   *
+   * @param a The array of {@code double}s.
+   * @param c The {@link DoubleComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final double[] a, final DoubleComparator c) {
+    if (c == null)
+      Arrays.sort(a);
+    else
+      DoubleTimSort.sort(a, 0, a.length, c, null, 0, 0);
   }
 
   private ArrayUtil() {
