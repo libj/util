@@ -344,7 +344,7 @@ public final class Classes {
    * are searched in the order they were declared.</li>
    * <li>If no field was found in steps 1 and 2 above, and C has a superclass S,
    * then this algorithm is invoked recursively upon S. If C has no superclass,
-   * then this method returns null.</li>
+   * then this method returns {@code null}.</li>
    * </ol>
    * <p>
    * If this {@link Class} object represents an array type, then this method
@@ -754,8 +754,9 @@ public final class Classes {
    * declared in a class, and one of these methods has a return type that is
    * more specific than any of the others, that method is returned; otherwise
    * one of the methods is chosen arbitrarily. If the name is "&lt;init&gt;"or
-   * "&lt;clinit&gt;" this method returns null. If this Class object represents
-   * an array type, then this method does not find the clone() method.
+   * "&lt;clinit&gt;" this method returns {@code null}. If this Class object
+   * represents an array type, then this method does not find the clone()
+   * method.
    * <p>
    * This method differentiates itself from
    * {@link Class#getDeclaredMethod(String,Class...)} by returning null when a
@@ -793,8 +794,9 @@ public final class Classes {
    * declared in a class, and one of these methods has a return type that is
    * more specific than any of the others, that method is returned; otherwise
    * one of the methods is chosen arbitrarily. If the name is "&lt;init&gt;"or
-   * "&lt;clinit&gt;" this method returns null. If this Class object represents
-   * an array type, then this method does not find the clone() method.
+   * "&lt;clinit&gt;" this method returns {@code null}. If this Class object
+   * represents an array type, then this method does not find the clone()
+   * method.
    * <p>
    * This method differentiates itself from
    * {@link Class#getDeclaredMethod(String,Class...)} by returning null when a
