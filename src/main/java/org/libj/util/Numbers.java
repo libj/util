@@ -615,8 +615,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Short#parseShort(String)}, but returns null if the string does not
-   * contain a parsable {@code short}.
+   * {@link Short#parseShort(String)}, but returns {@code null} if the string
+   * does not contain a parsable {@code short}.
    *
    * @param s A {@link String} containing the {@link Short} representation to be
    *          parsed.
@@ -630,8 +630,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Short#parseShort(String,int)}, but returns null if the string does not
-   * contain a parsable {@code short}.
+   * {@link Short#parseShort(String,int)}, but returns {@code null} if the
+   * string does not contain a parsable {@code short}.
    *
    * @param s A {@link String} containing the {@link Short} representation to be
    *          parsed.
@@ -650,8 +650,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String)}, but returns null if the string does not
-   * contain a parsable {@code int}.
+   * {@link Integer#parseInt(String)}, but returns {@code null} if the string
+   * does not contain a parsable {@code int}.
    *
    * @param s A {@link String} containing the {@link Integer} representation to
    *          be parsed.
@@ -665,8 +665,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String,int)}, but returns null if the string does
-   * not contain a parsable {@code int}.
+   * {@link Integer#parseInt(String,int)}, but returns {@code null} if the
+   * string does not contain a parsable {@code int}.
    *
    * @param s A {@link String} containing the {@link Integer} representation to
    *          be parsed.
@@ -724,8 +724,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Long#parseLong(String)}, but returns null if the string does not
-   * contain a parsable {@code long}.
+   * {@link Long#parseLong(String)}, but returns {@code null} if the string does
+   * not contain a parsable {@code long}.
    *
    * @param s A {@link String} containing the {@link Long} representation to be
    *          parsed.
@@ -739,8 +739,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Long#parseLong(String,int)}, but returns null if the string does not
-   * contain a parsable {@code long}.
+   * {@link Long#parseLong(String,int)}, but returns {@code null} if the string
+   * does not contain a parsable {@code long}.
    *
    * @param s A {@link String} containing the {@link Long} representation to be
    *          parsed.
@@ -798,8 +798,8 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Float#parseFloat(String)}, but returns null if the string does not
-   * contain a parsable {@code float}.
+   * {@link Float#parseFloat(String)}, but returns {@code null} if the string
+   * does not contain a parsable {@code float}.
    *
    * @param s A {@link String} containing the {@link Float} representation to be
    *          parsed.
@@ -820,13 +820,14 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Double#parseDouble(String)}, but returns null if the string does not
-   * contain a parsable {@code double}.
+   * {@link Double#parseDouble(String)}, but returns {@code null} if the string
+   * does not contain a parsable {@code double}.
    *
    * @param s A {@link String} containing the {@link Double} representation to
    *          be parsed.
-   * @return The {@code double} value represented by the argument, or null if
-   *         the string does not contain a parsable {@code double}.
+   * @return The {@code double} value represented by the argument, or
+   *         {@code null} if the string does not contain a parsable
+   *         {@code double}.
    * @see Long#parseLong(String)
    */
   public static Double parseDouble(final String s) {
@@ -837,6 +838,31 @@ public final class Numbers {
     }
     catch (final NumberFormatException e) {
       return null;
+    }
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Double#parseDouble(String)}, but returns {@code onError} if the
+   * string does not contain a parsable {@code double}.
+   *
+   * @param s A {@link String} containing the {@link Double} representation to
+   *          be parsed.
+   * @param onError The {@code double} value to be returned if the string does
+   *          not contain a parsable {@code double}.
+   * @return The {@code double} value represented by the argument, or
+   *         {@code onError} if the string does not contain a parsable
+   *         {@code double}.
+   * @see Long#parseLong(String)
+   */
+  public static double parseDouble(final String s, final double onError) {
+    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
+    // FIXME: the implementation is copied.
+    try {
+      return s == null ? null : Double.parseDouble(s);
+    }
+    catch (final NumberFormatException e) {
+      return onError;
     }
   }
 
