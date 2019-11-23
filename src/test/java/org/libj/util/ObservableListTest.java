@@ -126,6 +126,7 @@ public class ObservableListTest {
       }
 
       @Override
+      @SuppressWarnings("all")
       protected void afterRemove(final Object e, final RuntimeException exception) {
         assertEquals(expectedString, e);
         assertFalse(contains(e));
