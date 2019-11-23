@@ -450,10 +450,10 @@ public interface LongList extends LongCollection {
   LongIterator iterator();
 
   /**
-   * Returns an long list iterator over the values in this list (in proper
+   * Returns a long list iterator over the values in this list (in proper
    * sequence).
    *
-   * @return An long list iterator over the values in this list (in proper
+   * @return A long list iterator over the values in this list (in proper
    *         sequence).
    */
   default LongListIterator listIterator() {
@@ -461,7 +461,7 @@ public interface LongList extends LongCollection {
   }
 
   /**
-   * Returns an long list iterator over the values in this list (in proper
+   * Returns a long list iterator over the values in this list (in proper
    * sequence), starting at the specified position in the list. The specified
    * index indicates the first value that would be returned by an initial call
    * to {@link LongListIterator#next next}. An initial call to
