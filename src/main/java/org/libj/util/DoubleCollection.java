@@ -36,8 +36,8 @@ import java.util.stream.DoubleStream;
  * @see DoubleList
  * @see ArrayDoubleList
  * @see DoubleSet
- * @see HashDoubleSet
  */
+// FIXME:  * @see HashDoubleSet
 public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
   /**
    * Ensures that this collection contains the specified value (optional
