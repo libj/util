@@ -53,12 +53,12 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
   }
 
   /**
-   * Returns the base32 encoding of the provided {@code bytes} array.
+   * Returns the hexadecimal encoding of the provided {@code bytes} array.
    *
    * @param bytes The bytes to encode.
    * @param offset The initial offset.
    * @param len The length.
-   * @return The base32 encoding of the provided {@code bytes} array.
+   * @return The hexadecimal encoding of the provided {@code bytes} array.
    */
   public static String encode(final byte[] bytes, final int offset, final int len) {
     final StringBuilder builder = new StringBuilder(len * 2);

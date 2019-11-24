@@ -701,7 +701,7 @@ public final class Numbers {
         return null;
       }
 
-      i++;
+      ++i;
     }
 
     final int multmin = limit / radix;

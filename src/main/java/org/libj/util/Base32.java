@@ -117,8 +117,7 @@ public class Base32 extends DataEncoding<byte[],String> {
         index = (index + 5) % 8;
         if (index == 0) {
           bytes[offset] |= digit;
-          offset++;
-          if (offset >= bytes.length)
+          if (++offset >= bytes.length)
             break;
         }
         else {
@@ -128,9 +127,7 @@ public class Base32 extends DataEncoding<byte[],String> {
       else {
         index = (index + 5) % 8;
         bytes[offset] |= (digit >>> index);
-        offset++;
-
-        if (offset >= bytes.length)
+        if (++offset >= bytes.length)
           break;
 
         bytes[offset] |= digit << (8 - index);
