@@ -26,6 +26,7 @@ class DigraphTestUtil {
    * Create a {@code Digraph<T>} of the type {@code type} with the specified
    * number of vertices and edges in (v, w) sequential linear order.
    *
+   * @param <T> The type of elements in the digraph.
    * @param edges The (v, w) pairs of edges in sequential order.
    * @throws IllegalArgumentException If the endpoints of any edge are not in
    *           prescribed range.

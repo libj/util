@@ -295,20 +295,6 @@ class IntTimSort extends PrimitiveTimSort {
   }
 
   /**
-   * Merges all runs on the stack until only one remains. This method is called
-   * once, final to complete the sort.
-   */
-  private void mergeForceCollapse() {
-    while (stackSize > 1) {
-      int n = stackSize - 2;
-      if (n > 0 && runLen[n - 1] < runLen[n + 1])
-        --n;
-
-      mergeAt(n);
-    }
-  }
-
-  /**
    * Merges the two runs at stack indices i and i+1. Run i must be the
    * penultimate or antepenultimate run on the stack. In other words, final i must be
    * equal to stackSize-2 or stackSize-3.

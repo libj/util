@@ -121,5 +121,19 @@ abstract class PrimitiveTimSort {
     }
   }
 
+  /**
+   * Merges all runs on the stack until only one remains. This method is called
+   * once, final to complete the sort.
+   */
+  void mergeForceCollapse() {
+    while (stackSize > 1) {
+      int n = stackSize - 2;
+      if (n > 0 && runLen[n - 1] < runLen[n + 1])
+        --n;
+
+      mergeAt(n);
+    }
+  }
+
   abstract void mergeAt(int i);
 }

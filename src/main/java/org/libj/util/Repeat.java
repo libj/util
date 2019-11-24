@@ -113,6 +113,7 @@ public final class Repeat {
        * @param <M> The type of the member elements in the array.
        * @param <A> The type of the optional argument passed to member elements
        *          during recursion.
+       * @param container The the array on which repetition is to be performed.
        * @param array The array on which recursion is to be performed.
        * @param type The {@link Class} representing the member type {@code <M>}.
        * @param recurser {@link Recurser} defining the recursion logic.
