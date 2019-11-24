@@ -23,6 +23,20 @@ package org.libj.util;
 @FunctionalInterface
 public interface IntComparator {
   /**
+   * Comparator that compares two {@code int} values numerically.
+   *
+   * @see Integer#compare(int,int)
+   */
+  public static final IntComparator NATURAL = Integer::compare;
+
+  /**
+   * Comparator that compares two {@code int} values reverse numerically.
+   *
+   * @see #reverse()
+   */
+  public static final IntComparator REVERSE = NATURAL.reverse();
+
+  /**
    * Compares its two arguments for order. Returns a negative integer, zero, or
    * a positive integer as the first argument is less than, equal to, or greater
    * than the second.
@@ -34,4 +48,13 @@ public interface IntComparator {
    * @see java.util.Comparator#compare(Object,Object)
    */
   int compare(int i1, int i2);
+
+  /**
+   * Returns a comparator that imposes the reverse ordering of this comparator.
+   *
+   * @return A comparator that imposes the reverse ordering of this comparator.
+   */
+  default IntComparator reverse() {
+    return (i1, i2) -> compare(i2, i1);
+  }
 }

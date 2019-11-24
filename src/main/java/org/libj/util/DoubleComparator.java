@@ -23,15 +23,38 @@ package org.libj.util;
 @FunctionalInterface
 public interface DoubleComparator {
   /**
+   * Comparator that compares two {@code double} values numerically.
+   *
+   * @see Double#compare(double,double)
+   */
+  public static final DoubleComparator NATURAL = Double::compare;
+
+  /**
+   * Comparator that compares two {@code double} values reverse numerically.
+   *
+   * @see #reverse()
+   */
+  public static final DoubleComparator REVERSE = NATURAL.reverse();
+
+  /**
    * Compares its two arguments for order. Returns a negative integer, zero, or
    * a positive integer as the first argument is less than, equal to, or greater
    * than the second.
    *
-   * @param i1 The first {@code double} to be compared.
-   * @param i2 the second {@code double} to be compared.
+   * @param d1 The first {@code double} to be compared.
+   * @param d2 the second {@code double} to be compared.
    * @return A negative integer, zero, or a positive integer as the first
    *         argument is less than, equal to, or greater than the second.
    * @see java.util.Comparator#compare(Object,Object)
    */
-  int compare(double i1, double i2);
+  int compare(double d1, double d2);
+
+  /**
+   * Returns a comparator that imposes the reverse ordering of this comparator.
+   *
+   * @return A comparator that imposes the reverse ordering of this comparator.
+   */
+  default DoubleComparator reverse() {
+    return (d1, d2) -> compare(d2, d1);
+  }
 }

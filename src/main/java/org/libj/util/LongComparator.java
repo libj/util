@@ -23,15 +23,38 @@ package org.libj.util;
 @FunctionalInterface
 public interface LongComparator {
   /**
+   * Comparator that compares two {@code long} values numerically.
+   *
+   * @see Long#compare(long,long)
+   */
+  public static final LongComparator NATURAL = Long::compare;
+
+  /**
+   * Comparator that compares two {@code long} values reverse numerically.
+   *
+   * @see #reverse()
+   */
+  public static final LongComparator REVERSE = NATURAL.reverse();
+
+  /**
    * Compares its two arguments for order. Returns a negative integer, zero, or
    * a positive integer as the first argument is less than, equal to, or greater
    * than the second.
    *
-   * @param i1 The first {@code long} to be compared.
-   * @param i2 the second {@code long} to be compared.
+   * @param l1 The first {@code long} to be compared.
+   * @param l2 the second {@code long} to be compared.
    * @return A negative integer, zero, or a positive integer as the first
    *         argument is less than, equal to, or greater than the second.
    * @see java.util.Comparator#compare(Object,Object)
    */
-  int compare(long i1, long i2);
+  int compare(long l1, long l2);
+
+  /**
+   * Returns a comparator that imposes the reverse ordering of this comparator.
+   *
+   * @return A comparator that imposes the reverse ordering of this comparator.
+   */
+  default LongComparator reverse() {
+    return (l1, l2) -> compare(l2, l1);
+  }
 }
