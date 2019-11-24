@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -44,15 +45,31 @@ public class MatchedTest {
     }
   }
 
-  private static <T>void test(final List<T> a) {
+  private static <T>void test(final List<T> data) {
     for (int i = 0; i < ITERATIONS; ++i) {
-      final List<T> expected = new ArrayList<>(a);
-      final int[] b = new int[a.size()];
-      ArrayUtil.fillIncremental(b, 0);
-      randomize(a, b);
-      Matched.sort(a, b);
-      assertEquals(expected, a);
+      testForward(data);
+      testReverse(data);
     }
+  }
+
+  private static <T>void testForward(final List<T> data) {
+    final List<T> expected = new ArrayList<>(data);
+    test(data, null);
+    assertEquals(expected, data);
+  }
+
+  private static <T>void testReverse(final List<T> data) {
+    final List<T> expected = new ArrayList<>(data);
+    Collections.reverse(expected);
+    test(data, (i1,i2) -> -Integer.compare(i1, i2));
+    assertEquals(expected, data);
+  }
+
+  private static <T>void test(final List<T> data, final IntComparator c) {
+    final int[] order = new int[data.size()];
+    ArrayUtil.fillIncremental(order, 0);
+    randomize(data, order);
+    Matched.sort(data, order, c);
   }
 
   @Test

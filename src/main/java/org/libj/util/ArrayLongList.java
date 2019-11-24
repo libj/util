@@ -439,9 +439,9 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
   }
 
   @Override
-  public void sort() {
+  public void sort(final LongComparator c) {
     updateState(0, 0);
-    Arrays.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size);
+    ArrayUtil.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size, c);
   }
 
   private class LongItr implements LongIterator {

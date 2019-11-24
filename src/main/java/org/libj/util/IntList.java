@@ -499,7 +499,17 @@ public interface IntList extends IntCollection {
   /**
    * Sorts the list into ascending order.
    */
-  void sort();
+  default void sort() {
+    sort(null);
+  }
+
+  /**
+   * Sorts the specified list according to the order induced by the specified
+   * comparator.
+   *
+   * @param c The comparator to determine the order of the list.
+   */
+  void sort(IntComparator c);
 
   /**
    * Removes all of the elements from this list. The list will be empty after

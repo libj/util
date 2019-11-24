@@ -2971,10 +2971,24 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final int[] a, final IntComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code int}s, according to the specified
+   * {@link IntComparator}.
+   *
+   * @param a The array of {@code int}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link IntComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final int[] a, final int fromIndex, final int toIndex, final IntComparator c) {
     if (c == null)
-      Arrays.sort(a);
+      Arrays.sort(a, fromIndex, toIndex);
     else
-      IntTimSort.sort(a, 0, a.length, c, null, 0, 0);
+      IntTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
   }
 
   /**
@@ -2986,10 +3000,24 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final long[] a, final LongComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code long}s, according to the specified
+   * {@link LongComparator}.
+   *
+   * @param a The array of {@code long}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link LongComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final long[] a, final int fromIndex, final int toIndex, final LongComparator c) {
     if (c == null)
-      Arrays.sort(a);
+      Arrays.sort(a, fromIndex, toIndex);
     else
-      LongTimSort.sort(a, 0, a.length, c, null, 0, 0);
+      LongTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
   }
 
   /**
@@ -3001,10 +3029,24 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final double[] a, final DoubleComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code double}s, according to the specified
+   * {@link DoubleComparator}.
+   *
+   * @param a The array of {@code double}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link DoubleComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final double[] a, final int fromIndex, final int toIndex, final DoubleComparator c) {
     if (c == null)
-      Arrays.sort(a);
+      Arrays.sort(a, fromIndex, toIndex);
     else
-      DoubleTimSort.sort(a, 0, a.length, c, null, 0, 0);
+      DoubleTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
   }
 
   private ArrayUtil() {

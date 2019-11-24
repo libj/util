@@ -439,9 +439,9 @@ public class ArrayDoubleList extends AbstractArrayList<double[]> implements Clon
   }
 
   @Override
-  public void sort() {
+  public void sort(final DoubleComparator c) {
     updateState(0, 0);
-    Arrays.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size);
+    ArrayUtil.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size, c);
   }
 
   private class DoubleItr implements DoubleIterator {

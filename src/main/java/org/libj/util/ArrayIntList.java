@@ -439,9 +439,9 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
   }
 
   @Override
-  public void sort() {
+  public void sort(final IntComparator c) {
     updateState(0, 0);
-    Arrays.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size);
+    ArrayUtil.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size, c);
   }
 
   private class IntItr implements IntIterator {
