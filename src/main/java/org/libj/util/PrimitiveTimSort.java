@@ -79,6 +79,7 @@ abstract class PrimitiveTimSort {
       r |= (n & 1);
       n >>= 1;
     }
+
     return n + r;
   }
 

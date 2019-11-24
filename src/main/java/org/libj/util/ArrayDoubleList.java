@@ -258,7 +258,7 @@ public class ArrayDoubleList extends AbstractArrayList<double[]> implements Clon
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final double[] values) {
+  public boolean addAll(final double ... values) {
     return addAll(values, 0, values.length);
   }
 

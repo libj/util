@@ -16,20 +16,21 @@
 
 package org.libj.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
 
-import static org.junit.Assert.*;
-
+import org.junit.Assert;
 import org.junit.Test;
 
-public class HashLongSetTest {
+public class HashDoubleSetTest extends PrimitiveCollectionTest {
   private static final int INITIAL_CAPACITY = 100;
 
-  private final HashLongSet testSet = new HashLongSet(INITIAL_CAPACITY);
+  private final HashDoubleSet testSet = new HashDoubleSet(INITIAL_CAPACITY);
 
   @Test
   public void initiallyContainsNoElements() {
@@ -40,7 +41,7 @@ public class HashLongSetTest {
   @Test
   public void initiallyContainsNoBoxedElements() {
     for (int i = 0; i < 10000; ++i)
-      assertFalse(testSet.contains(Long.valueOf(i)));
+      assertFalse(testSet.contains(Double.valueOf(i)));
   }
 
   @Test
@@ -58,9 +59,9 @@ public class HashLongSetTest {
   @Test
   public void containsAddedBoxedElements() {
     assertTrue(testSet.add(1));
-    assertTrue(testSet.add(Long.valueOf(2)));
+    assertTrue(testSet.add(Double.valueOf(2)));
 
-    assertTrue(testSet.contains(Long.valueOf(1)));
+    assertTrue(testSet.contains(Double.valueOf(1)));
     assertTrue(testSet.contains(2));
   }
 
@@ -169,7 +170,7 @@ public class HashLongSetTest {
   public void differenceReturnsNullIfBothSetsEqual() {
     addTwoElements(testSet);
 
-    final HashLongSet other = new HashLongSet(100);
+    final HashDoubleSet other = new HashDoubleSet(100);
     addTwoElements(other);
 
     other.removeAll(testSet);
@@ -180,39 +181,39 @@ public class HashLongSetTest {
   public void differenceReturnsSetDifference() {
     addTwoElements(testSet);
 
-    final HashLongSet other = new HashLongSet(100);
+    final HashDoubleSet other = new HashDoubleSet(100);
     other.add(1);
 
     testSet.removeAll(other);
-    assertTrue(testSet.contains(1001l));
+    assertTrue(testSet.contains(1001d));
   }
 
   @Test
-  public void copiesOtherHashLongSet() {
+  public void copiesOtherHashDoubleSet() {
     addTwoElements(testSet);
 
-    final HashLongSet other = new HashLongSet(testSet);
+    final HashDoubleSet other = new HashDoubleSet(testSet);
     assertContainsElements(other);
   }
 
   @Test
   public void twoEmptySetsAreEqual() {
-    assertEquals(testSet, new HashLongSet(100));
+    Assert.assertEquals(testSet, new HashDoubleSet(100));
   }
 
   @Test
   public void setsWithTheSameValuesAreEqual() {
-    final HashLongSet that = new HashLongSet(100);
+    final HashDoubleSet that = new HashDoubleSet(100);
 
     addTwoElements(testSet);
     addTwoElements(that);
 
-    assertEquals(testSet, that);
+    Assert.assertEquals(testSet, that);
   }
 
   @Test
   public void setsWithTheDifferentSizesAreNotEqual() {
-    final HashLongSet that = new HashLongSet(100);
+    final HashDoubleSet that = new HashDoubleSet(100);
 
     addTwoElements(testSet);
     that.add(1001);
@@ -222,7 +223,7 @@ public class HashLongSetTest {
 
   @Test
   public void setsWithTheDifferentValuesAreNotEqual() {
-    final HashLongSet that = new HashLongSet(100);
+    final HashDoubleSet that = new HashDoubleSet(100);
 
     addTwoElements(testSet);
     that.add(2);
@@ -233,12 +234,12 @@ public class HashLongSetTest {
 
   @Test
   public void twoEmptySetsHaveTheSameHashcode() {
-    assertEquals(testSet.hashCode(), new HashLongSet(100).hashCode());
+    assertEquals(testSet.hashCode(), new HashDoubleSet(100).hashCode());
   }
 
   @Test
   public void setsWithTheSameValuesHaveTheSameHashcode() {
-    final HashLongSet other = new HashLongSet(100);
+    final HashDoubleSet other = new HashDoubleSet(100);
 
     addTwoElements(testSet);
     addTwoElements(other);
@@ -256,37 +257,37 @@ public class HashLongSetTest {
 
   @Test(expected = NullPointerException.class)
   public void toArrayThrowsNullPointerExceptionForNullArgument() {
-    final Long[] a = null;
+    final Double[] a = null;
     testSet.toArray(a);
   }
 
   @Test
-  public void toArrayCopiesElementsLongoSufficientlySizedArray() {
+  public void toArrayCopiesElementsDoubleoSufficientlySizedArray() {
     addTwoElements(testSet);
-    final Long[] result = testSet.toArray(new Long[testSet.size()]);
+    final Double[] result = testSet.toArray(new Double[testSet.size()]);
 
     assertArrayContainingElements(result);
   }
 
   @Test
-  public void toArrayCopiesElementsLongoNewArray() {
+  public void toArrayCopiesElementsDoubleoNewArray() {
     addTwoElements(testSet);
-    final Long[] result = testSet.toArray(new Long[testSet.size()]);
+    final Double[] result = testSet.toArray(new Double[testSet.size()]);
 
     assertArrayContainingElements(result);
   }
 
   @Test
   public void toArraySupportsEmptyCollection() {
-    final Long[] result = testSet.toArray(new Long[testSet.size()]);
+    final Double[] result = testSet.toArray(new Double[testSet.size()]);
 
-    assertArrayEquals(result, new Long[] {});
+    Assert.assertArrayEquals(result, new Double[] {});
   }
 
   // Test case from usage bug.
   @Test
   public void chainCompactionShouldNotCauseElementsToBeMovedBeforeTheirHash() {
-    final HashLongSet requiredFields = new HashLongSet(14);
+    final HashDoubleSet requiredFields = new HashDoubleSet(14);
 
     requiredFields.add(8);
     requiredFields.add(9);
@@ -297,7 +298,7 @@ public class HashLongSetTest {
     assertTrue("Failed to remove 8", requiredFields.remove(8));
     assertTrue("Failed to remove 9", requiredFields.remove(9));
 
-    assertTrue(requiredFields.containsAll(Arrays.asList(35l, 49l, 56l)));
+    assertTrue(requiredFields.containsAll(Arrays.asList(35d, 49d, 56d)));
   }
 
   @Test
@@ -311,14 +312,14 @@ public class HashLongSetTest {
 
   @Test
   public void containsEmptySet() {
-    assertTrue(testSet.containsAll(new HashLongSet(100)));
+    assertTrue(testSet.containsAll(new HashDoubleSet(100)));
   }
 
   @Test
   public void containsSubset() {
     addTwoElements(testSet);
 
-    final HashLongSet subset = new HashLongSet(100);
+    final HashDoubleSet subset = new HashDoubleSet(100);
     subset.add(1);
 
     assertTrue(testSet.containsAll(subset));
@@ -328,7 +329,7 @@ public class HashLongSetTest {
   public void doesNotContainDisjointSet() {
     addTwoElements(testSet);
 
-    final HashLongSet disjoint = new HashLongSet(100);
+    final HashDoubleSet disjoint = new HashDoubleSet(100);
     disjoint.add(1);
     disjoint.add(1002);
 
@@ -339,7 +340,7 @@ public class HashLongSetTest {
   public void doesNotContainSuperset() {
     addTwoElements(testSet);
 
-    final HashLongSet superset = new HashLongSet(100);
+    final HashDoubleSet superset = new HashDoubleSet(100);
     addTwoElements(superset);
     superset.add(15);
 
@@ -350,7 +351,7 @@ public class HashLongSetTest {
   public void addingEmptySetDoesNothing() {
     addTwoElements(testSet);
 
-    assertFalse(testSet.addAll(new HashLongSet(100)));
+    assertFalse(testSet.addAll(new HashDoubleSet(100)));
     assertFalse(testSet.addAll(new HashSet<>()));
     assertContainsElements(testSet);
   }
@@ -359,7 +360,7 @@ public class HashLongSetTest {
   public void containsValuesAddedFromDisjointSetPrimitive() {
     addTwoElements(testSet);
 
-    final HashLongSet disjoint = new HashLongSet(100);
+    final HashDoubleSet disjoint = new HashDoubleSet(100);
 
     disjoint.add(2);
     disjoint.add(1002);
@@ -374,10 +375,10 @@ public class HashLongSetTest {
   public void containsValuesAddedFromDisjointSet() {
     addTwoElements(testSet);
 
-    final HashSet<Long> disjoint = new HashSet<>();
+    final HashSet<Double> disjoint = new HashSet<>();
 
-    disjoint.add(2l);
-    disjoint.add(1002l);
+    disjoint.add(2d);
+    disjoint.add(1002d);
 
     assertTrue(testSet.addAll(disjoint));
     assertTrue(testSet.contains(1));
@@ -386,10 +387,10 @@ public class HashLongSetTest {
   }
 
   @Test
-  public void containsValuesAddedFromLongersectingSetPrimitive() {
+  public void containsValuesAddedFromDoubleersectingSetPrimitive() {
     addTwoElements(testSet);
 
-    final HashLongSet intersecting = new HashLongSet(100);
+    final HashDoubleSet intersecting = new HashDoubleSet(100);
     intersecting.add(1);
     intersecting.add(1002);
 
@@ -400,13 +401,13 @@ public class HashLongSetTest {
   }
 
   @Test
-  public void containsValuesAddedFromLongersectingSet() {
+  public void containsValuesAddedFromDoubleersectingSet() {
     addTwoElements(testSet);
 
-    final HashSet<Long> intersecting = new HashSet<>();
+    final HashSet<Double> intersecting = new HashSet<>();
 
-    intersecting.add(1l);
-    intersecting.add(1002l);
+    intersecting.add(1d);
+    intersecting.add(1002d);
 
     assertTrue(testSet.addAll(intersecting));
     assertTrue(testSet.contains(1));
@@ -418,7 +419,7 @@ public class HashLongSetTest {
   public void removingEmptySetDoesNothing() {
     addTwoElements(testSet);
 
-    assertFalse(testSet.removeAll(new HashLongSet(100)));
+    assertFalse(testSet.removeAll(new HashDoubleSet(100)));
     assertFalse(testSet.removeAll(new HashSet<>()));
     assertContainsElements(testSet);
   }
@@ -427,7 +428,7 @@ public class HashLongSetTest {
   public void removingDisjointSetDoesNothing() {
     addTwoElements(testSet);
 
-    final HashLongSet disjoint = new HashLongSet(100);
+    final HashDoubleSet disjoint = new HashDoubleSet(100);
     disjoint.add(2);
     disjoint.add(1002);
 
@@ -437,10 +438,10 @@ public class HashLongSetTest {
   }
 
   @Test
-  public void doesNotContainRemovedLongersectingSetPrimitive() {
+  public void doesNotContainRemovedDoubleersectingSetPrimitive() {
     addTwoElements(testSet);
 
-    final HashLongSet intersecting = new HashLongSet(100);
+    final HashDoubleSet intersecting = new HashDoubleSet(100);
 
     intersecting.add(1);
     intersecting.add(1002);
@@ -451,12 +452,12 @@ public class HashLongSetTest {
   }
 
   @Test
-  public void doesNotContainRemovedLongersectingSet() {
+  public void doesNotContainRemovedDoubleersectingSet() {
     addTwoElements(testSet);
 
-    final HashSet<Long> intersecting = new HashSet<>();
-    intersecting.add(1l);
-    intersecting.add(1002l);
+    final HashSet<Double> intersecting = new HashSet<>();
+    intersecting.add(1d);
+    intersecting.add(1002d);
 
     assertTrue(testSet.removeAll(intersecting));
     assertTrue(testSet.contains(1001));
@@ -467,7 +468,7 @@ public class HashLongSetTest {
   public void isEmptyAfterRemovingEqualSetPrimitive() {
     addTwoElements(testSet);
 
-    final HashLongSet equal = new HashLongSet(100);
+    final HashDoubleSet equal = new HashDoubleSet(100);
     addTwoElements(equal);
 
     assertTrue(testSet.removeAll(equal));
@@ -478,7 +479,7 @@ public class HashLongSetTest {
   public void isEmptyAfterRemovingEqualSet() {
     addTwoElements(testSet);
 
-    final HashSet<Long> equal = new HashSet<>();
+    final HashSet<Double> equal = new HashSet<>();
     addTwoElements(equal);
 
     assertTrue(testSet.removeAll(equal));
@@ -489,76 +490,76 @@ public class HashLongSetTest {
   public void removeElementsFromIterator() {
     addTwoElements(testSet);
 
-    final LongIterator iterator = testSet.iterator();
+    final DoubleIterator iterator = testSet.iterator();
     while (iterator.hasNext())
       if (iterator.next() == 1)
         iterator.remove();
 
     assertEquals(1, testSet.size());
-    assertTrue(testSet.contains(1001l));
+    assertTrue(testSet.contains(1001d));
   }
 
   @Test
   public void shouldNotContainMissingValueInitially() {
-    assertFalse(testSet.contains(HashLongSet.NULL));
+    assertFalse(testSet.contains(HashDoubleSet.NULL));
   }
 
   @Test
   public void shouldAllowMissingValue() {
-    assertTrue(testSet.add(HashLongSet.NULL));
-    assertTrue(testSet.contains(HashLongSet.NULL));
-    assertFalse(testSet.add(HashLongSet.NULL));
+    assertTrue(testSet.add(HashDoubleSet.NULL));
+    assertTrue(testSet.contains(HashDoubleSet.NULL));
+    assertFalse(testSet.add(HashDoubleSet.NULL));
   }
 
   @Test
   public void shouldAllowRemovalOfMissingValue() {
-    assertTrue(testSet.add(HashLongSet.NULL));
-    assertTrue(testSet.remove(HashLongSet.NULL));
-    assertFalse(testSet.contains(HashLongSet.NULL));
-    assertFalse(testSet.remove(HashLongSet.NULL));
+    assertTrue(testSet.add(HashDoubleSet.NULL));
+    assertTrue(testSet.remove(HashDoubleSet.NULL));
+    assertFalse(testSet.contains(HashDoubleSet.NULL));
+    assertFalse(testSet.remove(HashDoubleSet.NULL));
   }
 
   @Test
   public void sizeAccountsForMissingValue() {
     testSet.add(1);
-    testSet.add(HashLongSet.NULL);
+    testSet.add(HashDoubleSet.NULL);
 
     assertEquals(2, testSet.size());
   }
 
   @Test
-  public void toArrayCopiesElementsLongoNewArrayIncludingMissingValue() {
+  public void toArrayCopiesElementsDoubleoNewArrayIncludingMissingValue() {
     addTwoElements(testSet);
-    testSet.add(HashLongSet.NULL);
+    testSet.add(HashDoubleSet.NULL);
 
-    final Long[] result = testSet.toArray(new Long[testSet.size()]);
-    assertTrue(Arrays.asList(result).containsAll(Arrays.asList(1l, 1001l, HashLongSet.NULL)));
+    final Double[] result = testSet.toArray(new Double[testSet.size()]);
+    assertTrue(Arrays.asList(result).containsAll(Arrays.asList(1d, 1001d, HashDoubleSet.NULL)));
   }
 
   @Test
-  public void toObjectArrayCopiesElementsLongoNewArrayIncludingMissingValue() {
+  public void toObjectArrayCopiesElementsDoubleoNewArrayIncludingMissingValue() {
     addTwoElements(testSet);
-    testSet.add(HashLongSet.NULL);
+    testSet.add(HashDoubleSet.NULL);
 
-    final long[] result = testSet.toArray();
+    final double[] result = testSet.toArray();
     Arrays.sort(result);
-    assertArrayEquals(new long[] {HashLongSet.NULL, 1, 1001}, result);
+    assertArrayEquals(new double[] {HashDoubleSet.NULL, 1, 1001}, result);
   }
 
   @Test
   public void equalsAccountsForMissingValue() {
     addTwoElements(testSet);
-    testSet.add(HashLongSet.NULL);
+    testSet.add(HashDoubleSet.NULL);
 
-    final HashLongSet other = new HashLongSet(100);
+    final HashDoubleSet other = new HashDoubleSet(100);
     addTwoElements(other);
 
     assertNotEquals(testSet, other);
 
-    other.add(HashLongSet.NULL);
-    assertEquals(testSet, other);
+    other.add(HashDoubleSet.NULL);
+    Assert.assertEquals(testSet, other);
 
-    testSet.remove(HashLongSet.NULL);
+    testSet.remove(HashDoubleSet.NULL);
 
     assertNotEquals(testSet, other);
   }
@@ -571,7 +572,7 @@ public class HashLongSetTest {
     assertEquals(10000, testSet.size());
 
     int distinctElements = 0;
-    for (final LongIterator i = testSet.iterator(); i.hasNext(); i.next())
+    for (final DoubleIterator i = testSet.iterator(); i.hasNext(); i.next())
       ++distinctElements;
 
     assertEquals(distinctElements, 10000);
@@ -580,24 +581,24 @@ public class HashLongSetTest {
   @Test
   public void hashCodeAccountsForMissingValue() {
     addTwoElements(testSet);
-    testSet.add(HashLongSet.NULL);
+    testSet.add(HashDoubleSet.NULL);
 
-    final HashLongSet other = new HashLongSet(100);
+    final HashDoubleSet other = new HashDoubleSet(100);
     addTwoElements(other);
 
-    other.add(HashLongSet.NULL);
+    other.add(HashDoubleSet.NULL);
     assertEquals(testSet.hashCode(), other.hashCode());
   }
 
   @Test
   public void iteratorAccountsForMissingValue() {
     addTwoElements(testSet);
-    testSet.add(HashLongSet.NULL);
+    testSet.add(HashDoubleSet.NULL);
 
     int missingValueCount = 0;
-    final LongIterator iterator = testSet.iterator();
+    final DoubleIterator iterator = testSet.iterator();
     while (iterator.hasNext())
-      if (iterator.next() == HashLongSet.NULL)
+      if (iterator.next() == HashDoubleSet.NULL)
         ++missingValueCount;
 
     assertEquals(1, missingValueCount);
@@ -606,69 +607,69 @@ public class HashLongSetTest {
   @Test
   public void iteratorCanRemoveMissingValue() {
     addTwoElements(testSet);
-    testSet.add(HashLongSet.NULL);
+    testSet.add(HashDoubleSet.NULL);
 
-    final LongIterator iterator = testSet.iterator();
+    final DoubleIterator iterator = testSet.iterator();
     while (iterator.hasNext())
-      if (iterator.next() == HashLongSet.NULL)
+      if (iterator.next() == HashDoubleSet.NULL)
         iterator.remove();
 
-    assertFalse(testSet.contains(HashLongSet.NULL));
+    assertFalse(testSet.contains(HashDoubleSet.NULL));
   }
 
   @Test
   public void shouldGenerateStringRepresentation() {
-    final long[] testEntries = {3, 1, -1, 19, 7, 11, 12, 7};
-    for (final long testEntry : testEntries)
+    final double[] testEntries = {3, 1, -1, 19, 7, 11, 12, 7};
+    for (final double testEntry : testEntries)
       testSet.add(testEntry);
 
-    final String mapAsAString = "[-1, 1, 19, 11, 7, 3, 12]";
-    assertEquals(mapAsAString, testSet.toString());
+    final String mapAsAString = "[3.0, 1.0, -1.0, 19.0, 7.0, 11.0, 12.0]";
+    Assert.assertEquals(mapAsAString, testSet.toString());
   }
 
   @Test
   public void shouldRemoveMissingValueWhenCleared() {
-    assertTrue(testSet.add(HashLongSet.NULL));
+    assertTrue(testSet.add(HashDoubleSet.NULL));
 
     testSet.clear();
 
-    assertFalse(testSet.contains(HashLongSet.NULL));
+    assertFalse(testSet.contains(HashDoubleSet.NULL));
   }
 
   @Test
   public void shouldHaveCompatibleEqualsAndHashcode() {
-    final HashSet<Long> compatibleSet = new HashSet<>();
+    final HashSet<Double> compatibleSet = new HashSet<>();
     final long seed = System.nanoTime();
     final Random r = new Random(seed);
     for (int i = 0; i < 1024; ++i) {
-      final long value = r.nextLong();
+      final double value = r.nextDouble();
       compatibleSet.add(value);
       testSet.add(value);
     }
 
     if (r.nextBoolean()) {
-      compatibleSet.add(HashLongSet.NULL);
-      testSet.add(HashLongSet.NULL);
+      compatibleSet.add(HashDoubleSet.NULL);
+      testSet.add(HashDoubleSet.NULL);
     }
 
     assertTrue("Fail with seed:" + seed, testSet.size() == compatibleSet.size() && testSet.containsAll(compatibleSet));
-    assertEquals("Fail with seed:" + seed, compatibleSet.hashCode(), testSet.hashCode());
+    Assert.assertEquals("Fail with seed:" + seed, compatibleSet.hashCode(), testSet.hashCode());
   }
 
-  private static void addTwoElements(final HashLongSet obj) {
+  private static void addTwoElements(final HashDoubleSet obj) {
     obj.add(1);
     obj.add(1001);
   }
 
-  private static void addTwoElements(final HashSet<Long> obj) {
-    obj.add(1l);
-    obj.add(1001l);
+  private static void addTwoElements(final HashSet<Double> obj) {
+    obj.add(1d);
+    obj.add(1001d);
   }
 
   private void assertIteratorHasElements() {
-    final LongIterator iterator = testSet.iterator();
+    final DoubleIterator iterator = testSet.iterator();
 
-    final Set<Long> values = new HashSet<>();
+    final Set<Double> values = new HashSet<>();
 
     assertTrue(iterator.hasNext());
     values.add(iterator.next());
@@ -680,8 +681,8 @@ public class HashLongSetTest {
   }
 
   private void assertIteratorHasElementsWithoutHasNext() {
-    final LongIterator iterator = testSet.iterator();
-    final Set<Long> values = new HashSet<>();
+    final DoubleIterator iterator = testSet.iterator();
+    final Set<Double> values = new HashSet<>();
 
     values.add(iterator.next());
     values.add(iterator.next());
@@ -689,20 +690,20 @@ public class HashLongSetTest {
     assertContainsElements(values);
   }
 
-  private static void assertArrayContainingElements(final Long[] result) {
-    assertTrue(Arrays.asList(result).containsAll(Arrays.asList(1l, 1001l)));
+  private static void assertArrayContainingElements(final Double[] result) {
+    assertTrue(Arrays.asList(result).containsAll(Arrays.asList(1d, 1001d)));
   }
 
-  private static void assertContainsElements(final Set<Long> other) {
-    assertTrue(other.containsAll(Arrays.asList(1l, 1001l)));
+  private static void assertContainsElements(final Set<Double> other) {
+    assertTrue(other.containsAll(Arrays.asList(1d, 1001d)));
   }
 
-  private static void assertContainsElements(final LongSet other) {
-    assertTrue(other.containsAll(Arrays.asList(1l, 1001l)));
+  private static void assertContainsElements(final DoubleSet other) {
+    assertTrue(other.containsAll(Arrays.asList(1d, 1001d)));
   }
 
   private void exhaustIterator() {
-    final LongIterator iterator = testSet.iterator();
+    final DoubleIterator iterator = testSet.iterator();
     iterator.next();
     iterator.next();
     iterator.next();

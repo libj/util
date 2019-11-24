@@ -571,7 +571,7 @@ public class HashIntSetTest {
 
     int distinctElements = 0;
     for (final IntIterator i = testSet.iterator(); i.hasNext(); i.next())
-      distinctElements++;
+      ++distinctElements;
 
     assertEquals(distinctElements, 10000);
   }
@@ -597,7 +597,7 @@ public class HashIntSetTest {
     final IntIterator iterator = testSet.iterator();
     while (iterator.hasNext())
       if (iterator.next() == HashIntSet.NULL)
-        missingValueCount++;
+        ++missingValueCount;
 
     assertEquals(1, missingValueCount);
   }
@@ -618,12 +618,11 @@ public class HashIntSetTest {
   @Test
   public void shouldGenerateStringRepresentation() {
     final int[] testEntries = {3, 1, -1, 19, 7, 11, 12, 7};
-
     for (final int testEntry : testEntries)
       testSet.add(testEntry);
 
     final String mapAsAString = "[1, 19, 11, 7, 3, -1, 12]";
-    assertEquals(testSet.toString(), mapAsAString);
+    assertEquals(mapAsAString, testSet.toString());
   }
 
   @Test

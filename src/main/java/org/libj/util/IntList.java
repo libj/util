@@ -162,7 +162,8 @@ public interface IntList extends IntCollection {
    * @return {@code true} if this list changed as a result of the call.
    * @throws NullPointerException If the specified array is null.
    */
-  default boolean addAll(final int[] values) {
+  @Override
+  default boolean addAll(final int ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -283,6 +284,7 @@ public interface IntList extends IntCollection {
    * @see #remove(int)
    * @see #contains(int)
    */
+  @Override
   default boolean removeAll(final int ... values) {
     final int beforeSize = size();
     for (int i = 0; i < values.length; ++i)

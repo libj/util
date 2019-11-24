@@ -37,47 +37,8 @@ import java.util.stream.StreamSupport;
  * synonymous methods for a set of {@code long} values instead of Object
  * references.
  */
-public class HashLongSet implements Cloneable, LongSet, Serializable {
+public class HashLongSet extends HashPrimitiveSet implements Cloneable, LongSet, Serializable {
   private static final long serialVersionUID = -2903767291531144447L;
-
-  /**
-   * Returns the hash for the specified value and mask.
-   *
-   * @param value The value to be hashed.
-   * @param mask The mask to be applied (must be a power of 2, minus 1).
-   * @return The hash of the specified value.
-   */
-  private static int hash(final long value, final int mask) {
-    return (int)(value * 31) & mask;
-  }
-
-  /**
-   * Returns the next index for the specified index and mask.
-   *
-   * @param index The index from which to calculate the next index.
-   * @param mask The mask to be applied (must be a power of 2, minus 1).
-   * @return The next index for the specified index.
-   */
-  private static int nextIndex(final int index, final int mask) {
-    return (index + 1) & mask;
-  }
-
-  /**
-   * Returns the next power of 2 for the value that is greater than or equal to
-   * the specified value.
-   * <p>
-   * If {@code value <= 0}, this method returns {@code 1}.
-   * <p>
-   * <i><b>Note:</b> This method is not suitable for {@link Long#MIN_VALUE}
-   * or numbers greater than {@code 2^30}.</i>
-   *
-   * @param value Value from which to return the next power of 2.
-   * @return The next power of 2 from the specified value, or the value itself
-   *         if it is a power of 2.
-   */
-  private static int findNextPositivePowerOfTwo(final int value) {
-    return 1 << (32 - Long.numberOfLeadingZeros(value - 1));
-  }
 
   /**
    * The load factor used when none specified in constructor.
@@ -179,7 +140,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
     }
 
     final int mask = valueData.length - 1;
-    int index = hash(value, mask);
+    int index = hash(Long.hashCode(value), mask);
     for (; valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return false;
@@ -246,7 +207,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
       return containsNull;
 
     final int mask = valueData.length - 1;
-    for (int index = hash(value, mask); valueData[index] != NULL; index = nextIndex(index, mask))
+    for (int index = hash(Long.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return true;
 
@@ -289,7 +250,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
     }
 
     final int mask = valueData.length - 1;
-    for (int index = hash(value, mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
+    for (int index = hash(Long.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
       if (valueData[index] == value) {
         ++modCount;
         valueData[index] = NULL;
@@ -300,6 +261,15 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
     }
 
     return false;
+  }
+
+  @Override
+  public boolean removeAll(final long ... a) {
+    boolean changed = false;
+    for (int i = 0; i < a.length; ++i)
+      changed |= remove(a[i]);
+
+    return changed;
   }
 
   @Override
@@ -542,7 +512,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
       if (values[index] == NULL)
         return;
 
-      final int hash = hash(values[index], mask);
+      final int hash = hash(Long.hashCode(values[index]), mask);
       if (index < hash && (hash <= deleteIndex || deleteIndex <= index) || hash <= deleteIndex && deleteIndex <= index) {
         values[deleteIndex] = values[index];
         values[index] = NULL;
@@ -558,7 +528,7 @@ public class HashLongSet implements Cloneable, LongSet, Serializable {
     final long[] valueData = new long[newCapacity];
     for (final long value : this.valueData) {
       if (value != NULL) {
-        int newHash = hash(value, mask);
+        int newHash = hash(Long.hashCode(value), mask);
         for (; valueData[newHash] != NULL; newHash = ++newHash & mask);
         valueData[newHash] = value;
       }

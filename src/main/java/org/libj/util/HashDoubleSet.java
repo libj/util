@@ -23,21 +23,21 @@ import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Spliterator.OfInt;
-import java.util.stream.IntStream;
+import java.util.Spliterator.OfDouble;
+import java.util.stream.DoubleStream;
 import java.util.stream.StreamSupport;
 
 /**
- * An {@link IntSet} implementing
+ * An {@link DoubleSet} implementing
  * <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing
  * (closed hashing) with linear-probing for collision resolution</a> algorithm,
  * with allocation-free operation in steady state when expanded.
  * <p>
  * This class replicates the API of the {@link HashSet} class by defining
- * synonymous methods for a set of {@code int} values instead of Object
+ * synonymous methods for a set of {@code double} values instead of Object
  * references.
  */
-public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, Serializable {
+public class HashDoubleSet extends HashPrimitiveSet implements Cloneable, DoubleSet, Serializable {
   private static final long serialVersionUID = -2903767291531144447L;
 
   /**
@@ -48,7 +48,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   /**
    * Value that represents null in {@link #valueData}.
    */
-  static final int NULL = 0;
+  static final double NULL = 0;
 
   private final float loadFactor;
   private int resizeThreshold;
@@ -57,20 +57,20 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
    * Whether this set contains the value representing {@link #NULL}.
    */
   private boolean containsNull;
-  private int[] valueData;
+  private double[] valueData;
   private int size;
   private transient int modCount;
 
   /**
-   * Creates an empty {@link HashIntSet} with the default initial capacity
+   * Creates an empty {@link HashDoubleSet} with the default initial capacity
    * (16) and the default load factor (0.55).
    */
-  public HashIntSet() {
+  public HashDoubleSet() {
     this(16);
   }
 
   /**
-   * Creates an empty {@link HashIntSet} with the specified initial capacity and
+   * Creates an empty {@link HashDoubleSet} with the specified initial capacity and
    * load factor.
    *
    * @param initialCapacity The initial capacity.
@@ -78,7 +78,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
    * @throws IllegalArgumentException If the initial capacity is negative or the
    *           load factor less than {@code .1} or greater than {@code .9}.
    */
-  public HashIntSet(final int initialCapacity, final float loadFactor) {
+  public HashDoubleSet(final int initialCapacity, final float loadFactor) {
     if (loadFactor < .1f || Float.isNaN(loadFactor) || .9f < loadFactor)
       throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
 
@@ -87,50 +87,50 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
 
     final int capacity = findNextPositivePowerOfTwo(initialCapacity);
     this.resizeThreshold = (int)(capacity * loadFactor);
-    this.valueData = new int[capacity];
+    this.valueData = new double[capacity];
   }
 
   /**
-   * Creates an empty {@link HashIntSet} with the specified initial capacity and
+   * Creates an empty {@link HashDoubleSet} with the specified initial capacity and
    * the default load factor (0.55).
    *
    * @param initialCapacity The initial capacity.
    * @throws IllegalArgumentException If the initial capacity is negative.
    */
-  public HashIntSet(final int initialCapacity) {
+  public HashDoubleSet(final int initialCapacity) {
     this(initialCapacity, DEFAULT_LOAD_FACTOR);
   }
 
   /**
-   * Creates a new {@link HashIntSet} with the same values as the specified
-   * collection. The {@link HashIntSet} is created with default load factor
+   * Creates a new {@link HashDoubleSet} with the same values as the specified
+   * collection. The {@link HashDoubleSet} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *
    * @param c The collection whose values are to be added to this set.
    * @throws NullPointerException If the specified set is null.
    */
-  public HashIntSet(final IntCollection c) {
+  public HashDoubleSet(final DoubleCollection c) {
     this(c.size());
     addAll(c);
   }
 
   /**
-   * Creates a new {@link HashIntSet} with the same values as the specified
-   * collection. The {@link HashIntSet} is created with default load factor
+   * Creates a new {@link HashDoubleSet} with the same values as the specified
+   * collection. The {@link HashDoubleSet} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *
    * @param c The collection whose values are to be added to this set.
    * @throws NullPointerException If the specified set is null.
    */
-  public HashIntSet(final Collection<Integer> c) {
+  public HashDoubleSet(final Collection<Double> c) {
     this(c.size());
     addAll(c);
   }
 
   @Override
-  public boolean add(final int value) {
+  public boolean add(final double value) {
     if (value == NULL) {
       if (containsNull)
         return false;
@@ -140,7 +140,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
     }
 
     final int mask = valueData.length - 1;
-    int index = hash(value, mask);
+    int index = hash(Double.hashCode(value), mask);
     for (; valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return false;
@@ -154,22 +154,22 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean addAll(final IntCollection c) {
+  public boolean addAll(final DoubleCollection c) {
     if (c.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final IntIterator i = c.iterator(); i.hasNext(); changed |= add(i.next()));
+    for (final DoubleIterator i = c.iterator(); i.hasNext(); changed |= add(i.next()));
     return changed;
   }
 
   @Override
-  public boolean addAll(final Collection<Integer> c) {
+  public boolean addAll(final Collection<Double> c) {
     if (c.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final Iterator<Integer> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
+    for (final Iterator<Double> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
     return changed;
   }
 
@@ -183,15 +183,15 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
    * @param s Set containing values to be added to this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified set is null.
-   * @see #addAll(IntCollection)
-   * @see #add(int)
+   * @see #addAll(DoubleCollection)
+   * @see #add(double)
    */
-  public boolean addAll(final HashIntSet s) {
+  public boolean addAll(final HashDoubleSet s) {
     if (s.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final int value : s.valueData)
+    for (final double value : s.valueData)
       if (value != NULL)
         changed |= add(value);
 
@@ -202,12 +202,12 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean contains(final int value) {
+  public boolean contains(final double value) {
     if (value == NULL)
       return containsNull;
 
     final int mask = valueData.length - 1;
-    for (int index = hash(value, mask); valueData[index] != NULL; index = nextIndex(index, mask))
+    for (int index = hash(Double.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return true;
 
@@ -215,11 +215,11 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean containsAll(final IntCollection c) {
+  public boolean containsAll(final DoubleCollection c) {
     if (c.size() == 0)
       return true;
 
-    for (final IntIterator i = c.iterator(); i.hasNext();)
+    for (final DoubleIterator i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -227,11 +227,11 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean containsAll(final Collection<Integer> c) {
+  public boolean containsAll(final Collection<Double> c) {
     if (c.size() == 0)
       return true;
 
-    for (final Iterator<Integer> i = c.iterator(); i.hasNext();)
+    for (final Iterator<Double> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -239,7 +239,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean remove(final int value) {
+  public boolean remove(final double value) {
     if (value == NULL) {
       if (!containsNull)
         return false;
@@ -250,7 +250,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
     }
 
     final int mask = valueData.length - 1;
-    for (int index = hash(value, mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
+    for (int index = hash(Double.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
       if (valueData[index] == value) {
         ++modCount;
         valueData[index] = NULL;
@@ -264,7 +264,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean removeAll(final int ... a) {
+  public boolean removeAll(final double ... a) {
     boolean changed = false;
     for (int i = 0; i < a.length; ++i)
       changed |= remove(a[i]);
@@ -273,16 +273,16 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean removeAll(final IntCollection c) {
+  public boolean removeAll(final DoubleCollection c) {
     boolean changed = false;
-    for (final IntIterator i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
+    for (final DoubleIterator i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
     return changed;
   }
 
   @Override
-  public boolean removeAll(final Collection<Integer> c) {
+  public boolean removeAll(final Collection<Double> c) {
     boolean changed = false;
-    for (final Iterator<Integer> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
+    for (final Iterator<Double> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
     return changed;
   }
 
@@ -294,13 +294,13 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
    * @param s Set containing values to be removed from this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #removeAll(IntCollection)
-   * @see #remove(int)
-   * @see #contains(int)
+   * @see #removeAll(DoubleCollection)
+   * @see #remove(double)
+   * @see #contains(double)
    */
-  public boolean removeAll(final HashIntSet s) {
+  public boolean removeAll(final HashDoubleSet s) {
     boolean changed = false;
-    for (final int value : s.valueData)
+    for (final double value : s.valueData)
       if (value != NULL)
         changed |= remove(value);
 
@@ -311,12 +311,12 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean retainAll(final IntCollection c) {
-    final int[] values = new int[this.valueData.length];
+  public boolean retainAll(final DoubleCollection c) {
+    final double[] values = new double[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final int value : values)
+    for (final double value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -324,12 +324,12 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public boolean retainAll(final Collection<Integer> c) {
-    final int[] values = new int[this.valueData.length];
+  public boolean retainAll(final Collection<Double> c) {
+    final double[] values = new double[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final int value : values)
+    for (final double value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -357,13 +357,13 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public int[] toArray(int[] a) {
+  public double[] toArray(double[] a) {
     if (a.length < size())
-      a = new int[size()];
+      a = new double[size()];
 
     int i = 0;
-    final int[] values = this.valueData;
-    for (final int value : values)
+    final double[] values = this.valueData;
+    for (final double value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -374,13 +374,13 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public Integer[] toArray(Integer[] a) {
+  public Double[] toArray(Double[] a) {
     if (a.length < size())
-      a = new Integer[size()];
+      a = new Double[size()];
 
     int i = 0;
-    final int[] values = this.valueData;
-    for (final int value : values)
+    final double[] values = this.valueData;
+    for (final double value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -391,11 +391,11 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public IntIterator iterator() {
-    return new IntItr();
+  public DoubleIterator iterator() {
+    return new DoubleItr();
   }
 
-  final class IntItr implements IntIterator, Serializable {
+  final class DoubleItr implements DoubleIterator, Serializable {
     private static final long serialVersionUID = -7682246612354831208L;
 
     private int remaining;
@@ -404,8 +404,8 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
     private boolean isPositionValid = false;
     private int expectedModCount = modCount;
 
-    IntItr() {
-      final int[] valueData = HashIntSet.this.valueData;
+    DoubleItr() {
+      final double[] valueData = HashDoubleSet.this.valueData;
       final int length = valueData.length;
       int i = length;
       if (valueData[length - 1] != NULL)
@@ -425,7 +425,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
     }
 
     @Override
-    public int next() {
+    public double next() {
       checkForComodification();
       if (remaining == 1 && containsNull) {
         remaining = 0;
@@ -435,7 +435,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
       }
 
       findNext();
-      final int[] values = HashIntSet.this.valueData;
+      final double[] values = HashDoubleSet.this.valueData;
       return values[getPosition(values)];
     }
 
@@ -449,7 +449,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
         containsNull = false;
       }
       else {
-        final int[] values = HashIntSet.this.valueData;
+        final double[] values = HashDoubleSet.this.valueData;
         final int position = getPosition(values);
         values[position] = NULL;
         --size;
@@ -461,7 +461,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
     }
 
     private void findNext() {
-      final int[] valueData = HashIntSet.this.valueData;
+      final double[] valueData = HashDoubleSet.this.valueData;
       final int mask = valueData.length - 1;
       isPositionValid = true;
       for (int i = positionCounter - 1; i >= stopCounter; --i) {
@@ -477,7 +477,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
       throw new NoSuchElementException();
     }
 
-    private int getPosition(final int[] values) {
+    private int getPosition(final double[] values) {
       return positionCounter & (values.length - 1);
     }
 
@@ -488,23 +488,23 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public OfInt spliterator() {
+  public OfDouble spliterator() {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public IntStream stream() {
-    return StreamSupport.intStream(spliterator(), false);
+  public DoubleStream stream() {
+    return StreamSupport.doubleStream(spliterator(), false);
   }
 
   @Override
-  public IntStream parallelStream() {
-    return StreamSupport.intStream(spliterator(), true);
+  public DoubleStream parallelStream() {
+    return StreamSupport.doubleStream(spliterator(), true);
   }
 
   private void compactChain(int deleteIndex) {
     ++modCount;
-    final int[] values = this.valueData;
+    final double[] values = this.valueData;
     final int mask = values.length - 1;
     int index = deleteIndex;
     while (true) {
@@ -512,7 +512,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
       if (values[index] == NULL)
         return;
 
-      final int hash = hash(values[index], mask);
+      final int hash = hash(Double.hashCode(values[index]), mask);
       if (index < hash && (hash <= deleteIndex || deleteIndex <= index) || hash <= deleteIndex && deleteIndex <= index) {
         values[deleteIndex] = values[index];
         values[index] = NULL;
@@ -525,10 +525,10 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
     ++modCount;
     final int mask = newCapacity - 1;
     this.resizeThreshold = (int)(newCapacity * loadFactor);
-    final int[] valueData = new int[newCapacity];
-    for (final int value : this.valueData) {
+    final double[] valueData = new double[newCapacity];
+    for (final double value : this.valueData) {
       if (value != NULL) {
-        int newHash = hash(value, mask);
+        int newHash = hash(Double.hashCode(value), mask);
         for (; valueData[newHash] != NULL; newHash = ++newHash & mask);
         valueData[newHash] = value;
       }
@@ -549,8 +549,8 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   @Override
   public Object clone() {
     try {
-      final HashIntSet clone = (HashIntSet)super.clone();
-      clone.valueData = new int[valueData.length];
+      final HashDoubleSet clone = (HashDoubleSet)super.clone();
+      clone.valueData = new double[valueData.length];
       System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
       return clone;
     }
@@ -564,22 +564,22 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
     if (obj == this)
       return true;
 
-    if (!(obj instanceof HashIntSet))
+    if (!(obj instanceof HashDoubleSet))
       return false;
 
-    final HashIntSet that = (HashIntSet)obj;
+    final HashDoubleSet that = (HashDoubleSet)obj;
     return size == that.size && containsNull == that.containsNull && containsAll(that);
   }
 
   @Override
   public int hashCode() {
     int hashCode = 0;
-    for (final int value : valueData)
+    for (final double value : valueData)
       if (value != NULL)
-        hashCode += Integer.hashCode(value);
+        hashCode += Double.hashCode(value);
 
     if (containsNull)
-      hashCode += Integer.hashCode(NULL);
+      hashCode += Double.hashCode(NULL);
 
     return hashCode;
   }

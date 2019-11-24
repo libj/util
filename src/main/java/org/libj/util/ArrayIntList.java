@@ -258,7 +258,7 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final int[] values) {
+  public boolean addAll(final int ... values) {
     return addAll(values, 0, values.length);
   }
 

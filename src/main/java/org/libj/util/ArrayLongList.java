@@ -258,7 +258,7 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final long[] values) {
+  public boolean addAll(final long ... values) {
     return addAll(values, 0, values.length);
   }
 

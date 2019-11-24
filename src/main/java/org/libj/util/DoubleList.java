@@ -162,7 +162,8 @@ public interface DoubleList extends DoubleCollection {
    * @return {@code true} if this list changed as a result of the call.
    * @throws NullPointerException If the specified array is null.
    */
-  default boolean addAll(final double[] values) {
+  @Override
+  default boolean addAll(final double ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -283,6 +284,7 @@ public interface DoubleList extends DoubleCollection {
    * @see #remove(double)
    * @see #contains(double)
    */
+  @Override
   default boolean removeAll(final double ... values) {
     final int beforeSize = size();
     for (int i = 0; i < values.length; ++i)

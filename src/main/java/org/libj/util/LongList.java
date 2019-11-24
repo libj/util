@@ -162,7 +162,8 @@ public interface LongList extends LongCollection {
    * @return {@code true} if this list changed as a result of the call.
    * @throws NullPointerException If the specified array is null.
    */
-  default boolean addAll(final long[] values) {
+  @Override
+  default boolean addAll(final long ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -283,6 +284,7 @@ public interface LongList extends LongCollection {
    * @see #remove(long)
    * @see #contains(long)
    */
+  @Override
   default boolean removeAll(final long ... values) {
     final int beforeSize = size();
     for (int i = 0; i < values.length; ++i)

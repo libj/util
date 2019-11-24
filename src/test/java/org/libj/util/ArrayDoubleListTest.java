@@ -27,17 +27,7 @@ import java.util.function.Consumer;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ArrayDoubleListTest {
-  private static final double epsilon = 0.000000000000001d;
-
-  private static void assertArrayEquals(final double[] expected, final double[] actual) {
-    Assert.assertArrayEquals(expected, actual, epsilon);
-  }
-
-  private static void assertEquals(final double expected, final double actual) {
-    Assert.assertEquals(expected, actual, epsilon);
-  }
-
+public class ArrayDoubleListTest extends PrimitiveCollectionTest {
   @Test
   public void testModCound() {
     final ArrayDoubleList list = new ArrayDoubleList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
