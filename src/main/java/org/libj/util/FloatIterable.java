@@ -1,4 +1,4 @@
-/* Copyright (c) 2019 LibJ
+/* Copyright (c) 2014 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -16,25 +16,15 @@
 
 package org.libj.util;
 
-import org.junit.Assert;
-
-abstract class PrimitiveCollectionTest {
-  private static final float ef = 0.0000001f;
-  private static final double ed = 0.000000000000001d;
-
-  static void assertArrayEquals(final float[] expected, final float[] actual) {
-    Assert.assertArrayEquals(expected, actual, ef);
-  }
-
-  static void assertEquals(final float expected, final float actual) {
-    Assert.assertEquals(expected, actual, ef);
-  }
-
-  static void assertArrayEquals(final double[] expected, final double[] actual) {
-    Assert.assertArrayEquals(expected, actual, ed);
-  }
-
-  static void assertEquals(final double expected, final double actual) {
-    Assert.assertEquals(expected, actual, ed);
-  }
+/**
+ * Interface that defines the {@link #iterator()} method for
+ * {@link FloatIterator}.
+ */
+public interface FloatIterable {
+  /**
+   * Returns an iterator over values of type {@link FloatIterator}.
+   *
+   * @return An iterator over values of type {@link FloatIterator}.
+   */
+  FloatIterator iterator();
 }
