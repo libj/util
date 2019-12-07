@@ -90,6 +90,32 @@ public final class Locales {
   }
 
   /**
+   * Returns a {@link Locale} representation of a string based locale that is in
+   * the form of RFC 1766 (i.e. {@code "{language}-{country}"}), or {@code null}
+   * if the specified string is null. Examples: {@code "en"}, {@code "fr-CH"},
+   * {@code "i-cherokee"}.
+   *
+   * @param str The string.
+   * @return A {@link Locale} representation of a string based locale that has
+   *         the form {@code "{language}_{country}_{variant}"}, or {@code null}
+   *         if the specified string is null.
+   */
+  public static Locale fromRFC1766(String str) {
+    if (str == null)
+      return null;
+
+    str = str.trim();
+    if (str.length() == 0)
+      return null;
+
+    final int dash = str.indexOf('-');
+    if (dash == 0 || dash == str.length() - 1)
+      return null;
+
+    return dash == -1 ? new Locale(str) : new Locale(str.substring(0, dash), str.substring(dash + 1));
+  }
+
+  /**
    * Returns a {@link Locale} representation of a string based locale that has
    * the form {@code "{language}_{country}_{variant}"}, or {@code null} if the
    * specified string is null. Examples: {@code "en"}, {@code "de_DE"},
@@ -111,9 +137,9 @@ public final class Locales {
     // Extract language
     final int languageIndex = string.indexOf('_');
     if (languageIndex == -1) // No further "_" so is "{language}" only
-      return new Locale(string, "");
+      return new Locale(Strings.requireLettersOrDigits(string), "");
 
-    final String language = string.substring(0, languageIndex);
+    final String language = Strings.requireLettersOrDigits(string.substring(0, languageIndex));
 
     // Extract country
     final int countryIndex = string.indexOf('_', languageIndex + 1);
