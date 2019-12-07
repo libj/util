@@ -37,7 +37,7 @@ import java.util.stream.StreamSupport;
  * synonymous methods for a set of {@code int} values instead of Object
  * references.
  */
-public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, Serializable {
+public class HashIntSet extends HashPrimitiveSet implements IntSet, Serializable {
   private static final long serialVersionUID = -2903767291531144447L;
 
   /**
@@ -58,8 +58,8 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
    */
   private boolean containsNull;
   private int[] valueData;
-  private int size;
-  private transient int modCount;
+  private volatile int size;
+  private transient volatile int modCount;
 
   /**
    * Creates an empty {@link HashIntSet} with the default initial capacity
@@ -547,7 +547,7 @@ public class HashIntSet extends HashPrimitiveSet implements Cloneable, IntSet, S
   }
 
   @Override
-  public Object clone() {
+  public HashIntSet clone() {
     try {
       final HashIntSet clone = (HashIntSet)super.clone();
       clone.valueData = new int[valueData.length];

@@ -37,7 +37,7 @@ import java.util.stream.StreamSupport;
  * synonymous methods for a set of {@code double} values instead of Object
  * references.
  */
-public class HashDoubleSet extends HashPrimitiveSet implements Cloneable, DoubleSet, Serializable {
+public class HashDoubleSet extends HashPrimitiveSet implements DoubleSet, Serializable {
   private static final long serialVersionUID = -2903767291531144447L;
 
   /**
@@ -58,8 +58,8 @@ public class HashDoubleSet extends HashPrimitiveSet implements Cloneable, Double
    */
   private boolean containsNull;
   private double[] valueData;
-  private int size;
-  private transient int modCount;
+  private volatile int size;
+  private transient volatile int modCount;
 
   /**
    * Creates an empty {@link HashDoubleSet} with the default initial capacity
@@ -547,7 +547,7 @@ public class HashDoubleSet extends HashPrimitiveSet implements Cloneable, Double
   }
 
   @Override
-  public Object clone() {
+  public HashDoubleSet clone() {
     try {
       final HashDoubleSet clone = (HashDoubleSet)super.clone();
       clone.valueData = new double[valueData.length];

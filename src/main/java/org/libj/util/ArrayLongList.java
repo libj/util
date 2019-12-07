@@ -56,7 +56,7 @@ import java.util.stream.LongStream;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneable, LongList, RandomAccess, Serializable {
+public class ArrayLongList extends AbstractArrayList<long[]> implements LongList, RandomAccess, Serializable {
   private static final long serialVersionUID = 3156088399075272505L;
 
   private static final long[] EMPTY_VALUEDATA = {};
@@ -682,30 +682,9 @@ public class ArrayLongList extends AbstractArrayList<long[]> implements Cloneabl
     return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size).parallel();
   }
 
-  /**
-   * Returns a clone of this {@link ArrayLongList} instance.
-   *
-   * @return A clone of this {@link ArrayLongList} instance.
-   */
   @Override
-  protected ArrayLongList clone() {
-    try {
-      final ArrayLongList clone = (ArrayLongList)super.clone();
-      // Clones of SubList(s) retain the original valueData reference, because
-      // it is shared with the ArrayLongList from which they were created
-      if (toIndex < 0) {
-        clone.parent = null;
-        clone.sibling = null;
-        clone.child = null;
-        clone.valueData = new long[valueData.length];
-        System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
-      }
-
-      return clone;
-    }
-    catch (final CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
+  public ArrayLongList clone() {
+    return (ArrayLongList)super.clone();
   }
 
   /**

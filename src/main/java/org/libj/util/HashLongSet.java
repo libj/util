@@ -37,7 +37,7 @@ import java.util.stream.StreamSupport;
  * synonymous methods for a set of {@code long} values instead of Object
  * references.
  */
-public class HashLongSet extends HashPrimitiveSet implements Cloneable, LongSet, Serializable {
+public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializable {
   private static final long serialVersionUID = -2903767291531144447L;
 
   /**
@@ -58,8 +58,8 @@ public class HashLongSet extends HashPrimitiveSet implements Cloneable, LongSet,
    */
   private boolean containsNull;
   private long[] valueData;
-  private int size;
-  private transient int modCount;
+  private volatile int size;
+  private transient volatile int modCount;
 
   /**
    * Creates an empty {@link HashLongSet} with the default initial capacity
@@ -547,7 +547,7 @@ public class HashLongSet extends HashPrimitiveSet implements Cloneable, LongSet,
   }
 
   @Override
-  public Object clone() {
+  public HashLongSet clone() {
     try {
       final HashLongSet clone = (HashLongSet)super.clone();
       clone.valueData = new long[valueData.length];

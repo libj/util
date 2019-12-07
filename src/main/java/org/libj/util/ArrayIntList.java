@@ -56,7 +56,7 @@ import java.util.stream.IntStream;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable, IntList, RandomAccess, Serializable {
+public class ArrayIntList extends AbstractArrayList<int[]> implements IntList, RandomAccess, Serializable {
   private static final long serialVersionUID = 3156088399075272505L;
 
   private static final int[] EMPTY_VALUEDATA = {};
@@ -682,30 +682,9 @@ public class ArrayIntList extends AbstractArrayList<int[]> implements Cloneable,
     return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size).parallel();
   }
 
-  /**
-   * Returns a clone of this {@link ArrayIntList} instance.
-   *
-   * @return A clone of this {@link ArrayIntList} instance.
-   */
   @Override
-  protected ArrayIntList clone() {
-    try {
-      final ArrayIntList clone = (ArrayIntList)super.clone();
-      // Clones of SubList(s) retain the original valueData reference, because
-      // it is shared with the ArrayIntList from which they were created
-      if (toIndex < 0) {
-        clone.parent = null;
-        clone.sibling = null;
-        clone.child = null;
-        clone.valueData = new int[valueData.length];
-        System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
-      }
-
-      return clone;
-    }
-    catch (final CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
+  public ArrayIntList clone() {
+    return (ArrayIntList)super.clone();
   }
 
   /**

@@ -37,7 +37,7 @@ package org.libj.util;
  * @see LongSet
  * @see HashLongSet
  */
-public interface PrimitiveCollection {
+public interface PrimitiveCollection extends Cloneable {
   /**
    * Removes all of the values from this collection. The collection will be
    * empty after this call returns.

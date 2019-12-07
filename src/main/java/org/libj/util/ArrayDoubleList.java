@@ -56,7 +56,7 @@ import java.util.stream.DoubleStream;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class ArrayDoubleList extends AbstractArrayList<double[]> implements Cloneable, DoubleList, RandomAccess, Serializable {
+public class ArrayDoubleList extends AbstractArrayList<double[]> implements DoubleList, RandomAccess, Serializable {
   private static final long serialVersionUID = 3156088399075272505L;
 
   private static final double[] EMPTY_VALUEDATA = {};
@@ -682,30 +682,9 @@ public class ArrayDoubleList extends AbstractArrayList<double[]> implements Clon
     return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size).parallel();
   }
 
-  /**
-   * Returns a clone of this {@link ArrayDoubleList} instance.
-   *
-   * @return A clone of this {@link ArrayDoubleList} instance.
-   */
   @Override
-  protected ArrayDoubleList clone() {
-    try {
-      final ArrayDoubleList clone = (ArrayDoubleList)super.clone();
-      // Clones of SubList(s) retain the original valueData reference, because
-      // it is shared with the ArrayDoubleList from which they were created
-      if (toIndex < 0) {
-        clone.parent = null;
-        clone.sibling = null;
-        clone.child = null;
-        clone.valueData = new double[valueData.length];
-        System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
-      }
-
-      return clone;
-    }
-    catch (final CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
+  public ArrayDoubleList clone() {
+    return (ArrayDoubleList)super.clone();
   }
 
   /**

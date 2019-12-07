@@ -16,15 +16,17 @@
 
 package org.libj.util;
 
+import java.lang.reflect.Array;
+
 /**
- * This class provides a skeletal implementation of an array-backed list of the
+ * This class provides the base implementation of an array-backed list of the
  * {@link PrimitiveCollection} interface, specifically designed to abstract the
- * state management instructions for the instances of a graph of sub-lists.
+ * state management instructions for the instances of sub-lists.
  *
  * @param <T> The parameter representing the array type (i.e. {@code int[]} or
  *          {@code long[]}).
  */
-public class AbstractArrayList<T> implements PrimitiveCollection {
+public abstract class AbstractArrayList<T> implements PrimitiveCollection {
   static final int DEFAULT_INITIAL_CAPACITY = 5;
 
   protected volatile int fromIndex;
@@ -193,5 +195,37 @@ public class AbstractArrayList<T> implements PrimitiveCollection {
   @Override
   public void clear() {
     updateState(fromIndex, toIndex > -1 ? fromIndex - toIndex : -size);
+  }
+
+  /**
+   * Creates and returns a copy of this list, containing the same value data in
+   * this list. The underlying array for the copy will not the same as this
+   * list, meaning that changes made to the copy will not be reflected in this
+   * list, and vice-versa. If this list has sub-lists, or is itself a sub-list
+   * of another list, neither the parent nor the children or siblings will be
+   * cloned.
+   *
+   * @return A copy of this list.
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  protected AbstractArrayList<T> clone() {
+    try {
+      final AbstractArrayList<T> clone = (AbstractArrayList<T>)super.clone();
+      clone.parent = null;
+      clone.sibling = null;
+      clone.child = null;
+      clone.fromIndex = 0;
+      clone.toIndex = -1;
+      clone.modCount = 0;
+
+      final int size = clone.size = size();
+      clone.valueData = (T)Array.newInstance(valueData.getClass().getComponentType(), size);
+      System.arraycopy(valueData, fromIndex, clone.valueData, 0, size);
+      return clone;
+    }
+    catch (final CloneNotSupportedException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
