@@ -29,7 +29,7 @@ import java.util.Objects;
  *
  * @param <T> The {@link Comparable} type of element to be compared.
  */
-public class FixedOrderComparator<T extends Comparable<T>> implements Comparator<T> {
+public class FixedOrderComparator<T extends Comparable<? super T>> implements Comparator<T> {
   private final T[] order;
 
   /**
@@ -42,8 +42,7 @@ public class FixedOrderComparator<T extends Comparable<T>> implements Comparator
    */
   @SafeVarargs
   public FixedOrderComparator(final T ... order) {
-    Objects.requireNonNull(order);
-    this.order = order;
+    this.order = Objects.requireNonNull(order);
   }
 
   @Override

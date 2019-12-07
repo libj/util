@@ -16,10 +16,13 @@
 
 package org.libj.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Utility functions for operations pertaining to {@link Object}.
  */
-public final class Objects {
+public final class ObjectUtil {
   /**
    * Returns the class name of object {@code obj}, concatenated with '@', and
    * the hexadecimal representation of its identity hash code.
@@ -48,6 +51,30 @@ public final class Objects {
     return obj.getClass().getSimpleName() + "@" + Integer.toHexString(System.identityHashCode(obj));
   }
 
-  private Objects() {
+  /**
+   * Returns a clone of the specified object that implements the
+   * {@link Cloneable} interface.
+   *
+   * @param <T> The type of the specified object.
+   * @param obj The object to be cloned.
+   * @return A clone of the specified object that implements the
+   *         {@link Cloneable} interface.
+   * @throws NullPointerException If the specified object is null.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends Cloneable>T clone(final T obj) {
+    try {
+      final Method cloneMethod = obj.getClass().getDeclaredMethod("clone");
+      cloneMethod.setAccessible(true);
+      final T clone = (T)cloneMethod.invoke(obj);
+      cloneMethod.setAccessible(false);
+      return clone;
+    }
+    catch (final IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private ObjectUtil() {
   }
 }

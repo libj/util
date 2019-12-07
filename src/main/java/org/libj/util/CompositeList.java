@@ -216,11 +216,11 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
      */
     protected void print(final Logger logger) {
       final StringBuilder builder = new StringBuilder();
-      builder.append("    ComponentList<").append(type).append("> ").append(Objects.simpleIdentity(this)).append('\n');
+      builder.append("    ComponentList<").append(type).append("> ").append(ObjectUtil.simpleIdentity(this)).append('\n');
       builder.append("    I:");
       indexes.stream().forEach(i -> builder.append(' ').append(i));
       builder.append("\n    E:");
-      forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
+      forEach(e -> builder.append(' ').append(ObjectUtil.simpleIdentity(e)));
       logger.info(builder.append('\n').toString());
     }
 
@@ -518,9 +518,9 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     builder.append("  I:");
     indexes.stream().forEach(i -> builder.append(' ').append(i));
     builder.append("\n  E:");
-    forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
+    forEach(e -> builder.append(' ').append(ObjectUtil.simpleIdentity(e)));
     builder.append("\n  A:");
-    componentLists.forEach(e -> builder.append(' ').append(Objects.simpleIdentity(e)));
+    componentLists.forEach(e -> builder.append(' ').append(ObjectUtil.simpleIdentity(e)));
     logger.info(builder.append('\n').toString());
     new IdentityHashSet<>(componentLists).forEach(e -> e.print(logger));
   }
