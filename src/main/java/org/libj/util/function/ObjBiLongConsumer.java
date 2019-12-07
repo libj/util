@@ -17,7 +17,7 @@
 package org.libj.util.function;
 
 /**
- * Represents an operation that accepts an object-valued and two
+ * Represents an operation that accepts an object-valued argument and two
  * {@code long}-valued arguments, and returns no result. This is the
  * {@code (reference, long, long)} specialization of {@link BiLongConsumer}.
  * Unlike most other functional interfaces, {@link ObjBiLongConsumer} is

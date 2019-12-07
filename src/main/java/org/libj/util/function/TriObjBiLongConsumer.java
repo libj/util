@@ -17,7 +17,7 @@
 package org.libj.util.function;
 
 /**
- * Represents an operation that accepts three object-valued and two
+ * Represents an operation that accepts three object-valued argument and two
  * {@code long}-valued arguments, and returns no result. Unlike most other
  * functional interfaces, {@link TriObjBiLongConsumer} is expected to operate via
  * side-effects.

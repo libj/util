@@ -17,7 +17,7 @@
 package org.libj.util.function;
 
 /**
- * Represents an operation that accepts an object-valued and two
+ * Represents an operation that accepts an object-valued argument and two
  * {@code int}-valued arguments, and returns no result. This is the
  * {@code (reference, int, int)} specialization of {@link BiIntConsumer}. Unlike
  * most other functional interfaces, {@link ObjBiIntConsumer} is expected to
