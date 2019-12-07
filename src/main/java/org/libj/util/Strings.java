@@ -1413,6 +1413,19 @@ public final class Strings {
     return true;
   }
 
+  public static String requireLettersOrDigits(final String token) {
+    if (token == null)
+      return null;
+
+    for (int i = 0; i < token.length(); ++i) {
+      final char ch = token.charAt(i);
+      if (!Character.isLetterOrDigit(ch))
+        throw new IllegalArgumentException(token);
+    }
+
+    return token;
+  }
+
   private Strings() {
   }
 }
