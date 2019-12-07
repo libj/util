@@ -16,42 +16,105 @@
 
 package org.libj.util;
 
-import java.util.ArrayList;
-import java.util.ListIterator;
-
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.ListIterator;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MirrorListTest {
+  private static MirrorList<String,Integer> newList(final ArrayList<String> values, final ArrayList<Integer> reflections) {
+    return new MirrorList<>(values, reflections, new MirrorList.Mirror<String,Integer>() {
+      @Override
+      public Integer valueToReflection(final String value) {
+        return Integer.valueOf(value);
+      }
+
+      @Override
+      public String reflectionToValue(final Integer reflection) {
+        return String.valueOf(reflection);
+      }
+    });
+  }
+
   @Test
   public void test() {
-    final MirrorList<String,Integer> list = new MirrorList<>(new ArrayList<String>(), new ArrayList<Integer>(), Integer::valueOf, String::valueOf);
+    final MirrorList<String,Integer> list = newList(new ArrayList<String>(), new ArrayList<Integer>());
 
     list.add("1");
-    assertTrue(list.getMirror().contains(1));
+    assertTrue(list.getMirrorList().contains(1));
 
-    list.getMirror().add(2);
+    list.getMirrorList().add(2);
     assertTrue(list.contains("2"));
 
     final ListIterator<String> stringIterator = list.listIterator();
     stringIterator.next();
     stringIterator.add("3");
-    assertTrue(list.getMirror().contains(3));
+    assertTrue(list.getMirrorList().contains(3));
 
-    final ListIterator<Integer> integerIterator = list.getMirror().listIterator();
+    final ListIterator<Integer> integerIterator = list.getMirrorList().listIterator();
     integerIterator.next();
     integerIterator.next();
     integerIterator.add(7);
     assertTrue(list.contains("7"));
 
     assertTrue(list.remove("1"));
-    assertFalse(list.getMirror().contains(1));
+    assertFalse(list.getMirrorList().contains(1));
 
-    assertEquals(Integer.valueOf(2), list.getMirror().remove(2));
+    assertEquals(Integer.valueOf(2), list.getMirrorList().remove(2));
     assertFalse(list.contains("2"));
 
-    list.getMirror().clear();
+    list.getMirrorList().clear();
     assertEquals(0, list.size());
   }
-}
+
+  @Test
+  public void testConcurrentPut() {
+    final ArrayList<String> values = new ArrayList<>();
+    final ArrayList<Integer> reflections = new ArrayList<>();
+    final MirrorList<String,Integer> list = newList(values, reflections);
+
+    list.add("1");
+    values.add("0");
+    try {
+      list.add("2");
+      fail("Expected ConcurrentModificationException");
+    }
+    catch (final ConcurrentModificationException e) {
+    }
+  }
+
+  @Test
+  public void testConcurrentRemove() {
+    final ArrayList<String> values = new ArrayList<>();
+    final ArrayList<Integer> reflections = new ArrayList<>();
+    final MirrorList<String,Integer> list = newList(values, reflections);
+    list.add("1");
+    list.getMirrorList();
+    assertNotNull(reflections.remove(0));
+    try {
+      list.contains("1");
+      fail("Expected ConcurrentModificationException");
+    }
+    catch (final ConcurrentModificationException e) {
+    }
+  }
+
+  @Test
+  @Ignore("List.set(...) does not increase modCount")
+  public void testConcurrentReplace() {
+    final ArrayList<String> values = new ArrayList<>();
+    final ArrayList<Integer> reflections = new ArrayList<>();
+    final MirrorList<String,Integer> list = newList(values, reflections);
+    list.add("1");
+    values.set(0, "2");
+    try {
+      list.contains("1");
+      fail("Expected ConcurrentModificationException");
+    }
+    catch (final ConcurrentModificationException e) {
+    }
+  }}
