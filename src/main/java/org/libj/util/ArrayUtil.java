@@ -16,9 +16,12 @@
 
 package org.libj.util;
 
+import static org.libj.util.MatchedSort.*;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -34,9 +37,9 @@ public final class ArrayUtil {
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * provided ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the provided ranges, the same elements in
-   * the same order.
+   * provided ranges in the two arrays are equal. In other words, two arrays are
+   * equal if they contain, over the provided ranges, the same elements in the
+   * same order.
    *
    * @param a The first array to be tested for equality.
    * @param aFromIndex The index (inclusive) of the first element in the first
@@ -74,14 +77,14 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of chars, over the provided
-   * ranges, are <i>equal</i> to one another.
+   * Returns true if the two specified arrays of {@code char}s, over the
+   * provided ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * provided ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the provided ranges, the same elements in
-   * the same order.
+   * provided ranges in the two arrays are equal. In other words, two arrays are
+   * equal if they contain, over the provided ranges, the same elements in the
+   * same order.
    *
    * @param a The first array to be tested for equality.
    * @param aFromIndex The index (inclusive) of the first element in the first
@@ -119,14 +122,14 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of shorts, over the provided
-   * ranges, are <i>equal</i> to one another.
+   * Returns true if the two specified arrays of {@code short}s, over the
+   * provided ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * provided ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the provided ranges, the same elements in
-   * the same order.
+   * provided ranges in the two arrays are equal. In other words, two arrays are
+   * equal if they contain, over the provided ranges, the same elements in the
+   * same order.
    *
    * @param a The first array to be tested for equality.
    * @param aFromIndex The index (inclusive) of the first element in the first
@@ -164,14 +167,14 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of ints, over the provided
+   * Returns true if the two specified arrays of {@code int}s, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * provided ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the provided ranges, the same elements in
-   * the same order.
+   * provided ranges in the two arrays are equal. In other words, two arrays are
+   * equal if they contain, over the provided ranges, the same elements in the
+   * same order.
    *
    * @param a The first array to be tested for equality.
    * @param aFromIndex The index (inclusive) of the first element in the first
@@ -209,14 +212,14 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of longs, over the provided
-   * ranges, are <i>equal</i> to one another.
+   * Returns true if the two specified arrays of {@code long}s, over the
+   * provided ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * provided ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the provided ranges, the same elements in
-   * the same order.
+   * provided ranges in the two arrays are equal. In other words, two arrays are
+   * equal if they contain, over the provided ranges, the same elements in the
+   * same order.
    *
    * @param a The first array to be tested for equality.
    * @param aFromIndex The index (inclusive) of the first element in the first
@@ -254,14 +257,14 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of floats, over the provided
-   * ranges, are <i>equal</i> to one another.
+   * Returns true if the two specified arrays of {@code float}s, over the
+   * provided ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * provided ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the provided ranges, the same elements in
-   * the same order.
+   * provided ranges in the two arrays are equal. In other words, two arrays are
+   * equal if they contain, over the provided ranges, the same elements in the
+   * same order.
    *
    * @param a The first array to be tested for equality.
    * @param aFromIndex The index (inclusive) of the first element in the first
@@ -299,14 +302,14 @@ public final class ArrayUtil {
   }
 
   /**
-   * Returns true if the two specified arrays of doubles, over the provided
-   * ranges, are <i>equal</i> to one another.
+   * Returns true if the two specified arrays of {@code double}s, over the
+   * provided ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each
    * range is the same, and all corresponding pairs of elements over the
-   * provided ranges in the two arrays are equal. In other words, two arrays
-   * are equal if they contain, over the provided ranges, the same elements in
-   * the same order.
+   * provided ranges in the two arrays are equal. In other words, two arrays are
+   * equal if they contain, over the provided ranges, the same elements in the
+   * same order.
    *
    * @param a The first array to be tested for equality.
    * @param aFromIndex The index (inclusive) of the first element in the first
@@ -558,354 +561,506 @@ public final class ArrayUtil {
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match. The returned index will be less than or equal to an exact match.
    *
    * @param <T> Type parameter of {@link Comparable} object.
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static <T extends Comparable<T>> int binaryClosestSearch(final T[] a, final T key) {
+  public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final T key) {
     return binaryClosestSearch0(a, 0, a.length, key);
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match. The returned index will be less than or equal to an exact match.
    *
    * @param <T> Type parameter of {@link Comparable} object.
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static <T extends Comparable<T>> int binaryClosestSearch(final T[] a, final int from, final int to, final T key) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key);
+  public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
 
-  /**
-   * Find the index of the sorted array whose value most closely matches the
-   * value provided.
-   *
-   * @param <T> Type parameter of object.
-   * @param a The sorted array.
-   * @param key The value to match.
-   * @param comparator The {@link Comparator} for objects of type {@code <T>}.
-   * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If the specified array is null.
-   */
-  public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<T> comparator) {
-    return binaryClosestSearch0(a, 0, a.length, key, comparator);
-  }
-
-  /**
-   * Find the index of the sorted array whose value most closely matches the
-   * value provided.
-   *
-   * @param <T> Type parameter of object.
-   * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
-   * @param key The value to match.
-   * @param comparator The {@link Comparator} for objects of type {@code <T>}.
-   * @return The closest index of the sorted array matching the desired value.
-   * @throws NullPointerException If the specified array is null.
-   */
-  public static <T>int binaryClosestSearch(final T[] a, final int from, final int to, final T key, final Comparator<T> comparator) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key, comparator);
-  }
-
-  private static <T extends Comparable<T>> int binaryClosestSearch0(final T[] a, int from, int to, final T key) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      final int comparison = key.compareTo(a[mid]);
-      if (comparison < 0)
-        to = mid;
-      else if (comparison > 0)
-        from = mid + 1;
+  private static <T extends Comparable<? super T>> int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = key.compareTo(a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
       else
         return mid;
     }
 
-    return (from + to) / 2;
-  }
-
-  private static <T>int binaryClosestSearch0(final T[] a, int from, int to, final T key, final Comparator<T> comparator) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      final int comparison = comparator.compare(key, a[mid]);
-      if (comparison < 0)
-        to = mid;
-      else if (comparison > 0)
-        from = mid + 1;
-      else
-        return mid;
-    }
-
-    return (from + to) / 2;
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param <T> Type parameter of object.
+   * @param a The sorted array.
+   * @param key The value to match.
+   * @param c The {@link Comparator} for objects of type {@code <T>}.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<T> c) {
+    return binaryClosestSearch0(a, 0, a.length, key, c);
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param <T> Type parameter of object.
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param c The {@link Comparator} for objects of type {@code <T>}.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static <T>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key, final Comparator<T> c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static <T>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key, final Comparator<T> c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
+      else
+        return mid;
+    }
+
+    return (fromIndex + toIndex) / 2;
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
-    return binaryClosestSearch0(a, 0, a.length, key);
+    return binaryClosestSearch0(a, 0, a.length, key, Byte::compare);
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static int binaryClosestSearch(final byte[] a, final int from, final int to, final byte key) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key);
+  public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Byte::compare);
   }
 
-  private static int binaryClosestSearch0(final byte[] a, int from, int to, final byte key) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      if (key < a[mid])
-        to = mid;
-      else if (key > a[mid])
-        from = mid + 1;
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key, final ByteComparator c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final byte[] a, int fromIndex, int toIndex, final byte key, final ByteComparator c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
       else
         return mid;
     }
 
-    return (from + to) / 2;
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
-    return binaryClosestSearch0(a, 0, a.length, key);
+    return binaryClosestSearch0(a, 0, a.length, key, Short::compare);
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static int binaryClosestSearch(final short[] a, final int from, final int to, final short key) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key);
+  public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Short::compare);
   }
 
-  private static int binaryClosestSearch0(final short[] a, int from, int to, final short key) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      if (key < a[mid])
-        to = mid;
-      else if (key > a[mid])
-        from = mid + 1;
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key, final ShortComparator c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final short[] a, int fromIndex, int toIndex, final short key, final ShortComparator c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
       else
         return mid;
     }
 
-    return (from + to) / 2;
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
-    return binaryClosestSearch0(a, 0, a.length, key);
+    return binaryClosestSearch0(a, 0, a.length, key, Integer::compare);
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static int binaryClosestSearch(final int[] a, final int from, final int to, final int key) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key);
+  public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Integer::compare);
   }
 
-  private static int binaryClosestSearch0(final int[] a, int from, int to, final int key) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      if (key < a[mid])
-        to = mid;
-      else if (key > a[mid])
-        from = mid + 1;
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key, final IntComparator c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final int[] a, int fromIndex, int toIndex, final int key, final IntComparator c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
       else
         return mid;
     }
 
-    return (from + to) / 2;
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
-    return binaryClosestSearch0(a, 0, a.length, key);
+    return binaryClosestSearch0(a, 0, a.length, key, Float::compare);
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static int binaryClosestSearch(final float[] a, final int from, final int to, final float key) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key);
+  public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Float::compare);
   }
 
-  private static int binaryClosestSearch0(final float[] a, int from, int to, final float key) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      if (key < a[mid])
-        to = mid;
-      else if (key > a[mid])
-        from = mid + 1;
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key, final FloatComparator c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final float[] a, int fromIndex, int toIndex, final float key, final FloatComparator c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
       else
         return mid;
     }
 
-    return (from + to) / 2;
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
-    return binaryClosestSearch0(a, 0, a.length, key);
+    return binaryClosestSearch0(a, 0, a.length, key, Double::compare);
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static int binaryClosestSearch(final double[] a, final int from, final int to, final double key) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key);
+  public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Double::compare);
   }
 
-  private static int binaryClosestSearch0(final double[] a, int from, int to, final double key) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      if (key < a[mid])
-        to = mid;
-      else if (key > a[mid])
-        from = mid + 1;
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key, final DoubleComparator c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final double[] a, int fromIndex, int toIndex, final double key, final DoubleComparator c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
       else
         return mid;
     }
 
-    return (from + to) / 2;
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
-    return binaryClosestSearch0(a, 0, a.length, key);
+    return binaryClosestSearch0(a, 0, a.length, key, Long::compare);
   }
 
   /**
    * Find the index of the sorted array whose value most closely matches the
-   * value provided.
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
    *
    * @param a The sorted array.
-   * @param from The starting index of the sorted array to search from.
-   * @param to The ending index of the sorted array to search to.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
    * @throws NullPointerException If the specified array is null.
    */
-  public static int binaryClosestSearch(final long[] a, final int from, final int to, final long key) {
-    Assertions.assertRangeArray(from, to, a.length);
-    return binaryClosestSearch0(a, from, to, key);
+  public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Long::compare);
   }
 
-  private static int binaryClosestSearch0(final long[] a, int from, int to, final long key) {
-    for (int mid; from < to;) {
-      mid = (from + to) / 2;
-      if (key < a[mid])
-        to = mid;
-      else if (key > a[mid])
-        from = mid + 1;
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws NullPointerException If the specified array is null.
+   */
+  public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key, final LongComparator c) {
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final long[] a, int fromIndex, int toIndex, final long key, final LongComparator c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
       else
         return mid;
     }
 
-    return (from + to) / 2;
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
@@ -2963,6 +3118,694 @@ public final class ArrayUtil {
   }
 
   /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final int[] order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final int[] order, final IntComparator comparator) {
+    if (data.length != order.length)
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
+
+    final IntComparator c = comparator != null ? comparator : Integer::compare;
+    sort0(data, buildIndex(order.length), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order[o1], order[o2]);
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link IntList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link IntList} providing the order of indices to sort
+   *          {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final IntList order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link IntList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link IntList} providing the order of indices to sort
+   *          {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final IntList order, final IntComparator comparator) {
+    if (data.length != order.size())
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
+
+    final IntComparator c = comparator != null ? comparator : Integer::compare;
+    sort0(data, buildIndex(order.size()), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order.get(o1), order.get(o2));
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final long[] order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final long[] order, final LongComparator comparator) {
+    if (data.length != order.length)
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
+
+    final LongComparator c = comparator != null ? comparator : Long::compare;
+    sort0(data, buildIndex(order.length), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order[o1], order[o2]);
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link LongList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link LongList} providing the order of indices to sort
+   *          {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final LongList order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link LongList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link LongList} providing the order of indices to sort
+   *          {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final LongList order, final LongComparator comparator) {
+    if (data.length != order.size())
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
+
+    final LongComparator c = comparator != null ? comparator : Long::compare;
+    sort0(data, buildIndex(order.size()), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order.get(o1), order.get(o2));
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final float[] order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final float[] order, final FloatComparator comparator) {
+    if (data.length != order.length)
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
+
+    final FloatComparator c = comparator != null ? comparator : Float::compare;
+    sort0(data, buildIndex(order.length), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order[o1], order[o2]);
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link FloatList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link FloatList} providing the order of indices to sort
+   *          {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final FloatList order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link FloatList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link FloatList} providing the order of indices to sort
+   *          {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final FloatList order, final FloatComparator comparator) {
+    if (data.length != order.size())
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
+
+    final FloatComparator c = comparator != null ? comparator : Float::compare;
+    sort0(data, buildIndex(order.size()), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order.get(o1), order.get(o2));
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final double[] order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final double[] order, final DoubleComparator comparator) {
+    if (data.length != order.length)
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
+
+    final DoubleComparator c = comparator != null ? comparator : Double::compare;
+    sort0(data, buildIndex(order.length), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order[o1], order[o2]);
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link DoubleList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link DoubleList} providing the order of indices to sort
+   *          {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final DoubleList order) {
+    sort(data, order, null);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link DoubleList} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The {@link DoubleList} providing the order of indices to sort
+   *          {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static void sort(final Object[] data, final DoubleList order, final DoubleComparator comparator) {
+    if (data.length != order.size())
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
+
+    final DoubleComparator c = comparator != null ? comparator : Double::compare;
+    sort0(data, buildIndex(order.size()), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return c.compare(order.get(o1), order.get(o2));
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link List} of {@link Comparable} objects in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param <T> The type parameter for the {@link Comparable} objects of
+   *          {@code order}.
+   * @param data The array providing the data.
+   * @param order The {@link List} of {@link Comparable} objects providing the
+   *          order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static <T extends Comparable<? super T>>void sort(final Object[] data, final List<T> order) {
+    if (data.length != order.size())
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
+
+    sort0(data, buildIndex(order.size()), new IntComparator() {
+      @Override
+      @SuppressWarnings({"rawtypes", "unchecked"})
+      public int compare(final int o1, final int o2) {
+        final Comparable c1 = order.get(o1);
+        final Comparable c2 = order.get(o2);
+        return c1 == null ? (c2 == null ? 0 : -1) : (c2 == null ? 1 : c1.compareTo(c2));
+      }
+    });
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * {@link List} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param <T> The type parameter for the {@link Comparable} objects of
+   *          {@code order}.
+   * @param data The array providing the data.
+   * @param order The {@link List} providing the order of indices to sort
+   *          {@code data}.
+   * @param comparator The {@link Comparator} for members of {@code order}.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   */
+  public static <T>void sort(final Object[] data, final List<T> order, final Comparator<T> comparator) {
+    if (data.length != order.size())
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
+
+    sort0(data, buildIndex(order.size()), new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return comparator.compare(order.get(o1), order.get(o2));
+      }
+    });
+  }
+
+  /**
+   * Sorts the specified array of {@code byte}s, according to the specified
+   * {@link ByteComparator}.
+   *
+   * @param a The array of {@code byte}s.
+   * @param c The {@link ByteComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final byte[] a, final ByteComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code byte}s, according to the specified
+   * {@link ByteComparator}.
+   *
+   * @param a The array of {@code byte}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link ByteComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final byte[] a, final int fromIndex, final int toIndex, final ByteComparator c) {
+    if (c == null)
+      Arrays.sort(a, fromIndex, toIndex);
+    else
+      ByteTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+  }
+
+  /**
+   * Sorts the specified array of {@code char}s, according to the specified
+   * {@link CharComparator}.
+   *
+   * @param a The array of {@code char}s.
+   * @param c The {@link CharComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final char[] a, final CharComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code char}s, according to the specified
+   * {@link CharComparator}.
+   *
+   * @param a The array of {@code char}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link CharComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final char[] a, final int fromIndex, final int toIndex, final CharComparator c) {
+    if (c == null)
+      Arrays.sort(a, fromIndex, toIndex);
+    else
+      CharTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+  }
+
+  /**
+   * Sorts the specified array of {@code short}s, according to the specified
+   * {@link ShortComparator}.
+   *
+   * @param a The array of {@code short}s.
+   * @param c The {@link ShortComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final short[] a, final ShortComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code short}s, according to the specified
+   * {@link ShortComparator}.
+   *
+   * @param a The array of {@code short}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link ShortComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final short[] a, final int fromIndex, final int toIndex, final ShortComparator c) {
+    if (c == null)
+      Arrays.sort(a, fromIndex, toIndex);
+    else
+      ShortTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+  }
+
+  /**
    * Sorts the specified array of {@code int}s, according to the specified
    * {@link IntComparator}.
    *
@@ -3018,6 +3861,35 @@ public final class ArrayUtil {
       Arrays.sort(a, fromIndex, toIndex);
     else
       LongTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+  }
+
+  /**
+   * Sorts the specified array of {@code float}s, according to the specified
+   * {@link FloatComparator}.
+   *
+   * @param a The array of {@code float}s.
+   * @param c The {@link FloatComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final float[] a, final FloatComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code float}s, according to the specified
+   * {@link FloatComparator}.
+   *
+   * @param a The array of {@code float}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link FloatComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final float[] a, final int fromIndex, final int toIndex, final FloatComparator c) {
+    if (c == null)
+      Arrays.sort(a, fromIndex, toIndex);
+    else
+      FloatTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
   }
 
   /**

@@ -1,11 +1,11 @@
-/* Copyright (c) 2019 LibJ
+/* Copyright (c) 2017 LibJ
  *
- * Permission is hereby granted, final free of charge, final to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), final to deal
- * in the Software without restriction, final including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, final and/or sell
- * copies of the Software, final and to permit persons to whom the Software is
- * furnished to do so, final subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class MatchedTest {
+public class MatchedSortTest {
   private static final int ITERATIONS = 100;
 
   private static <T>void randomize(final List<T> a, final int[] b) {
@@ -69,7 +69,7 @@ public class MatchedTest {
     final int[] order = new int[data.size()];
     ArrayUtil.fillIncremental(order, 0);
     randomize(data, order);
-    Matched.sort(data, order, c);
+    CollectionUtil.sort(data, order, c);
   }
 
   @Test
