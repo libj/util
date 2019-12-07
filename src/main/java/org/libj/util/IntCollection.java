@@ -271,6 +271,61 @@ public interface IntCollection extends IntIterable, PrimitiveCollection {
   }
 
   /**
+   * Returns an array containing all of the values in this collection in proper
+   * sequence (from first to last value). A new array is allocated with the size
+   * of this collection.
+   * <p>
+   * The returned array will be "safe" in that no references to it are
+   * maintained by this collection. (In other words, this method must allocate a
+   * new array even if this collection is backed by an array). The caller is
+   * thus free to modify the returned array.
+   *
+   * @return An array containing all of the values in this collection in proper
+   *         sequence.
+   */
+  default int[] toArray() {
+    return toArray(new int[size()]);
+  }
+
+  /**
+   * Returns an array containing all of the values in this collection in proper
+   * sequence (from first to last value). If the collection fits in the
+   * specified array, it is returned therein. Otherwise, a new array is
+   * allocated with the size of this collection.
+   * <p>
+   * If the collection fits in the specified array with room to spare (i.e., the
+   * array has more values than the collection), the value in the array
+   * immediately following the end of the collection is set to {@code 0}. (This
+   * is useful in determining the length of the collection <i>only</i> if the
+   * caller knows that the collection does not contain any {@code 0} values).
+   *
+   * @param a The array into which the values of the collection are to be
+   *          stored. If the array is not big enough to store the values, a new
+   *          array is allocated.
+   * @return An array containing the values of the collection.
+   * @throws NullPointerException If the specified array is null.
+   */
+  int[] toArray(int[] a);
+
+  /**
+   * Returns an array containing all of the values in this collection in proper
+   * sequence (from first to last value). If the collection fits in the
+   * specified array, it is returned therein. Otherwise, a new array is
+   * allocated with the size of this collection.
+   * <p>
+   * If the collection fits in the specified array with room to spare (i.e., the
+   * array has more values than the collection), the value in the array
+   * immediately following the end of the collection is set to null.
+   *
+   * @param a The array into which the values of the collection are to be
+   *          stored. If the array is not big enough to store the values, a new
+   *          array is allocated.
+   * @return An array containing the values of the collection.
+   * @throws NullPointerException If the specified array is null.
+   */
+  Integer[] toArray(Integer[] a);
+
+  /**
    * Creates a {@link java.util.Spliterator.OfInt} over the values in this collection.
    *
    * @return A {@code Spliterator.OfInt} over the values in this collection.

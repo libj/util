@@ -589,61 +589,6 @@ public interface DoubleList extends DoubleCollection {
   DoubleList subList(int fromIndex, int toIndex);
 
   /**
-   * Returns an array containing all of the values in this list in proper
-   * sequence (from first to last value). A new array is allocated with the size
-   * of this list.
-   * <p>
-   * The returned array will be "safe" in that no references to it are
-   * maintained by this list. (In other words, this method must allocate a new
-   * array even if this list is backed by an array). The caller is thus free to
-   * modify the returned array.
-   *
-   * @return An array containing all of the values in this list in proper
-   *         sequence.
-   */
-  default double[] toArray() {
-    return toArray(new double[size()]);
-  }
-
-  /**
-   * Returns an array containing all of the values in this list in proper
-   * sequence (from first to last value). If the list fits in the specified
-   * array, it is returned therein. Otherwise, a new array is allocated with the
-   * size of this list.
-   * <p>
-   * If the list fits in the specified array with room to spare (i.e., the array
-   * has more values than the list), the value in the array immediately
-   * following the end of the collection is set to {@code 0}. (This is useful in
-   * determining the length of the list <i>only</i> if the caller knows that the
-   * list does not contain any {@code 0} values.)
-   *
-   * @param a The array into which the values of the list are to be stored, if
-   *          it is big enough; otherwise, a new array is allocated for this
-   *          purpose.
-   * @return An array containing the values of the list.
-   * @throws NullPointerException If the specified array is null.
-   */
-  double[] toArray(double[] a);
-
-  /**
-   * Returns an array containing all of the values in this list in proper
-   * sequence (from first to last value). If the list fits in the specified
-   * array, it is returned therein. Otherwise, a new array is allocated with the
-   * size of this list.
-   * <p>
-   * If the list fits in the specified array with room to spare (i.e., the array
-   * has more values than the list), the value in the array immediately
-   * following the end of the collection is set to null
-   *
-   * @param a The array into which the values of the list are to be stored, if
-   *          it is big enough; otherwise, a new array is allocated for this
-   *          purpose.
-   * @return An array containing the values of the list.
-   * @throws NullPointerException If the specified array is null.
-   */
-  Double[] toArray(Double[] a);
-
-  /**
    * Compares the specified object with this list for equality. Returns
    * {@code true} if and only if the specified object is also a list, both lists
    * have the same size, and all corresponding pairs of values in the two lists
