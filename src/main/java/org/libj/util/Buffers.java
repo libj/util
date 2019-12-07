@@ -330,7 +330,7 @@ public final class Buffers {
   /**
    * Returns the value of the bit at the specified index. The value is
    * {@code true} if the bit with the index {@code bit} is currently set in
-   * {@code buf}; otherwise, the result is {@code false}.
+   * {@code buf}, otherwise the result is {@code false}.
    *
    * @param buf The {@code byte[]} buffer.
    * @param bit The bit index.
@@ -346,7 +346,7 @@ public final class Buffers {
   /**
    * Returns the value of the bit at the specified index. The value is
    * {@code true} if the bit with the index {@code bit} is currently set in
-   * {@code buf}; otherwise, the result is {@code false}.
+   * {@code buf}, otherwise the result is {@code false}.
    *
    * @param buf The {@code char[]} buffer.
    * @param bit The bit index.
@@ -362,7 +362,7 @@ public final class Buffers {
   /**
    * Returns the value of the bit at the specified index. The value is
    * {@code true} if the bit with the index {@code bit} is currently set in
-   * {@code buf}; otherwise, the result is {@code false}.
+   * {@code buf}, otherwise the result is {@code false}.
    *
    * @param buf The {@code short[]} buffer.
    * @param bit The bit index.
@@ -378,7 +378,7 @@ public final class Buffers {
   /**
    * Returns the value of the bit at the specified index. The value is
    * {@code true} if the bit with the index {@code bit} is currently set in
-   * {@code buf}; otherwise, the result is {@code false}.
+   * {@code buf}, otherwise the result is {@code false}.
    *
    * @param buf The {@code int[]} buffer.
    * @param bit The bit index.
@@ -394,7 +394,7 @@ public final class Buffers {
   /**
    * Returns the value of the bit at the specified index. The value is
    * {@code true} if the bit with the index {@code bit} is currently set in
-   * {@code buf}; otherwise, the result is {@code false}.
+   * {@code buf}, otherwise the result is {@code false}.
    *
    * @param buf The {@code long[]} buffer.
    * @param bit The bit index.
