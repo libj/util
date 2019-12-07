@@ -43,10 +43,10 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * Callback method that is invoked immediately before an element is added to
    * the enclosed {@link Collection}.
    *
-   * @param e The element being added to the enclosed {@link Collection}.
-   * @return If this method returns {@code false}, the subsequent add operation
-   *         will not be performed; otherwise, the subsequent add
-   *         operation will be performed.
+   * @param e The element to be added to the enclosed {@link Collection}.
+   * @return If this method returns {@code true}, the subsequent <u>add</u>
+   *         operation will be performed; if this method returns {@code false},
+   *         the subsequent <u>add</u> operation will not be performed.
    */
   protected boolean beforeAdd(final E e) {
     return true;
@@ -58,7 +58,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    *
    * @param e The element added to the enclosed {@link Collection}.
    * @param re A {@link RuntimeException} that occurred during the add
-   *          operation, or null if no exception occurred.
+   *          operation, or {@code null} if no exception occurred.
    */
   protected void afterAdd(final E e, final RuntimeException re) {
   }
@@ -67,10 +67,10 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * Callback method that is invoked immediately before an element is removed
    * from the enclosed {@link Collection}.
    *
-   * @param e The element being removed from the enclosed {@link Collection}.
-   * @return If this method returns {@code false}, the subsequent remove operation
-   *         will not be performed; otherwise, the subsequent remove
-   *         operation will be performed.
+   * @param e The element to be removed from the enclosed {@link Collection}.
+   * @return If this method returns {@code true}, the subsequent <u>remove</u>
+   *         operation will be performed; if this method returns {@code false},
+   *         the subsequent <u>remove</u> operation will not be performed.
    */
   protected boolean beforeRemove(final Object e) {
     return true;
@@ -80,9 +80,11 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * Callback method that is invoked immediately after an element is removed
    * from the enclosed {@link Collection}.
    *
-   * @param e The element removed from the enclosed {@link Collection}.
+   * @param e The element removed from the enclosed {@link Collection}, or
+   *          attempted to be removed from the {@link Collection} in case of a
+   *          {@link RuntimeException}.
    * @param re A {@link RuntimeException} that occurred during the add
-   *          operation, or null if no exception occurred.
+   *          operation, or {@code null} if no exception occurred.
    */
   protected void afterRemove(final Object e, final RuntimeException re) {
   }

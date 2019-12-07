@@ -352,7 +352,7 @@ public final class Enums {
      * @param ordinal The ordinal representing the bit to check in the
      *          {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     *         ordinal is set in the specified mask, otherwise {@code false}.
      */
     public static boolean check(final byte mask, final int ordinal) {
       return (mask & (1 << ordinal)) != 0;
@@ -367,7 +367,7 @@ public final class Enums {
      * @param ordinal The ordinal representing the bit to check in the
      *          {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     *         ordinal is set in the specified mask, otherwise {@code false}.
      */
     public static boolean check(final short mask, final int ordinal) {
       return (mask & (1 << ordinal)) != 0;
@@ -382,7 +382,7 @@ public final class Enums {
      * @param ordinal The ordinal representing the bit to check in the
      *          {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     *         ordinal is set in the specified mask, otherwise {@code false}.
      */
     public static boolean check(final int mask, final int ordinal) {
       return (mask & (1 << ordinal)) != 0;
@@ -397,7 +397,7 @@ public final class Enums {
      * @param ordinal The ordinal representing the bit to check in the
      *          {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         ordinal is set in the specified mask; otherwise, {@code false}.
+     *         ordinal is set in the specified mask, otherwise {@code false}.
      */
     public static boolean check(final long mask, final int ordinal) {
       return (mask & (1 << ordinal)) != 0;
@@ -412,8 +412,9 @@ public final class Enums {
      * @param enm The {@code enum} with ordinal representing the bit to check in
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
-     * @throws NullPointerException If {@code enm} is null.
+     *         {@code enum} is set in the specified mask, otherwise
+     *         {@code false}.
+     * @throws NullPointerException If {@link Enum enm} is null.
      */
     public static boolean check(final byte mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());
@@ -428,8 +429,9 @@ public final class Enums {
      * @param enm The {@code enum} with ordinal representing the bit to check in
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
-     * @throws NullPointerException If {@code enm} is null.
+     *         {@code enum} is set in the specified mask, otherwise
+     *         {@code false}.
+     * @throws NullPointerException If {@link Enum enm} is null.
      */
     public static boolean check(final short mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());
@@ -444,8 +446,9 @@ public final class Enums {
      * @param enm The {@code enum} with ordinal representing the bit to check in
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
-     * @throws NullPointerException If {@code enm} is null.
+     *         {@code enum} is set in the specified mask, otherwise
+     *         {@code false}.
+     * @throws NullPointerException If {@link Enum enm} is null.
      */
     public static boolean check(final int mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());
@@ -460,8 +463,9 @@ public final class Enums {
      * @param enm The {@code enum} with ordinal representing the bit to check in
      *          the {@code mask}.
      * @return {@code true} if the bit position represented by the specified
-     *         {@code enum} is set in the specified mask; otherwise, {@code false}.
-     * @throws NullPointerException If {@code enm} is null.
+     *         {@code enum} is set in the specified mask, otherwise
+     *         {@code false}.
+     * @throws NullPointerException If {@link Enum enm} is null.
      */
     public static boolean check(final long mask, final Enum<?> enm) {
       return check(mask, enm.ordinal());

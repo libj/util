@@ -444,7 +444,7 @@ public final class Classes {
   /**
    * Returns a Constructor object that reflects the specified public constructor
    * of the class or interface represented by {@code cls} (including inherited
-   * constructors), or null if the constructor is not found.
+   * constructors), or {@code null} if the constructor is not found.
    * <p>
    * The {@code parameterTypes} parameter is an array of Class objects that
    * identify the constructor's formal parameter types, in declared order. If
@@ -460,7 +460,8 @@ public final class Classes {
    * @param parameterTypes The parameter array.
    * @return A Constructor object that reflects the specified public constructor
    *         of the class or interface represented by {@code cls} (including
-   *         inherited constructors), or null if the constructor is not found.
+   *         inherited constructors), or {@code null} if the constructor is not
+   *         found.
    * @throws NullPointerException If {@code cls} is null.
    */
   public static Constructor<?> getConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
@@ -475,7 +476,7 @@ public final class Classes {
   /**
    * Returns a Constructor object that reflects the specified declared
    * constructor of the class or interface represented by {@code cls} (excluding
-   * inherited constructors), or null if the constructor is not found.
+   * inherited constructors), or {@code null} if the constructor is not found.
    * <p>
    * Declared constructors include public, protected, default (package) access,
    * and private visibility.
@@ -494,8 +495,8 @@ public final class Classes {
    * @param parameterTypes The parameter array.
    * @return A Constructor object that reflects the specified declared
    *         constructor of the class or interface represented by {@code cls}
-   *         (excluding inherited constructors), or null if the constructor is
-   *         not found.
+   *         (excluding inherited constructors), or {@code null} if the
+   *         constructor is not found.
    * @throws NullPointerException If {@code cls} is null.
    */
   public static Constructor<?> getDeclaredConstructor(final Class<?> cls, final Class<?> ... parameterTypes) {
@@ -742,7 +743,7 @@ public final class Classes {
   /**
    * Returns a Method object that reflects the specified declared method of the
    * class or interface represented by {@code cls} (excluding inherited
-   * methods), or null if the method is not found.
+   * methods), or {@code null} if the method is not found.
    * <p>
    * Declared methods include public, protected, default (package) access, and
    * private visibility.
@@ -767,7 +768,7 @@ public final class Classes {
    * @param parameterTypes The parameter array.
    * @return A Method object that reflects the specified declared method of the
    *         class or interface represented by {@code cls} (excluding inherited
-   *         methods), or null if the method is not found.
+   *         methods), or {@code null} if the method is not found.
    * @throws NullPointerException If {@code cls} or {@code name} is null.
    */
   public static Method getDeclaredMethod(final Class<?> cls, final String name, final Class<?> ... parameterTypes) {
@@ -782,7 +783,7 @@ public final class Classes {
   /**
    * Returns a Method object that reflects the specified declared method of the
    * class or interface represented by {@code cls} (including inherited
-   * methods), or null if the method is not found.
+   * methods), or {@code null} if the method is not found.
    * <p>
    * Declared methods include public, protected, default (package) access, and
    * private visibility.
@@ -807,7 +808,7 @@ public final class Classes {
    * @param parameterTypes The parameter array.
    * @return A Method object that reflects the specified declared method of the
    *         class or interface represented by {@code cls} (including inherited
-   *         methods), or null if the method is not found.
+   *         methods), or {@code null} if the method is not found.
    * @throws NullPointerException If {@code cls} or {@code name} is null.
    */
   public static Method getDeclaredMethodDeep(Class<?> cls, final String name, final Class<?> ... parameterTypes) {

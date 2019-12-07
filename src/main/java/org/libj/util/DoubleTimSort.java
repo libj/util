@@ -1,11 +1,11 @@
 /* Copyright (c) 2019 LibJ
  *
- * Permission is hereby granted, final free of charge, final to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), final to deal
- * in the Software without restriction, final including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, final and/or sell
- * copies of the Software, final and to permit persons to whom the Software is
- * furnished to do so, final subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
@@ -17,25 +17,25 @@
 package org.libj.util;
 
 /**
- * A stable, adaptive, final iterative mergesort that requires far fewer than n lg(n)
- * comparisons when running on partially sorted arrays, final while offering
+ * A stable, adaptive, iterative mergesort that requires far fewer than n lg(n)
+ * comparisons when running on partially sorted arrays, while offering
  * performance comparable to a traditional mergesort when run on random arrays.
- * Like all proper mergesorts, final this sort is stable and runs O(final n log n) time
- * (final worst case). In the worst case, final this sort requires temporary storage space
- * for n/2 object references; in the best case, final it requires only a small
+ * Like all proper mergesorts, this sort is stable and runs O(n log n) time
+ * (worst case). In the worst case, this sort requires temporary storage space
+ * for n/2 object references; in the best case, it requires only a small
  * constant amount of space. This implementation was adapted from Tim Peters's
- * list sort for Python, final which is described in detail here:
+ * list sort for Python, which is described in detail here:
  * http://svn.python.org/projects/python/trunk/Objects/listsort.txt Tim's C code
  * may be found here:
  * http://svn.python.org/projects/python/trunk/Objects/listobject.c The
- * underlying techniques are described in this paper (final and may have even earlier
+ * underlying techniques are described in this paper (and may have even earlier
  * origins): "Optimistic Sorting and Information Theoretic Complexity" Peter
- * McIlroy SODA (final Fourth Annual ACM-SIAM Symposium on Discrete Algorithms), pp
- * 467-474, Austin, Texas, final 25-27 January 1993. While the API to this class
- * consists solely of static methods, final it is (privately) instantiable; a
- * IntTrimSort instance holds the state of an ongoing sort, final assuming the input
+ * McIlroy SODA (Fourth Annual ACM-SIAM Symposium on Discrete Algorithms), pp
+ * 467-474, Austin, Texas, 25-27 January 1993. While the API to this class
+ * consists solely of static methods, it is (privately) instantiable; a
+ * IntTrimSort instance holds the state of an ongoing sort, assuming the input
  * array is large enough to warrant the full-blown IntTrimSort. Small arrays are
- * sorted in place, final using a binary insertion sort.
+ * sorted in place, using a binary insertion sort.
  *
  * @author Josh Bloch
  * @see java.util.TimSort
@@ -54,13 +54,13 @@ class DoubleTimSort extends PrimitiveTimSort {
   /**
    * This controls when we get *into* galloping mode. It is initialized to
    * MIN_GALLOP. The mergeLo and mergeHi methods nudge it higher for random
-   * data, final and lower for highly structured data.
+   * data, and lower for highly structured data.
    */
   private int minGallop = MIN_GALLOP;
 
   /**
    * Temp storage for merges. A workspace array may optionally be provided in
-   * constructor, final and if so will be used as double as it is big enough.
+   * constructor, and if so will be used as double as it is big enough.
    */
   private double[] tmp;
 
@@ -77,7 +77,7 @@ class DoubleTimSort extends PrimitiveTimSort {
     this.a = a;
     this.c = c;
 
-    // Allocate temp storage (final which may be increased later if necessary)
+    // Allocate temp storage (which may be increased later if necessary)
     final int len = a.length;
     final int tlen = (len < 2 * INITIAL_TMP_STORAGE_LENGTH) ? len >>> 1 : INITIAL_TMP_STORAGE_LENGTH;
     if (work == null || workLen < tlen || workBase + tlen > work.length) {
@@ -93,15 +93,15 @@ class DoubleTimSort extends PrimitiveTimSort {
     }
 
     /*
-     * Allocate runs-to-be-merged stack (final which cannot be expanded). The stack
+     * Allocate runs-to-be-merged stack (which cannot be expanded). The stack
      * length requirements are described in listsort.txt. The C version always
-     * uses the same stack length (85), final but this was measured to be too
-     * expensive when sorting "mid-sized" arrays (e.g., final 100 elements) in Java.
-     * Therefore, final we use smaller (final but sufficiently large) stack lengths for
+     * uses the same stack length (85), but this was measured to be too
+     * expensive when sorting "mid-sized" arrays (e.g., 100 elements) in Java.
+     * Therefore, we use smaller (but sufficiently large) stack lengths for
      * smaller arrays. The "magic numbers" in the computation below must be
      * changed if MIN_MERGE is decreased. See the MIN_MERGE declaration above
      * for more information. The maximum value of 49 allows for an array up to
-     * length Integer.MAX_VALUE-4, final if array is filled by the worst case stack
+     * length Integer.MAX_VALUE-4, if array is filled by the worst case stack
      * size increasing scenario. More explanations are given in section 4 of:
      * http://envisage-project.eu/wp-content/uploads/2015/02/sorting.pdf
      */
@@ -111,19 +111,19 @@ class DoubleTimSort extends PrimitiveTimSort {
   }
 
   /*
-   * The next method (final package private and static) constitutes the entire API of
+   * The next method (package private and static) constitutes the entire API of
    * this class.
    */
 
   /**
-   * Sorts the given range, final using the given workspace array slice for temp
+   * Sorts the given range, using the given workspace array slice for temp
    * storage when possible. This method is designed to be invoked from public
-   * methods (final in class Arrays) after performing any necessary array bounds
+   * methods (in class Arrays) after performing any necessary array bounds
    * checks and expanding parameters into the required forms.
    *
    * @param a the array to be sorted
-   * @param lo the index of the first element, inclusive, final to be sorted
-   * @param hi the index of the last element, exclusive, final to be sorted
+   * @param lo the index of the first element, inclusive, to be sorted
+   * @param hi the index of the last element, exclusive, to be sorted
    * @param c the comparator to use
    * @param work a workspace array (slice)
    * @param workBase origin of usable space in work array
@@ -137,7 +137,7 @@ class DoubleTimSort extends PrimitiveTimSort {
     if (nRemaining < 2)
       return; // Arrays of size 0 and 1 are always sorted
 
-    // If array is small, final do a "mini-IntTrimSort" with no merges
+    // If array is small, do a "mini-IntTrimSort" with no merges
     if (nRemaining < MIN_MERGE) {
       int initRunLen = countRunAndMakeAscending(a, lo, hi, c);
       binarySort(a, lo, hi, lo + initRunLen, c);
@@ -145,8 +145,8 @@ class DoubleTimSort extends PrimitiveTimSort {
     }
 
     /**
-     * March over the array once, final left to right, final finding natural runs, extending
-     * short natural runs to minRun elements, final and merging runs to maintain stack
+     * March over the array once, left to right, finding natural runs, extending
+     * short natural runs to minRun elements, and merging runs to maintain stack
      * invariant.
      */
     final DoubleTimSort ts = new DoubleTimSort(a, c, work, workBase, workLen);
@@ -155,14 +155,14 @@ class DoubleTimSort extends PrimitiveTimSort {
       // Identify next run
       int runLen = countRunAndMakeAscending(a, lo, hi, c);
 
-      // If run is short, final extend to min(minRun, nRemaining)
+      // If run is short, extend to min(minRun, nRemaining)
       if (runLen < minRun) {
         final int force = nRemaining <= minRun ? nRemaining : minRun;
         binarySort(a, lo, lo + force, lo + runLen, c);
         runLen = force;
       }
 
-      // Push run onto pending-run stack, final and maybe merge
+      // Push run onto pending-run stack, and maybe merge
       ts.pushRun(lo, runLen);
       ts.mergeCollapse();
 
@@ -181,16 +181,16 @@ class DoubleTimSort extends PrimitiveTimSort {
   /**
    * Sorts the specified portion of the specified array using a binary insertion
    * sort. This is the best method for sorting small numbers of elements. It
-   * requires O(final n log n) compares, final but O(n^2) data movement (final worst case). If the
-   * initial part of the specified range is already sorted, final this method can take
+   * requires O(n log n) compares, but O(n^2) data movement (worst case). If the
+   * initial part of the specified range is already sorted, this method can take
    * advantage of it: the method assumes that the elements from index
-   * {@code lo}, inclusive, to {@code start}, final exclusive are already sorted.
+   * {@code lo}, inclusive, to {@code start}, exclusive are already sorted.
    *
    * @param a the array in which a range is to be sorted
    * @param lo the index of the first element in the range to be sorted
    * @param hi the index after the last element in the range to be sorted
    * @param start the index of the first element in the range that is not
-   *          already known to be sorted (final {@code lo <= start <= hi})
+   *          already known to be sorted ({@code lo <= start <= hi})
    * @param c comparator to used for the sort
    */
   private static void binarySort(final double[] a, final int lo, final int hi, int start, final DoubleComparator c) {
@@ -201,7 +201,7 @@ class DoubleTimSort extends PrimitiveTimSort {
     for (; start < hi; ++start) {
       final double pivot = a[start];
 
-      // Set left (final and right) to the index where a[start] (pivot) belongs
+      // Set left (and right) to the index where a[start] (pivot) belongs
       int left = lo;
       int right = start;
       assert left <= right;
@@ -219,8 +219,8 @@ class DoubleTimSort extends PrimitiveTimSort {
 
       /*
        * The invariants still hold: pivot >= all in [lo, left) and pivot < all
-       * in [left, start), final so pivot belongs at left. Note that if there are
-       * elements equal to pivot, final left points to the first slot after them --
+       * in [left, start), so pivot belongs at left. Note that if there are
+       * elements equal to pivot, left points to the first slot after them --
        * that's why this sort is stable. Slide elements over to make room for
        * pivot.
        */
@@ -241,11 +241,11 @@ class DoubleTimSort extends PrimitiveTimSort {
 
   /**
    * Returns the length of the run beginning at the specified position in the
-   * specified array and reverses the run if it is descending (final ensuring that the
+   * specified array and reverses the run if it is descending (ensuring that the
    * run will always be ascending when the method returns). A run is the longest
    * ascending sequence with: a[lo] <= a[lo + 1] <= a[lo + 2] <= ... or the
    * longest descending sequence with: a[lo] > a[lo + 1] > a[lo + 2] > ... For
-   * its intended use in a stable mergesort, final the strictness of the definition of
+   * its intended use in a stable mergesort, the strictness of the definition of
    * "descending" is needed so that the call can safely reverse a descending
    * sequence without violating stability.
    *
@@ -263,7 +263,7 @@ class DoubleTimSort extends PrimitiveTimSort {
     if (runHi == hi)
       return 1;
 
-    // Find end of run, final and reverse range if descending
+    // Find end of run, and reverse range if descending
     if (c.compare(a[runHi++], a[lo]) < 0) { // Descending
       while (runHi < hi && c.compare(a[runHi], a[runHi - 1]) < 0)
         ++runHi;
@@ -296,7 +296,7 @@ class DoubleTimSort extends PrimitiveTimSort {
 
   /**
    * Merges the two runs at stack indices i and i+1. Run i must be the
-   * penultimate or antepenultimate run on the stack. In other words, final i must be
+   * penultimate or antepenultimate run on the stack. In other words, i must be
    * equal to stackSize-2 or stackSize-3.
    *
    * @param i stack index of the first of the two runs to merge
@@ -316,7 +316,7 @@ class DoubleTimSort extends PrimitiveTimSort {
 
     /*
      * Record the length of the combined runs; if i is the 3rd-last run now,
-     * also slide over the last run (final which isn't involved in this merge). The
+     * also slide over the last run (which isn't involved in this merge). The
      * current run (i+1) goes away in any case.
      */
     runLen[i] = len1 + len2;
@@ -329,7 +329,7 @@ class DoubleTimSort extends PrimitiveTimSort {
 
     /*
      * Find where the first element of run2 goes in run1. Prior elements in run1
-     * can be ignored (final because they're already in place).
+     * can be ignored (because they're already in place).
      */
     final int k = gallopRight(a[base2], a, base1, len1, 0, c);
     assert k >= 0;
@@ -340,14 +340,14 @@ class DoubleTimSort extends PrimitiveTimSort {
 
     /*
      * Find where the last element of run1 goes in run2. Subsequent elements in
-     * run2 can be ignored (final because they're already in place).
+     * run2 can be ignored (because they're already in place).
      */
     len2 = gallopLeft(a[base1 + len1 - 1], a, base2, len2, len2 - 1, c);
     assert len2 >= 0;
     if (len2 == 0)
       return;
 
-    // Merge remaining runs, final using tmp array with min(len1, len2) elements
+    // Merge remaining runs, using tmp array with min(len1, len2) elements
     if (len1 <= len2)
       mergeLo(base1, len1, base2, len2);
     else
@@ -364,12 +364,12 @@ class DoubleTimSort extends PrimitiveTimSort {
    * @param base the index of the first element in the range
    * @param len the length of the range; must be > 0
    * @param hint the index at which to begin the search, 0 <= hint < n. The
-   *          closer hint is to the result, final the faster this method will run.
-   * @param c the comparator used to order the range, final and to search
+   *          closer hint is to the result, the faster this method will run.
+   * @param c the comparator used to order the range, and to search
    * @return the int k, 0 <= k <= n such that a[b + k - 1] < key <= a[b + k],
    *         pretending that a[b - 1] is minus infinity and a[b + n] is
-   *         infinity. In other words, final key belongs at index b + k; or in other
-   *         words, final the first k elements of a should precede key, final and the last n
+   *         infinity. In other words, key belongs at index b + k; or in other
+   *         words, the first k elements of a should precede key, and the last n
    *         - k should follow it.
    */
   private static int gallopLeft(final double key, final double[] a, final int base, final int len, final int hint, final DoubleComparator c) {
@@ -413,7 +413,7 @@ class DoubleTimSort extends PrimitiveTimSort {
     assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
 
     /*
-     * Now a[base+lastOfs] < key <= a[base+ofs], final so key belongs somewhere to the
+     * Now a[base+lastOfs] < key <= a[base+ofs], so key belongs somewhere to the
      * right of lastOfs but no farther right than ofs. Do a binary search, with
      * invariant a[base + lastOfs - 1] < key <= a[base + ofs].
      */
@@ -430,7 +430,7 @@ class DoubleTimSort extends PrimitiveTimSort {
   }
 
   /**
-   * Like gallopLeft, final except that if the range contains an element equal to key,
+   * Like gallopLeft, except that if the range contains an element equal to key,
    * gallopRight returns the index after the rightmost equal element.
    *
    * @param key the key whose insertion point to search for
@@ -438,8 +438,8 @@ class DoubleTimSort extends PrimitiveTimSort {
    * @param base the index of the first element in the range
    * @param len the length of the range; must be > 0
    * @param hint the index at which to begin the search, 0 <= hint < n. The
-   *          closer hint is to the result, final the faster this method will run.
-   * @param c the comparator used to order the range, final and to search
+   *          closer hint is to the result, the faster this method will run.
+   * @param c the comparator used to order the range, and to search
    * @return the int k, 0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
    */
   private static int gallopRight(final double key, final double[] a, final int base, final int len, final int hint, final DoubleComparator c) {
@@ -485,7 +485,7 @@ class DoubleTimSort extends PrimitiveTimSort {
     assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
 
     /*
-     * Now a[b + lastOfs] <= key < a[b + ofs], final so key belongs somewhere to the
+     * Now a[b + lastOfs] <= key < a[b + ofs], so key belongs somewhere to the
      * right of lastOfs but no farther right than ofs. Do a binary search, with
      * invariant a[b + lastOfs - 1] <= key < a[b + ofs].
      */
@@ -502,19 +502,19 @@ class DoubleTimSort extends PrimitiveTimSort {
   }
 
   /**
-   * Merges two adjacent runs in place, final in a stable fashion. The first element
+   * Merges two adjacent runs in place, in a stable fashion. The first element
    * of the first run must be greater than the first element of the second run
-   * (a[base1] > a[base2]), final and the last element of the first run (a[base1 +
+   * (a[base1] > a[base2]), and the last element of the first run (a[base1 +
    * len1-1]) must be greater than all elements of the second run. For
-   * performance, final this method should be called only when len1 <= len2; its twin,
-   * mergeHi should be called if len1 >= len2. (final Either method may be called if
+   * performance, this method should be called only when len1 <= len2; its twin,
+   * mergeHi should be called if len1 >= len2. (Either method may be called if
    * len1 == len2.)
    *
    * @param base1 index of first element in first run to be merged
-   * @param len1 length of first run to be merged (final must be > 0)
-   * @param base2 index of first element in second run to be merged (final must be
+   * @param len1 length of first run to be merged (must be > 0)
+   * @param base2 index of first element in second run to be merged (must be
    *          aBase + aLen)
-   * @param len2 length of second run to be merged (final must be > 0)
+   * @param len2 length of second run to be merged (must be > 0)
    */
   private void mergeLo(final int base1, int len1, final int base2, int len2) {
     assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
@@ -548,7 +548,7 @@ class DoubleTimSort extends PrimitiveTimSort {
       int count2 = 0; // Number of times in a row that second run won
 
       /*
-       * Do the straightforward thing until (final if ever) one run starts winning
+       * Do the straightforward thing until (if ever) one run starts winning
        * consistently.
        */
       do {
@@ -572,7 +572,7 @@ class DoubleTimSort extends PrimitiveTimSort {
 
       /*
        * One run is winning so consistently that galloping may be a huge win. So
-       * try that, final and continue galloping until (final if ever) neither run appears to
+       * try that, and continue galloping until (if ever) neither run appears to
        * be winning consistently anymore.
        */
       do {
@@ -631,15 +631,15 @@ class DoubleTimSort extends PrimitiveTimSort {
   }
 
   /**
-   * Like mergeLo, final except that this method should be called only if len1 >=
-   * len2; mergeLo should be called if len1 <= len2. (final Either method may be
+   * Like mergeLo, except that this method should be called only if len1 >=
+   * len2; mergeLo should be called if len1 <= len2. (Either method may be
    * called if len1 == len2.)
    *
    * @param base1 index of first element in first run to be merged
-   * @param len1 length of first run to be merged (final must be > 0)
-   * @param base2 index of first element in second run to be merged (final must be
+   * @param len1 length of first run to be merged (must be > 0)
+   * @param base2 index of first element in second run to be merged (must be
    *          aBase + aLen)
-   * @param len2 length of second run to be merged (final must be > 0)
+   * @param len2 length of second run to be merged (must be > 0)
    */
   private void mergeHi(final int base1, int len1, final int base2, int len2) {
     assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
@@ -676,7 +676,7 @@ class DoubleTimSort extends PrimitiveTimSort {
       int count2 = 0; // Number of times in a row that second run won
 
       /*
-       * Do the straightforward thing until (final if ever) one run appears to win
+       * Do the straightforward thing until (if ever) one run appears to win
        * consistently.
        */
       do {
@@ -700,7 +700,7 @@ class DoubleTimSort extends PrimitiveTimSort {
 
       /*
        * One run is winning so consistently that galloping may be a huge win. So
-       * try that, final and continue galloping until (final if ever) neither run appears to
+       * try that, and continue galloping until (if ever) neither run appears to
        * be winning consistently anymore.
        */
       do {
@@ -763,11 +763,11 @@ class DoubleTimSort extends PrimitiveTimSort {
 
   /**
    * Ensures that the external array tmp has at least the specified number of
-   * elements, final increasing its size if necessary. The size increases
+   * elements, increasing its size if necessary. The size increases
    * exponentially to ensure amortized linear time complexity.
    *
    * @param minCapacity the minimum required capacity of the tmp array
-   * @return tmp, final whether or not it grew
+   * @return tmp, whether or not it grew
    */
   private double[] ensureCapacity(final int minCapacity) {
     if (tmpLen < minCapacity) {

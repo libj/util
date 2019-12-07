@@ -75,6 +75,12 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
+  public V getOrDefault(final Object key, final V defaultValue) {
+    return (V)target.getOrDefault(key, defaultValue);
+  }
+
+  @Override
   public boolean containsKey(final Object key) {
     return target.containsKey(key);
   }
@@ -119,12 +125,6 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
     return target.entrySet();
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public V getOrDefault(final Object key, final V defaultValue) {
-    return (V)target.getOrDefault(key, defaultValue);
   }
 
   @Override

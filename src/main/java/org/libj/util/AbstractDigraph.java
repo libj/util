@@ -794,7 +794,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
 
   /**
    * Returns the reverse post order of a depth first search analysis of the
-   * digraph, or null if no such order exists due to a cycle.
+   * digraph, or {@code null} if no such order exists due to a cycle.
    * <p>
    * <i><b>Note:</b> This method is not thread safe.</i>
    *
