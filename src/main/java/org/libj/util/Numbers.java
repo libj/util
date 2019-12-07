@@ -248,6 +248,7 @@ public final class Numbers {
    * of 2 {@code byte}s, since a {@code byte} is 8 bits in size.
    */
   public static class Compound {
+    // FIXME: Implement all the combinations of encode(...)
     /**
      * Encodes two {@code int}s into a {@code long}.
      *
@@ -287,6 +288,29 @@ public final class Numbers {
      */
     public static long encode(final byte a, final byte b, final byte c, final byte d, final byte e, final byte f, final byte g, final byte h) {
       return ((long)h << Byte.SIZE * 7) & 0xff00000000000000l | ((long)g << Byte.SIZE * 6) & 0xff000000000000l | ((long)f << Byte.SIZE * 5) & 0xff0000000000l | ((long)e << Byte.SIZE * 4) & 0xff00000000l | ((long)d << Byte.SIZE * 3) & 0xff000000l | ((long)c << Byte.SIZE * 2) & 0xff0000l | ((long)b << Byte.SIZE) & 0xff00l | a & 0xffl;
+    }
+
+    /**
+     * Encodes a {@code float} and an {@code int} into a {@code long}.
+     *
+     * @param a The first {@code float}.
+     * @param b The second {@code int}.
+     * @return A compounded {@code long} representing a {@code float} and an {@code int}.
+     */
+    public static long encode(final float a, final int b) {
+      return encode(Float.floatToIntBits(a), b);
+    }
+
+    /**
+     * Encodes an {@code int} and a {@code float} into a {@code long}.
+     *
+     * @param a The first {@code int}.
+     * @param b The second {@code float}.
+     * @return A compounded {@code long} representing an {@code int} and a
+     *         {@code float}.
+     */
+    public static long encode(final int a, final float b) {
+      return encode(a, Float.floatToIntBits(b));
     }
 
     /**
@@ -333,8 +357,21 @@ public final class Numbers {
      * @return The {@code int} value at the specified position that is
      *         represented in the provided compounded {@code long} value.
      */
-    public static int dencodeInt(final long val, final int pos) {
+    public static int decodeInt(final long val, final int pos) {
       return (int)(val >> Integer.SIZE * pos);
+    }
+
+    /**
+     * Decodes the {@code float} value at the specified position that is
+     * represented in the provided compounded {@code long} value.
+     *
+     * @param val The compounded {@code long} containing a {@code float} value.
+     * @param pos The position of the value to decode (0, 1).
+     * @return The {@code float} value at the specified position that is
+     *         represented in the provided compounded {@code long} value.
+     */
+    public static float decodeFloat(final long val, final int pos) {
+      return Float.intBitsToFloat((int)(val >> Integer.SIZE * pos));
     }
 
     /**
@@ -346,7 +383,7 @@ public final class Numbers {
      * @return The {@code short} value at the specified position that is
      *         represented in the provided compounded {@code long} value.
      */
-    public static short dencodeShort(final long val, final int pos) {
+    public static short decodeShort(final long val, final int pos) {
       return (short)((val >> Short.SIZE * pos) & 0xffff);
     }
 
@@ -359,7 +396,7 @@ public final class Numbers {
      * @return The {@code byte} value at the specified position that is
      *         represented in the provided compounded {@code long} value.
      */
-    public static byte dencodeByte(final long val, final int pos) {
+    public static byte decodeByte(final long val, final int pos) {
       return (byte)((val >> Byte.SIZE * pos) & 0xff);
     }
 
@@ -372,7 +409,7 @@ public final class Numbers {
      * @return The {@code short} value at the specified position that is
      *         represented in the provided compounded {@code int} value.
      */
-    public static short dencodeShort(final int val, final int pos) {
+    public static short decodeShort(final int val, final int pos) {
       return (short)((val >> Short.SIZE * pos) & 0xffff);
     }
 
@@ -385,7 +422,7 @@ public final class Numbers {
      * @return The {@code byte} value at the specified position that is
      *         represented in the provided compounded {@code int} value.
      */
-    public static byte dencodeByte(final int val, final int pos) {
+    public static byte decodeByte(final int val, final int pos) {
       return (byte)((val >> Byte.SIZE * pos) & 0xff);
     }
 
@@ -398,7 +435,7 @@ public final class Numbers {
      * @return The {@code byte} value at the specified position that is
      *         represented in the provided compounded {@code short} value.
      */
-    public static byte dencodeByte(final short val, final int pos) {
+    public static byte decodeByte(final short val, final int pos) {
       return (byte)((val >> Byte.SIZE * pos) & 0xff);
     }
   }
@@ -620,12 +657,30 @@ public final class Numbers {
    *
    * @param s A {@link String} containing the {@link Short} representation to be
    *          parsed.
-   * @return The integer value represented by the argument, or null if the
-   *         string does not contain a parsable {@code short}.
+   * @return The integer value represented by the argument, or {@code null} if
+   *         the string does not contain a parsable {@code short}.
    * @see Short#parseShort(String)
    */
   public static Short parseShort(final String s) {
     return parseShort(s, 10);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code short}.
+   *
+   * @param s A {@link String} containing the {@link Short} representation to be
+   *          parsed.
+   * @param defaultValue The {@code short} value to be returned if the string
+   *          does not contain a parsable {@code short}.
+   * @return The {@code short} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static short parseShort(final String s, final short defaultValue) {
+    return parseShort(s, 10, defaultValue);
   }
 
   /**
@@ -636,8 +691,8 @@ public final class Numbers {
    * @param s A {@link String} containing the {@link Short} representation to be
    *          parsed.
    * @param radix The radix to be used while parsing {@code s}.
-   * @return The integer value represented by the argument, or null if the
-   *         string does not contain a parsable {@code short}.
+   * @return The integer value represented by the argument, or {@code null} if
+   *         the string does not contain a parsable {@code short}.
    * @see Short#parseShort(String)
    */
   public static Short parseShort(final String s, final int radix) {
@@ -650,17 +705,58 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
+   * the string does not contain a parsable {@code short}.
+   *
+   * @param s A {@link String} containing the {@link Short} representation to be
+   *          parsed.
+   * @param defaultValue The {@code short} value to be returned if the string
+   *          does not contain a parsable {@code short}.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static Short parseShort(final String s, final int radix, final short defaultValue) {
+    final int i = parseInteger(s, radix, Integer.MAX_VALUE);
+    if (i == Integer.MAX_VALUE || i < Short.MIN_VALUE || i > Short.MAX_VALUE)
+      return defaultValue;
+
+    return (short)i;
+  }
+
+  /**
+   * Parses the string argument as per the specification of
    * {@link Integer#parseInt(String)}, but returns {@code null} if the string
    * does not contain a parsable {@code int}.
    *
    * @param s A {@link String} containing the {@link Integer} representation to
    *          be parsed.
-   * @return The {@code int} value represented by the argument, or null if the
-   *         string does not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or {@code null}
+   *         if the string does not contain a parsable {@code int}.
    * @see Integer#parseInt(String)
    */
   public static Integer parseInteger(final String s) {
     return parseInteger(s, 10);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code int}.
+   *
+   * @param s A {@link String} containing the {@link Integer} representation to
+   *          be parsed.
+   * @param defaultValue The {@code int} value to be returned if the string does
+   *          not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final String s, final int defaultValue) {
+    return parseInteger(s, 10, defaultValue);
   }
 
   /**
@@ -671,8 +767,8 @@ public final class Numbers {
    * @param s A {@link String} containing the {@link Integer} representation to
    *          be parsed.
    * @param radix The radix to be used while parsing {@code s}.
-   * @return The {@code int} value represented by the argument, or null if the
-   *         string does not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or {@code null}
+   *         if the string does not contain a parsable {@code int}.
    * @see Integer#parseInt(String)
    */
   public static Integer parseInteger(final String s, final int radix) {
@@ -724,17 +820,97 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
+   * the string does not contain a parsable {@code int}.
+   *
+   * @param s A {@link String} containing the {@link Integer} representation to
+   *          be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code int} value to be returned if the string does
+   *          not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInteger(final String s, final int radix, final int defaultValue) {
+    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = s.length();
+    boolean negative = false;
+    int i = 0;
+    int limit = -Integer.MAX_VALUE;
+
+    if (len == 0)
+      return defaultValue;
+
+    char firstChar = s.charAt(0);
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Integer.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return defaultValue;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return defaultValue;
+      }
+
+      ++i;
+    }
+
+    final int multmin = limit / radix;
+    int result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(s.charAt(i++), radix);
+      if (digit < 0 || result < multmin)
+        return defaultValue;
+
+      result *= radix;
+      if (result < limit + digit)
+        return defaultValue;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
+  }
+
+  /**
+   * Parses the string argument as per the specification of
    * {@link Long#parseLong(String)}, but returns {@code null} if the string does
    * not contain a parsable {@code long}.
    *
    * @param s A {@link String} containing the {@link Long} representation to be
    *          parsed.
-   * @return The {@code long} value represented by the argument, or null if the
-   *         string does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or {@code null}
+   *         if the string does not contain a parsable {@code long}.
    * @see Long#parseLong(String)
    */
   public static Long parseLong(final String s) {
     return parseLong(s, 10);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code long}.
+   *
+   * @param s A {@link String} containing the {@link Float} representation to be
+   *          parsed.
+   * @param defaultValue The {@code long} value to be returned if the string
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static long parseLong(final String s, final long defaultValue) {
+    return parseLong(s, 10, defaultValue);
   }
 
   /**
@@ -745,8 +921,8 @@ public final class Numbers {
    * @param s A {@link String} containing the {@link Long} representation to be
    *          parsed.
    * @param radix The radix to be used while parsing {@code s}.
-   * @return The {@code long} value represented by the argument, or null if the
-   *         string does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or {@code null}
+   *         if the string does not contain a parsable {@code long}.
    * @see Long#parseLong(String)
    */
   public static Long parseLong(final String s, final int radix) {
@@ -798,13 +974,76 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code long}.
+   *
+   * @param s A {@link String} containing the {@link Long} representation to be
+   *          parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code long} value to be returned if the string
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static long parseLong(final String s, final int radix, final long defaultValue) {
+    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = s.length();
+    boolean negative = false;
+    int i = 0;
+    long limit = -Long.MAX_VALUE;
+
+    if (len == 0)
+      return defaultValue;
+
+    char firstChar = s.charAt(0);
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Long.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return defaultValue;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return defaultValue;
+      }
+
+      ++i;
+    }
+
+    final long multmin = limit / radix;
+    long result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(s.charAt(i++), radix);
+      if (digit < 0 || result < multmin)
+        return defaultValue;
+
+      result *= radix;
+      if (result < limit + digit)
+        return defaultValue;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
+  }
+
+  /**
+   * Parses the string argument as per the specification of
    * {@link Float#parseFloat(String)}, but returns {@code null} if the string
    * does not contain a parsable {@code float}.
    *
    * @param s A {@link String} containing the {@link Float} representation to be
    *          parsed.
-   * @return The {@code float} value represented by the argument, or null if the
-   *         string does not contain a parsable {@code float}.
+   * @return The {@code float} value represented by the argument, or
+   *         {@code null} if the string does not contain a parsable
+   *         {@code float}.
    * @see Float#parseFloat(String)
    */
   public static Float parseFloat(final String s) {
@@ -820,6 +1059,31 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
+   * {@link Float#parseFloat(String)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code float}.
+   *
+   * @param s A {@link String} containing the {@link Float} representation to be
+   *          parsed.
+   * @param defaultValue The {@code float} value to be returned if the string
+   *          does not contain a parsable {@code float}.
+   * @return The {@code float} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code float}.
+   * @see Float#parseFloat(String)
+   */
+  public static float parseFloat(final String s, final float defaultValue) {
+    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
+    // FIXME: the implementation is copied.
+    try {
+      return s == null ? defaultValue : Float.parseFloat(s);
+    }
+    catch (final NumberFormatException e) {
+      return defaultValue;
+    }
+  }
+
+  /**
+   * Parses the string argument as per the specification of
    * {@link Double#parseDouble(String)}, but returns {@code null} if the string
    * does not contain a parsable {@code double}.
    *
@@ -828,7 +1092,7 @@ public final class Numbers {
    * @return The {@code double} value represented by the argument, or
    *         {@code null} if the string does not contain a parsable
    *         {@code double}.
-   * @see Long#parseLong(String)
+   * @see Double#parseDouble(String)
    */
   public static Double parseDouble(final String s) {
     // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
@@ -843,26 +1107,26 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Double#parseDouble(String)}, but returns {@code onError} if the
+   * {@link Double#parseDouble(String)}, but returns {@code defaultValue} if the
    * string does not contain a parsable {@code double}.
    *
    * @param s A {@link String} containing the {@link Double} representation to
    *          be parsed.
-   * @param onError The {@code double} value to be returned if the string does
-   *          not contain a parsable {@code double}.
+   * @param defaultValue The {@code double} value to be returned if the string
+   *          does not contain a parsable {@code double}.
    * @return The {@code double} value represented by the argument, or
-   *         {@code onError} if the string does not contain a parsable
+   *         {@code defaultValue} if the string does not contain a parsable
    *         {@code double}.
-   * @see Long#parseLong(String)
+   * @see Double#parseDouble(String)
    */
-  public static double parseDouble(final String s, final double onError) {
+  public static double parseDouble(final String s, final double defaultValue) {
     // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
     // FIXME: the implementation is copied.
     try {
-      return s == null ? null : Double.parseDouble(s);
+      return s == null ? defaultValue : Double.parseDouble(s);
     }
     catch (final NumberFormatException e) {
-      return onError;
+      return defaultValue;
     }
   }
 
@@ -1347,8 +1611,8 @@ public final class Numbers {
    * Returns the number of decimal places represented in the specified
    * {@link BigInteger}.
    *
-   * @param n The {@link BigInteger} from which to determine the number
-   *          of decimal places.
+   * @param n The {@link BigInteger} from which to determine the number of
+   *          decimal places.
    * @return The number of decimal places represented in the specified
    *         {@link BigInteger}.
    * @throws NullPointerException If {@code n} is null.

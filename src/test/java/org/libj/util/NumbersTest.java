@@ -62,7 +62,7 @@ public class NumbersTest {
         final int[] expected = randomInts(2);
         final long encoded = Numbers.Compound.encode(expected[0], expected[1]);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeInt(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeInt(encoded, j));
       }
     }
 
@@ -72,7 +72,7 @@ public class NumbersTest {
         final short[] expected = randomShorts(4);
         final long encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3]);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeShort(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeShort(encoded, j));
       }
     }
 
@@ -82,7 +82,7 @@ public class NumbersTest {
         final byte[] expected = randomBytes(8);
         final long encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[6], expected[7]);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeByte(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeByte(encoded, j));
       }
     }
 
@@ -92,7 +92,7 @@ public class NumbersTest {
         final short[] expected = randomShorts(2);
         final int encoded = Numbers.Compound.encode(expected[0], expected[1]);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeShort(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeShort(encoded, j));
       }
     }
 
@@ -102,7 +102,7 @@ public class NumbersTest {
         final byte[] expected = randomBytes(4);
         final int encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3]);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeByte(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeByte(encoded, j));
       }
     }
 
@@ -112,7 +112,7 @@ public class NumbersTest {
         final byte[] expected = randomBytes(2);
         final short encoded = Numbers.Compound.encode(expected[0], expected[1]);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.dencodeByte(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeByte(encoded, j));
       }
     }
   }
