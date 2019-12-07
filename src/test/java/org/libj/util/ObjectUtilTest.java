@@ -20,18 +20,18 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class ObjectsTest {
+public class ObjectUtilTest {
   @Test
   public void testIdentity() {
     try {
-      Objects.identity(null);
+      ObjectUtil.identity(null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
-    assertTrue(Objects.identity("hello").startsWith(String.class.getName() + "@"));
-    assertEquals(Objects.identity("hello"), Objects.identity("hello"));
-    assertNotEquals(Objects.identity("foo"), Objects.identity("bar"));
+    assertTrue(ObjectUtil.identity("hello").startsWith(String.class.getName() + "@"));
+    assertEquals(ObjectUtil.identity("hello"), ObjectUtil.identity("hello"));
+    assertNotEquals(ObjectUtil.identity("foo"), ObjectUtil.identity("bar"));
   }
 }
