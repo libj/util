@@ -32,6 +32,25 @@ import java.util.function.UnaryOperator;
  */
 public final class ArrayUtil {
   /**
+   * The empty array.
+   *
+   * @see #emptyArray()
+   */
+  public static final Object[] EMPTY_ARRAY = new Object[0];
+
+  /**
+   * Returns an empty array (i.e. an array of {@code length = 0}).
+   *
+   * @param <T> The type of array members.
+   * @return An empty array (i.e. an array of {@code length = 0}).
+   * @see #EMPTY_ARRAY
+   */
+  @SuppressWarnings("unchecked")
+  public static <T>T[] emptyArray() {
+    return (T[])EMPTY_ARRAY;
+  }
+
+  /**
    * Returns true if the two specified arrays of bytes, over the provided
    * ranges, are <i>equal</i> to one another.
    * <p>
