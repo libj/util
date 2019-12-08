@@ -85,19 +85,19 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
       final ThreadLocal<V> value = new ThreadLocal<>();
 
       @Override
-      protected boolean beforeAdd(final Entry<K,V> e) {
+      protected boolean beforeAdd(final Entry<K,V> element) {
         throw new UnsupportedOperationException();
       }
 
       @Override
       @SuppressWarnings("unchecked")
-      protected boolean beforeRemove(final Object e) {
-        value.set(((Map.Entry<K,V>)e).getValue());
+      protected boolean beforeRemove(final Object element) {
+        value.set(((Map.Entry<K,V>)element).getValue());
         return true;
       }
 
       @Override
-      protected void afterRemove(final Object o, final RuntimeException re) {
+      protected void afterRemove(final Object element, final RuntimeException e) {
         IdentityHashBiMap.this.reverse.target.remove(value.get());
       }
     } : entrySet;

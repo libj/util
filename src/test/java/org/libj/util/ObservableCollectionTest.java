@@ -56,30 +56,30 @@ public class ObservableCollectionTest {
   public void test() {
     final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<String>()) {
       @Override
-      protected boolean beforeAdd(final String e) {
-        assertEquals(expectedString, e);
-        assertFalse(contains(e));
+      protected boolean beforeAdd(final String element) {
+        assertEquals(expectedString, element);
+        assertFalse(contains(element));
         return beforeAdd = true;
       }
 
       @Override
-      protected boolean beforeRemove(final Object e) {
-        assertEquals(expectedString, e);
-        assertTrue(contains(e));
+      protected boolean beforeRemove(final Object element) {
+        assertEquals(expectedString, element);
+        assertTrue(contains(element));
         return beforeRemove = true;
       }
 
       @Override
-      protected void afterAdd(final String e, final RuntimeException re) {
-        assertEquals(expectedString, e);
-        assertTrue(contains(e));
+      protected void afterAdd(final String element, final RuntimeException e) {
+        assertEquals(expectedString, element);
+        assertTrue(contains(element));
         afterAdd = true;
       }
 
       @Override
-      protected void afterRemove(final Object e, final RuntimeException re) {
-        assertEquals(expectedString, e);
-        assertFalse(contains(e));
+      protected void afterRemove(final Object element, final RuntimeException e) {
+        assertEquals(expectedString, element);
+        assertFalse(contains(element));
         afterRemove = true;
       }
     };

@@ -64,7 +64,7 @@ public class ObservableMapTest {
       }
 
       @Override
-      protected void afterPut(final Integer key, final String oldValue, final String newValue, final RuntimeException re) {
+      protected void afterPut(final Integer key, final String oldValue, final String newValue, final RuntimeException e) {
         assertEquals(expectedKey, key);
         assertEquals(expectedValue, newValue);
         assertTrue(containsKey(key));
@@ -80,7 +80,7 @@ public class ObservableMapTest {
       }
 
       @Override
-      protected void afterRemove(final Object key, final String value, final RuntimeException re) {
+      protected void afterRemove(final Object key, final String value, final RuntimeException e) {
         assertEquals(expectedKey, key);
         assertEquals(expectedValue, value);
         assertFalse(containsKey(key));

@@ -34,9 +34,13 @@ import org.libj.util.function.FloatUnaryOperator;
 public interface FloatList extends FloatCollection {
   /**
    * Pushes an item onto the top of this list. This has exactly the same effect
-   * as:
+   * as: <blockquote>
    *
-   * <blockquote><pre>add(value)</pre></blockquote>
+   * <pre>
+   * add(value)
+   * </pre>
+   *
+   * </blockquote>
    *
    * @param value The value to be pushed onto this list.
    * @return The {@code value} argument.
@@ -49,9 +53,13 @@ public interface FloatList extends FloatCollection {
 
   /**
    * Removes the value at the top of this list and returns that value. This has
-   * exactly the same effect as:
+   * exactly the same effect as: <blockquote>
    *
-   * <blockquote><pre>removeIndex(size() - 1)</pre></blockquote>
+   * <pre>
+   * removeIndex(size() - 1)
+   * </pre>
+   *
+   * </blockquote>
    *
    * @return The value at the top of this list (the last item of the
    *         {@link FloatList} object).
@@ -63,9 +71,13 @@ public interface FloatList extends FloatCollection {
 
   /**
    * Looks at the value at the top of this list without removing it from the
-   * list. This has exactly the same effect as:
+   * list. This has exactly the same effect as: <blockquote>
    *
-   * <blockquote><pre>get(size() - 1)</pre></blockquote>
+   * <pre>
+   * get(size() - 1)
+   * </pre>
+   *
+   * </blockquote>
    *
    * @return The value at the top of this list (the last item of the
    *         {@link FloatList} object).
@@ -156,8 +168,8 @@ public interface FloatList extends FloatCollection {
   boolean addAll(float[] values, int offset, int length);
 
   /**
-   * Appends all of the values in the specified array to the end of this
-   * list, in the order that they appear in the array.
+   * Appends all of the values in the specified array to the end of this list,
+   * in the order that they appear in the array.
    *
    * @param values Array containing values to be added to this list.
    * @return {@code true} if this list changed as a result of the call.
@@ -597,11 +609,11 @@ public interface FloatList extends FloatCollection {
    * {@code v1 == v2}.) In other words, two lists are defined to be equal if
    * they contain the same values in the same order.
    *
-   * @param o The object to be compared for equality with this list.
+   * @param obj The object to be compared for equality with this list.
    * @return {@code true} if the specified object is equal to this list.
    */
   @Override
-  boolean equals(Object o);
+  boolean equals(Object obj);
 
   /**
    * Returns the hash code value for this list. The hash code algorithm of a

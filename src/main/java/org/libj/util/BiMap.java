@@ -73,7 +73,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
       }
 
       @Override
-      protected void afterRemove(final Object key, final V value, final RuntimeException re) {
+      protected void afterRemove(final Object key, final V value, final RuntimeException e) {
         ((ObservableMap<K,V>)BiMap.this.reverse.target).target.remove(value);
       }
     };
@@ -110,23 +110,23 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
       private final ThreadLocal<V> localValue = new ThreadLocal<>();
 
       @Override
-      protected boolean beforeAdd(final K e) {
+      protected boolean beforeAdd(final K element) {
         throw new UnsupportedOperationException();
       }
 
       @Override
       @SuppressWarnings("unlikely-arg-type")
-      protected boolean beforeRemove(final Object e) {
-        if (!BiMap.this.containsKey(e))
+      protected boolean beforeRemove(final Object element) {
+        if (!BiMap.this.containsKey(element))
           return false;
 
-        final V value = BiMap.this.get(e);
+        final V value = BiMap.this.get(element);
         localValue.set(value);
         return true;
       }
 
       @Override
-      protected void afterRemove(final Object o, final RuntimeException re) {
+      protected void afterRemove(final Object element, final RuntimeException e) {
         BiMap.this.reverse.target.remove(localValue.get());
       }
     } : keySet;
@@ -138,13 +138,13 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   public Collection<V> values() {
     return values == null ? values = new ObservableCollection<V>(target.values()) {
       @Override
-      protected boolean beforeAdd(final V e) {
+      protected boolean beforeAdd(final V element) {
         throw new UnsupportedOperationException();
       }
 
       @Override
-      protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.reverse.target.remove(o);
+      protected void afterRemove(final Object element, final RuntimeException e) {
+        BiMap.this.reverse.target.remove(element);
       }
     } : values;
   }
@@ -155,14 +155,14 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
       @Override
-      protected boolean beforeAdd(final Entry<K,V> e) {
+      protected boolean beforeAdd(final Entry<K,V> element) {
         throw new UnsupportedOperationException();
       }
 
       @Override
       @SuppressWarnings("unchecked")
-      protected void afterRemove(final Object o, final RuntimeException re) {
-        BiMap.this.reverse.target.remove(((Map.Entry<K,V>)o).getValue());
+      protected void afterRemove(final Object element, final RuntimeException e) {
+        BiMap.this.reverse.target.remove(((Map.Entry<K,V>)element).getValue());
       }
     } : entrySet;
   }

@@ -91,20 +91,20 @@ public class ObservableListTest {
       }
 
       @Override
-      protected void afterGet(final int index, final String e, final ListIterator<String> iterator, final RuntimeException exception) {
+      protected void afterGet(final int index, final String element, final ListIterator<String> iterator, final RuntimeException e) {
         afterGet = true;
         if (testingGetReplace) {
           if (iterator != null)
-            iterator.set(e.intern());
+            iterator.set(element.intern());
           else
-            set(index, e.intern());
+            set(index, element.intern());
         }
       }
 
       @Override
-      protected boolean beforeAdd(final int index, final String e) {
-        assertEquals(expectedString, e);
-        assertFalse(contains(e));
+      protected boolean beforeAdd(final int index, final String element) {
+        assertEquals(expectedString, element);
+        assertFalse(contains(element));
         beforeAdd = true;
         return true;
       }
@@ -119,17 +119,17 @@ public class ObservableListTest {
       }
 
       @Override
-      protected void afterAdd(final int index, final String e, final RuntimeException exception) {
-        assertEquals(expectedString, e);
-        assertTrue(contains(e));
+      protected void afterAdd(final int index, final String element, final RuntimeException e) {
+        assertEquals(expectedString, element);
+        assertTrue(contains(element));
         afterAdd = true;
       }
 
       @Override
       @SuppressWarnings("all")
-      protected void afterRemove(final Object e, final RuntimeException exception) {
-        assertEquals(expectedString, e);
-        assertFalse(contains(e));
+      protected void afterRemove(final Object element, final RuntimeException e) {
+        assertEquals(expectedString, element);
+        assertFalse(contains(element));
         afterRemove = true;
       }
 
@@ -145,11 +145,11 @@ public class ObservableListTest {
       }
 
       @Override
-      protected void afterSet(final int index, final String oldElement, final RuntimeException exception) {
+      protected void afterSet(final int index, final String oldElement, final RuntimeException e) {
         if (!testingGetReplace) {
-          final String e = get(index + fromIndex);
-          assertEquals(expectedString, e);
-          assertTrue(contains(e));
+          final String element = get(index + fromIndex);
+          assertEquals(expectedString, element);
+          assertTrue(contains(element));
         }
 
         afterSet = true;

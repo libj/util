@@ -51,8 +51,8 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
 
   @Override
   @SuppressWarnings("unchecked")
-  protected boolean beforeAdd(final int index, final E e) {
-    target.add(CollectionUtil.binaryClosestSearch(target, e), e);
+  protected boolean beforeAdd(final int index, final E element) {
+    target.add(CollectionUtil.binaryClosestSearch(target, element), element);
     return false;
   }
 

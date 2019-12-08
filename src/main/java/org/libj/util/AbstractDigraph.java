@@ -373,19 +373,19 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     return new ObservableSet<V>(edges) {
       @Override
       @SuppressWarnings("unchecked")
-      protected boolean beforeAdd(final V e) {
-        AbstractDigraph.this.add((K)vertex, e);
+      protected boolean beforeAdd(final V element) {
+        AbstractDigraph.this.add((K)vertex, element);
         return false;
       }
 
       @Override
-      protected boolean beforeRemove(final Object e) {
-        final Integer w = objectToIndex.get(e);
+      protected boolean beforeRemove(final Object element) {
+        final Integer w = objectToIndex.get(element);
         if (w == null)
           return false;
 
         AbstractDigraph.this.removeEdge((int)v, (int)w);
-        return super.beforeRemove(e);
+        return super.beforeRemove(element);
       }
     };
   }
@@ -495,13 +495,13 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
       return get(indexToObject.get(v));
     }, null)) {
       @Override
-      protected boolean beforeAdd(final Set<V> e) {
+      protected boolean beforeAdd(final Set<V> element) {
         throw new UnsupportedOperationException();
       }
 
       @Override
-      protected boolean beforeRemove(final Object e) {
-        if (e instanceof Set)
+      protected boolean beforeRemove(final Object element) {
+        if (element instanceof Set)
           AbstractDigraph.this.remove(localVertex.get());
 
         return false;
@@ -525,15 +525,15 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   public Set<Map.Entry<K,Set<V>>> entrySet() {
     return new ObservableSet<Map.Entry<K,Set<V>>>(new TransSet<Integer,Map.Entry<K,Set<V>>>(indexToObject.keySet(), i -> new AbstractMap.SimpleEntry(indexToObject.get(i), getEdgesAtIndex(i, true)), null)) {
       @Override
-      protected boolean beforeAdd(final Map.Entry<K,Set<V>> e) {
+      protected boolean beforeAdd(final Map.Entry<K,Set<V>> element) {
         throw new UnsupportedOperationException();
       }
 
       @Override
       @SuppressWarnings("unlikely-arg-type")
-      protected boolean beforeRemove(final Object e) {
-        if (e instanceof Map.Entry)
-          AbstractDigraph.this.remove(((Map.Entry<?,?>)e).getKey());
+      protected boolean beforeRemove(final Object element) {
+        if (element instanceof Map.Entry)
+          AbstractDigraph.this.remove(((Map.Entry<?,?>)element).getKey());
 
         return false;
       }

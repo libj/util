@@ -367,7 +367,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
 
   @Override
   @SuppressWarnings("unchecked")
-  protected boolean beforeAdd(final int index, final V e) {
+  protected boolean beforeAdd(final int index, final V element) {
     unlocked = unlock();
     if (mirrorList(false) != null)
       mirrorList.target.add(index, PENDING);
@@ -377,7 +377,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   @Override
-  protected void afterAdd(final int index, final V e, final RuntimeException re) {
+  protected void afterAdd(final int index, final V element, final RuntimeException e) {
     lock(unlocked);
   }
 
@@ -392,7 +392,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   @Override
-  protected void afterRemove(final Object e, final RuntimeException re) {
+  protected void afterRemove(final Object element, final RuntimeException e) {
     lock(unlocked);
   }
 
@@ -408,21 +408,24 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   @Override
-  protected void afterSet(final int index, final V oldElement, final RuntimeException re) {
+  protected void afterSet(final int index, final V oldElement, final RuntimeException e) {
     lock(unlocked);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   protected void beforeGet(final int index, final ListIterator<V> iterator) {
-    final boolean unlocked = unlock();
+    unlocked = unlock();
     mirrorList(true);
     final Object obj = target.get(index);
     if (obj == PENDING) {
       final V value = mirror.reflectionToValue((R)mirrorList.target.get(index));
       target.set(index, value);
     }
+  }
 
+  @Override
+  protected void afterGet(final int index, final V element, final ListIterator<V> iterator, final RuntimeException e) {
     lock(unlocked);
   }
 

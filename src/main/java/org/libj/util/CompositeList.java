@@ -109,17 +109,17 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       return this.indexes;
     }
 
-    private void addUnsafe(final E e) {
-      super.target.add(e);
+    private void addUnsafe(final E element) {
+      super.target.add(element);
     }
 
-    private void addUnsafe(final int index, final E e) {
-      super.target.add(index, e);
+    private void addUnsafe(final int index, final E element) {
+      super.target.add(index, element);
     }
 
     @SuppressWarnings("unchecked")
-    private E setUnsafe(final int index, final E e) {
-      return (E)super.target.set(index, e);
+    private E setUnsafe(final int index, final E element) {
+      return (E)super.target.set(index, element);
     }
 
     @SuppressWarnings("unchecked")
@@ -129,12 +129,12 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     }
 
     @Override
-    protected void afterAdd(final int index, final E e, final RuntimeException exception) {
+    protected void afterAdd(final int index, final E element, final RuntimeException e) {
       if (index == size() - 1) {
         final CompositeList<E,T> compositeList = CompositeList.this;
         compositeList.indexes.add(index);
         compositeList.componentLists.add(this);
-        compositeList.addUnsafe(e);
+        compositeList.addUnsafe(element);
 
         indexes.add(compositeList.size() - 1);
       }
@@ -144,7 +144,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
         final CompositeList<E,T> compositeList = CompositeList.this;
         compositeList.indexes.add(compositeIndex, index);
         compositeList.componentLists.add(compositeIndex, componentList);
-        compositeList.addUnsafe(compositeIndex, e);
+        compositeList.addUnsafe(compositeIndex, element);
         final IdentityHashSet<ComponentList> visited = new IdentityHashSet<>();
         for (int i = compositeIndex + 1; i < compositeList.size(); ++i) {
           final ComponentList nextComponentList = compositeList.componentLists.get(i);
@@ -355,17 +355,17 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
    */
   protected abstract ComponentList getOrCreateComponentList(E element);
 
-  private void addUnsafe(final E e) {
-    super.target.add(e);
+  private void addUnsafe(final E element) {
+    super.target.add(element);
   }
 
-  private void addUnsafe(final int index, final E e) {
-    super.target.add(index, e);
+  private void addUnsafe(final int index, final E element) {
+    super.target.add(index, element);
   }
 
   @SuppressWarnings("unchecked")
-  private E setUnsafe(final int index, final E e) {
-    return (E)super.target.set(index, e);
+  private E setUnsafe(final int index, final E element) {
+    return (E)super.target.set(index, element);
   }
 
   @SuppressWarnings("unchecked")
@@ -424,19 +424,19 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   @Override
-  protected void afterAdd(final int index, final E e, final RuntimeException exception) {
-    final ComponentList componentList = getOrCreateComponentList(e);
+  protected void afterAdd(final int index, final E element, final RuntimeException e) {
+    final ComponentList componentList = getOrCreateComponentList(element);
     if (componentList == null)
-      throw new IllegalArgumentException("Object of type " + e.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
+      throw new IllegalArgumentException("Object of type " + element.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
 
     componentLists.add(index, componentList);
     if (index == size() - 1) {
       indexes.add(componentList.size());
-      add(index, null, e, componentList);
+      add(index, null, element, componentList);
     }
     else {
       final int comonentIndex = index == 0 ? 0 : findComonentIndex(componentList, index);
-      add(index, comonentIndex, e, componentList);
+      add(index, comonentIndex, element, componentList);
       if (comonentIndex != -1) {
         indexes.add(index, comonentIndex);
         final IdentityHashSet<ComponentList> visited = new IdentityHashSet<>();
