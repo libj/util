@@ -35,7 +35,9 @@ public interface DoubleList extends DoubleCollection {
    * Pushes an item onto the top of this list. This has exactly the same effect
    * as:
    *
-   * <blockquote><pre>add(value)</pre></blockquote>
+   * <pre>
+   * add(value)
+   * </pre>
    *
    * @param value The value to be pushed onto this list.
    * @return The {@code value} argument.
@@ -50,7 +52,9 @@ public interface DoubleList extends DoubleCollection {
    * Removes the value at the top of this list and returns that value. This has
    * exactly the same effect as:
    *
-   * <blockquote><pre>removeIndex(size() - 1)</pre></blockquote>
+   * <pre>
+   * removeIndex(size() - 1)
+   * </pre>
    *
    * @return The value at the top of this list (the last item of the
    *         {@link DoubleList} object).
@@ -64,7 +68,9 @@ public interface DoubleList extends DoubleCollection {
    * Looks at the value at the top of this list without removing it from the
    * list. This has exactly the same effect as:
    *
-   * <blockquote><pre>get(size() - 1)</pre></blockquote>
+   * <pre>
+   * get(size() - 1)
+   * </pre>
    *
    * @return The value at the top of this list (the last item of the
    *         {@link DoubleList} object).
@@ -155,8 +161,8 @@ public interface DoubleList extends DoubleCollection {
   boolean addAll(double[] values, int offset, int length);
 
   /**
-   * Appends all of the values in the specified array to the end of this
-   * list, in the order that they appear in the array.
+   * Appends all of the values in the specified array to the end of this list,
+   * in the order that they appear in the array.
    *
    * @param values Array containing values to be added to this list.
    * @return {@code true} if this list changed as a result of the call.
@@ -467,8 +473,8 @@ public interface DoubleList extends DoubleCollection {
    * sequence), starting at the specified position in the list. The specified
    * index indicates the first value that would be returned by an initial call
    * to {@link DoubleListIterator#next next}. An initial call to
-   * {@link DoubleListIterator#previous previous} would return the value with the
-   * specified index minus one.
+   * {@link DoubleListIterator#previous previous} would return the value with
+   * the specified index minus one.
    *
    * @param index Index of the first value to be returned from the double list
    *          iterator (by a call to {@link DoubleListIterator#next next}).
@@ -596,11 +602,11 @@ public interface DoubleList extends DoubleCollection {
    * {@code v1 == v2}.) In other words, two lists are defined to be equal if
    * they contain the same values in the same order.
    *
-   * @param o The object to be compared for equality with this list.
+   * @param obj The object to be compared for equality with this list.
    * @return {@code true} if the specified object is equal to this list.
    */
   @Override
-  boolean equals(Object o);
+  boolean equals(Object obj);
 
   /**
    * Returns the hash code value for this list. The hash code algorithm of a
