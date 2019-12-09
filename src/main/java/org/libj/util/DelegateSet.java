@@ -19,12 +19,10 @@ package org.libj.util;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -91,29 +89,29 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
     return (T[])target.toArray(a);
   }
 
-  /**
-   * Protected method providing access to the default implementation of
-   * {@link List#toArray(IntFunction)}.
-   *
-   * @param <T> The component type of the array to contain the collection.
-   * @param generator A function which produces a new array of the desired type
-   *          and the provided length.
-   * @return An array containing all of the elements in this collection.
-   * @throws ArrayStoreException If the runtime type of any element in this
-   *           collection is not assignable to the
-   *           {@linkplain Class#getComponentType runtime component type} of the
-   *           generated array.
-   * @throws NullPointerException If the generator function is null.
-   */
-  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
-    return super.toArray(generator);
-  }
+//  /**
+//   * Protected method providing access to the default implementation of
+//   * {@link List#toArray(IntFunction)}.
+//   *
+//   * @param <T> The component type of the array to contain the collection.
+//   * @param generator A function which produces a new array of the desired type
+//   *          and the provided length.
+//   * @return An array containing all of the elements in this collection.
+//   * @throws ArrayStoreException If the runtime type of any element in this
+//   *           collection is not assignable to the
+//   *           {@linkplain Class#getComponentType runtime component type} of the
+//   *           generated array.
+//   * @throws NullPointerException If the generator function is null.
+//   */
+//  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
+//    return super.toArray(generator);
+//  }
 
-  @Override
-  @SuppressWarnings("unchecked")
-  public <T>T[] toArray(final IntFunction<T[]> generator) {
-    return (T[])target.toArray(generator);
-  }
+//  @Override
+//  @SuppressWarnings("unchecked")
+//  public <T>T[] toArray(final IntFunction<T[]> generator) {
+//    return (T[])target.toArray(generator);
+//  }
 
   @Override
   public boolean add(final E e) {

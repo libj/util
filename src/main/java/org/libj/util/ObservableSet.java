@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -420,16 +419,16 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
     return a;
   }
 
-  /**
-   * {@inheritDoc}
-   * <p>
-   * The callback method {@link #afterGet(Object,RuntimeException)} is called
-   * immediately after each element of the enclosed set is retrieved.
-   */
-  @Override
-  public <T>T[] toArray(final IntFunction<T[]> generator) {
-    return superToArray(generator);
-  }
+//  /**
+//   * {@inheritDoc}
+//   * <p>
+//   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+//   * immediately after each element of the enclosed set is retrieved.
+//   */
+//  @Override
+//  public <T>T[] toArray(final IntFunction<T[]> generator) {
+//    return superToArray(generator);
+//  }
 
   /**
    * {@inheritDoc}

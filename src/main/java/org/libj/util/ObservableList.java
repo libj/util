@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
@@ -962,18 +961,18 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     return a;
   }
 
-  /**
-   * {@inheritDoc}
-   * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
-   */
-  @Override
-  public <T>T[] toArray(final IntFunction<T[]> generator) {
-    return superToArray(generator);
-  }
+//  /**
+//   * {@inheritDoc}
+//   * <p>
+//   * The callback methods {@link #beforeGet(int,ListIterator)} and
+//   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+//   * immediately before and after each member of the enclosed list is
+//   * referenced.
+//   */
+//  @Override
+//  public <T>T[] toArray(final IntFunction<T[]> generator) {
+//    return superToArray(generator);
+//  }
 
   /**
    * {@inheritDoc}
