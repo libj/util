@@ -182,6 +182,30 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
     return new MirrorMap<>(this, values, getReverseMirror());
   }
 
+  protected class ObservableMirrorEntrySet extends ObservableMap<K,V>.ObservableEntrySet {
+    protected ObservableMirrorEntrySet(final Set<Entry<K,V>> set) {
+      super(set);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Entry<K,V> afterGet(final Entry<K,V> value, final RuntimeException e) {
+      if (value.getValue() == PENDING) {
+        unlocked = unlock();
+        final K key = value.getKey();
+        value.setValue(mirror.reflectionToValue(key, (R)mirrorMap.target.get(key)));
+        lock(unlocked);
+      }
+
+      return value;
+    }
+  }
+
+  @Override
+  protected ObservableMap<K,V>.ObservableEntrySet newEntrySet() {
+    return new ObservableMirrorEntrySet(target.entrySet());
+  }
+
   /**
    * Underlying map to be used for {@link #mirrorMap}, or {@code null} if
    * {@link #mirrorMap} is already instantiated.
@@ -342,7 +366,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   @Override
-  protected void afterPut(final K key, final V oldValue, final V newValue, final RuntimeException re) {
+  protected void afterPut(final K key, final V oldValue, final V newValue, final RuntimeException e) {
     lock(unlocked);
   }
 
@@ -358,7 +382,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   @Override
-  protected void afterRemove(final Object key, final V value, final RuntimeException re) {
+  protected void afterRemove(final Object key, final V value, final RuntimeException e) {
     lock(unlocked);
   }
 
@@ -375,7 +399,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   @Override
-  protected void afterContainsKey(final Object key, final boolean result, final RuntimeException re) {
+  protected void afterContainsKey(final Object key, final boolean result, final RuntimeException e) {
     lock(unlocked);
   }
 
@@ -397,7 +421,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   @Override
-  protected void afterContainsValue(final Object value, final boolean result, final RuntimeException re) {
+  protected void afterContainsValue(final Object value, final boolean result, final RuntimeException e) {
     lock(unlocked);
   }
 
@@ -407,8 +431,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   @Override
-  protected void afterGet(final Object key, final V value, final RuntimeException re) {
+  protected void afterGet(final Object key, final V value, final RuntimeException e) {
     lock(unlocked);
   }
-
 }
