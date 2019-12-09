@@ -16,83 +16,112 @@
 
 package org.libj.util;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 /**
- * {@link List} that guarantees sorted order of its members.
+ * A {@link List} that guarantees sorted order of its members.
  *
  * @param <E> The type of elements in this list.
  */
-public class SortedList<E extends Comparable<? super E>> extends ObservableList<E> {
+public class SortedList<E> extends ObservableList<E> {
   @SuppressWarnings("rawtypes")
-  private static final Comparator comparator = Comparator.nullsFirst(Comparator.naturalOrder());
+  private static final Comparator DEFAULT_COMPARATOR = Comparator.nullsFirst(Comparator.naturalOrder());
+
+  private final Comparator<E> comparator;
 
   /**
-   * Creates a new {@link SortedList} with the provided list as the underlying
-   * target.
+   * Creates a new {@link SortedList} with the provided {@link List list} of
+   * comparable elements as the underlying target.
    * <p>
-   * <i><b>Note</b>: This constructor sorts the provided list.</i>
+   * <i><b>Note</b>: This constructor sorts the provided {@link List list}.</i>
    *
-   * @param list The {@link List}.
+   * @param <T> The parameter requiring elements of type {@link Comparable
+   *          Comparable&lt;? super E&gt;}.
+   * @param list The {@link List} of comparable elements.
+   * @throws NullPointerException If the provided {@link List list} is null.
    */
-  public SortedList(final List<E> list) {
-    this(list, true);
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public <T extends Comparable<? super E>>SortedList(final List<T> list) {
+    this((List)list, DEFAULT_COMPARATOR, true);
   }
 
-  private SortedList(final List<E> list, final boolean sort) {
+  /**
+   * Creates a new {@link SortedList} with the provided {@link List list} and
+   * {@link Comparator comparator} as the underlying target.
+   * <p>
+   * <i><b>Note</b>: This constructor sorts the provided {@link List list}.</i>
+   *
+   * @param list The {@link List}.
+   * @param comparator The {@link Comparator}.
+   * @throws NullPointerException If the provided {@link List list} or
+   *           {@link Comparator comparator} is null.
+   */
+  public SortedList(final List<E> list, final Comparator<E> comparator) {
+    this(list, Objects.requireNonNull(comparator), true);
+  }
+
+  private SortedList(final List<E> list, final Comparator<E> comparator, final boolean sort) {
     super(list);
+    this.comparator = comparator;
     if (sort)
       list.sort(comparator);
   }
 
-  @Override
+  private Class<?> comparatorType;
+
+  private Class<?> comparatorType() {
+    return comparatorType == null ? comparatorType = (Class<?>)((ParameterizedType)comparator.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0] : comparatorType;
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private int indexOf(final Object o, final int fromIndex, final int toIndex) {
+    if (comparator != DEFAULT_COMPARATOR && comparatorType().isInstance(o))
+      return CollectionUtil.binarySearch(target, fromIndex, toIndex, o, (Comparator)comparator);
+
+    if (o instanceof Comparable)
+      return CollectionUtil.binarySearch(target, fromIndex, toIndex, o, DEFAULT_COMPARATOR);
+
+    return -1;
+  }
+
   @SuppressWarnings("unchecked")
-  protected boolean beforeAdd(final int index, final E element) {
-    target.add(CollectionUtil.binaryClosestSearch(target, element), element);
-    return false;
+  private int getIndex(final int index, final E element, final boolean forSet) {
+    final boolean isIndexOk;
+    if (index == 0)
+      isIndexOk = size() == 0 || comparator.compare(element, get(forSet ? 1 : 0)) <= 0;
+    else if (index == size())
+      isIndexOk = comparator.compare(get(index - 1), element) <= 0;
+    else
+      isIndexOk = comparator.compare(get(index - 1), element) <= 0 && comparator.compare(element, get(forSet ? index + 1 : index)) <= 0;
+
+    return isIndexOk ? index : CollectionUtil.binaryClosestSearch(target, element, comparator);
   }
 
   @Override
   protected boolean beforeSet(final int index, final E newElement) {
-    throw new UnsupportedOperationException();
+    final int properIndex = getIndex(index, newElement, true);
+    if (index == properIndex)
+      return true;
+
+    target.remove(index);
+    target.add(index < properIndex ? properIndex - 1 : properIndex, newElement);
+    return false;
   }
 
-  /**
-   * This method is not supported.
-   *
-   * @throws UnsupportedOperationException This method is not supported.
-   * @see #add(Object)
-   */
   @Override
-  public void add(final int index, final E element) {
-    throw new UnsupportedOperationException();
-  }
+  protected boolean beforeAdd(final int index, final E element) {
+    final int properIndex = getIndex(index, element, false);
+    if (index == properIndex)
+      return true;
 
-  /**
-   * This method is not supported.
-   *
-   * @throws UnsupportedOperationException This method is not supported.
-   * @see #addAll(Collection)
-   */
-  @Override
-  public boolean addAll(final int index, final Collection<? extends E> c) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * This method is not supported.
-   *
-   * @throws UnsupportedOperationException This method is not supported.
-   * @see #remove(int)
-   * @see #add(Object)
-   */
-  @Override
-  public E set(final int index, final E element) {
-    throw new UnsupportedOperationException();
+    target.add(properIndex, element);
+    return false;
   }
 
   // FIXME: Implement an efficient retainAll() method that takes
@@ -125,11 +154,6 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
     return true;
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  private int indexOf(final Object o, final int fromIndex, final int toIndex) {
-    return o instanceof Comparable ? CollectionUtil.binarySearch(target, fromIndex, toIndex, (Comparable)o) : target.indexOf(o);
-  }
-
   /**
    * {@inheritDoc}
    * <p>
@@ -138,7 +162,12 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
    */
   @Override
   public int indexOf(final Object o) {
-    return indexOf(o, 0, size());
+    int index = indexOf(o, 0, size());
+    if (index <= 0)
+      return index;
+
+    while (target.get(--index).equals(o));
+    return index + 1;
   }
 
   /**
@@ -148,14 +177,13 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
    * implements {@link Comparable}; otherwise {@code O(n)}.
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public int lastIndexOf(final Object o) {
-    int index = indexOf(o);
-    if (index < 0)
+    int index = indexOf(o, 0, size());
+    if (index < 0 || index == size() - 1)
       return index;
 
     while (target.get(++index).equals(o));
-    return index;
+    return index - 1;
   }
 
   /**
@@ -184,6 +212,6 @@ public class SortedList<E extends Comparable<? super E>> extends ObservableList<
   @Override
   public SortedList<E> subList(final int fromIndex, final int toIndex) {
     Assertions.assertRangeList(fromIndex, toIndex, size());
-    return new SortedList<E>(target.subList(fromIndex, toIndex), false);
+    return new SortedList<E>(target.subList(fromIndex, toIndex), comparator, false);
   }
 }

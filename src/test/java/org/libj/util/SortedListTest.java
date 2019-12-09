@@ -20,38 +20,88 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ListIterator;
 
 import org.junit.Test;
 
 public class SortedListTest {
+  @SafeVarargs
+  private static <T>void assertListEquals(final List<T> actual, final T ... expected) {
+    assertArrayEquals(expected, actual.toArray());
+  }
+
   @Test
-  public void test() {
+  public void testConstructorSignature() {
+    // final SortedList<Object> bad = new SortedList<Object>(new ArrayList<Object>()); // Should not be allowed cause Object is not Comparable
+    final SortedList<Object> good = new SortedList<>(new ArrayList<>(), new Comparator<Object>() {
+      @Override
+      public int compare(final Object o1, final Object o2) {
+        return 0;
+      }
+    });
+    good.add(new Object());
+    good.add(new Object());
+    good.add(new Object());
+  }
+
+  @Test
+  public void testStory() {
     final SortedList<String> list = new SortedList<>(new ArrayList<String>());
-    list.add("f");
-    assertArrayEquals(new String[] {"f"}, list.toArray());
-    list.add("b");
-    assertArrayEquals(new String[] {"b", "f"}, list.toArray());
-    list.add("g");
-    assertArrayEquals(new String[] {"b", "f", "g"}, list.toArray());
+    list.add(0, "f");
+    assertListEquals(list, "f");
+    list.add(1, "b");
+    assertListEquals(list, "b", "f");
+    list.add(0, "g");
+    assertListEquals(list, "b", "f", "g");
+    list.set(2, "a");
+    assertListEquals(list, "a", "b", "f");
+    list.set(0, "g");
+    assertListEquals(list, "b", "f", "g");
     list.add("c");
-    assertArrayEquals(new String[] {"b", "c", "f", "g"}, list.toArray());
+    assertListEquals(list, "b", "c", "f", "g");
     list.add("a");
-    assertArrayEquals(new String[] {"a", "b", "c", "f", "g"}, list.toArray());
+    assertListEquals(list, "a", "b", "c", "f", "g");
+    assertEquals(1, list.indexOf("b"));
     list.add("d");
-    assertArrayEquals(new String[] {"a", "b", "c", "d", "f", "g"}, list.toArray());
+    assertListEquals(list, "a", "b", "c", "d", "f", "g");
     list.add("e");
-    assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f", "g"}, list.toArray());
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
     list.remove("c");
-    assertArrayEquals(new String[] {"a", "b", "d", "e", "f", "g"}, list.toArray());
+    assertListEquals(list, "a", "b", "d", "e", "f", "g");
     list.remove(0);
     list.add("d");
-    assertArrayEquals(new String[] {"b", "d", "d", "e", "f", "g"}, list.toArray());
+    assertListEquals(list, "b", "d", "d", "e", "f", "g");
     list.remove(4);
     list.add("h");
-    assertArrayEquals(new String[] {"b", "d", "d", "e", "g", "h"}, list.toArray());
-    list.retainAll(Arrays.asList(new String[] {"a", "d", "f", "g", "h"}));
-    assertArrayEquals(new String[] {"d", "d", "g", "h"}, list.toArray());
-    list.retainAll(Arrays.asList(new String[] {"a", "d", "d", "d", "h"}));
-    assertArrayEquals(new String[] {"d", "d", "h"}, list.toArray());
+    assertListEquals(list, "b", "d", "d", "e", "g", "h");
+    assertEquals(1, list.indexOf("d"));
+    assertEquals(2, list.lastIndexOf("d"));
+    list.retainAll(Arrays.asList("a", "d", "f", "g", "h"));
+    assertListEquals(list, "d", "d", "g", "h");
+    list.retainAll(Arrays.asList("a", "d", "d", "d", "h"));
+    assertListEquals(list, "d", "d", "h");
+    assertEquals(-1, list.indexOf("a"));
+    assertEquals(2, list.lastIndexOf("h"));
+
+    final ListIterator<String> iterator = list.listIterator();
+    assertEquals("d", iterator.next());
+    try {
+      iterator.add("x");
+      fail("Expected UnsupportedOperationException");
+    }
+    catch (final UnsupportedOperationException e) {
+    }
+
+    try {
+      iterator.set("x");
+      fail("Expected UnsupportedOperationException");
+    }
+    catch (final UnsupportedOperationException e) {
+    }
+
+    iterator.remove();
+    assertListEquals(list, "d", "h");
   }
 }
