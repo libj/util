@@ -18,14 +18,20 @@ package org.libj.util;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 /**
  * A {@link DelegateList} that provides callback methods to observe the
- * addition, removal, and retrieval of elements, either due to direct method
+ * retrieval, addition, and removal of elements, either due to direct method
  * invocation on the list instance itself, or via {@link #iterator()},
  * {@link #listIterator()}, {@link #subList(int,int)}, and any other entrypoint
  * that facilitates access to the elements in this list, either for modification
@@ -91,13 +97,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    *
    * @param index The index of the element retrieved from the enclosed
    *          {@link List}.
-   * @param e The element retrieved from the enclosed {@link List}.
+   * @param element The element retrieved from the enclosed {@link List}.
    * @param iterator The {@link Iterator} instance if the get is a result of an
    *          iterator reference, otherwise {@code null}.
-   * @param re A {@link RuntimeException} that occurred during the get
-   *          operation, or {@code null} if no exception occurred.
+   * @param e A {@link RuntimeException} that occurred during the get operation,
+   *          or {@code null} if no exception occurred.
    */
-  protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
+  protected void afterGet(final int index, final E element, final ListIterator<E> iterator, final RuntimeException e) {
   }
 
   /**
@@ -106,12 +112,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    *
    * @param index The index for the element to be added to the enclosed
    *          {@link List}.
-   * @param e The element to be added to the enclosed {@link List}.
+   * @param element The element to be added to the enclosed {@link List}.
    * @return If this method returns {@code true}, the subsequent <u>add</u>
    *         operation will be performed; if this method returns {@code false},
    *         the subsequent <u>add</u> operation will not be performed.
    */
-  protected boolean beforeAdd(final int index, final E e) {
+  protected boolean beforeAdd(final int index, final E element) {
     return true;
   }
 
@@ -120,11 +126,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * the enclosed {@link List}.
    *
    * @param index The index of the element added to the enclosed {@link List}.
-   * @param e The element to be added to the enclosed {@link List}.
-   * @param re A {@link RuntimeException} that occurred during the add
-   *          operation, or {@code null} if no exception occurred.
+   * @param element The element to be added to the enclosed {@link List}.
+   * @param e A {@link RuntimeException} that occurred during the add operation,
+   *          or {@code null} if no exception occurred.
    */
-  protected void afterAdd(final int index, final E e, final RuntimeException re) {
+  protected void afterAdd(final int index, final E element, final RuntimeException e) {
   }
 
   /**
@@ -145,13 +151,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * Callback method that is invoked immediately after an element is removed
    * from the enclosed {@link List}.
    *
-   * @param e The element removed from the enclosed {@link List}, or attempted
-   *          to be removed from the {@link List} in case of a
+   * @param element The element removed from the enclosed {@link List}, or
+   *          attempted to be removed from the {@link List} in case of a
    *          {@link RuntimeException}.
-   * @param re A {@link RuntimeException} that occurred during the remove
+   * @param e A {@link RuntimeException} that occurred during the remove
    *          operation, or {@code null} if no exception occurred.
    */
-  protected void afterRemove(final Object e, final RuntimeException re) {
+  protected void afterRemove(final Object element, final RuntimeException e) {
   }
 
   /**
@@ -176,29 +182,29 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * @param index The index of the element set in the enclosed {@link List}.
    * @param oldElement The old element at the index of the enclosed
    *          {@link List}.
-   * @param re A {@link RuntimeException} that occurred during the set
+   * @param e A {@link RuntimeException} that occurred during the set
    *          operation, or {@code null} if no exception occurred.
    */
-  protected void afterSet(final int index, final E oldElement, final RuntimeException re) {
+  protected void afterSet(final int index, final E oldElement, final RuntimeException e) {
   }
 
   private void add0(final int index, final E element) {
     if (!beforeAdd(index, element))
       return;
 
-    RuntimeException re = null;
+    RuntimeException exception = null;
     try {
       target.add(index + fromIndex, element);
       if (toIndex != -1)
         ++toIndex;
     }
-    catch (final RuntimeException t) {
-      re = t;
+    catch (final RuntimeException re) {
+      exception = re;
     }
 
-    afterAdd(index, element, re);
-    if (re != null)
-      throw re;
+    afterAdd(index, element, exception);
+    if (exception != null)
+      throw exception;
   }
 
   /**
@@ -333,6 +339,25 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     return true;
   }
 
+  @SuppressWarnings("unchecked")
+  private E get0(final int index) {
+    beforeGet(index, null);
+    E value = null;
+    RuntimeException exception = null;
+    try {
+      value = (E)target.get(index + fromIndex);
+    }
+    catch (final RuntimeException re) {
+      exception = re;
+    }
+
+    afterGet(index, value, null, exception);
+    if (exception != null)
+      throw exception;
+
+    return value;
+  }
+
   /**
    * {@inheritDoc}
    * <p>
@@ -341,24 +366,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * immediately before and after the get operation on the enclosed {@link List}.
    */
   @Override
-  @SuppressWarnings("unchecked")
   public E get(final int index) {
     Assertions.assertRangeList(index, size(), false);
-    beforeGet(index, null);
-    E object = null;
-    RuntimeException re = null;
-    try {
-      object = (E)target.get(index + fromIndex);
-    }
-    catch (final RuntimeException t) {
-      re = t;
-    }
-
-    afterGet(index, object, null, re);
-    if (re != null)
-      throw re;
-
-    return object;
+    return get0(index);
   }
 
   /**
@@ -449,6 +459,164 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
+   * A {@link DelegateListIterator} that delegates callback methods to the
+   * parent {@link ObservableList} instance for the retrieval, addition, and
+   * removal of elements.
+   */
+  protected class ObservableListIterator extends DelegateListIterator<E> {
+    private E current;
+
+    /**
+     * Creates a new {@link DelegateListIterator} for the specified
+     * {@link Iterator}.
+     *
+     * @param iterator The {@link Iterator}.
+     * @throws NullPointerException If the specified {@link Iterator} is null.
+     */
+    protected ObservableListIterator(final ListIterator<E> iterator) {
+      super(iterator);
+    }
+
+    @Override
+    public boolean hasNext() {
+      return nextIndex() < size();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public E next() {
+      final int index = target.nextIndex() - fromIndex;
+      beforeGet(index, this);
+      RuntimeException exception = null;
+      E value = null;
+      try {
+        value = (E)target.next();
+      }
+      catch (final RuntimeException re) {
+        exception = re;
+      }
+
+      afterGet(index, value, this, exception);
+      if (exception != null)
+        throw exception;
+
+      return current = value;
+    }
+
+    @Override
+    public boolean hasPrevious() {
+      return previousIndex() >= 0;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public E previous() {
+      final int index = target.previousIndex() - fromIndex;
+      beforeGet(index, this);
+      RuntimeException exception = null;
+      E value = null;
+      try {
+        value = (E)target.previous();
+      }
+      catch (final RuntimeException re) {
+        exception = re;
+      }
+
+      afterGet(index, value, this, exception);
+      if (exception != null)
+        throw exception;
+
+      return current = value;
+    }
+
+    @Override
+    public int nextIndex() {
+      return target.nextIndex() - fromIndex;
+    }
+
+    @Override
+    public int previousIndex() {
+      return target.previousIndex() - fromIndex;
+    }
+
+    @Override
+    public void remove() {
+      final int index = nextIndex() - 1;
+      if (!beforeRemove(index))
+        return;
+
+      final E element = this.current;
+      RuntimeException exception = null;
+      try {
+        target.remove();
+        if (toIndex != -1)
+          --toIndex;
+      }
+      catch (final RuntimeException re) {
+        exception = re;
+      }
+
+      afterRemove(element, exception);
+      if (exception != null)
+        throw exception;
+    }
+
+    @Override
+    public void set(final E e) {
+      final int index = nextIndex() - 1;
+      if (!beforeSet(index, e))
+        return;
+
+      final E element = this.current;
+      RuntimeException exception = null;
+      try {
+        target.set(e);
+      }
+      catch (final RuntimeException re) {
+        exception = re;
+      }
+
+      afterSet(index, element, exception);
+      if (exception != null)
+        throw exception;
+    }
+
+    @Override
+    public void add(final E e) {
+      final int index = nextIndex();
+      if (!beforeAdd(index, e))
+        return;
+
+      RuntimeException exception = null;
+      try {
+        target.add(e);
+        if (toIndex != -1)
+          ++toIndex;
+      }
+      catch (final RuntimeException re) {
+        exception = re;
+      }
+
+      afterAdd(index, e, exception);
+      if (exception != null)
+        throw exception;
+    }
+  }
+
+  /**
+   * Factory method that returns a new instance of an
+   * {@link ObservableListIterator} for the specified {@link ListIterator
+   * ListIterator&lt;E&gt;}. This method is intended to be overridden by
+   * subclasses in order to provide instances of the subclass.
+   *
+   * @param iterator The target {@link ListIterator ListIterator&lt;E&gt;}.
+   * @return A new instance of an {@link ObservableListIterator}.
+   */
+  protected ObservableListIterator newListIterator(final ListIterator<E> iterator) {
+    return new ObservableListIterator(iterator);
+  }
+
+  /**
    * {@inheritDoc}
    * <p>
    * Calling {@link ListIterator#remove()} will delegate a callback to
@@ -468,133 +636,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * will not be added to this {@link List}.
    */
   @Override
+  @SuppressWarnings("unchecked")
   public ListIterator<E> listIterator(final int index) {
     Assertions.assertRangeList(index, size(), true);
-    final ListIterator<E> listIterator = target.listIterator(index + fromIndex);
-    return new ListIterator<E>() {
-      private E current;
-
-      @Override
-      public boolean hasNext() {
-        return nextIndex() < size();
-      }
-
-      @Override
-      public E next() {
-        final int index = listIterator.nextIndex() - fromIndex;
-        beforeGet(index, this);
-        RuntimeException re = null;
-        try {
-          current = listIterator.next();
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
-
-        afterGet(index, current, this, re);
-        if (re != null)
-          throw re;
-
-        return current;
-      }
-
-      @Override
-      public boolean hasPrevious() {
-        return previousIndex() >= 0;
-      }
-
-      @Override
-      public E previous() {
-        final int index = listIterator.previousIndex() - fromIndex;
-        beforeGet(index, this);
-        RuntimeException re = null;
-        try {
-          current = listIterator.previous();
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
-
-        afterGet(index, current, this, re);
-        if (re != null)
-          throw re;
-
-        return current;
-      }
-
-      @Override
-      public int nextIndex() {
-        return listIterator.nextIndex() - fromIndex;
-      }
-
-      @Override
-      public int previousIndex() {
-        return listIterator.previousIndex() - fromIndex;
-      }
-
-      @Override
-      public void remove() {
-        final int index = nextIndex() - 1;
-        if (!beforeRemove(index))
-          return;
-
-        final E element = this.current;
-        RuntimeException re = null;
-        try {
-          listIterator.remove();
-          if (toIndex != -1)
-            --toIndex;
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
-
-        afterRemove(element, re);
-        if (re != null)
-          throw re;
-      }
-
-      @Override
-      public void set(final E e) {
-        final int index = nextIndex() - 1;
-        if (!beforeSet(index, e))
-          return;
-
-        final E element = this.current;
-        RuntimeException re = null;
-        try {
-          listIterator.set(e);
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
-
-        afterSet(index, element, re);
-        if (re != null)
-          throw re;
-      }
-
-      @Override
-      public void add(final E e) {
-        final int index = nextIndex();
-        if (!beforeAdd(index, e))
-          return;
-
-        RuntimeException re = null;
-        try {
-          listIterator.add(e);
-          if (toIndex != -1)
-            ++toIndex;
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
-
-        afterAdd(index, e, re);
-        if (re != null)
-          throw re;
-      }
-    };
+    return newListIterator(target.listIterator(index + fromIndex));
   }
 
   @SuppressWarnings("unchecked")
@@ -602,22 +647,22 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (!beforeRemove(index))
       return null;
 
-    final E element = (E)target.get(index + fromIndex);
-    RuntimeException re = null;
+    E value = null;
+    RuntimeException exception = null;
     try {
-      target.remove(index + fromIndex);
+      value = (E)target.remove(index + fromIndex);
       if (toIndex != -1)
         --toIndex;
     }
-    catch (final RuntimeException t) {
-      re = t;
+    catch (final RuntimeException re) {
+      exception = re;
     }
 
-    afterRemove(element, re);
-    if (re != null)
-      throw re;
+    afterRemove(value, exception);
+    if (exception != null)
+      throw exception;
 
-    return element;
+    return value;
   }
 
   /**
@@ -659,6 +704,38 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
+   * The callback methods {@link #beforeSet(int,Object)} and
+   * {@link #afterSet(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed {@link List} is modified. If
+   * {@link #beforeSet(int,Object)} returns {@code false}, the element will not
+   * be set, and this method will return {@code null}.
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public E set(final int index, final E element) {
+    Assertions.assertRangeList(index, size(), false);
+    if (!beforeSet(index, element))
+      return null;
+
+    E oldElement = null;
+    RuntimeException exception = null;
+    try {
+      oldElement = (E)target.set(index + fromIndex, element);
+    }
+    catch (final RuntimeException re) {
+      exception = re;
+    }
+
+    afterSet(index, oldElement, exception);
+    if (exception != null)
+      throw exception;
+
+    return oldElement;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
    * The callback methods {@link #beforeRemove(int)} and
    * {@link #afterRemove(Object,RuntimeException)} are called immediately before
    * and after the enclosed {@link List} is modified for the removal of each
@@ -688,27 +765,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * {@code false} will not be removed from this {@link List}.
    */
   @Override
-  @SuppressWarnings("unchecked")
   public boolean removeIf(final Predicate<? super E> filter) {
     final int size = size();
-    for (int i = size - 1; i >= 0; --i) {
-      final E element = (E)target.get(i + fromIndex);
-      if (filter.test(element) && beforeRemove(i)) {
-        RuntimeException re = null;
-        try {
-          target.remove(i++ + fromIndex);
-          if (toIndex != -1)
-            --toIndex;
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
-
-        afterRemove(element, re);
-        if (re != null)
-          throw re;
-      }
-    }
+    for (int i = size - 1; i >= 0; --i)
+      if (filter.test(get0(i)))
+        remove0(i);
 
     return size != size();
   }
@@ -729,7 +790,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (c.size() > 0) {
       final int size = size();
       for (int i = size - 1; i >= 0; --i)
-        if (!c.contains(target.get(i + fromIndex)))
+        if (!c.contains(get0(i)))
           remove(i);
 
       return size != size();
@@ -745,33 +806,20 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is
+   * retrieved.
+   * <p>
    * The callback methods {@link #beforeSet(int,Object)} and
    * {@link #afterSet(int,Object,RuntimeException)} are called immediately
    * before and after the enclosed {@link List} is modified. If
    * {@link #beforeSet(int,Object)} returns {@code false}, the element will not
-   * be set, and this method will return {@code null}.
+   * be set.
    */
   @Override
-  @SuppressWarnings("unchecked")
-  public E set(final int index, final E element) {
-    Assertions.assertRangeList(index, size(), false);
-    if (!beforeSet(index, element))
-      return null;
-
-    E oldElement = null;
-    RuntimeException re = null;
-    try {
-      oldElement = (E)target.set(index + fromIndex, element);
-    }
-    catch (final RuntimeException t) {
-      re = t;
-    }
-
-    afterSet(index, oldElement, re);
-    if (re != null)
-      throw re;
-
-    return oldElement;
+  public void replaceAll(final UnaryOperator<E> operator) {
+    superReplaceAll(operator);
   }
 
   @Override
@@ -779,50 +827,102 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     return (toIndex != -1 ? toIndex : target.size()) - fromIndex;
   }
 
+  /**
+   * An {@link ObservableList} that delegates callback methods to the
+   * parent {@link ObservableList} instance for the retrieval, addition, and
+   * removal of elements.
+   */
+  protected class ObservableSubList extends ObservableList<E> {
+    /**
+     * Creates a new {@link org.libj.util.ObservableList.ObservableSubList} for
+     * the specified {@link List List&lt;E&gt;}.
+     *
+     * @param list The {@link List List&lt;E&gt;}.
+     * @param fromIndex The starting index as the lower limit of the elements in
+     *          the target list, inclusive.
+     * @param toIndex The starting index as the upper limit of the elements in
+     *          the target list, exclusive.
+     * @throws NullPointerException If the specified {@link List List&lt;E&gt;}
+     *           is null.
+     */
+    protected ObservableSubList(final List<E> list, final int fromIndex, final int toIndex) {
+      super(list, fromIndex, toIndex);
+    }
+
+    @Override
+    protected void beforeGet(final int index, final ListIterator<E> iterator) {
+      ObservableList.this.beforeGet(index, iterator);
+    }
+
+    @Override
+    protected void afterGet(final int index, final E element, final ListIterator<E> iterator, final RuntimeException e) {
+      ObservableList.this.afterGet(index, element, iterator, e);
+    }
+
+    @Override
+    protected boolean beforeAdd(final int index, final E element) {
+      return ObservableList.this.beforeAdd(index, element);
+    }
+
+    @Override
+    protected void afterAdd(final int index, final E element, final RuntimeException e) {
+      ObservableList.this.afterAdd(index, element, e);
+    }
+
+    @Override
+    protected boolean beforeRemove(final int index) {
+      return ObservableList.this.beforeRemove(index);
+    }
+
+    @Override
+    protected void afterRemove(final Object element, final RuntimeException e) {
+      ObservableList.this.afterRemove(element, e);
+    }
+
+    @Override
+    protected boolean beforeSet(final int index, final E newElement) {
+      return ObservableList.this.beforeSet(index, newElement);
+    }
+
+    @Override
+    protected void afterSet(final int index, final E oldElement, final RuntimeException e) {
+      ObservableList.this.afterSet(index, oldElement, e);
+    }
+  }
+
+  /**
+   * Factory method that returns a new instance of an {@link ObservableSubList}
+   * for the specified {@code fromIndex} and {@code toIndex}. This method is
+   * intended to be overridden by subclasses in order to provide instances of
+   * the subclass.
+   *
+   * @param fromIndex The starting index as the lower limit of the elements in
+   *          the target list, inclusive.
+   * @param toIndex The starting index as the upper limit of the elements in the
+   *          target list, exclusive.
+   * @return A new instance of an {@link ObservableSubList}.
+   */
+  protected ObservableSubList newSubList(final int fromIndex, final int toIndex) {
+    return new ObservableSubList(target, fromIndex, toIndex);
+  }
+
   @Override
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {
     Assertions.assertRangeList(fromIndex, toIndex, size());
-    return new ObservableList<E>(target, fromIndex, toIndex) {
-      @Override
-      protected void beforeGet(final int index, final ListIterator<E> iterator) {
-        ObservableList.this.beforeGet(index, iterator);
-      }
+    return newSubList(fromIndex, toIndex);
+  }
 
-      @Override
-      protected void afterGet(final int index, final E e, final ListIterator<E> iterator, final RuntimeException re) {
-        ObservableList.this.afterGet(index, e, iterator, re);
-      }
-
-      @Override
-      protected boolean beforeAdd(final int index, final E element) {
-        return ObservableList.this.beforeAdd(index, element);
-      }
-
-      @Override
-      protected void afterAdd(final int index, final E element, final RuntimeException re) {
-        ObservableList.this.afterAdd(index, element, re);
-      }
-
-      @Override
-      protected boolean beforeRemove(final int index) {
-        return ObservableList.this.beforeRemove(index);
-      }
-
-      @Override
-      protected void afterRemove(final Object element, final RuntimeException re) {
-        ObservableList.this.afterRemove(element, re);
-      }
-
-      @Override
-      protected boolean beforeSet(final int index, final E newElement) {
-        return ObservableList.this.beforeSet(index, newElement);
-      }
-
-      @Override
-      protected void afterSet(final int index, final E oldElement, final RuntimeException re) {
-        ObservableList.this.afterSet(index, oldElement, re);
-      }
-    };
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
+   */
+  @Override
+  public void sort(final Comparator<? super E> c) {
+    superSort(c);
   }
 
   /**
@@ -860,5 +960,133 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       a[size()] = null;
 
     return a;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int,ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each member of the enclosed list is
+   * referenced.
+   */
+  @Override
+  public <T>T[] toArray(final IntFunction<T[]> generator) {
+    return superToArray(generator);
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is retrieved.
+   */
+  @Override
+  public void forEach(final Consumer<? super E> action) {
+    superForEach(action);
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is retrieved.
+   */
+  @Override
+  public Spliterator<E> spliterator() {
+    return superSpliterator();
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is retrieved.
+   */
+  @Override
+  public Stream<E> stream() {
+    return superStream();
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is retrieved.
+   */
+  @Override
+  public Stream<E> parallelStream() {
+    return superParallelStream();
+  }
+
+  private void touchElements() {
+    for (int i = 0, len = size(); i < len; ++i)
+      get(i);
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is retrieved.
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof List))
+      return false;
+
+    final List<?> that = (List<?>)obj;
+    final int size = size();
+    if (size != that.size())
+      return false;
+
+    for (int i = 0; i < size; ++i) {
+      final Object e1 = get(i);
+      final Object e2 = that.get(i);
+      if (e1 == null ? e2 != null : !e1.equals(e2))
+        return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is retrieved.
+   */
+  @Override
+  public int hashCode() {
+    if (target == null)
+      return 0;
+
+    touchElements();
+    return target.hashCode();
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback methods {@link #beforeGet(int, ListIterator)} and
+   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+   * immediately before and after each element of the enclosed list is retrieved.
+   */
+  @Override
+  public String toString() {
+    if (target == null)
+      return "null";
+
+    touchElements();
+    return String.valueOf(target);
   }
 }

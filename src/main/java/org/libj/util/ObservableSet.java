@@ -16,19 +16,25 @@
 
 package org.libj.util;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.function.IntFunction;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
- * A {@link DelegateSet} that provides callback methods to observe the addition
- * and removal of elements, either due to direct method invocation on the set
- * instance itself, or via {@link #iterator()}, {@link #stream()}, and any other
- * entrypoint that facilitates modification of the elements in this set.
+ * A {@link DelegateSet} that provides callback methods to observe the
+ * retrieval, addition, and removal of elements, either due to direct method
+ * invocation on the set instance itself, or via {@link #iterator()},
+ * {@link #stream()}, and any other entrypoint that facilitates modification of
+ * the elements in this set.
  *
  * @param <E> The type of elements in this set.
+ * @see #afterGet(Object,RuntimeException)
  * @see #beforeAdd(Object)
  * @see #afterAdd(Object,RuntimeException)
  * @see #beforeRemove(Object)
@@ -46,15 +52,29 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   }
 
   /**
+   * Callback method that is invoked immediately after a value is retrieved via
+   * {@link Iterator#next()}.
+   *
+   * @param value The value desired to be returned by the
+   *          {@link Iterator#next()} operation.
+   * @param e A {@link RuntimeException} that occurred during the add
+   *          operation, or {@code null} if no exception occurred.
+   * @return The value to be returned by the {@link Iterator#next()} operation.
+   */
+  protected E afterGet(final E value, final RuntimeException e) {
+    return value;
+  }
+
+  /**
    * Callback method that is invoked immediately before an element is added to
    * the enclosed {@link Set}.
    *
-   * @param e The element to be added to the enclosed {@link Set}.
+   * @param element The element to be added to the enclosed {@link Set}.
    * @return If this method returns {@code false}, the subsequent {@code add}
    *         operation will not be performed; otherwise, the subsequent
    *         {@code add} operation will be performed.
    */
-  protected boolean beforeAdd(final E e) {
+  protected boolean beforeAdd(final E element) {
     return true;
   }
 
@@ -62,23 +82,23 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * Callback method that is invoked immediately after an element is added to
    * the enclosed {@link Set}.
    *
-   * @param e The element added to the enclosed {@link Set}.
-   * @param re A {@link RuntimeException} that occurred during the add
+   * @param element The element added to the enclosed {@link Set}.
+   * @param e A {@link RuntimeException} that occurred during the add
    *          operation, or {@code null} if no exception occurred.
    */
-  protected void afterAdd(final E e, final RuntimeException re) {
+  protected void afterAdd(final E element, final RuntimeException e) {
   }
 
   /**
    * Callback method that is invoked immediately before an element is removed
    * from the enclosed {@link Set}.
    *
-   * @param e The element to be removed from the enclosed {@link Set}.
+   * @param element The element to be removed from the enclosed {@link Set}.
    * @return If this method returns {@code false}, the subsequent {@code remove}
    *         operation will not be performed; otherwise, the subsequent
    *         {@code remove} operation will be performed.
    */
-  protected boolean beforeRemove(final Object e) {
+  protected boolean beforeRemove(final Object element) {
     return true;
   }
 
@@ -86,13 +106,70 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * Callback method that is invoked immediately after an element is removed
    * from the enclosed {@link Set}.
    *
-   * @param e The element removed from the enclosed {@link Set}, or attempted to
+   * @param element The element removed from the enclosed {@link Set}, or attempted to
    *          be removed from the {@link Set} in case of a
    *          {@link RuntimeException}.
-   * @param re A {@link RuntimeException} that occurred during the remove
+   * @param e A {@link RuntimeException} that occurred during the remove
    *          operation, or {@code null} if no exception occurred.
    */
-  protected void afterRemove(final Object e, final RuntimeException re) {
+  protected void afterRemove(final Object element, final RuntimeException e) {
+  }
+
+  /**
+   * A {@link DelegateIterator} that delegates callback methods to the parent
+   * {@link ObservableSet} instance for the retrieval and removal of elements.
+   */
+  protected class ObservableIterator extends DelegateIterator<E> {
+    private E current;
+
+    /**
+     * Creates a new {@link ObservableIterator} for the specified
+     * {@link Iterator}.
+     *
+     * @param iterator The {@link Iterator}.
+     * @throws NullPointerException If the specified {@link Iterator} is null.
+     */
+    protected ObservableIterator(final Iterator<E> iterator) {
+      super(iterator);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public E next() {
+      RuntimeException exception = null;
+      E value = null;
+      try {
+        value = (E)target.next();
+      }
+      catch (final RuntimeException re) {
+        exception = re;
+      }
+
+      value = ObservableSet.this.afterGet(value, exception);
+      if (exception != null)
+        throw exception;
+
+      return current = value;
+    }
+
+    @Override
+    public void remove() {
+      final E remove = current;
+      if (!ObservableSet.this.beforeRemove(remove))
+        return;
+
+      RuntimeException exception = null;
+      try {
+        target.remove();
+      }
+      catch (final RuntimeException re) {
+        exception = re;
+      }
+
+      ObservableSet.this.afterRemove(remove, exception);
+      if (exception != null)
+        throw exception;
+    }
   }
 
   /**
@@ -104,44 +181,51 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    */
   @Override
   public Iterator<E> iterator() {
-    final Iterator<E> i = target.iterator();
-    return new Iterator<E>() {
-      private E current;
+    return new ObservableIterator(target.iterator());
+  }
 
-      @Override
-      public boolean hasNext() {
-        return i.hasNext();
-      }
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved to be
+   * tested for equality.
+   */
+  @Override
+  public boolean contains(final Object o) {
+    final Iterator<E> iterator = iterator();
+    if (o == null) {
+      while (iterator.hasNext())
+        if (iterator.next() == null)
+          return true;
+    }
+    else {
+      while (iterator.hasNext())
+        if (o.equals(iterator.next()))
+          return true;
+    }
 
-      @Override
-      public E next() {
-        return current = i.next();
-      }
+    return false;
+  }
 
-      @Override
-      public void remove() {
-        final E remove = current;
-        if (!ObservableSet.this.beforeRemove(remove))
-          return;
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved to be
+   * tested for equality.
+   */
+  @Override
+  @SuppressWarnings("unlikely-arg-type")
+  public boolean containsAll(final Collection<?> c) {
+    if (c.size() == 0)
+      return true;
 
-        RuntimeException re = null;
-        try {
-          i.remove();
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
+    for (final Object o : c)
+      if (!contains(o))
+        return false;
 
-        ObservableSet.this.afterRemove(remove, re);
-        if (re != null)
-          throw re;
-      }
-
-      @Override
-      public void forEachRemaining(final Consumer<? super E> action) {
-        i.forEachRemaining(action);
-      }
-    };
+    return true;
   }
 
   /**
@@ -149,27 +233,28 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * <p>
    * The callback methods {@link #beforeAdd(Object)} and
    * {@link #afterAdd(Object,RuntimeException)} are called immediately before
-   * and after the enclosed collection is modified. If
-   * {@link #beforeAdd(Object)} returns false, the element will not be added.
+   * and after the enclosed set is modified. If {@link #beforeAdd(Object)}
+   * returns false, the element will not be added.
    */
   @Override
   public boolean add(final E e) {
+    final int size = size();
     if (!beforeAdd(e))
-      return false;
+      return size != size();
 
-    boolean result = false;
-    RuntimeException re = null;
+    RuntimeException exception = null;
     try {
-      result = target.add(e);
+      target.add(e);
     }
-    catch (final RuntimeException t) {
-      re = t;
+    catch (final RuntimeException re) {
+      exception = re;
     }
 
-    afterAdd(e, re);
-    if (re != null)
-      throw re;
-    return result;
+    afterAdd(e, exception);
+    if (exception != null)
+      throw exception;
+
+    return size != size();
   }
 
   /**
@@ -177,10 +262,9 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * <p>
    * The callback methods {@link #beforeAdd(Object)} and
    * {@link #afterAdd(Object,RuntimeException)} are called immediately before
-   * and after the enclosed collection is modified for the addition of each
-   * element in the argument Collection. All elements for which
-   * {@link #beforeAdd(Object)} returns false will not be added to this
-   * collection.
+   * and after the enclosed set is modified for the addition of each element in
+   * the argument Collection. All elements for which {@link #beforeAdd(Object)}
+   * returns false will not be added to this collection.
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -196,29 +280,28 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
    * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed collection is modified. If
-   * {@link #beforeRemove(Object)} returns false, the element will not be
-   * removed.
+   * and after the enclosed set is modified. If {@link #beforeRemove(Object)}
+   * returns false, the element will not be removed.
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
+    final int size = size();
     if (!beforeRemove(o))
-      return false;
+      return size != size();
 
-    RuntimeException re = null;
+    RuntimeException exception = null;
     try {
       target.remove(o);
     }
-    catch (final RuntimeException t) {
-      re = t;
+    catch (final RuntimeException re) {
+      exception = re;
     }
 
-    afterRemove(o, re);
-    if (re != null)
-      throw re;
+    afterRemove(o, exception);
+    if (exception != null)
+      throw exception;
 
-    return !contains(o);
+    return size != size();
   }
 
   /**
@@ -226,10 +309,10 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
    * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed collection is modified for the removal of each
-   * element in the argument Collection. All elements for which
+   * and after the enclosed set is modified for the removal of each element in
+   * the argument Collection. All elements for which
    * {@link #beforeRemove(Object)} returns false will not be removed from this
-   * collection.
+   * set.
    */
   @Override
   @SuppressWarnings("unlikely-arg-type")
@@ -246,34 +329,13 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
    * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed collection is modified for the removal of each
-   * element. All elements for which {@link #beforeRemove(Object)} returns false
-   * will not be removed from this collection.
+   * and after the enclosed set is modified for the removal of each element. All
+   * elements for which {@link #beforeRemove(Object)} returns false will not be
+   * removed from this set.
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
-    boolean changed = false;
-    final Iterator<E> i = iterator();
-    while (i.hasNext()) {
-      final E e = i.next();
-      if (filter.test(e) && beforeRemove(e)) {
-        RuntimeException re = null;
-        try {
-          i.remove();
-        }
-        catch (final RuntimeException t) {
-          re = t;
-        }
-
-        afterRemove(e, re);
-        if (re != null)
-          throw re;
-
-        changed = true;
-      }
-    }
-
-    return changed;
+    return superRemoveIf(filter);
   }
 
   /**
@@ -281,17 +343,16 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
    * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed collection is modified for the removal of each
-   * element not in the argument Collection. All elements for which
+   * and after the enclosed set is modified for the removal of each element not
+   * in the argument Collection. All elements for which
    * {@link #beforeRemove(Object)} returns false will not be removed from this
-   * collection.
+   * set.
    */
   @Override
   @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
-    final Iterator<E> i = iterator();
-    while (i.hasNext()) {
+    for (final Iterator<E> i = iterator(); i.hasNext();) {
       if (!c.contains(i.next())) {
         i.remove();
         changed = true;
@@ -306,16 +367,163 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and
    * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed collection is modified for the removal of each
-   * element. All elements for which {@link #beforeRemove(Object)} returns false
-   * will not be removed from this collection.
+   * and after the enclosed set is modified for the removal of each element. All
+   * elements for which {@link #beforeRemove(Object)} returns false will not be
+   * removed from this set.
    */
   @Override
   public void clear() {
-    final Iterator<E> i = iterator();
-    while (i.hasNext()) {
+    for (final Iterator<E> i = iterator(); i.hasNext();) {
       i.next();
       i.remove();
     }
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved.
+   */
+  @Override
+  public Object[] toArray() {
+    if (size() == 0)
+      return ArrayUtil.EMPTY_ARRAY;
+
+    final Object[] a = new Object[size()];
+    final Iterator<E> iterator = iterator();
+    for (int i = 0; iterator.hasNext(); ++i)
+      a[i] = iterator.next();
+
+    return a;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved.
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public <T>T[] toArray(T[] a) {
+    if (a.length < size())
+      a = (T[])Array.newInstance(a.getClass().getComponentType(), size());
+
+    int i = 0;
+    for (final Iterator<E> iterator = iterator(); iterator.hasNext(); ++i)
+      a[i] = (T)iterator.next();
+
+    if (++i < a.length)
+      a[i] = null;
+
+    return a;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved.
+   */
+  @Override
+  public <T>T[] toArray(final IntFunction<T[]> generator) {
+    return superToArray(generator);
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved.
+   */
+  @Override
+  public void forEach(final Consumer<? super E> action) {
+    superForEach(action);
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved.
+   */
+  @Override
+  public Spliterator<E> spliterator() {
+    return superSpliterator();
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved.
+   */
+  @Override
+  public Stream<E> stream() {
+    return superStream();
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed set is retrieved.
+   */
+  @Override
+  public Stream<E> parallelStream() {
+    return superParallelStream();
+  }
+
+  private void touchElements() {
+    for (final Iterator<E> i = iterator(); i.hasNext(); i.next());
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed collection is retrieved.
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof Set) || size() != ((Set<?>)obj).size())
+      return false;
+
+    touchElements();
+    return target.equals(obj);
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed collection is retrieved.
+   */
+  @Override
+  public int hashCode() {
+    if (target == null)
+      return 0;
+
+    touchElements();
+    return target.hashCode();
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * The callback method {@link #afterGet(Object,RuntimeException)} is called
+   * immediately after each element of the enclosed collection is retrieved.
+   */
+  @Override
+  public String toString() {
+    if (target == null)
+      return "null";
+
+    touchElements();
+    return String.valueOf(target);
   }
 }
