@@ -414,7 +414,7 @@ public final class CollectionUtil {
    *           {@code fromIndex < 0 or toIndex > a.length}
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+  public static <T>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, c);
   }
@@ -446,7 +446,7 @@ public final class CollectionUtil {
    *           this comparator.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key, final Comparator<? super T> c) {
+  public static <T>int binarySearch(final List<T> a, final T key, final Comparator<? super T> c) {
     return binarySearch0(a, 0, a.size(), key, c);
   }
 
@@ -469,10 +469,7 @@ public final class CollectionUtil {
     return -(low + 1);
   }
 
-  private static <T extends Comparable<? super T>>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
-    if (c == null)
-      return binarySearch(a, fromIndex, toIndex, key);
-
+  private static <T>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
