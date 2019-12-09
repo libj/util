@@ -16,6 +16,7 @@
 
 package org.libj.util;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -32,7 +33,7 @@ import java.util.function.Consumer;
  *
  * @param <E> The type of elements returned by this iterator.
  */
-public abstract class DelegateListIterator<E> implements ListIterator<E> {
+public abstract class DelegateListIterator<E> extends AbstractIterator<E> implements ListIterator<E> {
   /** The target {@link ListIterator}. */
   @SuppressWarnings("rawtypes")
   protected volatile ListIterator target;
@@ -101,6 +102,17 @@ public abstract class DelegateListIterator<E> implements ListIterator<E> {
     target.add(e);
   }
 
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Iterator#forEachRemaining(Consumer)}.
+   *
+   * @param action The action to be performed for each element.
+   * @throws NullPointerException If the specified action is null.
+   */
+  protected final void superForEachRemaining(final Consumer<? super E> action) {
+    super.forEachRemaining(action);
+  }
+
   @Override
   public void forEachRemaining(final Consumer<? super E> action) {
     target.forEachRemaining(action);
@@ -111,11 +123,12 @@ public abstract class DelegateListIterator<E> implements ListIterator<E> {
     if (obj == this)
       return true;
 
-    if (!(obj instanceof DelegateListIterator))
-      return false;
+    if (obj instanceof DelegateListIterator) {
+      final DelegateListIterator<?> that = (DelegateListIterator<?>)obj;
+      return target != null ? target.equals(that.target) : that.target == null;
+    }
 
-    final DelegateListIterator<?> that = (DelegateListIterator<?>)obj;
-    return target != null ? target.equals(that.target) : that.target == null;
+    return target.equals(obj);
   }
 
   @Override

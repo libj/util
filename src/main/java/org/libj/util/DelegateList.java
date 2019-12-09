@@ -18,10 +18,17 @@ package org.libj.util;
 
 import java.util.AbstractList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 /**
  * A {@link DelegateList} contains some other {@link List}, to which it
@@ -86,6 +93,30 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     return (T[])target.toArray(a);
   }
 
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link List#toArray(IntFunction)}.
+   *
+   * @param <T> The component type of the array to contain the collection.
+   * @param generator A function which produces a new array of the desired type
+   *          and the provided length.
+   * @return An array containing all of the elements in this collection.
+   * @throws ArrayStoreException If the runtime type of any element in this
+   *           collection is not assignable to the
+   *           {@linkplain Class#getComponentType runtime component type} of the
+   *           generated array.
+   * @throws NullPointerException If the generator function is null.
+   */
+  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
+    return super.toArray(generator);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public <T>T[] toArray(final IntFunction<T[]> generator) {
+    return (T[])target.toArray(generator);
+  }
+
   @Override
   public boolean add(final E e) {
     return target.add(e);
@@ -114,11 +145,6 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   @Override
   public boolean retainAll(final Collection<?> c) {
     return target.retainAll(c);
-  }
-
-  @Override
-  public void clear() {
-    target.clear();
   }
 
   @Override
@@ -169,6 +195,11 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     return target.listIterator(index);
   }
 
+  @Override
+  public void clear() {
+    target.clear();
+  }
+
   /**
    * {@inheritDoc}
    * <p>
@@ -182,16 +213,145 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link List#replaceAll(UnaryOperator)}.
+   *
+   * @param operator The operator to apply to each element.
+   * @throws UnsupportedOperationException If this list is unmodifiable.
+   *           Implementations may throw this exception if an element cannot be
+   *           replaced or if, in general, modification is not supported.
+   * @throws NullPointerException If the specified operator is null or if the
+   *           operator result is a null value and this list does not permit
+   *           null elements.
+   */
+  protected final void superReplaceAll(final UnaryOperator<E> operator) {
+    super.replaceAll(operator);
+  }
+
+  @Override
+  public void replaceAll(final UnaryOperator<E> operator) {
+    target.replaceAll(operator);
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link List#sort(Comparator)}.
+   *
+   * @param c The {@code Comparator} used to compare list elements. A
+   *          {@code null} value indicates that the elements'
+   *          {@linkplain Comparable natural ordering} should be used.
+   * @throws ClassCastException If the list contains elements that are not
+   *           <i>mutually comparable</i> using the specified comparator.
+   * @throws UnsupportedOperationException If the list's list-iterator does not
+   *           support the {@code set} operation.
+   * @throws IllegalArgumentException If the comparator is found to violate the
+   *           {@link Comparator} contract.
+   */
+  protected final void superSort(final Comparator<? super E> c) {
+    super.sort(c);
+  }
+
+  @Override
+  public void sort(final Comparator<? super E> c) {
+    target.sort(c);
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#forEach(Consumer)}.
+   *
+   * @param action The action to be performed for each element.
+   * @throws NullPointerException If the specified action is null
+   */
+  protected final void superForEach(final Consumer<? super E> action) {
+    super.forEach(action);
+  }
+
+  @Override
+  public void forEach(final Consumer<? super E> action) {
+    target.forEach(action);
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#removeIf(Predicate)}.
+   *
+   * @param filter A predicate which returns {@code true} for elements to be
+   *          removed.
+   * @return {@code true} if any elements were removed.
+   * @throws NullPointerException If the specified filter is null.
+   * @throws UnsupportedOperationException If elements cannot be removed from
+   *           this collection. Implementations may throw this exception if a
+   *           matching element cannot be removed or if, in general, removal is
+   *           not supported.
+   */
+  protected final boolean superRemoveIf(final Predicate<? super E> filter) {
+    return super.removeIf(filter);
+  }
+
+  @Override
+  public boolean removeIf(final Predicate<? super E> filter) {
+    return target.removeIf(filter);
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#spliterator()}.
+   *
+   * @return A {@code Spliterator} over the elements in this collection.
+   */
+  protected final Spliterator<E> superSpliterator() {
+    return super.spliterator();
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return target.spliterator();
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#stream()}.
+   *
+   * @return A sequential {@code Stream} over the elements in this collection.
+   */
+  protected final Stream<E> superStream() {
+    return super.stream();
+  }
+
+  @Override
+  public Stream<E> stream() {
+    return target.stream();
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#parallelStream()}.
+   *
+   * @return A possibly parallel {@code Stream} over the elements in this
+   *         collection.
+   */
+  protected final Stream<E> superParallelStream() {
+    return super.parallelStream();
+  }
+
+  @Override
+  public Stream<E> parallelStream() {
+    return target.parallelStream();
+  }
+
   @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 
-    if (!(obj instanceof DelegateList))
-      return false;
+    if (obj instanceof DelegateList) {
+      final DelegateList<?> that = (DelegateList<?>)obj;
+      return target != null ? target.equals(that.target) : that.target == null;
+    }
 
-    final DelegateList<?> that = (DelegateList<?>)obj;
-    return target != null ? target.equals(that.target) : that.target == null;
+    return target.equals(obj);
   }
 
   @Override

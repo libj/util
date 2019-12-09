@@ -19,9 +19,11 @@ package org.libj.util;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -89,6 +91,30 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
     return (T[])target.toArray(a);
   }
 
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link List#toArray(IntFunction)}.
+   *
+   * @param <T> The component type of the array to contain the collection.
+   * @param generator A function which produces a new array of the desired type
+   *          and the provided length.
+   * @return An array containing all of the elements in this collection.
+   * @throws ArrayStoreException If the runtime type of any element in this
+   *           collection is not assignable to the
+   *           {@linkplain Class#getComponentType runtime component type} of the
+   *           generated array.
+   * @throws NullPointerException If the generator function is null.
+   */
+  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
+    return super.toArray(generator);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public <T>T[] toArray(final IntFunction<T[]> generator) {
+    return (T[])target.toArray(generator);
+  }
+
   @Override
   public boolean add(final E e) {
     return target.add(e);
@@ -124,9 +150,37 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
     target.clear();
   }
 
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#forEach(Consumer)}.
+   *
+   * @param action The action to be performed for each element.
+   * @throws NullPointerException If the specified action is null
+   */
+  protected final void superForEach(final Consumer<? super E> action) {
+    super.forEach(action);
+  }
+
   @Override
   public void forEach(final Consumer<? super E> action) {
     target.forEach(action);
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#removeIf(Predicate)}.
+   *
+   * @param filter A predicate which returns {@code true} for elements to be
+   *          removed.
+   * @return {@code true} if any elements were removed.
+   * @throws NullPointerException If the specified filter is null.
+   * @throws UnsupportedOperationException If elements cannot be removed from
+   *           this collection. Implementations may throw this exception if a
+   *           matching element cannot be removed or if, in general, removal is
+   *           not supported.
+   */
+  protected final boolean superRemoveIf(final Predicate<? super E> filter) {
+    return super.removeIf(filter);
   }
 
   @Override
@@ -134,14 +188,45 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
     return target.removeIf(filter);
   }
 
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#spliterator()}.
+   *
+   * @return A {@code Spliterator} over the elements in this collection.
+   */
+  protected final Spliterator<E> superSpliterator() {
+    return super.spliterator();
+  }
+
   @Override
   public Spliterator<E> spliterator() {
     return target.spliterator();
   }
 
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#stream()}.
+   *
+   * @return A sequential {@code Stream} over the elements in this collection.
+   */
+  protected final Stream<E> superStream() {
+    return super.stream();
+  }
+
   @Override
   public Stream<E> stream() {
     return target.stream();
+  }
+
+  /**
+   * Protected method providing access to the default implementation of
+   * {@link Collection#parallelStream()}.
+   *
+   * @return A possibly parallel {@code Stream} over the elements in this
+   *         collection.
+   */
+  protected final Stream<E> superParallelStream() {
+    return super.parallelStream();
   }
 
   @Override
@@ -154,11 +239,12 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
     if (obj == this)
       return true;
 
-    if (!(obj instanceof DelegateCollection))
-      return false;
+    if (obj instanceof DelegateCollection) {
+      final DelegateCollection<?> that = (DelegateCollection<?>)obj;
+      return target != null ? target.equals(that.target) : that.target == null;
+    }
 
-    final DelegateCollection<?> that = (DelegateCollection<?>)obj;
-    return target != null ? target.equals(that.target) : that.target == null;
+    return target.equals(obj);
   }
 
   @Override
