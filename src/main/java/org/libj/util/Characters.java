@@ -29,9 +29,9 @@ public final class Characters {
   /**
    * Returns the escaped representation of the specified character.
    * <p>
-   * <i><b>Note:</b> This method only supports single-character escape
-   * sequences, and therefore does not handle 2-digit or 3-digit octal escape
-   * sequences, or 4-hex-digit unicode sequences.</i>
+   * <b>Note:</b> This method only supports single-character escape sequences,
+   * and therefore does not handle 2-digit or 3-digit octal escape sequences, or
+   * 4-hex-digit unicode sequences.
    * <blockquote>
    * <table>
    * <caption>Escape Sequences</caption>
@@ -73,9 +73,9 @@ public final class Characters {
   /**
    * Tests whether the specified character is escapable.
    * <p>
-   * <i><b>Note:</b> This method only supports single-character escape
-   * sequences, and therefore does not handle 2-digit or 3-digit octal escape
-   * sequences, or 4-hex-digit unicode sequences.</i>
+   * <b>Note:</b> This method only supports single-character escape sequences,
+   * and therefore does not handle 2-digit or 3-digit octal escape sequences, or
+   * 4-hex-digit unicode sequences.
    * <blockquote>
    * <table>
    * <caption>Escape Sequences</caption>

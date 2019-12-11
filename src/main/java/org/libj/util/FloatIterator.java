@@ -87,8 +87,10 @@ public interface FloatIterator {
    * The default implementation behaves as if:
    *
    * <pre>
-   *   while (hasNext())
-   *     action.accept(next());
+   * {@code
+   * while (hasNext())
+   *   action.accept(next());
+   * }
    * </pre>
    *
    * @param action The action to be performed for each value.

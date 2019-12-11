@@ -27,14 +27,17 @@ import java.util.function.BiConsumer;
  * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
- * <blockquote><pre>
- * TriConsumer&lt;Integer,Integer,Integer&gt; consumer = Throwing.&lt;Integer,Integer,Integer&gt;rethrow((i, j, k) -&gt; {
+ *
+ * <pre>
+ * {@code
+ * TriConsumer<Integer,Integer,Integer> consumer = Throwing.<Integer,Integer,Integer>rethrow((i, j, k) -> {
  *   if (i == 0)
  *     throw new IllegalArgumentException("i=" + i);
  * });
- * for (int i = 3; i &gt;= 0; --i)
+ * for (int i = 3; i >= 0; --i)
  *   consumer.accept(i, -i, i);
- * </pre></blockquote>
+ * }
+ * </pre>
  *
  * @param <T> The type of the first input to the operation.
  * @param <U> The type of the second input to the operation.

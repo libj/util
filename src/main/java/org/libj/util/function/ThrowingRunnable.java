@@ -24,14 +24,16 @@ package org.libj.util.function;
  * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
- * <p>
- * <blockquote><pre>
- * Runnable runnable = Throwing.rethrow(() -&gt; {
+ *
+ * <pre>
+ * {@code
+ * Runnable runnable = Throwing.rethrow(() -> {
  *   if (true)
  *     throw new IOException();
  * });
  * runnable.run();
- * </pre></blockquote>
+ * }
+ * </pre>
  *
  * @see Runnable#run()
  */

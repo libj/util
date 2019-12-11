@@ -574,7 +574,7 @@ public final class Bytes {
    * at an offset. The bits are counted from right to left (least significant to
    * most significant, as per big-endian encoding). The offset is counted left
    * to right (most significant to least significant, as per big-endian
-   * encoding). If {@code bits &gt; 8}, the starting bit to be read is the least
+   * encoding). If {@code bits > 8}, the starting bit to be read is the least
    * significant bit in the {@code bits % 8} position in the source array.
    * <p>
    * Examples:

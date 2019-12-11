@@ -36,7 +36,7 @@ public interface LongList extends LongCollection {
    * as:
    *
    * <pre>
-   * add(value)
+   * {@code add(value)}
    * </pre>
    *
    * @param value The value to be pushed onto this list.
@@ -53,7 +53,7 @@ public interface LongList extends LongCollection {
    * exactly the same effect as:
    *
    * <pre>
-   * removeIndex(size() - 1)
+   * {@code removeIndex(size() - 1)}
    * </pre>
    *
    * @return The value at the top of this list (the last item of the
@@ -69,7 +69,7 @@ public interface LongList extends LongCollection {
    * list. This has exactly the same effect as:
    *
    * <pre>
-   * get(size() - 1)
+   * {@code get(size() - 1)}
    * </pre>
    *
    * @return The value at the top of this list (the last item of the
@@ -540,7 +540,7 @@ public interface LongList extends LongCollection {
    * list:
    *
    * <pre>
-   * {@code list.subList(from, to).clear();}
+   * {@code list.subList(from, to).clear()}
    * </pre>
    *
    * Similar idioms may be constructed for {@code indexOf} and

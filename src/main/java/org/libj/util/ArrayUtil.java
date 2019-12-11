@@ -409,7 +409,7 @@ public final class ArrayUtil {
    * This is the equivalent of calling:
    *
    * <pre>
-   * {@code lengthDeep(Object[],false)}.
+   * {@code lengthDeep(Object[],false)}
    * </pre>
    *
    * @param a The array.

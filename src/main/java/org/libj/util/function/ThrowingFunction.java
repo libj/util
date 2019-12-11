@@ -25,17 +25,20 @@ import java.util.function.Function;
  * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
- * <blockquote><pre>
+ *
+ * <pre>
+ * {@code
  * Arrays
  *   .asList(2, 1, 0)
  *   .stream()
- *   .map(Throwing.rethrow((Integer i) -&gt; {
+ *   .map(Throwing.rethrow((Integer i) -> {
  *     if (i == 0)
  *       throw new IOException("i=" + i);
  *     return String.valueOf(i);
  *   }))
- *   .forEach(f -&gt; {});
- * </pre></blockquote>
+ *   .forEach(f -> {});
+ * }
+ * </pre>
  *
  * @param <T> The type of the input to the operation.
  * @param <R> The type of the result of the function.

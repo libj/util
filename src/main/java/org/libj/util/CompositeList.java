@@ -27,11 +27,11 @@ import org.slf4j.Logger;
  * The {@code CompositeList<E,T>} is comprised of {@code ComponentList<E>}s that
  * each maintain elements (of type {@code <E>}) conforming to a particular type
  * {@code <T>}. For instance, consider:
- * <p>
- * <blockquote>
+ *
+ * <pre>
  * {@code new CompositeList<Number,Class<? extends Number>>(Integer.class, Long.class, Double.class)}
- * </blockquote>
- * <p>
+ * </pre>
+ *
  * This {@link CompositeList} is comprised of {@code ComponentList<Number>}
  * lists that each maintains elements specific to the types:
  * {@code Integer.class}, {@code Long.class}, and {@code Double.class}. This
@@ -42,23 +42,19 @@ import org.slf4j.Logger;
  * Each {@code ComponentList<Number>} of the {@link CompositeList} is created
  * with the abstract method {@link #getOrCreateComponentList(Object)} in the
  * order in which it was instantiated. For instance, consider the following
- * procedure:
- * <p>
- * <blockquote><code>
- * compositeList.add(1);<br>
- * compositeList.add(5.3);<br>
+ * procedure:<br>
+ * <blockquote>{@code
+ * compositeList.add(1);
+ * compositeList.add(5.3);
  * compositeList.add(99999L);
- * </code></blockquote>
- * <p>
+ * }</blockquote><br>
  * This procedure will result in a {@link CompositeList} that has 3
- * {@link ComponentList}s:
- * <p>
- * <blockquote><code>
- * ComponentList&lt;Integer&gt;<br>
- * ComponentList&lt;Double&gt;<br>
- * ComponentList&lt;Long&gt;
- * </code></blockquote>
- * <p>
+ * {@link ComponentList}s:<br>
+ * <blockquote>{@code
+ * ComponentList<Integer>
+ * ComponentList<Double>
+ * ComponentList<Long>
+ * }</blockquote><br>
  * Thereafter, all elements of type {@link Integer} will go into the
  * {@code ComponentList<Integer>}, all elements of type {@link Double} will go
  * into the {@code ComponentList<Double>}, and all elements of type {@link Long}
@@ -295,11 +291,10 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   /**
    * Returns the {@link ComponentList} for the specified type.
    * <p>
-   * <i><b>Note</b>: If the specified type is registered in the
+   * <b>Note</b>: If the specified type is registered in the
    * {@link CompositeList} but a {@link ComponentList} has not yet been
    * instantiated for the type, this method will return null. Refer to
-   * {@link #containsComponentType(Object)} to determine if type is
-   * registered.</i>
+   * {@link #containsComponentType(Object)} to determine if type is registered.
    *
    * @param type The type.
    * @return The {@link ComponentList} for the specified type.

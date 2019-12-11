@@ -136,12 +136,14 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
+   * Add directed edge ({@code from -> to}) to this digraph. Calling
    * this with {@code to = null} is the equivalent of calling:
    *
-   * <pre>{@code addVertex(from)}.</pre>
-   * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <pre>
+   * {@code addVertex(from)}
+   * </pre>
+   *
+   * <b>Note:</b> This method is not thread safe.
    *
    * @param from The tail vertex.
    * @param to The head vertex reference.

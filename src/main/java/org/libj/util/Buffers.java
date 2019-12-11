@@ -34,10 +34,17 @@ public final class Buffers {
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the byte that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
-   * <blockquote><pre>(int)(((bit / 8) + 1) * resize)</pre></blockquote>
+   *
+   * <pre>
+   * {@code (int)(((bit / 8) + 1) * resize)}
+   * </pre>
+   *
    * <li>If {@code resize < 0}, set the size of the array to the value of the
    * index of the byte that {@code bit} belongs to, minus {@code (int)resize}:
-   * <blockquote><pre>(bit / 8) - (int)resize</pre></blockquote>
+   *
+   * <pre>
+   * {@code (bit / 8) - (int)resize}
+   * </pre>
    * </ul>
    *
    * @param buf The {@code byte[]} buffer.
@@ -76,10 +83,17 @@ public final class Buffers {
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the char that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
-   * <blockquote><pre>(int)(((bit / 8) + 1) * resize)</pre></blockquote>
+   *
+   * <pre>
+   * {@code (int)(((bit / 8) + 1) * resize)}
+   * </pre>
+   *
    * <li>If {@code resize < 0}, set the size of the array to the value of the
    * index of the char that {@code bit} belongs to, minus {@code (int)resize}:
-   * <blockquote><pre>(bit / 8) - (int)resize</pre></blockquote>
+   *
+   * <pre>
+   * {@code (bit / 8) - (int)resize}
+   * </pre>
    * </ul>
    *
    * @param buf The {@code char[]} buffer.
@@ -118,10 +132,17 @@ public final class Buffers {
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the short that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
-   * <blockquote><pre>(int)(((bit / 8) + 1) * resize)</pre></blockquote>
+   *
+   * <pre>
+   * {@code (int)(((bit / 8) + 1) * resize)}
+   * </pre>
+   *
    * <li>If {@code resize < 0}, set the size of the array to the value of the
    * index of the short that {@code bit} belongs to, minus {@code (int)resize}:
-   * <blockquote><pre>(bit / 8) - (int)resize</pre></blockquote>
+   *
+   * <pre>
+   * {@code (bit / 8) - (int)resize}
+   * </pre>
    * </ul>
    *
    * @param buf The {@code short[]} buffer.
@@ -160,10 +181,17 @@ public final class Buffers {
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the int that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
-   * <blockquote><pre>(int)(((bit / 8) + 1) * resize)</pre></blockquote>
+   *
+   * <pre>
+   * {@code (int)(((bit / 8) + 1) * resize)}
+   * </pre>
+   *
    * <li>If {@code resize < 0}, set the size of the array to the value of the
    * index of the int that {@code bit} belongs to, minus {@code (int)resize}:
-   * <blockquote><pre>(bit / 8) - (int)resize</pre></blockquote>
+   *
+   * <pre>
+   * {@code (bit / 8) - (int)resize}
+   * </pre>
    * </ul>
    *
    * @param buf The {@code int[]} buffer.
@@ -202,10 +230,17 @@ public final class Buffers {
    * <li>If {@code resize > 0}, set the size of the array to the value of the
    * index of the long that {@code bit} belongs to, plus 1, multiplied by
    * {@code resize}:
-   * <blockquote><pre>(int)(((bit / 64) + 1) * resize)</pre></blockquote>
+   *
+   * <pre>
+   * {@code (int)(((bit / 64) + 1) * resize)}
+   * </pre>
+   *
    * <li>If {@code resize < 0}, set the size of the array to the value of the
    * index of the long that {@code bit} belongs to, minus {@code (int)resize}:
-   * <blockquote><pre>(bit / 64) - (int)resize</pre></blockquote>
+   *
+   * <pre>
+   * {@code (bit / 64) - (int)resize}
+   * </pre>
    * </ul>
    *
    * @param buf The {@code long[]} buffer.

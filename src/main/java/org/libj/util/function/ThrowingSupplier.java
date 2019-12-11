@@ -25,15 +25,17 @@ import java.util.function.Supplier;
  * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
- * <p>
- * <blockquote><pre>
- * Supplier&lt;String&gt; supplier = Throwing.rethrow(() -&gt; {
+ *
+ * <pre>
+ * {@code
+ * Supplier<String> supplier = Throwing.rethrow(() -> {
  *   if (true)
  *     throw new IOException();
  *   return "hello world";
  * });
  * supplier.get();
- * </pre></blockquote>
+ * }
+ * </pre>
  *
  * @param <T> The type of results supplied by this supplier.
  * @see Runnable#run()

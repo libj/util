@@ -754,9 +754,9 @@ public final class Classes {
    * declared order. If more than one method with the same parameter types is
    * declared in a class, and one of these methods has a return type that is
    * more specific than any of the others, that method is returned; otherwise
-   * one of the methods is chosen arbitrarily. If the name is "&lt;init&gt;"or
-   * "&lt;clinit&gt;" this method returns {@code null}. If this Class object
-   * represents an array type, then this method does not find the clone()
+   * one of the methods is chosen arbitrarily. If the name is {@code "<init>"}
+   * or {@code "<clinit>"} this method returns {@code null}. If this Class
+   * object represents an array type, then this method does not find the clone()
    * method.
    * <p>
    * This method differentiates itself from
@@ -794,9 +794,9 @@ public final class Classes {
    * declared order. If more than one method with the same parameter types is
    * declared in a class, and one of these methods has a return type that is
    * more specific than any of the others, that method is returned; otherwise
-   * one of the methods is chosen arbitrarily. If the name is "&lt;init&gt;"or
-   * "&lt;clinit&gt;" this method returns {@code null}. If this Class object
-   * represents an array type, then this method does not find the clone()
+   * one of the methods is chosen arbitrarily. If the name is {@code "<init>"}
+   * or {@code "<clinit>"} this method returns {@code null}. If this Class
+   * object represents an array type, then this method does not find the clone()
    * method.
    * <p>
    * This method differentiates itself from

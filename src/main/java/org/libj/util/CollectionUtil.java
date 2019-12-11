@@ -337,13 +337,13 @@ public final class CollectionUtil {
    *         would be inserted into the list: the index of the first element in
    *         the range greater than the key, or {@code toIndex} if all elements
    *         in the range are less than the specified key. Note that this
-   *         guarantees that the return value will be &gt;= 0 if and only if the
-   *         key is found.
+   *         guarantees that the return value will be {@code >= 0} if and only
+   *         if the key is found.
    * @throws ClassCastException If the search key is not comparable to the
    *           elements of the list within the specified range.
    * @throws IllegalArgumentException If {@code fromIndex > toIndex}
-   * @throws ArrayIndexOutOfBoundsException If
-   *           {@code fromIndex < 0 or toIndex > a.length}
+   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0} or
+   *           {@code toIndex > a.length}
    * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
@@ -371,7 +371,7 @@ public final class CollectionUtil {
    *         list: the index of the first element greater than the key, or
    *         {@code a.length} if all elements in the list are less than the
    *         specified key. Note that this guarantees that the return value will
-   *         be &gt;= 0 if and only if the key is found.
+   *         be {@code >= 0} if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the
    *           elements of the array.
    * @throws NullPointerException If {@code a} is null.
@@ -403,15 +403,15 @@ public final class CollectionUtil {
    *         would be inserted into the list: the index of the first element in
    *         the range greater than the key, or {@code toIndex} if all elements
    *         in the range are less than the specified key. Note that this
-   *         guarantees that the return value will be &gt;= 0 if and only if the
-   *         key is found.
+   *         guarantees that the return value will be {@code >= 0} if and only
+   *         if the key is found.
    * @throws ClassCastException If the range contains elements that are not
    *           <i>mutually comparable</i> using the specified comparator, or the
    *           search key is not comparable to the elements in the range using
    *           this comparator.
    * @throws IllegalArgumentException If {@code fromIndex > toIndex}
-   * @throws ArrayIndexOutOfBoundsException If
-   *           {@code fromIndex < 0 or toIndex > a.length}
+   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0} or
+   *           {@code toIndex > a.length}
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
   public static <T>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
@@ -439,7 +439,7 @@ public final class CollectionUtil {
    *         list: the index of the first element greater than the key, or
    *         {@code a.length} if all elements in the list are less than the
    *         specified key. Note that this guarantees that the return value will
-   *         be &gt;= 0 if and only if the key is found.
+   *         be {@code >= 0} if and only if the key is found.
    * @throws ClassCastException If the list contains elements that are not
    *           <i>mutually comparable</i> using the specified comparator, or the
    *           search key is not comparable to the elements of the list using

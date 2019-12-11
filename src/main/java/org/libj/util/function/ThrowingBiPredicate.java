@@ -25,15 +25,18 @@ import java.util.function.BiPredicate;
  * by allowing the functional interface to throw an {@link Exception}. This can
  * be used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
- * <blockquote><pre>
- * BiPredicate&lt;Integer,Integer&gt; predicate = Throwing.&lt;Integer,Integer&gt;rethrow((i, j) -&gt; {
+ *
+ * <pre>
+ * {@code
+ * BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i, j) -> {
  *   if (i == 0)
  *     throw new IllegalArgumentException("i=" + i);
  *   return false;
  * });
- * for (int i = 3; i &gt;= 0; --i)
+ * for (int i = 3; i >= 0; --i)
  *   predicate.accept(i, -i);
- * </pre></blockquote>
+ * }
+ * </pre>
  *
  * @param <T> The type of the first argument to the predicate.
  * @param <U> The type of the second argument to the predicate.

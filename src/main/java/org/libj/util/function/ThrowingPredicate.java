@@ -25,17 +25,20 @@ import java.util.function.Predicate;
  * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
- * <blockquote><pre>
+ *
+ * <pre>
+ * {@code
  * Arrays
  *   .asList(2, 1, 0)
  *   .stream()
- *   .filter(Throwing.&lt;Integer&gt;rethrow(i -&gt; {
+ *   .filter(Throwing.<Integer>rethrow(i -> {
  *     if (i == 0)
  *       throw new IOException("i=" + i);
  *     return false;
  *   }))
  *   .collect(Collectors.toList());
- * </pre></blockquote>
+ * }
+ * </pre>
  *
  * @param <T> The type of the input to the predicate.
  * @see Predicate

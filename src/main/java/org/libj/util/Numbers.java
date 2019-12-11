@@ -503,13 +503,11 @@ public final class Numbers {
    *
    * @param <T> The type of {@link Number} to be returned.
    * @param number The number to get the value of.
-   * @param as The class representing the type of {@link Number} to be
-   *          returned.
+   * @param as The class representing the type of {@link Number} to be returned.
    * @return A {@link Number} of type {@code <T>} representing type specified
    *         number of generic {@link Number} type.
    * @throws UnsupportedOperationException If the specified {@link Class}
-   *           represents a type that is not one of:
-   *           <p>
+   *           represents a type that is not one of: <br>
    *           <blockquote>{@code byte}, {@link Byte},<br>
    *           {@code short}, {@link Short},<br>
    *           {@code char}, {@link Character},<br>

@@ -162,7 +162,7 @@ public final class Strings {
    * this method will throw a {@link IllegalArgumentException}.
    * <p>
    * <blockquote>
-   * <i><b>Example:</b></i>
+   * <b>Example:</b>
    * <p>
    * <table>
    * <caption>Input, with prefix=<code>"${"</code>, and suffix=<code>"}"</code></caption>
@@ -212,7 +212,7 @@ public final class Strings {
    * mapping in the properties {@link Map}.
    * <p>
    * <blockquote>
-   * <i><b>Example:</b></i>
+   * <b>Example:</b>
    * <p>
    * <b>Input</b>: text=<code>The ${subject} jumps over the ${object}</code>,
    * prefix=<code>"${"</code>, suffix=<code>"}"</code>
@@ -780,9 +780,9 @@ public final class Strings {
    *         empty string if {@code count == 0}; the {@code string} if
    *         {@code count == 1}
    * @throws NullPointerException If {@code string == null}
-   * @throws IllegalArgumentException If {@code count &lt; 0}
+   * @throws IllegalArgumentException If {@code count < 0}
    * @throws ArrayIndexOutOfBoundsException If
-   *           {@code string.length() * count &gt; Integer.MAX_VALUE}
+   *           {@code string.length() * count > Integer.MAX_VALUE}
    */
   public static String repeat(final String string, final int count) {
     if (count < 0)
@@ -1019,7 +1019,7 @@ public final class Strings {
    * be returned.
    * <p>
    * <blockquote>
-   * <i><b>Example:</b></i>
+   * <b>Example:</b>
    * <p>
    * <table>
    * <caption>Example</caption>
@@ -1317,13 +1317,13 @@ public final class Strings {
   }
 
   /**
-   * Tests if the specified string represents a regular expression that <i>can
+   * Tests if the specified string represents a regular expression that <u>can
    * match more than 1 string (i.e. "abc" is technically a regular expression,
-   * however it can only match a single string: "abc")</i>.
+   * however it can only match a single string: "abc")</u>.
    *
    * @param string The {@link String} to test.
    * @return {@code true} if the specified string represents a regular
-   *         expression that <i>can match more than 1 string</i>. This method
+   *         expression that <u>can match more than 1 string</u>. This method
    *         returns {@code false} for a null input.
    */
   public static boolean isRegex(final String string) {

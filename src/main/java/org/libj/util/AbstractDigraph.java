@@ -142,7 +142,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   /**
    * Get if exists or create an index for the specified vertex.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    *
    * @param vertex The vertex.
    * @return The index of the vertex.
@@ -166,9 +166,9 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
-   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph.
+   * Add directed edge ({@code from} -> {@code to}) to this digraph.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    *
    * @param from The tail vertex.
    * @param to The head vertex.
@@ -196,11 +196,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
-   * Add directed edge ({@code from} -&gt; {@code to}) to this digraph. Calling
-   * this with {@code to = null} is the equivalent of calling
+   * Add directed edge ({@code from -> to}) to this digraph. Calling this with
+   * {@code to = null} is the equivalent of calling
    * {@code AbstractDigraph.add(from)}.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    *
    * @param from The tail vertex.
    * @param to The head vertex.
@@ -217,7 +217,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   /**
    * Add a vertex to the graph.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    *
    * @param vertex The vertex.
    * @return {@code true} if this digraph has been modified, and {@code false}
@@ -229,13 +229,15 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
 
   /**
    * Associate the set of directed {@code edges} to the {@code vertex}.
-   * <p>
-   * <blockquote>{@code vertex} -&gt;&gt; {@code edges}</blockquote>
-   * <p>
+   *
+   * <pre>
+   * {@code vertex ->> edges}
+   * </pre>
+   *
    * If the digraph previously contained a mapping for the vertex, the old edges
    * are replaced by the specified value.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    */
   @Override
   public Set<V> put(final K vertex, final Set<V> edges) {
@@ -254,7 +256,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * this operation is undefined if the specified map is modified while the
    * operation is in progress.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    */
   @Override
   public void putAll(final Map<? extends K,? extends Set<V>> m) {
@@ -308,7 +310,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * digraph are reflected in the set, and modifications made to the set are
    * reflected in this digraph.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    *
    * @param v The vertex index.
    * @param makeNew Whether a new empty set should be instantiated if the set of
@@ -437,13 +439,13 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * Returns {@code true} if at least one vertex in this digraph contains the
    * specified {@code edges}.
    * <p>
-   * <i><b>Note:</b> If a vertex is not associated to any edges, its value is
-   * not {@code null}, but rather an empty set. Therefore, this method will
-   * return {@code null} if the specified {@code edges} is null.</i>
+   * <b>Note:</b> If a vertex is not associated to any edges, its value is not
+   * {@code null}, but rather an empty set. Therefore, this method will return
+   * {@code null} if the specified {@code edges} is null.
    * <p>
-   * <i><b>Note:</b> The expected type of the {@code edges} is {@code Set<V>},
-   * but this method accepts type {@link Object} to match the interface for
-   * {@link Map#containsValue(Object)}.</i>
+   * <b>Note:</b> The expected type of the {@code edges} is {@code Set<V>}, but
+   * this method accepts type {@link Object} to match the interface for
+   * {@link Map#containsValue(Object)}.
    *
    * @return {@code true} if at least one vertex in this digraph contains the
    *         specified {@code edges}.
@@ -511,12 +513,12 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
 
   /**
    * Returns a set of {@link java.util.Map.Entry} objects representing the
-   * ({@code vertex} -&gt;&gt; {@code edges}) mappings in this digraph.
+   * ({@code vertex ->> edges}) mappings in this digraph.
    * Modifications made to this digraph are reflected in the set, and
    * modifications made to the set are reflected in this digraph.
    *
    * @return A set of {@link java.util.Map.Entry} objects representing the
-   *         ({@code vertex} -&gt;&gt; {@code edges}) mappings in this digraph.
+   *         ({@code vertex ->> edges}) mappings in this digraph.
    *         Modifications made to this digraph are reflected in the set, and
    *         modifications made to the set are reflected in this digraph.
    */
@@ -561,7 +563,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
-   * Remove the association of ({@code vertex} -&gt;&gt; {@code edges}) from
+   * Remove the association of ({@code vertex} ->> {@code edges}) from
    * this digraph.
    *
    * @param from The tail vertex.
@@ -575,7 +577,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   }
 
   /**
-   * Remove the association of ({@code vertex} -&gt;&gt; {@code edges}) from
+   * Remove the association of ({@code vertex} ->> {@code edges}) from
    * this digraph.
    *
    * @param v The index of the tail vertex.
@@ -796,7 +798,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * Returns the reverse post order of a depth first search analysis of the
    * digraph, or {@code null} if no such order exists due to a cycle.
    * <p>
-   * <i><b>Note:</b> This method is not thread safe.</i>
+   * <b>Note:</b> This method is not thread safe.
    *
    * @return The reverse post order of a depth first search analysis of the
    *         digraph, or {@code null} if no such order exists due to a cycle.

@@ -55,8 +55,8 @@ public abstract class HashPrimitiveSet {
    * <p>
    * If {@code value <= 0}, this method returns {@code 1}.
    * <p>
-   * <i><b>Note:</b> This method is not suitable for {@link Integer#MIN_VALUE}
-   * or numbers greater than {@code 2^30}.</i>
+   * <b>Note:</b> This method is not suitable for {@link Integer#MIN_VALUE} or
+   * numbers greater than {@code 2^30}.
    *
    * @param value Value from which to return the next power of 2.
    * @return The next power of 2 from the specified value, or the value itself

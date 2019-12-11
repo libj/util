@@ -36,7 +36,7 @@ public interface DoubleList extends DoubleCollection {
    * as:
    *
    * <pre>
-   * add(value)
+   * {@code add(value)}
    * </pre>
    *
    * @param value The value to be pushed onto this list.
@@ -53,7 +53,7 @@ public interface DoubleList extends DoubleCollection {
    * exactly the same effect as:
    *
    * <pre>
-   * removeIndex(size() - 1)
+   * {@code removeIndex(size() - 1)}
    * </pre>
    *
    * @return The value at the top of this list (the last item of the
@@ -69,7 +69,7 @@ public interface DoubleList extends DoubleCollection {
    * list. This has exactly the same effect as:
    *
    * <pre>
-   * get(size() - 1)
+   * {@code get(size() - 1)}
    * </pre>
    *
    * @return The value at the top of this list (the last item of the

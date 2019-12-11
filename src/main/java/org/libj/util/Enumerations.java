@@ -40,9 +40,9 @@ public final class Enumerations {
    * Returns an array of type {@code <T>} containing the object references in
    * the specified {@link Enumeration}.
    * <p>
-   * <i><b>Note:</b> This implementation uses a recursive algorithm for optimal
+   * <b>Note:</b> This implementation uses a recursive algorithm for optimal
    * performance, and may fail if the specified {@link Enumeration} contains
-   * ~8000+ elements.</i>
+   * ~8000+ elements.
    *
    * @param <T> The type parameter of the specified {@link Class} and
    *          {@link Enumeration}.
@@ -59,9 +59,9 @@ public final class Enumerations {
    * Returns a {@link List} of type {@code <T>} containing the object references
    * in the specified {@link Enumeration}.
    * <p>
-   * <i><b>Note:</b> This implementation uses a recursive algorithm for optimal
+   * <b>Note:</b> This implementation uses a recursive algorithm for optimal
    * performance, and may fail if the specified {@link Enumeration} contains
-   * ~8000+ elements.</i>
+   * ~8000+ elements.
    *
    * @param <T> The type parameter of the specified {@link Class} and
    *          {@link Enumeration}.

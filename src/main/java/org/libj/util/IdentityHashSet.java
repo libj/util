@@ -54,7 +54,7 @@ import java.util.TreeSet;
  * at creation time, to prevent accidental unsynchronized access to the set:
  *
  * <pre>
- *   Set s = Collections.synchronizedSet(new IdentityHashSet(...));
+ * {@code Set s = Collections.synchronizedSet(new IdentityHashSet(...))}
  * </pre>
  *
  * The iterators returned by this class's {@code iterator} method are

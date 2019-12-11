@@ -25,15 +25,18 @@ import java.util.function.BiFunction;
  * allowing the functional interface to throw an {@link Exception}. This can be
  * used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
- * <blockquote><pre>
- * BiFunction&lt;Integer,Integer,String&gt; function = Throwing.&lt;Integer,Integer,String&gt;rethrow((i, j) -&gt; {
+ *
+ * <pre>
+ * {@code
+ * BiFunction<Integer,Integer,String> function = Throwing.<Integer,Integer,String>rethrow((i, j) -> {
  *   if (i == 0)
  *     throw new IllegalArgumentException("i=" + i);
  *   return String.valueOf(i);
  * });
- * for (int i = 3; i &gt;= 0; --i)
+ * for (int i = 3; i >= 0; --i)
  *   function.accept(i, -i);
- * </pre></blockquote>
+ * }
+ * </pre>
  *
  * @param <T> The type of the first input to the operation.
  * @param <U> The type of the second input to the operation.

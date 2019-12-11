@@ -16,26 +16,28 @@
 
 package org.libj.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * Utility functions for operations pertaining to {@link Throwable}.
  */
 public final class Throwables {
   /**
-   * Returns the string representation of the specified throwable and its
-   * backtrace.
+   * Returns the string representation of the specified {@link Throwable
+   * throwable} and its backtrace.
    *
    * @param t The throwable.
-   * @return The string representation of the specified throwable and its
-   *         backtrace.
+   * @return The string representation of the specified {@link Throwable
+   *         throwable} and its backtrace.
+   * @throws NullPointerException If the specified {@link Throwable throwable}
+   *           is null.
    * @see Throwable#printStackTrace(java.io.PrintStream)
    */
   public static String toString(final Throwable t) {
-    final StringWriter stringWriter = new StringWriter();
-    t.printStackTrace(new PrintWriter(stringWriter));
-    return stringWriter.toString();
+    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    t.printStackTrace(new PrintWriter(baos));
+    return baos.toString();
   }
 
   /**

@@ -34,13 +34,11 @@ import org.libj.util.function.FloatUnaryOperator;
 public interface FloatList extends FloatCollection {
   /**
    * Pushes an item onto the top of this list. This has exactly the same effect
-   * as: <blockquote>
+   * as:
    *
    * <pre>
-   * add(value)
+   * {@code add(value)}
    * </pre>
-   *
-   * </blockquote>
    *
    * @param value The value to be pushed onto this list.
    * @return The {@code value} argument.
@@ -53,13 +51,11 @@ public interface FloatList extends FloatCollection {
 
   /**
    * Removes the value at the top of this list and returns that value. This has
-   * exactly the same effect as: <blockquote>
+   * exactly the same effect as:
    *
    * <pre>
-   * removeIndex(size() - 1)
+   * {@code removeIndex(size() - 1)}
    * </pre>
-   *
-   * </blockquote>
    *
    * @return The value at the top of this list (the last item of the
    *         {@link FloatList} object).
@@ -71,13 +67,11 @@ public interface FloatList extends FloatCollection {
 
   /**
    * Looks at the value at the top of this list without removing it from the
-   * list. This has exactly the same effect as: <blockquote>
+   * list. This has exactly the same effect as:
    *
    * <pre>
-   * get(size() - 1)
+   * {@code get(size() - 1)}
    * </pre>
-   *
-   * </blockquote>
    *
    * @return The value at the top of this list (the last item of the
    *         {@link FloatList} object).

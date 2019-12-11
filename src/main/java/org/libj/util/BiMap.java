@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Bidirectional map that maintains both key-&gt;value and value-&gt;key
- * mappings. This implementation utilizes the mechanisms of the
- * {@link ObservableMap} to guarantee operational symmetry between the
+ * Bidirectional map that maintains both {@code key->value} and
+ * {@code value->key} mappings. This implementation utilizes the mechanisms of
+ * the {@link ObservableMap} to guarantee operational symmetry between the
  * {@code this} map and the {@link #reverse()} map. Methods defined in the
  * {@link Map} interface that result in a mutation to the {@code this} instance
  * will also result in reflected operations to the {@link #reverse()} instance.
@@ -87,7 +87,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   protected abstract BiMap<V,K> newEmptyReverseMap();
 
   /**
-   * Returns the reverse of this map, maintaining value-&gt;key mappings.
+   * Returns the reverse of this map, maintaining {@code value->key} mappings.
    * Mutations to the {@link #reverse()} map are reflected in {@code this} map.
    *
    * @return The reverse map.

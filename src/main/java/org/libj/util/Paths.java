@@ -86,12 +86,27 @@ public final class Paths {
    * <p>
    * A valid Windows file path matches the following patterns:
    * <ol>
-   * <li>Drive path: <blockquote> {@code c:\folder\myfile.txt} </blockquote>
+   * <li>Drive path:
+   *
+   * <pre>
+   * {@code c:\folder\myfile.txt}
+   * </pre>
+   *
    * </li>
-   * <li>UNC path (ip): <blockquote>
-   * {@code \\123.123.123.123\share\folder\myfile.txt} </blockquote></li>
-   * <li>UNC path (named): <blockquote>
-   * {@code \\server\share\folder\myfile.txt}</blockquote></li>
+   * <li>UNC path (ip):
+   *
+   * <pre>
+   * {@code \\123.123.123.123\share\folder\myfile.txt}
+   * </pre>
+   *
+   * </li>
+   * <li>UNC path (named):
+   *
+   * <pre>
+   * {@code \\server\share\folder\myfile.txt}
+   * </pre>
+   *
+   * </li>
    * </ol>
    *
    * @param path The path to test.
@@ -125,8 +140,8 @@ public final class Paths {
   /**
    * Tests whether the specified string represents an absolute path.
    * <p>
-   * <i><b>Note:</b> This method does not perform strict path validation, but
-   * merely inspects its prefix to match known absolute path patterns.</i>
+   * <b>Note:</b> This method does not perform strict path validation, but
+   * merely inspects its prefix to match known absolute path patterns.
    * <p>
    * This method performs the following tests to detect whether the specified
    * string is an absolute path:
@@ -184,9 +199,10 @@ public final class Paths {
    * slash, one slash is discarded.</li>
    * <li>If {@code parent} is determined to be a Windows path, then the '\'
    * character is used as the name separator (in case a separator character must
-   * be inserted); otherwise, '/' is used.<blockquote><i><b>Note:</b> This
-   * method does not modify separator characters in any
-   * parameter.</i></blockquote></li>
+   * be inserted); otherwise, '/' is used.
+   * <p>
+   * <blockquote><b>Note:</b> This method does not modify separator characters
+   * in any parameter.</blockquote></li>
    * <li>If {@code child} is absolute then it is converted into a relative
    * pathname in a system-dependent way.</li>
    * <li>Otherwise {@code child} is resolved against {@code parent}.</li>
