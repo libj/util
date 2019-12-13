@@ -108,6 +108,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * Callback method that is invoked immediately before an element is added to
    * the enclosed {@link List}.
+   * <p>
+   * <b>Note:</b> It is possible for {@code index} to be {@code -1}, in case the
+   * <u>add</u> operation is executed from an {@link Iterator} when a prior
+   * {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
+   * {@link ListIterator#set(Object)} has already been called.
    *
    * @param index The index for the element to be added to the enclosed
    *          {@link List}.
@@ -135,6 +140,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * Callback method that is invoked immediately before an element is removed
    * from the enclosed {@link List}.
+   * <p>
+   * <b>Note:</b> It is possible for {@code index} to be {@code -1}, in case the
+   * <u>remove</u> operation is executed from an {@link Iterator} when a prior
+   * {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
+   * {@link ListIterator#set(Object)} has already been called.
    *
    * @param index The index of the element to be removed from the enclosed
    *          {@link List}.
@@ -162,6 +172,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * Callback method that is invoked immediately before an element is set at an
    * index in the enclosed {@link List}.
+   * <p>
+   * <b>Note:</b> It is possible for {@code index} to be {@code -1}, in case the
+   * <u>set</u> operation is executed from an {@link Iterator} when a prior
+   * {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
+   * {@link ListIterator#set(Object)} has already been called.
    *
    * @param index The index for the element to be set in the enclosed
    *          {@link List}.
@@ -187,7 +202,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   protected void afterSet(final int index, final E oldElement, final RuntimeException e) {
   }
 
-  private void add0(final int index, final E element) {
+  protected void addFast(final int index, final E element) {
     if (!beforeAdd(index, element))
       return;
 
@@ -218,7 +233,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public boolean add(final E e) {
     final int size = size();
-    add0(size, e);
+    addFast(size, e);
     return size != size();
   }
 
@@ -234,7 +249,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public void add(final int index, final E element) {
     Assertions.assertRangeList(index, size(), true);
-    add0(index, element);
+    addFast(index, element);
   }
 
   /**
@@ -339,7 +354,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   @SuppressWarnings("unchecked")
-  private E get0(final int index) {
+  protected E getFast(final int index) {
     beforeGet(index, null);
     E value = null;
     RuntimeException exception = null;
@@ -367,7 +382,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public E get(final int index) {
     Assertions.assertRangeList(index, size(), false);
-    return get0(index);
+    return getFast(index);
   }
 
   /**
@@ -458,19 +473,20 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * A {@link DelegateListIterator} that delegates callback methods to the
-   * parent {@link ObservableList} instance for the retrieval, addition, and
+   * A {@link CursorListIterator} that delegates callback methods to the
+   * defining {@link ObservableList} instance for the retrieval, addition, and
    * removal of elements.
    */
-  protected class ObservableListIterator extends DelegateListIterator<E> {
+  protected class ObservableListIterator extends CursorListIterator<E> {
     private E current;
 
     /**
-     * Creates a new {@link DelegateListIterator} for the specified
-     * {@link Iterator}.
+     * Creates a new {@link CursorListIterator} for the specified
+     * {@link ListIterator}.
      *
-     * @param iterator The {@link Iterator}.
-     * @throws NullPointerException If the specified {@link Iterator} is null.
+     * @param iterator The {@link ListIterator}.
+     * @throws NullPointerException If the specified {@link ListIterator} is
+     *           null.
      */
     protected ObservableListIterator(final ListIterator<E> iterator) {
       super(iterator);
@@ -482,14 +498,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public E next() {
-      final int index = target.nextIndex() - fromIndex;
+      final int index = nextIndex();
       beforeGet(index, this);
       RuntimeException exception = null;
       E value = null;
       try {
-        value = (E)target.next();
+        value = super.next();
       }
       catch (final RuntimeException re) {
         exception = re;
@@ -508,14 +523,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public E previous() {
-      final int index = target.previousIndex() - fromIndex;
+      final int index = previousIndex();
       beforeGet(index, this);
       RuntimeException exception = null;
       E value = null;
       try {
-        value = (E)target.previous();
+        value = super.previous();
       }
       catch (final RuntimeException re) {
         exception = re;
@@ -530,24 +544,23 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
     @Override
     public int nextIndex() {
-      return target.nextIndex() - fromIndex;
+      return super.nextIndex() - fromIndex;
     }
 
     @Override
     public int previousIndex() {
-      return target.previousIndex() - fromIndex;
+      return super.previousIndex() - fromIndex;
     }
 
     @Override
     public void remove() {
-      final int index = nextIndex() - 1;
-      if (!beforeRemove(index))
+      if (!beforeRemove(indexOfLast()))
         return;
 
       final E element = this.current;
       RuntimeException exception = null;
       try {
-        target.remove();
+        super.remove();
         if (toIndex != -1)
           --toIndex;
       }
@@ -562,14 +575,14 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
     @Override
     public void set(final E e) {
-      final int index = nextIndex() - 1;
+      final int index = indexOfLast();
       if (!beforeSet(index, e))
         return;
 
       final E element = this.current;
       RuntimeException exception = null;
       try {
-        target.set(e);
+        super.set(e);
       }
       catch (final RuntimeException re) {
         exception = re;
@@ -582,13 +595,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
     @Override
     public void add(final E e) {
-      final int index = nextIndex();
+      final int index = indexForNext();
       if (!beforeAdd(index, e))
         return;
 
       RuntimeException exception = null;
       try {
-        target.add(e);
+        super.add(e);
         if (toIndex != -1)
           ++toIndex;
       }
@@ -642,7 +655,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   @SuppressWarnings("unchecked")
-  private E remove0(final int index) {
+  protected E removeFast(final int index) {
     if (!beforeRemove(index))
       return null;
 
@@ -676,7 +689,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public E remove(final int index) {
     Assertions.assertRangeList(index, size(), false);
-    return remove0(index);
+    return removeFast(index);
   }
 
   /**
@@ -696,7 +709,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       return false;
 
     final int size = size();
-    remove0(index);
+    removeFast(index);
     return size != size();
   }
 
@@ -767,8 +780,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   public boolean removeIf(final Predicate<? super E> filter) {
     final int size = size();
     for (int i = size - 1; i >= 0; --i)
-      if (filter.test(get0(i)))
-        remove0(i);
+      if (filter.test(getFast(i)))
+        removeFast(i);
 
     return size != size();
   }
@@ -789,7 +802,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (c.size() > 0) {
       final int size = size();
       for (int i = size - 1; i >= 0; --i)
-        if (!c.contains(get0(i)))
+        if (!c.contains(getFast(i)))
           remove(i);
 
       return size != size();

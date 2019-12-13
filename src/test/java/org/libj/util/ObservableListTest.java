@@ -30,6 +30,11 @@ import org.junit.ComparisonFailure;
 import org.junit.Test;
 
 public class ObservableListTest {
+  @SafeVarargs
+  private static <T>void assertListEquals(final List<T> actual, final T ... expected) {
+    assertArrayEquals(actual.toString(), expected, actual.toArray());
+  }
+
   private boolean testingGetReplace = false;
 
   private String expectedString;
@@ -83,7 +88,7 @@ public class ObservableListTest {
   }
 
   @Test
-  public void test() {
+  public void testStory() {
     final ObservableList<String> list = new ObservableList<String>(new ArrayList<String>()) {
       @Override
       protected void beforeGet(final int index, final ListIterator<String> iterator) {
@@ -278,5 +283,107 @@ public class ObservableListTest {
       if (!"expected:<[101]> but was:<[99]>".equals(e.getMessage()))
         throw e;
     }
+  }
+
+  private static ObservableList<String> newListForSet() {
+    return new ObservableList<String>(new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g"))) {
+      @Override
+      protected boolean beforeSet(final int index, final String newElement) {
+        target.set(index, newElement);
+        return false;
+      }
+    };
+  }
+
+  @Test
+  public void testIteratorAddStart() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator();
+    assertFalse(iterator.hasPrevious());
+    iterator.add("x");
+    assertListEquals(list, "x", "a", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorAddStart2() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator(1);
+    assertTrue(iterator.hasPrevious());
+    assertEquals("a", iterator.previous());
+    iterator.add("x");
+    assertEquals("x", iterator.previous());
+    assertFalse(iterator.hasPrevious());
+    assertListEquals(list, "x", "a", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorAddEnd() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator(list.size() - 1);
+    assertTrue(iterator.hasNext());
+    assertEquals("g", iterator.next());
+    iterator.add("x");
+    assertEquals("x", iterator.previous());
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "g", "x");
+  }
+
+  @Test
+  public void testIteratorAddEnd2() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator(list.size());
+    assertFalse(iterator.hasNext());
+    iterator.add("x");
+    assertEquals("x", iterator.previous());
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "g", "x");
+  }
+
+  @Test
+  public void testIteratorSetStart() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator();
+    assertFalse(iterator.hasPrevious());
+    assertEquals("a", iterator.next());
+    iterator.set("x");
+    assertListEquals(list, "x", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorSetStart2() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator();
+    assertFalse(iterator.hasPrevious());
+    assertEquals("a", iterator.next());
+    assertEquals("a", iterator.previous());
+    iterator.set("x");
+    assertListEquals(list, "x", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorSetEnd() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator(list.size());
+    assertFalse(iterator.hasNext());
+    assertEquals("g", iterator.previous());
+    iterator.set("x");
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "x");
+  }
+
+  @Test
+  public void testIteratorSetEnd2() {
+    final ObservableList<String> list = newListForSet();
+
+    final ListIterator<String> iterator = list.listIterator(list.size());
+    assertFalse(iterator.hasNext());
+    assertEquals("g", iterator.previous());
+    assertEquals("g", iterator.next());
+    iterator.set("x");
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "x");
   }
 }
