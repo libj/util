@@ -29,7 +29,7 @@ import org.junit.Test;
 public class SortedListTest {
   @SafeVarargs
   private static <T>void assertListEquals(final List<T> actual, final T ... expected) {
-    assertArrayEquals(expected, actual.toArray());
+    assertArrayEquals(actual.toString(), expected, actual.toArray());
   }
 
   @Test
@@ -44,6 +44,141 @@ public class SortedListTest {
     good.add(new Object());
     good.add(new Object());
     good.add(new Object());
+  }
+
+  @Test
+  public void testConstructor() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testAddAll() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>());
+    list.addAll(Arrays.asList("e", "b", "c", "f", "a", "g", "d"));
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorRemove() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator();
+    assertEquals("a", iterator.next());
+    iterator.remove();
+    assertListEquals(list, "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorSetStartExact() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator();
+    assertEquals("a", iterator.next());
+    assertEquals(0, iterator.previousIndex());
+    assertEquals(1, iterator.nextIndex());
+    iterator.set("0");
+    assertEquals(0, iterator.previousIndex());
+    assertEquals(1, iterator.nextIndex());
+    assertListEquals(list, "0", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorSetEndExact() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator(list.size());
+    assertEquals("g", iterator.previous());
+    assertEquals(5, iterator.previousIndex());
+    assertEquals(6, iterator.nextIndex());
+    iterator.set("z");
+    assertEquals(5, iterator.previousIndex());
+    assertEquals(6, iterator.nextIndex());
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "z");
+  }
+
+  @Test
+  public void testIteratorSetStartCorrected() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator();
+    assertEquals("a", iterator.next());
+    assertEquals("b", iterator.next());
+    assertEquals("c", iterator.next());
+    assertEquals(2, iterator.previousIndex());
+    assertEquals(3, iterator.nextIndex());
+    iterator.set("0");
+    assertEquals(2, iterator.previousIndex());
+    assertEquals(3, iterator.nextIndex());
+    assertListEquals(list, "0", "a", "b", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorSetEndCorrected() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator(list.size());
+    assertEquals("g", iterator.previous());
+    assertEquals("f", iterator.previous());
+    assertEquals("e", iterator.previous());
+    assertEquals(3, iterator.previousIndex());
+    assertEquals(4, iterator.nextIndex());
+    iterator.set("z");
+    assertEquals(3, iterator.previousIndex());
+    assertEquals(4, iterator.nextIndex());
+    assertListEquals(list, "a", "b", "c", "d", "f", "g", "z");
+  }
+
+  @Test
+  public void testIteratorAddStartExact() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator();
+    assertEquals(-1, iterator.previousIndex());
+    assertEquals(0, iterator.nextIndex());
+    iterator.add("0");
+    assertEquals(0, iterator.previousIndex());
+    assertEquals(1, iterator.nextIndex());
+    assertEquals("a", iterator.next());
+    assertListEquals(list, "0", "a", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorAddEndExact() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator(list.size());
+    assertFalse(iterator.hasNext());
+    assertEquals(6, iterator.previousIndex());
+    assertEquals(7, iterator.nextIndex());
+    iterator.add("z");
+    assertEquals(7, iterator.previousIndex());
+    assertEquals(8, iterator.nextIndex());
+    assertEquals("z", iterator.previous());
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "g", "z");
+  }
+
+  @Test
+  public void testIteratorAddStartCorrected() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator();
+    assertEquals("a", iterator.next());
+    assertEquals("b", iterator.next());
+    assertEquals("c", iterator.next());
+    assertEquals(2, iterator.previousIndex());
+    assertEquals(3, iterator.nextIndex());
+    iterator.add("0");
+    assertEquals(3, iterator.previousIndex());
+    assertEquals(4, iterator.nextIndex());
+    assertListEquals(list, "0", "a", "b", "c", "d", "e", "f", "g");
+  }
+
+  @Test
+  public void testIteratorAddEndCorrected() {
+    final SortedList<String> list = new SortedList<>(new ArrayList<>(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    final ListIterator<String> iterator = list.listIterator(list.size());
+    assertEquals("g", iterator.previous());
+    assertEquals("f", iterator.previous());
+    assertEquals("e", iterator.previous());
+    assertEquals(3, iterator.previousIndex());
+    assertEquals(4, iterator.nextIndex());
+    iterator.add("z");
+    assertEquals(4, iterator.previousIndex());
+    assertEquals(5, iterator.nextIndex());
+    assertListEquals(list, "a", "b", "c", "d", "e", "f", "g", "z");
   }
 
   @Test
@@ -84,24 +219,5 @@ public class SortedListTest {
     assertListEquals(list, "d", "d", "h");
     assertEquals(-1, list.indexOf("a"));
     assertEquals(2, list.lastIndexOf("h"));
-
-    final ListIterator<String> iterator = list.listIterator();
-    assertEquals("d", iterator.next());
-    try {
-      iterator.add("x");
-      fail("Expected UnsupportedOperationException");
-    }
-    catch (final UnsupportedOperationException e) {
-    }
-
-    try {
-      iterator.set("x");
-      fail("Expected UnsupportedOperationException");
-    }
-    catch (final UnsupportedOperationException e) {
-    }
-
-    iterator.remove();
-    assertListEquals(list, "d", "h");
   }
 }

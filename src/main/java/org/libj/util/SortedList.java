@@ -25,7 +25,7 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * A {@link List} that guarantees sorted order of its members.
+ * A {@link List} that guarantees sorted order of its elements.
  *
  * @param <E> The type of elements in this list.
  */
@@ -92,10 +92,11 @@ public class SortedList<E> extends ObservableList<E> {
 
   @SuppressWarnings("unchecked")
   private int getIndex(final int index, final E element, final boolean forSet) {
+    final int size = size();
     final boolean isIndexOk;
     if (index == 0)
-      isIndexOk = size() == 0 || comparator.compare(element, get(forSet ? 1 : 0)) <= 0;
-    else if (index == size())
+      isIndexOk = size == 0 || comparator.compare(element, get(forSet ? 1 : 0)) <= 0;
+    else if (index == (forSet ? size - 1 : size))
       isIndexOk = comparator.compare(get(index - 1), element) <= 0;
     else
       isIndexOk = comparator.compare(get(index - 1), element) <= 0 && comparator.compare(element, get(forSet ? index + 1 : index)) <= 0;
@@ -124,9 +125,6 @@ public class SortedList<E> extends ObservableList<E> {
     return false;
   }
 
-  // FIXME: Implement an efficient retainAll() method that takes
-  // FIXME: advantage of the sorted order of elements.
-
   /**
    * {@inheritDoc}
    * <p>
@@ -151,6 +149,38 @@ public class SortedList<E> extends ObservableList<E> {
           return false;
     }
 
+    return true;
+  }
+
+  @Override
+  @SuppressWarnings("unlikely-arg-type")
+  public boolean retainAll(final Collection<?> c) {
+    if (c.size() > 0) {
+      final int size = size();
+      final int last = size - 1;
+      E elem;
+      E prev = null;
+      boolean removed = false;
+      for (int i = last; i >= 0; --i, prev = elem) {
+        elem = getFast(i);
+        final boolean isSameAsPrev = i != last && (prev == null ? elem == null : prev.equals(elem));
+        if (!isSameAsPrev) {
+          if (removed = !c.contains(elem)) {
+            remove(i);
+          }
+        }
+        else if (removed) {
+          remove(i);
+        }
+      }
+
+      return size != size();
+    }
+
+    if (size() == 0)
+      return false;
+
+    clear();
     return true;
   }
 
@@ -195,16 +225,63 @@ public class SortedList<E> extends ObservableList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    Assertions.assertRangeList(index, size(), false);
-    return new DelegateListIterator<E>(super.listIterator(index)) {
+    Assertions.assertRangeList(index, size(), true);
+    return new CursorListIterator<E>(target.listIterator(index)) {
+      private void shift(int dist) {
+        if (dist < 0) {
+          while (++dist <= 0) {
+            previous();
+          }
+        }
+        else {
+          while (--dist > 0) {
+            next();
+          }
+        }
+      }
+
       @Override
       public void set(final E e) {
-        throw new UnsupportedOperationException();
+        assertModifiable();
+        final int index = indexOfLast();
+        final int properIndex = getIndex(index, e, true);
+        if (index == properIndex) {
+          super.set(e);
+        }
+        else {
+          super.remove();
+          final int dist = properIndex - index;
+          shift(dist);
+          try {
+            super.add(e);
+          }
+          finally {
+            shift(dist < 0 ? 1 - dist : 0 - dist);
+          }
+        }
       }
 
       @Override
       public void add(final E e) {
-        throw new UnsupportedOperationException();
+        assertModifiable();
+        final int index = indexForNext();
+        final int properIndex = getIndex(index, e, false);
+        if (index == properIndex) {
+          super.add(e);
+        }
+        else {
+          int dist = properIndex - index;
+          if (dist > 0)
+            ++dist;
+
+          shift(dist);
+          try {
+            super.add(e);
+          }
+          finally {
+            shift(1 - dist);
+          }
+        }
       }
     };
   }
