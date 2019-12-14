@@ -345,17 +345,16 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     if (obj == this)
       return true;
 
-    if (obj instanceof DelegateList) {
-      final DelegateList<?> that = (DelegateList<?>)obj;
-      return target != null ? target.equals(that.target) : that.target == null;
-    }
+    if (!(obj instanceof DelegateList))
+      return target == null ? obj == null : target.equals(obj);
 
-    return target.equals(obj);
+    final DelegateList<?> that = (DelegateList<?>)obj;
+    return target == null ? that.target == null : target.equals(that.target);
   }
 
   @Override
   public int hashCode() {
-    return target == null ? 733 : target.hashCode();
+    return target == null ? 0 : target.hashCode();
   }
 
   @Override

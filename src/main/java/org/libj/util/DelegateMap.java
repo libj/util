@@ -418,17 +418,16 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
     if (obj == this)
       return true;
 
-    if (obj instanceof DelegateMap) {
-      final DelegateMap<?,?> that = (DelegateMap<?,?>)obj;
-      return target != null ? target.equals(that.target) : that.target == null;
-    }
+    if (!(obj instanceof DelegateMap))
+      return target == null ? obj == null : target.equals(obj);
 
-    return target.equals(obj);
+    final DelegateMap<?,?> that = (DelegateMap<?,?>)obj;
+    return target == null ? that.target == null : target.equals(that.target);
   }
 
   @Override
   public int hashCode() {
-    return target == null ? 733 : target.hashCode();
+    return target == null ? 0 : target.hashCode();
   }
 
   @Override

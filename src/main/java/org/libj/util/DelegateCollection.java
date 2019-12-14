@@ -237,17 +237,16 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
     if (obj == this)
       return true;
 
-    if (obj instanceof DelegateCollection) {
-      final DelegateCollection<?> that = (DelegateCollection<?>)obj;
-      return target != null ? target.equals(that.target) : that.target == null;
-    }
+    if (!(obj instanceof DelegateCollection))
+      return target == null ? obj == null : target.equals(obj);
 
-    return target.equals(obj);
+    final DelegateCollection<?> that = (DelegateCollection<?>)obj;
+    return target == null ? that.target == null : target.equals(that.target);
   }
 
   @Override
   public int hashCode() {
-    return target == null ? 733 : target.hashCode();
+    return target == null ? 0 : target.hashCode();
   }
 
   @Override

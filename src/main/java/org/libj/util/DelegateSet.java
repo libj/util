@@ -237,17 +237,16 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
     if (obj == this)
       return true;
 
-    if (obj instanceof DelegateSet) {
-      final DelegateSet<?> that = (DelegateSet<?>)obj;
-      return target != null ? target.equals(that.target) : that.target == null;
-    }
+    if (!(obj instanceof DelegateSet))
+      return target == null ? obj == null : target.equals(obj);
 
-    return target.equals(obj);
+    final DelegateSet<?> that = (DelegateSet<?>)obj;
+    return target == null ? that.target == null : target.equals(that.target);
   }
 
   @Override
   public int hashCode() {
-    return target == null ? 733 : target.hashCode();
+    return target == null ? 0 : target.hashCode();
   }
 
   @Override

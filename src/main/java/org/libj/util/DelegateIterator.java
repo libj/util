@@ -90,17 +90,16 @@ public abstract class DelegateIterator<E> extends AbstractIterator<E> {
     if (obj == this)
       return true;
 
-    if (obj instanceof DelegateIterator) {
-      final DelegateIterator<?> that = (DelegateIterator<?>)obj;
-      return target != null ? target.equals(that.target) : that.target == null;
-    }
+    if (!(obj instanceof DelegateIterator))
+      return target == null ? obj == null : target.equals(obj);
 
-    return target.equals(obj);
+    final DelegateIterator<?> that = (DelegateIterator<?>)obj;
+    return target == null ? that.target == null : target.equals(that.target);
   }
 
   @Override
   public int hashCode() {
-    return target == null ? 733 : target.hashCode();
+    return target == null ? 0 : target.hashCode();
   }
 
   @Override

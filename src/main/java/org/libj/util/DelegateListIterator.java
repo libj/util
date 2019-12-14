@@ -123,17 +123,16 @@ public abstract class DelegateListIterator<E> extends AbstractIterator<E> implem
     if (obj == this)
       return true;
 
-    if (obj instanceof DelegateListIterator) {
-      final DelegateListIterator<?> that = (DelegateListIterator<?>)obj;
-      return target != null ? target.equals(that.target) : that.target == null;
-    }
+    if (!(obj instanceof DelegateListIterator))
+      return target == null ? obj == null : target.equals(obj);
 
-    return target.equals(obj);
+    final DelegateListIterator<?> that = (DelegateListIterator<?>)obj;
+    return target == null ? that.target == null : target.equals(that.target);
   }
 
   @Override
   public int hashCode() {
-    return target == null ? 733 : target.hashCode();
+    return target == null ? 0 : target.hashCode();
   }
 
   @Override
