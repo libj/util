@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import org.libj.util.primitive.ArrayIntList;
+
 /**
  * An {@link Iterator} for N-dimensional sequentially accessible collections of
  * type {@code <T>} (arrays or lists) that iterates through the leaf members of

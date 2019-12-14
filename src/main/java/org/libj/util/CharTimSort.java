@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import org.libj.util.primitive.CharComparator;
+
 /**
  * A stable, adaptive, iterative mergesort that requires far fewer than n lg(n)
  * comparisons when running on partially sorted arrays, while offering

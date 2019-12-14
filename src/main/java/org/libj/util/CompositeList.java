@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 
+import org.libj.util.primitive.ArrayIntList;
 import org.slf4j.Logger;
 
 /**

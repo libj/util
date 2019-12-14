@@ -27,6 +27,18 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
+import org.libj.util.primitive.ByteComparator;
+import org.libj.util.primitive.CharComparator;
+import org.libj.util.primitive.DoubleComparator;
+import org.libj.util.primitive.DoubleList;
+import org.libj.util.primitive.FloatComparator;
+import org.libj.util.primitive.FloatList;
+import org.libj.util.primitive.IntComparator;
+import org.libj.util.primitive.IntList;
+import org.libj.util.primitive.LongComparator;
+import org.libj.util.primitive.LongList;
+import org.libj.util.primitive.ShortComparator;
+
 /**
  * Utility functions for operations pertaining to arrays.
  */

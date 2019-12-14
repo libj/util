@@ -25,6 +25,19 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Function;
 
+import org.libj.util.primitive.ArrayDoubleList;
+import org.libj.util.primitive.ArrayFloatList;
+import org.libj.util.primitive.ArrayIntList;
+import org.libj.util.primitive.ArrayLongList;
+import org.libj.util.primitive.DoubleComparator;
+import org.libj.util.primitive.DoubleList;
+import org.libj.util.primitive.FloatComparator;
+import org.libj.util.primitive.FloatList;
+import org.libj.util.primitive.IntComparator;
+import org.libj.util.primitive.IntList;
+import org.libj.util.primitive.LongComparator;
+import org.libj.util.primitive.LongList;
+
 /**
  * Utility functions for operations pertaining to {@link Collection} and {@link List}.
  */

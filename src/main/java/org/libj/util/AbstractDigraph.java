@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.libj.util.primitive.ArrayIntList;
+
 /**
  * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
  * permitting self-loops and parallel edges.

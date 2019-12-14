@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
+import org.libj.util.primitive.IntComparator;
 
 public class MatchedSortTest {
   private static final int ITERATIONS = 100;

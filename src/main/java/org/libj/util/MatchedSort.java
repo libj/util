@@ -18,6 +18,8 @@ package org.libj.util;
 
 import java.util.List;
 
+import org.libj.util.primitive.IntComparator;
+
 /**
  * Utility class providing algorithms for sorting matched lists and arrays.
  */
