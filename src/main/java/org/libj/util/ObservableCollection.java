@@ -127,12 +127,11 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public E next() {
       RuntimeException exception = null;
       E value = null;
       try {
-        value = (E)target.next();
+        value = super.next();
       }
       catch (final RuntimeException re) {
         exception = re;
@@ -153,7 +152,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
       RuntimeException exception = null;
       try {
-        target.remove();
+        super.remove();
       }
       catch (final RuntimeException re) {
         exception = re;
@@ -178,7 +177,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public Iterator<E> iterator() {
-    return new ObservableIterator(target.iterator());
+    return new ObservableIterator(super.iterator());
   }
 
   /**
@@ -241,7 +240,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
     RuntimeException exception = null;
     try {
-      target.add(e);
+      super.add(e);
     }
     catch (final RuntimeException re) {
       exception = re;
@@ -283,6 +282,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * removed.
    */
   @Override
+  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int size = size();
     if (!beforeRemove(o))
@@ -290,7 +290,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
     RuntimeException exception = null;
     try {
-      target.remove(o);
+      super.remove(o);
     }
     catch (final RuntimeException re) {
       exception = re;
@@ -490,7 +490,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
       return false;
 
     touchElements();
-    return target.equals(obj);
+    return super.equals(obj);
   }
 
   /**

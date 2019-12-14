@@ -208,7 +208,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
     RuntimeException exception = null;
     try {
-      target.add(index + fromIndex, element);
+      super.add(index + fromIndex, element);
       if (toIndex != -1)
         ++toIndex;
     }
@@ -353,13 +353,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
   protected E getFast(final int index) {
     beforeGet(index, null);
     E value = null;
     RuntimeException exception = null;
     try {
-      value = (E)target.get(index + fromIndex);
+      value = super.get(index + fromIndex);
     }
     catch (final RuntimeException re) {
       exception = re;
@@ -648,13 +647,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * will not be added to this {@link List}.
    */
   @Override
-  @SuppressWarnings("unchecked")
   public ListIterator<E> listIterator(final int index) {
     Assertions.assertRangeList(index, size(), true);
-    return newListIterator(target.listIterator(index + fromIndex));
+    return newListIterator(super.listIterator(index + fromIndex));
   }
 
-  @SuppressWarnings("unchecked")
   protected E removeFast(final int index) {
     if (!beforeRemove(index))
       return null;
@@ -662,7 +659,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     E value = null;
     RuntimeException exception = null;
     try {
-      value = (E)target.remove(index + fromIndex);
+      value = super.remove(index + fromIndex);
       if (toIndex != -1)
         --toIndex;
     }
@@ -723,7 +720,6 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * be set, and this method will return {@code null}.
    */
   @Override
-  @SuppressWarnings("unchecked")
   public E set(final int index, final E element) {
     Assertions.assertRangeList(index, size(), false);
     if (!beforeSet(index, element))
@@ -732,7 +728,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     E oldElement = null;
     RuntimeException exception = null;
     try {
-      oldElement = (E)target.set(index + fromIndex, element);
+      oldElement = super.set(index + fromIndex, element);
     }
     catch (final RuntimeException re) {
       exception = re;
@@ -836,7 +832,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
   @Override
   public int size() {
-    return (toIndex != -1 ? toIndex : target.size()) - fromIndex;
+    return (toIndex != -1 ? toIndex : super.size()) - fromIndex;
   }
 
   /**
