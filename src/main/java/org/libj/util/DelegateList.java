@@ -354,7 +354,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
 
   @Override
   public int hashCode() {
-    return target == null ? 0 : target.hashCode();
+    return 31 + (target == null ? 0 : target.hashCode());
   }
 
   @Override

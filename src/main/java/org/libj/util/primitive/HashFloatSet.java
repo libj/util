@@ -570,13 +570,9 @@ public class HashFloatSet extends HashPrimitiveSet implements FloatSet, Serializ
 
   @Override
   public int hashCode() {
-    int hashCode = 0;
-    for (final float value : valueData)
-      if (value != NULL)
-        hashCode += Float.hashCode(value);
-
-    if (containsNull)
-      hashCode += Float.hashCode(NULL);
+    int hashCode = containsNull ? Float.hashCode(NULL) : 0;
+    for (int i = 0; i < valueData.length; ++i)
+      hashCode += Float.hashCode(valueData[i]);
 
     return hashCode;
   }

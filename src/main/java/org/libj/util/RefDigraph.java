@@ -263,9 +263,9 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   @Override
   public int hashCode() {
     int hashCode = reference.hashCode();
-    hashCode = hashCode * 31 + vertices.hashCode();
-    hashCode = hashCode * 31 + references.hashCode();
-    hashCode = hashCode * 31 + digraph.hashCode();
+    hashCode = 31 * hashCode + vertices.hashCode();
+    hashCode = 31 * hashCode + references.hashCode();
+    hashCode = 31 * hashCode + digraph.hashCode();
     return hashCode;
   }
 

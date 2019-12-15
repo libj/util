@@ -427,7 +427,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
 
   @Override
   public int hashCode() {
-    return target == null ? 0 : target.hashCode();
+    return 31 + (target == null ? 0 : target.hashCode());
   }
 
   @Override

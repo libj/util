@@ -505,10 +505,10 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   @Override
   public int hashCode() {
     if (target == null)
-      return 0;
+      return 31;
 
     touchElements();
-    return target.hashCode();
+    return 31 + target.hashCode();
   }
 
   /**

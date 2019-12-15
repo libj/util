@@ -752,10 +752,10 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   public int hashCode() {
     if (target == null)
-      return 0;
+      return 31;
 
     touchEntries();
-    return target.hashCode();
+    return 31 + target.hashCode();
   }
 
   /**

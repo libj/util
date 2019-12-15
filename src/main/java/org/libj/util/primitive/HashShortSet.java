@@ -570,13 +570,9 @@ public class HashShortSet extends HashPrimitiveSet implements ShortSet, Serializ
 
   @Override
   public int hashCode() {
-    int hashCode = 0;
-    for (final short value : valueData)
-      if (value != NULL)
-        hashCode += Short.hashCode(value);
-
-    if (containsNull)
-      hashCode += Short.hashCode(NULL);
+    int hashCode = containsNull ? Short.hashCode(NULL) : 0;
+    for (int i = 0; i < valueData.length; ++i)
+      hashCode += valueData[i];
 
     return hashCode;
   }

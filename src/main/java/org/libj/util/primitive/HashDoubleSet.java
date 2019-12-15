@@ -573,13 +573,9 @@ public class HashDoubleSet extends HashPrimitiveSet implements DoubleSet, Serial
 
   @Override
   public int hashCode() {
-    int hashCode = 0;
-    for (final double value : valueData)
-      if (value != NULL)
-        hashCode += Double.hashCode(value);
-
-    if (containsNull)
-      hashCode += Double.hashCode(NULL);
+    int hashCode = containsNull ? Double.hashCode(NULL) : 0;
+    for (int i = 0; i < valueData.length; ++i)
+      hashCode += Double.hashCode(valueData[i]);
 
     return hashCode;
   }

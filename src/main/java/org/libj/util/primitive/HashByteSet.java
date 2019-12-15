@@ -570,13 +570,9 @@ public class HashByteSet extends HashPrimitiveSet implements ByteSet, Serializab
 
   @Override
   public int hashCode() {
-    int hashCode = 0;
-    for (final byte value : valueData)
-      if (value != NULL)
-        hashCode += Byte.hashCode(value);
-
-    if (containsNull)
-      hashCode += Byte.hashCode(NULL);
+    int hashCode = containsNull ? NULL : 0;
+    for (int i = 0; i < valueData.length; ++i)
+      hashCode += valueData[i];
 
     return hashCode;
   }

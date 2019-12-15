@@ -246,7 +246,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
 
   @Override
   public int hashCode() {
-    return target == null ? 0 : target.hashCode();
+    return 31 + (target == null ? 0 : target.hashCode());
   }
 
   @Override

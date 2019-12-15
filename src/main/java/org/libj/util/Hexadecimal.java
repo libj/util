@@ -158,7 +158,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
 
   @Override
   public int hashCode() {
-    return Arrays.hashCode(getData());
+    return 31 + Arrays.hashCode(getData());
   }
 
   @Override

@@ -573,13 +573,9 @@ public class HashIntSet extends HashPrimitiveSet implements IntSet, Serializable
 
   @Override
   public int hashCode() {
-    int hashCode = 0;
-    for (final int value : valueData)
-      if (value != NULL)
-        hashCode += Integer.hashCode(value);
-
-    if (containsNull)
-      hashCode += Integer.hashCode(NULL);
+    int hashCode = containsNull ? NULL : 0;
+    for (int i = 0; i < valueData.length; ++i)
+      hashCode += valueData[i];
 
     return hashCode;
   }

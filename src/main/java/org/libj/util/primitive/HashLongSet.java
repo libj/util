@@ -573,13 +573,9 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
 
   @Override
   public int hashCode() {
-    int hashCode = 0;
-    for (final long value : valueData)
-      if (value != NULL)
-        hashCode += Long.hashCode(value);
-
-    if (containsNull)
-      hashCode += Long.hashCode(NULL);
+    int hashCode = containsNull ? Long.hashCode(NULL) : 0;
+    for (int i = 0; i < valueData.length; ++i)
+      hashCode += Long.hashCode(valueData[i]);
 
     return hashCode;
   }

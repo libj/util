@@ -99,7 +99,7 @@ public abstract class DelegateIterator<E> extends AbstractIterator<E> {
 
   @Override
   public int hashCode() {
-    return target == null ? 0 : target.hashCode();
+    return 31 + (target == null ? 0 : target.hashCode());
   }
 
   @Override

@@ -132,7 +132,7 @@ public abstract class DelegateListIterator<E> extends AbstractIterator<E> implem
 
   @Override
   public int hashCode() {
-    return target == null ? 0 : target.hashCode();
+    return 31 + (target == null ? 0 : target.hashCode());
   }
 
   @Override

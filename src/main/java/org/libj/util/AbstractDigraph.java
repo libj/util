@@ -905,7 +905,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     final Set<Object> keys = objectToIndex.keySet();
     int hashCode = keys.hashCode();
     for (final Object key : keys)
-      hashCode ^= get(key, null).hashCode();
+      hashCode = 31 * hashCode + get(key, null).hashCode();
 
     return hashCode;
   }
