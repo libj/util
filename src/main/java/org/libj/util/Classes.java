@@ -36,6 +36,8 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+import org.libj.lang.Identifiers;
+
 /**
  * Utility providing implementations of methods missing from the API of
  * {@link Class}.

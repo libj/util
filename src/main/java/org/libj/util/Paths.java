@@ -20,6 +20,8 @@ import java.io.File;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import org.libj.lang.Strings;
+
 /**
  * Utility functions that perform a variety of operations on {@link String}
  * objects representing either system paths (UNIX or Windows), or file URL paths

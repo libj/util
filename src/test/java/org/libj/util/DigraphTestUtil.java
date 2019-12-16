@@ -21,6 +21,8 @@ import static org.junit.Assert.*;
 import java.io.Serializable;
 import java.util.List;
 
+import org.libj.lang.Strings;
+
 class DigraphTestUtil {
   /**
    * Create a {@code Digraph<T>} of the type {@code type} with the specified

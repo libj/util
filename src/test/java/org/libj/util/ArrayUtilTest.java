@@ -19,6 +19,7 @@ package org.libj.util;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.libj.lang.Strings;
 
 public class ArrayUtilTest {
   private static Object[] createRandomNestedArray() {

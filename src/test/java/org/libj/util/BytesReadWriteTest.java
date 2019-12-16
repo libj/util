@@ -16,9 +16,9 @@
 
 package org.libj.util;
 
-import java.io.IOException;
-
 import static org.junit.Assert.*;
+
+import java.io.IOException;
 
 import org.junit.Test;
 

@@ -26,20 +26,36 @@ abstract class PrimitiveCollectionTest {
     Assert.assertArrayEquals(expected, actual);
   }
 
-  static void assertEquals(final byte expected, final byte actual) {
-    Assert.assertEquals(expected, actual);
+  static void assertArrayEquals(final char[] expected, final char[] actual) {
+    Assert.assertArrayEquals(expected, actual);
   }
 
   static void assertArrayEquals(final short[] expected, final short[] actual) {
     Assert.assertArrayEquals(expected, actual);
   }
 
-  static void assertEquals(final short expected, final short actual) {
-    Assert.assertEquals(expected, actual);
+  static void assertArrayEquals(final int[] expected, final int[] actual) {
+    Assert.assertArrayEquals(expected, actual);
+  }
+
+  static void assertArrayEquals(final long[] expected, final long[] actual) {
+    Assert.assertArrayEquals(expected, actual);
   }
 
   static void assertArrayEquals(final float[] expected, final float[] actual) {
     Assert.assertArrayEquals(expected, actual, ef);
+  }
+
+  static void assertArrayEquals(final double[] expected, final double[] actual) {
+    Assert.assertArrayEquals(expected, actual, ed);
+  }
+
+  static void assertEquals(final byte expected, final byte actual) {
+    Assert.assertEquals(expected, actual);
+  }
+
+  static void assertEquals(final short expected, final short actual) {
+    Assert.assertEquals(expected, actual);
   }
 
   static void assertEquals(final int expected, final int actual) {
@@ -48,10 +64,6 @@ abstract class PrimitiveCollectionTest {
 
   static void assertEquals(final float expected, final float actual) {
     Assert.assertEquals(expected, actual, ef);
-  }
-
-  static void assertArrayEquals(final double[] expected, final double[] actual) {
-    Assert.assertArrayEquals(expected, actual, ed);
   }
 
   static void assertEquals(final double expected, final double actual) {

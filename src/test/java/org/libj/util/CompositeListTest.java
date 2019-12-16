@@ -16,14 +16,15 @@
 
 package org.libj.util;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+import org.libj.lang.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

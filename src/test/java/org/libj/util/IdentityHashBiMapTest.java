@@ -16,10 +16,10 @@
 
 package org.libj.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Iterator;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 
