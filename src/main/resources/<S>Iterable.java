@@ -18,13 +18,13 @@ package org.libj.util.primitive;
 
 /**
  * Interface that defines the {@link #iterator()} method for
- * {@link LongIterator}.
+ * {@link <S>Iterator}.
  */
-public interface LongIterable {
+public interface <S>Iterable {
   /**
-   * Returns an iterator over values of type {@link LongIterator}.
+   * Returns an iterator over values of type {@link <S>Iterator}.
    *
-   * @return An iterator over values of type {@link LongIterator}.
+   * @return An iterator over values of type {@link <S>Iterator}.
    */
-  LongIterator iterator();
+  <S>Iterator iterator();
 }

@@ -20,25 +20,21 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Spliterator.OfLong;
-import java.util.stream.LongStream;
-import java.util.stream.StreamSupport;
 
 /**
- * An {@link LongSet} implementing
+ * An {@link <S>Set} implementing
  * <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing
  * (closed hashing) with linear-probing for collision resolution</a> algorithm,
  * with allocation-free operation in steady state when expanded.
  * <p>
- * This class replicates the API of the {@link HashSet} class by defining
- * synonymous methods for a set of {@code long} values instead of Object
- * references.
+ * This class replicates the API of the {@link java.util.HashSet} class by
+ * defining synonymous methods for a set of {@code <t>} values instead of
+ * Object references.
  */
-public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializable {
-  private static final long serialVersionUID = -2903767291531144447L;
+public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable {
+  private static final long serialVersionUID = <serialVersionUID>;
 
   /**
    * The load factor used when none specified in constructor.
@@ -48,7 +44,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   /**
    * Value that represents null in {@link #valueData}.
    */
-  static final long NULL = 0;
+  static final <t> NULL = 0;
 
   private final float loadFactor;
   private int resizeThreshold;
@@ -57,20 +53,20 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
    * Whether this set contains the value representing {@link #NULL}.
    */
   private boolean containsNull;
-  private long[] valueData;
+  private <t>[] valueData;
   private volatile int size;
   private transient volatile int modCount;
 
   /**
-   * Creates an empty {@link HashLongSet} with the default initial capacity
+   * Creates an empty {@link Hash<S>Set} with the default initial capacity
    * (16) and the default load factor (0.55).
    */
-  public HashLongSet() {
+  public Hash<S>Set() {
     this(16);
   }
 
   /**
-   * Creates an empty {@link HashLongSet} with the specified initial capacity and
+   * Creates an empty {@link Hash<S>Set} with the specified initial capacity and
    * load factor.
    *
    * @param initialCapacity The initial capacity.
@@ -78,7 +74,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
    * @throws IllegalArgumentException If the initial capacity is negative or the
    *           load factor less than {@code .1} or greater than {@code .9}.
    */
-  public HashLongSet(final int initialCapacity, final float loadFactor) {
+  public Hash<S>Set(final int initialCapacity, final float loadFactor) {
     if (loadFactor < .1f || Float.isNaN(loadFactor) || .9f < loadFactor)
       throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
 
@@ -87,50 +83,50 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
 
     final int capacity = findNextPositivePowerOfTwo(initialCapacity);
     this.resizeThreshold = (int)(capacity * loadFactor);
-    this.valueData = new long[capacity];
+    this.valueData = new <t>[capacity];
   }
 
   /**
-   * Creates an empty {@link HashLongSet} with the specified initial capacity and
+   * Creates an empty {@link Hash<S>Set} with the specified initial capacity and
    * the default load factor (0.55).
    *
    * @param initialCapacity The initial capacity.
    * @throws IllegalArgumentException If the initial capacity is negative.
    */
-  public HashLongSet(final int initialCapacity) {
+  public Hash<S>Set(final int initialCapacity) {
     this(initialCapacity, DEFAULT_LOAD_FACTOR);
   }
 
   /**
-   * Creates a new {@link HashLongSet} with the same values as the specified
-   * collection. The {@link HashLongSet} is created with default load factor
+   * Creates a new {@link Hash<S>Set} with the same values as the specified
+   * collection. The {@link Hash<S>Set} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *
    * @param c The collection whose values are to be added to this set.
    * @throws NullPointerException If the specified set is null.
    */
-  public HashLongSet(final LongCollection c) {
+  public Hash<S>Set(final <S>Collection c) {
     this(c.size());
     addAll(c);
   }
 
   /**
-   * Creates a new {@link HashLongSet} with the same values as the specified
-   * collection. The {@link HashLongSet} is created with default load factor
+   * Creates a new {@link Hash<S>Set} with the same values as the specified
+   * collection. The {@link Hash<S>Set} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *
    * @param c The collection whose values are to be added to this set.
    * @throws NullPointerException If the specified set is null.
    */
-  public HashLongSet(final Collection<Long> c) {
+  public Hash<S>Set(final Collection<<T>> c) {
     this(c.size());
     addAll(c);
   }
 
   @Override
-  public boolean add(final long value) {
+  public boolean add(final <t> value) {
     if (value == NULL) {
       if (containsNull)
         return false;
@@ -140,7 +136,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
     }
 
     final int mask = valueData.length - 1;
-    int index = hash(Long.hashCode(value), mask);
+    int index = hash(<T>.hashCode(value), mask);
     for (; valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return false;
@@ -154,22 +150,22 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean addAll(final LongCollection c) {
+  public boolean addAll(final <S>Collection c) {
     if (c.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final LongIterator i = c.iterator(); i.hasNext(); changed |= add(i.next()));
+    for (final <S>Iterator i = c.iterator(); i.hasNext(); changed |= add(i.next()));
     return changed;
   }
 
   @Override
-  public boolean addAll(final Collection<Long> c) {
+  public boolean addAll(final Collection<<T>> c) {
     if (c.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final Iterator<Long> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
     return changed;
   }
 
@@ -183,15 +179,15 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
    * @param s Set containing values to be added to this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified set is null.
-   * @see #addAll(LongCollection)
-   * @see #add(long)
+   * @see #addAll(<S>Collection)
+   * @see #add(<t>)
    */
-  public boolean addAll(final HashLongSet s) {
+  public boolean addAll(final Hash<S>Set s) {
     if (s.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final long value : s.valueData)
+    for (final <t> value : s.valueData)
       if (value != NULL)
         changed |= add(value);
 
@@ -202,12 +198,12 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean contains(final long value) {
+  public boolean contains(final <t> value) {
     if (value == NULL)
       return containsNull;
 
     final int mask = valueData.length - 1;
-    for (int index = hash(Long.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
+    for (int index = hash(<T>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return true;
 
@@ -215,11 +211,11 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean containsAll(final LongCollection c) {
+  public boolean containsAll(final <S>Collection c) {
     if (c.size() == 0)
       return true;
 
-    for (final LongIterator i = c.iterator(); i.hasNext();)
+    for (final <S>Iterator i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -227,11 +223,11 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean containsAll(final Collection<Long> c) {
+  public boolean containsAll(final Collection<<T>> c) {
     if (c.size() == 0)
       return true;
 
-    for (final Iterator<Long> i = c.iterator(); i.hasNext();)
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -239,7 +235,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean remove(final long value) {
+  public boolean remove(final <t> value) {
     if (value == NULL) {
       if (!containsNull)
         return false;
@@ -250,7 +246,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
     }
 
     final int mask = valueData.length - 1;
-    for (int index = hash(Long.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
+    for (int index = hash(<T>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
       if (valueData[index] == value) {
         ++modCount;
         valueData[index] = NULL;
@@ -264,7 +260,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean removeAll(final long ... a) {
+  public boolean removeAll(final <t> ... a) {
     boolean changed = false;
     for (int i = 0; i < a.length; ++i)
       changed |= remove(a[i]);
@@ -273,16 +269,16 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean removeAll(final LongCollection c) {
+  public boolean removeAll(final <S>Collection c) {
     boolean changed = false;
-    for (final LongIterator i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
+    for (final <S>Iterator i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
     return changed;
   }
 
   @Override
-  public boolean removeAll(final Collection<Long> c) {
+  public boolean removeAll(final Collection<<T>> c) {
     boolean changed = false;
-    for (final Iterator<Long> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
     return changed;
   }
 
@@ -294,13 +290,13 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
    * @param s Set containing values to be removed from this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #removeAll(LongCollection)
-   * @see #remove(long)
-   * @see #contains(long)
+   * @see #removeAll(<S>Collection)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
-  public boolean removeAll(final HashLongSet s) {
+  public boolean removeAll(final Hash<S>Set s) {
     boolean changed = false;
-    for (final long value : s.valueData)
+    for (final <t> value : s.valueData)
       if (value != NULL)
         changed |= remove(value);
 
@@ -311,12 +307,12 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean retainAll(final LongCollection c) {
-    final long[] values = new long[this.valueData.length];
+  public boolean retainAll(final <S>Collection c) {
+    final <t>[] values = new <t>[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final long value : values)
+    for (final <t> value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -324,12 +320,12 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public boolean retainAll(final Collection<Long> c) {
-    final long[] values = new long[this.valueData.length];
+  public boolean retainAll(final Collection<<T>> c) {
+    final <t>[] values = new <t>[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final long value : values)
+    for (final <t> value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -357,13 +353,13 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public long[] toArray(long[] a) {
+  public <t>[] toArray(<t>[] a) {
     if (a.length < size())
-      a = new long[size()];
+      a = new <t>[size()];
 
     int i = 0;
-    final long[] values = this.valueData;
-    for (final long value : values)
+    final <t>[] values = this.valueData;
+    for (final <t> value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -374,13 +370,13 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public Long[] toArray(Long[] a) {
+  public <T>[] toArray(<T>[] a) {
     if (a.length < size())
-      a = new Long[size()];
+      a = new <T>[size()];
 
     int i = 0;
-    final long[] values = this.valueData;
-    for (final long value : values)
+    final <t>[] values = this.valueData;
+    for (final <t> value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -391,21 +387,19 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public LongIterator iterator() {
-    return new LongItr();
+  public <S>Iterator iterator() {
+    return new <S>Itr();
   }
 
-  final class LongItr implements LongIterator, Serializable {
-    private static final long serialVersionUID = -7682246612354831208L;
-
+  final class <S>Itr implements <S>Iterator {
     private int remaining;
     private int positionCounter;
     private int stopCounter;
     private boolean isPositionValid = false;
     private int expectedModCount = modCount;
 
-    LongItr() {
-      final long[] valueData = HashLongSet.this.valueData;
+    <S>Itr() {
+      final <t>[] valueData = Hash<S>Set.this.valueData;
       final int length = valueData.length;
       int i = length;
       if (valueData[length - 1] != NULL)
@@ -425,7 +419,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
     }
 
     @Override
-    public long next() {
+    public <t> next() {
       checkForComodification();
       if (remaining == 1 && containsNull) {
         remaining = 0;
@@ -435,7 +429,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
       }
 
       findNext();
-      final long[] values = HashLongSet.this.valueData;
+      final <t>[] values = Hash<S>Set.this.valueData;
       return values[getPosition(values)];
     }
 
@@ -449,7 +443,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
         containsNull = false;
       }
       else {
-        final long[] values = HashLongSet.this.valueData;
+        final <t>[] values = Hash<S>Set.this.valueData;
         final int position = getPosition(values);
         values[position] = NULL;
         --size;
@@ -461,7 +455,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
     }
 
     private void findNext() {
-      final long[] valueData = HashLongSet.this.valueData;
+      final <t>[] valueData = Hash<S>Set.this.valueData;
       final int mask = valueData.length - 1;
       isPositionValid = true;
       for (int i = positionCounter - 1; i >= stopCounter; --i) {
@@ -477,7 +471,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
       throw new NoSuchElementException();
     }
 
-    private int getPosition(final long[] values) {
+    private int getPosition(final <t>[] values) {
       return positionCounter & (values.length - 1);
     }
 
@@ -487,24 +481,24 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
     }
   }
 
-  @Override
-  public OfLong spliterator() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public LongStream stream() {
-    return StreamSupport.longStream(spliterator(), false);
-  }
-
-  @Override
-  public LongStream parallelStream() {
-    return StreamSupport.longStream(spliterator(), true);
-  }
+<_>  @Override
+<_>  public Spliterator.Of<S> spliterator() {
+<_>    throw new UnsupportedOperationException();
+<_>  }
+<_>
+<_>  @Override
+<_>  public <S>Stream stream() {
+<_>    return StreamSupport.<t>Stream(spliterator(), false);
+<_>  }
+<_>
+<_>  @Override
+<_>  public <S>Stream parallelStream() {
+<_>    return StreamSupport.<t>Stream(spliterator(), true);
+<_>  }
 
   private void compactChain(int deleteIndex) {
     ++modCount;
-    final long[] values = this.valueData;
+    final <t>[] values = this.valueData;
     final int mask = values.length - 1;
     int index = deleteIndex;
     while (true) {
@@ -512,7 +506,7 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
       if (values[index] == NULL)
         return;
 
-      final int hash = hash(Long.hashCode(values[index]), mask);
+      final int hash = hash(<T>.hashCode(values[index]), mask);
       if (index < hash && (hash <= deleteIndex || deleteIndex <= index) || hash <= deleteIndex && deleteIndex <= index) {
         values[deleteIndex] = values[index];
         values[index] = NULL;
@@ -525,10 +519,10 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
     ++modCount;
     final int mask = newCapacity - 1;
     this.resizeThreshold = (int)(newCapacity * loadFactor);
-    final long[] valueData = new long[newCapacity];
-    for (final long value : this.valueData) {
+    final <t>[] valueData = new <t>[newCapacity];
+    for (final <t> value : this.valueData) {
       if (value != NULL) {
-        int newHash = hash(Long.hashCode(value), mask);
+        int newHash = hash(<T>.hashCode(value), mask);
         for (; valueData[newHash] != NULL; newHash = ++newHash & mask);
         valueData[newHash] = value;
       }
@@ -547,10 +541,10 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
   }
 
   @Override
-  public HashLongSet clone() {
+  public Hash<S>Set clone() {
     try {
-      final HashLongSet clone = (HashLongSet)super.clone();
-      clone.valueData = new long[valueData.length];
+      final Hash<S>Set clone = (Hash<S>Set)super.clone();
+      clone.valueData = new <t>[valueData.length];
       System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
       return clone;
     }
@@ -564,18 +558,18 @@ public class HashLongSet extends HashPrimitiveSet implements LongSet, Serializab
     if (obj == this)
       return true;
 
-    if (!(obj instanceof HashLongSet))
+    if (!(obj instanceof Hash<S>Set))
       return false;
 
-    final HashLongSet that = (HashLongSet)obj;
+    final Hash<S>Set that = (Hash<S>Set)obj;
     return size == that.size && containsNull == that.containsNull && containsAll(that);
   }
 
   @Override
   public int hashCode() {
-    int hashCode = containsNull ? Long.hashCode(NULL) : 0;
+    int hashCode = containsNull ? <T>.hashCode(NULL) : 0;
     for (int i = 0; i < valueData.length; ++i)
-      hashCode += Long.hashCode(valueData[i]);
+      hashCode += <T>.hashCode(valueData[i]);
 
     return hashCode;
   }

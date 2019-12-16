@@ -19,26 +19,23 @@ package org.libj.util.primitive;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.DoublePredicate;
-import java.util.stream.DoubleStream;
 
 /**
- * The root interface in the <i>{@code double} collection hierarchy</i>. A
- * primitive collection represents a group of {@code double} values. Some
+ * The root interface in the <i>{@code <t>} collection hierarchy</i>. A
+ * primitive collection represents a group of {@code <t>} values. Some
  * collections allow duplicate elements and others do not. Some are ordered and
  * others unordered.
  * <p>
- * The architecture of the <i>{@code double} collection hierarchy</i> is designed
+ * The architecture of the <i>{@code <t>} collection hierarchy</i> is designed
  * to mimic that of the <i>collection hierarchy</i> in {@link Collection}, in
  * order to provide a nearly identical API for ease of use and interoperability.
  *
- * @see DoubleList
- * @see ArrayDoubleList
- * @see DoubleSet
- * @see HashDoubleSet
+ * @see <S>List
+ * @see Array<S>List
+ * @see <S>Set
+ * @see Hash<S>Set
  */
-public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
+public interface <S>Collection extends <S>Iterable, PrimitiveCollection {
   /**
    * Ensures that this collection contains the specified value (optional
    * operation). Returns {@code true} if this collection changed as a result of
@@ -48,7 +45,7 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param value Value whose presence in this collection is to be ensured.
    * @return {@code true} if this collection changed as a result of the call.
    */
-  boolean add(double value);
+  boolean add(<t> value);
 
   /**
    * Appends all of the values in the specified array to the end of this
@@ -58,7 +55,7 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified array is null.
    */
-  default boolean addAll(final double ... a) {
+  default boolean addAll(final <t> ... a) {
     boolean changed = false;
     for (int i = 0; i < a.length; ++i)
       changed |= add(a[i]);
@@ -69,7 +66,7 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
   /**
    * Appends all of the values in the specified collection to the end of this
    * collection, in the order that they are returned by the specified
-   * collection's {@link DoubleIterator}. The behavior of this operation is
+   * collection's {@link <S>Iterator}. The behavior of this operation is
    * undefined if the specified collection is modified while the operation is in
    * progress. (This implies that the behavior of this call is undefined if the
    * specified collection is this collection, and this collection is nonempty).
@@ -78,7 +75,7 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
    */
-  boolean addAll(DoubleCollection c);
+  boolean addAll(<S>Collection c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -89,11 +86,11 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param c Collection containing values to be added to this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Double}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
    */
-  boolean addAll(Collection<Double> c);
+  boolean addAll(Collection<<T>> c);
 
   /**
    * Removes the first occurrence of the specified value from this collection,
@@ -106,7 +103,7 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param value Value to be removed from this collection, if present.
    * @return {@code true} if this collection contained the specified value.
    */
-  boolean remove(double value);
+  boolean remove(<t> value);
 
   /**
    * Removes all of this collection's values that are also contained in the
@@ -116,10 +113,10 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param a Array containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified array is null.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
-  boolean removeAll(double ... a);
+  boolean removeAll(<t> ... a);
 
   /**
    * Removes all of this collection's values that are also contained in the
@@ -129,10 +126,10 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param c Collection containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
-  boolean removeAll(DoubleCollection c);
+  boolean removeAll(<S>Collection c);
 
   /**
    * Removes all of this collection's values that are also contained in the
@@ -142,16 +139,16 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param c Collection containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@link Double}.
+   *           collection is not an {@link <T>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
-  default boolean removeAll(final Collection<Double> c) {
+  default boolean removeAll(final Collection<<T>> c) {
     final int beforeSize = size();
-    for (final Iterator<Double> i = c.iterator(); i.hasNext();) {
-      final double value = i.next();
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext();) {
+      final <t> value = i.next();
       while (remove(value));
     }
 
@@ -178,10 +175,10 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    *           matching value cannot be removed or if, in general, removal is
    *           not supported.
    */
-  default boolean removeIf(DoublePredicate filter) {
+  default boolean removeIf(final <S>Predicate filter) {
     Objects.requireNonNull(filter);
     boolean removed = false;
-    final DoubleIterator each = iterator();
+    final <S>Iterator each = iterator();
     while (each.hasNext()) {
       if (filter.test(each.next())) {
         each.remove();
@@ -200,13 +197,13 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param c Collection containing values to be retained in this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Double}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
-  boolean retainAll(Collection<Double> c);
+  boolean retainAll(Collection<<T>> c);
 
   /**
    * Retains only the values in this collection that are contained in the
@@ -216,10 +213,10 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param c Collection containing values to be retained in this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
-  boolean retainAll(DoubleCollection c);
+  boolean retainAll(<S>Collection c);
 
   /**
    * Returns {@code true} if this collection contains the specified value. More
@@ -229,7 +226,7 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @param value Value whose presence in this collection is to be tested
    * @return {@code true} if this collection contains the specified value.
    */
-  boolean contains(double value);
+  boolean contains(<t> value);
 
   /**
    * Returns {@code true} if this collection contains all of the values in the
@@ -239,10 +236,10 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
    * @throws NullPointerException If the specified collection is null.
-   * @see #contains(double)
+   * @see #contains(<t>)
    */
-  default boolean containsAll(final DoubleCollection c) {
-    for (final DoubleIterator i = c.iterator(); i.hasNext();)
+  default boolean containsAll(final <S>Collection c) {
+    for (final <S>Iterator i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -257,13 +254,13 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@link Double}.
+   *           collection is not an {@link <T>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
-   * @see #contains(double)
+   * @see #contains(<t>)
    */
-  default boolean containsAll(final Collection<Double> c) {
-    for (final Iterator<Double> i = c.iterator(); i.hasNext();)
+  default boolean containsAll(final Collection<<T>> c) {
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -283,8 +280,8 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @return An array containing all of the values in this collection in proper
    *         sequence.
    */
-  default double[] toArray() {
-    return toArray(new double[size()]);
+  default <t>[] toArray() {
+    return toArray(new <t>[size()]);
   }
 
   /**
@@ -305,7 +302,7 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @return An array containing the values of the collection.
    * @throws NullPointerException If the specified array is null.
    */
-  double[] toArray(double[] a);
+  <t>[] toArray(<t>[] a);
 
   /**
    * Returns an array containing all of the values in this collection in proper
@@ -323,28 +320,29 @@ public interface DoubleCollection extends DoubleIterable, PrimitiveCollection {
    * @return An array containing the values of the collection.
    * @throws NullPointerException If the specified array is null.
    */
-  Double[] toArray(Double[] a);
+  <T>[] toArray(<T>[] a);
 
-  /**
-   * Creates a {@link java.util.Spliterator.OfDouble} over the values in this collection.
-   *
-   * @return A {@code Spliterator.OfDouble} over the values in this collection.
-   */
-  Spliterator.OfDouble spliterator();
-
-  /**
-   * Returns a sequential {@link DoubleStream} over the values in this collection.
-   *
-   * @return A sequential {@link DoubleStream} over the values in this collection.
-   */
-  DoubleStream stream();
-
-  /**
-   * Returns a possibly parallel {@link DoubleStream} over the values in this
-   * collection.
-   *
-   * @return A possibly parallel {@link DoubleStream} over the values in this
-   *         collection.
-   */
-  DoubleStream parallelStream();
+  // FIXME: <S>Stream
+<_>  /**
+<_>   * Creates a {@link java.util.Spliterator.Of<S>} over the values in this collection.
+<_>   *
+<_>   * @return A {@code Spliterator.Of<S>} over the values in this collection.
+<_>   */
+<_>  Spliterator.Of<S> spliterator();
+<_>
+<_>  /**
+<_>   * Returns a sequential {@link <S>Stream} over the values in this collection.
+<_>   *
+<_>   * @return A sequential {@link <S>Stream} over the values in this collection.
+<_>   */
+<_>  <S>Stream stream();
+<_>
+<_>  /**
+<_>   * Returns a possibly parallel {@link <S>Stream} over the values in this
+<_>   * collection.
+<_>   *
+<_>   * @return A possibly parallel {@link <S>Stream} over the values in this
+<_>   *         collection.
+<_>   */
+<_>  <S>Stream parallelStream();
 }

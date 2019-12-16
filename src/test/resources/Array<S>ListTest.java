@@ -18,36 +18,39 @@ package org.libj.util.primitive;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.libj.util.CollectionUtil;
 
-public class ArrayShortListTest extends PrimitiveCollectionTest {
+@SuppressWarnings("cast")
+public class Array<S>ListTest extends PrimitiveCollectionTest {
   @Test
   public void testModCound() {
-    final ArrayShortList list = new ArrayShortList((short)0, (short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+    final Array<S>List list = new Array<S>List((<t>)0, (<t>)1, (<t>)2, (<t>)3, (<t>)4, (<t>)5, (<t>)6, (<t>)7, (<t>)8, (<t>)9);
 
-    final ArrayShortList sl1 = list.subList(1, 4);
-    final ArrayShortList sl2 = list.subList(5, 9);
+    final Array<S>List sl1 = list.subList(1, 4);
+    final Array<S>List sl2 = list.subList(5, 9);
 
-    final ArrayShortList sl11 = sl1.subList(1, 2);
-    final ArrayShortList sl12 = sl1.subList(2, 3);
+    final Array<S>List sl11 = sl1.subList(1, 2);
+    final Array<S>List sl12 = sl1.subList(2, 3);
 
-    final ArrayShortList sl111 = sl11.subList(0, 1);
-    final ArrayShortList sl121 = sl11.subList(0, 1);
+    final Array<S>List sl111 = sl11.subList(0, 1);
+    final Array<S>List sl121 = sl11.subList(0, 1);
 
-    final ArrayShortList sl21 = sl2.subList(1, 2);
-    final ArrayShortList sl22 = sl2.subList(2, 3);
+    final Array<S>List sl21 = sl2.subList(1, 2);
+    final Array<S>List sl22 = sl2.subList(2, 3);
 
-    final ArrayShortList sl211 = sl21.subList(0, 1);
-    final ArrayShortList sl221 = sl21.subList(0, 1);
+    final Array<S>List sl211 = sl21.subList(0, 1);
+    final Array<S>List sl221 = sl21.subList(0, 1);
 
-    final ArrayShortList slx1 = list.subList(2, 8);
-    final ArrayShortList slx2 = slx1.subList(1, 3);
-    final ArrayShortList slx3 = slx1.subList(3, 5);
+    final Array<S>List slx1 = list.subList(2, 8);
+    final Array<S>List slx2 = slx1.subList(1, 3);
+    final Array<S>List slx3 = slx1.subList(3, 5);
 
     final Runnable test = () -> {
       assertEquals(list.modCount, sl1.modCount);
@@ -65,15 +68,15 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
       assertEquals(list.modCount, slx3.modCount);
     };
 
-    final Consumer<ArrayShortList> consumer = list1 -> {
-      list1.add((short)10);
+    final Consumer<Array<S>List> consumer = list1 -> {
+      list1.add((<t>)10);
       test.run();
 
       list1.removeIndex(0);
       test.run();
 
-      final ShortListIterator i = list1.listIterator();
-      i.add((short)10);
+      final <S>ListIterator i = list1.listIterator();
+      i.add((<t>)10);
       test.run();
 
       i.previous();
@@ -97,9 +100,9 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     consumer.accept(slx3);
   }
 
-  private static ArrayShortList[] newSubLists() {
-    final ArrayShortList[] l = new ArrayShortList[30];
-    l[0] = new ArrayShortList((short)0, (short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9, (short)10, (short)11, (short)12, (short)13, (short)14, (short)15, (short)16, (short)17, (short)18, (short)19);
+  private static Array<S>List[] newSubLists() {
+    final Array<S>List[] l = new Array<S>List[30];
+    l[0] = new Array<S>List((<t>)0, (<t>)1, (<t>)2, (<t>)3, (<t>)4, (<t>)5, (<t>)6, (<t>)7, (<t>)8, (<t>)9, (<t>)10, (<t>)11, (<t>)12, (<t>)13, (<t>)14, (<t>)15, (<t>)16, (<t>)17, (<t>)18, (<t>)19);
 
     l[1] = l[0].subList(2, 11);
     l[2] = l[0].subList(11, 16);
@@ -138,10 +141,10 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     return l;
   }
 
-  private static void assertSubListsEaual(final ArrayShortList[] ... lists) {
+  private static void assertSubListsEaual(final Array<S>List[] ... lists) {
     for (int i = 1; i < lists.length; ++i) {
-      final ArrayShortList[] a = lists[i - 1];
-      final ArrayShortList[] b = lists[i];
+      final Array<S>List[] a = lists[i - 1];
+      final Array<S>List[] b = lists[i];
       for (int j = 0; j < a.length; ++j)
         Assert.assertEquals((char)('a' + i - 1) + "[" + j + "] != " + (char)('a' + i) + "[" + j + "]: ", a[j], b[j]);
     }
@@ -149,16 +152,16 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 
   @Test
   public void testSubLists() {
-    final ArrayShortList[] baseline = newSubLists();
-    final ArrayShortList[] a = newSubLists();
-    final ArrayShortList[] b = newSubLists();
-    final ArrayShortList[] c = newSubLists();
+    final Array<S>List[] baseline = newSubLists();
+    final Array<S>List[] a = newSubLists();
+    final Array<S>List[] b = newSubLists();
+    final Array<S>List[] c = newSubLists();
 
     assertSubListsEaual(a, b, c);
 
-    a[0].add(0, (short)-1);
-    b[5].add(0, (short)-1);
-    c[9].add(0, (short)-1);
+    a[0].add(0, (<t>)-1);
+    b[5].add(0, (<t>)-1);
+    c[9].add(0, (<t>)-1);
     assertSubListsEaual(a, b, c);
 
     a[0].removeIndex(0);
@@ -167,9 +170,9 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertSubListsEaual(a, b, c);
     assertSubListsEaual(baseline, a);
 
-    a[0].addAll(2, new short[] {2, 2});
-    b[1].addAll(0, new short[] {2, 2});
-    c[10].addAll(0, new short[] {2, 2});
+    a[0].addAll(2, new <t>[] {2, 2});
+    b[1].addAll(0, new <t>[] {2, 2});
+    c[10].addAll(0, new <t>[] {2, 2});
     assertSubListsEaual(a, b, c);
 
     a[0].removeIndex(2);
@@ -181,64 +184,64 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertSubListsEaual(a, b, c);
     assertSubListsEaual(baseline, a);
 
-    a[0].addAll(8, Arrays.asList((short)8, (short)8));
-    b[11].addAll(3, Arrays.asList((short)8, (short)8));
-    c[25].addAll(0, Arrays.asList((short)8, (short)8));
+    a[0].addAll(8, Arrays.asList((<t>)8, (<t>)8));
+    b[11].addAll(3, Arrays.asList((<t>)8, (<t>)8));
+    c[25].addAll(0, Arrays.asList((<t>)8, (<t>)8));
     assertSubListsEaual(a, b, c);
 
-    a[0].remove((short)8);
-    a[0].remove((short)8);
-    b[11].remove((short)8);
-    b[11].remove((short)8);
-    c[25].remove((short)8);
-    c[25].remove((short)8);
-    assertSubListsEaual(a, b, c);
-    assertSubListsEaual(baseline, a);
-
-    a[0].addAll(8, (ShortCollection)new ArrayShortList((short)-8, (short)-8));
-    b[11].addAll(3, (ShortCollection)new ArrayShortList((short)-8, (short)-8));
-    c[25].addAll(0, (ShortCollection)new ArrayShortList((short)-8, (short)-8));
-    assertSubListsEaual(a, b, c);
-
-    a[0].removeAll((short)-8);
-    b[11].removeAll((short)-8);
-    c[25].removeAll((short)-8);
+    a[0].remove((<t>)8);
+    a[0].remove((<t>)8);
+    b[11].remove((<t>)8);
+    b[11].remove((<t>)8);
+    c[25].remove((<t>)8);
+    c[25].remove((<t>)8);
     assertSubListsEaual(a, b, c);
     assertSubListsEaual(baseline, a);
 
-    a[21].add((short)99);
+    a[0].addAll(8, (<S>Collection)new Array<S>List((<t>)-8, (<t>)-8));
+    b[11].addAll(3, (<S>Collection)new Array<S>List((<t>)-8, (<t>)-8));
+    c[25].addAll(0, (<S>Collection)new Array<S>List((<t>)-8, (<t>)-8));
+    assertSubListsEaual(a, b, c);
+
+    a[0].removeAll((<t>)-8);
+    b[11].removeAll((<t>)-8);
+    c[25].removeAll((<t>)-8);
+    assertSubListsEaual(a, b, c);
+    assertSubListsEaual(baseline, a);
+
+    a[21].add((<t>)99);
     assertEquals(99, a[0].get(19));
     assertEquals(99, a[8].get(4));
     assertEquals(5, a[13].size());
 
-    a[21].remove((short)99);
+    a[21].remove((<t>)99);
     assertEquals(19, a[0].get(19));
     assertEquals(19, a[8].get(4));
     assertEquals(4, a[13].size());
     assertSubListsEaual(a, b, c);
     assertSubListsEaual(baseline, a);
 
-    a[21].addAll(Arrays.asList((short)99, (short)99));
+    a[21].addAll(Arrays.asList((<t>)99, (<t>)99));
     assertEquals(99, a[0].get(19));
     assertEquals(99, a[0].get(20));
     assertEquals(99, a[8].get(4));
     assertEquals(99, a[8].get(5));
     assertEquals(6, a[13].size());
 
-    a[21].removeAll((short)99);
+    a[21].removeAll((<t>)99);
     assertEquals(19, a[0].get(19));
     assertEquals(19, a[8].get(4));
     assertEquals(4, a[13].size());
     assertSubListsEaual(a, b, c);
     assertSubListsEaual(baseline, a);
 
-    a[17].add((short)99);
+    a[17].add((<t>)99);
     assertEquals(99, a[0].get(5));
     assertEquals(99, a[6].get(0));
     assertEquals(99, a[11].get(0));
     assertEquals(0, a[24].size());
 
-    a[17].remove((short)99);
+    a[17].remove((<t>)99);
     assertEquals(5, a[0].get(5));
     assertEquals(5, a[6].get(0));
     assertEquals(5, a[11].get(0));
@@ -246,12 +249,12 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertSubListsEaual(a, b, c);
     assertSubListsEaual(baseline, a);
 
-    final ShortListIterator ia = a[0].listIterator(8);
-    ia.add((short)99);
-    final ShortListIterator ib = b[6].listIterator(3);
-    ib.add((short)99);
-    final ShortListIterator ic = c[25].listIterator(0);
-    ic.add((short)99);
+    final <S>ListIterator ia = a[0].listIterator(8);
+    ia.add((<t>)99);
+    final <S>ListIterator ib = b[6].listIterator(3);
+    ib.add((<t>)99);
+    final <S>ListIterator ic = c[25].listIterator(0);
+    ic.add((<t>)99);
     assertSubListsEaual(a, b, c);
 
     ia.previous();
@@ -267,17 +270,17 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     for (int i = 1; i < a.length; ++i)
       Assert.assertEquals("a[" + (i - 1) + "] != " + "a[" + i + "]: ", a[i - 1].size(), a[i].size());
 
-    a[0].add((short)100);
+    a[0].add((<t>)100);
     for (int i = 2; i < a.length; ++i)
       Assert.assertEquals("a[" + (i - 1) + "] != " + "a[" + i + "]: ", a[i - 1].size(), a[i].size());
 
     a[0].removeIndex(0);
-    a[1].add((short)100);
+    a[1].add((<t>)100);
     assertEquals(100, a[0].get(0));
     a[0].removeIndex(0);
     assertTrue(a[1].isEmpty());
 
-    a[26].add((short)100);
+    a[26].add((<t>)100);
     assertEquals(100, a[19].get(0));
     assertEquals(100, a[12].get(0));
     assertEquals(100, a[7].get(0));
@@ -304,31 +307,31 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 
   @Test
   public void testList() {
-    final ArrayShortList list = new ArrayShortList();
+    final Array<S>List list = new Array<S>List();
     testList(list);
   }
 
   @Test
   public void testSubList() {
-    final ArrayShortList list = new ArrayShortList((short)-7, (short)-6, (short)-5, (short)-4, (short)-3, (short)-2, (short)-1);
-    final ArrayShortList subList = list.subList(3, 3);
+    final Array<S>List list = new Array<S>List((<t>)-7, (<t>)-6, (<t>)-5, (<t>)-4, (<t>)-3, (<t>)-2, (<t>)-1);
+    final Array<S>List subList = list.subList(3, 3);
     testList(subList);
-    assertArrayEquals(new short[] {-7, -6, -5, 4, 6, 7, 7, 10, 11, 99, 99, -4, -3, -2, -1}, list.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-7, (<t>)-6, (<t>)-5, (<t>)4, (<t>)6, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99, (<t>)-4, (<t>)-3, (<t>)-2, (<t>)-1}, list.toArray());
 
 //    list.removeIndex(1);
-//    assertArrayEquals(new short[] {4, 6, 7, 7, 10, 11, 99, 99}, subList.toArray());
+//    assertArrayEquals(new <t>[] {4, 6, 7, 7, 10, 11, 99, 99}, subList.toArray());
 //
 //    list.removeIndex(4);
-//    assertArrayEquals(new short[] {4, 7, 7, 10, 11, 99, 99}, subList.toArray());
+//    assertArrayEquals(new <t>[] {4, 7, 7, 10, 11, 99, 99}, subList.toArray());
 //
 //    list.removeIndex(10);
-//    assertArrayEquals(new short[] {4, 7, 7, 10, 11, 99}, subList.toArray());
+//    assertArrayEquals(new <t>[] {4, 7, 7, 10, 11, 99}, subList.toArray());
   }
 
   @Test
   public void testSubSubList() {
-    final ArrayShortList list = new ArrayShortList((short)-7, (short)-6, (short)-5, (short)-4, (short)-3, (short)-2, (short)-1);
-    final ArrayShortList subList = list.subList(2, 5);
+    final Array<S>List list = new Array<S>List((<t>)-7, (<t>)-6, (<t>)-5, (<t>)-4, (<t>)-3, (<t>)-2, (<t>)-1);
+    final Array<S>List subList = list.subList(2, 5);
     try {
       subList.subList(4, 4);
       fail("Expected IndexOutOfBoundsException");
@@ -336,55 +339,55 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     catch (final IndexOutOfBoundsException e) {
     }
 
-    final ArrayShortList subSubList = subList.subList(2, 2);
+    final Array<S>List subSubList = subList.subList(2, 2);
     testList(subSubList);
-    assertArrayEquals(new short[] {-5, -4, 4, 6, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
-    assertArrayEquals(new short[] {-7, -6, -5, -4, 4, 6, 7, 7, 10, 11, 99, 99, -3, -2, -1}, list.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)-4, (<t>)4, (<t>)6, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99, (<t>)-3}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-7, (<t>)-6, (<t>)-5, (<t>)-4, (<t>)4, (<t>)6, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99, (<t>)-3, (<t>)-2, (<t>)-1}, list.toArray());
 
     list.removeIndex(1);
-    assertArrayEquals(new short[] {-5, -4, 4, 6, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
-    assertArrayEquals(new short[] {4, 6, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)-4, (<t>)4, (<t>)6, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99, (<t>)-3}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)4, (<t>)6, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99}, subSubList.toArray());
 
     list.removeIndex(4);
-    assertArrayEquals(new short[] {-5, -4, 4, 7, 7, 10, 11, 99, 99, -3}, subList.toArray());
-    assertArrayEquals(new short[] {4, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)-4, (<t>)4, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99, (<t>)-3}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)4, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99}, subSubList.toArray());
 
     list.removeIndex(10);
-    assertArrayEquals(new short[] {-5, -4, 4, 7, 7, 10, 11, 99, 99}, subList.toArray());
-    assertArrayEquals(new short[] {4, 7, 7, 10, 11, 99, 99}, subSubList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)-4, (<t>)4, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)4, (<t>)7, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99}, subSubList.toArray());
 
     subList.removeIndex(4);
-    assertArrayEquals(new short[] {-7, -5, -4, 4, 7, 10, 11, 99, 99, -2, -1}, list.toArray());
-    assertArrayEquals(new short[] {-5, -4, 4, 7, 10, 11, 99, 99}, subList.toArray());
-    assertArrayEquals(new short[] {4, 7, 10, 11, 99, 99}, subSubList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-7, (<t>)-5, (<t>)-4, (<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99, (<t>)-2, (<t>)-1}, list.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)-4, (<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)99}, subSubList.toArray());
 
     subList.removeIndex(7);
-    assertArrayEquals(new short[] {-7, -5, -4, 4, 7, 10, 11, 99, -2, -1}, list.toArray());
-    assertArrayEquals(new short[] {-5, -4, 4, 7, 10, 11, 99}, subList.toArray());
-    assertArrayEquals(new short[] {4, 7, 10, 11, 99}, subSubList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-7, (<t>)-5, (<t>)-4, (<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)-2, (<t>)-1}, list.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)-4, (<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99}, subSubList.toArray());
 
     subList.removeIndex(1);
-    assertArrayEquals(new short[] {-7, -5, 4, 7, 10, 11, 99, -2, -1}, list.toArray());
-    assertArrayEquals(new short[] {-5, 4, 7, 10, 11, 99}, subList.toArray());
-    assertArrayEquals(new short[] {4, 7, 10, 11, 99}, subSubList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-7, (<t>)-5, (<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99, (<t>)-2, (<t>)-1}, list.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)4, (<t>)7, (<t>)10, (<t>)11, (<t>)99}, subSubList.toArray());
 
     subSubList.removeIndex(2);
-    assertArrayEquals(new short[] {-7, -5, 4, 7, 11, 99, -2, -1}, list.toArray());
-    assertArrayEquals(new short[] {-5, 4, 7, 11, 99}, subList.toArray());
-    assertArrayEquals(new short[] {4, 7, 11, 99}, subSubList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-7, (<t>)-5, (<t>)4, (<t>)7, (<t>)11, (<t>)99, (<t>)-2, (<t>)-1}, list.toArray());
+    assertArrayEquals(new <t>[] {(<t>)-5, (<t>)4, (<t>)7, (<t>)11, (<t>)99}, subList.toArray());
+    assertArrayEquals(new <t>[] {(<t>)4, (<t>)7, (<t>)11, (<t>)99}, subSubList.toArray());
 
     Assert.assertEquals(list, list.clone());
     Assert.assertEquals(subList, subList.clone());
     Assert.assertEquals(subSubList, subSubList.clone());
   }
 
-  public void testList(final ArrayShortList list) {
+  public void testList(final Array<S>List list) {
     assertTrue(list.isEmpty());
-    list.add((short)1);
-    list.add((short)2);
-    list.add((short)3);
-    list.add((short)4);
-    list.add((short)5);
+    list.add((<t>)1);
+    list.add((<t>)2);
+    list.add((<t>)3);
+    list.add((<t>)4);
+    list.add((<t>)5);
     assertEquals(5, list.size());
     assertEquals(1, list.get(0));
     assertEquals(2, list.get(1));
@@ -399,7 +402,7 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     catch (final IndexOutOfBoundsException e) {
     }
 
-    list.addAll(new short[] {6, 7, 8, 9, 10});
+    list.addAll(new <t>[] {6, 7, 8, 9, 10});
     assertEquals(10, list.size());
     assertEquals(6, list.get(5));
     assertEquals(7, list.get(6));
@@ -407,7 +410,7 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertEquals(9, list.get(8));
     assertEquals(10, list.get(9));
 
-    list.addAll(3, new short[] {11, 12, 13});
+    list.addAll(3, new <t>[] {11, 12, 13});
     assertEquals(13, list.size());
     assertEquals(2, list.get(1));
     assertEquals(3, list.get(2));
@@ -416,70 +419,70 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertEquals(13, list.get(5));
     assertEquals(4, list.get(6));
 
-    list.set(1, (short)7);
+    list.set(1, (<t>)7);
     assertEquals(13, list.size());
     assertEquals(7, list.get(1));
 
-    assertEquals(1, list.indexOf((short)7));
-    assertEquals(9, list.lastIndexOf((short)7));
+    assertEquals(1, list.indexOf((<t>)7));
+    assertEquals(9, list.lastIndexOf((<t>)7));
 
-    list.add(2, (short)99);
-    list.add(7, (short)99);
-    list.add(13, (short)99);
+    list.add(2, (<t>)99);
+    list.add(7, (<t>)99);
+    list.add(13, (<t>)99);
     assertEquals(16, list.size());
-    assertArrayEquals(new short[] {1, 7, 99, 3, 11, 12, 13, 99, 4, 5, 6, 7, 8, 99, 9, 10}, list.toArray(new short[list.size()]));
+    assertArrayEquals(new <t>[] {1, 7, 99, 3, 11, 12, 13, 99, 4, 5, 6, 7, 8, 99, 9, 10}, list.toArray(new <t>[list.size()]));
     Assert.assertEquals(list, list.clone());
 
     list.removeIndex(3);
-    assertArrayEquals(new short[] {1, 7, 99, 11, 12, 13, 99, 4, 5, 6, 7, 8, 99, 9, 10}, list.toArray(new short[0]));
+    assertArrayEquals(new <t>[] {1, 7, 99, 11, 12, 13, 99, 4, 5, 6, 7, 8, 99, 9, 10}, list.toArray(new <t>[0]));
 
-    list.remove((short)99);
-    assertArrayEquals(new short[] {1, 7, 11, 12, 13, 99, 4, 5, 6, 7, 8, 99, 9, 10}, list.toArray(new short[list.size()]));
+    list.remove((<t>)99);
+    assertArrayEquals(new <t>[] {1, 7, 11, 12, 13, 99, 4, 5, 6, 7, 8, 99, 9, 10}, list.toArray(new <t>[list.size()]));
 
-    assertFalse(list.contains((short)0));
+    assertFalse(list.contains((<t>)0));
     list.sort();
-    Assert.assertArrayEquals(new Short[] {(short)1, (short)4, (short)5, (short)6, (short)7, (short)7, (short)8, (short)9, (short)10, (short)11, (short)12, (short)13, (short)99, (short)99}, list.toArray(new Short[list.size()]));
+    Assert.assertArrayEquals(new <T>[] {(<t>)1, (<t>)4, (<t>)5, (<t>)6, (<t>)7, (<t>)7, (<t>)8, (<t>)9, (<t>)10, (<t>)11, (<t>)12, (<t>)13, (<t>)99, (<t>)99}, list.toArray(new <T>[list.size()]));
 
-    assertTrue(list.removeAll(new short[] {5, 9, 12}));
-    assertArrayEquals(new short[] {1, 4, 6, 7, 7, 8, 10, 11, 13, 99, 99}, list.toArray(new short[list.size()]));
+    assertTrue(list.removeAll(new <t>[] {5, 9, 12}));
+    assertArrayEquals(new <t>[] {1, 4, 6, 7, 7, 8, 10, 11, 13, 99, 99}, list.toArray(new <t>[list.size()]));
 
-    assertTrue(list.removeAll(Arrays.asList((short)1, (short)8, (short)13)));
-    assertArrayEquals(new short[] {4, 6, 7, 7, 10, 11, 99, 99}, list.toArray(new short[0]));
+    assertTrue(list.removeAll(Arrays.asList((<t>)1, (<t>)8, (<t>)13)));
+    assertArrayEquals(new <t>[] {4, 6, 7, 7, 10, 11, 99, 99}, list.toArray(new <t>[0]));
 
-    assertTrue(list.containsAll((short)4, (short)10, (short)99));
-    assertTrue(list.containsAll(Arrays.asList((short)4, (short)10, (short)99)));
-    assertTrue(list.containsAll(new ArrayShortList((short)4, (short)10, (short)99)));
+    assertTrue(list.containsAll((<t>)4, (<t>)10, (<t>)99));
+    assertTrue(list.containsAll(Arrays.asList((<t>)4, (<t>)10, (<t>)99)));
+    assertTrue(list.containsAll(new Array<S>List((<t>)4, (<t>)10, (<t>)99)));
   }
 
   @Test
   public void testIterator() {
-    final short[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
-    final ArrayShortList list = new ArrayShortList(values);
+    final <t>[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
+    final Array<S>List list = new Array<S>List(values);
     testIterator(values, list);
   }
 
   @Test
   public void testIteratorSubList() {
-    final short[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
-    final ArrayShortList list = new ArrayShortList((short)1, (short)2, (short)3);
+    final <t>[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
+    final Array<S>List list = new Array<S>List((<t>)1, (<t>)2, (<t>)3);
     list.addAll(values);
-    list.addAll(new short[] {4, 5, 6});
+    list.addAll(new <t>[] {4, 5, 6});
     testIterator(values, list.subList(3, list.size() - 3));
   }
 
   @Test
   public void testIteratorSubListSubList() {
-    final short[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
-    final ArrayShortList list = new ArrayShortList((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+    final <t>[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
+    final Array<S>List list = new Array<S>List((<t>)1, (<t>)2, (<t>)3, (<t>)4, (<t>)5, (<t>)6);
     list.addAll(values);
-    list.addAll(new short[] {9, 10, 11, 12, 13, 14});
-    final ArrayShortList subList = list.subList(3, list.size() - 3);
+    list.addAll(new <t>[] {9, 10, 11, 12, 13, 14});
+    final Array<S>List subList = list.subList(3, list.size() - 3);
     testIterator(values, subList.subList(3, subList.size() - 3));
   }
 
-  public void testIterator(final short[] values, final ArrayShortList list) {
+  public void testIterator(final <t>[] values, final Array<S>List list) {
     assertEquals(values.length, list.size());
-    ShortIterator iterator = list.iterator();
+    <S>Iterator iterator = list.iterator();
     for (int i = 0; i < values.length; ++i)
       assertEquals(values[i], iterator.next());
 
@@ -505,37 +508,37 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertEquals(8, iterator.next());
     iterator.remove();
     assertEquals(5, list.size());
-    assertArrayEquals(new short[] {7, 5, 6, 1, 0}, list.toArray(new short[0]));
+    assertArrayEquals(new <t>[] {7, 5, 6, 1, 0}, list.toArray(new <t>[0]));
   }
 
   @Test
   public void testListIterator() {
-    final short[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
-    final ArrayShortList list = new ArrayShortList(values);
+    final <t>[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
+    final Array<S>List list = new Array<S>List(values);
     testListIterator(values, list);
   }
 
   @Test
   public void testListIteratorSubList() {
-    final short[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
-    final ArrayShortList list = new ArrayShortList((short)1, (short)2, (short)3);
+    final <t>[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
+    final Array<S>List list = new Array<S>List((<t>)1, (<t>)2, (<t>)3);
     list.addAll(values);
-    list.addAll(new short[] {4, 5, 6});
+    list.addAll(new <t>[] {4, 5, 6});
     testListIterator(values, list.subList(3, list.size() - 3));
   }
 
   @Test
   public void testListIteratorSubListSubList() {
-    final short[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
-    final ArrayShortList list = new ArrayShortList((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+    final <t>[] values = {7, 3, 5, 4, 6, 9, 1, 8, 0};
+    final Array<S>List list = new Array<S>List((<t>)1, (<t>)2, (<t>)3, (<t>)4, (<t>)5, (<t>)6);
     list.addAll(values);
-    list.addAll(new short[] {9, 10, 11, 12, 13, 14});
-    final ArrayShortList subList = list.subList(3, list.size() - 3);
+    list.addAll(new <t>[] {9, 10, 11, 12, 13, 14});
+    final Array<S>List subList = list.subList(3, list.size() - 3);
     testListIterator(values, subList.subList(3, subList.size() - 3));
   }
 
-  public void testListIterator(final short[] values, final ArrayShortList list) {
-    ShortListIterator iterator = list.listIterator();
+  public void testListIterator(final <t>[] values, final Array<S>List list) {
+    <S>ListIterator iterator = list.listIterator();
     for (int i = 0; i < values.length; ++i) {
       assertEquals(i, iterator.nextIndex());
       assertEquals(values[i], iterator.next());
@@ -582,10 +585,10 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertEquals(8, iterator.next());
     iterator.remove();
     assertTrue(iterator.hasNext());
-    assertArrayEquals(new short[] {7, 5, 9, 1, 0}, list.toArray(new short[0]));
+    assertArrayEquals(new <t>[] {7, 5, 9, 1, 0}, list.toArray(new <t>[0]));
 
-    iterator.add((short)3);
-    assertArrayEquals(new short[] {7, 5, 9, 1, 3, 0}, list.toArray(new short[0]));
+    iterator.add((<t>)3);
+    assertArrayEquals(new <t>[] {7, 5, 9, 1, 3, 0}, list.toArray(new <t>[0]));
     try {
       iterator.remove();
       fail("Expected IllegalStateException");
@@ -595,10 +598,10 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
     assertEquals(0, iterator.next());
     assertFalse(iterator.hasNext());
     iterator.remove();
-    assertArrayEquals(new short[] {7, 5, 9, 1, 3}, list.toArray(new short[0]));
+    assertArrayEquals(new <t>[] {7, 5, 9, 1, 3}, list.toArray(new <t>[0]));
   }
 
-  private final ArrayShortList list = new ArrayShortList();
+  private final Array<S>List list = new Array<S>List();
 
   @Test
   public void shouldReportEmpty() {
@@ -608,7 +611,7 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldAdd() {
-    list.add((short)7);
+    list.add((<t>)7);
 
     assertEquals(1, list.size());
     assertEquals(7, list.get(0));
@@ -617,10 +620,10 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldAddAtIndex() {
     final int count = 20;
-    for (short i = 0; i < count; ++i)
+    for (<t> i = 0; i < count; ++i)
       list.add(i);
 
-    list.add(10, (short)111);
+    list.add(10, (<t>)111);
 
     assertEquals(count + 1, list.size());
     assertEquals(111, list.get(10));
@@ -629,9 +632,9 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldAddValueAtIndexWithNearlyFullCapacity() {
-    final int count = ArrayShortList.DEFAULT_INITIAL_CAPACITY - 1;
-    final short value = count + 1;
-    for (short i = 0; i < count; ++i)
+    final int count = Array<S>List.DEFAULT_INITIAL_CAPACITY - 1;
+    final <t> value = count + 1;
+    for (<t> i = 0; i < count; ++i)
       list.add(i);
 
     list.add(0, value);
@@ -643,8 +646,8 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldSetInt() {
-    list.add((short)7);
-    list.set(0, (short)8);
+    list.add((<t>)7);
+    list.set(0, (<t>)8);
 
     assertEquals(1, list.size());
     assertEquals(8, list.get(0));
@@ -653,19 +656,19 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldContainCorrectValues() {
     final int count = 20;
-    for (short i = 0; i < count; ++i)
+    for (<t> i = 0; i < count; ++i)
       list.add(i);
 
-    for (short i = 0; i < count; ++i)
+    for (<t> i = 0; i < count; ++i)
       assertTrue(list.contains(i));
 
-    assertFalse(list.contains((short)-1));
-    assertFalse(list.contains((short)20));
+    assertFalse(list.contains((<t>)-1));
+    assertFalse(list.contains((<t>)20));
   }
 
   @Test
   public void shouldRemoveAtIndexForListLengthOne() {
-    list.add((short)1);
+    list.add((<t>)1);
 
     assertEquals(1, list.removeIndex(0));
     assertTrue(list.isEmpty());
@@ -675,7 +678,7 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
   public void shouldRemoveAtIndex() {
     final int count = 20;
     for (int i = 0; i < count; ++i)
-      list.add((short)i);
+      list.add((<t>)i);
 
     assertEquals(10, list.removeIndex(10));
 
@@ -686,10 +689,10 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldRemoveByValue() {
     final int count = 20;
-    for (short i = 0; i < count; ++i)
-      list.add((short)(i * 10));
+    for (<t> i = 0; i < count; ++i)
+      list.add((<t>)(i * 10));
 
-    assertTrue(list.remove((short)10));
+    assertTrue(list.remove((<t>)10));
 
     assertEquals(count - 1, list.size());
     assertEquals(20, list.get(1));
@@ -697,13 +700,13 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 
 //  @Test
 //  public void shouldForEachOrderedInt() {
-//    final List<Short> expected = new ArrayList<>();
+//    final List<<T>> expected = new ArrayList<>();
 //    for (int i = 0; i < 20; ++i)
-//      expected.add((short)i);
+//      expected.add((<t>)i);
 //
 //    list.addAll(expected);
 //
-//    final List<Short> actual = new ArrayList<>();
+//    final List<<T>> actual = new ArrayList<>();
 //    list.stream().forEach(actual::add);
 //
 //    Assert.assertEquals(expected, actual);
@@ -712,45 +715,45 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 //  @Test
 //  public void shouldCreateObjectRefArray() {
 //    final int count = 20;
-//    final List<Short> expected = new ArrayList<>();
+//    final List<<T>> expected = new ArrayList<>();
 //    for (int i = 0; i < count; ++i)
-//      expected.add((short)i);
+//      expected.add((<t>)i);
 //
 //    list.addAll(expected);
 //
-//    Assert.assertArrayEquals(expected.toArray(), list.toArray(new Short[count]));
-//    Assert.assertArrayEquals(expected.toArray(), list.toArray(new Short[0]));
-//    assertArrayEquals(expected.stream().mapToShort(i -> i).toArray(), list.toArray());
+//    Assert.assertArrayEquals(expected.toArray(), list.toArray(new <T>[count]));
+//    Assert.assertArrayEquals(expected.toArray(), list.toArray(new <T>[0]));
+//    assertArrayEquals(expected.stream().mapTo<T>(i -> i).toArray(), list.toArray());
 //  }
 
   @Test
   public void shouldCreateIntArray() {
     final int count = 20;
-    final short[] expected = new short[count];
-    for (short i = 0; i < count; ++i) {
-      list.add(i);
-      expected[i] = i;
+    final <t>[] expected = new <t>[count];
+    for (int i = 0; i < count; ++i) {
+      list.add((<t>)i);
+      expected[i] = (<t>)i;
     }
 
     assertArrayEquals(expected, list.toArray());
 
-    final short[] copy = new short[count];
-    final short[] result = list.toArray(copy);
+    final <t>[] copy = new <t>[count];
+    final <t>[] result = list.toArray(copy);
 
     assertSame(copy, result);
     assertArrayEquals(expected, result);
   }
 
   @Test
-  public void shouldCreateShortArray() {
+  public void shouldCreate<T>Array() {
     final int count = 20;
-    final Short[] expected = new Short[count];
-    for (short i = 0; i < count; ++i) {
-      list.add(i);
-      expected[i] = (short)i;
+    final <T>[] expected = new <T>[count];
+    for (int i = 0; i < count; ++i) {
+      list.add((<t>)i);
+      expected[i] = (<t>)i;
     }
 
-    final Short[] integers = list.toArray(new Short[0]);
+    final <T>[] integers = list.toArray(new <T>[0]);
     Assert.assertEquals(expected.getClass(), integers.getClass());
     Assert.assertArrayEquals(expected, integers);
   }
@@ -758,7 +761,7 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldPushAndThenPopInOrder() {
     final int count = 7;
-    for (short i = 0; i < count; ++i)
+    for (<t> i = 0; i < count; ++i)
       list.push(i);
 
     for (int i = count - 1; i >= 0; --i)
@@ -772,8 +775,12 @@ public class ArrayShortListTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldGenerateStringRepresentation() {
-    list.addAll(new short[] {3, 1, -1, 19, 7, 11, 12, 7});
+    final <t>[] testEntries = new <t>[] {(<t>)65, (<t>)68, (<t>)83, (<t>)104, (<t>)111, (<t>)75, (<t>)83, (<t>)97};
+    list.addAll(testEntries);
+    final ArrayList<<T>> expected = new ArrayList<>(testEntries.length);
+    for (final <t> testEntry : testEntries)
+      expected.add(testEntry);
 
-    Assert.assertEquals("[3, 1, -1, 19, 7, 11, 12, 7]", list.toString());
+    Assert.assertEquals(expected.toString(), list.toString());
   }
 }

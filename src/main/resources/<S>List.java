@@ -18,19 +18,17 @@ package org.libj.util.primitive;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
-import java.util.function.DoubleUnaryOperator;
 
 /**
- * An ordered collection (also known as a <i>sequence</i>), of {@code double}
+ * An ordered collection (also known as a <i>sequence</i>), of {@code <t>}
  * values.
  * <p>
- * This interface is a replica of the {@link List} interface that defines
- * synonymous methods for a list of {@code double} values instead of Object
- * references.
+ * This interface is a replica of the {@link java.util.List} interface that
+ * defines synonymous methods for a list of {@code <t>} values instead of
+ * Object references.
  */
-public interface DoubleList extends DoubleCollection {
+public interface <S>List extends <S>Collection {
   /**
    * Pushes an item onto the top of this list. This has exactly the same effect
    * as:
@@ -41,9 +39,9 @@ public interface DoubleList extends DoubleCollection {
    *
    * @param value The value to be pushed onto this list.
    * @return The {@code value} argument.
-   * @see #add(double)
+   * @see #add(<t>)
    */
-  default double push(final double value) {
+  default <t> push(final <t> value) {
     add(value);
     return value;
   }
@@ -57,10 +55,10 @@ public interface DoubleList extends DoubleCollection {
    * </pre>
    *
    * @return The value at the top of this list (the last item of the
-   *         {@link DoubleList} object).
+   *         {@link <S>List} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
-  default double pop() {
+  default <t> pop() {
     return removeIndex(size() - 1);
   }
 
@@ -73,10 +71,10 @@ public interface DoubleList extends DoubleCollection {
    * </pre>
    *
    * @return The value at the top of this list (the last item of the
-   *         {@link DoubleList} object).
+   *         {@link <S>List} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
-  default double peek() {
+  default <t> peek() {
     return get(size() - 1);
   }
 
@@ -88,7 +86,7 @@ public interface DoubleList extends DoubleCollection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  double get(int index);
+  <t> get(int index);
 
   /**
    * Appends the specified value to the end of this list.
@@ -97,7 +95,7 @@ public interface DoubleList extends DoubleCollection {
    * @return {@code true} if this list changed as a result of the call.
    */
   @Override
-  boolean add(double value);
+  boolean add(<t> value);
 
   /**
    * Inserts the specified value at the specified position in this list. Shifts
@@ -110,7 +108,7 @@ public interface DoubleList extends DoubleCollection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  boolean add(int index, double value);
+  boolean add(int index, <t> value);
 
   /**
    * Appends all of the values in the specified array to the end of this list,
@@ -128,7 +126,7 @@ public interface DoubleList extends DoubleCollection {
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified array is null.
    */
-  boolean addAll(int index, double[] values, int offset, int length);
+  boolean addAll(int index, <t>[] values, int offset, int length);
 
   /**
    * Appends all of the values in the specified array to the end of this list,
@@ -142,7 +140,7 @@ public interface DoubleList extends DoubleCollection {
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified array is null.
    */
-  default boolean addAll(final int index, final double[] values) {
+  default boolean addAll(final int index, final <t>[] values) {
     return addAll(index, values, 0, values.length);
   }
 
@@ -158,7 +156,7 @@ public interface DoubleList extends DoubleCollection {
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified array is null.
    */
-  boolean addAll(double[] values, int offset, int length);
+  boolean addAll(<t>[] values, int offset, int length);
 
   /**
    * Appends all of the values in the specified array to the end of this list,
@@ -169,7 +167,7 @@ public interface DoubleList extends DoubleCollection {
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  default boolean addAll(final double ... values) {
+  default boolean addAll(final <t> ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -185,11 +183,11 @@ public interface DoubleList extends DoubleCollection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Double}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
-  boolean addAll(int index, Collection<Double> c);
+  boolean addAll(int index, Collection<<T>> c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -199,12 +197,12 @@ public interface DoubleList extends DoubleCollection {
    * @param c Collection containing values to be added to this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Double}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
   @Override
-  boolean addAll(Collection<Double> c);
+  boolean addAll(Collection<<T>> c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -221,7 +219,7 @@ public interface DoubleList extends DoubleCollection {
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified collection is null.
    */
-  boolean addAll(int index, DoubleCollection c);
+  boolean addAll(int index, <S>Collection c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -235,7 +233,7 @@ public interface DoubleList extends DoubleCollection {
    * @throws NullPointerException If the specified collection is null.
    */
   @Override
-  boolean addAll(DoubleCollection c);
+  boolean addAll(<S>Collection c);
 
   /**
    * Replaces the value at the specified position in this list with the
@@ -247,7 +245,7 @@ public interface DoubleList extends DoubleCollection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  double set(int index, double value);
+  <t> set(int index, <t> value);
 
   /**
    * Removes the value at the specified index in this list. Shifts any
@@ -258,7 +256,7 @@ public interface DoubleList extends DoubleCollection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  double removeIndex(int index);
+  <t> removeIndex(int index);
 
   /**
    * Removes the first occurrence of the specified value from this list, if it
@@ -272,7 +270,7 @@ public interface DoubleList extends DoubleCollection {
    * @return {@code true} if this list contained the specified value.
    */
   @Override
-  default boolean remove(final double value) {
+  default boolean remove(final <t> value) {
     final int index = indexOf(value);
     if (index == -1)
       return false;
@@ -287,11 +285,11 @@ public interface DoubleList extends DoubleCollection {
    *
    * @param values Values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  default boolean removeAll(final double ... values) {
+  default boolean removeAll(final <t> ... values) {
     final int beforeSize = size();
     for (int i = 0; i < values.length; ++i)
       while (remove(values[i]));
@@ -306,14 +304,14 @@ public interface DoubleList extends DoubleCollection {
    * @param c Collection containing values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  default boolean removeAll(final DoubleCollection c) {
+  default boolean removeAll(final <S>Collection c) {
     final int beforeSize = size();
-    for (final DoubleIterator iterator = c.iterator(); iterator.hasNext();) {
-      final double value = iterator.next();
+    for (final <S>Iterator iterator = c.iterator(); iterator.hasNext();) {
+      final <t> value = iterator.next();
       while (remove(value));
     }
 
@@ -327,17 +325,17 @@ public interface DoubleList extends DoubleCollection {
    * @param c Collection containing values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Double}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  default boolean removeAll(final Collection<Double> c) {
+  default boolean removeAll(final Collection<<T>> c) {
     final int beforeSize = size();
-    for (final Iterator<Double> i = c.iterator(); i.hasNext();) {
-      final double value = i.next();
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext();) {
+      final <t> value = i.next();
       while (remove(value));
     }
 
@@ -352,14 +350,14 @@ public interface DoubleList extends DoubleCollection {
    * @param c Collection containing values to be retained in this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Double}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  boolean retainAll(Collection<Double> c);
+  boolean retainAll(Collection<<T>> c);
 
   /**
    * Retains only the values in this list that are contained in the specified
@@ -370,11 +368,11 @@ public interface DoubleList extends DoubleCollection {
    * @return {@code true} if this list changed as a result of the call.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #remove(double)
-   * @see #contains(double)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  boolean retainAll(DoubleCollection c);
+  boolean retainAll(<S>Collection c);
 
   /**
    * Replaces each value of this list with the result of applying the operator
@@ -388,11 +386,11 @@ public interface DoubleList extends DoubleCollection {
    * @param operator The operator to apply to each value.
    * @throws NullPointerException If the specified operator is null.
    */
-  default void replaceAll(final DoubleUnaryOperator operator) {
+  default void replaceAll(final <S>UnaryOperator operator) {
     Objects.requireNonNull(operator);
-    final DoubleListIterator iterator = listIterator();
+    final <S>ListIterator iterator = listIterator();
     while (iterator.hasNext())
-      iterator.set(operator.applyAsDouble(iterator.next()));
+      iterator.set(operator.applyAs<S>(iterator.next()));
   }
 
   /**
@@ -404,7 +402,7 @@ public interface DoubleList extends DoubleCollection {
    * @return {@code true} if this list contains the specified value.
    */
   @Override
-  default boolean contains(final double value) {
+  default boolean contains(final <t> value) {
     return indexOf(value) != -1;
   }
 
@@ -415,9 +413,9 @@ public interface DoubleList extends DoubleCollection {
    * @param values Array to be checked for containment in this collection.
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
-   * @see #contains(double)
+   * @see #contains(<t>)
    */
-  default boolean containsAll(final double ... values) {
+  default boolean containsAll(final <t> ... values) {
     for (int i = 0; i < values.length; ++i)
       if (!contains(values[i]))
         return false;
@@ -435,7 +433,7 @@ public interface DoubleList extends DoubleCollection {
    * @return The index of the first occurrence of the specified value in this
    *         list, or -1 if this list does not contain the value.
    */
-  int indexOf(double value);
+  int indexOf(<t> value);
 
   /**
    * Returns the index of the last occurrence of the specified value in this
@@ -447,7 +445,7 @@ public interface DoubleList extends DoubleCollection {
    * @return The index of the last occurrence of the specified value in this
    *         list, or -1 if this list does not contain the value.
    */
-  int lastIndexOf(double value);
+  int lastIndexOf(<t> value);
 
   /**
    * Returns an iterator over the values in this list in proper sequence.
@@ -455,39 +453,39 @@ public interface DoubleList extends DoubleCollection {
    * @return An iterator over the values in this list in proper sequence.
    */
   @Override
-  DoubleIterator iterator();
+  <S>Iterator iterator();
 
   /**
-   * Returns a double list iterator over the values in this list (in proper
+   * Returns a <t> list iterator over the values in this list (in proper
    * sequence).
    *
-   * @return An double list iterator over the values in this list (in proper
+   * @return An <t> list iterator over the values in this list (in proper
    *         sequence).
    */
-  default DoubleListIterator listIterator() {
+  default <S>ListIterator listIterator() {
     return listIterator(0);
   }
 
   /**
-   * Returns a double list iterator over the values in this list (in proper
+   * Returns a <t> list iterator over the values in this list (in proper
    * sequence), starting at the specified position in the list. The specified
    * index indicates the first value that would be returned by an initial call
-   * to {@link DoubleListIterator#next next}. An initial call to
-   * {@link DoubleListIterator#previous previous} would return the value with
-   * the specified index minus one.
+   * to {@link <S>ListIterator#next next}. An initial call to
+   * {@link <S>ListIterator#previous previous} would return the value with the
+   * specified index minus one.
    *
-   * @param index Index of the first value to be returned from the double list
-   *          iterator (by a call to {@link DoubleListIterator#next next}).
-   * @return A double list iterator over the values in this list (in proper
+   * @param index Index of the first value to be returned from the <t> list
+   *          iterator (by a call to {@link <S>ListIterator#next next}).
+   * @return A <t> list iterator over the values in this list (in proper
    *         sequence), starting at the specified position in the list.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || index > size()}).
    */
-  DoubleListIterator listIterator(int index);
+  <S>ListIterator listIterator(int index);
 
   /**
    * Returns the number of values in this list. If this list contains more than
-   * {@link Double#MAX_VALUE} values, returns {@link Double#MAX_VALUE}.
+   * {@link <T>#MAX_VALUE} values, returns {@link <T>#MAX_VALUE}.
    *
    * @return The number of values in this list.
    */
@@ -515,7 +513,7 @@ public interface DoubleList extends DoubleCollection {
    *
    * @param c The comparator to determine the order of the list.
    */
-  void sort(DoubleComparator c);
+  void sort(<S>Comparator c);
 
   /**
    * Removes all of the elements from this list. The list will be empty after
@@ -544,7 +542,7 @@ public interface DoubleList extends DoubleCollection {
    * </pre>
    *
    * Similar idioms may be constructed for {@code indexOf} and
-   * {@code lastIndexOf}, and all of the algorithms in the {@link DoubleList}
+   * {@code lastIndexOf}, and all of the algorithms in the {@link <S>List}
    * class can be applied to a subList.
    * <p>
    * The semantics of the list returned by this method <b>are defined</b> if the
@@ -592,7 +590,7 @@ public interface DoubleList extends DoubleCollection {
    *           out-of-bounds ({@code fromIndex < 0 || toIndex > size ||
    *         fromIndex > toIndex}).
    */
-  DoubleList subList(int fromIndex, int toIndex);
+  <S>List subList(int fromIndex, int toIndex);
 
   /**
    * Compares the specified object with this list for equality. Returns
@@ -610,7 +608,7 @@ public interface DoubleList extends DoubleCollection {
 
   /**
    * Returns the hash code value for this list. The hash code algorithm of a
-   * list is defined in {@link List#hashCode()}.
+   * list is defined in {@link java.util.List#hashCode()}.
    *
    * @return The hash code value for this list.
    * @see Object#equals(Object)

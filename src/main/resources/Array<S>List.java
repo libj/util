@@ -27,29 +27,28 @@ import java.util.RandomAccess;
 
 import org.libj.util.ArrayUtil;
 import org.libj.util.Assertions;
-import org.libj.util.function.ByteConsumer;
 
 /**
- * An unsynchronized implementation of a resizable-array of byte values.
+ * An unsynchronized implementation of a resizable-array of <t> values.
  * <p>
  * The {@code size}, {@code isEmpty}, {@code get}, and {@code set} operations
  * run in constant time. The {@code add} operation runs in <i>amortized constant
  * time</i>, that is, adding n elements requires O(n) time. All of the other
  * operations run in linear time (roughly speaking).
  * <p>
- * Each {@link ArrayByteList} instance has a <i>capacity</i>. The capacity is
+ * Each {@link Array<S>List} instance has a <i>capacity</i>. The capacity is
  * the size of the array used to store the elements in the list. It is always at
- * least as large as the list size. As elements are added to an ArrayByteList,
+ * least as large as the list size. As elements are added to an Array<S>List,
  * its capacity grows automatically. The details of the growth policy are not
  * specified beyond the fact that adding an element has constant amortized time
  * cost.
  * <p>
- * An application can increase the capacity of an {@link ArrayByteList} instance
+ * An application can increase the capacity of an {@link Array<S>List} instance
  * before adding a large number of elements using the {@code ensureCapacity}
  * operation. This may reduce the amount of incremental reallocation.
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
- * multiple threads access an {@link ArrayByteList} instance concurrently, and
+ * multiple threads access an {@link Array<S>List} instance concurrently, and
  * at least one of the threads modifies the list structurally, it <i>must</i> be
  * synchronized externally. (A structural modification is any operation that
  * adds or deletes one or more elements, or explicitly resizes the backing
@@ -57,16 +56,16 @@ import org.libj.util.function.ByteConsumer;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList, RandomAccess, Serializable {
-  private static final long serialVersionUID = 3156088399075272505L;
+public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, RandomAccess, Serializable {
+  private static final long serialVersionUID = <serialVersionUID>;
 
-  private static final byte[] EMPTY_VALUEDATA = {};
+  private static final <t>[] EMPTY_VALUEDATA = {};
 
   /**
    * Creates an empty list with an initial capacity of five.
    */
-  public ArrayByteList() {
-    valueData = new byte[DEFAULT_INITIAL_CAPACITY];
+  public Array<S>List() {
+    valueData = new <t>[DEFAULT_INITIAL_CAPACITY];
     fromIndex = 0;
   }
 
@@ -77,12 +76,12 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @throws IllegalArgumentException If the specified initial capacity is
    *           negative.
    */
-  public ArrayByteList(final int initialCapacity) {
+  public Array<S>List(final int initialCapacity) {
     if (initialCapacity < 0)
       throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
 
     fromIndex = 0;
-    valueData = initialCapacity == 0 ? EMPTY_VALUEDATA : new byte[initialCapacity];
+    valueData = initialCapacity == 0 ? EMPTY_VALUEDATA : new <t>[initialCapacity];
   }
 
   /**
@@ -93,9 +92,9 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @param length The number of values to add.
    * @throws NullPointerException If the specified array is null.
    */
-  public ArrayByteList(final byte[] values, final int offset, final int length) {
+  public Array<S>List(final <t>[] values, final int offset, final int length) {
     fromIndex = 0;
-    valueData = new byte[length];
+    valueData = new <t>[length];
     System.arraycopy(values, offset, valueData, 0, length);
     size = length;
   }
@@ -106,7 +105,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @param values The array whose values are to be placed into this list.
    * @throws NullPointerException If the specified array is null.
    */
-  public ArrayByteList(final byte ... values) {
+  public Array<S>List(final <t> ... values) {
     this(values, 0, values.length);
   }
 
@@ -117,10 +116,10 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @param c The collection whose values are to be placed into this list.
    * @throws NullPointerException If the specified collection is null.
    */
-  public ArrayByteList(final Collection<Byte> c) {
+  public Array<S>List(final Collection<<T>> c) {
     fromIndex = 0;
-    valueData = new byte[c.size()];
-    for (final Iterator<Byte> i = c.iterator(); i.hasNext();)
+    valueData = new <t>[c.size()];
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext();)
       valueData[size++] = i.next();
   }
 
@@ -136,7 +135,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @param toIndex High endpoint (exclusive) of the subList.
    * @throws NullPointerException If the specified parent list is null.
    */
-  private ArrayByteList(final ArrayByteList parent, final int fromIndex, final int toIndex) {
+  private Array<S>List(final Array<S>List parent, final int fromIndex, final int toIndex) {
     super(parent, fromIndex, toIndex);
   }
 
@@ -168,13 +167,13 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public byte get(final int index) {
+  public <t> get(final int index) {
     Assertions.assertRangeList(index, size(), false);
     return valueData[fromIndex + index];
   }
 
   @Override
-  public boolean add(final byte value) {
+  public boolean add(final <t> value) {
     final int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -182,7 +181,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public boolean add(int index, final byte value) {
+  public boolean add(int index, final <t> value) {
     Assertions.assertRangeList(index, size(), true);
     index += fromIndex;
     shiftRight(index, 1);
@@ -202,7 +201,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final ArrayByteList list) {
+  public boolean addAll(final Array<S>List list) {
     return addAll(list.valueData, list.fromIndex, list.toIndex > -1 ? list.toIndex : list.size);
   }
 
@@ -222,7 +221,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final ArrayByteList list, final int offset, final int length) {
+  public boolean addAll(final Array<S>List list, final int offset, final int length) {
     return addAll(list.valueData, offset + list.fromIndex, length);
   }
 
@@ -239,7 +238,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final byte[] values, final int offset, final int length) {
+  public boolean addAll(final <t>[] values, final int offset, final int length) {
     if (values.length == 0)
       return false;
 
@@ -259,7 +258,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final byte ... values) {
+  public boolean addAll(final <t> ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -280,7 +279,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final int index, final ArrayByteList list, final int offset, final int length) {
+  public boolean addAll(final int index, final Array<S>List list, final int offset, final int length) {
     return addAll(index, list.valueData, offset + list.fromIndex, length);
   }
 
@@ -299,12 +298,12 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final int index, final ArrayByteList list) {
+  public boolean addAll(final int index, final Array<S>List list) {
     return addAll(index, list.valueData, list.fromIndex, list.toIndex > -1 ? list.toIndex : list.size);
   }
 
   @Override
-  public boolean addAll(int index, final byte[] values, final int offset, final int length) {
+  public boolean addAll(int index, final <t>[] values, final int offset, final int length) {
     Assertions.assertRangeList(index, size(), true);
     if (values.length == 0)
       return false;
@@ -317,35 +316,35 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public boolean addAll(final Collection<Byte> c) {
+  public boolean addAll(final Collection<<T>> c) {
     final int len = c.size();
     if (len == 0)
       return false;
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, len);
-    for (final Iterator<Byte> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public boolean addAll(final ByteCollection c) {
+  public boolean addAll(final <S>Collection c) {
     final int len = c.size();
     if (len == 0)
       return false;
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, len);
-    for (final ByteIterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final <S>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public boolean addAll(int index, final Collection<Byte> c) {
+  public boolean addAll(int index, final Collection<<T>> c) {
     Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
@@ -353,14 +352,14 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
 
     index += fromIndex;
     shiftRight(index, len);
-    for (final Iterator<Byte> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public boolean addAll(int index, final ByteCollection c) {
+  public boolean addAll(int index, final <S>Collection c) {
     Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
@@ -368,34 +367,34 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
 
     index += fromIndex;
     shiftRight(index, len);
-    for (final ByteIterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final <S>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public byte set(int index, final byte value) {
+  public <t> set(int index, final <t> value) {
     Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
-    final byte oldValue = valueData[index];
+    final <t> oldValue = valueData[index];
     valueData[index] = value;
     updateState(0, 0);
     return oldValue;
   }
 
   @Override
-  public byte removeIndex(int index) {
+  public <t> removeIndex(int index) {
     Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
-    final byte value = valueData[index];
+    final <t> value = valueData[index];
     shiftLeft(index, 1);
     updateState(index, -1);
     return value;
   }
 
   @Override
-  public boolean retainAll(final Collection<Byte> c) {
+  public boolean retainAll(final Collection<<T>> c) {
     final int beforeSize = size;
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
       if (!c.contains(valueData[i])) {
@@ -408,7 +407,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public boolean retainAll(final ByteCollection c) {
+  public boolean retainAll(final <S>Collection c) {
     final int beforeSize = size;
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
       if (!c.contains(valueData[i])) {
@@ -421,7 +420,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public int indexOf(final byte value) {
+  public int indexOf(final <t> value) {
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
       if (valueData[i] == value)
@@ -431,7 +430,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public int lastIndexOf(final byte value) {
+  public int lastIndexOf(final <t> value) {
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i)
       if (valueData[i] == value)
         return i - fromIndex;
@@ -440,13 +439,13 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public void sort(final ByteComparator c) {
+  public void sort(final <S>Comparator c) {
     updateState(0, 0);
     ArrayUtil.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size, c);
   }
 
-  private class ByteItr implements ByteIterator {
-    int cursor = ArrayByteList.this.fromIndex;
+  private class <S>Itr implements <S>Iterator {
+    int cursor = Array<S>List.this.fromIndex;
     int lastRet = -1;
     int expectedModCount = modCount;
 
@@ -456,7 +455,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     }
 
     @Override
-    public byte next() {
+    public <t> next() {
       checkForComodification();
       final int i = cursor;
       if (i >= (toIndex > -1 ? toIndex : size))
@@ -476,7 +475,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
 
       checkForComodification();
       try {
-        ArrayByteList.this.removeIndex(lastRet - fromIndex);
+        Array<S>List.this.removeIndex(lastRet - fromIndex);
         cursor = lastRet;
         lastRet = -1;
         expectedModCount = modCount;
@@ -487,7 +486,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     }
 
     @Override
-    public void forEachRemaining(final ByteConsumer action) {
+    public void forEachRemaining(final <S>Consumer action) {
       Objects.requireNonNull(action);
       int i = cursor;
       if (i >= (toIndex > -1 ? toIndex : size))
@@ -510,8 +509,8 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     }
   }
 
-  private class ByteListItr extends ByteItr implements ByteListIterator {
-    ByteListItr(final int index) {
+  private class <S>ListItr extends <S>Itr implements <S>ListIterator {
+    <S>ListItr(final int index) {
       cursor = index + fromIndex;
     }
 
@@ -531,7 +530,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     }
 
     @Override
-    public byte previous() {
+    public <t> previous() {
       checkForComodification();
       final int i = cursor - 1;
       if (i < fromIndex)
@@ -545,13 +544,13 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     }
 
     @Override
-    public void set(final byte value) {
+    public void set(final <t> value) {
       if (lastRet < 0)
         throw new IllegalStateException();
 
       checkForComodification();
       try {
-        ArrayByteList.this.set(lastRet - fromIndex, value);
+        Array<S>List.this.set(lastRet - fromIndex, value);
       }
       catch (final IndexOutOfBoundsException e) {
         throw new ConcurrentModificationException();
@@ -559,11 +558,11 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     }
 
     @Override
-    public void add(final byte value) {
+    public void add(final <t> value) {
       checkForComodification();
       try {
         final int i = cursor;
-        ArrayByteList.this.add(i - fromIndex, value);
+        Array<S>List.this.add(i - fromIndex, value);
         cursor = i + 1;
         lastRet = -1;
         expectedModCount = modCount;
@@ -580,7 +579,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
 
       checkForComodification();
       try {
-        ArrayByteList.this.removeIndex(lastRet - fromIndex);
+        Array<S>List.this.removeIndex(lastRet - fromIndex);
         cursor = lastRet;
         lastRet = -1;
         expectedModCount = modCount;
@@ -592,29 +591,29 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public ByteIterator iterator() {
-    return new ByteItr();
+  public <S>Iterator iterator() {
+    return new <S>Itr();
   }
 
   @Override
-  public ByteListIterator listIterator(final int index) {
+  public <S>ListIterator listIterator(final int index) {
     Assertions.assertRangeList(index, size(), true);
-    return new ByteListItr(index);
+    return new <S>ListItr(index);
   }
 
   @Override
-  public ArrayByteList subList(final int fromIndex, final int toIndex) {
+  public Array<S>List subList(final int fromIndex, final int toIndex) {
     Assertions.assertRangeList(fromIndex, toIndex, size());
     if (this.toIndex < 0)
       this.toIndex = size;
 
-    return new ArrayByteList(this, fromIndex + this.fromIndex, toIndex + this.fromIndex);
+    return new Array<S>List(this, fromIndex + this.fromIndex, toIndex + this.fromIndex);
   }
 
   @Override
-  public byte[] toArray(byte[] a) {
+  public <t>[] toArray(<t>[] a) {
     if (a.length < size())
-      a = new byte[size()];
+      a = new <t>[size()];
 
     System.arraycopy(valueData, fromIndex, a, 0, size());
     if (a.length > size())
@@ -624,9 +623,9 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   @Override
-  public Byte[] toArray(Byte[] a) {
+  public <T>[] toArray(<T>[] a) {
     if (a.length < size())
-      a = new Byte[size()];
+      a = new <T>[size()];
 
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
@@ -639,9 +638,9 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   /**
-   * Trims the capacity of this {@link ArrayByteList} instance to be the list's
+   * Trims the capacity of this {@link Array<S>List} instance to be the list's
    * current size. An application can use this operation to minimize the storage
-   * of an {@link ArrayByteList} instance.
+   * of an {@link Array<S>List} instance.
    */
   public void trimToSize() {
     if (size < valueData.length) {
@@ -651,7 +650,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   }
 
   /**
-   * Increases the capacity of this {@link ArrayByteList} instance, if
+   * Increases the capacity of this {@link Array<S>List} instance, if
    * necessary, to ensure that it can hold at least the number of values
    * specified by the minimum capacity argument.
    *
@@ -659,34 +658,33 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
    */
   public void ensureCapacity(final int minCapacity) {
     if (minCapacity > valueData.length) {
-      final byte[] oldData = valueData;
+      final <t>[] oldData = valueData;
       final int newCapacity = Math.max((valueData.length * 3) / 2 + 1, minCapacity);
-      final byte[] valueData = new byte[newCapacity];
+      final <t>[] valueData = new <t>[newCapacity];
       System.arraycopy(oldData, 0, valueData, 0, size);
       this.valueData = valueData;
       updateState(0, 0);
     }
   }
 
-  // FIXME: ByteStream
-//  @Override
-//  public Spliterator.OfByte spliterator() {
-//    return Arrays.spliterator(valueData, fromIndex, toIndex > -1 ? toIndex : size);
-//  }
-//
-//  @Override
-//  public ByteStream stream() {
-//    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size);
-//  }
-//
-//  @Override
-//  public ByteStream parallelStream() {
-//    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size).parallel();
-//  }
+<_>  @Override
+<_>  public Spliterator.Of<S> spliterator() {
+<_>    return Arrays.spliterator(valueData, fromIndex, toIndex > -1 ? toIndex : size);
+<_>  }
+<_>
+<_>  @Override
+<_>  public <S>Stream stream() {
+<_>    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size);
+<_>  }
+<_>
+<_>  @Override
+<_>  public <S>Stream parallelStream() {
+<_>    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size).parallel();
+<_>  }
 
   @Override
-  public ArrayByteList clone() {
-    return (ArrayByteList)super.clone();
+  public Array<S>List clone() {
+    return (Array<S>List)super.clone();
   }
 
   /**
@@ -699,7 +697,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     int hashCode = 1;
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
-      hashCode = 31 * hashCode + Byte.hashCode(valueData[i]);
+      hashCode = 31 * hashCode + <T>.hashCode(valueData[i]);
 
     return hashCode;
   }
@@ -707,7 +705,7 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
   /**
    * Compares the specified object with this list for equality. Returns
    * {@code true} if and only if the specified object is also a
-   * {@link ArrayByteList}, both lists have the same size, and all corresponding
+   * {@link Array<S>List}, both lists have the same size, and all corresponding
    * pairs of values in the two lists are <i>equal</i>. In other words, two
    * lists are defined to be equal if they contain the same values in the same
    * order.
@@ -717,10 +715,10 @@ public class ArrayByteList extends AbstractArrayList<byte[]> implements ByteList
     if (obj == this)
       return true;
 
-    if (!(obj instanceof ArrayByteList))
+    if (!(obj instanceof Array<S>List))
       return false;
 
-    final ArrayByteList that = (ArrayByteList)obj;
+    final Array<S>List that = (Array<S>List)obj;
     if (size() != that.size())
       return false;
 

@@ -18,14 +18,13 @@ package org.libj.util.primitive;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.function.DoubleConsumer;
 
 /**
  * A replica of the {@link java.util.Iterator} interface that defines synonymous
- * methods for the iteration over {@code double} values instead of Object
+ * methods for the iteration over {@code <t>} values instead of Object
  * references.
  */
-public interface DoubleIterator {
+public interface <S>Iterator {
   /**
    * Returns {@code true} if the iteration has more values. (In other words,
    * returns {@code true} if {@link #next} would return a value rather than
@@ -41,7 +40,7 @@ public interface DoubleIterator {
    * @return The next value in the iteration.
    * @throws NoSuchElementException If the iteration has no more values.
    */
-  double next();
+  <t> next();
 
   /**
    * Removes from the underlying collection the last value returned by this
@@ -54,7 +53,7 @@ public interface DoubleIterator {
    * modification policy.
    * <p>
    * The behavior of an iterator is unspecified if this method is called after a
-   * call to the {@link #forEachRemaining(DoubleConsumer)} method.
+   * call to the {@link #forEachRemaining(<S>Consumer)} method.
    * <p>
    * The default implementation throws an instance of
    * {@link UnsupportedOperationException} and performs no other action.
@@ -95,7 +94,7 @@ public interface DoubleIterator {
    * @param action The action to be performed for each value.
    * @throws NullPointerException If the specified action is null.
    */
-  default void forEachRemaining(final DoubleConsumer action) {
+  default void forEachRemaining(final <S>Consumer action) {
     Objects.requireNonNull(action);
     while (hasNext())
       action.accept(next());

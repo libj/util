@@ -17,20 +17,18 @@
 package org.libj.util.primitive;
 
 import java.util.Collection;
-import java.util.Set;
-import java.util.Spliterator;
 
 /**
- * A collection of {@code long} values that contains no duplicates. More
- * formally, long-sets contain no pair of values {@code v1} and {@code v2} such
+ * A collection of {@code <t>} values that contains no duplicates. More
+ * formally, <t>-sets contain no pair of values {@code v1} and {@code v2} such
  * that {@code e1 == e2}. As implied by its name, this interface models the
  * mathematical <i>set</i> abstraction.
  * <p>
- * This interface is a replica of the {@link Set} interface that defines
- * synonymous methods for a list of {@code long} values instead of Object
+ * This interface is a replica of the {@link java.util.Set} interface that defines
+ * synonymous methods for a list of {@code <t>} values instead of Object
  * references.
  */
-public interface LongSet extends LongCollection {
+public interface <S>Set extends <S>Collection {
   /**
    * Adds the specified value to this set if it is not already present. More
    * formally, adds the specified value {@code value} to this set if the set
@@ -44,7 +42,7 @@ public interface LongSet extends LongCollection {
    *         value.
    */
   @Override
-  boolean add(long value);
+  boolean add(<t> value);
 
   /**
    * Adds all of the values in the specified collection to this set if they're
@@ -57,14 +55,14 @@ public interface LongSet extends LongCollection {
    * @param c Collection containing values to be added to this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Long}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
-   * @see #addAll(LongCollection)
-   * @see #add(long)
+   * @see #addAll(<S>Collection)
+   * @see #add(<t>)
    */
   @Override
-  boolean addAll(Collection<Long> c);
+  boolean addAll(Collection<<T>> c);
 
   /**
    * Adds all of the values in the specified collection to this set if they're
@@ -79,10 +77,10 @@ public interface LongSet extends LongCollection {
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
    * @see #addAll(Collection)
-   * @see #add(long)
+   * @see #add(<t>)
    */
   @Override
-  boolean addAll(LongCollection c);
+  boolean addAll(<S>Collection c);
 
   /**
    * Returns {@code true} if this set contains the specified value. More
@@ -93,7 +91,7 @@ public interface LongSet extends LongCollection {
    * @return {@code true} if this set contains the specified value.
    */
   @Override
-  boolean contains(long value);
+  boolean contains(<t> value);
 
   /**
    * Returns {@code true} if this set contains all of the values of the
@@ -104,14 +102,14 @@ public interface LongSet extends LongCollection {
    * @return {@code true} if this set contains all of the values of the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Long}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
-   * @see #containsAll(LongCollection)
-   * @see #contains(long)
+   * @see #containsAll(<S>Collection)
+   * @see #contains(<t>)
    */
   @Override
-  boolean containsAll(Collection<Long> c);
+  boolean containsAll(Collection<<T>> c);
 
   /**
    * Returns {@code true} if this set contains all of the values of the
@@ -122,10 +120,10 @@ public interface LongSet extends LongCollection {
    * @return {@code true} if this set contains all of the values of the
    *         specified collection.
    * @see #containsAll(Collection)
-   * @see #contains(long)
+   * @see #contains(<t>)
    */
   @Override
-  boolean containsAll(LongCollection c);
+  boolean containsAll(<S>Collection c);
 
   /**
    * Removes the specified value from this set if it is present. More formally,
@@ -138,7 +136,7 @@ public interface LongSet extends LongCollection {
    * @return {@code true} if this set contained the specified value.
    */
   @Override
-  boolean remove(long value);
+  boolean remove(<t> value);
 
   /**
    * Removes from this set all of its values that are contained in the specified
@@ -149,15 +147,15 @@ public interface LongSet extends LongCollection {
    * @param c Collection containing values to be removed from this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Long}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #removeAll(LongCollection)
-   * @see #remove(long)
-   * @see #contains(long)
+   * @see #removeAll(<S>Collection)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  boolean removeAll(Collection<Long> c);
+  boolean removeAll(Collection<<T>> c);
 
   /**
    * Removes from this set all of its values that are contained in the specified
@@ -170,11 +168,11 @@ public interface LongSet extends LongCollection {
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #removeAll(Collection)
-   * @see #remove(long)
-   * @see #contains(long)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  boolean removeAll(LongCollection c);
+  boolean removeAll(<S>Collection c);
 
   /**
    * Retains only the values in this set that are contained in the specified
@@ -186,15 +184,15 @@ public interface LongSet extends LongCollection {
    * @param c Collection containing values to be retained in this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link Long}.
+   *           collection is not {@link <T>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #retainAll(LongCollection)
-   * @see #remove(long)
-   * @see #contains(long)
+   * @see #retainAll(<S>Collection)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  boolean retainAll(Collection<Long> c);
+  boolean retainAll(Collection<<T>> c);
 
   /**
    * Retains only the values in this set that are contained in the specified
@@ -208,11 +206,11 @@ public interface LongSet extends LongCollection {
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #retainAll(Collection)
-   * @see #remove(long)
-   * @see #contains(long)
+   * @see #remove(<t>)
+   * @see #contains(<t>)
    */
   @Override
-  boolean retainAll(LongCollection c);
+  boolean retainAll(<S>Collection c);
 
   /**
    * Removes all of the values from this set. The set will be empty after this
@@ -223,8 +221,8 @@ public interface LongSet extends LongCollection {
 
   /**
    * Returns the number of values in this set (its cardinality). If this set
-   * contains more than {@link Long#MAX_VALUE} values, returns
-   * {@link Long#MAX_VALUE}.
+   * contains more than {@link <T>#MAX_VALUE} values, returns
+   * {@link <T>#MAX_VALUE}.
    *
    * @return The number of values in this set (its cardinality).
    */
@@ -247,18 +245,18 @@ public interface LongSet extends LongCollection {
    * @return An iterator over the values in this set.
    */
   @Override
-  LongIterator iterator();
+  <S>Iterator iterator();
 
-  /**
-   * Creates a {@code Spliterator.OfLong} over the elements in this set.
-   * <p>
-   * The {@code Spliterator.OfLong} reports {@link Spliterator#DISTINCT}.
-   *
-   * @return A {@code Spliterator.OfLong} over the elements in this set.
-   * @see java.util.Spliterator.OfLong
-   */
-  @Override
-  Spliterator.OfLong spliterator();
+<_>  /**
+<_>   * Creates a {@code Spliterator.Of<S>} over the elements in this set.
+<_>   * <p>
+<_>   * The {@code Spliterator.Of<S>} reports {@link Spliterator#DISTINCT}.
+<_>   *
+<_>   * @return A {@code Spliterator.Of<S>} over the elements in this set.
+<_>   * @see java.util.Spliterator.Of<S>
+<_>   */
+<_>  @Override
+<_>  Spliterator.Of<S> spliterator();
 
   /**
    * Compares the specified object with this set for equality. Returns
@@ -283,7 +281,7 @@ public interface LongSet extends LongCollection {
    *
    * @return The hash code value for this set.
    * @see Object#equals(Object)
-   * @see LongSet#equals(Object)
+   * @see <S>Set#equals(Object)
    */
   @Override
   int hashCode();
