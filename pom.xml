@@ -38,36 +38,92 @@
         <version>0.2.5-SNAPSHOT</version>
         <executions>
           <execution>
-            <id>generate-sources</id>
+            <id>primtive-sources</id>
             <goals>
               <goal>template</goal>
             </goals>
             <phase>generate-sources</phase>
             <configuration>
               <templates>
-                <template>src/main/resources/&lt;S&gt;Collection.java</template>
-                <template>src/main/resources/&lt;S&gt;Comparator.java</template>
-                <template>src/main/resources/&lt;S&gt;Iterable.java</template>
-                <template>src/main/resources/&lt;S&gt;Iterator.java</template>
-                <template>src/main/resources/&lt;S&gt;List.java</template>
-                <template>src/main/resources/&lt;S&gt;ListIterator.java</template>
-                <template>src/main/resources/&lt;S&gt;Set.java</template>
-                <template>src/main/resources/Array&lt;S&gt;List.java</template>
-                <template>src/main/resources/Hash&lt;S&gt;Set.java</template>
+                <template>src/main/resources/primitive/&lt;X&gt;Collection.java</template>
+                <template>src/main/resources/primitive/&lt;X&gt;Comparator.java</template>
+                <template>src/main/resources/primitive/&lt;X&gt;Iterable.java</template>
+                <template>src/main/resources/primitive/&lt;X&gt;Iterator.java</template>
+                <template>src/main/resources/primitive/&lt;X&gt;List.java</template>
+                <template>src/main/resources/primitive/&lt;X&gt;ListIterator.java</template>
+                <template>src/main/resources/primitive/&lt;X&gt;Set.java</template>
+                <template>src/main/resources/primitive/Array&lt;X&gt;List.java</template>
+                <template>src/main/resources/primitive/Hash&lt;X&gt;Set.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
             </configuration>
           </execution>
           <execution>
-            <id>generate-test-sources</id>
+            <id>function-sources</id>
+            <goals>
+              <goal>template</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <templates>
+                <template>src/main/resources/function/Bi&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/BiObjBi&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/Obj&lt;X&gt;Function.java</template>
+                <template>src/main/resources/function/ObjBi&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/Tri&lt;X&gt;Consumer.java</template>
+              </templates>
+              <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
+            </configuration>
+          </execution>
+          <execution>
+            <id>primitivesort-sources</id>
+            <goals>
+              <goal>template</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <templates>
+                <template>src/main/resources/primitive/&lt;X&gt;TimSort.java</template>
+              </templates>
+              <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
+            </configuration>
+          </execution>
+          <execution>
+            <id>pairedsort-sources</id>
+            <goals>
+              <goal>template</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <templates>
+                <template>src/main/resources/primitive/&lt;X&gt;PairedTimSort.java</template>
+              </templates>
+              <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
+              <parameters>
+                <object>
+                  <types>
+                    <X></X>
+                    <Y>Object</Y>
+                    <y>Object</y>
+                    <_>//</_>
+                  </types>
+                  <imports>
+                    <import>java.util.Comparator</import>
+                  </imports>
+                </object>
+              </parameters>
+            </configuration>
+          </execution>
+          <execution>
+            <id>primitive-test-sources</id>
             <goals>
               <goal>template</goal>
             </goals>
             <phase>generate-test-sources</phase>
             <configuration>
               <templates>
-                <template>src/test/resources/Array&lt;S&gt;ListTest.java</template>
-                <template>src/test/resources/Hash&lt;S&gt;SetTest.java</template>
+                <template>src/test/resources/Array&lt;X&gt;ListTest.java</template>
+                <template>src/test/resources/Hash&lt;X&gt;SetTest.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-test-sources/codegen/org/libj/util/primitive</destDir>
             </configuration>
@@ -77,48 +133,54 @@
           <parameters>
             <byte>
               <types>
-                <S>Byte</S>
-                <T>Byte</T>
-                <t>byte</t>
+                <X>Byte</X>
+                <Y>Byte</Y>
+                <y>byte</y>
                 <_>//</_>
               </types>
               <imports>
                 <import>org.libj.util.function.ByteConsumer</import>
                 <import>org.libj.util.function.BytePredicate</import>
                 <import>org.libj.util.function.ByteUnaryOperator</import>
+                <import>org.libj.util.primitive.ByteComparator</import>
+                <import>org.libj.util.primitive.BytePairedTimSort</import>
               </imports>
             </byte>
             <char>
               <types>
-                <S>Char</S>
-                <T>Character</T>
-                <t>char</t>
+                <X>Char</X>
+                <Y>Character</Y>
+                <y>char</y>
                 <_>//</_>
               </types>
               <imports>
                 <import>org.libj.util.function.CharConsumer</import>
                 <import>org.libj.util.function.CharPredicate</import>
                 <import>org.libj.util.function.CharUnaryOperator</import>
+                <import>org.libj.util.primitive.CharComparator</import>
+                <import>org.libj.util.primitive.CharPairedTimSort</import>
               </imports>
             </char>
             <short>
               <types>
-                <S>Short</S>
-                <T>Short</T>
-                <t>short</t>
+                <X>Short</X>
+                <Y>Short</Y>
+                <y>short</y>
                 <_>//</_>
               </types>
               <imports>
                 <import>org.libj.util.function.ShortConsumer</import>
                 <import>org.libj.util.function.ShortPredicate</import>
                 <import>org.libj.util.function.ShortUnaryOperator</import>
+                <import>org.libj.util.primitive.ShortComparator</import>
+                <import>org.libj.util.primitive.ShortPairedTimSort</import>
               </imports>
             </short>
             <int>
               <types>
-                <S>Int</S>
-                <T>Integer</T>
-                <t>int</t>
+                <X>Int</X>
+                <Y>Integer</Y>
+                <y>int</y>
                 <_></_>
               </types>
               <imports>
@@ -128,13 +190,15 @@
                 <import>java.util.Spliterator</import>
                 <import>java.util.stream.IntStream</import>
                 <import>java.util.stream.StreamSupport</import>
+                <import>org.libj.util.primitive.IntComparator</import>
+                <import>org.libj.util.primitive.IntPairedTimSort</import>
               </imports>
             </int>
             <long>
               <types>
-                <S>Long</S>
-                <T>Long</T>
-                <t>long</t>
+                <X>Long</X>
+                <Y>Long</Y>
+                <y>long</y>
                 <_></_>
               </types>
               <imports>
@@ -144,26 +208,30 @@
                 <import>java.util.Spliterator</import>
                 <import>java.util.stream.LongStream</import>
                 <import>java.util.stream.StreamSupport</import>
+                <import>org.libj.util.primitive.LongComparator</import>
+                <import>org.libj.util.primitive.LongPairedTimSort</import>
               </imports>
             </long>
             <float>
               <types>
-                <S>Float</S>
-                <T>Float</T>
-                <t>float</t>
+                <X>Float</X>
+                <Y>Float</Y>
+                <y>float</y>
                 <_>//</_>
               </types>
               <imports>
                 <import>org.libj.util.function.FloatConsumer</import>
                 <import>org.libj.util.function.FloatPredicate</import>
                 <import>org.libj.util.function.FloatUnaryOperator</import>
+                <import>org.libj.util.primitive.FloatComparator</import>
+                <import>org.libj.util.primitive.FloatPairedTimSort</import>
               </imports>
             </float>
             <double>
               <types>
-                <S>Double</S>
-                <T>Double</T>
-                <t>double</t>
+                <X>Double</X>
+                <Y>Double</Y>
+                <y>double</y>
                 <_></_>
               </types>
               <imports>
@@ -173,6 +241,8 @@
                 <import>java.util.Spliterator</import>
                 <import>java.util.stream.DoubleStream</import>
                 <import>java.util.stream.StreamSupport</import>
+                <import>org.libj.util.primitive.DoubleComparator</import>
+                <import>org.libj.util.primitive.DoublePairedTimSort</import>
               </imports>
             </double>
           </parameters>
