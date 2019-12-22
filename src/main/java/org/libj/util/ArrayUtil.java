@@ -16,12 +16,11 @@
 
 package org.libj.util;
 
-import static org.libj.util.MatchedSort.*;
-
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -30,19 +29,16 @@ import java.util.function.UnaryOperator;
 import org.libj.util.primitive.ByteComparator;
 import org.libj.util.primitive.CharComparator;
 import org.libj.util.primitive.DoubleComparator;
-import org.libj.util.primitive.DoubleList;
 import org.libj.util.primitive.FloatComparator;
-import org.libj.util.primitive.FloatList;
 import org.libj.util.primitive.IntComparator;
-import org.libj.util.primitive.IntList;
 import org.libj.util.primitive.LongComparator;
-import org.libj.util.primitive.LongList;
+import org.libj.util.primitive.PrimitiveSort;
 import org.libj.util.primitive.ShortComparator;
 
 /**
  * Utility functions for operations pertaining to arrays.
  */
-public final class ArrayUtil {
+public final class ArrayUtil extends PrimitiveSort {
   /**
    * The empty {@code Object[]} array.
    */
@@ -690,7 +686,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
-    return binaryClosestSearch0(a, 0, a.length, key, Byte::compare);
+    return binaryClosestSearch0(a, 0, a.length, key, ByteComparator.NATURAL);
   }
 
   /**
@@ -708,7 +704,7 @@ public final class ArrayUtil {
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
-    return binaryClosestSearch0(a, fromIndex, toIndex, key, Byte::compare);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, ByteComparator.NATURAL);
   }
 
   /**
@@ -757,7 +753,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
-    return binaryClosestSearch0(a, 0, a.length, key, Short::compare);
+    return binaryClosestSearch0(a, 0, a.length, key, ShortComparator.NATURAL);
   }
 
   /**
@@ -775,7 +771,7 @@ public final class ArrayUtil {
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
-    return binaryClosestSearch0(a, fromIndex, toIndex, key, Short::compare);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, ShortComparator.NATURAL);
   }
 
   /**
@@ -824,7 +820,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
-    return binaryClosestSearch0(a, 0, a.length, key, Integer::compare);
+    return binaryClosestSearch0(a, 0, a.length, key, IntComparator.NATURAL);
   }
 
   /**
@@ -842,7 +838,7 @@ public final class ArrayUtil {
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
-    return binaryClosestSearch0(a, fromIndex, toIndex, key, Integer::compare);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, IntComparator.NATURAL);
   }
 
   /**
@@ -891,7 +887,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
-    return binaryClosestSearch0(a, 0, a.length, key, Float::compare);
+    return binaryClosestSearch0(a, 0, a.length, key, FloatComparator.NATURAL);
   }
 
   /**
@@ -909,7 +905,7 @@ public final class ArrayUtil {
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
-    return binaryClosestSearch0(a, fromIndex, toIndex, key, Float::compare);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, FloatComparator.NATURAL);
   }
 
   /**
@@ -958,7 +954,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
-    return binaryClosestSearch0(a, 0, a.length, key, Double::compare);
+    return binaryClosestSearch0(a, 0, a.length, key, DoubleComparator.NATURAL);
   }
 
   /**
@@ -976,7 +972,7 @@ public final class ArrayUtil {
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
-    return binaryClosestSearch0(a, fromIndex, toIndex, key, Double::compare);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, DoubleComparator.NATURAL);
   }
 
   /**
@@ -1025,7 +1021,7 @@ public final class ArrayUtil {
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
-    return binaryClosestSearch0(a, 0, a.length, key, Long::compare);
+    return binaryClosestSearch0(a, 0, a.length, key, LongComparator.NATURAL);
   }
 
   /**
@@ -1043,7 +1039,7 @@ public final class ArrayUtil {
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
-    return binaryClosestSearch0(a, fromIndex, toIndex, key, Long::compare);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, LongComparator.NATURAL);
   }
 
   /**
@@ -3157,8 +3153,8 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code data} or {@code order} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
-  public static void sort(final Object[] data, final int[] order) {
-    sort(data, order, null);
+  public static void sort(final Object[] data, final byte[] order) {
+    sort(data, order, ByteComparator.NATURAL);
   }
 
   /**
@@ -3182,86 +3178,192 @@ public final class ArrayUtil {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final byte[] order, final ByteComparator comparator) {
+    if (data.length != order.length)
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
+
+    PrimitiveSort.sortPaired(data, order, 0, order.length, comparator);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
    * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final char[] order) {
+    sort(data, order, CharComparator.NATURAL);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final char[] order, final CharComparator comparator) {
+    if (data.length != order.length)
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
+
+    PrimitiveSort.sortPaired(data, order, 0, order.length, comparator);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final short[] order) {
+    sort(data, order, ShortComparator.NATURAL);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final short[] order, final ShortComparator comparator) {
+    if (data.length != order.length)
+      throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
+
+    PrimitiveSort.sortPaired(data, order, 0, order.length, comparator);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   */
+  public static void sort(final Object[] data, final int[] order) {
+    sort(data, order, IntComparator.NATURAL);
+  }
+
+  /**
+   * Sorts the array in the first argument matching the sorted order of the
+   * array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The array providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final int[] order, final IntComparator comparator) {
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
-    final IntComparator c = comparator != null ? comparator : Integer::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
-      }
-    });
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link IntList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link IntList} providing the order of indices to sort
-   *          {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final IntList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link IntList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link IntList} providing the order of indices to sort
-   *          {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final IntList order, final IntComparator comparator) {
-    if (data.length != order.size())
-      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
-
-    final IntComparator c = comparator != null ? comparator : Integer::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
-      }
-    });
+    PrimitiveSort.sortPaired(data, order, 0, order.length, comparator);
   }
 
   /**
@@ -3288,7 +3390,7 @@ public final class ArrayUtil {
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final long[] order) {
-    sort(data, order, null);
+    sort(data, order, LongComparator.NATURAL);
   }
 
   /**
@@ -3312,86 +3414,15 @@ public final class ArrayUtil {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final long[] order, final LongComparator comparator) {
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
-    final LongComparator c = comparator != null ? comparator : Long::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
-      }
-    });
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link LongList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link LongList} providing the order of indices to sort
-   *          {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final LongList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link LongList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link LongList} providing the order of indices to sort
-   *          {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final LongList order, final LongComparator comparator) {
-    if (data.length != order.size())
-      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
-
-    final LongComparator c = comparator != null ? comparator : Long::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
-      }
-    });
+    PrimitiveSort.sortPaired(data, order, 0, order.length, comparator);
   }
 
   /**
@@ -3418,7 +3449,7 @@ public final class ArrayUtil {
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final float[] order) {
-    sort(data, order, null);
+    sort(data, order, FloatComparator.NATURAL);
   }
 
   /**
@@ -3442,86 +3473,15 @@ public final class ArrayUtil {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final float[] order, final FloatComparator comparator) {
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
-    final FloatComparator c = comparator != null ? comparator : Float::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
-      }
-    });
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link FloatList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link FloatList} providing the order of indices to sort
-   *          {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final FloatList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link FloatList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link FloatList} providing the order of indices to sort
-   *          {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final FloatList order, final FloatComparator comparator) {
-    if (data.length != order.size())
-      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
-
-    final FloatComparator c = comparator != null ? comparator : Float::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
-      }
-    });
+    PrimitiveSort.sortPaired(data, order, 0, order.length, comparator);
   }
 
   /**
@@ -3548,7 +3508,7 @@ public final class ArrayUtil {
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final double[] order) {
-    sort(data, order, null);
+    sort(data, order, DoubleComparator.NATURAL);
   }
 
   /**
@@ -3572,86 +3532,15 @@ public final class ArrayUtil {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final double[] order, final DoubleComparator comparator) {
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
-    final DoubleComparator c = comparator != null ? comparator : Double::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
-      }
-    });
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link DoubleList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link DoubleList} providing the order of indices to sort
-   *          {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final DoubleList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the array in the first argument matching the sorted order of the
-   * {@link DoubleList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The array providing the data.
-   * @param order The {@link DoubleList} providing the order of indices to sort
-   *          {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
-   */
-  public static void sort(final Object[] data, final DoubleList order, final DoubleComparator comparator) {
-    if (data.length != order.size())
-      throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
-
-    final DoubleComparator c = comparator != null ? comparator : Double::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
-      }
-    });
+    PrimitiveSort.sortPaired(data, order, 0, order.length, comparator);
   }
 
   /**
@@ -3684,7 +3573,8 @@ public final class ArrayUtil {
     if (data.length != order.size())
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
 
-    sort0(data, buildIndex(order.size()), new IntComparator() {
+    final int[] idx = PrimitiveSort.buildIndex(order.size());
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
       @Override
       @SuppressWarnings({"rawtypes", "unchecked"})
       public int compare(final int o1, final int o2) {
@@ -3727,7 +3617,9 @@ public final class ArrayUtil {
     if (data.length != order.size())
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
 
-    sort0(data, buildIndex(order.size()), new IntComparator() {
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.size());
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
         return comparator.compare(order.get(o1), order.get(o2));
@@ -3758,10 +3650,10 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final byte[] a, final int fromIndex, final int toIndex, final ByteComparator c) {
-    if (c == null)
-      Arrays.sort(a, fromIndex, toIndex);
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
-      ByteTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+      Arrays.sort(a, fromIndex, toIndex);
   }
 
   /**
@@ -3787,10 +3679,10 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final char[] a, final int fromIndex, final int toIndex, final CharComparator c) {
-    if (c == null)
-      Arrays.sort(a, fromIndex, toIndex);
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
-      CharTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+      Arrays.sort(a, fromIndex, toIndex);
   }
 
   /**
@@ -3816,10 +3708,10 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final short[] a, final int fromIndex, final int toIndex, final ShortComparator c) {
-    if (c == null)
-      Arrays.sort(a, fromIndex, toIndex);
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
-      ShortTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+      Arrays.sort(a, fromIndex, toIndex);
   }
 
   /**
@@ -3845,10 +3737,10 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final int[] a, final int fromIndex, final int toIndex, final IntComparator c) {
-    if (c == null)
-      Arrays.sort(a, fromIndex, toIndex);
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
-      IntTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+      Arrays.sort(a, fromIndex, toIndex);
   }
 
   /**
@@ -3874,10 +3766,10 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final long[] a, final int fromIndex, final int toIndex, final LongComparator c) {
-    if (c == null)
-      Arrays.sort(a, fromIndex, toIndex);
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
-      LongTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+      Arrays.sort(a, fromIndex, toIndex);
   }
 
   /**
@@ -3903,10 +3795,10 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final float[] a, final int fromIndex, final int toIndex, final FloatComparator c) {
-    if (c == null)
-      Arrays.sort(a, fromIndex, toIndex);
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
-      FloatTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+      Arrays.sort(a, fromIndex, toIndex);
   }
 
   /**
@@ -3932,12 +3824,11 @@ public final class ArrayUtil {
    * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final double[] a, final int fromIndex, final int toIndex, final DoubleComparator c) {
-    if (c == null)
-      Arrays.sort(a, fromIndex, toIndex);
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
-      DoubleTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
+      Arrays.sort(a, fromIndex, toIndex);
   }
-
   private ArrayUtil() {
   }
 }

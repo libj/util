@@ -16,32 +16,31 @@
 
 package org.libj.util;
 
-import static org.libj.util.MatchedSort.*;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.function.Function;
 
 import org.libj.util.primitive.ArrayDoubleList;
 import org.libj.util.primitive.ArrayFloatList;
 import org.libj.util.primitive.ArrayIntList;
 import org.libj.util.primitive.ArrayLongList;
+import org.libj.util.primitive.ByteComparator;
+import org.libj.util.primitive.CharComparator;
 import org.libj.util.primitive.DoubleComparator;
-import org.libj.util.primitive.DoubleList;
 import org.libj.util.primitive.FloatComparator;
-import org.libj.util.primitive.FloatList;
 import org.libj.util.primitive.IntComparator;
-import org.libj.util.primitive.IntList;
 import org.libj.util.primitive.LongComparator;
-import org.libj.util.primitive.LongList;
+import org.libj.util.primitive.PrimitiveSort;
+import org.libj.util.primitive.ShortComparator;
 
 /**
  * Utility functions for operations pertaining to {@link Collection} and {@link List}.
  */
-public final class CollectionUtil {
+public final class CollectionUtil extends PrimitiveSort {
   /**
    * Inserts the one-dimensional representation of the input collection into the
    * specified output collection, whereby all nested {@link Collection} members
@@ -1117,8 +1116,8 @@ public final class CollectionUtil {
    * @throws NullPointerException If {@code data} or {@code order} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
-  public static void sort(final List<?> data, final int[] order) {
-    sort(data, order, null);
+  public static void sort(final List<?> data, final byte[] order) {
+    sort(data, order, ByteComparator.NATURAL);
   }
 
   /**
@@ -1142,85 +1141,222 @@ public final class CollectionUtil {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
+   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   */
+  public static void sort(final List<?> data, final byte[] order, final ByteComparator comparator) {
+    if (data.size() != order.length)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return comparator.compare(order[o1], order[o2]);
+      }
+    });
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The {@link List} providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
    * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   */
+  public static void sort(final List<?> data, final char[] order) {
+    sort(data, order, CharComparator.NATURAL);
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The {@link List} providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
+   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   */
+  public static void sort(final List<?> data, final char[] order, final CharComparator comparator) {
+    if (data.size() != order.length)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return comparator.compare(order[o1], order[o2]);
+      }
+    });
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The {@link List} providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   */
+  public static void sort(final List<?> data, final short[] order) {
+    sort(data, order, ShortComparator.NATURAL);
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The {@link List} providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
+   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   */
+  public static void sort(final List<?> data, final short[] order, final ShortComparator comparator) {
+    if (data.size() != order.length)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
+      @Override
+      public int compare(final int o1, final int o2) {
+        return comparator.compare(order[o1], order[o2]);
+      }
+    });
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The {@link List} providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   */
+  public static void sort(final List<?> data, final int[] order) {
+    sort(data, order, IntComparator.NATURAL);
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the array in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param data The {@link List} providing the data.
+   * @param order The array providing the order of indices to sort {@code data}.
+   * @param comparator The comparator to use.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final int[] order, final IntComparator comparator) {
     if (data.size() != order.length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    final IntComparator c = comparator != null ? comparator : Integer::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
+        return comparator.compare(order[o1], order[o2]);
       }
     });
   }
 
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link IntList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link IntList} providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final IntList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link IntList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link IntList} providing the order of indices to sort {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final IntList order, final IntComparator comparator) {
-    if (data.size() != order.size())
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
-
-    final IntComparator c = comparator != null ? comparator : Integer::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
-      }
-    });
-  }
   /**
    * Sorts the {@link List} in the first argument matching the sorted order of
    * the array in the second argument.
@@ -1245,7 +1381,7 @@ public final class CollectionUtil {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final long[] order) {
-    sort(data, order, null);
+    sort(data, order, LongComparator.NATURAL);
   }
 
   /**
@@ -1269,83 +1405,20 @@ public final class CollectionUtil {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final long[] order, final LongComparator comparator) {
     if (data.size() != order.length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    final LongComparator c = comparator != null ? comparator : Long::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
-      }
-    });
-  }
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link LongList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link LongList} providing the order of indices to sort
-   *          {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final LongList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link LongList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link LongList} providing the order of indices to sort
-   *          {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final LongList order, final LongComparator comparator) {
-    if (data.size() != order.size())
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
-
-    final LongComparator c = comparator != null ? comparator : Long::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
+        return comparator.compare(order[o1], order[o2]);
       }
     });
   }
@@ -1374,7 +1447,7 @@ public final class CollectionUtil {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final float[] order) {
-    sort(data, order, null);
+    sort(data, order, FloatComparator.NATURAL);
   }
 
   /**
@@ -1398,84 +1471,20 @@ public final class CollectionUtil {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final float[] order, final FloatComparator comparator) {
     if (data.size() != order.length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    final FloatComparator c = comparator != null ? comparator : Float::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
-      }
-    });
-  }
-
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link FloatList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link FloatList} providing the order of indices to sort
-   *          {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final FloatList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link FloatList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link FloatList} providing the order of indices to sort
-   *          {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final FloatList order, final FloatComparator comparator) {
-    if (data.size() != order.size())
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
-
-    final FloatComparator c = comparator != null ? comparator : Float::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
+        return comparator.compare(order[o1], order[o2]);
       }
     });
   }
@@ -1504,7 +1513,7 @@ public final class CollectionUtil {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final double[] order) {
-    sort(data, order, null);
+    sort(data, order, DoubleComparator.NATURAL);
   }
 
   /**
@@ -1528,84 +1537,20 @@ public final class CollectionUtil {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or
+   *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final double[] order, final DoubleComparator comparator) {
     if (data.size() != order.length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    final DoubleComparator c = comparator != null ? comparator : Double::compare;
-    sort0(data, buildIndex(order.length), new IntComparator() {
+    Objects.requireNonNull(comparator);
+    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
-        return c.compare(order[o1], order[o2]);
-      }
-    });
-  }
-
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link DoubleList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link DoubleList} providing the order of indices to sort
-   *          {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final DoubleList order) {
-    sort(data, order, null);
-  }
-
-  /**
-   * Sorts the {@link List} in the first argument matching the sorted order of
-   * the {@link DoubleList} in the second argument.
-   * <p>
-   * For example, {@code data} and {@code order} are initialized to:
-   *
-   * <pre>
-   *  data: g i j h e a c d b f
-   * order: 6 8 9 7 4 0 2 3 1 5
-   * </pre>
-   *
-   * After {@code sort(data, order)} is called:
-   *
-   * <pre>
-   *  data: a b c d e f g h i j
-   * order: 0 1 2 3 4 5 6 7 8 9
-   * </pre>
-   *
-   * @param data The {@link List} providing the data.
-   * @param order The {@link DoubleList} providing the order of indices to sort
-   *          {@code data}.
-   * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
-   */
-  public static void sort(final List<?> data, final DoubleList order, final DoubleComparator comparator) {
-    if (data.size() != order.size())
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
-
-    final DoubleComparator c = comparator != null ? comparator : Double::compare;
-    sort0(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return c.compare(order.get(o1), order.get(o2));
+        return comparator.compare(order[o1], order[o2]);
       }
     });
   }
@@ -1637,16 +1582,16 @@ public final class CollectionUtil {
    * @throws IllegalArgumentException If {@code data.size() != order.size()}.
    */
   public static <T extends Comparable<? super T>>void sort(final List<?> data, final List<T> order) {
-    if (data.size() != order.size())
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
-
-    sort0(data, buildIndex(order.size()), new IntComparator() {
+    sort(data, order, new Comparator<T>() {
       @Override
-      @SuppressWarnings({"rawtypes", "unchecked"})
-      public int compare(final int o1, final int o2) {
-        final Comparable c1 = order.get(o1);
-        final Comparable c2 = order.get(o2);
-        return c1 == null ? (c2 == null ? 0 : -1) : (c2 == null ? 1 : c1.compareTo(c2));
+      public int compare(final T o1, final T o2) {
+        if (o1 == null)
+          return o2 == null ? 0 : -1;
+
+        if (o2 == null)
+          return 1;
+
+        return o1.compareTo(o2);
       }
     });
   }
@@ -1683,7 +1628,7 @@ public final class CollectionUtil {
     if (data.size() != order.size())
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
 
-    sort0(data, buildIndex(order.size()), new IntComparator() {
+    sortIndexed(data, buildIndex(order.size()), new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
         return comparator.compare(order.get(o1), order.get(o2));
