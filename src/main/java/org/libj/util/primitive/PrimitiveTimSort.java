@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libj.util;
+package org.libj.util.primitive;
 
 abstract class PrimitiveTimSort {
   /**

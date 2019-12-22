@@ -21,10 +21,10 @@ import java.util.Objects;
 
 /**
  * A replica of the {@link java.util.Iterator} interface that defines synonymous
- * methods for the iteration over {@code <t>} values instead of Object
+ * methods for the iteration over {@code <y>} values instead of Object
  * references.
  */
-public interface <S>Iterator {
+public interface <X>Iterator {
   /**
    * Returns {@code true} if the iteration has more values. (In other words,
    * returns {@code true} if {@link #next} would return a value rather than
@@ -40,7 +40,7 @@ public interface <S>Iterator {
    * @return The next value in the iteration.
    * @throws NoSuchElementException If the iteration has no more values.
    */
-  <t> next();
+  <y> next();
 
   /**
    * Removes from the underlying collection the last value returned by this
@@ -53,7 +53,7 @@ public interface <S>Iterator {
    * modification policy.
    * <p>
    * The behavior of an iterator is unspecified if this method is called after a
-   * call to the {@link #forEachRemaining(<S>Consumer)} method.
+   * call to the {@link #forEachRemaining(<X>Consumer)} method.
    * <p>
    * The default implementation throws an instance of
    * {@link UnsupportedOperationException} and performs no other action.
@@ -94,7 +94,7 @@ public interface <S>Iterator {
    * @param action The action to be performed for each value.
    * @throws NullPointerException If the specified action is null.
    */
-  default void forEachRemaining(final <S>Consumer action) {
+  default void forEachRemaining(final <X>Consumer action) {
     Objects.requireNonNull(action);
     while (hasNext())
       action.accept(next());

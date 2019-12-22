@@ -16,45 +16,47 @@
 
 package org.libj.util.primitive;
 
+import java.util.List;
+
 /**
  * A comparison function, which imposes a <i>total ordering</i> on some
- * collection of {@code <t>}s.
+ * collection of {@code <y>}s.
  */
 @FunctionalInterface
-public interface <S>Comparator {
+public interface <X>Comparator {
   /**
-   * Comparator that compares two {@code <t>} values numerically.
+   * Comparator that compares two {@code <y>} values numerically.
    *
-   * @see <T>#compare(<t>,<t>)
+   * @see <Y>#compare(<y>,<y>)
    */
-  public static final <S>Comparator NATURAL = <T>::compare;
+  public static final <X>Comparator NATURAL = <Y>::compare;
 
   /**
-   * Comparator that compares two {@code <t>} values reverse numerically.
+   * Comparator that compares two {@code <y>} values reverse numerically.
    *
    * @see #reverse()
    */
-  public static final <S>Comparator REVERSE = NATURAL.reverse();
+  public static final <X>Comparator REVERSE = NATURAL.reverse();
 
   /**
    * Compares its two arguments for order. Returns a negative integer, zero, or
    * a positive integer as the first argument is less than, equal to, or greater
    * than the second.
    *
-   * @param f1 The first {@code <t>} to be compared.
-   * @param f2 the second {@code <t>} to be compared.
+   * @param f1 The first {@code <y>} to be compared.
+   * @param f2 the second {@code <y>} to be compared.
    * @return A negative integer, zero, or a positive integer as the first
    *         argument is less than, equal to, or greater than the second.
    * @see java.util.Comparator#compare(Object,Object)
    */
-  int compare(<t> f1, <t> f2);
+  int compare(<y> f1, <y> f2);
 
   /**
    * Returns a comparator that imposes the reverse ordering of this comparator.
    *
    * @return A comparator that imposes the reverse ordering of this comparator.
    */
-  default <S>Comparator reverse() {
+  default <X>Comparator reverse() {
     return (f1, f2) -> compare(f2, f1);
   }
 }

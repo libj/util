@@ -24,16 +24,16 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * An {@link <S>Set} implementing
+ * An {@link <X>Set} implementing
  * <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing
  * (closed hashing) with linear-probing for collision resolution</a> algorithm,
  * with allocation-free operation in steady state when expanded.
  * <p>
  * This class replicates the API of the {@link java.util.HashSet} class by
- * defining synonymous methods for a set of {@code <t>} values instead of
+ * defining synonymous methods for a set of {@code <y>} values instead of
  * Object references.
  */
-public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable {
+public class Hash<X>Set extends HashPrimitiveSet implements <X>Set, Serializable {
   private static final long serialVersionUID = <serialVersionUID>;
 
   /**
@@ -44,7 +44,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   /**
    * Value that represents null in {@link #valueData}.
    */
-  static final <t> NULL = 0;
+  static final <y> NULL = 0;
 
   private final float loadFactor;
   private int resizeThreshold;
@@ -53,20 +53,20 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
    * Whether this set contains the value representing {@link #NULL}.
    */
   private boolean containsNull;
-  private <t>[] valueData;
+  private <y>[] valueData;
   private volatile int size;
   private transient volatile int modCount;
 
   /**
-   * Creates an empty {@link Hash<S>Set} with the default initial capacity
+   * Creates an empty {@link Hash<X>Set} with the default initial capacity
    * (16) and the default load factor (0.55).
    */
-  public Hash<S>Set() {
+  public Hash<X>Set() {
     this(16);
   }
 
   /**
-   * Creates an empty {@link Hash<S>Set} with the specified initial capacity and
+   * Creates an empty {@link Hash<X>Set} with the specified initial capacity and
    * load factor.
    *
    * @param initialCapacity The initial capacity.
@@ -74,7 +74,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
    * @throws IllegalArgumentException If the initial capacity is negative or the
    *           load factor less than {@code .1} or greater than {@code .9}.
    */
-  public Hash<S>Set(final int initialCapacity, final float loadFactor) {
+  public Hash<X>Set(final int initialCapacity, final float loadFactor) {
     if (loadFactor < .1f || Float.isNaN(loadFactor) || .9f < loadFactor)
       throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
 
@@ -83,50 +83,50 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
 
     final int capacity = findNextPositivePowerOfTwo(initialCapacity);
     this.resizeThreshold = (int)(capacity * loadFactor);
-    this.valueData = new <t>[capacity];
+    this.valueData = new <y>[capacity];
   }
 
   /**
-   * Creates an empty {@link Hash<S>Set} with the specified initial capacity and
+   * Creates an empty {@link Hash<X>Set} with the specified initial capacity and
    * the default load factor (0.55).
    *
    * @param initialCapacity The initial capacity.
    * @throws IllegalArgumentException If the initial capacity is negative.
    */
-  public Hash<S>Set(final int initialCapacity) {
+  public Hash<X>Set(final int initialCapacity) {
     this(initialCapacity, DEFAULT_LOAD_FACTOR);
   }
 
   /**
-   * Creates a new {@link Hash<S>Set} with the same values as the specified
-   * collection. The {@link Hash<S>Set} is created with default load factor
+   * Creates a new {@link Hash<X>Set} with the same values as the specified
+   * collection. The {@link Hash<X>Set} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *
    * @param c The collection whose values are to be added to this set.
    * @throws NullPointerException If the specified set is null.
    */
-  public Hash<S>Set(final <S>Collection c) {
+  public Hash<X>Set(final <X>Collection c) {
     this(c.size());
     addAll(c);
   }
 
   /**
-   * Creates a new {@link Hash<S>Set} with the same values as the specified
-   * collection. The {@link Hash<S>Set} is created with default load factor
+   * Creates a new {@link Hash<X>Set} with the same values as the specified
+   * collection. The {@link Hash<X>Set} is created with default load factor
    * (0.55) and an initial capacity sufficient to hold the mappings in the
    * specified collection.
    *
    * @param c The collection whose values are to be added to this set.
    * @throws NullPointerException If the specified set is null.
    */
-  public Hash<S>Set(final Collection<<T>> c) {
+  public Hash<X>Set(final Collection<<Y>> c) {
     this(c.size());
     addAll(c);
   }
 
   @Override
-  public boolean add(final <t> value) {
+  public boolean add(final <y> value) {
     if (value == NULL) {
       if (containsNull)
         return false;
@@ -136,7 +136,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
     }
 
     final int mask = valueData.length - 1;
-    int index = hash(<T>.hashCode(value), mask);
+    int index = hash(<Y>.hashCode(value), mask);
     for (; valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return false;
@@ -150,22 +150,22 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean addAll(final <S>Collection c) {
+  public boolean addAll(final <X>Collection c) {
     if (c.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final <S>Iterator i = c.iterator(); i.hasNext(); changed |= add(i.next()));
+    for (final <X>Iterator i = c.iterator(); i.hasNext(); changed |= add(i.next()));
     return changed;
   }
 
   @Override
-  public boolean addAll(final Collection<<T>> c) {
+  public boolean addAll(final Collection<<Y>> c) {
     if (c.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
+    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
     return changed;
   }
 
@@ -179,15 +179,15 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
    * @param s Set containing values to be added to this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified set is null.
-   * @see #addAll(<S>Collection)
-   * @see #add(<t>)
+   * @see #addAll(<X>Collection)
+   * @see #add(<y>)
    */
-  public boolean addAll(final Hash<S>Set s) {
+  public boolean addAll(final Hash<X>Set s) {
     if (s.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final <t> value : s.valueData)
+    for (final <y> value : s.valueData)
       if (value != NULL)
         changed |= add(value);
 
@@ -198,12 +198,12 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean contains(final <t> value) {
+  public boolean contains(final <y> value) {
     if (value == NULL)
       return containsNull;
 
     final int mask = valueData.length - 1;
-    for (int index = hash(<T>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
+    for (int index = hash(<Y>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return true;
 
@@ -211,11 +211,11 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean containsAll(final <S>Collection c) {
+  public boolean containsAll(final <X>Collection c) {
     if (c.size() == 0)
       return true;
 
-    for (final <S>Iterator i = c.iterator(); i.hasNext();)
+    for (final <X>Iterator i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -223,11 +223,11 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean containsAll(final Collection<<T>> c) {
+  public boolean containsAll(final Collection<<Y>> c) {
     if (c.size() == 0)
       return true;
 
-    for (final Iterator<<T>> i = c.iterator(); i.hasNext();)
+    for (final Iterator<<Y>> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -235,7 +235,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean remove(final <t> value) {
+  public boolean remove(final <y> value) {
     if (value == NULL) {
       if (!containsNull)
         return false;
@@ -246,7 +246,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
     }
 
     final int mask = valueData.length - 1;
-    for (int index = hash(<T>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
+    for (int index = hash(<Y>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
       if (valueData[index] == value) {
         ++modCount;
         valueData[index] = NULL;
@@ -260,7 +260,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean removeAll(final <t> ... a) {
+  public boolean removeAll(final <y> ... a) {
     boolean changed = false;
     for (int i = 0; i < a.length; ++i)
       changed |= remove(a[i]);
@@ -269,16 +269,16 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean removeAll(final <S>Collection c) {
+  public boolean removeAll(final <X>Collection c) {
     boolean changed = false;
-    for (final <S>Iterator i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
+    for (final <X>Iterator i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
     return changed;
   }
 
   @Override
-  public boolean removeAll(final Collection<<T>> c) {
+  public boolean removeAll(final Collection<<Y>> c) {
     boolean changed = false;
-    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
+    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
     return changed;
   }
 
@@ -290,13 +290,13 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
    * @param s Set containing values to be removed from this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #removeAll(<S>Collection)
-   * @see #remove(<t>)
-   * @see #contains(<t>)
+   * @see #removeAll(<X>Collection)
+   * @see #remove(<y>)
+   * @see #contains(<y>)
    */
-  public boolean removeAll(final Hash<S>Set s) {
+  public boolean removeAll(final Hash<X>Set s) {
     boolean changed = false;
-    for (final <t> value : s.valueData)
+    for (final <y> value : s.valueData)
       if (value != NULL)
         changed |= remove(value);
 
@@ -307,12 +307,12 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean retainAll(final <S>Collection c) {
-    final <t>[] values = new <t>[this.valueData.length];
+  public boolean retainAll(final <X>Collection c) {
+    final <y>[] values = new <y>[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final <t> value : values)
+    for (final <y> value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -320,12 +320,12 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public boolean retainAll(final Collection<<T>> c) {
-    final <t>[] values = new <t>[this.valueData.length];
+  public boolean retainAll(final Collection<<Y>> c) {
+    final <y>[] values = new <y>[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final <t> value : values)
+    for (final <y> value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -353,13 +353,13 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public <t>[] toArray(<t>[] a) {
+  public <y>[] toArray(<y>[] a) {
     if (a.length < size())
-      a = new <t>[size()];
+      a = new <y>[size()];
 
     int i = 0;
-    final <t>[] values = this.valueData;
-    for (final <t> value : values)
+    final <y>[] values = this.valueData;
+    for (final <y> value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -370,13 +370,13 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public <T>[] toArray(<T>[] a) {
+  public <Y>[] toArray(<Y>[] a) {
     if (a.length < size())
-      a = new <T>[size()];
+      a = new <Y>[size()];
 
     int i = 0;
-    final <t>[] values = this.valueData;
-    for (final <t> value : values)
+    final <y>[] values = this.valueData;
+    for (final <y> value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -387,19 +387,19 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public <S>Iterator iterator() {
-    return new <S>Itr();
+  public <X>Iterator iterator() {
+    return new <X>Itr();
   }
 
-  final class <S>Itr implements <S>Iterator {
+  final class <X>Itr implements <X>Iterator {
     private int remaining;
     private int positionCounter;
     private int stopCounter;
     private boolean isPositionValid = false;
     private int expectedModCount = modCount;
 
-    <S>Itr() {
-      final <t>[] valueData = Hash<S>Set.this.valueData;
+    <X>Itr() {
+      final <y>[] valueData = Hash<X>Set.this.valueData;
       final int length = valueData.length;
       int i = length;
       if (valueData[length - 1] != NULL)
@@ -419,7 +419,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
     }
 
     @Override
-    public <t> next() {
+    public <y> next() {
       checkForComodification();
       if (remaining == 1 && containsNull) {
         remaining = 0;
@@ -429,7 +429,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
       }
 
       findNext();
-      final <t>[] values = Hash<S>Set.this.valueData;
+      final <y>[] values = Hash<X>Set.this.valueData;
       return values[getPosition(values)];
     }
 
@@ -443,7 +443,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
         containsNull = false;
       }
       else {
-        final <t>[] values = Hash<S>Set.this.valueData;
+        final <y>[] values = Hash<X>Set.this.valueData;
         final int position = getPosition(values);
         values[position] = NULL;
         --size;
@@ -455,7 +455,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
     }
 
     private void findNext() {
-      final <t>[] valueData = Hash<S>Set.this.valueData;
+      final <y>[] valueData = Hash<X>Set.this.valueData;
       final int mask = valueData.length - 1;
       isPositionValid = true;
       for (int i = positionCounter - 1; i >= stopCounter; --i) {
@@ -471,7 +471,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
       throw new NoSuchElementException();
     }
 
-    private int getPosition(final <t>[] values) {
+    private int getPosition(final <y>[] values) {
       return positionCounter & (values.length - 1);
     }
 
@@ -482,23 +482,23 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
 <_>  @Override
-<_>  public Spliterator.Of<S> spliterator() {
+<_>  public Spliterator.Of<X> spliterator() {
 <_>    throw new UnsupportedOperationException();
 <_>  }
 <_>
 <_>  @Override
-<_>  public <S>Stream stream() {
-<_>    return StreamSupport.<t>Stream(spliterator(), false);
+<_>  public <X>Stream stream() {
+<_>    return StreamSupport.<y>Stream(spliterator(), false);
 <_>  }
 <_>
 <_>  @Override
-<_>  public <S>Stream parallelStream() {
-<_>    return StreamSupport.<t>Stream(spliterator(), true);
+<_>  public <X>Stream parallelStream() {
+<_>    return StreamSupport.<y>Stream(spliterator(), true);
 <_>  }
 
   private void compactChain(int deleteIndex) {
     ++modCount;
-    final <t>[] values = this.valueData;
+    final <y>[] values = this.valueData;
     final int mask = values.length - 1;
     int index = deleteIndex;
     while (true) {
@@ -506,7 +506,7 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
       if (values[index] == NULL)
         return;
 
-      final int hash = hash(<T>.hashCode(values[index]), mask);
+      final int hash = hash(<Y>.hashCode(values[index]), mask);
       if (index < hash && (hash <= deleteIndex || deleteIndex <= index) || hash <= deleteIndex && deleteIndex <= index) {
         values[deleteIndex] = values[index];
         values[index] = NULL;
@@ -519,10 +519,10 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
     ++modCount;
     final int mask = newCapacity - 1;
     this.resizeThreshold = (int)(newCapacity * loadFactor);
-    final <t>[] valueData = new <t>[newCapacity];
-    for (final <t> value : this.valueData) {
+    final <y>[] valueData = new <y>[newCapacity];
+    for (final <y> value : this.valueData) {
       if (value != NULL) {
-        int newHash = hash(<T>.hashCode(value), mask);
+        int newHash = hash(<Y>.hashCode(value), mask);
         for (; valueData[newHash] != NULL; newHash = ++newHash & mask);
         valueData[newHash] = value;
       }
@@ -541,10 +541,10 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
   }
 
   @Override
-  public Hash<S>Set clone() {
+  public Hash<X>Set clone() {
     try {
-      final Hash<S>Set clone = (Hash<S>Set)super.clone();
-      clone.valueData = new <t>[valueData.length];
+      final Hash<X>Set clone = (Hash<X>Set)super.clone();
+      clone.valueData = new <y>[valueData.length];
       System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
       return clone;
     }
@@ -558,18 +558,18 @@ public class Hash<S>Set extends HashPrimitiveSet implements <S>Set, Serializable
     if (obj == this)
       return true;
 
-    if (!(obj instanceof Hash<S>Set))
+    if (!(obj instanceof Hash<X>Set))
       return false;
 
-    final Hash<S>Set that = (Hash<S>Set)obj;
+    final Hash<X>Set that = (Hash<X>Set)obj;
     return size == that.size && containsNull == that.containsNull && containsAll(that);
   }
 
   @Override
   public int hashCode() {
-    int hashCode = containsNull ? <T>.hashCode(NULL) : 0;
+    int hashCode = containsNull ? <Y>.hashCode(NULL) : 0;
     for (int i = 0; i < valueData.length; ++i)
-      hashCode += <T>.hashCode(valueData[i]);
+      hashCode += <Y>.hashCode(valueData[i]);
 
     return hashCode;
   }

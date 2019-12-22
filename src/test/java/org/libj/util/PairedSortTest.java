@@ -26,7 +26,7 @@ import java.util.List;
 import org.junit.Test;
 import org.libj.util.primitive.IntComparator;
 
-public class MatchedSortTest {
+public class PairedSortTest {
   private static final int ITERATIONS = 100;
 
   private static <T>void randomize(final List<T> a, final int[] b) {
@@ -55,7 +55,7 @@ public class MatchedSortTest {
 
   private static <T>void testForward(final List<T> data) {
     final List<T> expected = new ArrayList<>(data);
-    test(data, null);
+    test(data, IntComparator.NATURAL);
     assertEquals(expected, data);
   }
 
@@ -71,6 +71,16 @@ public class MatchedSortTest {
     ArrayUtil.fillIncremental(order, 0);
     randomize(data, order);
     CollectionUtil.sort(data, order, c);
+  }
+
+  @Test
+  public void testExceptions() {
+    try {
+      test(Arrays.asList("a"), null);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
   }
 
   @Test

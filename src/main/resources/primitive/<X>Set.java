@@ -19,16 +19,16 @@ package org.libj.util.primitive;
 import java.util.Collection;
 
 /**
- * A collection of {@code <t>} values that contains no duplicates. More
- * formally, <t>-sets contain no pair of values {@code v1} and {@code v2} such
+ * A collection of {@code <y>} values that contains no duplicates. More
+ * formally, <y>-sets contain no pair of values {@code v1} and {@code v2} such
  * that {@code e1 == e2}. As implied by its name, this interface models the
  * mathematical <i>set</i> abstraction.
  * <p>
  * This interface is a replica of the {@link java.util.Set} interface that defines
- * synonymous methods for a list of {@code <t>} values instead of Object
+ * synonymous methods for a list of {@code <y>} values instead of Object
  * references.
  */
-public interface <S>Set extends <S>Collection {
+public interface <X>Set extends <X>Collection {
   /**
    * Adds the specified value to this set if it is not already present. More
    * formally, adds the specified value {@code value} to this set if the set
@@ -42,7 +42,7 @@ public interface <S>Set extends <S>Collection {
    *         value.
    */
   @Override
-  boolean add(<t> value);
+  boolean add(<y> value);
 
   /**
    * Adds all of the values in the specified collection to this set if they're
@@ -55,14 +55,14 @@ public interface <S>Set extends <S>Collection {
    * @param c Collection containing values to be added to this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <T>}.
+   *           collection is not {@link <Y>}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
-   * @see #addAll(<S>Collection)
-   * @see #add(<t>)
+   * @see #addAll(<X>Collection)
+   * @see #add(<y>)
    */
   @Override
-  boolean addAll(Collection<<T>> c);
+  boolean addAll(Collection<<Y>> c);
 
   /**
    * Adds all of the values in the specified collection to this set if they're
@@ -77,10 +77,10 @@ public interface <S>Set extends <S>Collection {
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
    * @see #addAll(Collection)
-   * @see #add(<t>)
+   * @see #add(<y>)
    */
   @Override
-  boolean addAll(<S>Collection c);
+  boolean addAll(<X>Collection c);
 
   /**
    * Returns {@code true} if this set contains the specified value. More
@@ -91,7 +91,7 @@ public interface <S>Set extends <S>Collection {
    * @return {@code true} if this set contains the specified value.
    */
   @Override
-  boolean contains(<t> value);
+  boolean contains(<y> value);
 
   /**
    * Returns {@code true} if this set contains all of the values of the
@@ -102,14 +102,14 @@ public interface <S>Set extends <S>Collection {
    * @return {@code true} if this set contains all of the values of the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <T>}.
+   *           collection is not {@link <Y>}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
-   * @see #containsAll(<S>Collection)
-   * @see #contains(<t>)
+   * @see #containsAll(<X>Collection)
+   * @see #contains(<y>)
    */
   @Override
-  boolean containsAll(Collection<<T>> c);
+  boolean containsAll(Collection<<Y>> c);
 
   /**
    * Returns {@code true} if this set contains all of the values of the
@@ -120,10 +120,10 @@ public interface <S>Set extends <S>Collection {
    * @return {@code true} if this set contains all of the values of the
    *         specified collection.
    * @see #containsAll(Collection)
-   * @see #contains(<t>)
+   * @see #contains(<y>)
    */
   @Override
-  boolean containsAll(<S>Collection c);
+  boolean containsAll(<X>Collection c);
 
   /**
    * Removes the specified value from this set if it is present. More formally,
@@ -136,7 +136,7 @@ public interface <S>Set extends <S>Collection {
    * @return {@code true} if this set contained the specified value.
    */
   @Override
-  boolean remove(<t> value);
+  boolean remove(<y> value);
 
   /**
    * Removes from this set all of its values that are contained in the specified
@@ -147,15 +147,15 @@ public interface <S>Set extends <S>Collection {
    * @param c Collection containing values to be removed from this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <T>}.
+   *           collection is not {@link <Y>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #removeAll(<S>Collection)
-   * @see #remove(<t>)
-   * @see #contains(<t>)
+   * @see #removeAll(<X>Collection)
+   * @see #remove(<y>)
+   * @see #contains(<y>)
    */
   @Override
-  boolean removeAll(Collection<<T>> c);
+  boolean removeAll(Collection<<Y>> c);
 
   /**
    * Removes from this set all of its values that are contained in the specified
@@ -168,11 +168,11 @@ public interface <S>Set extends <S>Collection {
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #removeAll(Collection)
-   * @see #remove(<t>)
-   * @see #contains(<t>)
+   * @see #remove(<y>)
+   * @see #contains(<y>)
    */
   @Override
-  boolean removeAll(<S>Collection c);
+  boolean removeAll(<X>Collection c);
 
   /**
    * Retains only the values in this set that are contained in the specified
@@ -184,15 +184,15 @@ public interface <S>Set extends <S>Collection {
    * @param c Collection containing values to be retained in this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <T>}.
+   *           collection is not {@link <Y>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #retainAll(<S>Collection)
-   * @see #remove(<t>)
-   * @see #contains(<t>)
+   * @see #retainAll(<X>Collection)
+   * @see #remove(<y>)
+   * @see #contains(<y>)
    */
   @Override
-  boolean retainAll(Collection<<T>> c);
+  boolean retainAll(Collection<<Y>> c);
 
   /**
    * Retains only the values in this set that are contained in the specified
@@ -206,11 +206,11 @@ public interface <S>Set extends <S>Collection {
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #retainAll(Collection)
-   * @see #remove(<t>)
-   * @see #contains(<t>)
+   * @see #remove(<y>)
+   * @see #contains(<y>)
    */
   @Override
-  boolean retainAll(<S>Collection c);
+  boolean retainAll(<X>Collection c);
 
   /**
    * Removes all of the values from this set. The set will be empty after this
@@ -221,8 +221,8 @@ public interface <S>Set extends <S>Collection {
 
   /**
    * Returns the number of values in this set (its cardinality). If this set
-   * contains more than {@link <T>#MAX_VALUE} values, returns
-   * {@link <T>#MAX_VALUE}.
+   * contains more than {@link <Y>#MAX_VALUE} values, returns
+   * {@link <Y>#MAX_VALUE}.
    *
    * @return The number of values in this set (its cardinality).
    */
@@ -245,18 +245,18 @@ public interface <S>Set extends <S>Collection {
    * @return An iterator over the values in this set.
    */
   @Override
-  <S>Iterator iterator();
+  <X>Iterator iterator();
 
 <_>  /**
-<_>   * Creates a {@code Spliterator.Of<S>} over the elements in this set.
+<_>   * Creates a {@code Spliterator.Of<X>} over the elements in this set.
 <_>   * <p>
-<_>   * The {@code Spliterator.Of<S>} reports {@link Spliterator#DISTINCT}.
+<_>   * The {@code Spliterator.Of<X>} reports {@link Spliterator#DISTINCT}.
 <_>   *
-<_>   * @return A {@code Spliterator.Of<S>} over the elements in this set.
-<_>   * @see java.util.Spliterator.Of<S>
+<_>   * @return A {@code Spliterator.Of<X>} over the elements in this set.
+<_>   * @see java.util.Spliterator.Of<X>
 <_>   */
 <_>  @Override
-<_>  Spliterator.Of<S> spliterator();
+<_>  Spliterator.Of<X> spliterator();
 
   /**
    * Compares the specified object with this set for equality. Returns
@@ -281,7 +281,7 @@ public interface <S>Set extends <S>Collection {
    *
    * @return The hash code value for this set.
    * @see Object#equals(Object)
-   * @see <S>Set#equals(Object)
+   * @see <X>Set#equals(Object)
    */
   @Override
   int hashCode();

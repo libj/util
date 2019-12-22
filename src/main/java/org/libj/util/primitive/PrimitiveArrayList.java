@@ -26,15 +26,15 @@ import java.lang.reflect.Array;
  * @param <T> The parameter representing the array type (i.e. {@code int[]} or
  *          {@code long[]}).
  */
-public abstract class AbstractArrayList<T> implements PrimitiveCollection {
+public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   static final int DEFAULT_INITIAL_CAPACITY = 5;
 
   protected volatile int fromIndex;
   protected volatile int toIndex = -1;
 
-  protected AbstractArrayList<T> parent;
-  protected AbstractArrayList<T> sibling;
-  protected AbstractArrayList<T> child;
+  protected PrimitiveArrayList<T> parent;
+  protected PrimitiveArrayList<T> sibling;
+  protected PrimitiveArrayList<T> child;
 
   protected T valueData;
   protected volatile int size;
@@ -43,7 +43,7 @@ public abstract class AbstractArrayList<T> implements PrimitiveCollection {
   /**
    * Creates an empty list with an initial capacity of five.
    */
-  protected AbstractArrayList() {
+  protected PrimitiveArrayList() {
   }
 
   /**
@@ -57,7 +57,7 @@ public abstract class AbstractArrayList<T> implements PrimitiveCollection {
    * @param toIndex High endpoint (exclusive) of the subList.
    * @throws NullPointerException If the specified parent list is null.
    */
-  protected AbstractArrayList(final AbstractArrayList<T> parent, final int fromIndex, final int toIndex) {
+  protected PrimitiveArrayList(final PrimitiveArrayList<T> parent, final int fromIndex, final int toIndex) {
     this.parent = parent;
     if (parent.child == null) {
       this.sibling = this;
@@ -86,7 +86,7 @@ public abstract class AbstractArrayList<T> implements PrimitiveCollection {
    * @param d The delta of the modification at the index.
    */
   private void updateStateChildren(final int i, final int d) {
-    for (AbstractArrayList<T> child = this.child; child != null; child = child.child) {
+    for (PrimitiveArrayList<T> child = this.child; child != null; child = child.child) {
       ++child.modCount;
       child.size = this.size;
       child.valueData = this.valueData;
@@ -112,7 +112,7 @@ public abstract class AbstractArrayList<T> implements PrimitiveCollection {
    * @param d The delta of the modification at the index.
    */
   private void updateStateSiblings(final int i, final int d) {
-    for (AbstractArrayList<T> sibling = this.sibling; sibling != null && sibling != this; sibling = sibling.sibling) {
+    for (PrimitiveArrayList<T> sibling = this.sibling; sibling != null && sibling != this; sibling = sibling.sibling) {
       ++sibling.modCount;
       sibling.size = this.size;
       sibling.valueData = this.valueData;
@@ -209,9 +209,9 @@ public abstract class AbstractArrayList<T> implements PrimitiveCollection {
    */
   @Override
   @SuppressWarnings("unchecked")
-  protected AbstractArrayList<T> clone() {
+  protected PrimitiveArrayList<T> clone() {
     try {
-      final AbstractArrayList<T> clone = (AbstractArrayList<T>)super.clone();
+      final PrimitiveArrayList<T> clone = (PrimitiveArrayList<T>)super.clone();
       clone.parent = null;
       clone.sibling = null;
       clone.child = null;

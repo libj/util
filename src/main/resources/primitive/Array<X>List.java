@@ -29,26 +29,26 @@ import org.libj.util.ArrayUtil;
 import org.libj.util.Assertions;
 
 /**
- * An unsynchronized implementation of a resizable-array of <t> values.
+ * An unsynchronized implementation of a resizable-array of <y> values.
  * <p>
  * The {@code size}, {@code isEmpty}, {@code get}, and {@code set} operations
  * run in constant time. The {@code add} operation runs in <i>amortized constant
  * time</i>, that is, adding n elements requires O(n) time. All of the other
  * operations run in linear time (roughly speaking).
  * <p>
- * Each {@link Array<S>List} instance has a <i>capacity</i>. The capacity is
+ * Each {@link Array<X>List} instance has a <i>capacity</i>. The capacity is
  * the size of the array used to store the elements in the list. It is always at
- * least as large as the list size. As elements are added to an Array<S>List,
+ * least as large as the list size. As elements are added to an Array<X>List,
  * its capacity grows automatically. The details of the growth policy are not
  * specified beyond the fact that adding an element has constant amortized time
  * cost.
  * <p>
- * An application can increase the capacity of an {@link Array<S>List} instance
+ * An application can increase the capacity of an {@link Array<X>List} instance
  * before adding a large number of elements using the {@code ensureCapacity}
  * operation. This may reduce the amount of incremental reallocation.
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
- * multiple threads access an {@link Array<S>List} instance concurrently, and
+ * multiple threads access an {@link Array<X>List} instance concurrently, and
  * at least one of the threads modifies the list structurally, it <i>must</i> be
  * synchronized externally. (A structural modification is any operation that
  * adds or deletes one or more elements, or explicitly resizes the backing
@@ -56,16 +56,16 @@ import org.libj.util.Assertions;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, RandomAccess, Serializable {
+public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, RandomAccess, Serializable {
   private static final long serialVersionUID = <serialVersionUID>;
 
-  private static final <t>[] EMPTY_VALUEDATA = {};
+  private static final <y>[] EMPTY_VALUEDATA = {};
 
   /**
    * Creates an empty list with an initial capacity of five.
    */
-  public Array<S>List() {
-    valueData = new <t>[DEFAULT_INITIAL_CAPACITY];
+  public Array<X>List() {
+    valueData = new <y>[DEFAULT_INITIAL_CAPACITY];
     fromIndex = 0;
   }
 
@@ -76,12 +76,12 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * @throws IllegalArgumentException If the specified initial capacity is
    *           negative.
    */
-  public Array<S>List(final int initialCapacity) {
+  public Array<X>List(final int initialCapacity) {
     if (initialCapacity < 0)
       throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
 
     fromIndex = 0;
-    valueData = initialCapacity == 0 ? EMPTY_VALUEDATA : new <t>[initialCapacity];
+    valueData = initialCapacity == 0 ? EMPTY_VALUEDATA : new <y>[initialCapacity];
   }
 
   /**
@@ -92,9 +92,9 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * @param length The number of values to add.
    * @throws NullPointerException If the specified array is null.
    */
-  public Array<S>List(final <t>[] values, final int offset, final int length) {
+  public Array<X>List(final <y>[] values, final int offset, final int length) {
     fromIndex = 0;
-    valueData = new <t>[length];
+    valueData = new <y>[length];
     System.arraycopy(values, offset, valueData, 0, length);
     size = length;
   }
@@ -105,7 +105,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * @param values The array whose values are to be placed into this list.
    * @throws NullPointerException If the specified array is null.
    */
-  public Array<S>List(final <t> ... values) {
+  public Array<X>List(final <y> ... values) {
     this(values, 0, values.length);
   }
 
@@ -116,10 +116,10 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * @param c The collection whose values are to be placed into this list.
    * @throws NullPointerException If the specified collection is null.
    */
-  public Array<S>List(final Collection<<T>> c) {
+  public Array<X>List(final Collection<<Y>> c) {
     fromIndex = 0;
-    valueData = new <t>[c.size()];
-    for (final Iterator<<T>> i = c.iterator(); i.hasNext();)
+    valueData = new <y>[c.size()];
+    for (final Iterator<<Y>> i = c.iterator(); i.hasNext();)
       valueData[size++] = i.next();
   }
 
@@ -128,14 +128,14 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * sub-list graph. A sub-list instance shares the parent list's
    * {@link #valueData}, and modifications made to any list in the graph of
    * sub-lists are propagated with the
-   * {@link AbstractArrayList#updateState(int,int)} method.
+   * {@link PrimitiveArrayList#updateState(int,int)} method.
    *
    * @param parent The parent list.
    * @param fromIndex Low endpoint (inclusive) of the subList.
    * @param toIndex High endpoint (exclusive) of the subList.
    * @throws NullPointerException If the specified parent list is null.
    */
-  private Array<S>List(final Array<S>List parent, final int fromIndex, final int toIndex) {
+  private Array<X>List(final Array<X>List parent, final int fromIndex, final int toIndex) {
     super(parent, fromIndex, toIndex);
   }
 
@@ -167,13 +167,13 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public <t> get(final int index) {
+  public <y> get(final int index) {
     Assertions.assertRangeList(index, size(), false);
     return valueData[fromIndex + index];
   }
 
   @Override
-  public boolean add(final <t> value) {
+  public boolean add(final <y> value) {
     final int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -181,7 +181,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public boolean add(int index, final <t> value) {
+  public boolean add(int index, final <y> value) {
     Assertions.assertRangeList(index, size(), true);
     index += fromIndex;
     shiftRight(index, 1);
@@ -201,7 +201,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final Array<S>List list) {
+  public boolean addAll(final Array<X>List list) {
     return addAll(list.valueData, list.fromIndex, list.toIndex > -1 ? list.toIndex : list.size);
   }
 
@@ -221,7 +221,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final Array<S>List list, final int offset, final int length) {
+  public boolean addAll(final Array<X>List list, final int offset, final int length) {
     return addAll(list.valueData, offset + list.fromIndex, length);
   }
 
@@ -238,7 +238,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final <t>[] values, final int offset, final int length) {
+  public boolean addAll(final <y>[] values, final int offset, final int length) {
     if (values.length == 0)
       return false;
 
@@ -258,7 +258,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final <t> ... values) {
+  public boolean addAll(final <y> ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -279,7 +279,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final int index, final Array<S>List list, final int offset, final int length) {
+  public boolean addAll(final int index, final Array<X>List list, final int offset, final int length) {
     return addAll(index, list.valueData, offset + list.fromIndex, length);
   }
 
@@ -298,12 +298,12 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
-  public boolean addAll(final int index, final Array<S>List list) {
+  public boolean addAll(final int index, final Array<X>List list) {
     return addAll(index, list.valueData, list.fromIndex, list.toIndex > -1 ? list.toIndex : list.size);
   }
 
   @Override
-  public boolean addAll(int index, final <t>[] values, final int offset, final int length) {
+  public boolean addAll(int index, final <y>[] values, final int offset, final int length) {
     Assertions.assertRangeList(index, size(), true);
     if (values.length == 0)
       return false;
@@ -316,35 +316,35 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public boolean addAll(final Collection<<T>> c) {
+  public boolean addAll(final Collection<<Y>> c) {
     final int len = c.size();
     if (len == 0)
       return false;
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, len);
-    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public boolean addAll(final <S>Collection c) {
+  public boolean addAll(final <X>Collection c) {
     final int len = c.size();
     if (len == 0)
       return false;
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, len);
-    for (final <S>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public boolean addAll(int index, final Collection<<T>> c) {
+  public boolean addAll(int index, final Collection<<Y>> c) {
     Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
@@ -352,14 +352,14 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
 
     index += fromIndex;
     shiftRight(index, len);
-    for (final Iterator<<T>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public boolean addAll(int index, final <S>Collection c) {
+  public boolean addAll(int index, final <X>Collection c) {
     Assertions.assertRangeList(index, size(), true);
     final int len = c.size();
     if (len == 0)
@@ -367,34 +367,34 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
 
     index += fromIndex;
     shiftRight(index, len);
-    for (final <S>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
   }
 
   @Override
-  public <t> set(int index, final <t> value) {
+  public <y> set(int index, final <y> value) {
     Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
-    final <t> oldValue = valueData[index];
+    final <y> oldValue = valueData[index];
     valueData[index] = value;
     updateState(0, 0);
     return oldValue;
   }
 
   @Override
-  public <t> removeIndex(int index) {
+  public <y> removeIndex(int index) {
     Assertions.assertRangeList(index, size(), false);
     index += fromIndex;
-    final <t> value = valueData[index];
+    final <y> value = valueData[index];
     shiftLeft(index, 1);
     updateState(index, -1);
     return value;
   }
 
   @Override
-  public boolean retainAll(final Collection<<T>> c) {
+  public boolean retainAll(final Collection<<Y>> c) {
     final int beforeSize = size;
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
       if (!c.contains(valueData[i])) {
@@ -407,7 +407,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public boolean retainAll(final <S>Collection c) {
+  public boolean retainAll(final <X>Collection c) {
     final int beforeSize = size;
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
       if (!c.contains(valueData[i])) {
@@ -420,7 +420,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public int indexOf(final <t> value) {
+  public int indexOf(final <y> value) {
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
       if (valueData[i] == value)
@@ -430,7 +430,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public int lastIndexOf(final <t> value) {
+  public int lastIndexOf(final <y> value) {
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i)
       if (valueData[i] == value)
         return i - fromIndex;
@@ -439,13 +439,21 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public void sort(final <S>Comparator c) {
+  public void sort(final <X>Comparator c) {
     updateState(0, 0);
     ArrayUtil.sort(valueData, fromIndex, toIndex > -1 ? toIndex : size, c);
   }
 
-  private class <S>Itr implements <S>Iterator {
-    int cursor = Array<S>List.this.fromIndex;
+  @Override
+  public void sort(final Object[] p, final <X>Comparator c) {
+    if (p.length != size())
+      throw new IllegalArgumentException("The length of the paired array (" + p.length + ") does not match that of this list (" + size() + ")");
+
+    <X>PairedTimSort.sort(valueData, p, 0, size(), c != null ? c : <Y>::compare, null, 0, 0);
+  }
+
+  private class <X>Itr implements <X>Iterator {
+    int cursor = Array<X>List.this.fromIndex;
     int lastRet = -1;
     int expectedModCount = modCount;
 
@@ -455,7 +463,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     }
 
     @Override
-    public <t> next() {
+    public <y> next() {
       checkForComodification();
       final int i = cursor;
       if (i >= (toIndex > -1 ? toIndex : size))
@@ -475,7 +483,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
 
       checkForComodification();
       try {
-        Array<S>List.this.removeIndex(lastRet - fromIndex);
+        Array<X>List.this.removeIndex(lastRet - fromIndex);
         cursor = lastRet;
         lastRet = -1;
         expectedModCount = modCount;
@@ -486,7 +494,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     }
 
     @Override
-    public void forEachRemaining(final <S>Consumer action) {
+    public void forEachRemaining(final <X>Consumer action) {
       Objects.requireNonNull(action);
       int i = cursor;
       if (i >= (toIndex > -1 ? toIndex : size))
@@ -509,8 +517,8 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     }
   }
 
-  private class <S>ListItr extends <S>Itr implements <S>ListIterator {
-    <S>ListItr(final int index) {
+  private class <X>ListItr extends <X>Itr implements <X>ListIterator {
+    <X>ListItr(final int index) {
       cursor = index + fromIndex;
     }
 
@@ -530,7 +538,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     }
 
     @Override
-    public <t> previous() {
+    public <y> previous() {
       checkForComodification();
       final int i = cursor - 1;
       if (i < fromIndex)
@@ -544,13 +552,13 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     }
 
     @Override
-    public void set(final <t> value) {
+    public void set(final <y> value) {
       if (lastRet < 0)
         throw new IllegalStateException();
 
       checkForComodification();
       try {
-        Array<S>List.this.set(lastRet - fromIndex, value);
+        Array<X>List.this.set(lastRet - fromIndex, value);
       }
       catch (final IndexOutOfBoundsException e) {
         throw new ConcurrentModificationException();
@@ -558,11 +566,11 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     }
 
     @Override
-    public void add(final <t> value) {
+    public void add(final <y> value) {
       checkForComodification();
       try {
         final int i = cursor;
-        Array<S>List.this.add(i - fromIndex, value);
+        Array<X>List.this.add(i - fromIndex, value);
         cursor = i + 1;
         lastRet = -1;
         expectedModCount = modCount;
@@ -579,7 +587,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
 
       checkForComodification();
       try {
-        Array<S>List.this.removeIndex(lastRet - fromIndex);
+        Array<X>List.this.removeIndex(lastRet - fromIndex);
         cursor = lastRet;
         lastRet = -1;
         expectedModCount = modCount;
@@ -591,29 +599,29 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public <S>Iterator iterator() {
-    return new <S>Itr();
+  public <X>Iterator iterator() {
+    return new <X>Itr();
   }
 
   @Override
-  public <S>ListIterator listIterator(final int index) {
+  public <X>ListIterator listIterator(final int index) {
     Assertions.assertRangeList(index, size(), true);
-    return new <S>ListItr(index);
+    return new <X>ListItr(index);
   }
 
   @Override
-  public Array<S>List subList(final int fromIndex, final int toIndex) {
+  public Array<X>List subList(final int fromIndex, final int toIndex) {
     Assertions.assertRangeList(fromIndex, toIndex, size());
     if (this.toIndex < 0)
       this.toIndex = size;
 
-    return new Array<S>List(this, fromIndex + this.fromIndex, toIndex + this.fromIndex);
+    return new Array<X>List(this, fromIndex + this.fromIndex, toIndex + this.fromIndex);
   }
 
   @Override
-  public <t>[] toArray(<t>[] a) {
+  public <y>[] toArray(<y>[] a) {
     if (a.length < size())
-      a = new <t>[size()];
+      a = new <y>[size()];
 
     System.arraycopy(valueData, fromIndex, a, 0, size());
     if (a.length > size())
@@ -623,9 +631,9 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   @Override
-  public <T>[] toArray(<T>[] a) {
+  public <Y>[] toArray(<Y>[] a) {
     if (a.length < size())
-      a = new <T>[size()];
+      a = new <Y>[size()];
 
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
@@ -638,9 +646,9 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   /**
-   * Trims the capacity of this {@link Array<S>List} instance to be the list's
+   * Trims the capacity of this {@link Array<X>List} instance to be the list's
    * current size. An application can use this operation to minimize the storage
-   * of an {@link Array<S>List} instance.
+   * of an {@link Array<X>List} instance.
    */
   public void trimToSize() {
     if (size < valueData.length) {
@@ -650,7 +658,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
   /**
-   * Increases the capacity of this {@link Array<S>List} instance, if
+   * Increases the capacity of this {@link Array<X>List} instance, if
    * necessary, to ensure that it can hold at least the number of values
    * specified by the minimum capacity argument.
    *
@@ -658,9 +666,9 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
    */
   public void ensureCapacity(final int minCapacity) {
     if (minCapacity > valueData.length) {
-      final <t>[] oldData = valueData;
+      final <y>[] oldData = valueData;
       final int newCapacity = Math.max((valueData.length * 3) / 2 + 1, minCapacity);
-      final <t>[] valueData = new <t>[newCapacity];
+      final <y>[] valueData = new <y>[newCapacity];
       System.arraycopy(oldData, 0, valueData, 0, size);
       this.valueData = valueData;
       updateState(0, 0);
@@ -668,23 +676,23 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   }
 
 <_>  @Override
-<_>  public Spliterator.Of<S> spliterator() {
+<_>  public Spliterator.Of<X> spliterator() {
 <_>    return Arrays.spliterator(valueData, fromIndex, toIndex > -1 ? toIndex : size);
 <_>  }
 <_>
 <_>  @Override
-<_>  public <S>Stream stream() {
+<_>  public <X>Stream stream() {
 <_>    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size);
 <_>  }
 <_>
 <_>  @Override
-<_>  public <S>Stream parallelStream() {
+<_>  public <X>Stream parallelStream() {
 <_>    return Arrays.stream(valueData, fromIndex, toIndex > -1 ? toIndex : size).parallel();
 <_>  }
 
   @Override
-  public Array<S>List clone() {
-    return (Array<S>List)super.clone();
+  public Array<X>List clone() {
+    return (Array<X>List)super.clone();
   }
 
   /**
@@ -697,7 +705,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     int hashCode = 1;
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
-      hashCode = 31 * hashCode + <T>.hashCode(valueData[i]);
+      hashCode = 31 * hashCode + <Y>.hashCode(valueData[i]);
 
     return hashCode;
   }
@@ -705,7 +713,7 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
   /**
    * Compares the specified object with this list for equality. Returns
    * {@code true} if and only if the specified object is also a
-   * {@link Array<S>List}, both lists have the same size, and all corresponding
+   * {@link Array<X>List}, both lists have the same size, and all corresponding
    * pairs of values in the two lists are <i>equal</i>. In other words, two
    * lists are defined to be equal if they contain the same values in the same
    * order.
@@ -715,10 +723,10 @@ public class Array<S>List extends AbstractArrayList<<t>[]> implements <S>List, R
     if (obj == this)
       return true;
 
-    if (!(obj instanceof Array<S>List))
+    if (!(obj instanceof Array<X>List))
       return false;
 
-    final Array<S>List that = (Array<S>List)obj;
+    final Array<X>List that = (Array<X>List)obj;
     if (size() != that.size())
       return false;
 
