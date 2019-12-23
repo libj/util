@@ -19,38 +19,38 @@ package org.libj.util.function;
 import java.util.Objects;
 
 /**
- * Represents an operation that accepts a single {@code byte}-valued argument
+ * Represents an operation that accepts a single {@code <y>}-valued argument
  * and returns no result. This is the primitive type specialization of
- * {@link java.util.function.Consumer} for {@code byte}. Unlike most other
- * functional interfaces, {@code ByteConsumer} is expected to operate via
+ * {@link java.util.function.Consumer} for {@code <y>}. Unlike most other
+ * functional interfaces, {@code <X>Consumer} is expected to operate via
  * side-effects.
  *
  * @see java.util.function.Consumer
  */
 @FunctionalInterface
-public interface ByteConsumer {
+public interface <X>Consumer {
   /**
    * Performs this operation on the given argument.
    *
    * @param value The input argument.
    */
-  void accept(byte value);
+  void accept(<y> value);
 
   /**
-   * Returns a composed {@code ByteConsumer} that performs, in sequence, this
+   * Returns a composed {@code <X>Consumer} that performs, in sequence, this
    * operation followed by the {@code after} operation. If performing either
    * operation throws an exception, it is relayed to the caller of the composed
    * operation. If performing this operation throws an exception, the
    * {@code after} operation will not be performed.
    *
    * @param after The operation to perform after this operation.
-   * @return A composed {@code ByteConsumer} that performs in sequence this
+   * @return A composed {@code <X>Consumer} that performs in sequence this
    *         operation followed by the {@code after} operation
    * @throws NullPointerException If {@code after} is null.
    */
-  default ByteConsumer andThen(final ByteConsumer after) {
+  default <X>Consumer andThen(final <X>Consumer after) {
     Objects.requireNonNull(after);
-    return (byte t) -> {
+    return (<y> t) -> {
       accept(t);
       after.accept(t);
     };

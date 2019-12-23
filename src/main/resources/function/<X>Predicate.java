@@ -19,14 +19,14 @@ package org.libj.util.function;
 import java.util.Objects;
 
 /**
- * Represents a predicate (boolean-valued function) of one {@code short}-valued
- * argument. This is the {@code short}-consuming primitive type specialization
+ * Represents a predicate (boolean-valued function) of one {@code <y>}-valued
+ * argument. This is the {@code <y>}-consuming primitive type specialization
  * of {@link java.util.function.Predicate}.
  *
  * @see java.util.function.Predicate
  */
 @FunctionalInterface
-public interface ShortPredicate {
+public interface <X>Predicate {
   /**
    * Evaluates this predicate on the given argument.
    *
@@ -34,7 +34,7 @@ public interface ShortPredicate {
    * @return {@code true} if the input argument matches the predicate, otherwise
    *         {@code false}.
    */
-  boolean test(short value);
+  boolean test(<y> value);
 
   /**
    * Returns a composed predicate that represents a short-circuiting logical AND
@@ -51,7 +51,7 @@ public interface ShortPredicate {
    *         AND of this predicate and the {@code other} predicate.
    * @throws NullPointerException If {@code other} is null.
    */
-  default ShortPredicate and(final ShortPredicate other) {
+  default <X>Predicate and(final <X>Predicate other) {
     Objects.requireNonNull(other);
     return (value) -> test(value) && other.test(value);
   }
@@ -61,7 +61,7 @@ public interface ShortPredicate {
    *
    * @return A predicate that represents the logical negation of this predicate.
    */
-  default ShortPredicate negate() {
+  default <X>Predicate negate() {
     return (value) -> !test(value);
   }
 
@@ -80,7 +80,7 @@ public interface ShortPredicate {
    *         OR of this predicate and the {@code other} predicate.
    * @throws NullPointerException if {@code other} is null.
    */
-  default ShortPredicate or(final ShortPredicate other) {
+  default <X>Predicate or(final <X>Predicate other) {
     Objects.requireNonNull(other);
     return (value) -> test(value) || other.test(value);
   }

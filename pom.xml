@@ -59,7 +59,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>function-sources</id>
+            <id>all-function-sources</id>
             <goals>
               <goal>template</goal>
             </goals>
@@ -73,6 +73,33 @@
                 <template>src/main/resources/function/Tri&lt;X&gt;Consumer.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
+            </configuration>
+          </execution>
+          <execution>
+            <id>missing-function-sources</id>
+            <goals>
+              <goal>template</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <templates>
+                <template>src/main/resources/function/&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/&lt;X&gt;Predicate.java</template>
+                <template>src/main/resources/function/&lt;X&gt;UnaryOperator.java</template>
+                <template>src/main/resources/function/To&lt;X&gt;Function.java</template>
+              </templates>
+              <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
+              <parameters>
+                <int>
+                  <skip>true</skip>
+                </int>
+                <long>
+                  <skip>true</skip>
+                </long>
+                <double>
+                  <skip>true</skip>
+                </double>
+              </parameters>
             </configuration>
           </execution>
           <execution>

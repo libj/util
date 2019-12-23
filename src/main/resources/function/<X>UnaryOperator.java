@@ -19,21 +19,21 @@ package org.libj.util.function;
 import java.util.Objects;
 
 /**
- * Represents an operation on a single {@code short}-valued operand that
- * produces a {@code short}-valued result. This is the primitive type
- * specialization of {@link java.util.function.UnaryOperator} for {@code short}.
+ * Represents an operation on a single {@code <y>}-valued operand that
+ * produces a {@code <y>}-valued result. This is the primitive type
+ * specialization of {@link java.util.function.UnaryOperator} for {@code <y>}.
  *
  * @see java.util.function.UnaryOperator
  */
 @FunctionalInterface
-public interface ShortUnaryOperator {
+public interface <X>UnaryOperator {
   /**
    * Applies this operator to the given operand.
    *
    * @param operand The operand.
    * @return The operator result.
    */
-  short applyAsShort(short operand);
+  <y> applyAs<X>(<y> operand);
 
   /**
    * Returns a composed operator that first applies the {@code before} operator
@@ -45,11 +45,11 @@ public interface ShortUnaryOperator {
    * @return A composed operator that first applies the {@code before} operator
    *         and then applies this operator.
    * @throws NullPointerException If {@code before} is null.
-   * @see #andThen(ShortUnaryOperator)
+   * @see #andThen(<X>UnaryOperator)
    */
-  default ShortUnaryOperator compose(ShortUnaryOperator before) {
+  default <X>UnaryOperator compose(<X>UnaryOperator before) {
     Objects.requireNonNull(before);
-    return (short v) -> applyAsShort(before.applyAsShort(v));
+    return (<y> v) -> applyAs<X>(before.applyAs<X>(v));
   }
 
   /**
@@ -62,11 +62,11 @@ public interface ShortUnaryOperator {
    * @return A composed operator that first applies this operator and then
    *         applies the {@code after} operator.
    * @throws NullPointerException If {@code after} is null.
-   * @see #compose(ShortUnaryOperator)
+   * @see #compose(<X>UnaryOperator)
    */
-  default ShortUnaryOperator andThen(ShortUnaryOperator after) {
+  default <X>UnaryOperator andThen(<X>UnaryOperator after) {
     Objects.requireNonNull(after);
-    return (short t) -> after.applyAsShort(applyAsShort(t));
+    return (<y> t) -> after.applyAs<X>(applyAs<X>(t));
   }
 
   /**
@@ -74,7 +74,7 @@ public interface ShortUnaryOperator {
    *
    * @return A unary operator that always returns its input argument.
    */
-  static ShortUnaryOperator identity() {
+  static <X>UnaryOperator identity() {
     return t -> t;
   }
 }

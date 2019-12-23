@@ -17,20 +17,20 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that produces a char-valued result. This is the
- * {@code char}-producing primitive specialization for
+ * Represents a function that produces a <y>-valued result. This is the
+ * {@code <y>}-producing primitive specialization for
  * {@link java.util.function.Function}.
  *
  * @param <T> The type of the input to the function.
  * @see java.util.function.Function
  */
 @FunctionalInterface
-public interface ToCharFunction<T> {
+public interface To<X>Function<T> {
   /**
    * Applies this function to the given argument.
    *
    * @param value The function argument.
    * @return The function result.
    */
-  char applyAsChar(T value);
+  <y> applyAs<X>(T value);
 }
