@@ -21,6 +21,8 @@ import static org.junit.Assert.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -337,5 +339,97 @@ public class NumbersTest {
     assertEquals(3d, Numbers.average(1, 1, 10, 0), 0.000000001);
     assertEquals(3d, Numbers.average(1l, 1l, 10l, 0l), 0.000000001);
     assertEquals(3d, Numbers.average((byte)1, 1l, 10, 0d), 0.000000001);
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T extends Number>void testParse(final Function<String,T> function, T ... numbers) {
+    for (final T number : numbers) {
+      final String str = String.valueOf(number);
+      assertEquals(number, function.apply(str));
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T extends Number>void testParseRadix(final BiFunction<String,Integer,T> function, int radix, T ... numbers) {
+    for (final T number : numbers) {
+      final String str = Long.toString(number.longValue(), radix);
+      assertEquals(number, function.apply(str, radix));
+    }
+  }
+
+  @Test
+  public void testParseInteger() {
+    assertNull(Numbers.parseInteger(null));
+    assertNull(Numbers.parseInteger(""));
+    assertNull(Numbers.parseInteger("-"));
+    assertNull(Numbers.parseInteger(":"));
+    assertNull(Numbers.parseInteger("/"));
+    assertNull(Numbers.parseInteger(":"));
+
+    testParse(Numbers::parseInteger, -323, 3923, -7932, 38229, -732938, 83928384, -382983985);
+
+    for (byte r = Character.MIN_RADIX; r <= Character.MAX_RADIX; ++r)
+      testParseRadix(Numbers::parseInteger, r, -323, 3923, -7932, 38229, -732938, 83928384, -382983985);
+
+    for (int i = 0; i < 1000; ++i) {
+      for (int r = Character.MIN_RADIX; r <= Character.MAX_RADIX; ++r) {
+        final int random = (int)(Integer.MIN_VALUE * Math.random() + Integer.MAX_VALUE * Math.random());
+        assertEquals(random, Integer.parseInt(Integer.toString(random, r), r));
+        assertEquals(random, (int)Numbers.parseInteger(Integer.toString(random, r), r));
+      }
+    }
+  }
+
+  @Test
+  public void testParseLong() {
+    assertNull(Numbers.parseLong(null));
+    assertNull(Numbers.parseLong(""));
+    assertNull(Numbers.parseLong("-"));
+    assertNull(Numbers.parseLong(":"));
+    assertNull(Numbers.parseLong("/"));
+    assertNull(Numbers.parseLong(":"));
+
+    testParse(Numbers::parseLong, 323l, -3923l, 7932l, -38229l, 732938l, -83928384l, 382983985l, -8434893285l, 38434893285l, -938434893285l, 1938434893285l, -21938434893285l, 921938434893285l, -9921938434893285l, 79921938434893285l, -279921938434893285l, 8279921938434893285l);
+
+    for (byte r = Character.MIN_RADIX; r <= Character.MAX_RADIX; ++r)
+      testParseRadix(Numbers::parseLong, r, 323l, -3923l, 7932l, -38229l, 732938l, -83928384l, 382983985l, -8434893285l, 38434893285l, -938434893285l, 1938434893285l, -21938434893285l, 921938434893285l, -9921938434893285l, 79921938434893285l, -279921938434893285l, 8279921938434893285l);
+
+    for (int i = 0; i < 1000; ++i) {
+      for (int r = Character.MIN_RADIX; r <= Character.MAX_RADIX; ++r) {
+        final long random = (long)(Long.MIN_VALUE * Math.random() + Long.MAX_VALUE * Math.random());
+        assertEquals(random, Long.parseLong(Long.toString(random, r), r));
+        assertEquals(random, (long)Numbers.parseLong(Long.toString(random, r), r));
+      }
+    }
+  }
+
+  private static void testIsDigit(final int radix) {
+    for (int r = 0; r < radix; ++r) {
+      if (r < 10) {
+        assertTrue(String.valueOf(r), Numbers.isDigit((char)('0' + r), radix));
+      }
+      else {
+        assertTrue(String.valueOf(r), Numbers.isDigit((char)('a' + r - 10), radix));
+        assertTrue(String.valueOf(r), Numbers.isDigit((char)('A' + r - 10), radix));
+      }
+    }
+
+    assertFalse("-1", Numbers.isDigit((char)('0' - 1), radix));
+    if (radix <= 10) {
+      assertFalse(String.valueOf(radix), Numbers.isDigit((char)('0' + radix), radix));
+    }
+    else {
+      assertFalse(String.valueOf(radix), Numbers.isDigit((char)('a' + radix - 10), radix));
+      // NOTE: Can only check a max of radix=31, because at 32, the ASCII table crosses
+      // NOTE: form lower-case latin characters to upper case
+      if (radix < 32)
+        assertFalse(String.valueOf(radix), Numbers.isDigit((char)('A' + radix - 10), radix));
+    }
+  }
+
+  @Test
+  public void testIsDigit() {
+    for (int r = Character.MIN_RADIX; r <= Character.MAX_RADIX; ++r)
+      testIsDigit(r);
   }
 }

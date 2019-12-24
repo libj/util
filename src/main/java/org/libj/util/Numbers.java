@@ -668,7 +668,7 @@ public final class Numbers {
    * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
    * string does not contain a parsable {@code short}.
    *
-   * @param s A {@link String} containing the {@link Short} representation to be
+   * @param s A {@link String} containing the {@code short} representation to be
    *          parsed.
    * @param defaultValue The {@code short} value to be returned if the string
    *          does not contain a parsable {@code short}.
@@ -679,6 +679,24 @@ public final class Numbers {
    */
   public static short parseShort(final String s, final short defaultValue) {
     return parseShort(s, 10, defaultValue);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code short}.
+   *
+   * @param cbuf A {@code char} array containing the {@code short} representation
+   *          to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the string
+   *          does not contain a parsable {@code short}.
+   * @return The {@code short} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static short parseShort(final char[] cbuf, final short defaultValue) {
+    return parseShort(cbuf, 10, defaultValue);
   }
 
   /**
@@ -694,11 +712,25 @@ public final class Numbers {
    * @see Short#parseShort(String)
    */
   public static Short parseShort(final String s, final int radix) {
-    final Integer i = parseInteger(s, radix);
-    if (i == null || i < Short.MIN_VALUE || i > Short.MAX_VALUE)
-      return null;
+    final int i = parseInt(s, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? null : (short)i;
+  }
 
-    return i.shortValue();
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code null} if the
+   * string does not contain a parsable {@code short}.
+   *
+   * @param cbuf A {@code char} array containing the {@link Short}
+   *          representation to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or {@code null} if
+   *         the string does not contain a parsable {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static Short parseShort(final char[] cbuf, final int radix) {
+    final int i = parseInt(cbuf, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? null : (short)i;
   }
 
   /**
@@ -706,7 +738,7 @@ public final class Numbers {
    * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
    * the string does not contain a parsable {@code short}.
    *
-   * @param s A {@link String} containing the {@link Short} representation to be
+   * @param s A {@link String} containing the {@code short} representation to be
    *          parsed.
    * @param defaultValue The {@code short} value to be returned if the string
    *          does not contain a parsable {@code short}.
@@ -716,12 +748,29 @@ public final class Numbers {
    *         {@code short}.
    * @see Short#parseShort(String)
    */
-  public static Short parseShort(final String s, final int radix, final short defaultValue) {
-    final int i = parseInteger(s, radix, Integer.MAX_VALUE);
-    if (i == Integer.MAX_VALUE || i < Short.MIN_VALUE || i > Short.MAX_VALUE)
-      return defaultValue;
+  public static short parseShort(final String s, final int radix, final short defaultValue) {
+    final int i = parseInt(s, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? defaultValue : (short)i;
+  }
 
-    return (short)i;
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
+   * the string does not contain a parsable {@code short}.
+   *
+   * @param cbuf A {@code char} array containing the {@code short} representation
+   *          to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the string
+   *          does not contain a parsable {@code short}.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static short parseShort(final char[] cbuf, final int radix, final short defaultValue) {
+    final int i = parseInt(cbuf, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? defaultValue : (short)i;
   }
 
   /**
@@ -744,7 +793,7 @@ public final class Numbers {
    * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
    * string does not contain a parsable {@code int}.
    *
-   * @param s A {@link String} containing the {@link Integer} representation to
+   * @param s A {@link String} containing the {@code int} representation to
    *          be parsed.
    * @param defaultValue The {@code int} value to be returned if the string does
    *          not contain a parsable {@code int}.
@@ -754,7 +803,149 @@ public final class Numbers {
    * @see Integer#parseInt(String)
    */
   public static int parseInt(final String s, final int defaultValue) {
-    return parseInteger(s, 10, defaultValue);
+    return parseInt(s, 10, defaultValue);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code int}.
+   *
+   * @param cbuf A {@code char} array containing the {@code int} representation
+   *          to be parsed.
+   * @param defaultValue The {@code int} value to be returned if the string does
+   *          not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final char[] cbuf, final int defaultValue) {
+    return parseInt(cbuf, 10, defaultValue);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
+   * the string does not contain a parsable {@code int}.
+   *
+   * @param s A {@link String} containing the {@code int} representation to
+   *          be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code int} value to be returned if the string does
+   *          not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final String s, final int radix, final int defaultValue) {
+    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = s.length();
+    boolean negative = false;
+    int i = 0;
+    int limit = -Integer.MAX_VALUE;
+
+    if (len == 0)
+      return defaultValue;
+
+    char firstChar = s.charAt(0);
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Integer.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return defaultValue;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return defaultValue;
+      }
+
+      ++i;
+    }
+
+    final int multmin = limit / radix;
+    int result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(s.charAt(i++), radix);
+      if (digit < 0 || result < multmin)
+        return defaultValue;
+
+      result *= radix;
+      if (result < limit + digit)
+        return defaultValue;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
+   * the string does not contain a parsable {@code int}.
+   *
+   * @param cbuf A {@code char} array containing the {@code int} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code int} value to be returned if the string does
+   *          not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final char[] cbuf, final int radix, final int defaultValue) {
+    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = cbuf.length;
+    boolean negative = false;
+    int i = 0;
+    int limit = -Integer.MAX_VALUE;
+
+    if (len == 0)
+      return defaultValue;
+
+    char firstChar = cbuf[0];
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Integer.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return defaultValue;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return defaultValue;
+      }
+
+      ++i;
+    }
+
+    final int multmin = limit / radix;
+    int result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(cbuf[i++], radix);
+      if (digit < 0 || result < multmin)
+        return defaultValue;
+
+      result *= radix;
+      if (result < limit + digit)
+        return defaultValue;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
   }
 
   /**
@@ -818,43 +1009,40 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
-   * the string does not contain a parsable {@code int}.
+   * {@link Integer#parseInt(String,int)}, but returns {@code null} if the
+   * string does not contain a parsable {@code int}.
    *
-   * @param s A {@link String} containing the {@link Integer} representation to
-   *          be parsed.
+   * @param cbuf A {@code char} array containing the {@link Integer}
+   *          representation to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
-   * @param defaultValue The {@code int} value to be returned if the string does
-   *          not contain a parsable {@code int}.
-   * @return The {@code int} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
-   *         {@code int}.
+   * @return The {@code int} value represented by the argument, or {@code null}
+   *         if the string does not contain a parsable {@code int}.
    * @see Integer#parseInt(String)
    */
-  public static int parseInteger(final String s, final int radix, final int defaultValue) {
-    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
-      return defaultValue;
+  public static Integer parseInteger(final char[] cbuf, final int radix) {
+    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return null;
 
-    final int len = s.length();
+    final int len = cbuf.length;
     boolean negative = false;
     int i = 0;
     int limit = -Integer.MAX_VALUE;
 
     if (len == 0)
-      return defaultValue;
+      return null;
 
-    char firstChar = s.charAt(0);
+    char firstChar = cbuf[0];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
         limit = Integer.MIN_VALUE;
       }
       else if (firstChar != '+') {
-        return defaultValue;
+        return null;
       }
 
       if (len == 1) { // Cannot have lone "+" or "-"
-        return defaultValue;
+        return null;
       }
 
       ++i;
@@ -864,13 +1052,13 @@ public final class Numbers {
     int result = 0;
     while (i < len) {
       // Accumulating negatively avoids surprises near MAX_VALUE
-      final int digit = Character.digit(s.charAt(i++), radix);
+      final int digit = Character.digit(cbuf[i++], radix);
       if (digit < 0 || result < multmin)
-        return defaultValue;
+        return null;
 
       result *= radix;
       if (result < limit + digit)
-        return defaultValue;
+        return null;
 
       result -= digit;
     }
@@ -898,7 +1086,7 @@ public final class Numbers {
    * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
    * string does not contain a parsable {@code long}.
    *
-   * @param s A {@link String} containing the {@link Float} representation to be
+   * @param s A {@link String} containing the {@code long} representation to be
    *          parsed.
    * @param defaultValue The {@code long} value to be returned if the string
    *          does not contain a parsable {@code long}.
@@ -909,6 +1097,24 @@ public final class Numbers {
    */
   public static long parseLong(final String s, final long defaultValue) {
     return parseLong(s, 10, defaultValue);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code long}.
+   *
+   * @param cbuf A {@code char} array containing the {@code long} representation
+   *          to be parsed.
+   * @param defaultValue The {@code long} value to be returned if the string
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static long parseLong(final char[] cbuf, final long defaultValue) {
+    return parseLong(cbuf, 10, defaultValue);
   }
 
   /**
@@ -972,10 +1178,69 @@ public final class Numbers {
 
   /**
    * Parses the string argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code null} if the string
+   * does not contain a parsable {@code long}.
+   *
+   * @param cbuf A {@code char} array containing the {@link Long} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code long} value represented by the argument, or {@code null}
+   *         if the string does not contain a parsable {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static Long parseLong(final char[] cbuf, final int radix) {
+    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return null;
+
+    final int len = cbuf.length;
+    boolean negative = false;
+    int i = 0;
+    long limit = -Long.MAX_VALUE;
+
+    if (len == 0)
+      return null;
+
+    char firstChar = cbuf[0];
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Long.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return null;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return null;
+      }
+
+      ++i;
+    }
+
+    final long multmin = limit / radix;
+    long result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(cbuf[i++], radix);
+      if (digit < 0 || result < multmin)
+        return null;
+
+      result *= radix;
+      if (result < limit + digit)
+        return null;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
+  }
+
+  /**
+   * Parses the string argument as per the specification of
    * {@link Long#parseLong(String,int)}, but returns {@code defaultValue} if the
    * string does not contain a parsable {@code long}.
    *
-   * @param s A {@link String} containing the {@link Long} representation to be
+   * @param s A {@link String} containing the {@code long} representation to be
    *          parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @param defaultValue The {@code long} value to be returned if the string
@@ -1019,6 +1284,68 @@ public final class Numbers {
     while (i < len) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(s.charAt(i++), radix);
+      if (digit < 0 || result < multmin)
+        return defaultValue;
+
+      result *= radix;
+      if (result < limit + digit)
+        return defaultValue;
+
+      result -= digit;
+    }
+
+    return negative ? result : -result;
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code defaultValue} if the
+   * string does not contain a parsable {@code long}.
+   *
+   * @param cbuf A {@code char} array containing the {@code long} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code long} value to be returned if the string
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static long parseLong(final char[] cbuf, final int radix, final long defaultValue) {
+    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = cbuf.length;
+    boolean negative = false;
+    int i = 0;
+    long limit = -Long.MAX_VALUE;
+
+    if (len == 0)
+      return defaultValue;
+
+    char firstChar = cbuf[0];
+    if (firstChar < '0') { // Possible leading "+" or "-"
+      if (firstChar == '-') {
+        negative = true;
+        limit = Long.MIN_VALUE;
+      }
+      else if (firstChar != '+') {
+        return defaultValue;
+      }
+
+      if (len == 1) { // Cannot have lone "+" or "-"
+        return defaultValue;
+      }
+
+      ++i;
+    }
+
+    final long multmin = limit / radix;
+    long result = 0;
+    while (i < len) {
+      // Accumulating negatively avoids surprises near MAX_VALUE
+      final int digit = Character.digit(cbuf[i++], radix);
       if (digit < 0 || result < multmin)
         return defaultValue;
 
@@ -1267,6 +1594,68 @@ public final class Numbers {
     }
 
     return true;
+  }
+
+  /**
+   * Assert the specified radix is within legal range.
+   *
+   * @param radix The radix to assert.
+   * @throws NumberFormatException If the specified radix is outside the range
+   *           of legal values.
+   */
+  private static void assertRadix(final int radix) {
+    if (radix < Character.MIN_RADIX)
+      throw new NumberFormatException("radix " + radix + " less than Character.MIN_RADIX");
+
+    if (radix > Character.MAX_RADIX)
+      throw new NumberFormatException("radix " + radix + " greater than Character.MAX_RADIX");
+  }
+
+  /**
+   * Determines if the specified character is a digit in the provided radix.
+   *
+   * @param digit The character to test.
+   * @param radix The radix to test against.
+   * @return {@code true} if the character is a digit in the provided radix;
+   *         {@code false} otherwise.
+   * @throws NumberFormatException If the specified radix is outside the range
+   *           of legal values.
+   */
+  public static boolean isDigit(final char digit, final int radix) {
+    final int val = digit(digit, radix);
+    return 0 <= val && val < radix;
+  }
+
+  /**
+   * Returns the numeric value of the specified character representing a digit.
+   * The specified character must be within the following ranges:
+   * <ol>
+   * <li>{@code '0' <= digit && digit <= '9'}</li>
+   * <li>{@code 'a' <= digit && digit <= 'a'}</li>
+   * <li>{@code 'A' <= digit && digit <= 'Z'}</li>
+   * </ol>
+   * <p>
+   * If the specified character is outside these ranges, the value
+   * {@code -digit} is returned.
+   *
+   * @param digit The character representing a digit.
+   * @param radix The radix to be used to transform the character.
+   * @return The numeric value of the specified character representing a digit.
+   * @throws NumberFormatException If the specified radix is outside the range
+   *           of legal values.
+   */
+  public static int digit(final char digit, final int radix) {
+    assertRadix(radix);
+    if ('0' <= digit && digit <= '9')
+      return digit - '0';
+
+    if ('a' <= digit && digit <= 'z')
+      return digit + 10 - 'a';
+
+    if ('A' <= digit && digit <= 'Z')
+      return digit + 10 - 'A';
+
+    return -digit;
   }
 
   /**
