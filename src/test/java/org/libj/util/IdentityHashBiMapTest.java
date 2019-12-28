@@ -78,6 +78,6 @@ public class IdentityHashBiMapTest {
 
   @Test
   public void test() {
-    test(new IdentityHashBiMap<Integer,String>(), 0, true);
+    test(new IdentityHashBiMap<>(), 0, true);
   }
 }

@@ -42,7 +42,7 @@ public class MirrorListTest {
 
   @Test
   public void test() {
-    final MirrorList<String,Integer> list = newList(new ArrayList<String>(), new ArrayList<Integer>());
+    final MirrorList<String,Integer> list = newList(new ArrayList<>(), new ArrayList<>());
 
     list.add("1");
     assertTrue(list.getMirrorList().contains(1));
@@ -117,4 +117,5 @@ public class MirrorListTest {
     }
     catch (final ConcurrentModificationException e) {
     }
-  }}
+  }
+}

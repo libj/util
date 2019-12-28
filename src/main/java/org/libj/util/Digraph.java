@@ -45,8 +45,6 @@ import java.util.LinkedHashSet;
  * @param <T> The type of elements in this digraph.
  */
 public class Digraph<T> extends AbstractDigraph<T,T> {
-  private static final long serialVersionUID = 4470619796356029609L;
-
   public Digraph(final int initialCapacity) {
     super(initialCapacity);
   }

@@ -42,7 +42,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
    * @throws IllegalArgumentException If {@code expectedMaxSize} is negative.
    */
   public IdentityHashBiMap(final int expectedMaxSize) {
-    super(new IdentityHashMap<K,V>(expectedMaxSize), new IdentityHashMap<V,K>(expectedMaxSize));
+    super(new IdentityHashMap<>(expectedMaxSize), new IdentityHashMap<>(expectedMaxSize));
   }
 
   /**
@@ -62,7 +62,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
    * expected maximum size (21).
    */
   public IdentityHashBiMap() {
-    super(new IdentityHashMap<K,V>(), new IdentityHashMap<V,K>());
+    super(new IdentityHashMap<>(), new IdentityHashMap<>());
   }
 
   /**

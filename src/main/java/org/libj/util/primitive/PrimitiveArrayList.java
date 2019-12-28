@@ -27,18 +27,19 @@ import java.lang.reflect.Array;
  *          {@code long[]}).
  */
 public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
+  private static final long serialVersionUID = -1961742168777802072L;
   static final int DEFAULT_INITIAL_CAPACITY = 5;
 
-  protected volatile int fromIndex;
-  protected volatile int toIndex = -1;
+  protected int fromIndex;
+  protected int toIndex = -1;
 
   protected PrimitiveArrayList<T> parent;
   protected PrimitiveArrayList<T> sibling;
   protected PrimitiveArrayList<T> child;
 
   protected T valueData;
-  protected volatile int size;
-  protected transient volatile int modCount;
+  protected int size;
+  protected transient int modCount;
 
   /**
    * Creates an empty list with an initial capacity of five.

@@ -62,6 +62,6 @@ public class TransSetTest {
     for (int i = 0; i < 10; i++)
       source.add(i);
 
-    test(new TransSet<Integer,String>(source, String::valueOf, Integer::valueOf));
+    test(new TransSet<>(source, String::valueOf, Integer::valueOf));
   }
 }

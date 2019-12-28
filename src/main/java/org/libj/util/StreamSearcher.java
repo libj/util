@@ -75,7 +75,7 @@ public final class StreamSearcher {
     public int search(final Reader in, final char[] buffer, final int offset) throws IOException {
       final int[] j = new int[patterns.length];
       int i = 0;
-      for (int b = 0; (b = in.read()) != -1;) {
+      for (int b; (b = in.read()) != -1;) {
         buffer[offset + i++] = (char)b;
         for (int p = 0; p < patterns.length; ++p) {
           while (j[p] >= 0 && (char)b != patterns[p][j[p]])
@@ -143,7 +143,7 @@ public final class StreamSearcher {
     public int search(final InputStream in, final byte[] buffer, final int offset) throws IOException {
       final int[] j = new int[patterns.length];
       int i = 0;
-      for (int b = 0; (b = in.read()) != -1;) {
+      for (int b; (b = in.read()) != -1;) {
         buffer[offset + i++] = (byte)b;
         for (int p = 0; p < patterns.length; ++p) {
           while (j[p] >= 0 && (byte)b != patterns[p][j[p]])

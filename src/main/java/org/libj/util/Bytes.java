@@ -284,7 +284,7 @@ public final class Bytes {
       if (offset == bytes.length)
         return;
 
-      bytes[offset++] = (byte)((l >> 56) & 0xff);
+      bytes[offset] = (byte)((l >> 56) & 0xff);
     }
   }
 
@@ -381,34 +381,34 @@ public final class Bytes {
     long value = 0;
     if (isBigEndian) {
       offset = src.length - offset;
-      value |= (src[--offset] & 0xffl);
+      value |= (src[--offset] & 0xffL);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 8);
+      value |= ((src[--offset] & 0xffL) << 8);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 16);
+      value |= ((src[--offset] & 0xffL) << 16);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 24);
+      value |= ((src[--offset] & 0xffL) << 24);
     }
     else {
-      value |= (src[offset++] & 0xffl);
+      value |= (src[offset++] & 0xffL);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 8);
+      value |= ((src[offset++] & 0xffL) << 8);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 16);
+      value |= ((src[offset++] & 0xffL) << 16);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset] & 0xffl) << 24);
+      value |= ((src[offset] & 0xffL) << 24);
     }
 
     return signed ? (int)value : value;
@@ -432,66 +432,66 @@ public final class Bytes {
     long value = 0;
     if (isBigEndian) {
       offset = src.length - offset;
-      value |= (src[--offset] & 0xffl);
+      value |= (src[--offset] & 0xffL);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 8);
+      value |= ((src[--offset] & 0xffL) << 8);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 16);
+      value |= ((src[--offset] & 0xffL) << 16);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 24);
+      value |= ((src[--offset] & 0xffL) << 24);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 32);
+      value |= ((src[--offset] & 0xffL) << 32);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 40);
+      value |= ((src[--offset] & 0xffL) << 40);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 48);
+      value |= ((src[--offset] & 0xffL) << 48);
       if (offset == 0)
         return value;
 
-      value |= ((src[--offset] & 0xffl) << 56);
+      value |= ((src[--offset] & 0xffL) << 56);
     }
     else {
-      value |= (src[offset++] & 0xffl);
+      value |= (src[offset++] & 0xffL);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 8);
+      value |= ((src[offset++] & 0xffL) << 8);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 16);
+      value |= ((src[offset++] & 0xffL) << 16);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 24);
+      value |= ((src[offset++] & 0xffL) << 24);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 32);
+      value |= ((src[offset++] & 0xffL) << 32);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 40);
+      value |= ((src[offset++] & 0xffL) << 40);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset++] & 0xffl) << 48);
+      value |= ((src[offset++] & 0xffL) << 48);
       if (offset == src.length)
         return value;
 
-      value |= ((src[offset] & 0xffl) << 56);
+      value |= ((src[offset] & 0xffL) << 56);
     }
 
     return value;
@@ -510,7 +510,7 @@ public final class Bytes {
     for (int i = 0; b != 0; ++i) {
       final int remainder = b % 8;
       b /= 8;
-      value += remainder * Math.pow(10, i);
+      value += remainder * StrictMath.pow(10, i);
     }
 
     return value;
@@ -557,7 +557,7 @@ public final class Bytes {
     final int i = offset / 8;
     final int right = offset % 8;
     final int left = 8 - bits;
-    src = (byte)(src << left);
+    src <<= left;
     if (left >= right) {
       dest[i] |= (byte)((src & 0xff) >> right);
     }
@@ -732,7 +732,7 @@ public final class Bytes {
    * @return The number of bits necessary to store a value.
    */
   public static byte getSize(final int value) {
-    return (byte)(1 + Math.log(value) / Math.log(2));
+    return (byte)(1 + StrictMath.log(value) / StrictMath.log(2));
   }
 
   /**
@@ -742,7 +742,7 @@ public final class Bytes {
    * @return The number of bits necessary to store a value.
    */
   public static byte getSize(final long value) {
-    return (byte)(1 + Math.log(value) / Math.log(2));
+    return (byte)(1 + StrictMath.log(value) / StrictMath.log(2));
   }
 
   private Bytes() {

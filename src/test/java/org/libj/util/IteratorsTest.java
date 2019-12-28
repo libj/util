@@ -33,13 +33,13 @@ public class IteratorsTest {
 
   @Test
   public void testFlatArray() {
-    final Object[] array = new Object[] {null, new Object[] {}, new Object[] {0, new Object[] {new Object[] {new Object[] {}, new Object[] {}}, new Object[] {1, new Object[] {new Object[] {new Object[] {new Object[] {new Object[] {}, new Object[] {}}}}}, new Object[] {}, 2}, 3}, 4, null, new Object[] {5, 6, null}}, 7, new Object[] {null}, new Object[] {8, new Object[] {9, null}, 10}, 11, 12, new Object[] {null, null}};
+    final Object[] array = {null, new Object[] {}, new Object[] {0, new Object[] {new Object[] {new Object[] {}, new Object[] {}}, new Object[] {1, new Object[] {new Object[] {new Object[] {new Object[] {new Object[] {}, new Object[] {}}}}}, new Object[] {}, 2}, 3}, 4, null, new Object[] {5, 6, null}}, 7, new Object[] {null}, new Object[] {8, new Object[] {9, null}, 10}, 11, 12, new Object[] {null, null}};
     final Iterator<Integer> iterator = new FlatArrayIterator<>(array);
     for (int i = 0; i < expected.length; ++i) {
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
-      assertEquals(expected[i] == null ? null : Integer.valueOf(expected[i]), next);
+      assertEquals(expected[i] == null ? null : expected[i], next);
     }
   }
 
@@ -51,7 +51,7 @@ public class IteratorsTest {
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
-      assertEquals(expected[i] == null ? null : Integer.valueOf(expected[i]), next);
+      assertEquals(expected[i] == null ? null : expected[i], next);
     }
   }
 
@@ -63,13 +63,13 @@ public class IteratorsTest {
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
-      assertEquals(expected[i] == null ? null : Integer.valueOf(expected[i]), next);
+      assertEquals(expected[i] == null ? null : expected[i], next);
     }
   }
 
   @Test
   public void testFilter() {
-    final List<Number> list = Arrays.asList(0, 0d, 1, 1d, 2, BigInteger.ZERO, 3.4f, BigDecimal.ONE, 3, 2d, BigInteger.ONE, 10l, 4f, (short)8, (byte)62, 4, BigInteger.valueOf(2l));
+    final List<Number> list = Arrays.asList(0, 0d, 1, 1d, 2, BigInteger.ZERO, 3.4f, BigDecimal.ONE, 3, 2d, BigInteger.ONE, 10L, 4f, (short)8, (byte)62, 4, BigInteger.valueOf(2L));
 
     final Iterator<? super Integer> integerIterator = Iterators.filter(list.iterator(), m -> m instanceof Integer);
     for (int i = 0; integerIterator.hasNext(); ++i)
@@ -81,6 +81,6 @@ public class IteratorsTest {
 
     final Iterator<? super Double> doubleIterator = Iterators.filter(list.iterator(), m -> m instanceof Double);
     for (int i = 0; doubleIterator.hasNext(); ++i)
-      assertEquals(Double.valueOf(i), doubleIterator.next());
+      assertEquals((double)i, doubleIterator.next());
   }
 }

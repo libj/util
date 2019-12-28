@@ -88,7 +88,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
 
   /**
    * Returns the reverse of this map, maintaining {@code value->key} mappings.
-   * Mutations to the {@link #reverse()} map are reflected in {@code this} map.
+   * Mutations to the map returned by this method map are reflected in this map.
    *
    * @return The reverse map.
    */

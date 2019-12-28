@@ -42,7 +42,7 @@ public class CursorListIterator<E> extends DelegateListIterator<E> {
    * @param iterator The {@link ListIterator}.
    * @throws NullPointerException If the specified {@link ListIterator} is null.
    */
-  protected CursorListIterator(final ListIterator<E> iterator) {
+  protected CursorListIterator(final ListIterator<? extends E> iterator) {
     super(iterator);
   }
 

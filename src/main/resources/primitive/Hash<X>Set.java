@@ -33,7 +33,7 @@ import java.util.NoSuchElementException;
  * defining synonymous methods for a set of {@code <y>} values instead of
  * Object references.
  */
-public class Hash<X>Set extends HashPrimitiveSet implements <X>Set, Serializable {
+public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   private static final long serialVersionUID = <serialVersionUID>;
 
   /**

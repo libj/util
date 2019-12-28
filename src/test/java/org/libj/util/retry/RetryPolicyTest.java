@@ -56,7 +56,7 @@ public class RetryPolicyTest {
     for (int i = 1; i < attempts; ++i)
       delays[i] = delayMs;
 
-    final int[] index = new int[] {0};
+    final int[] index = {0};
     final long[] timings = new long[attempts];
     timings[0] = System.currentTimeMillis();
     for (int i = 0; i < attempts - 1; ++i)
@@ -89,7 +89,7 @@ public class RetryPolicyTest {
       delays[i + 1] = (int)Math.min(delays[i] * factor, maxDelay);
 
     delays[0] = 0;
-    final int[] index = new int[] {0};
+    final int[] index = {0};
     final long[] timings = new long[attempts];
     timings[0] = System.currentTimeMillis();
     for (int i = 0; i < attempts - 1; ++i)

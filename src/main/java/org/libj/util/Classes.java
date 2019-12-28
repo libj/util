@@ -267,7 +267,7 @@ public final class Classes {
    * @return The class hierarchy of the specified {@link Class}.
    * @throws NullPointerException If {@code cls} or {@code forEach} is null.
    */
-  public static Set<Class<?>> getClassHierarchy(Class<?> cls, final Predicate<Class<?>> forEach) {
+  public static Set<Class<?>> getClassHierarchy(Class<?> cls, final Predicate<? super Class<?>> forEach) {
     final Set<Class<?>> visited = new LinkedHashSet<>();
     final Queue<Class<?>> queue = new LinkedList<>();
     if (!visitSuperclass(cls, queue, visited, forEach))
@@ -285,7 +285,7 @@ public final class Classes {
     return visited;
   }
 
-  private static boolean visitSuperclass(final Class<?> cls, final Queue<Class<?>> queue, final Set<Class<?>> visited, final Predicate<Class<?>> forEach) {
+  private static boolean visitSuperclass(final Class<?> cls, final Queue<? super Class<?>> queue, final Set<? super Class<?>> visited, final Predicate<? super Class<?>> forEach) {
     if (cls == null || !visited.add(cls))
       return true;
 
@@ -379,15 +379,15 @@ public final class Classes {
    * inherited fields). The {@code name} parameter is a {@link String}
    * specifying the simple name of the desired field.
    * <p>
-   * Declared fields include public, protected, default (package) access,
-   * and private visibility.
+   * Declared fields include public, protected, default (package) access, and
+   * private visibility.
    * <p>
    * If this {@link Class} object represents an array type, then this method
    * does not find the {@code length} field of the array type.
    * <p>
-   * This method differentiates itself from {@link Class#getDeclaredField(String)} by
-   * returning null when a field is not found, instead of throwing
-   * {@link NoSuchFieldException}.
+   * This method differentiates itself from
+   * {@link Class#getDeclaredField(String)} by returning null when a field is
+   * not found, instead of throwing {@link NoSuchFieldException}.
    *
    * @param cls The class in which to find the declared field.
    * @param name The field name.
@@ -412,15 +412,15 @@ public final class Classes {
    * inherited fields). The {@code name} parameter is a {@link String}
    * specifying the simple name of the desired field.
    * <p>
-   * Declared fields include public, protected, default (package) access,
-   * and private visibility.
+   * Declared fields include public, protected, default (package) access, and
+   * private visibility.
    * <p>
    * If this {@link Class} object represents an array type, then this method
    * does not find the {@code length} field of the array type.
    * <p>
-   * This method differentiates itself from {@link Class#getDeclaredField(String)} by
-   * returning null when a field is not found, instead of throwing
-   * {@link NoSuchFieldException}.
+   * This method differentiates itself from
+   * {@link Class#getDeclaredField(String)} by returning null when a field is
+   * not found, instead of throwing {@link NoSuchFieldException}.
    *
    * @param cls The class in which to find the declared field.
    * @param name The field name.
@@ -558,6 +558,7 @@ public final class Classes {
     }
   }
 
+  @FunctionalInterface
   private interface DeclaredFieldRecurser<A> extends SuperclassRecurser<Field,A> {
     @Override
     default Field[] members(final Class<?> container) {
@@ -565,6 +566,7 @@ public final class Classes {
     }
   }
 
+  @FunctionalInterface
   private interface DeclaredMethodRecurser<A> extends SuperclassRecurser<Method,A> {
     @Override
     default Method[] members(final Class<?> container) {
@@ -572,6 +574,7 @@ public final class Classes {
     }
   }
 
+  @FunctionalInterface
   private interface DeclaredClassRecurser<A> extends SuperclassRecurser<Class<?>,A> {
     @Override
     default Class<?>[] members(final Class<?> container) {
@@ -579,54 +582,13 @@ public final class Classes {
     }
   }
 
-  private static final Repeat.Recurser<Class<?>,Field,Object> declaredFieldRecurser = new DeclaredFieldRecurser<Object>() {
-    @Override
-    public boolean test(final Field member, final Object arg) {
-      return true;
-    }
-  };
-
-  private static final Repeat.Recurser<Class<?>,Field,Predicate<Field>> declaredFieldWithPredicateRecurser = new DeclaredFieldRecurser<Predicate<Field>>() {
-    @Override
-    public boolean test(final Field member, final Predicate<Field> arg) {
-      return arg.test(member);
-    }
-  };
-
-  private static final Repeat.Recurser<Class<?>,Field,Class<? extends Annotation>> declaredFieldWithAnnotationRecurser = new DeclaredFieldRecurser<Class<? extends Annotation>>() {
-    @Override
-    public boolean test(final Field member, final Class<? extends Annotation> arg) {
-      return member.getAnnotation(arg) != null;
-    }
-  };
-
-  private static final Repeat.Recurser<Class<?>,Method,Object> declaredMethodRecurser = new DeclaredMethodRecurser<Object>() {
-    @Override
-    public boolean test(final Method member, final Object arg) {
-      return true;
-    }
-  };
-
-  private static final Repeat.Recurser<Class<?>,Method,Predicate<Method>> declaredMethodWithPredicateRecurser = new DeclaredMethodRecurser<Predicate<Method>>() {
-    @Override
-    public boolean test(final Method member, final Predicate<Method> arg) {
-      return arg.test(member);
-    }
-  };
-
-  private static final Repeat.Recurser<Class<?>,Method,Class<? extends Annotation>> declaredMethodWithAnnotationRecurser = new DeclaredMethodRecurser<Class<? extends Annotation>>() {
-    @Override
-    public boolean test(final Method member, final Class<? extends Annotation> arg) {
-      return member.getAnnotation(arg) != null;
-    }
-  };
-
-  private static final Repeat.Recurser<Class<?>,Class<?>,Class<? extends Annotation>> classWithAnnotationRecurser = new DeclaredClassRecurser<Class<? extends Annotation>>() {
-    @Override
-    public boolean test(final Class<?> member, final Class<? extends Annotation> arg) {
-      return member.getAnnotation(arg) != null;
-    }
-  };
+  private static final Repeat.Recurser<Class<?>,Field,Object> declaredFieldRecurser = (DeclaredFieldRecurser<Object>)(member, arg) -> true;
+  private static final Repeat.Recurser<Class<?>,Field,Predicate<Field>> declaredFieldWithPredicateRecurser = (DeclaredFieldRecurser<Predicate<Field>>)(member, arg) -> arg.test(member);
+  private static final Repeat.Recurser<Class<?>,Field,Class<? extends Annotation>> declaredFieldWithAnnotationRecurser = (DeclaredFieldRecurser<Class<? extends Annotation>>)(member, arg) -> member.getAnnotation(arg) != null;
+  private static final Repeat.Recurser<Class<?>,Method,Object> declaredMethodRecurser = (DeclaredMethodRecurser<Object>)(member, arg) -> true;
+  private static final Repeat.Recurser<Class<?>,Method,Predicate<Method>> declaredMethodWithPredicateRecurser = (DeclaredMethodRecurser<Predicate<Method>>)(member, arg) -> arg.test(member);
+  private static final Repeat.Recurser<Class<?>,Method,Class<? extends Annotation>> declaredMethodWithAnnotationRecurser = (DeclaredMethodRecurser<Class<? extends Annotation>>)(member, arg) -> member.getAnnotation(arg) != null;
+  private static final Repeat.Recurser<Class<?>,Class<?>,Class<? extends Annotation>> classWithAnnotationRecurser = (DeclaredClassRecurser<Class<? extends Annotation>>)(member, arg) -> member.getAnnotation(arg) != null;
 
   private static final BiPredicate<Field,Class<? extends Annotation>> declaredFieldWithAnnotationFilter = (m, a) -> m.getAnnotation(a) != null;
   private static final BiPredicate<Method,Class<? extends Annotation>> declaredMethodWithAnnotationFilter = (m, a) -> m.getAnnotation(a) != null;
@@ -708,7 +670,8 @@ public final class Classes {
    * @return An array of Field objects declared in {@code cls} (excluding
    *         inherited fields) that have an annotation of
    *         {@code annotationType}.
-   * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} is
+   *           null.
    */
   public static Field[] getDeclaredFieldsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.ordered(cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, Objects.requireNonNull(annotationType));
@@ -736,7 +699,8 @@ public final class Classes {
    * @return An array of Field objects declared in {@code cls} (including
    *         inherited fields) that have an annotation of
    *         {@code annotationType}.
-   * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} is
+   *           null.
    */
   public static Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.inverted(cls, cls.getDeclaredFields(), Field.class, declaredFieldWithAnnotationRecurser, Objects.requireNonNull(annotationType));
@@ -832,8 +796,8 @@ public final class Classes {
    * this method returns an array of length 0.
    * <p>
    * The elements in the returned array are sorted reflecting the inheritance
-   * graph of {@code cls}, whereby inherited methods are first, and member methods
-   * are last.
+   * graph of {@code cls}, whereby inherited methods are first, and member
+   * methods are last.
    *
    * @param cls The class in which to find declared methods.
    * @return An array of Method objects declared in {@code cls} (including
@@ -856,8 +820,8 @@ public final class Classes {
    * this method returns an array of length 0.
    * <p>
    * The elements in the returned array are sorted reflecting the inheritance
-   * graph of {@code cls}, whereby inherited methods are first, and member methods
-   * are last.
+   * graph of {@code cls}, whereby inherited methods are first, and member
+   * methods are last.
    *
    * @param cls The class in which to find declared methods.
    * @param predicate The {@link Predicate} used to decide whether the method
@@ -889,8 +853,10 @@ public final class Classes {
    * @param cls The class in which to find declared methods.
    * @param annotationType The type of the annotation to match.
    * @return An array of Method objects declared in {@code cls} (excluding
-   *         inherited methods) that have an annotation of {@code annotationType}.
-   * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
+   *         inherited methods) that have an annotation of
+   *         {@code annotationType}.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} is
+   *           null.
    */
   public static Method[] getDeclaredMethodsWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.ordered(cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationFilter, Objects.requireNonNull(annotationType));
@@ -907,14 +873,16 @@ public final class Classes {
    * this method returns an array of length 0.
    * <p>
    * The elements in the returned array are sorted reflecting the inheritance
-   * graph of {@code cls}, whereby inherited methods are first, and member methods
-   * are last.
+   * graph of {@code cls}, whereby inherited methods are first, and member
+   * methods are last.
    *
    * @param cls The class in which to find declared methods.
    * @param annotationType The type of the annotation to match.
    * @return An array of Method objects declared in {@code cls} (including
-   *         inherited methods) that have an annotation of {@code annotationType}.
-   * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
+   *         inherited methods) that have an annotation of
+   *         {@code annotationType}.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} is
+   *           null.
    */
   public static Method[] getDeclaredMethodsWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {
     return Repeat.Recursive.inverted(cls, cls.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationRecurser, Objects.requireNonNull(annotationType));
@@ -941,7 +909,8 @@ public final class Classes {
    * @return An array of Class objects declared in {@code cls} (excluding
    *         inherited classes) that have an annotation of
    *         {@code annotationType}.
-   * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} is
+   *           null.
    */
   @SuppressWarnings("unchecked")
   public static Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationType) {
@@ -959,14 +928,16 @@ public final class Classes {
    * this method returns an array of length 0.
    * <p>
    * The elements in the returned array are sorted reflecting the inheritance
-   * graph of {@code cls}, whereby inherited classes are first, and member classes
-   * are last.
+   * graph of {@code cls}, whereby inherited classes are first, and member
+   * classes are last.
    *
    * @param cls The class in which to find declared methods.
    * @param annotationType The type of the annotation to match.
    * @return An array of Class objects declared in {@code cls} (including
-   *         inherited classes) that have an annotation of {@code annotationType}.
-   * @throws NullPointerException If {@code cls} or {@code annotationType} is null.
+   *         inherited classes) that have an annotation of
+   *         {@code annotationType}.
+   * @throws NullPointerException If {@code cls} or {@code annotationType} is
+   *           null.
    */
   @SuppressWarnings("unchecked")
   public static Class<?>[] getDeclaredClassesWithAnnotationDeep(final Class<?> cls, final Class<? extends Annotation> annotationType) {

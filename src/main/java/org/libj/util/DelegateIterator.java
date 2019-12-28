@@ -91,10 +91,10 @@ public abstract class DelegateIterator<E> extends AbstractIterator<E> {
       return true;
 
     if (!(obj instanceof DelegateIterator))
-      return target == null ? obj == null : target.equals(obj);
+      return Objects.equals(target, obj);
 
     final DelegateIterator<?> that = (DelegateIterator<?>)obj;
-    return target == null ? that.target == null : target.equals(that.target);
+    return Objects.equals(target, that.target);
   }
 
   @Override

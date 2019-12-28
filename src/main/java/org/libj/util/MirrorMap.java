@@ -111,8 +111,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   private final Mirror<K,V,R> mirror;
   private Mirror<K,R,V> reverse;
   protected MirrorMap<K,R,V> mirrorMap;
-  protected transient Iterator<?> targetLock;
-  protected transient boolean inited;
+  protected Iterator<?> targetLock;
+  protected boolean inited;
 
   /**
    * Creates a new {@link MirrorMap} with the specified target maps and
@@ -335,7 +335,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
         if (mirrorMap != null && getMirrorMap().targetLock != null)
           getMirrorMap().targetLock.next();
       }
-      catch (final NoSuchElementException e) {
+      catch (final NoSuchElementException ignored) {
       }
 
       targetLock = null;
@@ -412,7 +412,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
         unlocked |= unlock();
         final Object reflection = mirror.reflectionToValue((K)entry.getKey(), (R)mirrorMap.target.get(entry.getKey()));
         entry.setValue(reflection);
-        if (value == null ? reflection == null : value.equals(reflection))
+        if (Objects.equals(value, reflection))
           break;
       }
     }

@@ -37,6 +37,9 @@ public final class Combinations {
    * @param <T> The component type of the array.
    * @param a The 2-dimensional array.
    * @return A 2-dimensional array of combination sets for {@code a}.
+   * @throws ArrayIndexOutOfBoundsException If {@code a.length == 0}.
+   * @throws NullPointerException If {@code a} or any array member of {@code a}
+   *           is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[][] combine(final T[][] a) {

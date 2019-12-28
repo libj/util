@@ -102,7 +102,7 @@ public class DiffTest {
     final String target = "http://org.safris.xml/schema/binding/test/unit/complexTypes.xsd";
     final Diff diff = new Diff(source, target);
     final int maxLength = Math.max(source.length(), target.length());
-    final int bits = (int)(1 + Math.log(maxLength) / Math.log(2));
+    final int bits = (int)(1 + StrictMath.log(maxLength) / StrictMath.log(2));
     logger.info("LengthSize: " + bits);
     for (final Mod mod : diff.getMods())
       logger.info(mod.toString());

@@ -56,7 +56,7 @@ import org.libj.util.Assertions;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, RandomAccess, Serializable {
+public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, RandomAccess {
   private static final long serialVersionUID = <serialVersionUID>;
 
   private static final <y>[] EMPTY_VALUEDATA = {};

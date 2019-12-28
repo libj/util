@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.libj.lang.Strings;
 
-class DigraphTestUtil {
+final class DigraphTestUtil {
   /**
    * Create a {@code Digraph<T>} of the type {@code type} with the specified
    * number of vertices and edges in (v, w) sequential linear order.
@@ -82,7 +82,8 @@ class DigraphTestUtil {
   // verify the digraph has a directed cycle if it reports one
   static void verifyCycle(final List<Integer> cycle) {
     // verify cycle
-    Object first = null, last = null;
+    Object first = null;
+    Object last = null;
     for (final Object v : cycle) {
       if (first == null)
         first = v;
@@ -121,5 +122,8 @@ class DigraphTestUtil {
   static <T>void assertCloneEquals(final Digraph<T> expected, final Digraph<T> actual) {
     assertEqualClone(expected, actual);
     assertCloneData(expected.transverse, actual.transverse);
+  }
+
+  private DigraphTestUtil() {
   }
 }

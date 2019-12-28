@@ -197,31 +197,31 @@ public abstract class PrimitiveSort {
     swap(data, idx);
   }
 
-  protected static void sortPaired(final Object[] data, final byte[] order, int fromIndex, final int toIndex, final ByteComparator comparator) {
+  protected static void sortPaired(final Object[] data, final byte[] order, final int fromIndex, final int toIndex, final ByteComparator comparator) {
     BytePairedTimSort.sort(order, data, fromIndex, toIndex, comparator, null, 0, 0);
   }
 
-  protected static void sortPaired(final Object[] data, final char[] order, int fromIndex, final int toIndex, final CharComparator comparator) {
+  protected static void sortPaired(final Object[] data, final char[] order, final int fromIndex, final int toIndex, final CharComparator comparator) {
     CharPairedTimSort.sort(order, data, fromIndex, toIndex, comparator, null, 0, 0);
   }
 
-  protected static void sortPaired(final Object[] data, final short[] order, int fromIndex, final int toIndex, final ShortComparator comparator) {
+  protected static void sortPaired(final Object[] data, final short[] order, final int fromIndex, final int toIndex, final ShortComparator comparator) {
     ShortPairedTimSort.sort(order, data, fromIndex, toIndex, comparator, null, 0, 0);
   }
 
-  protected static void sortPaired(final Object[] data, final int[] order, int fromIndex, final int toIndex, final IntComparator comparator) {
+  protected static void sortPaired(final Object[] data, final int[] order, final int fromIndex, final int toIndex, final IntComparator comparator) {
     IntPairedTimSort.sort(order, data, fromIndex, toIndex, comparator, null, 0, 0);
   }
 
-  protected static void sortPaired(final Object[] data, final long[] order, int fromIndex, final int toIndex, final LongComparator comparator) {
+  protected static void sortPaired(final Object[] data, final long[] order, final int fromIndex, final int toIndex, final LongComparator comparator) {
     LongPairedTimSort.sort(order, data, fromIndex, toIndex, comparator, null, 0, 0);
   }
 
-  protected static void sortPaired(final Object[] data, final float[] order, int fromIndex, final int toIndex, final FloatComparator comparator) {
+  protected static void sortPaired(final Object[] data, final float[] order, final int fromIndex, final int toIndex, final FloatComparator comparator) {
     FloatPairedTimSort.sort(order, data, fromIndex, toIndex, comparator, null, 0, 0);
   }
 
-  protected static void sortPaired(final Object[] data, final double[] order, int fromIndex, final int toIndex, final DoubleComparator comparator) {
+  protected static void sortPaired(final Object[] data, final double[] order, final int fromIndex, final int toIndex, final DoubleComparator comparator) {
     DoublePairedTimSort.sort(order, data, fromIndex, toIndex, comparator, null, 0, 0);
   }
 

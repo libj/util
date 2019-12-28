@@ -56,14 +56,14 @@ abstract class PrimitiveTimSort {
    * cut the storage for this, but it's a minor amount, and keeping all the info
    * explicit simplifies the code.
    */
-  int stackSize = 0; // Number of pending runs on stack
+  int stackSize; // Number of pending runs on stack
   int[] runBase;
   int[] runLen;
 
   /**
    * Returns the minimum acceptable run length for an array of the specified
    * length. Natural runs shorter than this will be extended with
-   * {@link #binarySort}. Roughly speaking, the computation is: If n <
+   * {@code binarySort()}. Roughly speaking, the computation is: If n <
    * MIN_MERGE, return n (it's too small to bother with fancy stuff). Else if n
    * is an exact power of 2, return MIN_MERGE/2. Else return an int k,
    * MIN_MERGE/2 <= k <= MIN_MERGE, such that n/k is close to, but strictly less

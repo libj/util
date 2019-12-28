@@ -163,7 +163,7 @@ public class SortedList<E> extends ObservableList<E> {
       boolean removed = false;
       for (int i = last; i >= 0; --i, prev = elem) {
         elem = getFast(i);
-        final boolean isSameAsPrev = i != last && (prev == null ? elem == null : prev.equals(elem));
+        final boolean isSameAsPrev = i != last && (Objects.equals(prev, elem));
         if (!isSameAsPrev) {
           if (removed = !c.contains(elem)) {
             remove(i);
@@ -249,14 +249,14 @@ public class SortedList<E> extends ObservableList<E> {
           super.set(e);
         }
         else {
-          super.remove();
+          remove();
           final int dist = properIndex - index;
           shift(dist);
           try {
             super.add(e);
           }
           finally {
-            shift(dist < 0 ? 1 - dist : 0 - dist);
+            shift((dist < 0 ? 1 : 0) - dist);
           }
         }
       }

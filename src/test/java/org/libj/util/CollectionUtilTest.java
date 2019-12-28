@@ -98,8 +98,8 @@ public class CollectionUtilTest {
   @Test
   public void testGetComponentType() {
     assertNull(CollectionUtil.getComponentType(Arrays.asList(null, null, null)));
-    assertEquals(Number.class, CollectionUtil.getComponentType(Arrays.asList(Integer.valueOf(1), null, BigInteger.ONE)));
-    assertEquals(Number.class, CollectionUtil.getComponentType(Arrays.asList(Integer.valueOf(1), Long.valueOf(1), BigInteger.ONE)));
+    assertSame(Number.class, CollectionUtil.getComponentType(Arrays.asList(1, null, BigInteger.ONE)));
+    assertSame(Number.class, CollectionUtil.getComponentType(Arrays.asList(1, 1L, BigInteger.ONE)));
   }
 
   @Test

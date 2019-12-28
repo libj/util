@@ -53,7 +53,7 @@ public interface ThrowingBiPredicate<T,U> extends BiPredicate<T,U> {
    *         {@code false}.
    */
   @Override
-  default boolean test(T t, U u) {
+  default boolean test(final T t, final U u) {
     try {
       return testThrows(t, u);
     }

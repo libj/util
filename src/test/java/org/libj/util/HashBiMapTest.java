@@ -77,6 +77,6 @@ public class HashBiMapTest {
 
   @Test
   public void test() {
-    test(new HashBiMap<Integer,String>(), 0, true);
+    test(new HashBiMap<>(), 0, true);
   }
 }

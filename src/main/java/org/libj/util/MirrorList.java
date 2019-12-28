@@ -107,9 +107,9 @@ public class MirrorList<V,R> extends ObservableList<V> {
   private Mirror<V,R> mirror;
   private Mirror<R,V> reverse;
   protected MirrorList<R,V> mirrorList;
-  protected transient Iterator<?> targetLock;
-  protected transient boolean inited;
-  protected transient boolean unlocked;
+  protected Iterator<?> targetLock;
+  protected boolean inited;
+  protected boolean unlocked;
 
   /**
    * Underlying map to be used for {@link #mirrorList}, or {@code null} if
@@ -348,7 +348,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
         if (mirrorList != null && getMirrorList().targetLock != null)
           getMirrorList().targetLock.next();
       }
-      catch (final NoSuchElementException e) {
+      catch (final NoSuchElementException ignored) {
       }
 
       targetLock = null;
@@ -425,7 +425,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   @Override
-  protected void afterGet(final int index, final V element, final ListIterator<V> iterator, final RuntimeException e) {
+  protected void afterGet(final int index, final V element, final ListIterator<? super V> iterator, final RuntimeException e) {
     lock(unlocked);
   }
 

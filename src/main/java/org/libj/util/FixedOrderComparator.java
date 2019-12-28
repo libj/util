@@ -16,6 +16,7 @@
 
 package org.libj.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -29,7 +30,9 @@ import java.util.Objects;
  *
  * @param <T> The {@link Comparable} type of element to be compared.
  */
-public class FixedOrderComparator<T extends Comparable<? super T>> implements Comparator<T> {
+public class FixedOrderComparator<T extends Comparable<? super T>> implements Comparator<T>, Serializable {
+  private static final long serialVersionUID = 2125376584981534112L;
+
   private final T[] order;
 
   /**

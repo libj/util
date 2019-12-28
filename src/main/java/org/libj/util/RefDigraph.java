@@ -55,8 +55,6 @@ import java.util.function.Function;
  * @see Digraph
  */
 public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
-  private static final long serialVersionUID = -4965000032572168585L;
-
   protected final Function<K,V> reference;
   private Digraph<Object> digraph;
   private ArrayList<K> vertices;
@@ -173,8 +171,6 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * {@inheritDoc}
-   *
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
    */
@@ -185,8 +181,6 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * {@inheritDoc}
-   *
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
    */
@@ -213,8 +207,6 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * {@inheritDoc}
-   *
    * @throws IllegalStateException If some vertex references have not been
    *           specified before the call of this method.
    */
@@ -248,13 +240,13 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
     if (!reference.equals(that.reference))
       return false;
 
-    if (vertices == null ? that.vertices != null : !vertices.equals(that.vertices))
+    if (!Objects.equals(vertices, that.vertices))
       return false;
 
-    if (references == null ? that.references != null : !references.equals(that.references))
+    if (!Objects.equals(references, that.references))
       return false;
 
-    if (digraph == null ? that.digraph != null : !digraph.equals(that.digraph))
+    if (!Objects.equals(digraph, that.digraph))
       return false;
 
     return true;

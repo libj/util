@@ -21,7 +21,6 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
-import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.junit.Test;
@@ -44,7 +43,7 @@ public class ZipFilesTest {
   }
 
   @Test
-  public void testExtractAll() throws IOException, ZipException {
+  public void testExtractAll() throws IOException {
     final File file = findJar("junit");
     final File destDir = new File(extractDir, "all");
     ZipFiles.extract(new ZipFile(file), destDir);
@@ -52,7 +51,7 @@ public class ZipFilesTest {
   }
 
   @Test
-  public void testExtractSome() throws IOException, ZipException {
+  public void testExtractSome() throws IOException {
     final File file = findJar("junit");
     final File destDir = new File(extractDir, "meta");
     ZipFiles.extract(new ZipFile(file), destDir, t -> t.getName().startsWith("META-INF/"));

@@ -24,7 +24,7 @@ import org.junit.Test;
 
 public class EnumerationTest {
   private final Enumeration<Integer> enumeration = new Enumeration<Integer>() {
-    private int position = 0;
+    private int position;
 
     @Override
     public boolean hasMoreElements() {

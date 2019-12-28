@@ -346,10 +346,10 @@ public abstract class DelegateList<E> extends AbstractList<E> {
       return true;
 
     if (!(obj instanceof DelegateList))
-      return target == null ? obj == null : target.equals(obj);
+      return Objects.equals(target, obj);
 
     final DelegateList<?> that = (DelegateList<?>)obj;
-    return target == null ? that.target == null : target.equals(that.target);
+    return Objects.equals(target, that.target);
   }
 
   @Override

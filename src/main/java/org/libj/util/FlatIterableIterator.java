@@ -68,7 +68,7 @@ public abstract class FlatIterableIterator<T,E> extends FlatIterator<E,Iterator<
         return hasNext = true;
       }
 
-      stack.add(current = iterator((T)next));
+      stack.add(iterator((T)next));
     }
   }
 

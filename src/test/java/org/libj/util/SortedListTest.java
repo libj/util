@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -28,19 +27,16 @@ import org.junit.Test;
 
 public class SortedListTest {
   @SafeVarargs
-  private static <T>void assertListEquals(final List<T> actual, final T ... expected) {
+  private static <T> void assertListEquals(final List<T> actual, final T ... expected) {
     assertArrayEquals(actual.toString(), expected, actual.toArray());
   }
 
   @Test
   public void testConstructorSignature() {
-    // final SortedList<Object> bad = new SortedList<Object>(new ArrayList<Object>()); // Should not be allowed cause Object is not Comparable
-    final SortedList<Object> good = new SortedList<>(new ArrayList<>(), new Comparator<Object>() {
-      @Override
-      public int compare(final Object o1, final Object o2) {
-        return 0;
-      }
-    });
+    // final SortedList<Object> bad = new SortedList<Object>(new
+    // ArrayList<Object>()); // Should not be allowed cause Object is not
+    // Comparable
+    final SortedList<Object> good = new SortedList<>(new ArrayList<>(), (o1, o2) -> 0);
     good.add(new Object());
     good.add(new Object());
     good.add(new Object());

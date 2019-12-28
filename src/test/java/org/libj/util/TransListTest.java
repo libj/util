@@ -63,7 +63,7 @@ public class TransListTest {
     for (int i = 0; i < 10; ++i)
       source.add(i);
 
-    test(new TransList<Integer,String>(source, (i,integer) -> String.valueOf(integer), (i,string) -> Integer.valueOf(string)));
+    test(new TransList<>(source, (i, integer) -> String.valueOf(integer), (i, string) -> Integer.valueOf(string)));
   }
 
   @Test
@@ -73,7 +73,7 @@ public class TransListTest {
     for (int i = 0; i < 10; ++i)
       source.add(i);
 
-    final TransList<Integer,String> trans = new TransList<>(source, (i,integer) -> String.valueOf(integer), (i,string) -> Integer.valueOf(string));
+    final TransList<Integer,String> trans = new TransList<>(source, (i, integer) -> String.valueOf(integer), (i, string) -> Integer.valueOf(string));
     trans.add(3, "555");
     assertEquals("555", trans.get(3));
     assertEquals(Integer.valueOf(555), ((List<Integer>)trans.target).get(3));

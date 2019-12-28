@@ -81,7 +81,7 @@ public final class Iterators {
    *         {@code iterator} satisfying the {@code filter} predicate.
    * @throws NullPointerException If {@code iterator} or {@code filter} is null.
    */
-  public static <E>Iterator<E> filter(final Iterator<E> iterator, final Predicate<E> filter) {
+  public static <E>Iterator<E> filter(final Iterator<? extends E> iterator, final Predicate<? super E> filter) {
     Objects.requireNonNull(iterator);
     Objects.requireNonNull(filter);
     return new Iterator<E>() {

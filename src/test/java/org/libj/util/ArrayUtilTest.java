@@ -18,6 +18,8 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Objects;
+
 import org.junit.Test;
 import org.libj.lang.Strings;
 
@@ -77,14 +79,14 @@ public class ArrayUtilTest {
 
   @Test
   public void testTransform() {
-    assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, ArrayUtil.replaceAll(value -> value.toUpperCase(), new String[] {"one", "two", "three"}));
-    assertArrayEquals(new String[] {}, ArrayUtil.replaceAll(value -> value.toUpperCase(), new String[] {}));
+    assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, ArrayUtil.replaceAll(String::toUpperCase, "one", "two", "three"));
+    assertArrayEquals(new String[] {}, ArrayUtil.replaceAll(String::toUpperCase, new String[] {}));
   }
 
   @Test
   public void testFilter() {
     final String[] expected = {"ONE", "TWO", "THREE"};
-    final String[] filtered = ArrayUtil.filter(value -> value != null, new String[] {"ONE", null, "TWO", null, "THREE"});
+    final String[] filtered = ArrayUtil.filter(Objects::nonNull, new String[] {"ONE", null, "TWO", null, "THREE"});
     assertArrayEquals(expected, filtered);
   }
 

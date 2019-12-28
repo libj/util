@@ -16,13 +16,17 @@
 
 package org.libj.util;
 
+import java.io.Serializable;
+
 /**
  * Abstraction of a data encoding.
  *
  * @param <D> The type parameter representing the data class.
  * @param <E> The type parameter representing the encoding class.
  */
-public abstract class DataEncoding<D,E> {
+public abstract class DataEncoding<D extends Serializable,E extends Serializable> implements Serializable {
+  private static final long serialVersionUID = -8326150018177745673L;
+
   protected D data;
   protected E encoded;
 

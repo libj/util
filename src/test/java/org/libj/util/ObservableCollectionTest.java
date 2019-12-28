@@ -54,7 +54,7 @@ public class ObservableCollectionTest {
 
   @Test
   public void test() {
-    final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<String>()) {
+    final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<>()) {
       @Override
       protected boolean beforeAdd(final String element) {
         assertEquals(expectedString, element);

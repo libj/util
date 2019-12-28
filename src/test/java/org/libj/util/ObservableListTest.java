@@ -31,11 +31,11 @@ import org.junit.Test;
 
 public class ObservableListTest {
   @SafeVarargs
-  private static <T>void assertListEquals(final List<T> actual, final T ... expected) {
+  private static <T> void assertListEquals(final List<T> actual, final T ... expected) {
     assertArrayEquals(actual.toString(), expected, actual.toArray());
   }
 
-  private boolean testingGetReplace = false;
+  private boolean testingGetReplace;
 
   private String expectedString;
   private boolean beforeGet;
@@ -89,14 +89,14 @@ public class ObservableListTest {
 
   @Test
   public void testStory() {
-    final ObservableList<String> list = new ObservableList<String>(new ArrayList<String>()) {
+    final ObservableList<String> list = new ObservableList<String>(new ArrayList<>()) {
       @Override
       protected void beforeGet(final int index, final ListIterator<String> iterator) {
         beforeGet = true;
       }
 
       @Override
-      protected void afterGet(final int index, final String element, final ListIterator<String> iterator, final RuntimeException e) {
+      protected void afterGet(final int index, final String element, final ListIterator<? super String> iterator, final RuntimeException e) {
         afterGet = true;
         if (testingGetReplace) {
           if (iterator != null)

@@ -16,6 +16,8 @@
 
 package org.libj.util.primitive;
 
+import java.io.Serializable;
+
 /**
  * An abstract class providing static methods for concrete implementations of
  * <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing
@@ -26,7 +28,9 @@ package org.libj.util.primitive;
  * @see HashLongSet
  * @see HashDoubleSet
  */
-public abstract class HashPrimitiveSet {
+public abstract class HashPrimitiveSet implements Serializable {
+  private static final long serialVersionUID = -4574768441675234182L;
+
   /**
    * Returns the hash for the specified value and mask.
    *

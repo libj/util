@@ -55,7 +55,6 @@ public class TransSet<S,T> extends DelegateSet<T> {
    * @throws NullPointerException If {@code source} is null.
    */
   public TransSet(final Set<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
-    super();
     super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;

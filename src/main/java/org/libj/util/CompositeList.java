@@ -97,7 +97,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
      * @param type The type this {@link ComponentList} will maintain.
      */
     protected ComponentList(final T type) {
-      super(new ArrayList<E>());
+      super(new ArrayList<>());
       this.type = type;
       this.indexes = new ArrayIntList();
     }
@@ -244,7 +244,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
    * Creates a new {@link CompositeList} with type values unspecified.
    */
   public CompositeList() {
-    super(new ArrayList<E>());
+    super(new ArrayList<>());
     this.indexes = new ArrayIntList();
     this.componentLists = new ArrayList<>();
   }
@@ -269,7 +269,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
    *
    * @param types The types for which {@link ComponentList}s will be created.
    */
-  public CompositeList(final Collection<T> types) {
+  public CompositeList(final Collection<? extends T> types) {
     this();
     if (types != null)
       for (final T type : types)

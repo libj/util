@@ -62,6 +62,6 @@ public class TransCollectionTest {
     for (int i = 0; i < 10; i++)
       source.add(i);
 
-    test(new TransCollection<Integer,String>(source, String::valueOf, Integer::valueOf));
+    test(new TransCollection<>(source, String::valueOf, Integer::valueOf));
   }
 }

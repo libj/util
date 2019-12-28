@@ -21,11 +21,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class RefDigraphTest {
-  private static class Obj {
+  private static final class Obj {
     public final String id;
     public final String parentId;
 
-    public Obj(final String id, final String parentId) {
+    private Obj(final String id, final String parentId) {
       this.id = id;
       this.parentId = parentId;
     }

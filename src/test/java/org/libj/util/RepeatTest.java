@@ -32,8 +32,7 @@ public class RepeatTest {
   private static final Integer[] values1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 4, 0, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8};
   private static final Integer[] values2 = {0, 0, 0, 0, 0, 0, 0, 0};
   private static final BiPredicate<Integer,Object> filter = (member, arg) -> 1 == member || (3 < member && member < 7) || member == 8;
-
-  private static String[] fieldNames = new String[] {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+  private static final String[] fieldNames = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
 
   public static class A {
     public int a;
@@ -97,8 +96,8 @@ public class RepeatTest {
     System.gc();
 
     Integer[] array = null;
-    long start = System.currentTimeMillis();
-    long mem = Runtime.getRuntime().freeMemory();
+    final long start = System.currentTimeMillis();
+    final long mem = Runtime.getRuntime().freeMemory();
     for (int i = 0; i < 10000000; ++i)
       array = Repeat.<Integer,Object>iterative(values1, Integer.class, filter, null);
 

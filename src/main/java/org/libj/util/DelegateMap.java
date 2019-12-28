@@ -419,10 +419,10 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
       return true;
 
     if (!(obj instanceof DelegateMap))
-      return target == null ? obj == null : target.equals(obj);
+      return Objects.equals(target, obj);
 
     final DelegateMap<?,?> that = (DelegateMap<?,?>)obj;
-    return target == null ? that.target == null : target.equals(that.target);
+    return Objects.equals(target, that.target);
   }
 
   @Override

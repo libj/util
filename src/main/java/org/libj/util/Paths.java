@@ -17,7 +17,6 @@
 package org.libj.util;
 
 import java.io.File;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.libj.lang.Strings;
@@ -35,6 +34,8 @@ public final class Paths {
 
   // FIXME: This can be converted to a char-by-char algorithm
   private static final Pattern urlPath = Pattern.compile("^(jar:)?file:(//(?:(?<ip>[0-9]{1,3}(\\.[0-9]{1,3}){3})|(?<host>[-0-9a-z\u00A0-\uFFFD]{1,63}(\\.[-0-9a-z\u00A0-\uFFFD]{1,63})*))?)?(?<path>/(%[0-9a-f][0-9a-f]|[-._!$&'()*+,:;=@~0-9a-zA-Z\u00A0-\uFFFD/?#])*)$");
+
+  private static final Pattern absolute = Pattern.compile("^([a-zA-Z0-9]+:)?//.*$");
 
   /**
    * Tests whether the specified string is an URL that represents an absolute
@@ -169,7 +170,7 @@ public final class Paths {
     if (path.startsWith("file:/") || path.startsWith("jar:file:/"))
       return true;
 
-    return path.matches("^([a-zA-Z0-9]+:)?//.*$");
+    return absolute.matcher(path).matches();
   }
 
   /**
@@ -178,12 +179,12 @@ public final class Paths {
    *
    * @param path The path from which to get the protocol section.
    * @return The protocol section of the specified path, or {@code null} if a
-   *         protocol section does not exist.
+   *         protocol does not exist.
    * @throws NullPointerException If {@code path} is null.
    */
   public static String getProtocol(final String path) {
-    final int i = path.indexOf(":/");
-    return i == -1 ? null : path.substring(0, i);
+    final int index = path.indexOf(":/");
+    return index == -1 ? null : path.substring(0, index);
   }
 
   /**
@@ -218,7 +219,7 @@ public final class Paths {
    * @see Paths#isAbsoluteLocalWindows(String)
    */
   public static String newPath(final String parent, final String child) {
-    if (Objects.requireNonNull(child).length() == 0)
+    if (child.length() == 0)
       return parent;
 
     if (parent == null || parent.length() == 0)
@@ -227,7 +228,7 @@ public final class Paths {
     final char parentN = parent.charAt(parent.length() - 1);
     final char child0 = child.charAt(0);
     if (parentN == '/' || parentN == '\\')
-      return parentN == child0 ? (parent + child.substring(1)) : (parent + child);
+      return parentN == child0 ? parent + child.substring(1) : parent + child;
 
     if (child0 == '/' || child0 == '\\')
       return parent + child;
@@ -310,7 +311,8 @@ public final class Paths {
     if (Strings.endsWith(path, s + "."))
       path.delete(path.length() - 2, path.length());
 
-    for (int end, start = 0; (end = path.indexOf(s + ".." + s, start)) != -1;) {
+    final String dotDot = s + ".." + s;
+    for (int end, start = 0; (end = path.indexOf(dotDot, start)) != -1;) {
       start = path.lastIndexOf(s, end - 1);
       if (start != -1) {
         path.delete(start, end + 3);
@@ -358,8 +360,8 @@ public final class Paths {
    */
   public static String getCanonicalParent(final String path) {
     final StringBuilder builder = canonicalize(new StringBuilder(path));
-    final int separator = builder.lastIndexOf("/");
-    return separator < 0 ? null : builder.substring(0, separator);
+    final int index = builder.lastIndexOf("/");
+    return index < 0 ? null : builder.substring(0, index);
   }
 
   private static String getName0(final String path) {
@@ -378,14 +380,14 @@ public final class Paths {
    * @return The name of the file or directory denoted by the specified
    *         pathname, or the empty string if the name sequence of {@code path}
    *         is empty.
-   * @throws NullPointerException If {@code path} is null.
    * @throws IllegalArgumentException If {@code path} is an empty string.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static String getName(final String path) {
     if (path.length() == 0)
       throw new IllegalArgumentException("Empty path");
 
-    return path.length() == 0 ? path : getName0(path);
+    return getName0(path);
   }
 
   /**
@@ -398,6 +400,7 @@ public final class Paths {
    * @return The short name of the file or directory denoted by the specified
    *         pathname, or the empty string if the name sequence of {@code path}
    *         is empty.
+   * @throws IllegalArgumentException If {@code path} is an empty string.
    * @throws NullPointerException If {@code path} is null.
    */
   public static String getShortName(String path) {

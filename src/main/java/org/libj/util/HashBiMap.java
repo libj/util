@@ -41,7 +41,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
    *           load factor is nonpositive.
    */
   public HashBiMap(final int initialCapacity, final float loadFactor) {
-    super(new HashMap<K,V>(initialCapacity, loadFactor), new HashMap<V,K>(initialCapacity, loadFactor));
+    super(new HashMap<>(initialCapacity, loadFactor), new HashMap<>(initialCapacity, loadFactor));
   }
 
   /**
@@ -52,7 +52,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
    * @throws IllegalArgumentException If the initial capacity is negative.
    */
   public HashBiMap(final int initialCapacity) {
-    super(new HashMap<K,V>(initialCapacity), new HashMap<V,K>(initialCapacity));
+    super(new HashMap<>(initialCapacity), new HashMap<>(initialCapacity));
   }
 
   /**
@@ -74,7 +74,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
    * (16) and the default load factor (0.75).
    */
   public HashBiMap() {
-    super(new HashMap<K,V>(), new HashMap<V,K>());
+    super(new HashMap<>(), new HashMap<>());
   }
 
   /**

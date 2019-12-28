@@ -24,6 +24,7 @@ import java.util.Arrays;
  * @see <a href="http://www.faqs.org/rfcs/rfc3548.html">RFC3548</a>
  */
 public class Base32 extends DataEncoding<byte[],String> {
+  private static final long serialVersionUID = 3283110401340470031L;
   private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
   private static final int[] lookup = {
     0xFF, 0xFF, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
@@ -43,6 +44,7 @@ public class Base32 extends DataEncoding<byte[],String> {
    *
    * @param bytes The bytes to encode.
    * @return The base32 encoding of the provided {@code bytes} array.
+   * @throws NullPointerException If {@code bytes} is null.
    */
   public static String encode(final byte[] bytes) {
     return encode(bytes, 0, bytes.length);
@@ -55,10 +57,11 @@ public class Base32 extends DataEncoding<byte[],String> {
    * @param offset The initial offset.
    * @param len The length.
    * @return The base32 encoding of the provided {@code bytes} array.
+   * @throws NullPointerException If {@code bytes} is null.
    */
   public static String encode(final byte[] bytes, final int offset, final int len) {
     final StringBuilder base32 = new StringBuilder((bytes.length + 7) * 8 / 5);
-    for (int i = offset, index = 0, digit = 0, by0, by1; i < len + offset;) {
+    for (int i = offset, index = 0, digit, by0, by1; i < len + offset;) {
       by0 = (bytes[i] >= 0) ? bytes[i] : (bytes[i] + 256);
       if (index > 3) {
         by1 = i + 1 < bytes.length ? bytes[i + 1] < 0 ? bytes[i + 1] + 256 : bytes[i + 1] : 0;
@@ -86,6 +89,7 @@ public class Base32 extends DataEncoding<byte[],String> {
    *
    * @param base32 The base32 string.
    * @return A {@code new byte[]} of the decoded {@code base32} string.
+   * @throws NullPointerException If {@code base32} is null.
    */
   public static byte[] decode(final String base32) {
     final byte[] bytes = new byte[base32.length() * 5 / 8];
@@ -102,6 +106,7 @@ public class Base32 extends DataEncoding<byte[],String> {
    * @throws ArrayIndexOutOfBoundsException If the size of {@code bytes} is not
    *           big enough, or if {@code offset} causes the index to go out of
    *           bounds.
+   * @throws NullPointerException If {@code base32} or {@code bytes} is null.
    */
   public static void decode(final String base32, final byte[] bytes, int offset) {
     for (int i = 0, index = 0, ch, digit; i < base32.length(); ++i) {

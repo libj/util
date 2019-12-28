@@ -69,7 +69,7 @@ public class ClassesTest {
     }
 
     for (final Map.Entry<Class<?>[],Class<?>> entry : classes.entrySet())
-      assertEquals(entry.getValue(), Classes.getGreatestCommonSuperclass(entry.getKey()));
+      assertSame(entry.getValue(), Classes.getGreatestCommonSuperclass(entry.getKey()));
   }
 
   @Test

@@ -26,7 +26,7 @@ import java.util.List;
  */
 public final class Enumerations {
   @SuppressWarnings("unchecked")
-  private static <T>T[] recurse(final Class<T> componentType, final Enumeration<T> enumeration, final int depth) {
+  private static <T>T[] recurse(final Class<T> componentType, final Enumeration<? extends T> enumeration, final int depth) {
     if (!enumeration.hasMoreElements())
       return (T[])Array.newInstance(componentType, depth);
 
@@ -51,7 +51,7 @@ public final class Enumerations {
    * @return An array of type {@code T} containing the object references in the
    *         specified {@link Enumeration}.
    */
-  public static <T>T[] toArray(final Class<T> componentType, final Enumeration<T> enumeration) {
+  public static <T>T[] toArray(final Class<T> componentType, final Enumeration<? extends T> enumeration) {
     return recurse(componentType, enumeration, 0);
   }
 
@@ -70,7 +70,7 @@ public final class Enumerations {
    * @return A {@link List} of type {@code T} containing the object references
    *         in the specified {@link Enumeration}.
    */
-  public static <T>List<T> toList(final Class<T> componentType, final Enumeration<T> enumeration) {
+  public static <T>List<T> toList(final Class<T> componentType, final Enumeration<? extends T> enumeration) {
     return Arrays.asList(toArray(componentType, enumeration));
   }
 

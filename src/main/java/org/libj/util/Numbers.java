@@ -18,6 +18,7 @@ package org.libj.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Comparator;
 
 /**
@@ -33,7 +34,7 @@ public final class Numbers {
   /**
    * Utility functions to convert between signed and unsigned numbers.
    */
-  public static class Unsigned {
+  public static final class Unsigned {
     /** Max value of an unsigned long: {@code 2^64 - 1}. */
     public static final BigInteger UNSIGNED_LONG_MAX_VALUE = new BigInteger("18446744073709551615");
 
@@ -228,7 +229,7 @@ public final class Numbers {
       if (o2 instanceof BigDecimal)
         return BigDecimal.valueOf(o1.doubleValue()).compareTo((BigDecimal)o2);
 
-      return o1.doubleValue() < o2.doubleValue() ? -1 : ((o1.doubleValue() == o2.doubleValue()) ? 0 : 1);
+      return Double.compare(o1.doubleValue(), o2.doubleValue());
     }
 
     if (o2 instanceof BigInteger)
@@ -237,7 +238,7 @@ public final class Numbers {
     if (o2 instanceof BigDecimal)
       return BigDecimal.valueOf(o1.doubleValue()).compareTo((BigDecimal)o2);
 
-    return o1.doubleValue() < o2.doubleValue() ? -1 : ((o1.doubleValue() == o2.doubleValue()) ? 0 : 1);
+    return Double.compare(o1.doubleValue(), o2.doubleValue());
   };
 
   /**
@@ -247,7 +248,7 @@ public final class Numbers {
    * {@code short} is 16 bits in size, allowing it to represent a compound value
    * of 2 {@code byte}s, since a {@code byte} is 8 bits in size.
    */
-  public static class Compound {
+  public static final class Compound {
     // FIXME: Implement all the combinations of encode(...)
     /**
      * Encodes two {@code int}s into a {@code long}.
@@ -257,7 +258,7 @@ public final class Numbers {
      * @return A compounded {@code long} representing two {@code int} values.
      */
     public static long encode(final int a, final int b) {
-      return ((long)b << Integer.SIZE) & 0xffffffff00000000l | a & 0xffffffffl;
+      return ((long)b << Integer.SIZE) & 0xffffffff00000000L | a & 0xffffffffL;
     }
 
     /**
@@ -270,7 +271,7 @@ public final class Numbers {
      * @return A compounded {@code long} representing four {@code short} values.
      */
     public static long encode(final short a, final short b, final short c, final short d) {
-      return ((long)d << Short.SIZE * 3) & 0xffff000000000000l | ((long)c << Short.SIZE * 2) & 0xffff00000000l | ((long)b << Short.SIZE) & 0xffff0000l | a & 0xffffl;
+      return ((long)d << Short.SIZE * 3) & 0xffff000000000000L | ((long)c << Short.SIZE * 2) & 0xffff00000000L | ((long)b << Short.SIZE) & 0xffff0000L | a & 0xffffL;
     }
 
     /**
@@ -287,7 +288,7 @@ public final class Numbers {
      * @return A compounded {@code long} representing eight {@code byte} values.
      */
     public static long encode(final byte a, final byte b, final byte c, final byte d, final byte e, final byte f, final byte g, final byte h) {
-      return ((long)h << Byte.SIZE * 7) & 0xff00000000000000l | ((long)g << Byte.SIZE * 6) & 0xff000000000000l | ((long)f << Byte.SIZE * 5) & 0xff0000000000l | ((long)e << Byte.SIZE * 4) & 0xff00000000l | ((long)d << Byte.SIZE * 3) & 0xff000000l | ((long)c << Byte.SIZE * 2) & 0xff0000l | ((long)b << Byte.SIZE) & 0xff00l | a & 0xffl;
+      return ((long)h << Byte.SIZE * 7) & 0xff00000000000000L | ((long)g << Byte.SIZE * 6) & 0xff000000000000L | ((long)f << Byte.SIZE * 5) & 0xff0000000000L | ((long)e << Byte.SIZE * 4) & 0xff00000000L | ((long)d << Byte.SIZE * 3) & 0xff000000L | ((long)c << Byte.SIZE * 2) & 0xff0000L | ((long)b << Byte.SIZE) & 0xff00L | a & 0xffL;
     }
 
     /**
@@ -295,7 +296,8 @@ public final class Numbers {
      *
      * @param a The first {@code float}.
      * @param b The second {@code int}.
-     * @return A compounded {@code long} representing a {@code float} and an {@code int}.
+     * @return A compounded {@code long} representing a {@code float} and an
+     *         {@code int}.
      */
     public static long encode(final float a, final int b) {
       return encode(Float.floatToIntBits(a), b);
@@ -437,6 +439,9 @@ public final class Numbers {
      */
     public static byte decodeByte(final short val, final int pos) {
       return (byte)((val >> Byte.SIZE * pos) & 0xff);
+    }
+
+    private Compound() {
     }
   }
 
@@ -686,8 +691,8 @@ public final class Numbers {
    * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
    * string does not contain a parsable {@code short}.
    *
-   * @param cbuf A {@code char} array containing the {@code short} representation
-   *          to be parsed.
+   * @param cbuf A {@code char} array containing the {@code short}
+   *          representation to be parsed.
    * @param defaultValue The {@code short} value to be returned if the string
    *          does not contain a parsable {@code short}.
    * @return The {@code short} value represented by the argument, or
@@ -758,8 +763,8 @@ public final class Numbers {
    * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
    * the string does not contain a parsable {@code short}.
    *
-   * @param cbuf A {@code char} array containing the {@code short} representation
-   *          to be parsed.
+   * @param cbuf A {@code char} array containing the {@code short}
+   *          representation to be parsed.
    * @param defaultValue The {@code short} value to be returned if the string
    *          does not contain a parsable {@code short}.
    * @param radix The radix to be used while parsing {@code s}.
@@ -793,8 +798,8 @@ public final class Numbers {
    * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
    * string does not contain a parsable {@code int}.
    *
-   * @param s A {@link String} containing the {@code int} representation to
-   *          be parsed.
+   * @param s A {@link String} containing the {@code int} representation to be
+   *          parsed.
    * @param defaultValue The {@code int} value to be returned if the string does
    *          not contain a parsable {@code int}.
    * @return The {@code int} value represented by the argument, or
@@ -829,8 +834,8 @@ public final class Numbers {
    * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
    * the string does not contain a parsable {@code int}.
    *
-   * @param s A {@link String} containing the {@code int} representation to
-   *          be parsed.
+   * @param s A {@link String} containing the {@code int} representation to be
+   *          parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @param defaultValue The {@code int} value to be returned if the string does
    *          not contain a parsable {@code int}.
@@ -851,7 +856,7 @@ public final class Numbers {
     if (len == 0)
       return defaultValue;
 
-    char firstChar = s.charAt(0);
+    final char firstChar = s.charAt(0);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -913,7 +918,7 @@ public final class Numbers {
     if (len == 0)
       return defaultValue;
 
-    char firstChar = cbuf[0];
+    final char firstChar = cbuf[0];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -972,7 +977,7 @@ public final class Numbers {
     if (len == 0)
       return null;
 
-    char firstChar = s.charAt(0);
+    final char firstChar = s.charAt(0);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1031,7 +1036,7 @@ public final class Numbers {
     if (len == 0)
       return null;
 
-    char firstChar = cbuf[0];
+    final char firstChar = cbuf[0];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1141,7 +1146,7 @@ public final class Numbers {
     if (len == 0)
       return null;
 
-    char firstChar = s.charAt(0);
+    final char firstChar = s.charAt(0);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1200,7 +1205,7 @@ public final class Numbers {
     if (len == 0)
       return null;
 
-    char firstChar = cbuf[0];
+    final char firstChar = cbuf[0];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1262,7 +1267,7 @@ public final class Numbers {
     if (len == 0)
       return defaultValue;
 
-    char firstChar = s.charAt(0);
+    final char firstChar = s.charAt(0);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1324,7 +1329,7 @@ public final class Numbers {
     if (len == 0)
       return defaultValue;
 
-    char firstChar = cbuf[0];
+    final char firstChar = cbuf[0];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1504,7 +1509,7 @@ public final class Numbers {
 
     final int slash = string.indexOf('/');
     if (slash == 1)
-      scalar += (double)Integer.parseInt(string.substring(0, slash)) / (double)Integer.parseInt(string.substring(slash + 1));
+      scalar += (double)Integer.parseInt(string.substring(0, slash)) / Integer.parseInt(string.substring(slash + 1));
     else
       scalar += new BigDecimal(string).doubleValue();
 
@@ -1512,8 +1517,8 @@ public final class Numbers {
   }
 
   /**
-   * Tests whether the specified string represents a number, or a number with
-   * a fraction of two numbers (i.e. {@code 23 3/4}).
+   * Tests whether the specified string represents a number, or a number with a
+   * fraction of two numbers (i.e. {@code 23 3/4}).
    * <p>
    * This method supports exponent form (i.e. {@code 3.2E-5}).
    *
@@ -1550,7 +1555,7 @@ public final class Numbers {
     boolean slashEncountered = false;
     int factor = 0;
     for (int i = string.length() - 1; i >= 0; --i) {
-      char c = string.charAt(i);
+      final char c = string.charAt(i);
       if (c < '0') {
         if (c == '/') {
           if (!fraction || dotEncountered || expEncountered || minusEncountered || slashEncountered)
@@ -1659,12 +1664,12 @@ public final class Numbers {
   }
 
   /**
-   * Returns {@code true} if the specified {@code float} can be represented as
-   * a whole number without loss of precision.
+   * Returns {@code true} if the specified {@code float} can be represented as a
+   * whole number without loss of precision.
    *
    * @param n The {@code float} to test.
-   * @return {@code true} if the specified {@code float} can be represented as
-   *         a whole number without loss of precision.
+   * @return {@code true} if the specified {@code float} can be represented as a
+   *         whole number without loss of precision.
    */
   public static boolean isWhole(final float n) {
     return (int)n == n;
@@ -1711,7 +1716,7 @@ public final class Numbers {
    *         provided number of decimal places.
    */
   public static String toString(final double n, final int decimals) {
-    final double factor = Math.pow(10, decimals);
+    final double factor = StrictMath.pow(10, decimals);
     return String.valueOf(Math.round(n * factor) / factor);
   }
 
@@ -1745,7 +1750,7 @@ public final class Numbers {
     if (blex > 0)
       value = value.shiftRight(blex);
 
-    final double result = Math.log(value.doubleValue());
+    final double result = StrictMath.log(value.doubleValue());
     return blex > 0 ? result + blex * LOG_2 : result;
   }
 
@@ -1927,7 +1932,7 @@ public final class Numbers {
    * @return The precision necessary to represent the specified number.
    */
   public static byte precision(final int number) {
-    return (byte)(number == 0 ? 1 : Math.log10(number != Integer.MIN_VALUE ? Math.abs(number) : Math.abs((long)number)) + 1);
+    return (byte)(number == 0 ? 1 : StrictMath.log10(number != Integer.MIN_VALUE ? Math.abs(number) : Math.abs((long)number)) + 1);
   }
 
   /**
@@ -1937,7 +1942,7 @@ public final class Numbers {
    * @return The precision necessary to represent the specified number.
    */
   public static byte precision(final long number) {
-    return number != Long.MIN_VALUE ? (byte)(Math.log10(Math.abs(number)) + 1) : (byte)precision(BigInteger.valueOf(number));
+    return number != Long.MIN_VALUE ? (byte)(StrictMath.log10(Math.abs(number)) + 1) : (byte)precision(BigInteger.valueOf(number));
   }
 
   /**
@@ -2055,7 +2060,7 @@ public final class Numbers {
     for (int i = 1; i < numbers.length; ++i)
       sum = sum.add(numbers[i]);
 
-    return sum.divide(BigDecimal.valueOf(numbers.length));
+    return sum.divide(BigDecimal.valueOf(numbers.length), RoundingMode.HALF_UP);
   }
 
   /**
@@ -2071,7 +2076,7 @@ public final class Numbers {
     for (int i = 1; i < numbers.length; ++i)
       sum = sum.add(new BigDecimal(numbers[i]));
 
-    return sum.divide(BigDecimal.valueOf(numbers.length));
+    return sum.divide(BigDecimal.valueOf(numbers.length), RoundingMode.HALF_UP);
   }
 
   /**

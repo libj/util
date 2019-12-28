@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -93,16 +94,15 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * Callback method that is invoked immediately after an element is retrieved
    * from the enclosed {@link List}.
-   *
-   * @param index The index of the element retrieved from the enclosed
+   *  @param index The index of the element retrieved from the enclosed
    *          {@link List}.
    * @param element The element retrieved from the enclosed {@link List}.
    * @param iterator The {@link Iterator} instance if the get is a result of an
-   *          iterator reference, otherwise {@code null}.
+ *          iterator reference, otherwise {@code null}.
    * @param e A {@link RuntimeException} that occurred during the get operation,
-   *          or {@code null} if no exception occurred.
+*          or {@code null} if no exception occurred.
    */
-  protected void afterGet(final int index, final E element, final ListIterator<E> iterator, final RuntimeException e) {
+  protected void afterGet(final int index, final E element, final ListIterator<? super E> iterator, final RuntimeException e) {
   }
 
   /**
@@ -487,7 +487,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
      * @throws NullPointerException If the specified {@link ListIterator} is
      *           null.
      */
-    protected ObservableListIterator(final ListIterator<E> iterator) {
+    protected ObservableListIterator(final ListIterator<? extends E> iterator) {
       super(iterator);
     }
 
@@ -623,7 +623,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * @param iterator The target {@link ListIterator ListIterator&lt;E&gt;}.
    * @return A new instance of an {@link ObservableListIterator}.
    */
-  protected ObservableListIterator newListIterator(final ListIterator<E> iterator) {
+  protected ObservableListIterator newListIterator(final ListIterator<? extends E> iterator) {
     return new ObservableListIterator(iterator);
   }
 
@@ -863,7 +863,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
 
     @Override
-    protected void afterGet(final int index, final E element, final ListIterator<E> iterator, final RuntimeException e) {
+    protected void afterGet(final int index, final E element, final ListIterator<? super E> iterator, final RuntimeException e) {
       ObservableList.this.afterGet(index, element, iterator, e);
     }
 
@@ -1059,7 +1059,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     for (int i = 0; i < size; ++i) {
       final Object e1 = get(i);
       final Object e2 = that.get(i);
-      if (e1 == null ? e2 != null : !e1.equals(e2))
+      if (!Objects.equals(e1, e2))
         return false;
     }
 

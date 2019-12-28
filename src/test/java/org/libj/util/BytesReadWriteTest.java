@@ -18,7 +18,7 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.Test;
 
@@ -42,20 +42,20 @@ public class BytesReadWriteTest {
   }
 
   // (1) Write the ordinal (2 bits)
-  protected static int writeOrdinal(final byte[] dest, int offset, final byte ordinal) {
+  protected static int writeOrdinal(final byte[] dest, final int offset, final byte ordinal) {
     return Bytes.writeBitsB(dest, offset, ordinal, (byte)2);
   }
 
   // (2) Write the length (lengthSize bits)
-  protected static int writeLength(final byte[] dest, int offset, final int length, final byte lengthSize) {
+  protected static int writeLength(final byte[] dest, final int offset, final int length, final byte lengthSize) {
     final byte[] bytes = new byte[1 + (lengthSize - 1) / 8];
     Bytes.toBytes(length, bytes, 0, true);
     return Bytes.writeBitsB(dest, offset, bytes, lengthSize);
   }
 
   // (3) Write the text (length * 8 bits)
-  protected static int writeText(final byte[] dest, int offset, final byte[] text, final int length) {
-    return Bytes.writeBitsB(dest, offset, text, length * 8);
+  protected static int writeText(final byte[] dest, final int offset, final byte[] text, final int length) {
+    return Bytes.writeBitsB(dest, offset, text, length * 8L);
   }
 
   protected static int encode(final byte[] dest, int offset, final byte ordinal, final int length, final byte lengthSize, final byte[] text) {
@@ -65,10 +65,10 @@ public class BytesReadWriteTest {
     return offset;
   }
 
-  private static void assertEqual(final String string) throws IOException {
+  private static void assertEqual(final String string) {
     // Encode...
     final byte ordinal = 0x2;
-    final byte[] text = string.getBytes("UTF-8");
+    final byte[] text = string.getBytes(StandardCharsets.UTF_8);
     final int length = text.length;
     final byte lengthSize = Bytes.getSize(length);
     if (debug) {
@@ -101,13 +101,13 @@ public class BytesReadWriteTest {
     assertEquals(ordinal, ordinalDecoded);
     final int lengthDecoded = Bytes.toInt(Bytes.readBitsFromBytes(dest, offset + 2, lengthSizeDecoded), 0, true);
     assertEquals(length, lengthDecoded);
-    final byte[] decodedText = Bytes.readBitsFromBytes(dest, offset + 2 + lengthSizeDecoded, lengthDecoded * 8);
+    final byte[] decodedText = Bytes.readBitsFromBytes(dest, offset + 2 + lengthSizeDecoded, lengthDecoded * 8L);
     assertArrayEquals(text, decodedText);
 //    System.err.println(out);
   }
 
   @Test
-  public void test() throws IOException {
+  public void test() {
     String string = "≠≈∧∨∩∪";
     for (int i = 0; i < 23; ++i) {
       if (debug)

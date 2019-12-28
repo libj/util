@@ -123,20 +123,20 @@ public class NumbersTest {
     double l1 = 0;
     BigInteger bi = BigInteger.ONE;
     for (int i = 0; i < factors.length; ++i) {
-      int exponent = exponents[i];
-      int factor = factors[i];
+      final int exponent = exponents[i];
+      final int factor = factors[i];
       if (factor <= 1)
         continue;
 
       for (int n = 0; n < exponent; ++n)
         bi = bi.multiply(BigInteger.valueOf(factor));
 
-      l1 += Math.log(factor) * exponent;
+      l1 += StrictMath.log(factor) * exponent;
     }
 
     final double l2 = Numbers.log2(bi);
     final double err = Math.abs((l2 - l1) / l1);
-    final int decdigits = (int) (l1 / Math.log(10) + 0.5);
+    final int decdigits = (int) (l1 / StrictMath.log(10) + 0.5);
     logger.info("e={} digitss={}", err, decdigits);
     return err;
   }
@@ -290,9 +290,9 @@ public class NumbersTest {
     assertEquals(10, Numbers.precision(Integer.MIN_VALUE));
     assertEquals(1, Numbers.precision(-1));
     assertEquals(5, Numbers.precision(-13423));
-    assertEquals(12, Numbers.precision(349349349349l));
-    assertEquals(19, Numbers.precision(BigInteger.valueOf(4389429384493848239l)));
-    assertEquals(19, Numbers.precision(BigInteger.valueOf(-4389429384493848239l)));
+    assertEquals(12, Numbers.precision(349349349349L));
+    assertEquals(19, Numbers.precision(BigInteger.valueOf(4389429384493848239L)));
+    assertEquals(19, Numbers.precision(BigInteger.valueOf(-4389429384493848239L)));
     assertEquals(19, Numbers.precision(Long.MIN_VALUE));
     assertEquals(19, Numbers.precision(new BigDecimal("-4389429384.493848239")));
   }
@@ -300,18 +300,18 @@ public class NumbersTest {
   @Test
   public void testTrailingZeroes() {
     assertEquals(3, Numbers.trailingZeroes(349000));
-    assertEquals(1, Numbers.trailingZeroes(3490l));
+    assertEquals(1, Numbers.trailingZeroes(3490L));
     assertEquals(1, Numbers.trailingZeroes(10));
     assertEquals(0, Numbers.trailingZeroes(1));
     assertEquals(1, Numbers.trailingZeroes(-10));
-    assertEquals(4, Numbers.trailingZeroes(-14320000l));
+    assertEquals(4, Numbers.trailingZeroes(-14320000L));
   }
 
   @Test
   public void testToBigDecimal() {
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal((short)1));
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(1));
-    assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(1l));
+    assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(1L));
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(1f));
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(1d));
     assertEquals(BigDecimal.ONE, Numbers.toBigDecimal(BigInteger.ONE));
@@ -337,12 +337,12 @@ public class NumbersTest {
     assertEquals(3d, Numbers.average((byte)1, (byte)1, (byte)10, (byte)0), 0.000000001);
     assertEquals(3d, Numbers.average((short)1, (short)1, (short)10, (short)0), 0.000000001);
     assertEquals(3d, Numbers.average(1, 1, 10, 0), 0.000000001);
-    assertEquals(3d, Numbers.average(1l, 1l, 10l, 0l), 0.000000001);
-    assertEquals(3d, Numbers.average((byte)1, 1l, 10, 0d), 0.000000001);
+    assertEquals(3d, Numbers.average(1L, 1L, 10L, 0L), 0.000000001);
+    assertEquals(3d, Numbers.average((byte)1, 1L, 10, 0d), 0.000000001);
   }
 
   @SuppressWarnings("unchecked")
-  private static <T extends Number>void testParse(final Function<String,T> function, T ... numbers) {
+  private static <T extends Number>void testParse(final Function<? super String,T> function, final T ... numbers) {
     for (final T number : numbers) {
       final String str = String.valueOf(number);
       assertEquals(number, function.apply(str));
@@ -350,7 +350,7 @@ public class NumbersTest {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T extends Number>void testParseRadix(final BiFunction<String,Integer,T> function, int radix, T ... numbers) {
+  private static <T extends Number>void testParseRadix(final BiFunction<? super String,? super Integer,T> function, final int radix, final T ... numbers) {
     for (final T number : numbers) {
       final String str = Long.toString(number.longValue(), radix);
       assertEquals(number, function.apply(str, radix));
@@ -389,10 +389,10 @@ public class NumbersTest {
     assertNull(Numbers.parseLong("/"));
     assertNull(Numbers.parseLong(":"));
 
-    testParse(Numbers::parseLong, 323l, -3923l, 7932l, -38229l, 732938l, -83928384l, 382983985l, -8434893285l, 38434893285l, -938434893285l, 1938434893285l, -21938434893285l, 921938434893285l, -9921938434893285l, 79921938434893285l, -279921938434893285l, 8279921938434893285l);
+    testParse(Numbers::parseLong, 323L, -3923L, 7932L, -38229L, 732938L, -83928384L, 382983985L, -8434893285L, 38434893285L, -938434893285L, 1938434893285L, -21938434893285L, 921938434893285L, -9921938434893285L, 79921938434893285L, -279921938434893285L, 8279921938434893285L);
 
     for (byte r = Character.MIN_RADIX; r <= Character.MAX_RADIX; ++r)
-      testParseRadix(Numbers::parseLong, r, 323l, -3923l, 7932l, -38229l, 732938l, -83928384l, 382983985l, -8434893285l, 38434893285l, -938434893285l, 1938434893285l, -21938434893285l, 921938434893285l, -9921938434893285l, 79921938434893285l, -279921938434893285l, 8279921938434893285l);
+      testParseRadix(Numbers::parseLong, r, 323L, -3923L, 7932L, -38229L, 732938L, -83928384L, 382983985L, -8434893285L, 38434893285L, -938434893285L, 1938434893285L, -21938434893285L, 921938434893285L, -9921938434893285L, 79921938434893285L, -279921938434893285L, 8279921938434893285L);
 
     for (int i = 0; i < 1000; ++i) {
       for (int r = Character.MIN_RADIX; r <= Character.MAX_RADIX; ++r) {
@@ -420,8 +420,8 @@ public class NumbersTest {
     }
     else {
       assertFalse(String.valueOf(radix), Numbers.isDigit((char)('a' + radix - 10), radix));
-      // NOTE: Can only check a max of radix=31, because at 32, the ASCII table crosses
-      // NOTE: form lower-case latin characters to upper case
+      // NOTE: Can only check a max of radix=31, because at 32, the ASCII table
+      // NOTE: crosses form lower-case latin characters to upper case
       if (radix < 32)
         assertFalse(String.valueOf(radix), Numbers.isDigit((char)('A' + radix - 10), radix));
     }

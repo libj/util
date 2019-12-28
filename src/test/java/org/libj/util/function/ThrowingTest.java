@@ -42,7 +42,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
     }
   }
 
@@ -60,7 +60,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
     }
   }
 
@@ -77,7 +77,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
       assertEquals("i=0", e.getMessage());
     }
   }
@@ -96,7 +96,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
       assertEquals("i=0", e.getMessage());
     }
   }
@@ -115,7 +115,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
       assertEquals("i=0", e.getMessage());
     }
   }
@@ -137,7 +137,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
       assertEquals("i=0", e.getMessage());
     }
   }
@@ -158,7 +158,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
       assertEquals("i=0", e.getMessage());
     }
   }
@@ -180,7 +180,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
       assertEquals("i=0", e.getMessage());
     }
   }
@@ -201,7 +201,7 @@ public class ThrowingTest {
       fail("Expected IOException");
     }
     catch (final Exception e) {
-      assertEquals(IOException.class, e.getClass());
+      assertSame(IOException.class, e.getClass());
       assertEquals("i=0", e.getMessage());
     }
   }

@@ -46,7 +46,7 @@ public class CompositeListTest {
     }
   }
 
-  private class TestCompositeList extends CompositeList<Object,Class<?>> {
+  private static final class TestCompositeList extends CompositeList<Object,Class<?>> {
     private TestCompositeList(final Class<?> ... types) {
       super(types);
     }
@@ -84,6 +84,11 @@ public class CompositeListTest {
 
       return new String((String)item);
     }
+
+    @Override
+    public TestCompositeList clone() {
+      return (TestCompositeList)super.clone();
+    }
   }
 
   @Test
@@ -118,7 +123,7 @@ public class CompositeListTest {
     listIterator.add(p2);
     assertElementCount("Add " + System.identityHashCode(p2) + " at 0S", expected, 3, compositeList.getOrCreateComponentList(String.class));
 
-    final Integer div1 = Integer.valueOf((int)(Math.random() * 100));
+    final Integer div1 = (int)(Math.random() * 100);
     expected.add(2, div1);
     listIterator = compositeList.listIterator(2);
     listIterator.add(div1);
@@ -139,7 +144,7 @@ public class CompositeListTest {
     assertElementCount(null, expected, 1, compositeList.getOrCreateComponentList(Integer.class));
 
     testClone(compositeList);
-    final Integer div2 = Integer.valueOf((int)(Math.random() * 100));
+    final Integer div2 = (int)(Math.random() * 100);
     expected.add(1, div2);
     listIterator = compositeList.listIterator();
     listIterator.next();
@@ -147,7 +152,7 @@ public class CompositeListTest {
     assertElementCount("Add " + System.identityHashCode(div2) + " at 1S", expected, 3, compositeList.getOrCreateComponentList(String.class));
     assertElementCount(null, expected, 2, compositeList.getOrCreateComponentList(Integer.class));
 
-    final Integer div3 = Integer.valueOf((int)(Math.random() * 100));
+    final Integer div3 = (int)(Math.random() * 100);
     expected.add(2, div3);
     listIterator = compositeList.getOrCreateComponentList(Integer.class).listIterator();
     listIterator.next();

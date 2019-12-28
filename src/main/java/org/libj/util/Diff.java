@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +37,7 @@ import name.fraser.neil.plaintext.diff_match_patch;
  * synchronizing plain text.
  */
 public class Diff {
-  private static final Charset charset = Charset.forName("UTF-8");
+  private static final Charset charset = StandardCharsets.UTF_8;
 
   /**
    * Size of "LengthSize" is 5 bits, giving it 2^5 values (0 to 31), which
@@ -108,7 +109,7 @@ public class Diff {
    * @return The new offset adjusted by the written bits.
    */
   private static int writeText(final byte[] dest, final int offset, final byte[] text, final int length) {
-    return Bytes.writeBitsB(dest, offset, text, length * 8);
+    return Bytes.writeBitsB(dest, offset, text, length * 8L);
   }
 
   /**
@@ -254,7 +255,7 @@ public class Diff {
      */
     protected Insert(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
-      this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8));
+      this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8L));
     }
 
     @Override
@@ -348,7 +349,7 @@ public class Diff {
      */
     protected Replace(final byte[] src, final int offset, final byte lengthSize) {
       super(src, offset, lengthSize);
-      this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8));
+      this.text = new String(Bytes.readBitsFromBytes(src, offset + lengthSize, length * 8L));
     }
 
     @Override

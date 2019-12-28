@@ -55,7 +55,6 @@ public class TransList<S,T> extends DelegateList<T> {
    * @throws NullPointerException If {@code source} is null.
    */
   public TransList(final List<S> source, final BiFunction<Integer,S,T> sourceToTarget, final BiFunction<Integer,T,S> targetToSource) {
-    super();
     super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
@@ -160,7 +159,7 @@ public class TransList<S,T> extends DelegateList<T> {
     for (int i = 0; i < size; ++i) {
       final S e = (S)target.get(i);
       final T t = sourceToTarget.apply(i, e);
-      if (o != null ? o.equals(t) : t == null) {
+      if (Objects.equals(o, t)) {
         target.remove(i);
         return true;
       }

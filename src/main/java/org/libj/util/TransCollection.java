@@ -53,7 +53,6 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
    * @throws NullPointerException If {@code source} is null.
    */
   public TransCollection(final Collection<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
-    super();
     super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;

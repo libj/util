@@ -33,14 +33,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * @param <E> The type of elements maintained by this set.
  */
 public class ConcurrentHashSet<E> extends HashSet<E> {
-  private static class ClonableConcurrentHashMap<K,V> extends ConcurrentHashMap<K,V> {
+  private static final class ClonableConcurrentHashMap<K,V> extends ConcurrentHashMap<K,V> {
     private static final long serialVersionUID = -3259218346584869178L;
 
-    public ClonableConcurrentHashMap(final int initialCapacity) {
+    private ClonableConcurrentHashMap(final int initialCapacity) {
       super(initialCapacity);
     }
 
-    public ClonableConcurrentHashMap() {
+    private ClonableConcurrentHashMap() {
       super();
     }
 

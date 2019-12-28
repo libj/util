@@ -31,12 +31,12 @@ public class SynchronizingExecutorServiceRegressionTest {
   private static final Logger logger = DeferredLogger.defer(LoggerFactory.getLogger(SynchronizingExecutorServiceRegressionTest.class), Level.DEBUG);
 
   private static final int threadRuntime = 500;
+  private static final int testConsumerThreads = 3000;
+  private static final int syncPeriod = 500;
 
-  private final int testConsumerThreads = 3000;
-  private volatile int testConsumerCounter = 0;
-  private volatile Integer testLastConsumerCountAllowed = null;
+  private volatile int testConsumerCounter;
+  private volatile Integer testLastConsumerCountAllowed;
   private long lastSync = System.currentTimeMillis();
-  private long syncPeriod = 500;
   private volatile long syncTs;
   private volatile long consumerTs;
 
@@ -109,10 +109,10 @@ public class SynchronizingExecutorServiceRegressionTest {
 
   private final AtomicInteger consumerCount = new AtomicInteger();
 
-  private class Consumer implements Runnable {
+  private final class Consumer implements Runnable {
     private final int id;
 
-    public Consumer(final int id) {
+    private Consumer(final int id) {
       this.id = id;
     }
 

@@ -60,7 +60,7 @@ public final class Repeat {
    * An abstract class defining the concept of an algorithm supported by the
    * {@link Repeat} methods.
    */
-  private static abstract class Algorithm {
+  private abstract static class Algorithm {
     /**
      * Default implementation of "simple" variation of abstract
      * {@link Algorithm}.
@@ -77,7 +77,7 @@ public final class Repeat {
      * @throws NullPointerException If {@code array} is not null, and
      *           {@code type} or {@code predicate} is null.
      */
-    protected <M,A>M[] simple(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
+    protected <M,A>M[] simple(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg) {
       if (array == null)
         return null;
 
@@ -98,9 +98,9 @@ public final class Repeat {
     /**
      * Abstract class defining common methods for recursive algorithms.
      */
-    private static abstract class RecursiveAlgorithm extends Algorithm {
+    private abstract static class RecursiveAlgorithm extends Algorithm {
       @Override
-      protected <M,A>M[] simple(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
+      protected <M,A>M[] simple(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg) {
         super.simple(array, type, predicate, arg);
         return recurse(array, type, predicate, arg, 0, 0);
       }
@@ -155,7 +155,7 @@ public final class Repeat {
        * @return The statically allocated array of type {@code <M>} with the
        *         resulting elements.
        */
-      protected abstract <M,A>M[] recurse(M[] array, Class<M> type, BiPredicate<M,A> predicate, A arg, int index, int depth);
+      protected abstract <M,A>M[] recurse(M[] array, Class<M> type, BiPredicate<? super M,A> predicate, A arg, int index, int depth);
 
       /**
        * The recursive algorithm that operates on the specified arguments.
@@ -189,7 +189,7 @@ public final class Repeat {
     private static final RecursiveAlgorithm recursiveOrdered = new RecursiveAlgorithm() {
       @Override
       @SuppressWarnings("unchecked")
-      protected <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg, int index, final int depth) {
+      protected <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg, int index, final int depth) {
         if (index >= array.length)
           return (M[])Array.newInstance(type, depth);
 
@@ -212,7 +212,7 @@ public final class Repeat {
         }
 
         M member;
-        boolean skip = true;
+        boolean skip;
         while ((skip = !recurser.test(member = array[index++], arg)) && index < array.length);
         final M[] result = recurse(container, array, type, recurser, arg, index, skip ? depth : depth + 1);
         if (!skip)
@@ -231,12 +231,12 @@ public final class Repeat {
     private static final RecursiveAlgorithm recursiveInverted = new RecursiveAlgorithm() {
       @Override
       @SuppressWarnings("unchecked")
-      protected <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg, int index, final int depth) {
+      protected <M,A>M[] recurse(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg, int index, final int depth) {
         if (index == array.length)
           return (M[])Array.newInstance(type, depth);
 
         M member;
-        boolean skip = true;
+        boolean skip;
         while ((skip = !predicate.test(member = array[array.length - ++index], arg)) && index < array.length);
         final M[] result = recurse(array, type, predicate, arg, index, skip ? depth : depth + 1);
         if (!skip)
@@ -254,7 +254,7 @@ public final class Repeat {
         }
 
         M member;
-        boolean skip = true;
+        boolean skip;
         while ((skip = !recurser.test(member = array[array.length - ++index], arg)) && index < array.length);
         final M[] result = recurse(container, array, type, recurser, arg, index, skip ? depth : depth + 1);
         if (!skip)
@@ -280,7 +280,7 @@ public final class Repeat {
      * @throws NullPointerException If {@code array} is not null, and
      *           {@code type} or {@code predicate} is null.
      */
-    public static <M,A>M[] ordered(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
+    public static <M,A>M[] ordered(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg) {
       return recursiveOrdered.simple(array, type, predicate, arg);
     }
 
@@ -326,7 +326,7 @@ public final class Repeat {
      * @throws NullPointerException If {@code array} is not null, and
      *           {@code type} or {@code predicate} is null.
      */
-    public static <M,A>M[] inverted(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
+    public static <M,A>M[] inverted(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg) {
       return recursiveInverted.simple(array, type, predicate, arg);
     }
 
@@ -367,7 +367,7 @@ public final class Repeat {
   private static final Algorithm iterative = new Algorithm() {
     @Override
     @SuppressWarnings("unchecked")
-    protected <M,A>M[] simple(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
+    protected <M,A>M[] simple(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg) {
       super.simple(array, type, predicate, arg);
       final List<M> list = new ArrayList<>(array.length);
       for (int i = 0; i < array.length; ++i)
@@ -394,7 +394,7 @@ public final class Repeat {
    * @throws NullPointerException If {@code array} is not null, and
    *           {@code type} or {@code predicate} is null.
    */
-  public static <M,A>M[] iterative(final M[] array, final Class<M> type, final BiPredicate<M,A> predicate, final A arg) {
+  public static <M,A>M[] iterative(final M[] array, final Class<M> type, final BiPredicate<? super M,A> predicate, final A arg) {
     return iterative.simple(array, type, predicate, arg);
   }
 

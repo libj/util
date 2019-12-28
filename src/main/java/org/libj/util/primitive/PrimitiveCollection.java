@@ -16,6 +16,8 @@
 
 package org.libj.util.primitive;
 
+import java.io.Serializable;
+
 /**
  * The root interface in the <i>primitive collection hierarchy</i>. A primitive
  * collection represents a group of primitive values, such as of types
@@ -37,7 +39,7 @@ package org.libj.util.primitive;
  * @see LongSet
  * @see HashLongSet
  */
-public interface PrimitiveCollection extends Cloneable {
+public interface PrimitiveCollection extends Cloneable, Serializable {
   /**
    * Removes all of the values from this collection. The collection will be
    * empty after this call returns.

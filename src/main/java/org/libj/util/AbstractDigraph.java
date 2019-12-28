@@ -16,7 +16,6 @@
 
 package org.libj.util;
 
-import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -26,6 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 
 import org.libj.util.primitive.ArrayIntList;
@@ -56,9 +56,7 @@ import org.libj.util.primitive.ArrayIntList;
  * @param <K> The type of keys maintained by this digraph.
  * @param <V> The type of mapped values.
  */
-abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Serializable {
-  private static final long serialVersionUID = -2609255900717369490L;
-
+abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   private final int initialCapacity;
   protected AbstractDigraph<K,V> transverse;
 
@@ -70,9 +68,9 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   protected ObservableMap<K,Integer> observableObjectToIndex;
   protected ArrayIntList inDegree;
 
-  protected volatile Object[][] flatAdj;
-  protected volatile ArrayList<K> cycle;
-  protected volatile ArrayList<K> reversePostOrder;
+  protected Object[][] flatAdj;
+  protected ArrayList<K> cycle;
+  protected ArrayList<K> reversePostOrder;
 
   /**
    * Creates an empty digraph with the specified initial capacity.
@@ -82,7 +80,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    *           negative.
    */
   @SuppressWarnings("unchecked")
-  public AbstractDigraph(final int initialCapacity) {
+  AbstractDigraph(final int initialCapacity) {
     if (initialCapacity < 0)
       throw new IllegalArgumentException("Initial Capacity cannot be negative: " + initialCapacity);
 
@@ -109,7 +107,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
   /**
    * Creates an empty digraph with an initial capacity of ten.
    */
-  public AbstractDigraph() {
+  AbstractDigraph() {
     this(10);
   }
 
@@ -323,7 +321,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    *         edges exist at {@code v} and {@code makeNew == false}.
    */
   private Set<V> getEdgesAtIndex(final int v, final boolean makeNew) {
-    Set<V> edges = getAdjEdges().get(v);
+    final Set<V> edges = getAdjEdges().get(v);
     if (edges != null)
       return edges;
 
@@ -370,7 +368,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
       return edges;
     }
 
-    Set<V> edges = getEdgesAtIndex(v, withObserver);
+    final Set<V> edges = getEdgesAtIndex(v, withObserver);
     if (!withObserver)
       return edges;
 
@@ -458,7 +456,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     if (edges == null)
       return false;
 
-    for (int i : indexToObject.keySet()) {
+    for (final int i : indexToObject.keySet()) {
       final Set<V> set = getEdgesAtIndex(i, false);
       if (edges.equals(set))
         return true;
@@ -715,7 +713,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * @param reversePostOrder List of vertices filled in reverse post order.
    * @return A cycle list, if one was found.
    */
-  private ArrayList<K> dfs(final List<K> reversePostOrder) {
+  private ArrayList<K> dfs(final List<? super K> reversePostOrder) {
     final int size = adj.size();
     final BitSet marked = new BitSet(size);
     final BitSet onStack = new BitSet(size);
@@ -747,7 +745,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
    * @param v The index of the vertex.
    * @return A cycle list, if one was found.
    */
-  private ArrayList<K> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<K> reversePostOrder, final int v) {
+  private ArrayList<K> dfs(final BitSet marked, final BitSet onStack, final int[] edgeTo, final List<? super K> reversePostOrder, final int v) {
     onStack.set(v);
     marked.set(v);
     final LinkedHashSet<Integer> ws = adj.get(v);
@@ -884,7 +882,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     for (final Object key : objectToIndex.keySet()) {
       final Set<V> edges = get(key, null);
       final Set<V> thatEdges = that.get(key, null);
-      if (edges.size() != thatEdges.size() || !edges.containsAll(thatEdges))
+      if (edges != null ? edges.size() != thatEdges.size() || !edges.containsAll(thatEdges) : thatEdges != null)
         return false;
     }
 
@@ -905,7 +903,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable, Seriali
     final Set<Object> keys = objectToIndex.keySet();
     int hashCode = keys.hashCode();
     for (final Object key : keys)
-      hashCode = 31 * hashCode + get(key, null).hashCode();
+      hashCode = 31 * hashCode + Objects.hashCode(get(key, null));
 
     return hashCode;
   }

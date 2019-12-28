@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +39,8 @@ import org.libj.util.primitive.PrimitiveSort;
 import org.libj.util.primitive.ShortComparator;
 
 /**
- * Utility functions for operations pertaining to {@link Collection} and {@link List}.
+ * Utility functions for operations pertaining to {@link Collection} and
+ * {@link List}.
  */
 public final class CollectionUtil extends PrimitiveSort {
   /**
@@ -109,7 +111,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code in} or {@code out} is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final Function<T,Collection<T>> resolver, final boolean retainCollectionReferences) {
+  public static <C extends Collection<T>,T>C flatten(final Collection<? extends T> in, final C out, final Function<T,? extends Collection<T>> resolver, final boolean retainCollectionReferences) {
     for (final T member : in) {
       final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
       if (inner != null) {
@@ -187,8 +189,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified list.
    * @throws NullPointerException If {@code list} is null.
    */
-  @SuppressWarnings({"unchecked"})
-  public static <L extends List<T>,T>L flatten(final L list, final Function<T,List<T>> resolver, final boolean retainListReferences) {
+  @SuppressWarnings("unchecked")
+  public static <L extends List<T>,T>L flatten(final L list, final Function<T,? extends List<T>> resolver, final boolean retainListReferences) {
     final ListIterator<T> iterator = list.listIterator();
     int i = 0;
     while (iterator.hasNext()) {
@@ -254,8 +256,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param c The collection.
    * @param type The class.
    * @return {@code true} if the specified class is instance-assignable for each
-   *         member object of the specified collection, otherwise
-   *         {@code false}.
+   *         member object of the specified collection, otherwise {@code false}.
    * @throws NullPointerException If {@code c} or {@code type} is null.
    */
   public static boolean isComponentType(final Collection<?> c, final Class<?> type) {
@@ -358,7 +359,7 @@ public final class CollectionUtil extends PrimitiveSort {
    *           {@code toIndex > a.length}
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
+  public static <T extends Comparable<? super T>>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key);
   }
@@ -388,7 +389,7 @@ public final class CollectionUtil extends PrimitiveSort {
    *           elements of the array.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binarySearch(final List<T> a, final T key) {
+  public static <T extends Comparable<? super T>>int binarySearch(final List<? extends T> a, final T key) {
     return binarySearch0(a, 0, a.size(), key);
   }
 
@@ -426,7 +427,7 @@ public final class CollectionUtil extends PrimitiveSort {
    *           {@code toIndex > a.length}
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binarySearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+  public static <T>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, c);
   }
@@ -458,17 +459,17 @@ public final class CollectionUtil extends PrimitiveSort {
    *           this comparator.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binarySearch(final List<T> a, final T key, final Comparator<? super T> c) {
+  public static <T>int binarySearch(final List<? extends T> a, final T key, final Comparator<? super T> c) {
     return binarySearch0(a, 0, a.size(), key, c);
   }
 
-  private static <T extends Comparable<? super T>>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key) {
+  private static <T extends Comparable<? super T>>int binarySearch0(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
-      int mid = (low + high) >>> 1;
+      final int mid = (low + high) >>> 1;
       final Comparable<? super T> midVal = a.get(mid);
-      int cmp = midVal.compareTo(key);
+      final int cmp = midVal.compareTo(key);
 
       if (cmp < 0)
         low = mid + 1;
@@ -481,13 +482,13 @@ public final class CollectionUtil extends PrimitiveSort {
     return -(low + 1);
   }
 
-  private static <T>int binarySearch0(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+  private static <T>int binarySearch0(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
-      int mid = (low + high) >>> 1;
-      T midVal = a.get(mid);
-      int cmp = c.compare(midVal, key);
+      final int mid = (low + high) >>> 1;
+      final T midVal = a.get(mid);
+      final int cmp = c.compare(midVal, key);
       if (cmp < 0)
         low = mid + 1;
       else if (cmp > 0)
@@ -510,7 +511,7 @@ public final class CollectionUtil extends PrimitiveSort {
    *         value.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final T key) {
+  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<? extends T> a, final T key) {
     return binaryClosestSearch0(a, 0, a.size(), key);
   }
 
@@ -520,14 +521,15 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted {@link List}.
-   * @param fromIndex The starting index of the sorted {@link List} to search from.
+   * @param fromIndex The starting index of the sorted {@link List} to search
+   *          from.
    * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<T> a, final int fromIndex, final int toIndex, final T key) {
+  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
@@ -539,13 +541,12 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
    * @param key The value to match.
-   * @param c The {@link Comparator} for {@code key} of type
-   *          {@code <T>}.
+   * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binaryClosestSearch(final List<T> a, final T key, final Comparator<T> c) {
+  public static <T>int binaryClosestSearch(final List<? extends T> a, final T key, final Comparator<? super T> c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -555,21 +556,21 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
-   * @param fromIndex The starting index of the sorted {@link List} to search from.
+   * @param fromIndex The starting index of the sorted {@link List} to search
+   *          from.
    * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
-   * @param c The {@link Comparator} for {@code key} of type
-   *          {@code <T>}.
+   * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binaryClosestSearch(final List<T> a, final int fromIndex, final int toIndex, final T key, final Comparator<T> c) {
+  public static <T>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
-  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<T> a, int from, int to, final T key) {
+  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<? extends T> a, int from, int to, final T key) {
     for (int mid; from < to;) {
       mid = (from + to) / 2;
       final int comparison = key.compareTo(a.get(mid));
@@ -584,7 +585,7 @@ public final class CollectionUtil extends PrimitiveSort {
     return (from + to) / 2;
   }
 
-  private static <T>int binaryClosestSearch0(final List<T> a, int from, int to, final T key, final Comparator<T> comparator) {
+  private static <T>int binaryClosestSearch0(final List<? extends T> a, int from, int to, final T key, final Comparator<? super T> comparator) {
     for (int mid; from < to;) {
       mid = (from + to) / 2;
       final int comparison = comparator.compare(key, a.get(mid));
@@ -788,9 +789,9 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param key The value to match.
-   * @return The closest index of the sorted {@link ArrayFloatList} matching
-   *         the desired value. The returned index will be less than or equal to
-   *         an exact match.
+   * @return The closest index of the sorted {@link ArrayFloatList} matching the
+   *         desired value. The returned index will be less than or equal to an
+   *         exact match.
    * @throws NullPointerException If the specified {@link ArrayFloatList} is
    *           null.
    */
@@ -806,9 +807,9 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param a The sorted {@link ArrayFloatList}.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayFloatList} matching
-   *         the desired value. The returned index will be less than or equal to
-   *         an exact match.
+   * @return The closest index of the sorted {@link ArrayFloatList} matching the
+   *         desired value. The returned index will be less than or equal to an
+   *         exact match.
    * @throws NullPointerException If the specified {@link ArrayFloatList} is
    *           null.
    */
@@ -822,10 +823,9 @@ public final class CollectionUtil extends PrimitiveSort {
    * equal to an exact match.
    *
    * @param a The sorted {@link ArrayFloatList}.
-   * @param fromIndex The starting index of the {@link ArrayFloatList} to
-   *          search from.
-   * @param toIndex The ending index of the {@link ArrayFloatList} to search
-   *          to.
+   * @param fromIndex The starting index of the {@link ArrayFloatList} to search
+   *          from.
+   * @param toIndex The ending index of the {@link ArrayFloatList} to search to.
    * @param key The value to match.
    * @return The closest index of the {@link ArrayFloatList} matching the
    *         desired value. The returned index will be less than or equal to an
@@ -844,10 +844,9 @@ public final class CollectionUtil extends PrimitiveSort {
    * equal to an exact match.
    *
    * @param a The sorted {@link ArrayFloatList}.
-   * @param fromIndex The starting index of the {@link ArrayFloatList} to
-   *          search from.
-   * @param toIndex The ending index of the {@link ArrayFloatList} to search
-   *          to.
+   * @param fromIndex The starting index of the {@link ArrayFloatList} to search
+   *          from.
+   * @param toIndex The ending index of the {@link ArrayFloatList} to search to.
    * @param key The value to match.
    * @param c The comparator to use.
    * @return The closest index of the {@link ArrayFloatList} matching the
@@ -1004,9 +1003,7 @@ public final class CollectionUtil extends PrimitiveSort {
   @SafeVarargs
   public static <C extends Collection<T>,T>C asCollection(final C c, final T a0, final T ... an) {
     c.add(a0);
-    for (int i = 0; i < an.length; ++i)
-      c.add(an[i]);
-
+    Collections.addAll(c, an);
     return c;
   }
 
@@ -1151,12 +1148,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Objects.requireNonNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order[o1], order[o2]);
-      }
-    });
+    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1217,12 +1209,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Objects.requireNonNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order[o1], order[o2]);
-      }
-    });
+    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1283,12 +1270,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Objects.requireNonNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order[o1], order[o2]);
-      }
-    });
+    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1349,12 +1331,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Objects.requireNonNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order[o1], order[o2]);
-      }
-    });
+    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1415,12 +1392,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Objects.requireNonNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order[o1], order[o2]);
-      }
-    });
+    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1481,12 +1453,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Objects.requireNonNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order[o1], order[o2]);
-      }
-    });
+    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1547,12 +1514,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Objects.requireNonNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order[o1], order[o2]);
-      }
-    });
+    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1582,18 +1544,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.size()}.
    */
   public static <T extends Comparable<? super T>>void sort(final List<?> data, final List<T> order) {
-    sort(data, order, new Comparator<T>() {
-      @Override
-      public int compare(final T o1, final T o2) {
-        if (o1 == null)
-          return o2 == null ? 0 : -1;
-
-        if (o2 == null)
-          return 1;
-
-        return o1.compareTo(o2);
-      }
-    });
+    sort(data, order, (o1, o2) -> o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2));
   }
 
   /**
@@ -1624,16 +1575,11 @@ public final class CollectionUtil extends PrimitiveSort {
    *           {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.size()}.
    */
-  public static <T>void sort(final List<?> data, final List<T> order, final Comparator<T> comparator) {
+  public static <T>void sort(final List<?> data, final List<? extends T> order, final Comparator<? super T> comparator) {
     if (data.size() != order.size())
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
 
-    sortIndexed(data, buildIndex(order.size()), new IntComparator() {
-      @Override
-      public int compare(final int o1, final int o2) {
-        return comparator.compare(order.get(o1), order.get(o2));
-      }
-    });
+    sortIndexed(data, buildIndex(order.size()), (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
   }
 
   private CollectionUtil() {

@@ -85,7 +85,7 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
       if (obj == null || !isIterable(obj))
         return hasNext = true;
 
-      stack.add(current = (T)obj);
+      stack.add((T)obj);
       indices.add(i = 0);
     }
   }

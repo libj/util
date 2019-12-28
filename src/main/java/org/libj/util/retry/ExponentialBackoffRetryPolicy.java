@@ -66,6 +66,6 @@ public class ExponentialBackoffRetryPolicy extends RetryPolicy {
 
   @Override
   public int getDelayMs(final int attemptNo) {
-    return Math.min(attemptNo == 1 && noDelayOnFirstRetry ? 0 : (int)(delayMs * Math.pow(backoffFactor, attemptNo - 1)), maxDelayMs);
+    return Math.min(attemptNo == 1 && noDelayOnFirstRetry ? 0 : (int)(delayMs * StrictMath.pow(backoffFactor, attemptNo - 1)), maxDelayMs);
   }
 }

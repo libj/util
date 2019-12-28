@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.libj.util.CollectionUtil;
 
-@SuppressWarnings("cast")
+@SuppressWarnings("all")
 public class Array<X>ListTest extends PrimitiveCollectionTest {
   @Test
   public void testModCound() {

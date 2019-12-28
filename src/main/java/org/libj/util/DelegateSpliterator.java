@@ -86,10 +86,10 @@ public abstract class DelegateSpliterator<T> implements Spliterator<T> {
       return true;
 
     if (!(obj instanceof DelegateSpliterator))
-      return target == null ? obj == null : target.equals(obj);
+      return Objects.equals(target, obj);
 
     final DelegateSpliterator<?> that = (DelegateSpliterator<?>)obj;
-    return target == null ? that.target == null : target.equals(that.target);
+    return Objects.equals(target, that.target);
   }
 
   @Override

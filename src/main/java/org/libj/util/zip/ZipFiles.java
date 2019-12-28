@@ -53,7 +53,7 @@ public final class ZipFiles {
    * @throws NullPointerException If {@code zipFile} or {@code destDir} is
    *           null.
    */
-  public static void extract(final ZipFile zipFile, final File destDir, final Predicate<ZipEntry> predicate) throws IOException {
+  public static void extract(final ZipFile zipFile, final File destDir, final Predicate<? super ZipEntry> predicate) throws IOException {
     final Enumeration<? extends ZipEntry> entries = zipFile.entries();
     while (entries.hasMoreElements()) {
       final ZipEntry zipEntry = entries.nextElement();

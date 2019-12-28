@@ -53,7 +53,7 @@ public interface ThrowingPredicate<T> extends Predicate<T> {
    *         {@code false}.
    */
   @Override
-  default boolean test(T t) {
+  default boolean test(final T t) {
     try {
       return testThrows(t);
     }

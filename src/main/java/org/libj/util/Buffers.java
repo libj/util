@@ -263,7 +263,7 @@ public final class Buffers {
       buf = resized;
     }
 
-    buf[i] |= 1l << (bit % Long.SIZE);
+    buf[i] |= 1L << (bit % Long.SIZE);
     return buf;
   }
 
@@ -358,7 +358,7 @@ public final class Buffers {
     if (i >= buf.length)
       return buf;
 
-    buf[bit / Long.SIZE] &= ~(1l << (bit % Long.SIZE));
+    buf[bit / Long.SIZE] &= ~(1L << (bit % Long.SIZE));
     return buf;
   }
 

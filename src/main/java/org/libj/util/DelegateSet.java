@@ -238,10 +238,10 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
       return true;
 
     if (!(obj instanceof DelegateSet))
-      return target == null ? obj == null : target.equals(obj);
+      return Objects.equals(target, obj);
 
     final DelegateSet<?> that = (DelegateSet<?>)obj;
-    return target == null ? that.target == null : target.equals(that.target);
+    return Objects.equals(target, that.target);
   }
 
   @Override

@@ -106,7 +106,7 @@ public class DigraphTest {
     }
   }
 
-  private static boolean addEdges(final Digraph<String> digraph, final String key, final Set<String> edges, final boolean forward) {
+  private static boolean addEdges(final Digraph<? super String> digraph, final String key, final Set<String> edges, final boolean forward) {
     if (edges == null || edges.size() == 0)
       return digraph.add(key);
 

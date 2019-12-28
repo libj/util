@@ -22,7 +22,8 @@ import java.util.Arrays;
  * Encodes and decodes Hexadecimal.
  */
 public class Hexadecimal extends DataEncoding<byte[],String> {
-  private static char[] hexChar = {
+  private static final long serialVersionUID = -8974679223643455922L;
+  private static final char[] hexChar = {
     '0', '1', '2', '3',
     '4', '5', '6', '7',
     '8', '9', 'a', 'b',
@@ -47,6 +48,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
    *
    * @param bytes The bytes to encode.
    * @return The hex encoding of the provided {@code bytes} array.
+   * @throws NullPointerException If {@code bytes} is null.
    */
   public static String encode(final byte[] bytes) {
     return encode(bytes, 0, bytes.length);
@@ -59,6 +61,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
    * @param offset The initial offset.
    * @param len The length.
    * @return The hexadecimal encoding of the provided {@code bytes} array.
+   * @throws NullPointerException If {@code bytes} is null.
    */
   public static String encode(final byte[] bytes, final int offset, final int len) {
     final StringBuilder builder = new StringBuilder(len * 2);
@@ -70,7 +73,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
     return builder.toString();
   }
 
-  private static void decode0(final String hex, byte[] bytes, final int offset) {
+  private static void decode0(final String hex, final byte[] bytes, final int offset) {
     for (int i = 0, j = offset; i < hex.length(); i += 2, ++j) {
       final int high = charToNibble(hex.charAt(i));
       final int low = charToNibble(hex.charAt(i + 1));
@@ -87,8 +90,9 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
    * @throws ArrayIndexOutOfBoundsException If the size of {@code bytes} is not
    *           big enough, or if {@code offset} causes the index to go out of
    *           bounds.
+   * @throws NullPointerException If {@code hex} or {@code bytes} is null.
    */
-  public static void decode(final String hex, byte[] bytes, final int offset) {
+  public static void decode(final String hex, final byte[] bytes, final int offset) {
     final int length = hex.length();
     if (length == 0)
       return;
@@ -104,6 +108,7 @@ public class Hexadecimal extends DataEncoding<byte[],String> {
    *
    * @param hex The hex string.
    * @return A {@code new byte[]} of the decoded {@code hex} string.
+   * @throws NullPointerException If {@code hex} is null.
    */
   public static byte[] decode(final String hex) {
     final int length = hex.length();

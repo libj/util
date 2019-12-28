@@ -47,7 +47,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
    *          ordering} of the keys will be used.
    */
   public TreeBiMap(final Comparator<? super K> keyComparator, final Comparator<? super V> valueComparator) {
-    super(new TreeMap<K,V>(keyComparator), new TreeMap<V,K>(valueComparator));
+    super(new TreeMap<>(keyComparator), new TreeMap<>(valueComparator));
   }
 
   /**
@@ -79,10 +79,11 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   /**
-   * Constructs an empty {@link TreeBiMap}.
+   * Constructs an empty {@link TreeBiMap}, using the natural ordering of its
+   * keys.
    */
   public TreeBiMap() {
-    super(new TreeMap<K,V>(), new TreeMap<V,K>());
+    super(new TreeMap<>(), new TreeMap<>());
   }
 
   /**

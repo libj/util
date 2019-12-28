@@ -59,16 +59,21 @@ public final class Dates {
   /** Number of milliseconds in a week. */
   public static final int MILLISECONDS_IN_WEEK = MILLISECONDS_IN_SECOND * SECONDS_IN_WEEK;
 
-  private static class IsoDate extends Date {
+  private static final class IsoDate extends Date {
     private static final long serialVersionUID = -3516661689900839721L;
 
-    protected IsoDate(final long time) {
+    private IsoDate(final long time) {
       super(time);
     }
 
     @Override
     public String toString() {
       return DateTimeFormatter.ISO_INSTANT.format(toInstant());
+    }
+
+    @Override
+    public IsoDate clone() {
+      return (IsoDate)super.clone();
     }
   }
 

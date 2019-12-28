@@ -238,10 +238,10 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
       return true;
 
     if (!(obj instanceof DelegateCollection))
-      return target == null ? obj == null : target.equals(obj);
+      return Objects.equals(target, obj);
 
     final DelegateCollection<?> that = (DelegateCollection<?>)obj;
-    return target == null ? that.target == null : target.equals(that.target);
+    return Objects.equals(target, that.target);
   }
 
   @Override

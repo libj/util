@@ -28,7 +28,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.libj.util.CollectionUtil;
 
-@SuppressWarnings("cast")
+@SuppressWarnings("all")
 public class Hash<X>SetTest extends PrimitiveCollectionTest {
   private static final int INITIAL_CAPACITY = 64;
 
