@@ -679,7 +679,7 @@ public final class Bytes {
    * bit to least significant bit. This method returns the value of the read
    * byte as shifted to fill the least significant bits first, allowing the
    * front of the byte to encode a value as if the bits were in the tail of the
-   * byte. Java uses big-engian encoding, placing the most significant bits at
+   * byte. Java uses big-endian encoding, placing the most significant bits at
    * the front of the byte.
    *
    * @param src The source byte array.
@@ -702,7 +702,7 @@ public final class Bytes {
    * bit to least significant bit. This method returns the value of the read
    * byte as shifted to fill the least significant bits first, allowing the
    * front of the byte to encode a value as if the bits were in the tail of the
-   * byte. Java uses big-engian encoding, placing the most significant bits at
+   * byte. Java uses big-endian encoding, placing the most significant bits at
    * the front of the byte.
    *
    * @param src The source byte array.

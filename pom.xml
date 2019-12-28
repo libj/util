@@ -38,7 +38,7 @@
         <version>0.2.5-SNAPSHOT</version>
         <executions>
           <execution>
-            <id>primtive-sources</id>
+            <id>primitive-sources</id>
             <goals>
               <goal>template</goal>
             </goals>
@@ -103,7 +103,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>primitivesort-sources</id>
+            <id>primitive-sort-sources</id>
             <goals>
               <goal>template</goal>
             </goals>
@@ -116,7 +116,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>pairedsort-sources</id>
+            <id>paired-sort-sources</id>
             <goals>
               <goal>template</goal>
             </goals>

@@ -33,14 +33,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * @param <E> The type of elements maintained by this set.
  */
 public class ConcurrentHashSet<E> extends HashSet<E> {
-  private static final class ClonableConcurrentHashMap<K,V> extends ConcurrentHashMap<K,V> {
+  private static final class CloneableConcurrentHashMap<K,V> extends ConcurrentHashMap<K,V> {
     private static final long serialVersionUID = -3259218346584869178L;
 
-    private ClonableConcurrentHashMap(final int initialCapacity) {
+    private CloneableConcurrentHashMap(final int initialCapacity) {
       super(initialCapacity);
     }
 
-    private ClonableConcurrentHashMap() {
+    private CloneableConcurrentHashMap() {
       super();
     }
 
@@ -64,7 +64,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    */
   private static final int DEFAULT_CAPACITY = 16;
 
-  private transient ClonableConcurrentHashMap<E,Object> map;
+  private transient CloneableConcurrentHashMap<E,Object> map;
 
   // Dummy value to associate with an Object in the backing Map
   private static final Object PRESENT = new Object();
@@ -74,7 +74,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    * has default expected maximum size (16).
    */
   public ConcurrentHashSet() {
-    map = new ClonableConcurrentHashMap<>();
+    map = new CloneableConcurrentHashMap<>();
   }
 
   /**
@@ -87,7 +87,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    * @throws NullPointerException If the specified collection is null.
    */
   public ConcurrentHashSet(final Collection<? extends E> c) {
-    map = new ClonableConcurrentHashMap<>(DEFAULT_CAPACITY);
+    map = new CloneableConcurrentHashMap<>(DEFAULT_CAPACITY);
     addAll(c);
   }
 
@@ -99,7 +99,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    * @throws IllegalArgumentException If the initial capacity is less than zero.
    */
   public ConcurrentHashSet(final int initialCapacity) {
-    map = new ClonableConcurrentHashMap<>(initialCapacity);
+    map = new CloneableConcurrentHashMap<>(initialCapacity);
   }
 
   @Override
@@ -154,7 +154,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   @SuppressWarnings("unchecked")
   public ConcurrentHashSet<E> clone() {
     final ConcurrentHashSet<E> newSet = (ConcurrentHashSet<E>)super.clone();
-    newSet.map = (ClonableConcurrentHashMap<E,Object>)map.clone();
+    newSet.map = (CloneableConcurrentHashMap<E,Object>)map.clone();
     return newSet;
   }
 
@@ -208,7 +208,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
       throw new InvalidObjectException("Illegal size: " + size);
 
     // Create backing ConcurrentHashMap
-    map = new ClonableConcurrentHashMap<>(Math.max((int)(capacity / .75f) + 1, 16));
+    map = new CloneableConcurrentHashMap<>(Math.max((int)(capacity / .75f) + 1, 16));
 
     // Read in all elements in the proper order.
     for (int i = 0; i < size; ++i) {

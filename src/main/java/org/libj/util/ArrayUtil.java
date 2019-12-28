@@ -1101,23 +1101,23 @@ public final class ArrayUtil extends PrimitiveSort {
    * is recursive.
    *
    * @param <T> Type parameter of object.
-   * @param precicate The {@link Predicate} that defines the filter.
+   * @param predicate The {@link Predicate} that defines the filter.
    * @param array The array whose members are to be filtered.
    * @return A new array instance with members that pass the filter.
    * @throws NullPointerException If {@code predicate} or {@code array} is null.
    */
   @SafeVarargs
-  public static <T>T[] filter(final Predicate<? super T> precicate, final T ... array) {
-    return filter0(precicate, 0, 0, array);
+  public static <T>T[] filter(final Predicate<? super T> predicate, final T ... array) {
+    return filter0(predicate, 0, 0, array);
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>T[] filter0(final Predicate<? super T> precicate, final int index, final int depth, final T ... array) {
+  private static <T>T[] filter0(final Predicate<? super T> predicate, final int index, final int depth, final T ... array) {
     if (index == array.length)
       return (T[])Array.newInstance(array.getClass().getComponentType(), depth);
 
-    final boolean accept = precicate.test(array[index]);
-    final T[] filtered = filter0(precicate, index + 1, accept ? depth + 1 : depth, array);
+    final boolean accept = predicate.test(array[index]);
+    final T[] filtered = filter0(predicate, index + 1, accept ? depth + 1 : depth, array);
     if (accept)
       filtered[depth] = array[index];
 
