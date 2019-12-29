@@ -26,7 +26,7 @@ import org.libj.lang.Strings;
  * objects representing either system paths (UNIX or Windows), or file URL paths
  * (resembling {@code file:/...}).
  */
-public final class Paths {
+public final class StringPaths {
   // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch08s18.html
   private static final Pattern windowsPath = Pattern.compile("^(?:(?:[a-zA-Z]:|\\\\\\\\[a-z0-9_.$●-]+\\\\+[a-z0-9_.$●-]+)\\\\+|\\\\[^\\\\/:*?\"<>|\r\n]+\\\\?)(?:[^\\\\/:*?\"<>|\r\n]+\\\\+)*[^\\\\/:*?\"<>|\r\n]*$");
 
@@ -36,6 +36,30 @@ public final class Paths {
   private static final Pattern urlPath = Pattern.compile("^(jar:)?file:(//(?:(?<ip>[0-9]{1,3}(\\.[0-9]{1,3}){3})|(?<host>[-0-9a-z\u00A0-\uFFFD]{1,63}(\\.[-0-9a-z\u00A0-\uFFFD]{1,63})*))?)?(?<path>/(%[0-9a-f][0-9a-f]|[-._!$&'()*+,:;=@~0-9a-zA-Z\u00A0-\uFFFD/?#])*)$");
 
   private static final Pattern absolute = Pattern.compile("^([a-zA-Z0-9]+:)?//.*$");
+
+  private static final String localhost = "localhost";
+
+  private static final char[] windowsPrefix = {'\\', '\\'};
+
+  private static boolean isLocalProtocol(final String path, final String prefix) {
+    if (!path.startsWith(prefix))
+      return false;
+
+    int len = prefix.length();
+    if (path.length() <= len)
+      return false;
+
+    if (path.charAt(len) != '/')
+      return true;
+
+    if (path.length() <= ++len)
+      return false;
+
+    if (path.charAt(len) == '/')
+      return true;
+
+    return path.regionMatches(len, localhost, 0, localhost.length()) && path.charAt(len + localhost.length()) == '/';
+  }
 
   /**
    * Tests whether the specified string is an URL that represents an absolute
@@ -54,15 +78,10 @@ public final class Paths {
    * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalURL(final String path) {
-    final int i = path.startsWith("file:/") ? 6 : path.startsWith("jar:file:/") ? 10 : -1;
-    if (i == -1)
+    if (!isLocalProtocol(path, "file:/") && (!isLocalProtocol(path, "jar:file:/") || !path.contains("!/")))
       return false;
 
-    final int len = path.length();
-    if ((len <= i || path.charAt(i) == '/') && (len <= (i + 1) || path.charAt(i + 1) != '/') && (len < (i + 11) || !"localhost/".equals(path.substring(i + 1, i + 11))))
-      return false;
-
-    return urlPath.matcher(path).matches() && (i != 10 || path.contains("!/"));
+    return urlPath.matcher(path).matches();
   }
 
   /**
@@ -126,9 +145,11 @@ public final class Paths {
    * <p>
    * For a string to be considered an absolute local file path, it must:
    * <ol>
-   * <li>Match a local file URL: {@link Paths#isAbsoluteLocalURL(String)}</li>
-   * <li>Match a Windows path: {@link Paths#isAbsoluteLocalWindows(String)}</li>
-   * <li>Match a UNIX path: {@link Paths#isAbsoluteLocalUnix(String)}</li>
+   * <li>Match a local file URL:
+   * {@link StringPaths#isAbsoluteLocalURL(String)}</li>
+   * <li>Match a Windows path:
+   * {@link StringPaths#isAbsoluteLocalWindows(String)}</li>
+   * <li>Match a UNIX path: {@link StringPaths#isAbsoluteLocalUnix(String)}</li>
    * </ol>
    *
    * @param path The path to test.
@@ -215,8 +236,8 @@ public final class Paths {
    * @param child The child pathname string.
    * @return A path string from a parent pathname string and a child pathname
    *         string.
-   * @throws NullPointerException If {@code child} is null.
-   * @see Paths#isAbsoluteLocalWindows(String)
+   * @throws NullPointerException If @{@code parent} or {@code child} is null.
+   * @see StringPaths#isAbsoluteLocalWindows(String)
    */
   public static String newPath(final String parent, final String child) {
     if (child.length() == 0)
@@ -225,22 +246,18 @@ public final class Paths {
     if (parent == null || parent.length() == 0)
       return child;
 
-    final char parentN = parent.charAt(parent.length() - 1);
-    final char child0 = child.charAt(0);
-    if (parentN == '/' || parentN == '\\')
-      return parentN == child0 ? parent + child.substring(1) : parent + child;
-
-    if (child0 == '/' || child0 == '\\')
-      return parent + child;
-
     final char sep = isAbsoluteLocalWindows(parent) ? '\\' : '/';
-    return parent + sep + child;
+    final int index = parent.lastIndexOf(sep);
+    if (index == -1)
+      return child;
+
+    return parent.substring(0, child.charAt(0) != sep ? index + 1 : index) + child;
   }
 
   /**
    * Returns the canonical form of the specified path, where {@code ".."} and
-   * {@code "."} path names are dereferenced, and redundant {@code '/'} path
-   * separators are removed.
+   * {@code "."} path names are dereferenced, and redundant {@code '/'} (or
+   * {@code '\'} for Windows) path separators are removed.
    * <p>
    * This implementation differs from {@link File#getCanonicalPath()} by only
    * canonicalizing the superficial form of the specified path. This
@@ -250,7 +267,7 @@ public final class Paths {
    * @param path The path to canonicalize.
    * @return The canonical form of the specified path, where {@code ".."} and
    *         {@code "."} path names are dereferenced, and redundant {@code '/'}
-   *         path separators are removed.
+   *         (or {@code '\'} for Windows) path separators are removed.
    * @throws NullPointerException If {@code path} is null.
    */
   public static String canonicalize(final String path) {
@@ -277,8 +294,6 @@ public final class Paths {
     return canonicalize(path, isAbsoluteLocalWindows(path.toString()));
   }
 
-  private static final char[] windowsPrefix = {'\\', '\\'};
-
   private static StringBuilder canonicalize(final StringBuilder path, final boolean isWindows) {
     final int p = path.indexOf("://");
     final char[] prefix;
@@ -295,7 +310,9 @@ public final class Paths {
       path.delete(0, 2);
     }
     else if (path.charAt(1) == ':') {
-      prefix = new char[] {Character.toLowerCase(path.charAt(0)), ':'};
+      prefix = new char[] {
+        Character.toLowerCase(path.charAt(0)), ':'
+      };
       path.delete(0, 2);
     }
     else {
@@ -343,8 +360,9 @@ public final class Paths {
    * @throws NullPointerException If {@code path} is null.
    */
   public static String getParent(final String path) {
-    final int end = path.charAt(path.length() - 1) == '/' ? path.lastIndexOf('/', path.length() - 2) : path.lastIndexOf('/');
-    return end == -1 || path.charAt(end) == ':' ? null : path.substring(0, end + 1);
+    final int offset = path.length() - 1;
+    final int index = path.charAt(offset) == '/' ? path.lastIndexOf('/', offset - 1) : path.lastIndexOf('/', offset);
+    return index == -1 || path.charAt(index) == ':' ? null : path.substring(0, index + 1);
   }
 
   /**
@@ -361,13 +379,14 @@ public final class Paths {
   public static String getCanonicalParent(final String path) {
     final StringBuilder builder = canonicalize(new StringBuilder(path));
     final int index = builder.lastIndexOf("/");
-    return index < 0 ? null : builder.substring(0, index);
+    return index < 0 ? null : builder.substring(0, index + 1);
   }
 
   private static String getName0(final String path) {
-    final boolean end = path.charAt(path.length() - 1) == '/';
-    final int start = end ? path.lastIndexOf('/', path.length() - 2) : path.lastIndexOf('/');
-    return start == -1 ? (end ? path.substring(0, path.length() - 1) : path) : end ? path.substring(start + 1, path.length() - 1) : path.substring(start + 1);
+    final int offset = path.length() - 1;
+    final boolean end = path.charAt(offset) == '/';
+    final int start = end ? path.lastIndexOf('/', offset - 1) : path.lastIndexOf('/', offset);
+    return start == -1 ? (end ? path.substring(0, offset) : path) : end ? path.substring(start + 1, offset) : path.substring(start + 1);
   }
 
   /**
@@ -412,6 +431,6 @@ public final class Paths {
     return index == -1 ? path : path.substring(0, index);
   }
 
-  private Paths() {
+  private StringPaths() {
   }
 }

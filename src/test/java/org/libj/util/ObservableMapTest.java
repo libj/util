@@ -72,6 +72,7 @@ public class ObservableMapTest {
       }
 
       @Override
+      @SuppressWarnings("all")
       protected boolean beforeRemove(final Object key, final String value) {
         assertEquals(expectedKey, key);
         assertEquals(expectedValue, value);
@@ -80,6 +81,7 @@ public class ObservableMapTest {
       }
 
       @Override
+      @SuppressWarnings("all")
       protected void afterRemove(final Object key, final String value, final RuntimeException e) {
         assertEquals(expectedKey, key);
         assertEquals(expectedValue, value);

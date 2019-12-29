@@ -882,7 +882,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
     for (final Object key : objectToIndex.keySet()) {
       final Set<V> edges = get(key, null);
       final Set<V> thatEdges = that.get(key, null);
-      if (edges != null ? edges.size() != thatEdges.size() || !edges.containsAll(thatEdges) : thatEdges != null)
+      if (edges != null ? thatEdges == null || edges.size() != thatEdges.size() || !edges.containsAll(thatEdges) : thatEdges != null)
         return false;
     }
 
