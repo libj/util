@@ -503,14 +503,14 @@ public final class Numbers {
   public static final double LOG_10 = 2.302585092994046;
 
   /**
-   * Returns a {@link Number} of type {@code <T>} representing type specified
-   * number of generic {@link Number} type.
+   * Returns a {@link Number} of type {@code <T>} of the value for the provided
+   * {@link Number number}.
    *
    * @param <T> The type of {@link Number} to be returned.
    * @param number The number to get the value of.
    * @param as The class representing the type of {@link Number} to be returned.
-   * @return A {@link Number} of type {@code <T>} representing type specified
-   *         number of generic {@link Number} type.
+   * @return A {@link Number} of type {@code <T>} of the value for the provided
+   *         {@link Number number}.
    * @throws UnsupportedOperationException If the specified {@link Class}
    *           represents a type that is not one of: <br>
    *           <blockquote>{@code byte}, {@link Byte},<br>
@@ -550,7 +550,7 @@ public final class Numbers {
       if (BigDecimal.class.isAssignableFrom(as))
         return (T)BigDecimal.valueOf(number.doubleValue());
 
-      throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
+      throw new UnsupportedOperationException("Unsupported Number type: " + as.getName());
     }
 
     if (number instanceof BigInteger) {
@@ -560,7 +560,7 @@ public final class Numbers {
       if (BigDecimal.class.isAssignableFrom(as))
         return (T)new BigDecimal((BigInteger)number);
 
-      throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
+      throw new UnsupportedOperationException("Unsupported Number type: " + as.getName());
     }
 
     if (number instanceof BigDecimal) {
@@ -570,10 +570,10 @@ public final class Numbers {
       if (BigInteger.class.isAssignableFrom(as))
         return (T)((BigDecimal)number).toBigInteger();
 
-      throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
+      throw new UnsupportedOperationException("Unsupported Number type: " + as.getName());
     }
 
-    throw new UnsupportedOperationException(as.getName() + " is not a supported Number type");
+    throw new UnsupportedOperationException("Unsupported Number type: " + as.getName());
   }
 
   /**
@@ -1496,22 +1496,74 @@ public final class Numbers {
     return values;
   }
 
-  public static double parseNumber(String string) {
-    if (string == null || (string = string.trim()).length() == 0 || !isNumber(string))
+  /**
+   * Returns a {@link Number} of type {@code <T>} of the value for the provided
+   * string.
+   *
+   * @param <T> The type of {@link Number} to be returned.
+   * @param s The number to get the value of.
+   * @param as The class representing the type of {@link Number} to be returned.
+   * @return a {@link Number} of type {@code <T>} of the value for the provided
+   *         string.
+   * @throws NumberFormatException If the string does not contain a parsable
+   *           {@link Number} of type {@code <T>}.
+   * @throws UnsupportedOperationException If the specified {@link Class}
+   *           represents a type that is not one of: <br>
+   *           <blockquote>{@code byte}, {@link Byte},<br>
+   *           {@code short}, {@link Short},<br>
+   *           {@code char}, {@link Character},<br>
+   *           {@code int}, {@link Integer},<br>
+   *           {@code long}, {@link Long},<br>
+   *           {@code double}, {@link Double},<br>
+   *           {@code float}, {@link Float},<br>
+   *           {@code short}, {@link Short},<br>
+   *           {@link BigInteger}, {@link BigDecimal}</blockquote>
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends Number>T parseNumber(final String s, final Class<T> as) {
+    if (float.class == as || Float.class == as)
+      return (T)Float.valueOf(s);
+
+    if (double.class == as || Double.class == as)
+      return (T)Double.valueOf(s);
+
+    if (byte.class == as || Byte.class == as)
+      return (T)Byte.valueOf(s);
+
+    if (short.class == as || Short.class == as)
+      return (T)Short.valueOf(s);
+
+    if (int.class == as || Integer.class == as)
+      return (T)Integer.valueOf(s);
+
+    if (long.class == as || Long.class == as)
+      return (T)Long.valueOf(s);
+
+    if (BigInteger.class.isAssignableFrom(as))
+      return (T)new BigInteger(s);
+
+    if (BigDecimal.class.isAssignableFrom(as))
+      return (T)new BigDecimal(s);
+
+    throw new UnsupportedOperationException("Unsupported Number type: " + as.getName());
+  }
+
+  public static double parseNumber(String s) {
+    if (s == null || (s = s.trim()).length() == 0 || !isNumber(s))
       return Double.NaN;
 
     double scalar = 0;
-    final String[] parts = string.split(" ");
+    final String[] parts = s.split(" ");
     if (parts.length == 2) {
       scalar += new BigDecimal(parts[0]).doubleValue();
-      string = parts[1];
+      s = parts[1];
     }
 
-    final int slash = string.indexOf('/');
+    final int slash = s.indexOf('/');
     if (slash == 1)
-      scalar += (double)Integer.parseInt(string.substring(0, slash)) / Integer.parseInt(string.substring(slash + 1));
+      scalar += (double)Integer.parseInt(s.substring(0, slash)) / Integer.parseInt(s.substring(slash + 1));
     else
-      scalar += new BigDecimal(string).doubleValue();
+      scalar += new BigDecimal(s).doubleValue();
 
     return scalar;
   }
