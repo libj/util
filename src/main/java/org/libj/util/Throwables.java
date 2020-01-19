@@ -16,8 +16,8 @@
 
 package org.libj.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * Utility functions for operations pertaining to {@link Throwable}.
@@ -35,9 +35,9 @@ public final class Throwables {
    * @see Throwable#printStackTrace(java.io.PrintStream)
    */
   public static String toString(final Throwable t) {
-    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    t.printStackTrace(new PrintWriter(baos));
-    return baos.toString();
+    final StringWriter out = new StringWriter();
+    t.printStackTrace(new PrintWriter(out));
+    return out.toString();
   }
 
   /**
