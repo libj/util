@@ -3575,8 +3575,8 @@ public final class ArrayUtil extends PrimitiveSort {
 
     final int[] idx = PrimitiveSort.buildIndex(order.size());
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> {
-      final Comparable c1 = order.get(o1);
-      final Comparable c2 = order.get(o2);
+      final T c1 = order.get(o1);
+      final T c2 = order.get(o2);
       return c1 == null ? c2 == null ? 0 : -1 : c2 == null ? 1 : c1.compareTo(c2);
     });
   }
