@@ -30,32 +30,57 @@ import org.slf4j.LoggerFactory;
 
 public class NumbersTest {
   private static final Logger logger = LoggerFactory.getLogger(NumbersTest.class);
+  private static final float epsilon = 0.00000001f;
 
   public static class CompoundTest {
     private static final Random random = new Random();
 
+    private static byte randomByte() {
+      return (byte)random.nextInt();
+    }
+
     private static byte[] randomBytes(final int length) {
       final byte[] bytes = new byte[length];
       for (int i = 0; i < bytes.length; ++i)
-        bytes[i] = (byte)random.nextInt();
+        bytes[i] = randomByte();
 
       return bytes;
+    }
+
+    private static short randomShort() {
+      return (short)random.nextInt();
     }
 
     private static short[] randomShorts(final int length) {
       final short[] shorts = new short[length];
       for (int i = 0; i < shorts.length; ++i)
-        shorts[i] = (short)random.nextInt();
+        shorts[i] = randomShort();
 
       return shorts;
+    }
+
+    private static int randomInt() {
+      return random.nextInt();
     }
 
     private static int[] randomInts(final int length) {
       final int[] ints = new int[length];
       for (int i = 0; i < ints.length; ++i)
-        ints[i] = random.nextInt();
+        ints[i] = randomInt();
 
       return ints;
+    }
+
+    private static float randomFloat() {
+      return random.nextFloat();
+    }
+
+    private static float[] randomFloats(final int length) {
+      final float[] floats = new float[length];
+      for (int i = 0; i < floats.length; ++i)
+        floats[i] = randomFloat();
+
+      return floats;
     }
 
     @Test
@@ -72,9 +97,11 @@ public class NumbersTest {
     public void testLongOfShorts() {
       for (int i = 0; i < 10000; ++i) {
         final short[] expected = randomShorts(4);
-        final long encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3]);
+        final long encoded1 = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3]);
+        final long encoded2 = Numbers.Compound.encode(Numbers.Compound.encode(expected[0], expected[1]), Numbers.Compound.encode(expected[2], expected[3]));
+        assertEquals(encoded1, encoded2);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeShort(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeShort(encoded1, j));
       }
     }
 
@@ -82,9 +109,45 @@ public class NumbersTest {
     public void testLongOfBytes() {
       for (int i = 0; i < 10000; ++i) {
         final byte[] expected = randomBytes(8);
-        final long encoded = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[6], expected[7]);
+        final long encoded1 = Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[6], expected[7]);
+        final long encoded2 = Numbers.Compound.encode(Numbers.Compound.encode(expected[0], expected[1], expected[2], expected[3]), Numbers.Compound.encode(expected[4], expected[5], expected[6], expected[7]));
+        final long encoded3 = Numbers.Compound.encode(Numbers.Compound.encode(expected[0], expected[1]), Numbers.Compound.encode(expected[2], expected[3]), Numbers.Compound.encode(expected[4], expected[5]), Numbers.Compound.encode(expected[6], expected[7]));
+        assertEquals(encoded1, encoded2);
+        assertEquals(encoded2, encoded3);
         for (int j = 0; j < expected.length; ++j)
-          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeByte(encoded, j));
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeByte(encoded1, j));
+      }
+    }
+
+    @Test
+    public void testLongOfIntFloat() {
+      for (int i = 0; i < 10000; ++i) {
+        final int expectedInt = randomInt();
+        final float expectedFloat = randomFloat();
+        final long encoded = Numbers.Compound.encode(expectedInt, expectedFloat);
+        assertEquals("Index: 0, Value: " + expectedInt, expectedInt, Numbers.Compound.decodeInt(encoded, 0));
+        assertEquals("Index: 1, Value: " + expectedFloat, expectedFloat, Numbers.Compound.decodeFloat(encoded, 1), epsilon);
+      }
+    }
+
+    @Test
+    public void testLongOfFloats() {
+      for (int i = 0; i < 10000; ++i) {
+        final float[] expected = randomFloats(2);
+        final long encoded = Numbers.Compound.encode(expected[0], expected[1]);
+        for (int j = 0; j < expected.length; ++j)
+          assertEquals("Index: " + j + ", Value: " + expected[j], expected[j], Numbers.Compound.decodeFloat(encoded, j), epsilon);
+      }
+    }
+
+    @Test
+    public void testLongOfFloatInt() {
+      for (int i = 0; i < 10000; ++i) {
+        final float expectedFloat = randomFloat();
+        final int expectedInt = randomInt();
+        final long encoded = Numbers.Compound.encode(expectedFloat, expectedInt);
+        assertEquals("Index: 0, Value: " + expectedFloat, expectedFloat, Numbers.Compound.decodeFloat(encoded, 0), epsilon);
+        assertEquals("Index: 1, Value: " + expectedInt, expectedInt, Numbers.Compound.decodeInt(encoded, 1));
       }
     }
 
