@@ -249,13 +249,12 @@ public final class Numbers {
    * of 2 {@code byte}s, since a {@code byte} is 8 bits in size.
    */
   public static final class Compound {
-    // FIXME: Implement all the combinations of encode(...)
     /**
      * Encodes two {@code int}s into a {@code long}.
      *
      * @param a The first {@code int}.
      * @param b The second {@code int}.
-     * @return A compounded {@code long} representing two {@code int} values.
+     * @return A compounded {@code long} representing two {@code int}.
      */
     public static long encode(final int a, final int b) {
       return ((long)b << Integer.SIZE) & 0xffffffff00000000L | a & 0xffffffffL;
@@ -268,7 +267,7 @@ public final class Numbers {
      * @param b The second {@code short}.
      * @param c The third {@code short}.
      * @param d The fourth {@code short}.
-     * @return A compounded {@code long} representing four {@code short} values.
+     * @return A compounded {@code long} representing four {@code short}.
      */
     public static long encode(final short a, final short b, final short c, final short d) {
       return ((long)d << Short.SIZE * 3) & 0xffff000000000000L | ((long)c << Short.SIZE * 2) & 0xffff00000000L | ((long)b << Short.SIZE) & 0xffff0000L | a & 0xffffL;
@@ -284,18 +283,29 @@ public final class Numbers {
      * @param e The fifth {@code byte}.
      * @param f The sixth {@code byte}.
      * @param g The seventh {@code byte}.
-     * @param h The eight {@code byte}.
-     * @return A compounded {@code long} representing eight {@code byte} values.
+     * @param h The eighth {@code byte}.
+     * @return A compounded {@code long} representing eighth {@code byte}.
      */
     public static long encode(final byte a, final byte b, final byte c, final byte d, final byte e, final byte f, final byte g, final byte h) {
       return ((long)h << Byte.SIZE * 7) & 0xff00000000000000L | ((long)g << Byte.SIZE * 6) & 0xff000000000000L | ((long)f << Byte.SIZE * 5) & 0xff0000000000L | ((long)e << Byte.SIZE * 4) & 0xff00000000L | ((long)d << Byte.SIZE * 3) & 0xff000000L | ((long)c << Byte.SIZE * 2) & 0xff0000L | ((long)b << Byte.SIZE) & 0xff00L | a & 0xffL;
     }
 
     /**
-     * Encodes a {@code float} and an {@code int} into a {@code long}.
+     * Encodes two {@code float}s into a {@code long}.
      *
      * @param a The first {@code float}.
-     * @param b The second {@code int}.
+     * @param b The second {@code float}.
+     * @return A compounded {@code long} representing two {@code float}s.
+     */
+    public static long encode(final float a, final float b) {
+      return encode(Float.floatToIntBits(a), Float.floatToIntBits(b));
+    }
+
+    /**
+     * Encodes a {@code float} and an {@code int} into a {@code long}.
+     *
+     * @param a The {@code float}.
+     * @param b The {@code int}.
      * @return A compounded {@code long} representing a {@code float} and an
      *         {@code int}.
      */
@@ -306,8 +316,8 @@ public final class Numbers {
     /**
      * Encodes an {@code int} and a {@code float} into a {@code long}.
      *
-     * @param a The first {@code int}.
-     * @param b The second {@code float}.
+     * @param a The {@code int}.
+     * @param b The {@code float}.
      * @return A compounded {@code long} representing an {@code int} and a
      *         {@code float}.
      */
@@ -320,7 +330,7 @@ public final class Numbers {
      *
      * @param a The first {@code short}.
      * @param b The second {@code short}.
-     * @return A compounded {@code int} representing two {@code short} values.
+     * @return A compounded {@code int} representing two {@code short}.
      */
     public static int encode(final short a, final short b) {
       return b << Short.SIZE | a & 0xffff;
@@ -333,7 +343,7 @@ public final class Numbers {
      * @param b The second {@code byte}.
      * @param c The third {@code byte}.
      * @param d The fourth {@code byte}.
-     * @return A compounded {@code int} representing two {@code byte} values.
+     * @return A compounded {@code int} representing two {@code byte}.
      */
     public static int encode(final byte a, final byte b, final byte c, final byte d) {
       return (d << Byte.SIZE * 3) & 0xff000000 | (c << Byte.SIZE * 2) & 0xff0000 | (b << Byte.SIZE) & 0xff00 | a & 0xff;
@@ -344,7 +354,7 @@ public final class Numbers {
      *
      * @param a The first {@code byte}.
      * @param b The second {@code byte}.
-     * @return A compounded {@code short} representing two {@code byte} values.
+     * @return A compounded {@code short} representing two {@code byte}.
      */
     public static short encode(final byte a, final byte b) {
       return (short)((b << Byte.SIZE) & 0xff00 | a & 0xff);
@@ -354,7 +364,7 @@ public final class Numbers {
      * Decodes the {@code int} value at the specified position that is
      * represented in the provided compounded {@code long} value.
      *
-     * @param val The compounded {@code long} containing {@code int} values.
+     * @param val The compounded {@code long} containing {@code int}.
      * @param pos The position of the value to decode (0, 1).
      * @return The {@code int} value at the specified position that is
      *         represented in the provided compounded {@code long} value.
@@ -380,7 +390,7 @@ public final class Numbers {
      * Decodes the {@code short} value at the specified position that is
      * represented in the provided compounded {@code long} value.
      *
-     * @param val The compounded {@code long} containing {@code short} values.
+     * @param val The compounded {@code long} containing {@code short}.
      * @param pos The position of the value to decode (0, 1, 2, 3).
      * @return The {@code short} value at the specified position that is
      *         represented in the provided compounded {@code long} value.
@@ -393,7 +403,7 @@ public final class Numbers {
      * Decodes the {@code byte} value at the specified position that is
      * represented in the provided compounded {@code long} value.
      *
-     * @param val The compounded {@code long} containing {@code byte} values.
+     * @param val The compounded {@code long} containing {@code byte}.
      * @param pos The position of the value to decode (0, 1, 2, 3, 4, 5, 6, 7).
      * @return The {@code byte} value at the specified position that is
      *         represented in the provided compounded {@code long} value.
@@ -406,7 +416,7 @@ public final class Numbers {
      * Decodes the {@code short} value at the specified position that is
      * represented in the provided compounded {@code int} value.
      *
-     * @param val The compounded {@code int} containing {@code short} values.
+     * @param val The compounded {@code int} containing {@code short}.
      * @param pos The position of the value to decode (0, 1).
      * @return The {@code short} value at the specified position that is
      *         represented in the provided compounded {@code int} value.
@@ -419,7 +429,7 @@ public final class Numbers {
      * Decodes the {@code byte} value at the specified position that is
      * represented in the provided compounded {@code int} value.
      *
-     * @param val The compounded {@code int} containing {@code byte} values.
+     * @param val The compounded {@code int} containing {@code byte}.
      * @param pos The position of the value to decode (0, 1, 2, 3).
      * @return The {@code byte} value at the specified position that is
      *         represented in the provided compounded {@code int} value.
@@ -432,7 +442,7 @@ public final class Numbers {
      * Decodes the {@code byte} value at the specified position that is
      * represented in the provided compounded {@code short} value.
      *
-     * @param val The compounded {@code short} containing {@code byte} values.
+     * @param val The compounded {@code short} containing {@code byte}.
      * @param pos The position of the value to decode (0, 1).
      * @return The {@code byte} value at the specified position that is
      *         represented in the provided compounded {@code short} value.
