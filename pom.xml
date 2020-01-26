@@ -56,6 +56,11 @@
                 <template>src/main/resources/primitive/Hash&lt;X&gt;Set.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
+              <parameters>
+                <boolean>
+                  <skip>true</skip>
+                </boolean>
+              </parameters>
             </configuration>
           </execution>
           <execution>
@@ -67,6 +72,7 @@
             <configuration>
               <templates>
                 <template>src/main/resources/function/Bi&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/BiObj&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/BiObjBi&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/Obj&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/ObjBi&lt;X&gt;Consumer.java</template>
@@ -113,6 +119,11 @@
                 <template>src/main/resources/primitive/&lt;X&gt;TimSort.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
+              <parameters>
+                <boolean>
+                  <skip>true</skip>
+                </boolean>
+              </parameters>
             </configuration>
           </execution>
           <execution>
@@ -127,6 +138,9 @@
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
               <parameters>
+                <boolean>
+                  <skip>true</skip>
+                </boolean>
                 <object>
                   <types>
                     <X></X>
@@ -153,11 +167,29 @@
                 <template>src/test/resources/Hash&lt;X&gt;SetTest.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-test-sources/codegen/org/libj/util/primitive</destDir>
+              <parameters>
+                <boolean>
+                  <skip>true</skip>
+                </boolean>
+              </parameters>
             </configuration>
           </execution>
         </executions>
         <configuration>
           <parameters>
+            <boolean>
+              <types>
+                <X>Boolean</X>
+                <Y>Boolean</Y>
+                <y>boolean</y>
+                <_>//</_>
+              </types>
+              <imports>
+                <import>org.libj.util.function.BooleanConsumer</import>
+                <import>org.libj.util.function.BooleanPredicate</import>
+                <import>org.libj.util.primitive.BooleanComparator</import>
+              </imports>
+            </boolean>
             <byte>
               <types>
                 <X>Byte</X>
@@ -292,6 +324,12 @@
       <groupId>org.libj</groupId>
       <artifactId>lang</artifactId>
       <version>0.7.5-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.libj</groupId>
+      <artifactId>lang</artifactId>
+      <version>0.7.5-SNAPSHOT</version>
+      <type>test-jar</type>
     </dependency>
     <dependency>
       <groupId>org.libj</groupId>
