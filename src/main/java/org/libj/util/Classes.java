@@ -353,7 +353,7 @@ public final class Classes {
    * does not find the {@code length} field of the array type.
    * <p>
    * This method differentiates itself from {@link Class#getField(String)} by
-   * returning null when a field is not found, instead of throwing
+   * returning {@code null} when a field is not found, instead of throwing
    * {@link NoSuchFieldException}.
    *
    * @param cls The class in which to find the public field.
@@ -386,8 +386,8 @@ public final class Classes {
    * does not find the {@code length} field of the array type.
    * <p>
    * This method differentiates itself from
-   * {@link Class#getDeclaredField(String)} by returning null when a field is
-   * not found, instead of throwing {@link NoSuchFieldException}.
+   * {@link Class#getDeclaredField(String)} by returning {@code null} when a
+   * field is not found, instead of throwing {@link NoSuchFieldException}.
    *
    * @param cls The class in which to find the declared field.
    * @param name The field name.
@@ -419,8 +419,8 @@ public final class Classes {
    * does not find the {@code length} field of the array type.
    * <p>
    * This method differentiates itself from
-   * {@link Class#getDeclaredField(String)} by returning null when a field is
-   * not found, instead of throwing {@link NoSuchFieldException}.
+   * {@link Class#getDeclaredField(String)} by returning {@code null} when a
+   * field is not found, instead of throwing {@link NoSuchFieldException}.
    *
    * @param cls The class in which to find the declared field.
    * @param name The field name.
@@ -455,8 +455,8 @@ public final class Classes {
    * parameter.
    * <p>
    * This method differentiates itself from
-   * {@link Class#getConstructor(Class...)} by returning null when a method is
-   * not found, instead of throwing {@link NoSuchMethodException}.
+   * {@link Class#getConstructor(Class...)} by returning {@code null} when a
+   * method is not found, instead of throwing {@link NoSuchMethodException}.
    *
    * @param cls The class in which to find the public constructor.
    * @param parameterTypes The parameter array.
@@ -490,8 +490,9 @@ public final class Classes {
    * parameter.
    * <p>
    * This method differentiates itself from
-   * {@link Class#getDeclaredConstructor(Class...)} by returning null when a
-   * method is not found, instead of throwing {@link NoSuchMethodException}.
+   * {@link Class#getDeclaredConstructor(Class...)} by returning {@code null}
+   * when a method is not found, instead of throwing
+   * {@link NoSuchMethodException}.
    *
    * @param cls The class in which to find the declared constructor.
    * @param parameterTypes The parameter array.
@@ -726,8 +727,9 @@ public final class Classes {
    * method.
    * <p>
    * This method differentiates itself from
-   * {@link Class#getDeclaredMethod(String,Class...)} by returning null when a
-   * method is not found, instead of throwing {@link NoSuchMethodException}.
+   * {@link Class#getDeclaredMethod(String,Class...)} by returning {@code null}
+   * when a method is not found, instead of throwing
+   * {@link NoSuchMethodException}.
    *
    * @param cls The class in which to find the declared method.
    * @param name The simple name of the method.
@@ -766,8 +768,9 @@ public final class Classes {
    * method.
    * <p>
    * This method differentiates itself from
-   * {@link Class#getDeclaredMethod(String,Class...)} by returning null when a
-   * method is not found, instead of throwing {@link NoSuchMethodException}.
+   * {@link Class#getDeclaredMethod(String,Class...)} by returning {@code null}
+   * when a method is not found, instead of throwing
+   * {@link NoSuchMethodException}.
    *
    * @param cls The class in which to find the declared method.
    * @param name The simple name of the method.
