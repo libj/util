@@ -29,11 +29,11 @@ public class RetryPolicyTest {
   public void testWithPolicy() throws RetryFailureException {
     final boolean[] called = new boolean[1];
 
-    assertEquals("PASS", new RetryPolicy(1000) {
+    assertEquals("PASS", new RetryPolicy(1000, 0) {
       private static final long serialVersionUID = 811448140777577622L;
 
       @Override
-      public int getDelayMs(final int attemptNo) {
+      public long getDelayMs(final int attemptNo) {
         return 0;
       }
     }.run((retryPolicy, attemptNo) -> {
@@ -62,9 +62,9 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new LinearDelayRetryPolicy(attempts, delayMs, true).run((retryPolicy, attemptNo) -> {
+    assertEquals("PASS", new LinearDelayRetryPolicy(attempts, delayMs, true, 0).run((retryPolicy, attemptNo) -> {
       if (index[0] < attempts) {
-        final int delayMs1 = retryPolicy.getDelayMs(attemptNo);
+        final long delayMs1 = retryPolicy.getDelayMs(attemptNo);
         assertEquals(delays[index[0]++], delayMs1);
         assertTrue(0 < attemptNo && attemptNo <= attempts);
         assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
@@ -95,9 +95,9 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new ExponentialBackoffRetryPolicy(attempts, startDelay, factor, maxDelay, true).run((retryPolicy, attemptNo) -> {
+    assertEquals("PASS", new ExponentialBackoffRetryPolicy(attempts, startDelay, factor, maxDelay, true, 0).run((retryPolicy, attemptNo) -> {
       if (index[0] < attempts) {
-        final int delayMs = retryPolicy.getDelayMs(attemptNo);
+        final long delayMs = retryPolicy.getDelayMs(attemptNo);
         assertEquals(delays[index[0]++], delayMs);
         assertTrue(0 < attemptNo && attemptNo <= attempts);
         assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);

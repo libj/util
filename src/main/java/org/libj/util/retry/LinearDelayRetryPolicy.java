@@ -37,9 +37,13 @@ public class LinearDelayRetryPolicy extends RetryPolicy {
    * @param noDelayOnFirstRetry {@code true} for the first retry to be attempted
    *          immediately, otherwise {@code false} for the first retry to be
    *          attempted after {@code delayMs}.
+   * @param jitter The factor multiplier to be applied to {@code delayMs} to
+   *          thereafter be added to the delay for each retry.
+   * @throws IllegalArgumentException If {@code delayMs}, {@code maxRetries} or
+   *           {@code jitter} is negative.
    */
-  public LinearDelayRetryPolicy(final int maxRetries, final int delayMs, final boolean noDelayOnFirstRetry) {
-    super(maxRetries);
+  public LinearDelayRetryPolicy(final int maxRetries, final int delayMs, final boolean noDelayOnFirstRetry, final double jitter) {
+    super(maxRetries, jitter);
     this.noDelayOnFirstRetry = noDelayOnFirstRetry;
     this.delayMs = delayMs;
     if (delayMs <= 0)
@@ -47,7 +51,7 @@ public class LinearDelayRetryPolicy extends RetryPolicy {
   }
 
   @Override
-  public int getDelayMs(final int attemptNo) {
+  public long getDelayMs(final int attemptNo) {
     return attemptNo == 1 && noDelayOnFirstRetry ? 0 : delayMs;
   }
 }
