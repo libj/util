@@ -35,7 +35,7 @@ public final class StringPaths {
   // FIXME: This can be converted to a char-by-char algorithm
   private static final Pattern urlPath = Pattern.compile("^(jar:)?file:(//(?:(?<ip>[0-9]{1,3}(\\.[0-9]{1,3}){3})|(?<host>[-0-9a-z\u00A0-\uFFFD]{1,63}(\\.[-0-9a-z\u00A0-\uFFFD]{1,63})*))?)?(?<path>/(%[0-9a-f][0-9a-f]|[-._!$&'()*+,:;=@~0-9a-zA-Z\u00A0-\uFFFD/?#])*)$");
 
-  private static final Pattern absolute = Pattern.compile("^([a-zA-Z0-9]+:)?//.*$");
+  private static final Pattern absolute = Pattern.compile("^[a-zA-Z0-9]+://.*$");
 
   private static final String localhost = "localhost";
 
@@ -162,7 +162,8 @@ public final class StringPaths {
   }
 
   /**
-   * Tests whether the specified string represents an absolute path.
+   * Tests whether the specified string represents an absolute system
+   * identifier.
    * <p>
    * <b>Note:</b> This method does not perform strict path validation, but
    * merely inspects its prefix to match known absolute path patterns.
@@ -173,25 +174,54 @@ public final class StringPaths {
    * <li>If the string starts with {@code '/'} (UNIX paths).</li>
    * <li>If the string starts with {@code "?:\"}, where {@code ?} is a letter,
    * case insensitive (Windows paths).</li>
-   * <li>If the string starts with {@code "file:/"}.</li>
-   * <li>If the string starts with {@code "jar:file:/"}.</li>
+   * </ol>
+   *
+   * @param path The string to test.
+   * @return {@code true} if the specified string represents an absolute system
+   *         identifier, otherwise {@code false}.
+   * @throws NullPointerException If {@code path} is null.
+   */
+  public static boolean isAbsoluteSystemId(final String path) {
+    return isAbsoluteLocalUnix(path) || isAbsoluteLocalWindows(path);
+  }
+
+  /**
+   * Tests whether the specified string represents an absolute public
+   * identifier.
+   * <p>
+   * <b>Note:</b> This method does not perform strict path validation, but
+   * merely inspects its prefix to match known absolute path patterns.
+   * <p>
+   * This method performs the following tests to detect whether the specified
+   * string is an absolute path:
+   * <ol>
    * <li>If the string starts with {@code "<protocol>://"}, where
    * {@code <protocol>} is any string matching {@code [a-zA-Z0-9]+}.</li>
    * </ol>
    *
    * @param path The string to test.
+   * @return {@code true} if the specified string represents an absolute public
+   *         identifier, otherwise {@code false}.
+   * @throws NullPointerException If {@code path} is null.
+   */
+  public static boolean isAbsolutePublicId(final String path) {
+    return absolute.matcher(path).matches();
+  }
+
+  /**
+   * Tests whether the specified string represents an absolute path, either
+   * system or public.
+   * <p>
+   * <b>Note:</b> This method does not perform strict path validation, but
+   * merely inspects its prefix to match known absolute path patterns.
+   *
+   * @param path The string to test.
    * @return {@code true} if the specified string represents an absolute path,
-   *         otherwise {@code false}.
+   *         either system or public, otherwise {@code false}.
    * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsolute(final String path) {
-    if (path.charAt(0) == '/' || Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)))
-      return true;
-
-    if (path.startsWith("file:/") || path.startsWith("jar:file:/"))
-      return true;
-
-    return absolute.matcher(path).matches();
+    return isAbsoluteSystemId(path) || isAbsolutePublicId(path);
   }
 
   /**
