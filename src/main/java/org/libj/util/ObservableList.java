@@ -29,6 +29,8 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateList} that provides callback methods to observe the
  * retrieval, addition, and removal of elements, either due to direct method
@@ -248,7 +250,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public void add(final int index, final E element) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     addFast(index, element);
   }
 
@@ -380,7 +382,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public E get(final int index) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     return getFast(index);
   }
 
@@ -648,7 +650,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     return newListIterator(super.listIterator(index + fromIndex));
   }
 
@@ -685,7 +687,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public E remove(final int index) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     return removeFast(index);
   }
 
@@ -721,7 +723,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public E set(final int index, final E element) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     if (!beforeSet(index, element))
       return null;
 
@@ -916,7 +918,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
   @Override
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRangeList(fromIndex, toIndex, size());
+    Assertions.assertRange(fromIndex, toIndex, size());
     return newSubList(fromIndex, toIndex);
   }
 

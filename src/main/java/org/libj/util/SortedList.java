@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link List} that guarantees sorted order of its elements.
  *
@@ -225,7 +227,7 @@ public class SortedList<E> extends ObservableList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     return new CursorListIterator<E>(target.listIterator(index)) {
       private void shift(int dist) {
         if (dist < 0) {
@@ -288,7 +290,7 @@ public class SortedList<E> extends ObservableList<E> {
 
   @Override
   public SortedList<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRangeList(fromIndex, toIndex, size());
+    Assertions.assertRange(fromIndex, toIndex, size());
     return new SortedList<E>(target.subList(fromIndex, toIndex), comparator, false);
   }
 }

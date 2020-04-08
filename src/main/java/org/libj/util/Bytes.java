@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import org.libj.lang.Assertions;
+
 /**
  * Functions implementing common operations on {@code byte[]} references.
  */

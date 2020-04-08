@@ -25,8 +25,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.RandomAccess;
 
+import org.libj.lang.Assertions;
 import org.libj.util.ArrayUtil;
-import org.libj.util.Assertions;
 
 /**
  * An unsynchronized implementation of a resizable-array of <y> values.
@@ -168,7 +168,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public <y> get(final int index) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     return valueData[fromIndex + index];
   }
 
@@ -182,7 +182,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public boolean add(int index, final <y> value) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     index += fromIndex;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -304,7 +304,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public boolean addAll(int index, final <y>[] values, final int offset, final int length) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     if (values.length == 0)
       return false;
 
@@ -345,7 +345,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public boolean addAll(int index, final Collection<<Y>> c) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -360,7 +360,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public boolean addAll(int index, final <X>Collection c) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -375,7 +375,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public <y> set(int index, final <y> value) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     index += fromIndex;
     final <y> oldValue = valueData[index];
     valueData[index] = value;
@@ -385,7 +385,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public <y> removeIndex(int index) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     index += fromIndex;
     final <y> value = valueData[index];
     shiftLeft(index, 1);
@@ -605,13 +605,13 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
   @Override
   public <X>ListIterator listIterator(final int index) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     return new <X>ListItr(index);
   }
 
   @Override
   public Array<X>List subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRangeList(fromIndex, toIndex, size());
+    Assertions.assertRange(fromIndex, toIndex, size());
     if (this.toIndex < 0)
       this.toIndex = size;
 

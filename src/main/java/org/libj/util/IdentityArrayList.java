@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link ArrayList} that resorts to the {@code ==} operator when checking an
  * element for equality, instead of the {@link Object#equals(Object)} method.
@@ -234,14 +236,14 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public IdentitySubList subList(final int fromIndex, final int toIndex) {
-      Assertions.assertRangeList(fromIndex, toIndex, size());
+      Assertions.assertRange(fromIndex, toIndex, size());
       return new IdentitySubList(target.subList(fromIndex, toIndex));
     }
   }
 
   @Override
   public List<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRangeList(fromIndex, toIndex, size());
+    Assertions.assertRange(fromIndex, toIndex, size());
     return new IdentitySubList(super.subList(fromIndex, toIndex));
   }
 

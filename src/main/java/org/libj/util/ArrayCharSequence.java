@@ -18,6 +18,8 @@ package org.libj.util;
 
 import java.io.Serializable;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link CharSequence} backed by a {@code char[]}.
  */

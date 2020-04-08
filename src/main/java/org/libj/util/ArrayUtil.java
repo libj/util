@@ -26,6 +26,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
+import org.libj.lang.Assertions;
 import org.libj.util.primitive.ByteComparator;
 import org.libj.util.primitive.CharComparator;
 import org.libj.util.primitive.DoubleComparator;

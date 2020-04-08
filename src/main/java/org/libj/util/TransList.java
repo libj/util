@@ -23,6 +23,8 @@ import java.util.ListIterator;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
+import org.libj.lang.Assertions;
+
 /**
  * An implementation of the List interface that transforms the elements of
  * the supplied source List based on {@code sourceToTarget} and
@@ -230,7 +232,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T get(final int index) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
@@ -240,7 +242,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T set(final int index, final T element) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     if (sourceToTarget == null || targetToSource == null)
       throw new UnsupportedOperationException();
 
@@ -249,7 +251,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public void add(final int index, final T element) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
@@ -259,7 +261,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T remove(final int index) {
-    Assertions.assertRangeList(index, size(), false);
+    Assertions.assertRange(index, size(), false);
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
@@ -291,7 +293,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public ListIterator<T> listIterator(final int index) {
-    Assertions.assertRangeList(index, size(), true);
+    Assertions.assertRange(index, size(), true);
     final ListIterator<S> iterator = target.listIterator();
     return new ListIterator<T>() {
       @Override
@@ -357,7 +359,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public TransList<S,T> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRangeList(fromIndex, toIndex, size());
+    Assertions.assertRange(fromIndex, toIndex, size());
     return new TransList<S,T>(target.subList(fromIndex, toIndex), sourceToTarget, targetToSource);
   }
 }

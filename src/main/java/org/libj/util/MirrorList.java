@@ -23,6 +23,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import org.libj.lang.Assertions;
+
 /**
  * A list that maintains 2 representations of its elements:
  * <ol>
@@ -432,7 +434,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   @Override
   @SuppressWarnings("unchecked")
   public MirrorList<V,R> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRangeList(fromIndex, toIndex, size());
+    Assertions.assertRange(fromIndex, toIndex, size());
     return newInstance(target.subList(fromIndex, toIndex), (reflections != null ? reflections : mirrorList.target).subList(fromIndex, toIndex));
   }
 }
