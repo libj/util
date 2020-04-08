@@ -38,6 +38,18 @@
         <version>0.2.5-SNAPSHOT</version>
         <executions>
           <execution>
+            <id>characterClasses</id>
+            <goals>
+              <goal>radixtree</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <inFile>src/main/resources/characterClasses.txt</inFile>
+              <destDir>${project.build.directory}/generated-sources/codegen</destDir>
+              <className>org.libj.util.CharacterClassEnum</className>
+            </configuration>
+          </execution>
+          <execution>
             <id>primitive-sources</id>
             <goals>
               <goal>template</goal>
@@ -321,9 +333,9 @@
       <version>current</version>
     </dependency>
     <dependency>
-      <groupId>org.libj</groupId>
-      <artifactId>lang</artifactId>
-      <version>0.7.5-SNAPSHOT</version>
+      <groupId>org.openjax.codegen</groupId>
+      <artifactId>radixtree</artifactId>
+      <version>0.2.5-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.libj</groupId>
