@@ -24,9 +24,11 @@ package org.libj.util.retry;
  * {@link #retry(RetryPolicy,int)}.
  *
  * @param <T> The type of the result of this {@link Retryable}.
+ * @param <E> The type parameter of the {@link Exception} instance signifying
+ *          terminal failure of the {@link RetryPolicy} execution.
  */
 @FunctionalInterface
-public interface Retryable<T> {
+public interface Retryable<T,E extends Exception> {
   /**
    * Main run method of the {@link Retryable} that is invoked by a
    * {@link RetryPolicy}, which defines the rules of retry invocations.
@@ -36,5 +38,5 @@ public interface Retryable<T> {
    * @return The result of the invocation.
    * @throws Exception If an exception occurs.
    */
-  T retry(RetryPolicy retryPolicy, int attemptNo) throws Exception;
+  T retry(RetryPolicy<E> retryPolicy, int attemptNo) throws Exception;
 }

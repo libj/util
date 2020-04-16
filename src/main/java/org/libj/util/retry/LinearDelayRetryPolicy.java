@@ -19,8 +19,11 @@ package org.libj.util.retry;
 /**
  * A {@link RetryPolicy} that defines a maximum number of retries, and a
  * constant delay for retry attempts.
+ *
+ * @param <E> The type parameter of the {@link Exception} instance signifying
+ *          terminal failure of the {@link RetryPolicy} execution.
  */
-public class LinearDelayRetryPolicy extends RetryPolicy {
+public abstract class LinearDelayRetryPolicy<E extends Exception> extends RetryPolicy<E> {
   private static final long serialVersionUID = -6090799745376513743L;
 
   private final int delayMs;
@@ -51,7 +54,7 @@ public class LinearDelayRetryPolicy extends RetryPolicy {
   }
 
   @Override
-  public long getDelayMs(final int attemptNo) {
+  protected long getDelayMs(final int attemptNo) {
     return attemptNo == 1 && noDelayOnFirstRetry ? 0 : delayMs;
   }
 }

@@ -17,10 +17,13 @@
 package org.libj.util.retry;
 
 /**
- * A {@link RetryPolicy} that defines a maximum number of retries, and a
- * delay for retry attempts that increases exponentially based on a backoff factor.
+ * A {@link RetryPolicy} that defines a maximum number of retries, and a delay
+ * for retry attempts that increases exponentially based on a backoff factor.
+ *
+ * @param <E> The type parameter of the {@link Exception} instance signifying
+ *          terminal failure of the {@link RetryPolicy} execution.
  */
-public class ExponentialBackoffRetryPolicy extends RetryPolicy {
+public abstract class ExponentialBackoffRetryPolicy<E extends Exception> extends RetryPolicy<E> {
   private static final long serialVersionUID = -6999301056780454011L;
 
   private final int delayMs;
@@ -69,7 +72,7 @@ public class ExponentialBackoffRetryPolicy extends RetryPolicy {
   }
 
   @Override
-  public long getDelayMs(final int attemptNo) {
+  protected long getDelayMs(final int attemptNo) {
     return Math.min(attemptNo == 1 && noDelayOnFirstRetry ? 0 : (int)(delayMs * StrictMath.pow(backoffFactor, attemptNo - 1)), maxDelayMs);
   }
 }

@@ -30,8 +30,11 @@ import org.slf4j.LoggerFactory;
  * <p>
  * The {@link #run(Retryable)} method is the entrypoint for a {@link Retryable}
  * object to be executed.
+ *
+ * @param <E> The type parameter of the {@link Exception} instance signifying
+ *          terminal failure of the {@link RetryPolicy} execution.
  */
-public abstract class RetryPolicy implements Serializable {
+public abstract class RetryPolicy<E extends Exception> implements Serializable {
   private static final long serialVersionUID = -8480057566592276543L;
   private static final Logger logger = LoggerFactory.getLogger(RetryPolicy.class);
 
@@ -63,6 +66,14 @@ public abstract class RetryPolicy implements Serializable {
       throw new IllegalArgumentException("maxRetries (" + maxRetries + ") must be a positive value");
   }
 
+  private void retryFailed(final Exception cause, final int attemptNo, final long delayMs) throws E {
+    final E e = onRetryFailure(cause, attemptNo, delayMs);
+    if (e != null)
+      throw e;
+
+    throw new RetryFailureException(cause, attemptNo, delayMs);
+  }
+
   /**
    * Specifies the exception conditions of when a retry should occur.
    *
@@ -70,8 +81,26 @@ public abstract class RetryPolicy implements Serializable {
    *          {@link Retryable} object.
    * @return {@code true} if a retry should occur, otherwise {@code false}.
    */
-  protected boolean retryOn(final Exception e) {
-    return e instanceof RetryException;
+  protected abstract boolean retryOn(final Exception e);
+
+  /**
+   * Callback to return the {@link Exception} instance of type {@code <E>} to be
+   * thrown in the event of terminal failure of the {@link RetryPolicy}
+   * execution.
+   * <p>
+   * If this method is not overridden, or if it returns {@code null}, a
+   * {@link RetryFailureException} will be thrown instead.
+   *
+   * @param e The exception that occurred during execution of a
+   *          {@link Retryable} object.
+   * @param attemptNo The attempt number on which the exception was thrown.
+   * @param delayMs The delay (in milliseconds) from the previous invocation
+   *          attempt.
+   * @return The {@link Exception} instance signifying the terminal failure of
+   *         the {@link RetryPolicy} execution.
+   */
+  protected E onRetryFailure(final Exception e, final int attemptNo, final long delayMs) {
+    return null;
   }
 
   /**
@@ -88,7 +117,7 @@ public abstract class RetryPolicy implements Serializable {
    *           {@code false}.
    * @throws NullPointerException If {@code retryable} is null.
    */
-  public final <T>T run(final Retryable<T> retryable) throws RetryFailureException {
+  public final <T>T run(final Retryable<T,E> retryable) throws E {
     return run0(retryable, 0);
   }
 
@@ -108,26 +137,23 @@ public abstract class RetryPolicy implements Serializable {
    * @throws IllegalArgumentException If {@code timeout} is negative.
    * @throws NullPointerException If the value of {@code timeout} is negative.
    */
-  public final <T>T run(final Retryable<T> retryable, final long timeout) throws RetryFailureException {
+  public final <T>T run(final Retryable<T,E> retryable, final long timeout) throws E {
     if (timeout < 0)
       throw new IllegalArgumentException("timeout value (" + timeout + ") is negative");
 
     return run0(retryable, timeout);
   }
 
-  private final <T>T run0(final Retryable<T> retryable, final long timeout) throws RetryFailureException {
+  private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E {
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
     for (int attemptNo = 1;; ++attemptNo) {
       try {
         return retryable.retry(this, attemptNo);
       }
-      catch (final RetryFailureException e) {
-        throw e;
-      }
       catch (final Exception e) {
         if (attemptNo > maxRetries || !retryOn(e))
-          throw new RetryFailureException(e, attemptNo, getDelayMs(attemptNo - 1));
+          retryFailed(null, attemptNo, getDelayMs(attemptNo - 1));
 
         long delayMs = getDelayMs(attemptNo);
         if (jitter > 0)
@@ -136,7 +162,7 @@ public abstract class RetryPolicy implements Serializable {
         if (timeout > 0) {
           final long remaining = timeout - runTime;
           if (remaining <= 0)
-            throw new RetryFailureException(attemptNo, delayMs);
+            retryFailed(null, attemptNo, delayMs);
 
           if (remaining < delayMs)
             delayMs = remaining;
@@ -147,7 +173,7 @@ public abstract class RetryPolicy implements Serializable {
           runTime = System.currentTimeMillis() - startTime;
         }
         catch (final InterruptedException ie) {
-          throw new RetryFailureException(ie, attemptNo, delayMs);
+          retryFailed(ie, attemptNo, delayMs);
         }
       }
 
@@ -173,5 +199,5 @@ public abstract class RetryPolicy implements Serializable {
    * @param attemptNo The attempt number, starting with {@code 1}.
    * @return The delay in milliseconds for the specified attempt number.
    */
-  public abstract long getDelayMs(int attemptNo);
+  protected abstract long getDelayMs(int attemptNo);
 }
