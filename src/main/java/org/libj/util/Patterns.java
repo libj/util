@@ -147,7 +147,7 @@ public final class Patterns {
       else if (ch == '[') {
         final int start = i + 1;
         final int end = indexOfClassClose(regex, start);
-        if (end == -1) {
+        if (end < 0) {
           builder.append(ch);
         }
         else if (start == end) {
@@ -170,7 +170,7 @@ public final class Patterns {
         if (last == '(' && ch == '?') {
           int end = indexOfUnEscaped(regex, ')', i + 1, len);
           end = consumeSpecial(regex, len, i + 1, end);
-          if (end == -1)
+          if (end < 0)
             throw new PatternSyntaxException("Invalid group", regex, i);
 
           i = end;
@@ -216,7 +216,7 @@ public final class Patterns {
     }
 
     final int idx = reduceGroups(builder, 0, builder.length());
-    return idx == -1 ? null : builder.toString();
+    return idx < 0 ? null : builder.toString();
   }
 
   private static final int[] escapes = {'(', ')', '*', '+', '.', '?', '[', '\\', ']', '{', '|', '}'};
@@ -278,7 +278,7 @@ public final class Patterns {
         --end;
         final int len = builder.length();
         i = reduceGroups(builder, true, i, lastIndexOfUnEscaped(builder, ')', i, end) + 1);
-        if (i == -1)
+        if (i < 0)
           return -1;
 
         end -= len - builder.length();
@@ -289,7 +289,7 @@ public final class Patterns {
         builder.delete(i, i + 1);
         final String left = builder.substring(start, i);
         end = reduceGroups(builder, wasOpened, i, end - 1);
-        if (end == -1)
+        if (end < 0)
           return -1;
 
         final String right = builder.substring(i, end);
@@ -328,7 +328,7 @@ public final class Patterns {
   static int lastIndexOfUnEscaped(final CharSequence string, final char ch, final int start, final int end) {
     for (int lastIndex = -1, i = start; true; lastIndex = i++) {
       i = indexOfUnEscaped(string, ch, i, end);
-      if (i == -1)
+      if (i < 0)
         return lastIndex;
     }
   }
@@ -340,7 +340,7 @@ public final class Patterns {
       final char c = string.charAt(i);
       if (escaped) {
         escaped = false;
-        if (blockEscaped == -1) {
+        if (blockEscaped < 0) {
           if (c == 'Q') {
             blockEscaped = i;
             continue;
@@ -352,7 +352,7 @@ public final class Patterns {
 
         continue;
       }
-      else if ((escaped = isEscape(c)) || blockEscaped != -1) {
+      else if ((escaped = isEscape(c)) || blockEscaped > -1) {
         continue;
       }
       else if (c == ch) {
@@ -443,7 +443,7 @@ public final class Patterns {
       }
       else {
         final int colon = lastIndexOfUnEscaped(str, ':', start + 1, end);
-        if (colon == -1)
+        if (colon < 0)
           return -1;
 
         boolean hyphenSeen = false;
@@ -474,7 +474,7 @@ public final class Patterns {
       return start;
 
     final int close = str.indexOf('}', start + 1);
-    if (close == -1 || close == start + 1)
+    if (close < 0 || close == start + 1)
       return start;
 
     ch = str.charAt(start + 1);

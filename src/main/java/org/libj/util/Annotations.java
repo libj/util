@@ -84,7 +84,7 @@ public final class Annotations {
    */
   public static String toSortedString(final Annotation annotation, final Comparator<String> comparator) {
     final String str = annotation.toString();
-    if (str.indexOf('(') == -1)
+    if (str.indexOf('(') < 0)
       return str;
 
     final TreeMap<String,Object> attributes = comparator != null ? new TreeMap<>(comparator) : new TreeMap<>();

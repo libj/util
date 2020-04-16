@@ -1598,7 +1598,7 @@ public final class Numbers {
 
     if (parts.length == 2) {
       final int slash = parts[1].indexOf('/');
-      if (slash == -1)
+      if (slash < 0)
         return false;
 
       return isNumber(parts[0], false) && isNumber(parts[1], true);
@@ -1803,7 +1803,7 @@ public final class Numbers {
         break;
 
     ++i;
-    return i == len || number.lastIndexOf('.', i + 1) == -1 ? number : number.substring(0, i);
+    return i == len || number.lastIndexOf('.', i + 1) < 0 ? number : number.substring(0, i);
   }
 
   // FIXME: This is not working! it is returning incorrect results

@@ -433,7 +433,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     else {
       final int componentIndex = index == 0 ? 0 : findComponentIndex(componentList, index);
       add(index, componentIndex, element, componentList);
-      if (componentIndex != -1) {
+      if (componentIndex > -1) {
         indexes.add(index, componentIndex);
         final IdentityHashSet<ComponentList> visited = new IdentityHashSet<>();
         for (int i = index + 1; i < componentLists.size(); ++i) {

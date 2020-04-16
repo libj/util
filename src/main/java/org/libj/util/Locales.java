@@ -114,7 +114,7 @@ public final class Locales {
     if (dash == 0 || dash == str.length() - 1)
       return null;
 
-    return dash == -1 ? new Locale(str) : new Locale(str.substring(0, dash), str.substring(dash + 1));
+    return dash < 0 ? new Locale(str) : new Locale(str.substring(0, dash), str.substring(dash + 1));
   }
 
   /**
@@ -138,14 +138,14 @@ public final class Locales {
 
     // Extract language
     final int languageIndex = string.indexOf('_');
-    if (languageIndex == -1) // No further "_" so is "{language}" only
+    if (languageIndex < 0) // No further "_" so is "{language}" only
       return new Locale(Strings.requireLettersOrDigits(string), "");
 
     final String language = Strings.requireLettersOrDigits(string.substring(0, languageIndex));
 
     // Extract country
     final int countryIndex = string.indexOf('_', languageIndex + 1);
-    if (countryIndex == -1) // No further "_" so is "{language}_{country}"
+    if (countryIndex < 0) // No further "_" so is "{language}_{country}"
       return new Locale(language, string.substring(languageIndex + 1));
 
     // Assume all remaining is the variant so is "{language}_{country}_{variant}"

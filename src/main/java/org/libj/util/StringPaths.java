@@ -235,7 +235,7 @@ public final class StringPaths {
    */
   public static String getProtocol(final String path) {
     final int index = path.indexOf(":/");
-    return index == -1 ? null : path.substring(0, index);
+    return index < 0 ? null : path.substring(0, index);
   }
 
   /**
@@ -278,7 +278,7 @@ public final class StringPaths {
 
     final char sep = isAbsoluteLocalWindows(parent) ? '\\' : '/';
     final int index = parent.lastIndexOf(sep);
-    if (index == -1)
+    if (index < 0)
       return child;
 
     return parent.substring(0, child.charAt(0) != sep ? index + 1 : index) + child;
@@ -327,7 +327,7 @@ public final class StringPaths {
   private static StringBuilder canonicalize(final StringBuilder path, final boolean isWindows) {
     final int p = path.indexOf("://");
     final char[] prefix;
-    if (p != -1) {
+    if (p > -1) {
       prefix = new char[p + 3];
       path.getChars(0, p + 3, prefix, 0);
       path.delete(0, p + 3);
@@ -359,9 +359,9 @@ public final class StringPaths {
       path.delete(path.length() - 2, path.length());
 
     final String dotDot = s + ".." + s;
-    for (int end, start = 0; (end = path.indexOf(dotDot, start)) != -1;) {
+    for (int end, start = 0; (end = path.indexOf(dotDot, start)) > -1;) {
       start = path.lastIndexOf(s, end - 1);
-      if (start != -1) {
+      if (start > -1) {
         path.delete(start, end + 3);
       }
       else {
@@ -392,7 +392,7 @@ public final class StringPaths {
   public static String getParent(final String path) {
     final int offset = path.length() - 1;
     final int index = path.charAt(offset) == '/' ? path.lastIndexOf('/', offset - 1) : path.lastIndexOf('/', offset);
-    return index == -1 || path.charAt(index) == ':' ? null : path.substring(0, index + 1);
+    return index < 0 || path.charAt(index) == ':' ? null : path.substring(0, index + 1);
   }
 
   /**
@@ -416,7 +416,7 @@ public final class StringPaths {
     final int offset = path.length() - 1;
     final boolean end = path.charAt(offset) == '/';
     final int start = end ? path.lastIndexOf('/', offset - 1) : path.lastIndexOf('/', offset);
-    return start == -1 ? (end ? path.substring(0, offset) : path) : end ? path.substring(start + 1, offset) : path.substring(start + 1);
+    return start < 0 ? (end ? path.substring(0, offset) : path) : end ? path.substring(start + 1, offset) : path.substring(start + 1);
   }
 
   /**
@@ -458,7 +458,7 @@ public final class StringPaths {
 
     path = getName0(path);
     final int index = path.indexOf('.');
-    return index == -1 ? path : path.substring(0, index);
+    return index < 0 ? path : path.substring(0, index);
   }
 
   private StringPaths() {

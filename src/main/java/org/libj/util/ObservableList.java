@@ -211,7 +211,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     RuntimeException exception = null;
     try {
       super.add(index + fromIndex, element);
-      if (toIndex != -1)
+      if (toIndex > -1)
         ++toIndex;
     }
     catch (final RuntimeException re) {
@@ -562,7 +562,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       RuntimeException exception = null;
       try {
         super.remove();
-        if (toIndex != -1)
+        if (toIndex > -1)
           --toIndex;
       }
       catch (final RuntimeException re) {
@@ -603,7 +603,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       RuntimeException exception = null;
       try {
         super.add(e);
-        if (toIndex != -1)
+        if (toIndex > -1)
           ++toIndex;
       }
       catch (final RuntimeException re) {
@@ -662,7 +662,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     RuntimeException exception = null;
     try {
       value = super.remove(index + fromIndex);
-      if (toIndex != -1)
+      if (toIndex > -1)
         --toIndex;
     }
     catch (final RuntimeException re) {
@@ -704,7 +704,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
-    if (index == -1)
+    if (index < 0)
       return false;
 
     final int size = size();
@@ -834,7 +834,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
   @Override
   public int size() {
-    return (toIndex != -1 ? toIndex : super.size()) - fromIndex;
+    return (toIndex > -1 ? toIndex : super.size()) - fromIndex;
   }
 
   /**

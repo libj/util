@@ -73,7 +73,7 @@ public final class Bytes {
    * @param replacement The {@code byte} to replace with.
    */
   public static void replaceAll(final byte[] bytes, final byte target, final byte replacement) {
-    for (int index = 0; (index = Bytes.indexOf(bytes, index + 1, target)) != -1; bytes[index] = replacement);
+    for (int index = 0; (index = Bytes.indexOf(bytes, index + 1, target)) > -1; bytes[index] = replacement);
   }
 
   /**
@@ -97,7 +97,7 @@ public final class Bytes {
       return;
     }
 
-    for (int index = -1; (index = indexOf(bytes, index + 1, target)) != -1; System.arraycopy(replacement, 0, bytes, index, replacement.length));
+    for (int index = -1; (index = indexOf(bytes, index + 1, target)) > -1; System.arraycopy(replacement, 0, bytes, index, replacement.length));
   }
 
   /**
