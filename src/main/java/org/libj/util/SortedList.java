@@ -86,8 +86,36 @@ public class SortedList<E> extends ObservableList<E> {
     if (comparator != DEFAULT_COMPARATOR && comparatorType().isInstance(o))
       return CollectionUtil.binarySearch(target, fromIndex, toIndex, o, (Comparator)comparator);
 
-    if (o instanceof Comparable)
+    if (o == null)
       return CollectionUtil.binarySearch(target, fromIndex, toIndex, o, DEFAULT_COMPARATOR);
+
+    if (o instanceof Comparable) {
+      final int i = CollectionUtil.binarySearch(target, fromIndex, toIndex, o, DEFAULT_COMPARATOR);
+      if (i < 0)
+        return i;
+
+      Object a = target.get(i);
+      if (o.equals(a))
+        return i;
+
+      for (int sign = -1;; sign = 1) {
+        for (int offset = 1, j;; ++offset) {
+          j = i + sign * offset;
+          if (sign == -1 ? j < fromIndex : toIndex <= j)
+            break;
+
+          a = target.get(j);
+          if (((Comparable)o).compareTo(a) != 0)
+            break;
+
+          if (o.equals(a))
+            return j;
+        }
+
+        if (sign == 1)
+          return -1;
+      }
+    }
 
     return -1;
   }
@@ -189,14 +217,16 @@ public class SortedList<E> extends ObservableList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * <b>Runtime performance</b>: {@code O(log2(n))} if the provided object
-   * implements {@link Comparable}; otherwise {@code O(n)}.
+   * <b>Runtime performance</b>: {@code O(log2(n))}.
    */
   @Override
   public int indexOf(final Object o) {
     int index = indexOf(o, 0, size());
     if (index <= 0)
       return index;
+
+    if (!target.get(index).equals(o))
+      return -1;
 
     while (target.get(--index).equals(o));
     return index + 1;
@@ -205,14 +235,16 @@ public class SortedList<E> extends ObservableList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * <b>Runtime performance</b>: {@code O(log2(n))} if the provided object
-   * implements {@link Comparable}; otherwise {@code O(n)}.
+   * <b>Runtime performance</b>: {@code O(log2(n))}.
    */
   @Override
   public int lastIndexOf(final Object o) {
     int index = indexOf(o, 0, size());
     if (index < 0 || index == size() - 1)
       return index;
+
+    if (!target.get(index).equals(o))
+      return -1;
 
     while (target.get(++index).equals(o));
     return index - 1;
