@@ -144,10 +144,23 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
     return run0(retryable, timeout);
   }
 
+  /**
+   * Method that is called before each execution of
+   * {@link Retryable#retry(RetryPolicy,int)}.
+   * <p>
+   * Runtime exceptions thrown from this method will result in the termination
+   * of the {@link RetryPolicy} execution.
+   *
+   * @param attemptNo The next attempt number.
+   */
+  protected void onRetry(final int attemptNo) {
+  }
+
   private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E {
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
     for (int attemptNo = 1;; ++attemptNo) {
+      onRetry(attemptNo);
       try {
         return retryable.retry(this, attemptNo);
       }
