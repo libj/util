@@ -35,7 +35,7 @@ public final class StringPaths {
   // FIXME: This can be converted to a char-by-char algorithm
   private static final Pattern urlPath = Pattern.compile("^(jar:)?file:(//(?:(?<ip>[0-9]{1,3}(\\.[0-9]{1,3}){3})|(?<host>[-0-9a-z\u00A0-\uFFFD]{1,63}(\\.[-0-9a-z\u00A0-\uFFFD]{1,63})*))?)?(?<path>/(%[0-9a-f][0-9a-f]|[-._!$&'()*+,:;=@~0-9a-zA-Z\u00A0-\uFFFD/?#])*)$");
 
-  private static final Pattern absolute = Pattern.compile("^[a-zA-Z0-9]+://.*$");
+  private static final Pattern absolute = Pattern.compile("^(file:/|[a-zA-Z0-9]+://).*$");
 
   private static final String localhost = "localhost";
 
