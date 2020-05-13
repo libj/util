@@ -24,6 +24,32 @@ import java.io.StringWriter;
  */
 public final class Throwables {
   /**
+   * Adds the {@code suppressed} exception to the {@code target}.
+   * <ol>
+   * <li>If {@code suppressed} is null, {@code target} is returned.</li>
+   * <li>If {@code target} is null, {@code suppressed} is returned.</li>
+   * <li>If neither {@code target} nor {@code suppressed} is null,
+   * {@code suppressed} is added to {@code target} as a suppressed exception,
+   * and {@code target} is returned.</li>
+   * </ol>
+   *
+   * @param <T> The type parameter of the exception.
+   * @param target The target exception.
+   * @param suppressed The suppressed exception.
+   * @return The exception based on the method's logic, described above.
+   */
+  public static <T extends Throwable>T addSuppressed(final T target, final T suppressed) {
+    if (suppressed == null)
+      return target;
+
+    if (target == null)
+      return suppressed;
+
+    target.addSuppressed(suppressed);
+    return target;
+  }
+
+  /**
    * Returns the string representation of the specified {@link Throwable
    * throwable} and its backtrace.
    *
