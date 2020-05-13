@@ -25,6 +25,16 @@ import java.util.Arrays;
 public final class Characters {
   private static final char[] escapableChars = {'"', '\'', '0', '1', '2', '3', '4', '5', '6', '7', '\\', 'b', 'f', 'n', 'r', 't'};
   private static final char[] escapedChars = {'\"', '\'', '\0', '\1', '\2', '\3', '\4', '\5', '\6', '\7', '\\', '\b', '\f', '\n', '\r', '\t'};
+  private static final String[] asciiCharToString = new String[128];
+
+  static {
+    for (int i = 0; i < 128; ++i)
+      asciiCharToString[i] = String.valueOf((char)i);
+  }
+
+  public static String toString(final char ch) {
+    return ch < 128 ? asciiCharToString[ch] : String.valueOf(ch);
+  }
 
   /**
    * Returns the escaped representation of the specified character.
