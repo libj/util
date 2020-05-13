@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -1058,11 +1059,43 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (size != that.size())
       return false;
 
-    for (int i = 0; i < size; ++i) {
-      final Object e1 = get(i);
-      final Object e2 = that.get(i);
-      if (!Objects.equals(e1, e2))
-        return false;
+    if (this instanceof RandomAccess) {
+      if (that instanceof RandomAccess) {
+        for (int i = 0; i < size; ++i) {
+          final Object e1 = get(i);
+          final Object e2 = that.get(i);
+          if (!Objects.equals(e1, e2))
+            return false;
+        }
+      }
+      else {
+        final Iterator<?> thatIterator = that.iterator();
+        for (int i = 0; i < size; ++i) {
+          final Object e1 = get(i);
+          final Object e2 = thatIterator.next();
+          if (!Objects.equals(e1, e2))
+            return false;
+        }
+      }
+    }
+    else if (that instanceof RandomAccess) {
+      final Iterator<?> thisIterator = that.iterator();
+      for (int i = 0; i < size; ++i) {
+        final Object e1 = thisIterator.next();
+        final Object e2 = that.get(i);
+        if (!Objects.equals(e1, e2))
+          return false;
+      }
+    }
+    else {
+      final Iterator<?> thisIterator = that.iterator();
+      final Iterator<?> thatIterator = that.iterator();
+      for (int i = 0; i < size; ++i) {
+        final Object e1 = thisIterator.next();
+        final Object e2 = thatIterator.next();
+        if (!Objects.equals(e1, e2))
+          return false;
+      }
     }
 
     return true;
