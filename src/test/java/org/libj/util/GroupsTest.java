@@ -20,23 +20,35 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CombinationsTest {
+public class GroupsTest {
   @Test
-  public void test() {
+  public void testPermute() {
+    int k = 2;
+    Groups.permute((a, n) -> {
+//      for (int i = n; i < a.length; ++i)
+//        System.out.print(a[i]);
+//      ArrayUtil.toString(a, '.', n, a.length);
+      System.out.println(ArrayUtil.toString(a, '.', n, a.length - n));
+      // System.out.println(Arrays.toString(a, n));
+    }, k, "a", "b", "c", "d", "e");
+  }
+
+  @Test
+  public void testCombinations() {
     try {
-      Combinations.combine(null);
+      Groups.combine(null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
-    final String[][] test = new String[][] {
+    final String[][] test = {
       {"km", "m", "ft"},
       {"sec", "min", "hr"},
       {"kg", "lb"}
     };
 
-    final String[][] expected = new String[][] {
+    final String[][] expected = {
       {"m", "sec", "kg"},
       {"ft", "sec", "kg"},
       {"km", "min", "kg"},
@@ -57,6 +69,6 @@ public class CombinationsTest {
       {"km", "sec", "kg"}
     };
 
-    assertArrayEquals(expected, Combinations.combine(test));
+    assertArrayEquals(expected, Groups.combine(test));
   }
 }

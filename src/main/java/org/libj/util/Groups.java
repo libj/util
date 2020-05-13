@@ -17,12 +17,16 @@
 package org.libj.util;
 
 import java.lang.reflect.Array;
+import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 
 /**
- * Utility class providing functions for the computation of
- * <a href="https://en.wikipedia.org/wiki/Combination">k-combinations</a>.
+ * Utility class providing functions related to
+ * <a href="https://en.wikipedia.org/wiki/Group_theory">Group Theory</a>, such
+ * as <a href="https://en.wikipedia.org/wiki/Combination">combinations</a>,
+ * and <a href="https://en.wikipedia.org/wiki/Permutation">permutations</a>.
  */
-public final class Combinations {
+public final class Groups {
   /**
    * Combines all subsets of elements in the specified 2-dimensional array,
    * where:
@@ -67,6 +71,50 @@ public final class Combinations {
     return combinations;
   }
 
-  private Combinations() {
+  @SafeVarargs
+  public static <T>void permute(final Consumer<T[]> consumer, final T ... elements) {
+    recursePermute(consumer, elements.length, elements);
+  }
+
+  private static <T>void swap(final T[] input, final int a, final int b) {
+    final T tmp = input[a];
+    input[a] = input[b];
+    input[b] = tmp;
+  }
+
+  @SafeVarargs
+  private static <T>void recursePermute(final Consumer<T[]> consumer, final int n, final T ... elements) {
+    if (n == 1) {
+      consumer.accept(elements);
+    }
+    else {
+      for (int i = 0; i < n - 1; ++i) {
+        recursePermute(consumer, n - 1, elements);
+        swap(elements, n % 2 == 0 ? i : 0, n - 1);
+      }
+
+      recursePermute(consumer, n - 1, elements);
+    }
+  }
+
+  @SafeVarargs
+  public static <T>void permute(final ObjIntConsumer<T[]> consumer, final int k, final T ... elements) {
+    permute(consumer, 0, k, elements);
+  }
+
+  private static <T>void permute(final ObjIntConsumer<T[]> consumer, final int n, final int k, final T[] elements) {
+    if (n == k) {
+      consumer.accept(elements, k);
+      return;
+    }
+
+    for (int i = n; i < elements.length; ++i) {
+      swap(elements, n, i);
+      permute(consumer, n + 1, k, elements);
+      swap(elements, n, i);
+    }
+  }
+
+  private Groups() {
   }
 }
