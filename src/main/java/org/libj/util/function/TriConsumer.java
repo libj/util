@@ -17,13 +17,12 @@
 package org.libj.util.function;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * Represents an operation that accepts three input arguments and returns no
- * result. This is the three-arity specialization of {@link Consumer}. Unlike
- * most other functional interfaces, {@link TriConsumer} is expected to operate
- * via side-effects.
+ * result. This is the three-arity specialization of
+ * {@link java.util.function.Consumer}. Unlike most other functional interfaces,
+ * {@link TriConsumer} is expected to operate via side-effects.
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
  * functional method is {@link #accept(Object,Object,Object)}.
@@ -31,7 +30,7 @@ import java.util.function.Consumer;
  * @param <T> The type of the first argument to the operation.
  * @param <U> The type of the second argument to the operation.
  * @param <V> The type of the third argument to the operation.
- * @see Consumer
+ * @see java.util.function.Consumer
  */
 @FunctionalInterface
 public interface TriConsumer<T,U,V> {
