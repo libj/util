@@ -42,14 +42,19 @@ public final class Annotations {
     final Class<? extends Annotation> annotationType = annotation.annotationType();
     final Map<String,Object> attributes = new HashMap<>();
     try {
-      for (final Method method : annotationType.getDeclaredMethods()) {
+      for (final Method method : annotationType.getDeclaredMethods())
         attributes.put(method.getName(), method.invoke(annotation));
-      }
 
       return attributes;
     }
-    catch (final IllegalAccessException | InvocationTargetException e) {
-      throw new IllegalStateException(e);
+    catch (final IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+    catch (final InvocationTargetException e) {
+      if (e.getCause() instanceof RuntimeException)
+        throw (RuntimeException)e.getCause();
+
+      throw new RuntimeException(e);
     }
   }
 
