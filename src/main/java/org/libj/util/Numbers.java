@@ -21,6 +21,8 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Comparator;
 
+import org.libj.lang.Assertions;
+
 /**
  * Utility functions for operations pertaining to {@link Number}.
  */
@@ -664,209 +666,475 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Short#parseShort(String)}, but returns {@code null} if the string
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Short#parseShort(String)}, but returns {@code null} if the sequence
    * does not contain a parsable {@code short}.
    *
-   * @param s A {@link String} containing the {@link Short} representation to be
-   *          parsed.
+   * @param s A {@link CharSequence} containing the {@link Short} representation
+   *          to be parsed.
    * @return The integer value represented by the argument, or {@code null} if
-   *         the string does not contain a parsable {@code short}.
+   *         the sequence does not contain a parsable {@code short}.
    * @see Short#parseShort(String)
    */
-  public static Short parseShort(final String s) {
-    return parseShort(s, 10);
+  public static Short parseShort(final CharSequence s) {
+    return s == null ? null : parseShort0(s, 0, s.length(), 10);
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code short}.
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Short#parseShort(String)}, but returns {@code null} if the sequence
+   * does not contain a parsable {@code short}.
    *
-   * @param s A {@link String} containing the {@code short} representation to be
-   *          parsed.
-   * @param defaultValue The {@code short} value to be returned if the string
+   * @param s A {@link CharSequence} containing the {@link Short} representation
+   *          to be parsed.
+   * @return The integer value represented by the argument, or {@code null} if
+   *         the sequence does not contain a parsable {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static Short parseShort(final CharSequence s, final int fromIndex, final int toIndex) {
+    if (s == null)
+      return null;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseShort0(s, fromIndex, toIndex, 10);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
+   * sequence does not contain a parsable {@code short}.
+   *
+   * @param s A {@link CharSequence} containing the {@code short} representation
+   *          to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the sequence
    *          does not contain a parsable {@code short}.
    * @return The {@code short} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the sequence does not contain a parsable
    *         {@code short}.
    * @see Short#parseShort(String)
    */
-  public static short parseShort(final String s, final short defaultValue) {
-    return parseShort(s, 10, defaultValue);
+  public static short parseShort(final CharSequence s, final short defaultValue) {
+    return s == null ? defaultValue : parseShort0(s, 0, s.length(), 10, defaultValue);
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@link CharSequence} argument as per the specification of
    * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code short}.
+   * sequence does not contain a parsable {@code short}.
+   *
+   * @param s A {@link CharSequence} containing the {@code short} representation
+   *          to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the sequence
+   *          does not contain a parsable {@code short}.
+   * @return The {@code short} value represented by the argument, or
+   *         {@code defaultValue} if the sequence does not contain a parsable
+   *         {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static short parseShort(final CharSequence s, final int fromIndex, final int toIndex, final short defaultValue) {
+    if (s == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseShort0(s, fromIndex, toIndex, 10, defaultValue);
+  }
+
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
+   * char array does not contain a parsable {@code short}.
    *
    * @param cbuf A {@code char} array containing the {@code short}
    *          representation to be parsed.
-   * @param defaultValue The {@code short} value to be returned if the string
-   *          does not contain a parsable {@code short}.
+   * @param defaultValue The {@code short} value to be returned if the char
+   *          array does not contain a parsable {@code short}.
    * @return The {@code short} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the char array does not contain a parsable
    *         {@code short}.
    * @see Short#parseShort(String)
    */
   public static short parseShort(final char[] cbuf, final short defaultValue) {
-    return parseShort(cbuf, 10, defaultValue);
+    return cbuf == null ? defaultValue : parseShort0(cbuf, 0, cbuf.length, 10, defaultValue);
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Short#parseShort(String,int)}, but returns {@code null} if the
-   * string does not contain a parsable {@code short}.
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Short#parseShort(String)}, but returns {@code defaultValue} if the
+   * char array does not contain a parsable {@code short}.
    *
-   * @param s A {@link String} containing the {@link Short} representation to be
-   *          parsed.
-   * @param radix The radix to be used while parsing {@code s}.
-   * @return The integer value represented by the argument, or {@code null} if
-   *         the string does not contain a parsable {@code short}.
+   * @param cbuf A {@code char} array containing the {@code short}
+   *          representation to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the char
+   *          array does not contain a parsable {@code short}.
+   * @return The {@code short} value represented by the argument, or
+   *         {@code defaultValue} if the char array does not contain a parsable
+   *         {@code short}.
    * @see Short#parseShort(String)
    */
-  public static Short parseShort(final String s, final int radix) {
-    final int i = parseInt(s, radix, Integer.MIN_VALUE);
+  public static short parseShort(final char[] cbuf, final int fromIndex, final int toIndex, final short defaultValue) {
+    if (cbuf == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseShort0(cbuf, fromIndex, toIndex, 10, defaultValue);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code null} if the
+   * sequence does not contain a parsable {@code short}.
+   *
+   * @param s A {@link CharSequence} containing the {@link Short} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or {@code null} if
+   *         the sequence does not contain a parsable {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static Short parseShort(final CharSequence s, final int radix) {
+    if (s == null)
+      return null;
+
+    final int i = parseInt0(s, 0, s.length(), radix, Integer.MIN_VALUE);
     return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? null : (short)i;
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@link CharSequence} argument as per the specification of
    * {@link Short#parseShort(String,int)}, but returns {@code null} if the
-   * string does not contain a parsable {@code short}.
+   * sequence does not contain a parsable {@code short}.
+   *
+   * @param s A {@link CharSequence} containing the {@link Short} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or {@code null} if
+   *         the sequence does not contain a parsable {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static Short parseShort(final CharSequence s, final int fromIndex, final int toIndex, final int radix) {
+    if (s == null)
+      return null;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseShort0(s, fromIndex, toIndex, radix);
+  }
+
+  private static Short parseShort0(final CharSequence s, final int fromIndex, final int toIndex, final int radix) {
+    final int i = parseInt0(s, fromIndex, toIndex, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? null : (short)i;
+  }
+
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code null} if the char
+   * array does not contain a parsable {@code short}.
    *
    * @param cbuf A {@code char} array containing the {@link Short}
    *          representation to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The integer value represented by the argument, or {@code null} if
-   *         the string does not contain a parsable {@code short}.
+   *         the char array does not contain a parsable {@code short}.
    * @see Short#parseShort(String)
    */
   public static Short parseShort(final char[] cbuf, final int radix) {
-    final int i = parseInt(cbuf, radix, Integer.MIN_VALUE);
+    if (cbuf == null)
+      return null;
+
+    final int i = parseInt0(cbuf, 0, cbuf.length, radix, Integer.MIN_VALUE);
     return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? null : (short)i;
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
-   * the string does not contain a parsable {@code short}.
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code null} if the char
+   * array does not contain a parsable {@code short}.
    *
-   * @param s A {@link String} containing the {@code short} representation to be
-   *          parsed.
-   * @param defaultValue The {@code short} value to be returned if the string
+   * @param cbuf A {@code char} array containing the {@link Short}
+   *          representation to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or {@code null} if
+   *         the char array does not contain a parsable {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static Short parseShort(final char[] cbuf, final int fromIndex, final int toIndex, final int radix) {
+    if (cbuf == null)
+      return null;
+
+    final int i = parseInt(cbuf, fromIndex, toIndex, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? null : (short)i;
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
+   * the sequence does not contain a parsable {@code short}.
+   *
+   * @param s A {@link CharSequence} containing the {@code short} representation
+   *          to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the sequence
    *          does not contain a parsable {@code short}.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The integer value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the sequence does not contain a parsable
    *         {@code short}.
    * @see Short#parseShort(String)
    */
-  public static short parseShort(final String s, final int radix, final short defaultValue) {
-    final int i = parseInt(s, radix, Integer.MIN_VALUE);
+  public static short parseShort(final CharSequence s, final int radix, final short defaultValue) {
+    if (s == null)
+      return defaultValue;
+
+    final int i = parseInt0(s, 0, s.length(), radix, Integer.MIN_VALUE);
     return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? defaultValue : (short)i;
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@link CharSequence} argument as per the specification of
    * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
-   * the string does not contain a parsable {@code short}.
+   * the sequence does not contain a parsable {@code short}.
    *
-   * @param cbuf A {@code char} array containing the {@code short}
-   *          representation to be parsed.
-   * @param defaultValue The {@code short} value to be returned if the string
+   * @param s A {@link CharSequence} containing the {@code short} representation
+   *          to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the sequence
    *          does not contain a parsable {@code short}.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The integer value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the sequence does not contain a parsable
+   *         {@code short}.
+   * @see Short#parseShort(String)
+   */
+  public static short parseShort(final CharSequence s, final int fromIndex, final int toIndex, final int radix, final short defaultValue) {
+    if (s == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseShort0(s, fromIndex, toIndex, radix, defaultValue);
+  }
+
+  private static short parseShort0(final CharSequence s, final int fromIndex, final int toIndex, final int radix, final short defaultValue) {
+    final int i = parseInt0(s, fromIndex, toIndex, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? defaultValue : (short)i;
+  }
+
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
+   * the char array does not contain a parsable {@code short}.
+   *
+   * @param cbuf A {@code char} array containing the {@code short}
+   *          representation to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the char
+   *          array does not contain a parsable {@code short}.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or
+   *         {@code defaultValue} if the char array does not contain a parsable
    *         {@code short}.
    * @see Short#parseShort(String)
    */
   public static short parseShort(final char[] cbuf, final int radix, final short defaultValue) {
-    final int i = parseInt(cbuf, radix, Integer.MIN_VALUE);
+    if (cbuf == null)
+      return defaultValue;
+
+    final int i = parseInt0(cbuf, 0, cbuf.length, radix, Integer.MIN_VALUE);
     return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? defaultValue : (short)i;
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String)}, but returns {@code null} if the string
-   * does not contain a parsable {@code int}.
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Short#parseShort(String,int)}, but returns {@code defaultValue} if
+   * the char array does not contain a parsable {@code short}.
    *
-   * @param s A {@link String} containing the {@link Integer} representation to
-   *          be parsed.
-   * @return The {@code int} value represented by the argument, or {@code null}
-   *         if the string does not contain a parsable {@code int}.
-   * @see Integer#parseInt(String)
+   * @param cbuf A {@code char} array containing the {@code short}
+   *          representation to be parsed.
+   * @param defaultValue The {@code short} value to be returned if the char
+   *          array does not contain a parsable {@code short}.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The integer value represented by the argument, or
+   *         {@code defaultValue} if the char array does not contain a parsable
+   *         {@code short}.
+   * @see Short#parseShort(String)
    */
-  public static Integer parseInteger(final String s) {
-    return parseInteger(s, 10);
+  public static short parseShort(final char[] cbuf, final int fromIndex, final int toIndex, final int radix, final short defaultValue) {
+    if (cbuf == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseShort0(cbuf, fromIndex, toIndex, radix, defaultValue);
+  }
+
+  private static short parseShort0(final char[] cbuf, final int fromIndex, final int toIndex, final int radix, final short defaultValue) {
+    final int i = parseInt0(cbuf, fromIndex, toIndex, radix, Integer.MIN_VALUE);
+    return i < Short.MIN_VALUE || i > Short.MAX_VALUE ? defaultValue : (short)i;
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code int}.
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Integer#parseInt(String)}, but returns {@code null} if the sequence
+   * does not contain a parsable {@code int}.
    *
-   * @param s A {@link String} containing the {@code int} representation to be
-   *          parsed.
-   * @param defaultValue The {@code int} value to be returned if the string does
-   *          not contain a parsable {@code int}.
+   * @param s A {@link CharSequence} containing the {@link Integer}
+   *          representation to be parsed.
+   * @return The {@code int} value represented by the argument, or {@code null}
+   *         if the sequence does not contain a parsable {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static Integer parseInteger(final CharSequence s) {
+    return s == null ? null : parseInteger0(s, 0, s.length(), 10);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Integer#parseInt(String)}, but returns {@code null} if the sequence
+   * does not contain a parsable {@code int}.
+   *
+   * @param s A {@link CharSequence} containing the {@link Integer}
+   *          representation to be parsed.
+   * @return The {@code int} value represented by the argument, or {@code null}
+   *         if the sequence does not contain a parsable {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static Integer parseInteger(final CharSequence s, final int fromIndex, final int toIndex) {
+    if (s == null)
+      return null;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseInteger0(s, fromIndex, toIndex, 10);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
+   * sequence does not contain a parsable {@code int}.
+   *
+   * @param s A {@link CharSequence} containing the {@code int} representation
+   *          to be parsed.
+   * @param defaultValue The {@code int} value to be returned if the sequence
+   *          does not contain a parsable {@code int}.
    * @return The {@code int} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the sequence does not contain a parsable
    *         {@code int}.
    * @see Integer#parseInt(String)
    */
-  public static int parseInt(final String s, final int defaultValue) {
-    return parseInt(s, 10, defaultValue);
+  public static int parseInt(final CharSequence s, final int defaultValue) {
+    return s == null ? defaultValue : parseInt0(s, 0, s.length(), 10, defaultValue);
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@link CharSequence} argument as per the specification of
    * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code int}.
+   * sequence does not contain a parsable {@code int}.
+   *
+   * @param s A {@link CharSequence} containing the {@code int} representation
+   *          to be parsed.
+   * @param defaultValue The {@code int} value to be returned if the sequence
+   *          does not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the sequence does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final CharSequence s, final int fromIndex, final int toIndex, final int defaultValue) {
+    if (s == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseInt0(s, fromIndex, toIndex, 10, defaultValue);
+  }
+
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
+   * char array does not contain a parsable {@code int}.
    *
    * @param cbuf A {@code char} array containing the {@code int} representation
    *          to be parsed.
-   * @param defaultValue The {@code int} value to be returned if the string does
-   *          not contain a parsable {@code int}.
+   * @param defaultValue The {@code int} value to be returned if the char array
+   *          does not contain a parsable {@code int}.
    * @return The {@code int} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the char array does not contain a parsable
    *         {@code int}.
    * @see Integer#parseInt(String)
    */
   public static int parseInt(final char[] cbuf, final int defaultValue) {
-    return parseInt(cbuf, 10, defaultValue);
+    return cbuf == null ? defaultValue : parseInt0(cbuf, 0, cbuf.length, 10, defaultValue);
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
-   * the string does not contain a parsable {@code int}.
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Integer#parseInt(String)}, but returns {@code defaultValue} if the
+   * char array does not contain a parsable {@code int}.
    *
-   * @param s A {@link String} containing the {@code int} representation to be
-   *          parsed.
-   * @param radix The radix to be used while parsing {@code s}.
-   * @param defaultValue The {@code int} value to be returned if the string does
-   *          not contain a parsable {@code int}.
+   * @param cbuf A {@code char} array containing the {@code int} representation
+   *          to be parsed.
+   * @param defaultValue The {@code int} value to be returned if the char array
+   *          does not contain a parsable {@code int}.
    * @return The {@code int} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the char array does not contain a parsable
    *         {@code int}.
    * @see Integer#parseInt(String)
    */
-  public static int parseInt(final String s, final int radix, final int defaultValue) {
-    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+  public static int parseInt(final char[] cbuf, final int fromIndex, final int toIndex, final int defaultValue) {
+    if (cbuf == null)
       return defaultValue;
 
-    final int len = s.length();
-    boolean negative = false;
-    int i = 0;
-    int limit = -Integer.MAX_VALUE;
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseInt0(cbuf, fromIndex, toIndex, 10, defaultValue);
+  }
 
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
+   * the sequence does not contain a parsable {@code int}.
+   *
+   * @param s A {@link CharSequence} containing the {@code int} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code int} value to be returned if the sequence
+   *          does not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the sequence does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final CharSequence s, final int radix, final int defaultValue) {
+    return s == null ? defaultValue : parseInt0(s, 0, s.length(), radix, defaultValue);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
+   * the sequence does not contain a parsable {@code int}.
+   *
+   * @param s A {@link CharSequence} containing the {@code int} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code int} value to be returned if the sequence
+   *          does not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the sequence does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final CharSequence s, final int fromIndex, final int toIndex, final int radix, final int defaultValue) {
+    if (s == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseInt0(s, fromIndex, toIndex, radix, defaultValue);
+  }
+
+  private static int parseInt0(final CharSequence s, final int fromIndex, final int toIndex, final int radix, final int defaultValue) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return defaultValue;
 
-    final char firstChar = s.charAt(0);
+    boolean negative = false;
+    int i = fromIndex;
+    int limit = -Integer.MAX_VALUE;
+
+    final char firstChar = s.charAt(i);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -885,7 +1153,7 @@ public final class Numbers {
 
     final int multmin = limit / radix;
     int result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(s.charAt(i++), radix);
       if (digit < 0 || result < multmin)
@@ -902,33 +1170,63 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@code char[]} argument as per the specification of
    * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
-   * the string does not contain a parsable {@code int}.
+   * the char array does not contain a parsable {@code int}.
    *
    * @param cbuf A {@code char} array containing the {@code int} representation
    *          to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
-   * @param defaultValue The {@code int} value to be returned if the string does
-   *          not contain a parsable {@code int}.
+   * @param defaultValue The {@code int} value to be returned if the char array
+   *          does not contain a parsable {@code int}.
    * @return The {@code int} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the char array does not contain a parsable
    *         {@code int}.
    * @see Integer#parseInt(String)
    */
   public static int parseInt(final char[] cbuf, final int radix, final int defaultValue) {
-    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+    if (cbuf == null)
       return defaultValue;
 
-    final int len = cbuf.length;
-    boolean negative = false;
-    int i = 0;
-    int limit = -Integer.MAX_VALUE;
+    return parseInt0(cbuf, 0, cbuf.length, radix, defaultValue);
+  }
 
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code defaultValue} if
+   * the char array does not contain a parsable {@code int}.
+   *
+   * @param cbuf A {@code char} array containing the {@code int} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code int} value to be returned if the char array
+   *          does not contain a parsable {@code int}.
+   * @return The {@code int} value represented by the argument, or
+   *         {@code defaultValue} if the char array does not contain a parsable
+   *         {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static int parseInt(final char[] cbuf, final int fromIndex, final int toIndex, final int radix, final int defaultValue) {
+    if (cbuf == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseInt0(cbuf, fromIndex, toIndex, radix, defaultValue);
+  }
+
+  private static int parseInt0(final char[] cbuf, final int fromIndex, final int toIndex, final int radix, final int defaultValue) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return defaultValue;
 
-    final char firstChar = cbuf[0];
+    boolean negative = false;
+    int i = fromIndex;
+    int limit = -Integer.MAX_VALUE;
+
+    final char firstChar = cbuf[i];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -947,7 +1245,7 @@ public final class Numbers {
 
     final int multmin = limit / radix;
     int result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(cbuf[i++], radix);
       if (digit < 0 || result < multmin)
@@ -964,30 +1262,54 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@link CharSequence} argument as per the specification of
    * {@link Integer#parseInt(String,int)}, but returns {@code null} if the
-   * string does not contain a parsable {@code int}.
+   * sequence does not contain a parsable {@code int}.
    *
-   * @param s A {@link String} containing the {@link Integer} representation to
-   *          be parsed.
+   * @param s A {@link CharSequence} containing the {@link Integer}
+   *          representation to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The {@code int} value represented by the argument, or {@code null}
-   *         if the string does not contain a parsable {@code int}.
+   *         if the sequence does not contain a parsable {@code int}.
    * @see Integer#parseInt(String)
    */
-  public static Integer parseInteger(final String s, final int radix) {
-    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+  public static Integer parseInteger(final CharSequence s, final int radix) {
+    return s == null ? null : parseInteger0(s, 0, s.length(), radix);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code null} if the
+   * sequence does not contain a parsable {@code int}.
+   *
+   * @param s A {@link CharSequence} containing the {@link Integer}
+   *          representation to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code int} value represented by the argument, or {@code null}
+   *         if the sequence does not contain a parsable {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static Integer parseInteger(final CharSequence s, final int fromIndex, final int toIndex, final int radix) {
+    if (s == null)
       return null;
 
-    final int len = s.length();
-    boolean negative = false;
-    int i = 0;
-    int limit = -Integer.MAX_VALUE;
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseInteger0(s, fromIndex, toIndex, radix);
+  }
 
+  private static Integer parseInteger0(final CharSequence s, final int fromIndex, final int toIndex, final int radix) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return null;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return null;
 
-    final char firstChar = s.charAt(0);
+    boolean negative = false;
+    int i = fromIndex;
+    int limit = -Integer.MAX_VALUE;
+
+    final char firstChar = s.charAt(i);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1006,7 +1328,7 @@ public final class Numbers {
 
     final int multmin = limit / radix;
     int result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(s.charAt(i++), radix);
       if (digit < 0 || result < multmin)
@@ -1023,30 +1345,57 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Integer#parseInt(String,int)}, but returns {@code null} if the
-   * string does not contain a parsable {@code int}.
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code null} if the char
+   * array does not contain a parsable {@code int}.
    *
    * @param cbuf A {@code char} array containing the {@link Integer}
    *          representation to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The {@code int} value represented by the argument, or {@code null}
-   *         if the string does not contain a parsable {@code int}.
+   *         if the char array does not contain a parsable {@code int}.
    * @see Integer#parseInt(String)
    */
   public static Integer parseInteger(final char[] cbuf, final int radix) {
-    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+    if (cbuf == null)
       return null;
 
-    final int len = cbuf.length;
-    boolean negative = false;
-    int i = 0;
-    int limit = -Integer.MAX_VALUE;
+    return parseInteger0(cbuf, 0, cbuf.length, radix);
+  }
 
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Integer#parseInt(String,int)}, but returns {@code null} if the char
+   * array does not contain a parsable {@code int}.
+   *
+   * @param cbuf A {@code char} array containing the {@link Integer}
+   *          representation to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code int} value represented by the argument, or {@code null}
+   *         if the char array does not contain a parsable {@code int}.
+   * @see Integer#parseInt(String)
+   */
+  public static Integer parseInteger(final char[] cbuf, final int fromIndex, final int toIndex, final int radix) {
+    if (cbuf == null)
+      return null;
+
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseInteger0(cbuf, fromIndex, toIndex, radix);
+  }
+
+  private static Integer parseInteger0(final char[] cbuf, final int fromIndex, final int toIndex, final int radix) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return null;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return null;
 
-    final char firstChar = cbuf[0];
+    boolean negative = false;
+    int i = fromIndex;
+    int limit = -Integer.MAX_VALUE;
+
+    final char firstChar = cbuf[i];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1065,7 +1414,7 @@ public final class Numbers {
 
     final int multmin = limit / radix;
     int result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(cbuf[i++], radix);
       if (digit < 0 || result < multmin)
@@ -1082,81 +1431,171 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Long#parseLong(String)}, but returns {@code null} if the string does
-   * not contain a parsable {@code long}.
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Long#parseLong(String)}, but returns {@code null} if the sequence
+   * does not contain a parsable {@code long}.
    *
-   * @param s A {@link String} containing the {@link Long} representation to be
-   *          parsed.
+   * @param s A {@link CharSequence} containing the {@link Long} representation
+   *          to be parsed.
    * @return The {@code long} value represented by the argument, or {@code null}
-   *         if the string does not contain a parsable {@code long}.
+   *         if the sequence does not contain a parsable {@code long}.
    * @see Long#parseLong(String)
    */
-  public static Long parseLong(final String s) {
-    return parseLong(s, 10);
+  public static Long parseLong(final CharSequence s) {
+    if (s == null)
+      return null;
+
+    return parseLong0(s, 0, s.length(), 10);
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code long}.
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Long#parseLong(String)}, but returns {@code null} if the sequence
+   * does not contain a parsable {@code long}.
    *
-   * @param s A {@link String} containing the {@code long} representation to be
-   *          parsed.
-   * @param defaultValue The {@code long} value to be returned if the string
+   * @param s A {@link CharSequence} containing the {@link Long} representation
+   *          to be parsed.
+   * @return The {@code long} value represented by the argument, or {@code null}
+   *         if the sequence does not contain a parsable {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static Long parseLong(final CharSequence s, final int fromIndex, final int toIndex) {
+    if (s == null)
+      return null;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseLong0(s, fromIndex, toIndex, 10);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
+   * sequence does not contain a parsable {@code long}.
+   *
+   * @param s A {@link CharSequence} containing the {@code long} representation
+   *          to be parsed.
+   * @param defaultValue The {@code long} value to be returned if the sequence
    *          does not contain a parsable {@code long}.
    * @return The {@code long} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the sequence does not contain a parsable
    *         {@code long}.
    * @see Long#parseLong(String)
    */
-  public static long parseLong(final String s, final long defaultValue) {
-    return parseLong(s, 10, defaultValue);
+  public static long parseLong(final CharSequence s, final long defaultValue) {
+    return s == null ? defaultValue : parseLong0(s, 0, s.length(), 10, defaultValue);
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@link CharSequence} argument as per the specification of
    * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code long}.
+   * sequence does not contain a parsable {@code long}.
+   *
+   * @param s A {@link CharSequence} containing the {@code long} representation
+   *          to be parsed.
+   * @param defaultValue The {@code long} value to be returned if the sequence
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the sequence does not contain a parsable
+   *         {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static long parseLong(final CharSequence s, final int fromIndex, final int toIndex, final long defaultValue) {
+    if (s == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseLong0(s, fromIndex, toIndex, 10, defaultValue);
+  }
+
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
+   * char array does not contain a parsable {@code long}.
    *
    * @param cbuf A {@code char} array containing the {@code long} representation
    *          to be parsed.
-   * @param defaultValue The {@code long} value to be returned if the string
+   * @param defaultValue The {@code long} value to be returned if the char array
    *          does not contain a parsable {@code long}.
    * @return The {@code long} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the char array does not contain a parsable
    *         {@code long}.
    * @see Long#parseLong(String)
    */
   public static long parseLong(final char[] cbuf, final long defaultValue) {
-    return parseLong(cbuf, 10, defaultValue);
+    return cbuf == null ? defaultValue : parseLong0(cbuf, 0, cbuf.length, 10, defaultValue);
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Long#parseLong(String,int)}, but returns {@code null} if the string
-   * does not contain a parsable {@code long}.
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Long#parseLong(String)}, but returns {@code defaultValue} if the
+   * char array does not contain a parsable {@code long}.
    *
-   * @param s A {@link String} containing the {@link Long} representation to be
-   *          parsed.
-   * @param radix The radix to be used while parsing {@code s}.
-   * @return The {@code long} value represented by the argument, or {@code null}
-   *         if the string does not contain a parsable {@code long}.
+   * @param cbuf A {@code char} array containing the {@code long} representation
+   *          to be parsed.
+   * @param defaultValue The {@code long} value to be returned if the char array
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the char array does not contain a parsable
+   *         {@code long}.
    * @see Long#parseLong(String)
    */
-  public static Long parseLong(final String s, final int radix) {
-    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+  public static long parseLong(final char[] cbuf, final int fromIndex, final int toIndex, final long defaultValue) {
+    if (cbuf == null)
+      return defaultValue;
+
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseLong0(cbuf, fromIndex, toIndex, 10, defaultValue);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code null} if the
+   * sequence does not contain a parsable {@code long}.
+   *
+   * @param s A {@link CharSequence} containing the {@link Long} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code long} value represented by the argument, or {@code null}
+   *         if the sequence does not contain a parsable {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static Long parseLong(final CharSequence s, final int radix) {
+    return s == null ? null : parseLong0(s, 0, s.length(), radix);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code null} if the
+   * sequence does not contain a parsable {@code long}.
+   *
+   * @param s A {@link CharSequence} containing the {@link Long} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code long} value represented by the argument, or {@code null}
+   *         if the sequence does not contain a parsable {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static Long parseLong(final CharSequence s, final int fromIndex, final int toIndex, final int radix) {
+    if (s == null)
       return null;
 
-    final int len = s.length();
-    boolean negative = false;
-    int i = 0;
-    long limit = -Long.MAX_VALUE;
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseLong0(s, fromIndex, toIndex, radix);
+  }
 
+  private static Long parseLong0(final CharSequence s, final int fromIndex, final int toIndex, final int radix) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return null;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return null;
 
-    final char firstChar = s.charAt(0);
+    boolean negative = false;
+    int i = fromIndex;
+    long limit = -Long.MAX_VALUE;
+
+    final char firstChar = s.charAt(i);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1175,7 +1614,7 @@ public final class Numbers {
 
     final long multmin = limit / radix;
     long result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(s.charAt(i++), radix);
       if (digit < 0 || result < multmin)
@@ -1192,30 +1631,54 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
-   * {@link Long#parseLong(String,int)}, but returns {@code null} if the string
-   * does not contain a parsable {@code long}.
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code null} if the char
+   * array does not contain a parsable {@code long}.
    *
    * @param cbuf A {@code char} array containing the {@link Long} representation
    *          to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
    * @return The {@code long} value represented by the argument, or {@code null}
-   *         if the string does not contain a parsable {@code long}.
+   *         if the char array does not contain a parsable {@code long}.
    * @see Long#parseLong(String)
    */
   public static Long parseLong(final char[] cbuf, final int radix) {
-    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+    return cbuf == null ? null : parseLong0(cbuf, 0, cbuf.length, radix);
+  }
+
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code null} if the char
+   * array does not contain a parsable {@code long}.
+   *
+   * @param cbuf A {@code char} array containing the {@link Long} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @return The {@code long} value represented by the argument, or {@code null}
+   *         if the char array does not contain a parsable {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static Long parseLong(final char[] cbuf, final int fromIndex, final int toIndex, final int radix) {
+    if (cbuf == null)
       return null;
 
-    final int len = cbuf.length;
-    boolean negative = false;
-    int i = 0;
-    long limit = -Long.MAX_VALUE;
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseLong0(cbuf, fromIndex, toIndex, radix);
+  }
 
+  private static Long parseLong0(final char[] cbuf, final int fromIndex, final int toIndex, final int radix) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return null;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return null;
 
-    final char firstChar = cbuf[0];
+    boolean negative = false;
+    int i = fromIndex;
+    long limit = -Long.MAX_VALUE;
+
+    final char firstChar = cbuf[i];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1234,7 +1697,7 @@ public final class Numbers {
 
     final long multmin = limit / radix;
     long result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(cbuf[i++], radix);
       if (digit < 0 || result < multmin)
@@ -1251,33 +1714,60 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@link CharSequence} argument as per the specification of
    * {@link Long#parseLong(String,int)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code long}.
+   * sequence does not contain a parsable {@code long}.
    *
-   * @param s A {@link String} containing the {@code long} representation to be
-   *          parsed.
+   * @param s A {@link CharSequence} containing the {@code long} representation
+   *          to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
-   * @param defaultValue The {@code long} value to be returned if the string
+   * @param defaultValue The {@code long} value to be returned if the sequence
    *          does not contain a parsable {@code long}.
    * @return The {@code long} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the sequence does not contain a parsable
    *         {@code long}.
    * @see Long#parseLong(String)
    */
-  public static long parseLong(final String s, final int radix, final long defaultValue) {
-    if (s == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+  public static long parseLong(final CharSequence s, final int radix, final long defaultValue) {
+    return s == null ? defaultValue : parseLong0(s, 0, s.length(), radix);
+  }
+
+  /**
+   * Parses the {@link CharSequence} argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code defaultValue} if the
+   * sequence does not contain a parsable {@code long}.
+   *
+   * @param s A {@link CharSequence} containing the {@code long} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code long} value to be returned if the sequence
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the sequence does not contain a parsable
+   *         {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static long parseLong(final CharSequence s, final int fromIndex, final int toIndex, final int radix, final long defaultValue) {
+    if (s == null)
       return defaultValue;
 
-    final int len = s.length();
-    boolean negative = false;
-    int i = 0;
-    long limit = -Long.MAX_VALUE;
+    Assertions.assertRange(fromIndex, toIndex, s.length());
+    return parseLong0(s, fromIndex, toIndex, radix);
+  }
 
+  private static long parseLong0(final CharSequence s, final int fromIndex, final int toIndex, final int radix, final long defaultValue) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return defaultValue;
 
-    final char firstChar = s.charAt(0);
+    boolean negative = false;
+    int i = fromIndex;
+    long limit = -Long.MAX_VALUE;
+
+    final char firstChar = s.charAt(i);
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1296,7 +1786,7 @@ public final class Numbers {
 
     final long multmin = limit / radix;
     long result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(s.charAt(i++), radix);
       if (digit < 0 || result < multmin)
@@ -1313,33 +1803,60 @@ public final class Numbers {
   }
 
   /**
-   * Parses the string argument as per the specification of
+   * Parses the {@code char[]} argument as per the specification of
    * {@link Long#parseLong(String,int)}, but returns {@code defaultValue} if the
-   * string does not contain a parsable {@code long}.
+   * char array does not contain a parsable {@code long}.
    *
    * @param cbuf A {@code char} array containing the {@code long} representation
    *          to be parsed.
    * @param radix The radix to be used while parsing {@code s}.
-   * @param defaultValue The {@code long} value to be returned if the string
+   * @param defaultValue The {@code long} value to be returned if the char array
    *          does not contain a parsable {@code long}.
    * @return The {@code long} value represented by the argument, or
-   *         {@code defaultValue} if the string does not contain a parsable
+   *         {@code defaultValue} if the char array does not contain a parsable
    *         {@code long}.
    * @see Long#parseLong(String)
    */
   public static long parseLong(final char[] cbuf, final int radix, final long defaultValue) {
-    if (cbuf == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+    return cbuf == null ? defaultValue : parseLong0(cbuf, 0, cbuf.length, radix);
+  }
+
+  /**
+   * Parses the {@code char[]} argument as per the specification of
+   * {@link Long#parseLong(String,int)}, but returns {@code defaultValue} if the
+   * char array does not contain a parsable {@code long}.
+   *
+   * @param cbuf A {@code char} array containing the {@code long} representation
+   *          to be parsed.
+   * @param radix The radix to be used while parsing {@code s}.
+   * @param defaultValue The {@code long} value to be returned if the char array
+   *          does not contain a parsable {@code long}.
+   * @return The {@code long} value represented by the argument, or
+   *         {@code defaultValue} if the char array does not contain a parsable
+   *         {@code long}.
+   * @see Long#parseLong(String)
+   */
+  public static long parseLong(final char[] cbuf, final int fromIndex, final int toIndex, final int radix, final long defaultValue) {
+    if (cbuf == null)
       return defaultValue;
 
-    final int len = cbuf.length;
-    boolean negative = false;
-    int i = 0;
-    long limit = -Long.MAX_VALUE;
+    Assertions.assertRange(fromIndex, toIndex, cbuf.length);
+    return parseLong0(cbuf, fromIndex, toIndex, radix);
+  }
 
+  private static long parseLong0(final char[] cbuf, final int fromIndex, final int toIndex, final int radix, final long defaultValue) {
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
+      return defaultValue;
+
+    final int len = toIndex - fromIndex;
     if (len == 0)
       return defaultValue;
 
-    final char firstChar = cbuf[0];
+    boolean negative = false;
+    int i = fromIndex;
+    long limit = -Long.MAX_VALUE;
+
+    final char firstChar = cbuf[i];
     if (firstChar < '0') { // Possible leading "+" or "-"
       if (firstChar == '-') {
         negative = true;
@@ -1358,7 +1875,7 @@ public final class Numbers {
 
     final long multmin = limit / radix;
     long result = 0;
-    while (i < len) {
+    while (i < toIndex) {
       // Accumulating negatively avoids surprises near MAX_VALUE
       final int digit = Character.digit(cbuf[i++], radix);
       if (digit < 0 || result < multmin)
