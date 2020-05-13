@@ -41,10 +41,11 @@ import java.util.function.BiFunction;
  * @param <T> The type of the first input to the operation.
  * @param <U> The type of the second input to the operation.
  * @param <R> The type of the result of the function.
+ * @param <E> The type of the exception that can be thrown.
  * @see Throwing
  */
 @FunctionalInterface
-public interface ThrowingBiFunction<T,U,R> extends BiFunction<T,U,R> {
+public interface ThrowingBiFunction<T,U,R,E extends Exception> extends BiFunction<T,U,R> {
   @Override
   default R apply(final T t, final U u) {
     try {
@@ -63,7 +64,7 @@ public interface ThrowingBiFunction<T,U,R> extends BiFunction<T,U,R> {
    * @param t The first input argument.
    * @param u The second function argument.
    * @return The function result.
-   * @throws Exception If an exception has occurred.
+   * @throws E If an exception has occurred.
    */
-  R applyThrows(T t, U u) throws Exception;
+  R applyThrows(T t, U u) throws E;
 }

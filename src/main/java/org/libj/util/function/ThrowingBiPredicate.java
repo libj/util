@@ -40,10 +40,11 @@ import java.util.function.BiPredicate;
  *
  * @param <T> The type of the first argument to the predicate.
  * @param <U> The type of the second argument to the predicate.
+ * @param <E> The type of the exception that can be thrown.
  * @see BiPredicate
  */
 @FunctionalInterface
-public interface ThrowingBiPredicate<T,U> extends BiPredicate<T,U> {
+public interface ThrowingBiPredicate<T,U,E extends Exception> extends BiPredicate<T,U> {
   /**
    * Evaluates this predicate on the given arguments.
    *
@@ -70,7 +71,7 @@ public interface ThrowingBiPredicate<T,U> extends BiPredicate<T,U> {
    * @param t The first input argument.
    * @param u The second input argument.
    * @return The function result.
-   * @throws Exception If an exception has occurred.
+   * @throws E If an exception has occurred.
    */
-  boolean testThrows(T t, U u) throws Exception;
+  boolean testThrows(T t, U u) throws E;
 }

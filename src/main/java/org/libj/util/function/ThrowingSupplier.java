@@ -38,10 +38,11 @@ import java.util.function.Supplier;
  * </pre>
  *
  * @param <T> The type of results supplied by this supplier.
+ * @param <E> The type of the exception that can be thrown.
  * @see Runnable#run()
  */
 @FunctionalInterface
-public interface ThrowingSupplier<T> extends Supplier<T> {
+public interface ThrowingSupplier<T,E extends Exception> extends Supplier<T> {
   @Override
   default T get() {
     try {
@@ -57,8 +58,8 @@ public interface ThrowingSupplier<T> extends Supplier<T> {
    * Gets a result.
    *
    * @return A result.
-   * @throws Exception If an exception has occurred.
+   * @throws E If an exception has occurred.
    * @see Supplier#get()
    */
-  T getThrows() throws Exception;
+  T getThrows() throws E;
 }

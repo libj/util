@@ -41,10 +41,11 @@ import java.util.function.Predicate;
  * </pre>
  *
  * @param <T> The type of the input to the predicate.
+ * @param <E> The type of the exception that can be thrown.
  * @see Predicate
  */
 @FunctionalInterface
-public interface ThrowingPredicate<T> extends Predicate<T> {
+public interface ThrowingPredicate<T,E extends Exception> extends Predicate<T> {
   /**
    * Evaluates this predicate on the given argument.
    *
@@ -69,7 +70,7 @@ public interface ThrowingPredicate<T> extends Predicate<T> {
    *
    * @param t The input argument.
    * @return The function result.
-   * @throws Exception If an exception has occurred.
+   * @throws E If an exception has occurred.
    */
-  boolean testThrows(T t) throws Exception;
+  boolean testThrows(T t) throws E;
 }

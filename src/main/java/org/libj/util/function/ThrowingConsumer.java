@@ -40,10 +40,11 @@ import java.util.function.Consumer;
  * </pre>
  *
  * @param <T> The type of the input to the operation.
+ * @param <E> The type of the exception that can be thrown.
  * @see Throwing
  */
 @FunctionalInterface
-public interface ThrowingConsumer<T> extends Consumer<T> {
+public interface ThrowingConsumer<T,E extends Exception> extends Consumer<T> {
   @Override
   default void accept(final T t) {
     try {
@@ -59,7 +60,7 @@ public interface ThrowingConsumer<T> extends Consumer<T> {
    * thrown.
    *
    * @param t The input argument.
-   * @throws Exception If an exception has occurred.
+   * @throws E If an exception has occurred.
    */
-  void acceptThrows(T t) throws Exception;
+  void acceptThrows(T t) throws E;
 }

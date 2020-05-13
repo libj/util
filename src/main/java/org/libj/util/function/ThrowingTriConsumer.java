@@ -42,10 +42,11 @@ import java.util.function.BiConsumer;
  * @param <T> The type of the first input to the operation.
  * @param <U> The type of the second input to the operation.
  * @param <V> The type of the third input to the operation.
+ * @param <E> The type of the exception that can be thrown.
  * @see Throwing
  */
 @FunctionalInterface
-public interface ThrowingTriConsumer<T,U,V> extends TriConsumer<T,U,V> {
+public interface ThrowingTriConsumer<T,U,V,E extends Exception> extends TriConsumer<T,U,V> {
   @Override
   default void accept(final T t, final U u, final V v) {
     try {
@@ -65,5 +66,5 @@ public interface ThrowingTriConsumer<T,U,V> extends TriConsumer<T,U,V> {
    * @param v The third input argument.
    * @throws Exception If an exception has occurred.
    */
-  void acceptThrows(T t, U u, V v) throws Exception;
+  void acceptThrows(T t, U u, V v) throws E;
 }

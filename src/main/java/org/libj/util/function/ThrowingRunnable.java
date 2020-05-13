@@ -35,10 +35,11 @@ package org.libj.util.function;
  * }
  * </pre>
  *
+ * @param <E> The type of the exception that can be thrown.
  * @see Runnable#run()
  */
 @FunctionalInterface
-public interface ThrowingRunnable extends Runnable {
+public interface ThrowingRunnable<E extends Exception> extends Runnable {
   @Override
   default void run() {
     try {
@@ -52,8 +53,8 @@ public interface ThrowingRunnable extends Runnable {
   /**
    * Performs this operation, allowing an exception to be thrown.
    *
-   * @throws Exception If an exception has occurred.
+   * @throws E If an exception has occurred.
    * @see Runnable#run()
    */
-  void runThrows() throws Exception;
+  void runThrows() throws E;
 }
