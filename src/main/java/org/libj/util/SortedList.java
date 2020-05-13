@@ -124,12 +124,16 @@ public class SortedList<E> extends ObservableList<E> {
   private int getIndex(final int index, final E element, final boolean forSet) {
     final int size = size();
     final boolean isIndexOk;
-    if (index == 0)
-      isIndexOk = size == 0 || comparator.compare(element, get(forSet ? 1 : 0)) <= 0;
-    else if (index == (forSet ? size - 1 : size))
+    if (index == 0) {
+      final int testIndex = forSet ? 1 : 0;
+      isIndexOk = size <= testIndex || comparator.compare(element, get(testIndex)) <= 0;
+    }
+    else if (index == (forSet ? size - 1 : size)) {
       isIndexOk = comparator.compare(get(index - 1), element) <= 0;
-    else
+    }
+    else {
       isIndexOk = comparator.compare(get(index - 1), element) <= 0 && comparator.compare(element, get(forSet ? index + 1 : index)) <= 0;
+    }
 
     return isIndexOk ? index : CollectionUtil.binaryClosestSearch(target, element, comparator);
   }
@@ -228,7 +232,7 @@ public class SortedList<E> extends ObservableList<E> {
     if (!target.get(index).equals(o))
       return -1;
 
-    while (target.get(--index).equals(o));
+    while (--index > 0 && target.get(index).equals(o));
     return index + 1;
   }
 
@@ -246,7 +250,8 @@ public class SortedList<E> extends ObservableList<E> {
     if (!target.get(index).equals(o))
       return -1;
 
-    while (target.get(++index).equals(o));
+    final int len = target.size();
+    while (++index < len && target.get(index).equals(o));
     return index - 1;
   }
 
