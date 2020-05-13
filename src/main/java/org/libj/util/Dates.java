@@ -16,7 +16,10 @@
 
 package org.libj.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -24,6 +27,8 @@ import java.util.TimeZone;
  * Utility functions for operations pertaining to {@link Date}.
  */
 public final class Dates {
+  public static final TimeZone UTC_TIME_ZONE = TimeZone.getTimeZone("UTC");
+
   /** Number of days in a week. */
   public static final byte DAYS_IN_WEEK = 7;
   /** Number of hours in a day. */
@@ -58,6 +63,8 @@ public final class Dates {
   public static final int SECONDS_IN_WEEK = SECONDS_IN_MINUTE * MINUTES_IN_WEEK;
   /** Number of milliseconds in a week. */
   public static final int MILLISECONDS_IN_WEEK = MILLISECONDS_IN_SECOND * SECONDS_IN_WEEK;
+
+  private static final ThreadLocal<SimpleDateFormat> iso8601 = SimpleDateFormats.newSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
   private static final class IsoDate extends Date {
     private static final long serialVersionUID = -3516661689900839721L;
@@ -421,6 +428,29 @@ public final class Dates {
    * @param dateTime The {@link Date}.
    * @return A new {@link Date} object with its milliseconds part removed.
    */
+  public static Date dropSeconds(final Date dateTime) {
+    dateTime.setTime(dropSeconds(dateTime.getTime()));
+    return dateTime;
+  }
+
+  /**
+   * Returns a {@code long} time value with its seconds part removed. The
+   * returned {@code long} will have its seconds part set to 0.
+   *
+   * @param time The {@code long} time value.
+   * @return A {@code long} time value with its seconds part removed.
+   */
+  public static long dropSeconds(final long time) {
+    return MILLISECONDS_IN_MINUTE * (time / MILLISECONDS_IN_MINUTE);
+  }
+
+  /**
+   * Returns a new {@link Date} object with its milliseconds part removed. The
+   * new {@link Date} will have its milliseconds set to 0.
+   *
+   * @param dateTime The {@link Date}.
+   * @return A new {@link Date} object with its milliseconds part removed.
+   */
   public static Date dropMilliseconds(final Date dateTime) {
     dateTime.setTime(dropMilliseconds(dateTime.getTime()));
     return dateTime;
@@ -435,6 +465,107 @@ public final class Dates {
    */
   public static long dropMilliseconds(final long time) {
     return MILLISECONDS_IN_SECOND * (time / MILLISECONDS_IN_SECOND);
+  }
+
+  /**
+   * Converts a <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
+   * formatted date-time string to epoch millis.
+   *
+   * @param iso8601 The
+   *          <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
+   *          formatted date-time string to convert.
+   * @return The millis representation of the
+   *         <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
+   *         formatted date-time string.
+   * @throws ParseException If a parsing error has occurred.
+   */
+  public static long iso8601ToEpochMilli(final String iso8601) throws ParseException {
+    final int year = Numbers.parseInt(iso8601, 0, 4, -1);
+    if (year == -1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 0);
+
+    if (iso8601.charAt(4) != '-')
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 4);
+
+    final int month = Numbers.parseInt(iso8601, 5, 7, -1);
+    if (month == -1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 5);
+
+    if (iso8601.charAt(7) != '-')
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 7);
+
+    final int date = Numbers.parseInt(iso8601, 8, 10, -1);
+    if (date == -1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 8);
+
+    if (iso8601.charAt(10) != 'T')
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 11);
+
+    final int hour = Numbers.parseInt(iso8601, 11, 13, -1);
+    if (hour == -1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 11);
+
+    if (iso8601.charAt(13) != ':')
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 13);
+
+    final int minute = Numbers.parseInt(iso8601, 14, 16, -1);
+    if (minute == -1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 14);
+
+    if (iso8601.charAt(16) != ':')
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 16);
+
+    final int second = Numbers.parseInt(iso8601, 17, 19, -1);
+    if (second == -1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 17);
+
+    final int z;
+    final int millis;
+    if (iso8601.charAt(19) == '.') {
+      millis = Numbers.parseInt(iso8601, 20, Math.min(23, iso8601.length() - 1), -1);
+      if (millis == -1)
+        throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 20);
+
+      z = iso8601.length() - 1;
+    }
+    else {
+      millis = 0;
+      z = 19;
+    }
+
+    if (iso8601.charAt(z) != 'Z')
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", z);
+
+    if (iso8601.length() > z + 1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", z);
+
+    final Calendar calendar = Calendar.getInstance(UTC_TIME_ZONE);
+    calendar.set(Calendar.YEAR, year);
+    calendar.set(Calendar.MONTH, month - 1);
+    calendar.set(Calendar.DATE, date);
+    calendar.set(Calendar.HOUR_OF_DAY, hour);
+    calendar.set(Calendar.MINUTE, minute);
+    calendar.set(Calendar.SECOND, second);
+    if (millis > 0)
+      calendar.set(Calendar.MILLISECOND, millis);
+
+    return calendar.getTimeInMillis();
+  }
+
+  /**
+   * Converts the provided epoch millis to a
+   * <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted
+   * date-time string representation.
+   *
+   * @param epochMilli The epoch millis to convert to
+   *          <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
+   *          formatted date-time string representation.
+   * @return A <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
+   *         formatted date-time string representation of the provided epoch
+   *         millis.
+   */
+  public static String epochMilliToIso8601(final long epochMilli) {
+    return Dates.iso8601.get().format(epochMilli);
   }
 
   private Dates() {

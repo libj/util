@@ -18,6 +18,9 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
+import java.text.ParseException;
+import java.time.Instant;
+
 import org.junit.Test;
 
 public class DatesTest {
@@ -26,5 +29,19 @@ public class DatesTest {
     for (long i = -50; i <= 50; ++i)
       for (long j = 0; j < Dates.MILLISECONDS_IN_DAY; j += 997)
         assertEquals("Iteration: " + i + " " + j, j, Dates.dropDatePart(Dates.MILLISECONDS_IN_DAY * i + j));
+  }
+
+  @Test
+  public void test() throws ParseException {
+    final long[] times = new long[] {
+      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.194319Z"),
+      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.19431Z"),
+      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.1943Z"),
+      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.194Z")
+    };
+
+    final long time = Instant.parse("2020-05-11T13:04:59.194Z").toEpochMilli();
+    for (int i = 0; i < times.length; ++i)
+      assertEquals(time, times[i]);
   }
 }
