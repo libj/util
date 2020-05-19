@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
+import org.libj.lang.Assertions;
+
 /**
  * An efficient stream searching class based on the Knuth-Morris-Pratt
  * algorithm.
@@ -61,22 +63,51 @@ public final class StreamSearcher {
     /**
      * Searches for the next occurrence of the pattern in the stream, starting
      * from the current stream position. Note that the position of the stream is
-     * changed. If a match is found, the stream points to the end of the match --
-     * i.e. the byte AFTER the pattern. Else, the stream is entirely consumed.
-     * The latter is because InputStream semantics make it difficult to have
-     * another reasonable default, i.e. leave the stream unchanged.
+     * changed. If a match is found, the stream points to the end of the match
+     * -- i.e. the byte AFTER the pattern. Else, the stream is entirely
+     * consumed. The latter is because InputStream semantics make it difficult
+     * to have another reasonable default, i.e. leave the stream unchanged.
+     *
+     * @param in The {@link Reader}.
+     * @return Number of bytes the stream is advanced.
+     * @throws IOException If an I/O error has occurred.
+     */
+    public int search(final Reader in) throws IOException {
+      return search(in, null, -1);
+    }
+
+    /**
+     * Searches for the next occurrence of the pattern in the stream, starting
+     * from the current stream position. Note that the position of the stream is
+     * changed. If a match is found, the stream points to the end of the match
+     * -- i.e. the byte AFTER the pattern. Else, the stream is entirely
+     * consumed. The latter is because InputStream semantics make it difficult
+     * to have another reasonable default, i.e. leave the stream unchanged.
+     * <p>
+     * If {@code buffer} is not null, each {@code char} read from the specified
+     * {@link Reader} is set into the provided {@code buffer}, starting at the
+     * given {@code offset}.
      *
      * @param in The {@link Reader}.
      * @param buffer Buffer into which read bytes are written.
      * @param offset Offset in buffer where bytes are written.
      * @return Number of bytes the stream is advanced.
      * @throws IOException If an I/O error has occurred.
+     * @throws IllegalArgumentException If the given {@code offset} is out of
+     *           range.
+     * @throws NullPointerException If {@code in} is null.
      */
     public int search(final Reader in, final char[] buffer, final int offset) throws IOException {
+      if (buffer != null)
+        Assertions.assertRangeArray(offset, buffer.length);
+
       final int[] j = new int[patterns.length];
       int i = 0;
       for (int b; (b = in.read()) != -1;) {
-        buffer[offset + i++] = (char)b;
+        if (buffer != null)
+          buffer[offset + i] = (char)b;
+
+        ++i;
         for (int p = 0; p < patterns.length; ++p) {
           while (j[p] >= 0 && (char)b != patterns[p][j[p]])
             j[p] = borders[p][j[p]];
