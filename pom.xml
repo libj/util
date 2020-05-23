@@ -103,6 +103,7 @@
               <templates>
                 <template>src/main/resources/function/&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/&lt;X&gt;Predicate.java</template>
+                <template>src/main/resources/function/&lt;X&gt;Supplier.java</template>
                 <template>src/main/resources/function/&lt;X&gt;UnaryOperator.java</template>
                 <template>src/main/resources/function/To&lt;X&gt;Function.java</template>
               </templates>
