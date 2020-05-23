@@ -22,10 +22,10 @@
   <parent>
     <groupId>org.libj</groupId>
     <artifactId>libj</artifactId>
-    <version>0.9.7-SNAPSHOT</version>
+    <version>0.9.7</version>
   </parent>
   <artifactId>util</artifactId>
-  <version>0.8.1-SNAPSHOT</version>
+  <version>0.8.1</version>
   <name>LibJ Util</name>
   <description>
     Supplementary utilities for classes that belong to java.util, or are considered essential as to justify existence in java.util.
@@ -35,7 +35,7 @@
       <plugin>
         <groupId>org.openjax.codegen</groupId>
         <artifactId>codegen-maven-plugin</artifactId>
-        <version>0.2.5-SNAPSHOT</version>
+        <version>0.2.5</version>
         <executions>
           <execution>
             <id>characterClasses</id>
@@ -335,25 +335,25 @@
     <dependency>
       <groupId>org.openjax.codegen</groupId>
       <artifactId>radixtree</artifactId>
-      <version>0.2.5-SNAPSHOT</version>
+      <version>0.2.5</version>
     </dependency>
     <dependency>
       <groupId>org.libj</groupId>
       <artifactId>lang</artifactId>
-      <version>0.7.5-SNAPSHOT</version>
+      <version>0.7.5</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.libj</groupId>
       <artifactId>test</artifactId>
-      <version>0.7.1-SNAPSHOT</version>
+      <version>0.7.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.libj</groupId>
       <artifactId>logging</artifactId>
-      <version>0.4.5-SNAPSHOT</version>
+      <version>0.4.5</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

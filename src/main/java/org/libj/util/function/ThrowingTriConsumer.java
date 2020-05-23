@@ -64,7 +64,7 @@ public interface ThrowingTriConsumer<T,U,V,E extends Exception> extends TriConsu
    * @param t The first input argument.
    * @param u The second input argument.
    * @param v The third input argument.
-   * @throws Exception If an exception has occurred.
+   * @throws E If an exception has occurred.
    */
   void acceptThrows(T t, U u, V v) throws E;
 }
