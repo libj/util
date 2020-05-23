@@ -121,6 +121,30 @@
             </configuration>
           </execution>
           <execution>
+            <id>missing-optional-sources</id>
+            <goals>
+              <goal>template</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <templates>
+                <template>src/main/resources/Optional&lt;X&gt;.java</template>
+              </templates>
+              <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util</destDir>
+              <parameters>
+                <int>
+                  <skip>true</skip>
+                </int>
+                <long>
+                  <skip>true</skip>
+                </long>
+                <double>
+                  <skip>true</skip>
+                </double>
+              </parameters>
+            </configuration>
+          </execution>
+          <execution>
             <id>primitive-sort-sources</id>
             <goals>
               <goal>template</goal>
@@ -194,6 +218,7 @@
                 <X>Boolean</X>
                 <Y>Boolean</Y>
                 <y>boolean</y>
+                <d>false</d>
                 <_>//</_>
               </types>
               <imports>
@@ -207,6 +232,7 @@
                 <X>Byte</X>
                 <Y>Byte</Y>
                 <y>byte</y>
+                <d>0</d>
                 <_>//</_>
               </types>
               <imports>
@@ -222,6 +248,7 @@
                 <X>Char</X>
                 <Y>Character</Y>
                 <y>char</y>
+                <d>0</d>
                 <_>//</_>
               </types>
               <imports>
@@ -237,6 +264,7 @@
                 <X>Short</X>
                 <Y>Short</Y>
                 <y>short</y>
+                <d>0</d>
                 <_>//</_>
               </types>
               <imports>
@@ -252,6 +280,7 @@
                 <X>Int</X>
                 <Y>Integer</Y>
                 <y>int</y>
+                <d>0</d>
                 <_></_>
               </types>
               <imports>
@@ -270,6 +299,7 @@
                 <X>Long</X>
                 <Y>Long</Y>
                 <y>long</y>
+                <d>0</d>
                 <_></_>
               </types>
               <imports>
@@ -288,6 +318,7 @@
                 <X>Float</X>
                 <Y>Float</Y>
                 <y>float</y>
+                <d>0</d>
                 <_>//</_>
               </types>
               <imports>
@@ -303,6 +334,7 @@
                 <X>Double</X>
                 <Y>Double</Y>
                 <y>double</y>
+                <d>0</d>
                 <_></_>
               </types>
               <imports>
