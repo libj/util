@@ -1,6 +1,8 @@
 # Changes by Version
 
-## [v0.8.1](https://github.com/libj/util/compare/a806523104ea3762033fc1a0de12daf9176ee5d0..HEAD) (2020-05-23)
+## [v0.9.0-SNAPSHOT](https://github.com/libj/util/compare/d8bc651739ee7c7a945c8ffad2a1dc6c6c0af904..HEAD)
+
+## [v0.8.1](https://github.com/libj/util/compare/a806523104ea3762033fc1a0de12daf9176ee5d0..d8bc651739ee7c7a945c8ffad2a1dc6c6c0af904) (2020-05-23)
 * Add template generated rules for classes in `org.libj.util.function` and `org.libj.util.primitive` packages.
 * Add `ArrayCharSequence`.
 * Prevent `ArrayIndexOutOfBoundsException` in `Bytes`.
