@@ -19,11 +19,26 @@ package org.libj.util;
 import static org.junit.Assert.*;
 
 import java.text.ParseException;
-import java.time.Instant;
+import java.util.TimeZone;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.libj.lang.Strings;
 
 public class DatesTest {
+  private TimeZone defaultTimeZone;
+
+  @Before
+  public void before() {
+    defaultTimeZone = TimeZone.getDefault();
+  }
+
+  @After
+  public void after() {
+    TimeZone.setDefault(defaultTimeZone);
+  }
+
   @Test
   public void testDatePart() {
     for (long i = -50; i <= 50; ++i)
@@ -31,17 +46,58 @@ public class DatesTest {
         assertEquals("Iteration: " + i + " " + j, j, Dates.dropDatePart(Dates.MILLISECONDS_IN_DAY * i + j));
   }
 
-  @Test
-  public void test() throws ParseException {
-    final long[] times = new long[] {
-      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.194319Z"),
-      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.19431Z"),
-      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.1943Z"),
-      Dates.iso8601ToEpochMilli("2020-05-11T13:04:59.194Z")
-    };
+  private static String removeDashes(final String iso8601) {
+    final StringBuilder builder = new StringBuilder(iso8601);
+    builder.delete(7, 8);
+    builder.delete(4, 5);
+    return builder.toString();
+  }
 
-    final long time = Instant.parse("2020-05-11T13:04:59.194Z").toEpochMilli();
-    for (int i = 0; i < times.length; ++i)
-      assertEquals(time, times[i]);
+  private static void testTime2(final long expected, final String iso8601) throws ParseException {
+    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601));
+    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601)));
+    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace(":", "")));
+    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace("T", "")));
+    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "")));
+    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "").replace("T", "")));
+  }
+
+  private static void testTime(final long expected, final String iso8601) throws ParseException {
+    testTime2(expected, iso8601);
+    testTime2(expected, iso8601 + "Z");
+    final int hourOffset = (int)(Math.random() * 24);
+    final String offset = Strings.padLeft(String.valueOf(hourOffset), 2, '0');
+    testTime2(expected - hourOffset * 60 * 60 * 1000, iso8601 + "+" + offset);
+    testTime2(expected + hourOffset * 60 * 60 * 1000, iso8601 + "-" + offset);
+    final int minOffset = (int)(Math.random() * 60);
+    final String offset2 = offset + ":" + Strings.padLeft(String.valueOf(minOffset), 2, '0');
+    testTime2(expected - (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "+" + offset2);
+    testTime2(expected + (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "-" + offset2);
+    final String offset3 = offset + Strings.padLeft(String.valueOf(minOffset), 2, '0');
+    testTime2(expected - (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "+" + offset3);
+    testTime2(expected + (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "-" + offset3);
+  }
+
+  @Test
+  public void testIso8601ToEpochMilli() throws ParseException {
+    TimeZone.setDefault(Dates.UTC_TIME_ZONE);
+    long time = Dates.iso8601ToEpochMilli("2020-05-24T09:20:55.5Z");
+    testTime(time, "2020-05-24T09:20:55.5");
+    testTime(time, "2020-05-24T09:20:55.50");
+    testTime(time, "2020-05-24T09:20:55.500");
+    testTime(time, "2020-05-24T09:20:55.5002");
+    testTime(time, "2020-05-24T09:20:55.50021");
+    testTime(time, "2020-05-24T09:20:55.500210");
+    testTime(time, "2020-05-24T09:20:55.5002101");
+    testTime(time, "2020-05-24T09:20:55.50021012");
+    testTime(time, "2020-05-24T09:20:55.500210123");
+    testTime(time, "2020-05-24T09:20:55.5002101234");
+    testTime(time, "2020-05-24T09:20:55.50021012345");
+
+    for (int i = 0; i < 100; ++i) {
+      time = System.currentTimeMillis();
+      final String iso8601 = Dates.epochMilliToIso8601(time);
+      testTime(time, iso8601);
+    }
   }
 }

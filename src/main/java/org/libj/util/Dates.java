@@ -23,6 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.libj.lang.Numbers;
+
 /**
  * Utility functions for operations pertaining to {@link Date}.
  */
@@ -477,69 +479,135 @@ public final class Dates {
    * @return The millis representation of the
    *         <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
    *         formatted date-time string.
+   * @throws NullPointerException If {@code iso8601} is null.
    * @throws ParseException If a parsing error has occurred.
    */
   public static long iso8601ToEpochMilli(final String iso8601) throws ParseException {
-    final int year = Numbers.parseInt(iso8601, 0, 4, -1);
-    if (year == -1)
+    final int len = iso8601.length();
+    // The minimum length of a iso8601 dateTime is 14
+    if (len < 14)
       throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 0);
 
-    if (iso8601.charAt(4) != '-')
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 4);
+    int i = 0;
+    final int year = Numbers.parseInt(iso8601, i, i += 4, -1);
+    if (year == -1)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 4);
 
-    final int month = Numbers.parseInt(iso8601, 5, 7, -1);
+    if (iso8601.charAt(i) == '-')
+      ++i;
+
+    final int month = Numbers.parseInt(iso8601, i, i += 2, -1);
     if (month == -1)
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 5);
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
 
-    if (iso8601.charAt(7) != '-')
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 7);
+    if (iso8601.charAt(i) == '-')
+      ++i;
 
-    final int date = Numbers.parseInt(iso8601, 8, 10, -1);
+    final int date = Numbers.parseInt(iso8601, i, i += 2, -1);
     if (date == -1)
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 8);
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
 
-    if (iso8601.charAt(10) != 'T')
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 11);
+    if (iso8601.charAt(i) == 'T')
+      ++i;
 
-    final int hour = Numbers.parseInt(iso8601, 11, 13, -1);
+    if (len < i + 2)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
+
+    final int hour = Numbers.parseInt(iso8601, i, i += 2, -1);
     if (hour == -1)
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 11);
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
 
-    if (iso8601.charAt(13) != ':')
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 13);
+    if (iso8601.charAt(i) == ':')
+      ++i;
 
-    final int minute = Numbers.parseInt(iso8601, 14, 16, -1);
+    // Need to start checking the length again, because here it may be more than 14 (see prior comment above)
+    if (len < i + 2)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
+
+    final int minute = Numbers.parseInt(iso8601, i, i += 2, -1);
     if (minute == -1)
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 14);
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
 
-    if (iso8601.charAt(16) != ':')
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 16);
+    if (iso8601.charAt(i) == ':')
+      ++i;
 
-    final int second = Numbers.parseInt(iso8601, 17, 19, -1);
+    if (len < i + 2)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
+
+    final int second = Numbers.parseInt(iso8601, i, i += 2, -1);
     if (second == -1)
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 17);
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
 
-    final int z;
-    final int millis;
-    if (iso8601.charAt(19) == '.') {
-      millis = Numbers.parseInt(iso8601, 20, Math.min(23, iso8601.length() - 1), -1);
+    int millis = 0;
+    char ch = iso8601.charAt(i);
+    if (ch == '.') {
+      ++i;
+      int p = i;
+      for (; p < len; ++p) {
+        ch = iso8601.charAt(p);
+        if (ch < '0' || '9' < ch)
+          break;
+      }
+
+      final int precision = p - i;
+      final int factor = precision == 1 ? 100 : precision == 2 ? 10 : 1;
+      millis = Numbers.parseInt(iso8601, i, i + Math.min(precision, 3), -1);
       if (millis == -1)
-        throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 20);
+        throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
 
-      z = iso8601.length() - 1;
+      millis *= factor;
+      i = p;
+    }
+
+    final TimeZone timeZone;
+    int offset = 0;
+    if (i == len) {
+      timeZone = TimeZone.getDefault();
     }
     else {
-      millis = 0;
-      z = 19;
+      timeZone = UTC_TIME_ZONE;
+      if (ch != 'Z') {
+        final int factor;
+        if (ch == '+')
+          factor = -1;
+        else if (ch == '-')
+          factor = 1;
+        else
+          throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
+
+        ++i;
+        if (len < i + 2)
+          throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
+
+        offset = Numbers.parseInt(iso8601, i, i += 2, -1);
+        if (offset == -1 || offset > 24)
+          throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
+
+        offset *= 60;
+
+        if (i < len) {
+          ch = iso8601.charAt(i);
+          if (ch == ':')
+            ++i;
+
+          if (len < i + 2)
+            throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
+
+          final int mins = Numbers.parseInt(iso8601, i, i += 2, -1);
+          if (mins == -1 || mins > 60)
+            throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
+
+          if (i < len)
+            throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
+
+          offset += mins;
+        }
+
+        offset *= factor;
+      }
     }
 
-    if (iso8601.charAt(z) != 'Z')
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", z);
-
-    if (iso8601.length() > z + 1)
-      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", z);
-
-    final Calendar calendar = Calendar.getInstance(UTC_TIME_ZONE);
+    final Calendar calendar = Calendar.getInstance(timeZone);
     calendar.set(Calendar.YEAR, year);
     calendar.set(Calendar.MONTH, month - 1);
     calendar.set(Calendar.DATE, date);
@@ -548,6 +616,9 @@ public final class Dates {
     calendar.set(Calendar.SECOND, second);
     if (millis > 0)
       calendar.set(Calendar.MILLISECOND, millis);
+
+    if (offset != 0)
+      calendar.add(Calendar.MINUTE, offset);
 
     return calendar.getTimeInMillis();
   }
