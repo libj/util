@@ -83,4 +83,11 @@ public class IteratorsTest {
     for (int i = 0; doubleIterator.hasNext(); ++i)
       assertEquals((double)i, doubleIterator.next());
   }
+
+  @Test
+  public void testLastElement() {
+    final List<String> list = Arrays.asList("a", "b", "c");
+    assertEquals("c", Iterators.lastElement(list.iterator()));
+    assertNull(Iterators.lastElement(Arrays.asList().iterator()));
+  }
 }

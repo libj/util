@@ -71,6 +71,24 @@ public final class Iterators {
   }
 
   /**
+   * Traverses the given iterator, and returns the last element or {@code null}
+   * if the iterator does not have any elements.
+   *
+   * @param <E> The type of elements returned by the given iterator.
+   * @param iterator The {@link Iterator} from which to return the last element.
+   * @return The last element from the given iterator, or {@code null} if the
+   *         iterator does not have any elements.
+   * @throws NullPointerException If {@code iterator} is null.
+   */
+  public static <E>E lastElement(final Iterator<E> iterator) {
+    E element = null;
+    while (iterator.hasNext())
+      element = iterator.next();
+
+    return element;
+  }
+
+  /**
    * Returns an {@link Iterator} that iterates over the elements of
    * {@code iterator} satisfying the {@code filter} predicate.
    *
