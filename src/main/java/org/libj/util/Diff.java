@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.libj.lang.Bytes;
+
 import name.fraser.neil.plaintext.diff_match_patch;
 
 /**
