@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -24,6 +25,52 @@ import java.util.regex.PatternSyntaxException;
  * Utility functions for operations pertaining to {@link Pattern}.
  */
 public final class Patterns {
+  private static final ConcurrentHashMap<String,Pattern> propertyNameToPattern = new ConcurrentHashMap<>();
+
+  /**
+   * Compiles the given regular expression into a pattern.
+   * <p>
+   * This method differentiates itself from {@link Pattern#compile(String)} by
+   * caching the result for faster subsequence execution.
+   *
+   * @param regex The expression to be compiled.
+   * @return The given regular expression compiled into a pattern.
+   * @throws PatternSyntaxException If the expression's syntax is invalid.
+   * @throws NullPointerException If {@code regex} is null.
+   */
+  public static Pattern compile(final String regex) {
+    return compile(regex, 0);
+  }
+
+  /**
+   * Compiles the given regular expression into a pattern with the given flags.
+   * <p>
+   * This method differentiates itself from {@link Pattern#compile(String,int)}
+   * by caching the result for faster subsequence execution.
+   *
+   * @param regex The expression to be compiled
+   * @param flags Match flags, a bit mask that may include
+   *          {@link Pattern#CASE_INSENSITIVE}, {@link Pattern#MULTILINE},
+   *          {@link Pattern#DOTALL}, {@link Pattern#UNICODE_CASE},
+   *          {@link Pattern#CANON_EQ}, {@link Pattern#UNIX_LINES},
+   *          {@link Pattern#LITERAL}, {@link Pattern#UNICODE_CHARACTER_CLASS}
+   *          and {@link Pattern#COMMENTS}
+   * @return the given regular expression compiled into a pattern with the given
+   *         flags
+   * @throws IllegalArgumentException If bit values other than those
+   *           corresponding to the defined match flags are set in {@code flags}
+   * @throws PatternSyntaxException If the expression's syntax is invalid
+   * @throws NullPointerException If {@code regex} is null.
+   */
+  public static Pattern compile(final String regex, final int flags) {
+    final String key = regex + "$" + flags;
+    Pattern pattern = propertyNameToPattern.get(key);
+    if (pattern == null)
+      propertyNameToPattern.put(key, pattern = Pattern.compile(regex, flags));
+
+    return pattern;
+  }
+
   /**
    * Returns a string array of the group names of the specified {@code pattern}.
    * <p>

@@ -385,4 +385,11 @@ public class PatternsTest {
 
     assertUnescape("abcdef", "(?<name1>abc)((?<name2>def)|(?<name3>def))");
   }
+
+  @Test
+  public void testCompile() {
+    final String regex = "[abc]";
+    final Pattern pattern = Patterns.compile(regex);
+    assertSame(pattern, Patterns.compile(regex));
+  }
 }
