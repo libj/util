@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/libj/util/badge.svg?1)](https://coveralls.io/github/libj/util)
 [![Javadocs](https://www.javadoc.io/badge/org.libj/util.svg?1)](https://www.javadoc.io/doc/org.libj/util)
 [![Released Version](https://img.shields.io/maven-central/v/org.libj/util.svg?1)](https://mvnrepository.com/artifact/org.libj/util)
+![Snapshot Version](https://img.shields.io/nexus/s/org.libj/util?label=maven-snapshot&server=https%3A%2F%2Foss.sonatype.org)
 
 ## Introduction
 
