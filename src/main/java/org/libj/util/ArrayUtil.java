@@ -3825,14 +3825,16 @@ public final class ArrayUtil extends PrimitiveSort {
   /**
    * Reverses the order of the members in the provided array.
    *
+   * @param <T> The component type of the array.
    * @param array The array of members to be reversed.
    */
-  public static void reverse(final Object ... array) {
+  @SafeVarargs
+  public static <T>void reverse(final T ... array) {
     if (array == null || array.length < 2)
       return;
 
     for (int i = 0, len = array.length / 2; i < len; ++i) {
-      final Object temp = array[i];
+      final T temp = array[i];
       final int j = array.length - 1 - i;
       array[i] = array[j];
       array[j] = temp;
