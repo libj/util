@@ -70,7 +70,7 @@ class <X>PairedTimSort extends PrimitiveTimSort {
   private <y>[] tmp;
 
   /**
-   * FIXME: Write this up!
+   * Temp storage for paired values, with indexes synchronized with {@link #tmp}.
    */
   private Object[] tmpV;
 
