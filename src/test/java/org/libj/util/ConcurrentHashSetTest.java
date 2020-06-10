@@ -28,7 +28,7 @@ public class ConcurrentHashSetTest {
     for (int i = 0; i < 100; ++i) {
       new Thread(() -> {
         try {
-          for (int i1 = 0; i1 < 1000; ++i1) {
+          for (int j = 0; j < 1000; ++j) {
             Thread.sleep((int)(Math.random() * 10));
 
             set.add(Strings.getRandomAlpha(3));
