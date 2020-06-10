@@ -140,27 +140,27 @@ public class StringPathsTest {
   }
 
   @Test
-  public void testGetShortName() {
+  public void testGetSimpleName() {
     try {
-      StringPaths.getShortName(null);
+      StringPaths.getSimpleName(null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
     }
 
     try {
-      StringPaths.getShortName("");
+      StringPaths.getSimpleName("");
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    assertEquals("share", StringPaths.getShortName("file:///usr/share/../share.txt"));
-    assertEquals("lib", StringPaths.getShortName("file:///usr/share/../share/../lib"));
-    assertEquals("var", StringPaths.getShortName("/usr/share/../share/../lib/../../var.tar.old"));
-    assertEquals("var", StringPaths.getShortName("/usr/share/../share/../lib/../../var/"));
-    assertEquals("resolv", StringPaths.getShortName("/etc/resolv.conf"));
-    assertEquals("name", StringPaths.getShortName("name"));
+    assertEquals("share", StringPaths.getSimpleName("file:///usr/share/../share.txt"));
+    assertEquals("lib", StringPaths.getSimpleName("file:///usr/share/../share/../lib"));
+    assertEquals("var", StringPaths.getSimpleName("/usr/share/../share/../lib/../../var.tar.old"));
+    assertEquals("var", StringPaths.getSimpleName("/usr/share/../share/../lib/../../var/"));
+    assertEquals("resolv", StringPaths.getSimpleName("/etc/resolv.conf"));
+    assertEquals("name", StringPaths.getSimpleName("name"));
   }
 
   @Test

@@ -440,19 +440,19 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the short name of the file or directory denoted by the specified
+   * Returns the simple name of the file or directory denoted by the specified
    * pathname. This is just the last name in the name sequence of {@code path},
    * with its dot-extension removed, if present. If the name sequence of
    * {@code path} is empty, then the empty string is returned.
    *
    * @param path The path string.
-   * @return The short name of the file or directory denoted by the specified
+   * @return The simple name of the file or directory denoted by the specified
    *         pathname, or the empty string if the name sequence of {@code path}
    *         is empty.
    * @throws IllegalArgumentException If {@code path} is an empty string.
    * @throws NullPointerException If {@code path} is null.
    */
-  public static String getShortName(String path) {
+  public static String getSimpleName(String path) {
     if (path.length() == 0)
       throw new IllegalArgumentException("Empty path");
 
