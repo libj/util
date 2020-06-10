@@ -43,7 +43,7 @@ public final class ArrayUtil extends PrimitiveSort {
   /**
    * The empty {@code Object[]} array.
    */
-  public static final Object[] EMPTY_ARRAY = new Object[0];
+  public static final Object[] EMPTY_ARRAY = {};
 
   /**
    * Returns true if the two specified arrays of bytes, over the provided
