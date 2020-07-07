@@ -293,7 +293,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   /**
    * Returns the {@link ComponentList} for the specified type.
    * <p>
-   * <b>Note</b>: If the specified type is registered in the
+   * <b>Note:</b> If the specified type is registered in the
    * {@link CompositeList} but a {@link ComponentList} has not yet been
    * instantiated for the type, this method will return null. Refer to
    * {@link #containsComponentType(Object)} to determine if type is registered.

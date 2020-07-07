@@ -41,7 +41,7 @@ public class SortedList<E> extends ObservableList<E> {
    * Creates a new {@link SortedList} with the provided {@link List list} of
    * comparable elements as the underlying target.
    * <p>
-   * <b>Note</b>: This constructor sorts the provided {@link List list}.
+   * <b>Note:</b> This constructor sorts the provided {@link List list}.
    *
    * @param <T> The parameter requiring elements of type {@link Comparable
    *          Comparable&lt;? super E&gt;}.
@@ -57,7 +57,7 @@ public class SortedList<E> extends ObservableList<E> {
    * Creates a new {@link SortedList} with the provided {@link List list} and
    * {@link Comparator comparator} as the underlying target.
    * <p>
-   * <b>Note</b>: This constructor sorts the provided {@link List list}.
+   * <b>Note:</b> This constructor sorts the provided {@link List list}.
    *
    * @param list The {@link List}.
    * @param comparator The {@link Comparator}.
@@ -258,7 +258,7 @@ public class SortedList<E> extends ObservableList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * <b>Note</b>: The {@link ListIterator} returned by this method does not
+   * <b>Note:</b> The {@link ListIterator} returned by this method does not
    * support {@link ListIterator#add(Object)} or
    * {@link ListIterator#set(Object)}.
    */

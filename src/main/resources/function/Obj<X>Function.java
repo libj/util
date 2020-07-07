@@ -35,5 +35,5 @@ public interface Obj<X>Function<T,R> {
    * @param i The second input argument.
    * @return The function result.
    */
-  R accept(T t, <y> i);
+  R apply(T t, <y> i);
 }

@@ -38,7 +38,7 @@ import org.libj.util.function.<X>Supplier;
  * instances of {@code Optional<X>} may have unpredictable results and should
  * be avoided.
  * <p>
- * <b>Note</b>: {@code Optional<X>} is primarily intended for use as a method
+ * <b>Note:</b> {@code Optional<X>} is primarily intended for use as a method
  * return type where there is a clear need to represent "no result." A variable
  * whose type is {@code Optional<X>} should never itself be {@code null}; it
  * should always point to an {@code Optional<X>} instance.
@@ -56,7 +56,7 @@ public final class Optional<X> {
   /**
    * Construct an empty instance.
    * <p>
-   * <b>Note</b>: Generally only one empty instance, {@link Optional<X>#EMPTY},
+   * <b>Note:</b> Generally only one empty instance, {@link Optional<X>#EMPTY},
    * should exist per VM.
    */
   private Optional<X>() {
@@ -68,7 +68,7 @@ public final class Optional<X> {
    * Returns an empty {@code Optional<X>} instance. No value is present for
    * this {@code Optional<X>}.
    * <p>
-   * <b>Note</b>: Though it may be tempting to do so, avoid testing if an object
+   * <b>Note:</b> Though it may be tempting to do so, avoid testing if an object
    * is empty by comparing with {@code ==} against instances returned by
    * {@code Optional<X>.empty()}. There is no guarantee that it is a
    * singleton. Instead, use {@link #isPresent()}.
@@ -103,7 +103,7 @@ public final class Optional<X> {
    * If a value is present, returns the value, otherwise throws
    * {@code NoSuchElementException}.
    * <p>
-   * <b>Note</b>: The preferred alternative to this method is
+   * <b>Note:</b> The preferred alternative to this method is
    * {@link #orElseThrow()}.
    *
    * @return The value described by this {@code Optional<X>}.
@@ -169,7 +169,7 @@ public final class Optional<X> {
 //   * If a value is present, returns a sequential {@link <X>Stream} containing
 //   * only that value, otherwise returns an empty {@code <X>Stream}.
 //   * <p>
-//   * <b>Note</b>: This method can be used to transform a {@code Stream} of
+//   * <b>Note:</b> This method can be used to transform a {@code Stream} of
 //   * optional <y>s to an {@code <X>Stream} of present <y>s:
 //   *
 //   * <pre>
@@ -227,7 +227,7 @@ public final class Optional<X> {
    * If a value is present, returns the value, otherwise throws an exception
    * produced by the exception supplying function.
    * <p>
-   * <b>Note</b>: A method reference to the exception constructor with an empty
+   * <b>Note:</b> A method reference to the exception constructor with an empty
    * argument list can be used as the supplier. For example,
    * {@code IllegalStateException::new}.
    *
@@ -288,7 +288,7 @@ public final class Optional<X> {
    * suitable for debugging. The exact presentation format is unspecified and
    * may vary between implementations and versions.
    * <p>
-   * <b>Note</b>: If a value is present the result must include its string
+   * <b>Note:</b> If a value is present the result must include its string
    * representation in the result. Empty and present {@code Optional<X>}s must
    * be unambiguously differentiable.
    *
