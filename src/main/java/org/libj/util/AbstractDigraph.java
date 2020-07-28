@@ -166,7 +166,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   /**
-   * Add directed edge ({@code from} -> {@code to}) to this digraph.
+   * Add directed edge ({@code from} -> { @code to}) to this digraph.
    * <p>
    * <b>Note:</b> This method is not thread safe.
    *
