@@ -1278,7 +1278,24 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code array} is null.
    */
   public static <T>int indexOf(final T[] array, final T obj) {
-    for (int i = 0; i < array.length; ++i)
+    return indexOf0(array, 0, array.length, obj);
+  }
+
+  /**
+   * Find the index of an object in an array.
+   *
+   * @param <T> Type parameter of object.
+   * @param array The array to search.
+   * @param obj The object to locate.
+   * @return The index of the object if it is found, or -1 otherwise.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static <T>int indexOf(final T[] array, final int off, int len, final T obj) {
+    return indexOf0(array, off, Math.min(len, array.length), obj);
+  }
+
+  private static <T>int indexOf0(final T[] array, final int off, final int len, final T obj) {
+    for (int i = off; i < len; ++i)
       if (obj.equals(array[i]))
         return i;
 
@@ -1296,6 +1313,19 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static <T>boolean contains(final T[] array, final T obj) {
     return indexOf(array, obj) >= 0;
+  }
+
+  /**
+   * Check for the existence of an object in an array.
+   *
+   * @param <T> Type parameter of object.
+   * @param array The array to search.
+   * @param obj The object to locate.
+   * @return {@code true} if the object exists, {@code false} otherwise.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static <T>boolean contains(final T[] array, final int off, final int len, final T obj) {
+    return indexOf(array, off, len, obj) >= 0;
   }
 
   /**
