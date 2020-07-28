@@ -580,7 +580,7 @@ public final class Dates {
           throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
 
         offset = Numbers.parseInt(iso8601, i, i += 2, -1);
-        if (offset == -1 || offset > 24)
+        if (i == -1 || offset > 24)
           throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
 
         offset *= 60;
