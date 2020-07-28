@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import static org.junit.Assert.*;
+import static org.libj.lang.Strings.Align.*;
 
 import java.text.ParseException;
 import java.util.TimeZone;
@@ -66,14 +67,14 @@ public class DatesTest {
     testTime2(expected, iso8601);
     testTime2(expected, iso8601 + "Z");
     final int hourOffset = (int)(Math.random() * 24);
-    final String offset = Strings.padLeft(String.valueOf(hourOffset), 2, '0');
+    final String offset = Strings.pad(String.valueOf(hourOffset), LEFT, 2, '0');
     testTime2(expected - hourOffset * 60 * 60 * 1000, iso8601 + "+" + offset);
     testTime2(expected + hourOffset * 60 * 60 * 1000, iso8601 + "-" + offset);
     final int minOffset = (int)(Math.random() * 60);
-    final String offset2 = offset + ":" + Strings.padLeft(String.valueOf(minOffset), 2, '0');
+    final String offset2 = offset + ":" + Strings.pad(String.valueOf(minOffset), LEFT, 2, '0');
     testTime2(expected - (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "+" + offset2);
     testTime2(expected + (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "-" + offset2);
-    final String offset3 = offset + Strings.padLeft(String.valueOf(minOffset), 2, '0');
+    final String offset3 = offset + Strings.pad(String.valueOf(minOffset), LEFT, 2, '0');
     testTime2(expected - (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "+" + offset3);
     testTime2(expected + (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "-" + offset3);
   }
