@@ -196,4 +196,92 @@ public class ArrayUtilTest {
     final String[] array = ArrayUtil.createRepeat("hello", 8);
     assertArrayEquals(new String[] {"hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"}, array);
   }
+
+  @Test
+  public void testReverseBytes() {
+    final byte[] array = new byte[100];
+    for (byte i = 0; i < array.length; ++i)
+      array[i] = i;
+
+    ArrayUtil.reverse(array);
+    for (byte i = 0; i < array.length; ++i)
+      assertEquals((byte)(array.length - i - 1), array[i]);
+  }
+
+  @Test
+  public void testReverseShort() {
+    final short[] array = new short[100];
+    for (short i = 0; i < array.length; ++i)
+      array[i] = i;
+
+    ArrayUtil.reverse(array);
+    for (short i = 0; i < array.length; ++i)
+      assertEquals((short)(array.length - i - 1), array[i]);
+  }
+
+  @Test
+  public void testReverseInt() {
+    final int[] array = new int[100];
+    for (int i = 0; i < array.length; ++i)
+      array[i] = i;
+
+    ArrayUtil.reverse(array);
+    for (int i = 0; i < array.length; ++i)
+      assertEquals(array.length - i - 1, array[i]);
+  }
+
+  @Test
+  public void testReverseLong() {
+    final long[] array = new long[100];
+    for (long i = 0; i < array.length; ++i)
+      array[(int)i] = i;
+
+    ArrayUtil.reverse(array);
+    for (long i = 0; i < array.length; ++i)
+      assertEquals(array.length - i - 1, array[(int)i]);
+  }
+
+  @Test
+  public void testReverseFloat() {
+    final float[] array = new float[100];
+    for (float i = 0; i < array.length; ++i)
+      array[(int)i] = i;
+
+    ArrayUtil.reverse(array);
+    for (float i = 0; i < array.length; ++i)
+      assertEquals(array.length - i - 1, array[(int)i], 0);
+  }
+
+  @Test
+  public void testReverseDouble() {
+    final double[] array = new double[100];
+    for (double i = 0; i < array.length; ++i)
+      array[(int)i] = i;
+
+    ArrayUtil.reverse(array);
+    for (double i = 0; i < array.length; ++i)
+      assertEquals(array.length - i - 1, array[(int)i], 0);
+  }
+
+  @Test
+  public void testReverseBoolean() {
+    final boolean[] array = new boolean[100];
+    for (int i = 0; i < array.length; ++i)
+      array[i] = i % 2 < 0;
+
+    ArrayUtil.reverse(array);
+    for (double i = 0; i < array.length; ++i)
+      assertEquals(array.length - i - 1 < 0, array[(int)i]);
+  }
+
+  @Test
+  public void testReverseObject() {
+    final String[] array = new String[100];
+    for (int i = 0; i < array.length; ++i)
+      array[i] = String.valueOf(i);
+
+    ArrayUtil.reverse(array);
+    for (int i = 0; i < array.length; ++i)
+      assertEquals(String.valueOf(array.length - i - 1), array[i]);
+  }
 }

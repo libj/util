@@ -3855,20 +3855,158 @@ public final class ArrayUtil extends PrimitiveSort {
   /**
    * Reverses the order of the members in the provided array.
    *
-   * @param <T> The component type of the array.
    * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
    */
-  @SafeVarargs
-  public static <T>void reverse(final T ... array) {
-    if (array == null || array.length < 2)
-      return;
+  public static byte[] reverse(final byte[] array) {
+    if (array == null || array.length <= 1)
+      return array;
 
-    for (int i = 0, len = array.length / 2; i < len; ++i) {
-      final T temp = array[i];
-      final int j = array.length - 1 - i;
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      array[i] ^= array[j];
+      array[j] ^= array[i];
+      array[i] ^= array[j];
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static short[] reverse(final short[] array) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      array[i] ^= array[j];
+      array[j] ^= array[i];
+      array[i] ^= array[j];
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static int[] reverse(final int[] array) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      array[i] ^= array[j];
+      array[j] ^= array[i];
+      array[i] ^= array[j];
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static long[] reverse(final long[] array) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      array[i] ^= array[j];
+      array[j] ^= array[i];
+      array[i] ^= array[j];
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static boolean[] reverse(final boolean[] array) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      array[i] ^= array[j];
+      array[j] ^= array[i];
+      array[i] ^= array[j];
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static float[] reverse(final float[] array) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    float temp;
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      temp = array[i];
       array[i] = array[j];
       array[j] = temp;
     }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static double[] reverse(final double[] array) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    double temp;
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param <T> The component type of the array.
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  @SafeVarargs
+  public static <T>T[] reverse(final T ... array) {
+    if (array == null || array.length < 2)
+      return array;
+
+    T temp;
+    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+      temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+
+    return array;
   }
 
   private ArrayUtil() {
