@@ -65,8 +65,9 @@ public final class StreamSearcher {
      * from the current stream position. Note that the position of the stream is
      * changed. If a match is found, the stream points to the end of the match
      * -- i.e. the byte AFTER the pattern. Else, the stream is entirely
-     * consumed. The latter is because InputStream semantics make it difficult
-     * to have another reasonable default, i.e. leave the stream unchanged.
+     * consumed. The latter is because {@link Reader} semantics make it
+     * difficult to have another reasonable default, i.e. leave the stream
+     * unchanged.
      *
      * @param in The {@link Reader}.
      * @return Number of bytes the stream is advanced.
@@ -81,8 +82,9 @@ public final class StreamSearcher {
      * from the current stream position. Note that the position of the stream is
      * changed. If a match is found, the stream points to the end of the match
      * -- i.e. the byte AFTER the pattern. Else, the stream is entirely
-     * consumed. The latter is because InputStream semantics make it difficult
-     * to have another reasonable default, i.e. leave the stream unchanged.
+     * consumed. The latter is because {@link Reader} semantics make it
+     * difficult to have another reasonable default, i.e. leave the stream
+     * unchanged.
      * <p>
      * If {@code buffer} is not null, each {@code char} read from the specified
      * {@link Reader} is set into the provided {@code buffer}, starting at the
@@ -160,10 +162,28 @@ public final class StreamSearcher {
     /**
      * Searches for the next occurrence of the pattern in the stream, starting
      * from the current stream position. Note that the position of the stream is
-     * changed. If a match is found, the stream points to the end of the match --
-     * i.e. the byte AFTER the pattern. Else, the stream is entirely consumed.
-     * The latter is because InputStream semantics make it difficult to have
-     * another reasonable default, i.e. leave the stream unchanged.
+     * changed. If a match is found, the stream points to the end of the match
+     * -- i.e. the byte AFTER the pattern. Else, the stream is entirely
+     * consumed. The latter is because {@link InputStream} semantics make it
+     * difficult to have another reasonable default, i.e. leave the stream
+     * unchanged.
+     *
+     * @param in The {@link Reader}.
+     * @return Number of bytes the stream is advanced.
+     * @throws IOException If an I/O error has occurred.
+     */
+    public int search(final InputStream in) throws IOException {
+      return search(in, null, -1);
+    }
+
+    /**
+     * Searches for the next occurrence of the pattern in the stream, starting
+     * from the current stream position. Note that the position of the stream is
+     * changed. If a match is found, the stream points to the end of the match
+     * -- i.e. the byte AFTER the pattern. Else, the stream is entirely
+     * consumed. The latter is because {@link InputStream} semantics make it
+     * difficult to have another reasonable default, i.e. leave the stream
+     * unchanged.
      *
      * @param in The {@link InputStream}.
      * @param buffer Buffer into which read bytes are written.
@@ -172,10 +192,16 @@ public final class StreamSearcher {
      * @throws IOException If an I/O error has occurred.
      */
     public int search(final InputStream in, final byte[] buffer, final int offset) throws IOException {
+      if (buffer != null)
+        Assertions.assertRangeArray(offset, buffer.length);
+
       final int[] j = new int[patterns.length];
       int i = 0;
       for (int b; (b = in.read()) != -1;) {
-        buffer[offset + i++] = (byte)b;
+        if (buffer != null)
+          buffer[offset + i] = (byte)b;
+
+        ++i;
         for (int p = 0; p < patterns.length; ++p) {
           while (j[p] >= 0 && (byte)b != patterns[p][j[p]])
             j[p] = borders[p][j[p]];
