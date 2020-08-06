@@ -1286,6 +1286,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param <T> Type parameter of object.
    * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
    * @param obj The object to locate.
    * @return The index of the object if it is found, or -1 otherwise.
    * @throws NullPointerException If {@code array} is null.
