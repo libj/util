@@ -1371,19 +1371,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final byte[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final byte[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-    if (array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1430,19 +1430,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final byte[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final byte[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-    if (array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1489,19 +1489,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final char[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final char[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-    if (array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1548,19 +1548,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final char[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final char[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-    if (array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1607,21 +1607,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final short[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final short[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-
-    Assertions.assertRangeArray(offset, array.length);
-    if (array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1668,19 +1666,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final short[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final short[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-    if (array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1727,19 +1725,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final int[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final int[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-    if (array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1786,19 +1784,19 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final int[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final int[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
-    Assertions.assertRangeArray(offset, array.length);
-    if (length == 0 || array.length == offset)
+    if (length == 0 || array.length <= offset)
       return "";
 
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1845,7 +1843,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final long[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final long[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -1855,8 +1853,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1903,7 +1902,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final long[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final long[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -1913,8 +1912,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -1961,7 +1961,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final float[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final float[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -1971,8 +1971,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -2019,7 +2020,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final float[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final float[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -2029,8 +2030,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -2077,7 +2079,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final double[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final double[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -2087,8 +2089,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -2135,7 +2138,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final double[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final double[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -2145,8 +2148,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -2230,7 +2234,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final Object[] array, final char delimiter, final int offset, final int length) {
+  public static String toString(final Object[] array, final char delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -2240,8 +2244,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -2263,7 +2268,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
    */
-  public static <T>String toString(final T[] array, final char delimiter, final int offset, final int length, final Function<? super T,String> function) {
+  public static <T>String toString(final T[] array, final char delimiter, final int offset, int length, final Function<? super T,String> function) {
     if (array == null)
       return "null";
 
@@ -2273,8 +2278,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return function.apply(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(function.apply(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(function.apply(array[i]));
 
     return builder.toString();
@@ -2358,7 +2364,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
    */
-  public static String toString(final Object[] array, final String delimiter, final int offset, final int length) {
+  public static String toString(final Object[] array, final String delimiter, final int offset, int length) {
     if (array == null)
       return "null";
 
@@ -2368,8 +2374,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return String.valueOf(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(array[i]);
 
     return builder.toString();
@@ -2391,7 +2398,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If the specified array is not null and the
    *           function is null.
    */
-  public static <T>String toString(final T[] array, final String delimiter, final int offset, final int length, final Function<? super T,String> function) {
+  public static <T>String toString(final T[] array, final String delimiter, final int offset, int length, final Function<? super T,String> function) {
     if (array == null)
       return "null";
 
@@ -2401,8 +2408,9 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array.length == offset + 1)
       return function.apply(array[offset]);
 
+    length += offset;
     final StringBuilder builder = new StringBuilder(function.apply(array[offset]));
-    for (int i = offset + 1; i < length + offset; ++i)
+    for (int i = offset + 1; i < length; ++i)
       builder.append(delimiter).append(function.apply(array[i]));
 
     return builder.toString();
