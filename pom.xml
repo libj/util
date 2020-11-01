@@ -83,11 +83,8 @@
             <phase>generate-sources</phase>
             <configuration>
               <templates>
-                <template>src/main/resources/function/&lt;X&gt;To&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/Bi&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/Bi&lt;X&gt;Function.java</template>
-                <template>src/main/resources/function/Bi&lt;X&gt;To&lt;X&gt;Function.java</template>
-                <template>src/main/resources/function/Obj&lt;X&gt;To&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/BiObj&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/BiObjTo&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/BiObjBi&lt;X&gt;Consumer.java</template>
@@ -99,7 +96,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>missing-function-sources</id>
+            <id>missing-function-sources-X</id>
             <goals>
               <goal>template</goal>
             </goals>
@@ -107,12 +104,44 @@
             <configuration>
               <templates>
                 <template>src/main/resources/function/&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/&lt;X&gt;Predicate.java</template>
                 <template>src/main/resources/function/&lt;X&gt;Supplier.java</template>
                 <template>src/main/resources/function/&lt;X&gt;UnaryOperator.java</template>
                 <template>src/main/resources/function/To&lt;X&gt;Function.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
+              <parameters>
+                <int>
+                  <skip>true</skip>
+                </int>
+                <long>
+                  <skip>true</skip>
+                </long>
+                <double>
+                  <skip>true</skip>
+                </double>
+              </parameters>
+            </configuration>
+          </execution>
+          <execution>
+            <id>missing-function-sources-XY</id>
+            <goals>
+              <goal>template</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <templates>
+                <template>src/main/resources/function/&lt;X&gt;To&lt;Y&gt;Function.java</template>
+                <template>src/main/resources/function/Bi&lt;X&gt;To&lt;Y&gt;Function.java</template>
+                <template>src/main/resources/function/Obj&lt;X&gt;To&lt;Y&gt;Function.java</template>
+              </templates>
+              <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
+              <map>
+                <Y>X</Y>
+                <y>x</y>
+                <YY>XX</YY>
+              </map>
               <parameters>
                 <int>
                   <skip>true</skip>
@@ -186,8 +215,8 @@
                 <object>
                   <types>
                     <X></X>
-                    <Y>Object</Y>
-                    <y>Object</y>
+                    <x>Object</x>
+                    <XX>Object</XX>
                     <_>//</_>
                   </types>
                   <imports>
@@ -222,8 +251,8 @@
             <boolean>
               <types>
                 <X>Boolean</X>
-                <Y>Boolean</Y>
-                <y>boolean</y>
+                <x>boolean</x>
+                <XX>Boolean</XX>
                 <d>false</d>
                 <_>//</_>
               </types>
@@ -236,8 +265,8 @@
             <byte>
               <types>
                 <X>Byte</X>
-                <Y>Byte</Y>
-                <y>byte</y>
+                <x>byte</x>
+                <XX>Byte</XX>
                 <d>0</d>
                 <_>//</_>
               </types>
@@ -252,8 +281,8 @@
             <char>
               <types>
                 <X>Char</X>
-                <Y>Character</Y>
-                <y>char</y>
+                <x>char</x>
+                <XX>Character</XX>
                 <d>0</d>
                 <_>//</_>
               </types>
@@ -268,8 +297,8 @@
             <short>
               <types>
                 <X>Short</X>
-                <Y>Short</Y>
-                <y>short</y>
+                <x>short</x>
+                <XX>Short</XX>
                 <d>0</d>
                 <_>//</_>
               </types>
@@ -284,8 +313,8 @@
             <int>
               <types>
                 <X>Int</X>
-                <Y>Integer</Y>
-                <y>int</y>
+                <x>int</x>
+                <XX>Integer</XX>
                 <d>0</d>
                 <_></_>
               </types>
@@ -303,8 +332,8 @@
             <long>
               <types>
                 <X>Long</X>
-                <Y>Long</Y>
-                <y>long</y>
+                <x>long</x>
+                <XX>Long</XX>
                 <d>0</d>
                 <_></_>
               </types>
@@ -322,8 +351,8 @@
             <float>
               <types>
                 <X>Float</X>
-                <Y>Float</Y>
-                <y>float</y>
+                <x>float</x>
+                <XX>Float</XX>
                 <d>0</d>
                 <_>//</_>
               </types>
@@ -338,8 +367,8 @@
             <double>
               <types>
                 <X>Double</X>
-                <Y>Double</Y>
-                <y>double</y>
+                <x>double</x>
+                <XX>Double</XX>
                 <d>0</d>
                 <_></_>
               </types>

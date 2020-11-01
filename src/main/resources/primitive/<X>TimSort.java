@@ -44,7 +44,7 @@ class <X>TimSort extends PrimitiveTimSort {
   /**
    * The array being sorted.
    */
-  private final <y>[] a;
+  private final <x>[] a;
 
   /**
    * The comparator for this sort.
@@ -60,9 +60,9 @@ class <X>TimSort extends PrimitiveTimSort {
 
   /**
    * Temp storage for merges. A workspace array may optionally be provided in
-   * constructor, and if so will be used as <y> as it is big enough.
+   * constructor, and if so will be used as <x> as it is big enough.
    */
-  private <y>[] tmp;
+  private <x>[] tmp;
 
   /**
    * Creates a IntTrimSort instance to maintain the state of an ongoing sort.
@@ -73,7 +73,7 @@ class <X>TimSort extends PrimitiveTimSort {
    * @param workBase origin of usable space in work array
    * @param workLen usable size of work array
    */
-  private <X>TimSort(final <y>[] a, final <X>Comparator c, final <y>[] work, final int workBase, final int workLen) {
+  private <X>TimSort(final <x>[] a, final <X>Comparator c, final <x>[] work, final int workBase, final int workLen) {
     this.a = a;
     this.c = c;
 
@@ -81,7 +81,7 @@ class <X>TimSort extends PrimitiveTimSort {
     final int len = a.length;
     final int tlen = (len < 2 * INITIAL_TMP_STORAGE_LENGTH) ? len >>> 1 : INITIAL_TMP_STORAGE_LENGTH;
     if (work == null || workLen < tlen || workBase + tlen > work.length) {
-      final <y>[] newArray = new <y>[tlen];
+      final <x>[] newArray = new <x>[tlen];
       tmp = newArray;
       tmpBase = 0;
       tmpLen = tlen;
@@ -130,7 +130,7 @@ class <X>TimSort extends PrimitiveTimSort {
    * @param workLen usable size of work array
    * @since 1.8
    */
-  static void sort(final <y>[] a, int lo, final int hi, final <X>Comparator c, final <y>[] work, final int workBase, final int workLen) {
+  static void sort(final <x>[] a, int lo, final int hi, final <X>Comparator c, final <x>[] work, final int workBase, final int workLen) {
     assert c != null && a != null && lo >= 0 && lo <= hi && hi <= a.length;
 
     int nRemaining = hi - lo;
@@ -193,13 +193,13 @@ class <X>TimSort extends PrimitiveTimSort {
    *          already known to be sorted ({@code lo <= start <= hi})
    * @param c comparator to used for the sort
    */
-  private static void binarySort(final <y>[] a, final int lo, final int hi, int start, final <X>Comparator c) {
+  private static void binarySort(final <x>[] a, final int lo, final int hi, int start, final <X>Comparator c) {
     assert lo <= start && start <= hi;
     if (start == lo)
       ++start;
 
     for (; start < hi; ++start) {
-      final <y> pivot = a[start];
+      final <x> pivot = a[start];
 
       // Set left (and right) to the index where a[start] (pivot) belongs
       int left = lo;
@@ -257,7 +257,7 @@ class <X>TimSort extends PrimitiveTimSort {
    * @return the length of the run beginning at the specified position in the
    *         specified array
    */
-  private static int countRunAndMakeAscending(final <y>[] a, final int lo, final int hi, final <X>Comparator c) {
+  private static int countRunAndMakeAscending(final <x>[] a, final int lo, final int hi, final <X>Comparator c) {
     assert lo < hi;
     int runHi = lo + 1;
     if (runHi == hi)
@@ -285,10 +285,10 @@ class <X>TimSort extends PrimitiveTimSort {
    * @param lo the index of the first element in the range to be reversed
    * @param hi the index after the last element in the range to be reversed
    */
-  private static void reverseRange(final <y>[] a, int lo, int hi) {
+  private static void reverseRange(final <x>[] a, int lo, int hi) {
     --hi;
     while (lo < hi) {
-      final <y> t = a[lo];
+      final <x> t = a[lo];
       a[lo++] = a[hi];
       a[hi--] = t;
     }
@@ -372,7 +372,7 @@ class <X>TimSort extends PrimitiveTimSort {
    *         words, the first k elements of a should precede key, and the last n
    *         - k should follow it.
    */
-  private static int gallopLeft(final <y> key, final <y>[] a, final int base, final int len, final int hint, final <X>Comparator c) {
+  private static int gallopLeft(final <x> key, final <x>[] a, final int base, final int len, final int hint, final <X>Comparator c) {
     assert len > 0 && hint >= 0 && hint < len;
     int lastOfs = 0;
     int ofs = 1;
@@ -442,7 +442,7 @@ class <X>TimSort extends PrimitiveTimSort {
    * @param c the comparator used to order the range, and to search
    * @return the int k, 0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
    */
-  private static int gallopRight(final <y> key, final <y>[] a, final int base, final int len, final int hint, final <X>Comparator c) {
+  private static int gallopRight(final <x> key, final <x>[] a, final int base, final int len, final int hint, final <X>Comparator c) {
     assert len > 0 && hint >= 0 && hint < len;
 
     int ofs = 1;
@@ -520,8 +520,8 @@ class <X>TimSort extends PrimitiveTimSort {
     assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
     // Copy first run into temp array
-    final <y>[] a = this.a; // For performance
-    final <y>[] tmp = ensureCapacity(len1);
+    final <x>[] a = this.a; // For performance
+    final <x>[] tmp = ensureCapacity(len1);
     int cursor1 = tmpBase; // Indexes into tmp array
     int cursor2 = base2; // Indexes int a
     int dest = base1; // Indexes int a
@@ -645,8 +645,8 @@ class <X>TimSort extends PrimitiveTimSort {
     assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
     // Copy second run into temp array
-    final <y>[] a = this.a; // For performance
-    final <y>[] tmp = ensureCapacity(len2);
+    final <x>[] a = this.a; // For performance
+    final <x>[] tmp = ensureCapacity(len2);
     final int tmpBase = this.tmpBase;
     System.arraycopy(a, base2, tmp, tmpBase, len2);
 
@@ -769,7 +769,7 @@ class <X>TimSort extends PrimitiveTimSort {
    * @param minCapacity the minimum required capacity of the tmp array
    * @return tmp, whether or not it grew
    */
-  private <y>[] ensureCapacity(final int minCapacity) {
+  private <x>[] ensureCapacity(final int minCapacity) {
     if (tmpLen < minCapacity) {
       // Compute smallest power of 2 > minCapacity
       int newSize = -1 >>> Integer.numberOfLeadingZeros(minCapacity);
@@ -780,7 +780,7 @@ class <X>TimSort extends PrimitiveTimSort {
       else
         newSize = Math.min(newSize, a.length >>> 1);
 
-      final <y>[] newArray = new <y>[newSize];
+      final <x>[] newArray = new <x>[newSize];
       tmp = newArray;
       tmpLen = newSize;
       tmpBase = 0;

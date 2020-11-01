@@ -29,7 +29,7 @@ import org.libj.lang.Assertions;
 import org.libj.util.ArrayUtil;
 
 /**
- * An unsynchronized implementation of a resizable-array of <y> values.
+ * An unsynchronized implementation of a resizable-array of <x> values.
  * <p>
  * The {@code size}, {@code isEmpty}, {@code get}, and {@code set} operations
  * run in constant time. The {@code add} operation runs in <i>amortized constant
@@ -56,16 +56,16 @@ import org.libj.util.ArrayUtil;
  * modification.) This is typically accomplished by synchronizing on some object
  * that naturally encapsulates the list.
  */
-public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, RandomAccess {
+public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, RandomAccess {
   private static final long serialVersionUID = <serialVersionUID>;
 
-  private static final <y>[] EMPTY_VALUEDATA = {};
+  private static final <x>[] EMPTY_VALUEDATA = {};
 
   /**
    * Creates an empty list with an initial capacity of five.
    */
   public Array<X>List() {
-    valueData = new <y>[DEFAULT_INITIAL_CAPACITY];
+    valueData = new <x>[DEFAULT_INITIAL_CAPACITY];
     fromIndex = 0;
   }
 
@@ -81,7 +81,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
       throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
 
     fromIndex = 0;
-    valueData = initialCapacity == 0 ? EMPTY_VALUEDATA : new <y>[initialCapacity];
+    valueData = initialCapacity == 0 ? EMPTY_VALUEDATA : new <x>[initialCapacity];
   }
 
   /**
@@ -92,9 +92,9 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
    * @param length The number of values to add.
    * @throws NullPointerException If the specified array is null.
    */
-  public Array<X>List(final <y>[] values, final int offset, final int length) {
+  public Array<X>List(final <x>[] values, final int offset, final int length) {
     fromIndex = 0;
-    valueData = new <y>[length];
+    valueData = new <x>[length];
     System.arraycopy(values, offset, valueData, 0, length);
     size = length;
   }
@@ -105,7 +105,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
    * @param values The array whose values are to be placed into this list.
    * @throws NullPointerException If the specified array is null.
    */
-  public Array<X>List(final <y> ... values) {
+  public Array<X>List(final <x> ... values) {
     this(values, 0, values.length);
   }
 
@@ -116,10 +116,10 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
    * @param c The collection whose values are to be placed into this list.
    * @throws NullPointerException If the specified collection is null.
    */
-  public Array<X>List(final Collection<<Y>> c) {
+  public Array<X>List(final Collection<<XX>> c) {
     fromIndex = 0;
-    valueData = new <y>[c.size()];
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext();)
+    valueData = new <x>[c.size()];
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();)
       valueData[size++] = i.next();
   }
 
@@ -167,13 +167,13 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public <y> get(final int index) {
+  public <x> get(final int index) {
     Assertions.assertRange(index, size(), false);
     return valueData[fromIndex + index];
   }
 
   @Override
-  public boolean add(final <y> value) {
+  public boolean add(final <x> value) {
     final int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -181,7 +181,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public boolean add(int index, final <y> value) {
+  public boolean add(int index, final <x> value) {
     Assertions.assertRange(index, size(), true);
     index += fromIndex;
     shiftRight(index, 1);
@@ -238,7 +238,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final <y>[] values, final int offset, final int length) {
+  public boolean addAll(final <x>[] values, final int offset, final int length) {
     if (values.length == 0)
       return false;
 
@@ -258,7 +258,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  public boolean addAll(final <y> ... values) {
+  public boolean addAll(final <x> ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -303,7 +303,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public boolean addAll(int index, final <y>[] values, final int offset, final int length) {
+  public boolean addAll(int index, final <x>[] values, final int offset, final int length) {
     Assertions.assertRange(index, size(), true);
     if (values.length == 0)
       return false;
@@ -316,14 +316,14 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public boolean addAll(final Collection<<Y>> c) {
+  public boolean addAll(final Collection<<XX>> c) {
     final int len = c.size();
     if (len == 0)
       return false;
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, len);
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
@@ -344,7 +344,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public boolean addAll(int index, final Collection<<Y>> c) {
+  public boolean addAll(int index, final Collection<<XX>> c) {
     Assertions.assertRange(index, size(), true);
     final int len = c.size();
     if (len == 0)
@@ -352,7 +352,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
 
     index += fromIndex;
     shiftRight(index, len);
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
       valueData[index] = i.next();
 
     return true;
@@ -374,27 +374,27 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public <y> set(int index, final <y> value) {
+  public <x> set(int index, final <x> value) {
     Assertions.assertRange(index, size(), false);
     index += fromIndex;
-    final <y> oldValue = valueData[index];
+    final <x> oldValue = valueData[index];
     valueData[index] = value;
     updateState(0, 0);
     return oldValue;
   }
 
   @Override
-  public <y> removeIndex(int index) {
+  public <x> removeIndex(int index) {
     Assertions.assertRange(index, size(), false);
     index += fromIndex;
-    final <y> value = valueData[index];
+    final <x> value = valueData[index];
     shiftLeft(index, 1);
     updateState(index, -1);
     return value;
   }
 
   @Override
-  public boolean retainAll(final Collection<<Y>> c) {
+  public boolean retainAll(final Collection<<XX>> c) {
     final int beforeSize = size;
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
       if (!c.contains(valueData[i])) {
@@ -420,7 +420,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public int indexOf(final <y> value) {
+  public int indexOf(final <x> value) {
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
       if (valueData[i] == value)
@@ -430,7 +430,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public int lastIndexOf(final <y> value) {
+  public int lastIndexOf(final <x> value) {
     for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i)
       if (valueData[i] == value)
         return i - fromIndex;
@@ -449,7 +449,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
     if (p.length != size())
       throw new IllegalArgumentException("The length of the paired array (" + p.length + ") does not match that of this list (" + size() + ")");
 
-    <X>PairedTimSort.sort(valueData, p, 0, size(), c != null ? c : <Y>::compare, null, 0, 0);
+    <X>PairedTimSort.sort(valueData, p, 0, size(), c != null ? c : <XX>::compare, null, 0, 0);
   }
 
   private class <X>Itr implements <X>Iterator {
@@ -463,7 +463,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
     }
 
     @Override
-    public <y> next() {
+    public <x> next() {
       checkForComodification();
       final int i = cursor;
       if (i >= (toIndex > -1 ? toIndex : size))
@@ -538,7 +538,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
     }
 
     @Override
-    public <y> previous() {
+    public <x> previous() {
       checkForComodification();
       final int i = cursor - 1;
       if (i < fromIndex)
@@ -552,7 +552,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
     }
 
     @Override
-    public void set(final <y> value) {
+    public void set(final <x> value) {
       if (lastRet < 0)
         throw new IllegalStateException();
 
@@ -566,7 +566,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
     }
 
     @Override
-    public void add(final <y> value) {
+    public void add(final <x> value) {
       checkForComodification();
       try {
         final int i = cursor;
@@ -619,9 +619,9 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public <y>[] toArray(<y>[] a) {
+  public <x>[] toArray(<x>[] a) {
     if (a.length < size())
-      a = new <y>[size()];
+      a = new <x>[size()];
 
     System.arraycopy(valueData, fromIndex, a, 0, size());
     if (a.length > size())
@@ -631,9 +631,9 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
   }
 
   @Override
-  public <Y>[] toArray(<Y>[] a) {
+  public <XX>[] toArray(<XX>[] a) {
     if (a.length < size())
-      a = new <Y>[size()];
+      a = new <XX>[size()];
 
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
@@ -666,9 +666,9 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
    */
   public void ensureCapacity(final int minCapacity) {
     if (minCapacity > valueData.length) {
-      final <y>[] oldData = valueData;
+      final <x>[] oldData = valueData;
       final int newCapacity = Math.max((valueData.length * 3) / 2 + 1, minCapacity);
-      final <y>[] valueData = new <y>[newCapacity];
+      final <x>[] valueData = new <x>[newCapacity];
       System.arraycopy(oldData, 0, valueData, 0, size);
       this.valueData = valueData;
       updateState(0, 0);
@@ -705,7 +705,7 @@ public class Array<X>List extends PrimitiveArrayList<<y>[]> implements <X>List, 
     int hashCode = 1;
     final int len = toIndex > -1 ? toIndex : size;
     for (int i = fromIndex; i < len; ++i)
-      hashCode = 31 * hashCode + <Y>.hashCode(valueData[i]);
+      hashCode = 31 * hashCode + <XX>.hashCode(valueData[i]);
 
     return hashCode;
   }

@@ -21,12 +21,12 @@ import java.util.Iterator;
 import java.util.Objects;
 
 /**
- * The root interface in the <i>{@code <y>} collection hierarchy</i>. A
- * primitive collection represents a group of {@code <y>} values. Some
+ * The root interface in the <i>{@code <x>} collection hierarchy</i>. A
+ * primitive collection represents a group of {@code <x>} values. Some
  * collections allow duplicate elements and others do not. Some are ordered and
  * others unordered.
  * <p>
- * The architecture of the <i>{@code <y>} collection hierarchy</i> is designed
+ * The architecture of the <i>{@code <x>} collection hierarchy</i> is designed
  * to mimic that of the <i>collection hierarchy</i> in {@link Collection}, in
  * order to provide a nearly identical API for ease of use and interoperability.
  *
@@ -45,7 +45,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param value Value whose presence in this collection is to be ensured.
    * @return {@code true} if this collection changed as a result of the call.
    */
-  boolean add(<y> value);
+  boolean add(<x> value);
 
   /**
    * Appends all of the values in the specified array to the end of this
@@ -55,7 +55,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified array is null.
    */
-  default boolean addAll(final <y> ... a) {
+  default boolean addAll(final <x> ... a) {
     boolean changed = false;
     for (int i = 0; i < a.length; ++i)
       changed |= add(a[i]);
@@ -86,11 +86,11 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param c Collection containing values to be added to this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
    */
-  boolean addAll(Collection<<Y>> c);
+  boolean addAll(Collection<<XX>> c);
 
   /**
    * Removes the first occurrence of the specified value from this collection,
@@ -103,7 +103,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param value Value to be removed from this collection, if present.
    * @return {@code true} if this collection contained the specified value.
    */
-  boolean remove(<y> value);
+  boolean remove(<x> value);
 
   /**
    * Removes all of this collection's values that are also contained in the
@@ -113,10 +113,10 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param a Array containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified array is null.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
-  boolean removeAll(<y> ... a);
+  boolean removeAll(<x> ... a);
 
   /**
    * Removes all of this collection's values that are also contained in the
@@ -126,8 +126,8 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param c Collection containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   boolean removeAll(<X>Collection c);
 
@@ -139,16 +139,16 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param c Collection containing values to be removed from this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@link <Y>}.
+   *           collection is not an {@link <XX>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
-  default boolean removeAll(final Collection<<Y>> c) {
+  default boolean removeAll(final Collection<<XX>> c) {
     final int beforeSize = size();
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext();) {
-      final <y> value = i.next();
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) {
+      final <x> value = i.next();
       while (remove(value));
     }
 
@@ -197,13 +197,13 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param c Collection containing values to be retained in this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
-  boolean retainAll(Collection<<Y>> c);
+  boolean retainAll(Collection<<XX>> c);
 
   /**
    * Retains only the values in this collection that are contained in the
@@ -213,8 +213,8 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param c Collection containing values to be retained in this collection.
    * @return {@code true} if this collection changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   boolean retainAll(<X>Collection c);
 
@@ -226,7 +226,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @param value Value whose presence in this collection is to be tested
    * @return {@code true} if this collection contains the specified value.
    */
-  boolean contains(<y> value);
+  boolean contains(<x> value);
 
   /**
    * Returns {@code true} if this collection contains all of the values in the
@@ -236,7 +236,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
    * @throws NullPointerException If the specified collection is null.
-   * @see #contains(<y>)
+   * @see #contains(<x>)
    */
   default boolean containsAll(final <X>Collection c) {
     for (final <X>Iterator i = c.iterator(); i.hasNext();)
@@ -254,13 +254,13 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not an {@link <Y>}.
+   *           collection is not an {@link <XX>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           specified collection contains a null value.
-   * @see #contains(<y>)
+   * @see #contains(<x>)
    */
-  default boolean containsAll(final Collection<<Y>> c) {
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext();)
+  default boolean containsAll(final Collection<<XX>> c) {
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -280,8 +280,8 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @return An array containing all of the values in this collection in proper
    *         sequence.
    */
-  default <y>[] toArray() {
-    return toArray(new <y>[size()]);
+  default <x>[] toArray() {
+    return toArray(new <x>[size()]);
   }
 
   /**
@@ -302,7 +302,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @return An array containing the values of the collection.
    * @throws NullPointerException If the specified array is null.
    */
-  <y>[] toArray(<y>[] a);
+  <x>[] toArray(<x>[] a);
 
   /**
    * Returns an array containing all of the values in this collection in proper
@@ -320,7 +320,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @return An array containing the values of the collection.
    * @throws NullPointerException If the specified array is null.
    */
-  <Y>[] toArray(<Y>[] a);
+  <XX>[] toArray(<XX>[] a);
 
   // FIXME: <X>Stream
 <_>  /**

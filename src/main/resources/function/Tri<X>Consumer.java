@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.function.<X>Consumer;
 
 /**
- * Represents an operation that accepts three {@code <y>}-valued arguments and
+ * Represents an operation that accepts three {@code <x>}-valued arguments and
  * returns no result. This is the three-arity specialization of
  * {@link <X>Consumer}. Unlike most other functional interfaces,
  * {@link Tri<X>Consumer} is expected to operate via side-effects.
@@ -36,7 +36,7 @@ public interface Tri<X>Consumer {
    * @param v2 The second input argument.
    * @param v3 The third input argument.
    */
-  void accept(<y> v1, <y> v2, <y> v3);
+  void accept(<x> v1, <x> v2, <x> v3);
 
   /**
    * Returns a composed {@link Tri<X>Consumer} that performs, in sequence, this

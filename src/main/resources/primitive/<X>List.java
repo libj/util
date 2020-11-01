@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * An ordered collection (also known as a <i>sequence</i>), of {@code <y>}
+ * An ordered collection (also known as a <i>sequence</i>), of {@code <x>}
  * values.
  * <p>
  * This interface is a replica of the {@link java.util.List} interface that
- * defines synonymous methods for a list of {@code <y>} values instead of
+ * defines synonymous methods for a list of {@code <x>} values instead of
  * Object references.
  */
 public interface <X>List extends <X>Collection {
@@ -40,9 +40,9 @@ public interface <X>List extends <X>Collection {
    *
    * @param value The value to be pushed onto this list.
    * @return The {@code value} argument.
-   * @see #add(<y>)
+   * @see #add(<x>)
    */
-  default <y> push(final <y> value) {
+  default <x> push(final <x> value) {
     add(value);
     return value;
   }
@@ -59,7 +59,7 @@ public interface <X>List extends <X>Collection {
    *         {@link <X>List} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
-  default <y> pop() {
+  default <x> pop() {
     return removeIndex(size() - 1);
   }
 
@@ -75,7 +75,7 @@ public interface <X>List extends <X>Collection {
    *         {@link <X>List} object).
    * @throws IndexOutOfBoundsException If this list is empty.
    */
-  default <y> peek() {
+  default <x> peek() {
     return get(size() - 1);
   }
 
@@ -87,7 +87,7 @@ public interface <X>List extends <X>Collection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  <y> get(int index);
+  <x> get(int index);
 
   /**
    * Appends the specified value to the end of this list.
@@ -96,7 +96,7 @@ public interface <X>List extends <X>Collection {
    * @return {@code true} if this list changed as a result of the call.
    */
   @Override
-  boolean add(<y> value);
+  boolean add(<x> value);
 
   /**
    * Inserts the specified value at the specified position in this list. Shifts
@@ -109,7 +109,7 @@ public interface <X>List extends <X>Collection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  boolean add(int index, <y> value);
+  boolean add(int index, <x> value);
 
   /**
    * Appends all of the values in the specified array to the end of this list,
@@ -127,7 +127,7 @@ public interface <X>List extends <X>Collection {
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified array is null.
    */
-  boolean addAll(int index, <y>[] values, int offset, int length);
+  boolean addAll(int index, <x>[] values, int offset, int length);
 
   /**
    * Appends all of the values in the specified array to the end of this list,
@@ -141,7 +141,7 @@ public interface <X>List extends <X>Collection {
    *           ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified array is null.
    */
-  default boolean addAll(final int index, final <y>[] values) {
+  default boolean addAll(final int index, final <x>[] values) {
     return addAll(index, values, 0, values.length);
   }
 
@@ -157,7 +157,7 @@ public interface <X>List extends <X>Collection {
    *           ({@code offset < 0 || values.length < offset + length}).
    * @throws NullPointerException If the specified array is null.
    */
-  boolean addAll(<y>[] values, int offset, int length);
+  boolean addAll(<x>[] values, int offset, int length);
 
   /**
    * Appends all of the values in the specified array to the end of this list,
@@ -168,7 +168,7 @@ public interface <X>List extends <X>Collection {
    * @throws NullPointerException If the specified array is null.
    */
   @Override
-  default boolean addAll(final <y> ... values) {
+  default boolean addAll(final <x> ... values) {
     return addAll(values, 0, values.length);
   }
 
@@ -184,11 +184,11 @@ public interface <X>List extends <X>Collection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
-  boolean addAll(int index, Collection<<Y>> c);
+  boolean addAll(int index, Collection<<XX>> c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -198,12 +198,12 @@ public interface <X>List extends <X>Collection {
    * @param c Collection containing values to be added to this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
    */
   @Override
-  boolean addAll(Collection<<Y>> c);
+  boolean addAll(Collection<<XX>> c);
 
   /**
    * Appends all of the values in the specified collection to the end of this
@@ -246,7 +246,7 @@ public interface <X>List extends <X>Collection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  <y> set(int index, <y> value);
+  <x> set(int index, <x> value);
 
   /**
    * Removes the value at the specified index in this list. Shifts any
@@ -257,7 +257,7 @@ public interface <X>List extends <X>Collection {
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || size() < index}).
    */
-  <y> removeIndex(int index);
+  <x> removeIndex(int index);
 
   /**
    * Removes the first occurrence of the specified value from this list, if it
@@ -271,7 +271,7 @@ public interface <X>List extends <X>Collection {
    * @return {@code true} if this list contained the specified value.
    */
   @Override
-  default boolean remove(final <y> value) {
+  default boolean remove(final <x> value) {
     final int index = indexOf(value);
     if (index == -1)
       return false;
@@ -286,11 +286,11 @@ public interface <X>List extends <X>Collection {
    *
    * @param values Values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
-  default boolean removeAll(final <y> ... values) {
+  default boolean removeAll(final <x> ... values) {
     final int beforeSize = size();
     for (int i = 0; i < values.length; ++i)
       while (remove(values[i]));
@@ -305,14 +305,14 @@ public interface <X>List extends <X>Collection {
    * @param c Collection containing values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
   default boolean removeAll(final <X>Collection c) {
     final int beforeSize = size();
     for (final <X>Iterator iterator = c.iterator(); iterator.hasNext();) {
-      final <y> value = iterator.next();
+      final <x> value = iterator.next();
       while (remove(value));
     }
 
@@ -326,17 +326,17 @@ public interface <X>List extends <X>Collection {
    * @param c Collection containing values to be removed from this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection is null, or if the
    *           collection contains a null element.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
-  default boolean removeAll(final Collection<<Y>> c) {
+  default boolean removeAll(final Collection<<XX>> c) {
     final int beforeSize = size();
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext();) {
-      final <y> value = i.next();
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) {
+      final <x> value = i.next();
       while (remove(value));
     }
 
@@ -351,14 +351,14 @@ public interface <X>List extends <X>Collection {
    * @param c Collection containing values to be retained in this list.
    * @return {@code true} if this list changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
-  boolean retainAll(Collection<<Y>> c);
+  boolean retainAll(Collection<<XX>> c);
 
   /**
    * Retains only the values in this list that are contained in the specified
@@ -369,8 +369,8 @@ public interface <X>List extends <X>Collection {
    * @return {@code true} if this list changed as a result of the call.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
   boolean retainAll(<X>Collection c);
@@ -403,7 +403,7 @@ public interface <X>List extends <X>Collection {
    * @return {@code true} if this list contains the specified value.
    */
   @Override
-  default boolean contains(final <y> value) {
+  default boolean contains(final <x> value) {
     return indexOf(value) != -1;
   }
 
@@ -414,9 +414,9 @@ public interface <X>List extends <X>Collection {
    * @param values Array to be checked for containment in this collection.
    * @return {@code true} if this collection contains all of the values in the
    *         specified collection.
-   * @see #contains(<y>)
+   * @see #contains(<x>)
    */
-  default boolean containsAll(final <y> ... values) {
+  default boolean containsAll(final <x> ... values) {
     for (int i = 0; i < values.length; ++i)
       if (!contains(values[i]))
         return false;
@@ -434,7 +434,7 @@ public interface <X>List extends <X>Collection {
    * @return The index of the first occurrence of the specified value in this
    *         list, or -1 if this list does not contain the value.
    */
-  int indexOf(<y> value);
+  int indexOf(<x> value);
 
   /**
    * Returns the index of the last occurrence of the specified value in this
@@ -446,7 +446,7 @@ public interface <X>List extends <X>Collection {
    * @return The index of the last occurrence of the specified value in this
    *         list, or -1 if this list does not contain the value.
    */
-  int lastIndexOf(<y> value);
+  int lastIndexOf(<x> value);
 
   /**
    * Returns an iterator over the values in this list in proper sequence.
@@ -457,10 +457,10 @@ public interface <X>List extends <X>Collection {
   <X>Iterator iterator();
 
   /**
-   * Returns a <y> list iterator over the values in this list (in proper
+   * Returns a <x> list iterator over the values in this list (in proper
    * sequence).
    *
-   * @return An <y> list iterator over the values in this list (in proper
+   * @return An <x> list iterator over the values in this list (in proper
    *         sequence).
    */
   default <X>ListIterator listIterator() {
@@ -468,16 +468,16 @@ public interface <X>List extends <X>Collection {
   }
 
   /**
-   * Returns a <y> list iterator over the values in this list (in proper
+   * Returns a <x> list iterator over the values in this list (in proper
    * sequence), starting at the specified position in the list. The specified
    * index indicates the first value that would be returned by an initial call
    * to {@link <X>ListIterator#next next}. An initial call to
    * {@link <X>ListIterator#previous previous} would return the value with the
    * specified index minus one.
    *
-   * @param index Index of the first value to be returned from the <y> list
+   * @param index Index of the first value to be returned from the <x> list
    *          iterator (by a call to {@link <X>ListIterator#next next}).
-   * @return A <y> list iterator over the values in this list (in proper
+   * @return A <x> list iterator over the values in this list (in proper
    *         sequence), starting at the specified position in the list.
    * @throws IndexOutOfBoundsException If the index is out of range
    *           ({@code index < 0 || index > size()}).
@@ -486,7 +486,7 @@ public interface <X>List extends <X>Collection {
 
   /**
    * Returns the number of values in this list. If this list contains more than
-   * {@link <Y>#MAX_VALUE} values, returns {@link <Y>#MAX_VALUE}.
+   * {@link <XX>#MAX_VALUE} values, returns {@link <XX>#MAX_VALUE}.
    *
    * @return The number of values in this list.
    */

@@ -17,14 +17,14 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that accepts two <y>-valued arguments and produces a
- * <y>-valued result. This is the two-arity {@code <y>}-to-{@code <y>}
+ * Represents a function that accepts two <x>-valued arguments and produces a
+ * <y>-valued result. This is the two-arity {@code <x>}-to-{@code <y>}
  * primitive specialization of {@link java.util.function.Function}.
  *
  * @see java.util.function.Function
  */
 @FunctionalInterface
-public interface Bi<X>To<X>Function {
+public interface Bi<X>To<Y>Function {
   /**
    * Applies this function to the given arguments.
    *
@@ -32,5 +32,5 @@ public interface Bi<X>To<X>Function {
    * @param u The second function argument.
    * @return The function result.
    */
-  <y> applyAs<X>(<y> t, <y> u);
+  <y> applyAs<X>(<x> t, <x> u);
 }

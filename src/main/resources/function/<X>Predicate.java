@@ -19,8 +19,8 @@ package org.libj.util.function;
 import java.util.Objects;
 
 /**
- * Represents a predicate (boolean-valued function) of one {@code <y>}-valued
- * argument. This is the {@code <y>}-consuming primitive type specialization
+ * Represents a predicate (boolean-valued function) of one {@code <x>}-valued
+ * argument. This is the {@code <x>}-consuming primitive type specialization
  * of {@link java.util.function.Predicate}.
  *
  * @see java.util.function.Predicate
@@ -34,7 +34,7 @@ public interface <X>Predicate {
    * @return {@code true} if the input argument matches the predicate, otherwise
    *         {@code false}.
    */
-  boolean test(<y> value);
+  boolean test(<x> value);
 
   /**
    * Returns a composed predicate that represents a short-circuiting logical AND

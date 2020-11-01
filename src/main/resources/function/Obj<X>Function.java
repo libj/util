@@ -18,8 +18,8 @@ package org.libj.util.function;
 
 /**
  * Represents a function that accepts an object-valued argument and a
- * {@code <y>}-valued argument, and produces a result. This is the
- * {@code (reference, <y>)} specialization of
+ * {@code <x>}-valued argument, and produces a result. This is the
+ * {@code (reference, <x>)} specialization of
  * {@link java.util.function.BiFunction}.
  *
  * @param <T> The type of the object argument to the operation.
@@ -35,5 +35,5 @@ public interface Obj<X>Function<T,R> {
    * @param i The second input argument.
    * @return The function result.
    */
-  R apply(T t, <y> i);
+  R apply(T t, <x> i);
 }

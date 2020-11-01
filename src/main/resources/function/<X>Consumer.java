@@ -19,9 +19,9 @@ package org.libj.util.function;
 import java.util.Objects;
 
 /**
- * Represents an operation that accepts a single {@code <y>}-valued argument
+ * Represents an operation that accepts a single {@code <x>}-valued argument
  * and returns no result. This is the primitive type specialization of
- * {@link java.util.function.Consumer} for {@code <y>}. Unlike most other
+ * {@link java.util.function.Consumer} for {@code <x>}. Unlike most other
  * functional interfaces, {@code <X>Consumer} is expected to operate via
  * side-effects.
  *
@@ -34,7 +34,7 @@ public interface <X>Consumer {
    *
    * @param value The input argument.
    */
-  void accept(<y> value);
+  void accept(<x> value);
 
   /**
    * Returns a composed {@code <X>Consumer} that performs, in sequence, this
@@ -50,7 +50,7 @@ public interface <X>Consumer {
    */
   default <X>Consumer andThen(final <X>Consumer after) {
     Objects.requireNonNull(after);
-    return (<y> t) -> {
+    return (<x> t) -> {
       accept(t);
       after.accept(t);
     };

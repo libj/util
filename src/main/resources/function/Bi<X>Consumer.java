@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.function.<X>Consumer;
 
 /**
- * Represents an operation that accepts two {@code <y>}-valued arguments and
+ * Represents an operation that accepts two {@code <x>}-valued arguments and
  * returns no result. This is the two-arity specialization of
  * {@link <X>Consumer}. Unlike most other functional interfaces,
  * {@link Bi<X>Consumer} is expected to operate via side-effects.
@@ -35,7 +35,7 @@ public interface Bi<X>Consumer {
    * @param v1 The first input argument.
    * @param v2 The second input argument.
    */
-  void accept(<y> v1, <y> v2);
+  void accept(<x> v1, <x> v2);
 
   /**
    * Returns a composed {@link Bi<X>Consumer} that performs, in sequence, this

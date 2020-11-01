@@ -19,13 +19,13 @@ package org.libj.util.primitive;
 import java.util.Collection;
 
 /**
- * A collection of {@code <y>} values that contains no duplicates. More
- * formally, <y>-sets contain no pair of values {@code v1} and {@code v2} such
+ * A collection of {@code <x>} values that contains no duplicates. More
+ * formally, <x>-sets contain no pair of values {@code v1} and {@code v2} such
  * that {@code e1 == e2}. As implied by its name, this interface models the
  * mathematical <i>set</i> abstraction.
  * <p>
  * This interface is a replica of the {@link java.util.Set} interface that defines
- * synonymous methods for a list of {@code <y>} values instead of Object
+ * synonymous methods for a list of {@code <x>} values instead of Object
  * references.
  */
 public interface <X>Set extends <X>Collection {
@@ -42,7 +42,7 @@ public interface <X>Set extends <X>Collection {
    *         value.
    */
   @Override
-  boolean add(<y> value);
+  boolean add(<x> value);
 
   /**
    * Adds all of the values in the specified collection to this set if they're
@@ -55,14 +55,14 @@ public interface <X>Set extends <X>Collection {
    * @param c Collection containing values to be added to this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
    * @see #addAll(<X>Collection)
-   * @see #add(<y>)
+   * @see #add(<x>)
    */
   @Override
-  boolean addAll(Collection<<Y>> c);
+  boolean addAll(Collection<<XX>> c);
 
   /**
    * Adds all of the values in the specified collection to this set if they're
@@ -77,7 +77,7 @@ public interface <X>Set extends <X>Collection {
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
    * @see #addAll(Collection)
-   * @see #add(<y>)
+   * @see #add(<x>)
    */
   @Override
   boolean addAll(<X>Collection c);
@@ -91,7 +91,7 @@ public interface <X>Set extends <X>Collection {
    * @return {@code true} if this set contains the specified value.
    */
   @Override
-  boolean contains(<y> value);
+  boolean contains(<x> value);
 
   /**
    * Returns {@code true} if this set contains all of the values of the
@@ -102,14 +102,14 @@ public interface <X>Set extends <X>Collection {
    * @return {@code true} if this set contains all of the values of the
    *         specified collection.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection contains one or
    *           more null values, or if the specified collection is null.
    * @see #containsAll(<X>Collection)
-   * @see #contains(<y>)
+   * @see #contains(<x>)
    */
   @Override
-  boolean containsAll(Collection<<Y>> c);
+  boolean containsAll(Collection<<XX>> c);
 
   /**
    * Returns {@code true} if this set contains all of the values of the
@@ -120,7 +120,7 @@ public interface <X>Set extends <X>Collection {
    * @return {@code true} if this set contains all of the values of the
    *         specified collection.
    * @see #containsAll(Collection)
-   * @see #contains(<y>)
+   * @see #contains(<x>)
    */
   @Override
   boolean containsAll(<X>Collection c);
@@ -136,7 +136,7 @@ public interface <X>Set extends <X>Collection {
    * @return {@code true} if this set contained the specified value.
    */
   @Override
-  boolean remove(<y> value);
+  boolean remove(<x> value);
 
   /**
    * Removes from this set all of its values that are contained in the specified
@@ -147,15 +147,15 @@ public interface <X>Set extends <X>Collection {
    * @param c Collection containing values to be removed from this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #removeAll(<X>Collection)
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
-  boolean removeAll(Collection<<Y>> c);
+  boolean removeAll(Collection<<XX>> c);
 
   /**
    * Removes from this set all of its values that are contained in the specified
@@ -168,8 +168,8 @@ public interface <X>Set extends <X>Collection {
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #removeAll(Collection)
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
   boolean removeAll(<X>Collection c);
@@ -184,15 +184,15 @@ public interface <X>Set extends <X>Collection {
    * @param c Collection containing values to be retained in this set.
    * @return {@code true} if this set changed as a result of the call.
    * @throws ClassCastException If the class of an element of the specified
-   *           collection is not {@link <Y>}.
+   *           collection is not {@link <XX>}.
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #retainAll(<X>Collection)
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
-  boolean retainAll(Collection<<Y>> c);
+  boolean retainAll(Collection<<XX>> c);
 
   /**
    * Retains only the values in this set that are contained in the specified
@@ -206,8 +206,8 @@ public interface <X>Set extends <X>Collection {
    * @throws NullPointerException If the specified collection contains a null
    *           value, or if the specified collection is null.
    * @see #retainAll(Collection)
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   @Override
   boolean retainAll(<X>Collection c);
@@ -221,8 +221,8 @@ public interface <X>Set extends <X>Collection {
 
   /**
    * Returns the number of values in this set (its cardinality). If this set
-   * contains more than {@link <Y>#MAX_VALUE} values, returns
-   * {@link <Y>#MAX_VALUE}.
+   * contains more than {@link <XX>#MAX_VALUE} values, returns
+   * {@link <XX>#MAX_VALUE}.
    *
    * @return The number of values in this set (its cardinality).
    */

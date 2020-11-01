@@ -36,47 +36,47 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void initiallyContainsNoElements() {
-    for (<y> i = 0; i < 100; ++i)
+    for (<x> i = 0; i < 100; ++i)
       assertFalse(testSet.contains(i));
   }
 
   @Test
   public void initiallyContainsNoBoxedElements() {
-    for (<y> i = 0; i < 100; ++i)
-      assertFalse(testSet.contains(<Y>.valueOf(i)));
+    for (<x> i = 0; i < 100; ++i)
+      assertFalse(testSet.contains(<XX>.valueOf(i)));
   }
 
   @Test
   public void containsAddedElement() {
-    assertTrue(testSet.add((<y>)1));
-    assertTrue(testSet.contains((<y>)1));
+    assertTrue(testSet.add((<x>)1));
+    assertTrue(testSet.contains((<x>)1));
   }
 
   @Test
   public void addingAnElementTwiceDoesNothing() {
-    assertTrue(testSet.add((<y>)1));
-    assertFalse(testSet.add((<y>)1));
+    assertTrue(testSet.add((<x>)1));
+    assertFalse(testSet.add((<x>)1));
   }
 
   @Test
   public void containsAddedBoxedElements() {
-    assertTrue(testSet.add((<y>)1));
-    assertTrue(testSet.add(<Y>.valueOf((<y>)2)));
+    assertTrue(testSet.add((<x>)1));
+    assertTrue(testSet.add(<XX>.valueOf((<x>)2)));
 
-    assertTrue(testSet.contains(<Y>.valueOf((<y>)1)));
-    assertTrue(testSet.contains((<y>)2));
+    assertTrue(testSet.contains(<XX>.valueOf((<x>)1)));
+    assertTrue(testSet.contains((<x>)2));
   }
 
   @Test
   public void removingAnElementFromAnEmptyListDoesNothing() {
-    assertFalse(testSet.remove((<y>)0));
+    assertFalse(testSet.remove((<x>)0));
   }
 
   @Test
   public void removingAPresentElementRemovesIt() {
-    assertTrue(testSet.add((<y>)1));
-    assertTrue(testSet.remove((<y>)1));
-    assertFalse(testSet.contains((<y>)1));
+    assertTrue(testSet.add((<x>)1));
+    assertTrue(testSet.remove((<x>)1));
+    assertFalse(testSet.contains((<x>)1));
   }
 
   @Test
@@ -93,8 +93,8 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void sizeContainsNumberOfNewElements() {
-    testSet.add((<y>)1);
-    testSet.add((<y>)1);
+    testSet.add((<x>)1);
+    testSet.add((<x>)1);
 
     assertEquals(1, testSet.size());
   }
@@ -164,8 +164,8 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     testSet.clear();
 
     assertEquals(0, testSet.size());
-    assertFalse(testSet.contains((<y>)1));
-    assertFalse(testSet.contains((<y>)101));
+    assertFalse(testSet.contains((<x>)1));
+    assertFalse(testSet.contains((<x>)101));
   }
 
   @Test
@@ -184,10 +184,10 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     addTwoElements(testSet);
 
     final Hash<X>Set other = new Hash<X>Set(100);
-    other.add((<y>)1);
+    other.add((<x>)1);
 
     testSet.removeAll(other);
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)101));
   }
 
   @Test
@@ -218,7 +218,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     final Hash<X>Set that = new Hash<X>Set(100);
 
     addTwoElements(testSet);
-    that.add((<y>)101);
+    that.add((<x>)101);
 
     assertNotEquals(testSet, that);
   }
@@ -228,8 +228,8 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     final Hash<X>Set that = new Hash<X>Set(100);
 
     addTwoElements(testSet);
-    that.add((<y>)2);
-    that.add((<y>)101);
+    that.add((<x>)2);
+    that.add((<x>)101);
 
     assertNotEquals(testSet, that);
   }
@@ -252,38 +252,38 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   @Test
   public void reducesSizeWhenElementRemoved() {
     addTwoElements(testSet);
-    testSet.remove((<y>)101);
+    testSet.remove((<x>)101);
 
     assertEquals(1, testSet.size());
   }
 
   @Test(expected = NullPointerException.class)
   public void toArrayThrowsNullPointerExceptionForNullArgument() {
-    final <Y>[] a = null;
+    final <XX>[] a = null;
     testSet.toArray(a);
   }
 
   @Test
-  public void toArrayCopiesElements<Y>oSufficientlySizedArray() {
+  public void toArrayCopiesElements<XX>oSufficientlySizedArray() {
     addTwoElements(testSet);
-    final <Y>[] result = testSet.toArray(new <Y>[testSet.size()]);
+    final <XX>[] result = testSet.toArray(new <XX>[testSet.size()]);
 
     assertArrayContainingElements(result);
   }
 
   @Test
-  public void toArrayCopiesElements<Y>oNewArray() {
+  public void toArrayCopiesElements<XX>oNewArray() {
     addTwoElements(testSet);
-    final <Y>[] result = testSet.toArray(new <Y>[testSet.size()]);
+    final <XX>[] result = testSet.toArray(new <XX>[testSet.size()]);
 
     assertArrayContainingElements(result);
   }
 
   @Test
   public void toArraySupportsEmptyCollection() {
-    final <Y>[] result = testSet.toArray(new <Y>[testSet.size()]);
+    final <XX>[] result = testSet.toArray(new <XX>[testSet.size()]);
 
-    Assert.assertArrayEquals(result, new <Y>[] {});
+    Assert.assertArrayEquals(result, new <XX>[] {});
   }
 
   // Test case from usage bug.
@@ -291,24 +291,24 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   public void chainCompactionShouldNotCauseElementsToBeMovedBeforeTheirHash() {
     final Hash<X>Set requiredFields = new Hash<X>Set(14);
 
-    requiredFields.add((<y>)8);
-    requiredFields.add((<y>)9);
-    requiredFields.add((<y>)35);
-    requiredFields.add((<y>)49);
-    requiredFields.add((<y>)56);
+    requiredFields.add((<x>)8);
+    requiredFields.add((<x>)9);
+    requiredFields.add((<x>)35);
+    requiredFields.add((<x>)49);
+    requiredFields.add((<x>)56);
 
-    assertTrue("Failed to remove 8", requiredFields.remove((<y>)8));
-    assertTrue("Failed to remove 9", requiredFields.remove((<y>)9));
+    assertTrue("Failed to remove 8", requiredFields.remove((<x>)8));
+    assertTrue("Failed to remove 9", requiredFields.remove((<x>)9));
 
-    assertTrue(requiredFields.containsAll(Arrays.asList((<y>)35, (<y>)49, (<y>)56)));
+    assertTrue(requiredFields.containsAll(Arrays.asList((<x>)35, (<x>)49, (<x>)56)));
   }
 
   @Test
   public void shouldResizeWhenItHitsCapacity() {
-    for (<y> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i)
+    for (<x> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i)
       assertTrue(testSet.add(i));
 
-    for (<y> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i)
+    for (<x> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i)
       assertTrue(testSet.contains(i));
   }
 
@@ -322,7 +322,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     addTwoElements(testSet);
 
     final Hash<X>Set subset = new Hash<X>Set(100);
-    subset.add((<y>)1);
+    subset.add((<x>)1);
 
     assertTrue(testSet.containsAll(subset));
   }
@@ -332,8 +332,8 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     addTwoElements(testSet);
 
     final Hash<X>Set disjoint = new Hash<X>Set(100);
-    disjoint.add((<y>)1);
-    disjoint.add((<y>)102);
+    disjoint.add((<x>)1);
+    disjoint.add((<x>)102);
 
     assertFalse(testSet.containsAll(disjoint));
   }
@@ -344,7 +344,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
     final Hash<X>Set superset = new Hash<X>Set(100);
     addTwoElements(superset);
-    superset.add((<y>)15);
+    superset.add((<x>)15);
 
     assertFalse(testSet.containsAll(superset));
   }
@@ -364,12 +364,12 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
     final Hash<X>Set disjoint = new Hash<X>Set(100);
 
-    disjoint.add((<y>)2);
-    disjoint.add((<y>)102);
+    disjoint.add((<x>)2);
+    disjoint.add((<x>)102);
 
     assertTrue(testSet.addAll(disjoint));
-    assertTrue(testSet.contains((<y>)1));
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)1));
+    assertTrue(testSet.contains((<x>)101));
     assertTrue(testSet.containsAll(disjoint));
   }
 
@@ -377,43 +377,43 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   public void containsValuesAddedFromDisjointSet() {
     addTwoElements(testSet);
 
-    final HashSet<<Y>> disjoint = new HashSet<>();
+    final HashSet<<XX>> disjoint = new HashSet<>();
 
-    disjoint.add((<y>)2);
-    disjoint.add((<y>)102);
+    disjoint.add((<x>)2);
+    disjoint.add((<x>)102);
 
     assertTrue(testSet.addAll(disjoint));
-    assertTrue(testSet.contains((<y>)1));
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)1));
+    assertTrue(testSet.contains((<x>)101));
     assertTrue(testSet.containsAll(disjoint));
   }
 
   @Test
-  public void containsValuesAddedFrom<Y>ersectingSetPrimitive() {
+  public void containsValuesAddedFrom<XX>ersectingSetPrimitive() {
     addTwoElements(testSet);
 
     final Hash<X>Set intersecting = new Hash<X>Set(100);
-    intersecting.add((<y>)1);
-    intersecting.add((<y>)102);
+    intersecting.add((<x>)1);
+    intersecting.add((<x>)102);
 
     assertTrue(testSet.addAll(intersecting));
-    assertTrue(testSet.contains((<y>)1));
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)1));
+    assertTrue(testSet.contains((<x>)101));
     assertTrue(testSet.containsAll(intersecting));
   }
 
   @Test
-  public void containsValuesAddedFrom<Y>ersectingSet() {
+  public void containsValuesAddedFrom<XX>ersectingSet() {
     addTwoElements(testSet);
 
-    final HashSet<<Y>> intersecting = new HashSet<>();
+    final HashSet<<XX>> intersecting = new HashSet<>();
 
-    intersecting.add((<y>)1);
-    intersecting.add((<y>)102);
+    intersecting.add((<x>)1);
+    intersecting.add((<x>)102);
 
     assertTrue(testSet.addAll(intersecting));
-    assertTrue(testSet.contains((<y>)1));
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)1));
+    assertTrue(testSet.contains((<x>)101));
     assertTrue(testSet.containsAll(intersecting));
   }
 
@@ -431,8 +431,8 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     addTwoElements(testSet);
 
     final Hash<X>Set disjoint = new Hash<X>Set(100);
-    disjoint.add((<y>)2);
-    disjoint.add((<y>)102);
+    disjoint.add((<x>)2);
+    disjoint.add((<x>)102);
 
     assertFalse(testSet.removeAll(disjoint));
     assertFalse(testSet.removeAll(new HashSet<>()));
@@ -440,29 +440,29 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   }
 
   @Test
-  public void doesNotContainRemoved<Y>ersectingSetPrimitive() {
+  public void doesNotContainRemoved<XX>ersectingSetPrimitive() {
     addTwoElements(testSet);
 
     final Hash<X>Set intersecting = new Hash<X>Set(100);
 
-    intersecting.add((<y>)1);
-    intersecting.add((<y>)102);
+    intersecting.add((<x>)1);
+    intersecting.add((<x>)102);
 
     assertTrue(testSet.removeAll(intersecting));
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)101));
     assertFalse(testSet.containsAll(intersecting));
   }
 
   @Test
-  public void doesNotContainRemoved<Y>ersectingSet() {
+  public void doesNotContainRemoved<XX>ersectingSet() {
     addTwoElements(testSet);
 
-    final HashSet<<Y>> intersecting = new HashSet<>();
-    intersecting.add((<y>)1);
-    intersecting.add((<y>)102);
+    final HashSet<<XX>> intersecting = new HashSet<>();
+    intersecting.add((<x>)1);
+    intersecting.add((<x>)102);
 
     assertTrue(testSet.removeAll(intersecting));
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)101));
     assertFalse(testSet.containsAll(intersecting));
   }
 
@@ -481,7 +481,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   public void isEmptyAfterRemovingEqualSet() {
     addTwoElements(testSet);
 
-    final HashSet<<Y>> equal = new HashSet<>();
+    final HashSet<<XX>> equal = new HashSet<>();
     addTwoElements(equal);
 
     assertTrue(testSet.removeAll(equal));
@@ -498,7 +498,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
         iterator.remove();
 
     assertEquals(1, testSet.size());
-    assertTrue(testSet.contains((<y>)101));
+    assertTrue(testSet.contains((<x>)101));
   }
 
   @Test
@@ -523,29 +523,29 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void sizeAccountsForMissingValue() {
-    testSet.add((<y>)1);
+    testSet.add((<x>)1);
     testSet.add(Hash<X>Set.NULL);
 
     assertEquals(2, testSet.size());
   }
 
   @Test
-  public void toArrayCopiesElements<Y>oNewArrayIncludingMissingValue() {
+  public void toArrayCopiesElements<XX>oNewArrayIncludingMissingValue() {
     addTwoElements(testSet);
     testSet.add(Hash<X>Set.NULL);
 
-    final <Y>[] result = testSet.toArray(new <Y>[testSet.size()]);
-    assertTrue(Arrays.asList(result).containsAll(Arrays.asList((<y>)1, (<y>)101, Hash<X>Set.NULL)));
+    final <XX>[] result = testSet.toArray(new <XX>[testSet.size()]);
+    assertTrue(Arrays.asList(result).containsAll(Arrays.asList((<x>)1, (<x>)101, Hash<X>Set.NULL)));
   }
 
   @Test
-  public void toObjectArrayCopiesElements<Y>oNewArrayIncludingMissingValue() {
+  public void toObjectArrayCopiesElements<XX>oNewArrayIncludingMissingValue() {
     addTwoElements(testSet);
     testSet.add(Hash<X>Set.NULL);
 
-    final <y>[] result = testSet.toArray();
+    final <x>[] result = testSet.toArray();
     Arrays.sort(result);
-    assertArrayEquals(new <y>[] {Hash<X>Set.NULL, 1, 101}, result);
+    assertArrayEquals(new <x>[] {Hash<X>Set.NULL, 1, 101}, result);
   }
 
   @Test
@@ -568,7 +568,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void consecutiveValuesShouldBeCorrectlyStored() {
-    for (<y> i = 0; i < 127; ++i)
+    for (<x> i = 0; i < 127; ++i)
       testSet.add(i);
 
     assertEquals(127, testSet.size());
@@ -621,14 +621,14 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldGenerateStringRepresentation() {
-    final <y>[] testEntries = {(<y>)65, (<y>)68, (<y>)83, (<y>)104, (<y>)111, (<y>)75, (<y>)83, (<y>)97};
-    for (final <y> testEntry : testEntries)
+    final <x>[] testEntries = {(<x>)65, (<x>)68, (<x>)83, (<x>)104, (<x>)111, (<x>)75, (<x>)83, (<x>)97};
+    for (final <x> testEntry : testEntries)
       testSet.add(testEntry);
 
     final String string = testSet.toString();
     final String[] parts = string.substring(1, string.length() - 1).replace(" ", "").split(",");
     final HashSet<String> strings = CollectionUtil.asCollection(new HashSet<>(testSet.size()), parts);
-    for (final <y> testEntry : testEntries)
+    for (final <x> testEntry : testEntries)
       assertTrue(Arrays.toString(parts), strings.contains(String.valueOf(testEntry)));
   }
 
@@ -643,11 +643,11 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldHaveCompatibleEqualsAndHashcode() {
-    final HashSet<<Y>> compatibleSet = new HashSet<>();
+    final HashSet<<XX>> compatibleSet = new HashSet<>();
     final long seed = System.nanoTime();
     final Random r = new Random(seed);
     for (int i = 0; i < 1024; ++i) {
-      final <y> value = (<y>)r.nextInt();
+      final <x> value = (<x>)r.nextInt();
       compatibleSet.add(value);
       testSet.add(value);
     }
@@ -662,19 +662,19 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   }
 
   private static void addTwoElements(final Hash<X>Set obj) {
-    obj.add((<y>)1);
-    obj.add((<y>)101);
+    obj.add((<x>)1);
+    obj.add((<x>)101);
   }
 
-  private static void addTwoElements(final HashSet<<Y>> obj) {
-    obj.add((<y>)1);
-    obj.add((<y>)101);
+  private static void addTwoElements(final HashSet<<XX>> obj) {
+    obj.add((<x>)1);
+    obj.add((<x>)101);
   }
 
   private void assertIteratorHasElements() {
     final <X>Iterator iterator = testSet.iterator();
 
-    final Set<<Y>> values = new HashSet<>();
+    final Set<<XX>> values = new HashSet<>();
 
     assertTrue(iterator.hasNext());
     values.add(iterator.next());
@@ -687,7 +687,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   private void assertIteratorHasElementsWithoutHasNext() {
     final <X>Iterator iterator = testSet.iterator();
-    final Set<<Y>> values = new HashSet<>();
+    final Set<<XX>> values = new HashSet<>();
 
     values.add(iterator.next());
     values.add(iterator.next());
@@ -695,16 +695,16 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     assertContainsElements(values);
   }
 
-  private static void assertArrayContainingElements(final <Y>[] result) {
-    assertTrue(Arrays.asList(result).containsAll(Arrays.asList((<y>)1, (<y>)101)));
+  private static void assertArrayContainingElements(final <XX>[] result) {
+    assertTrue(Arrays.asList(result).containsAll(Arrays.asList((<x>)1, (<x>)101)));
   }
 
-  private static void assertContainsElements(final Set<<Y>> other) {
-    assertTrue(other.containsAll(Arrays.asList((<y>)1, (<y>)101)));
+  private static void assertContainsElements(final Set<<XX>> other) {
+    assertTrue(other.containsAll(Arrays.asList((<x>)1, (<x>)101)));
   }
 
   private static void assertContainsElements(final <X>Set other) {
-    assertTrue(other.containsAll(Arrays.asList((<y>)1, (<y>)101)));
+    assertTrue(other.containsAll(Arrays.asList((<x>)1, (<x>)101)));
   }
 
   private void exhaustIterator() {

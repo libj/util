@@ -20,19 +20,19 @@ import java.util.List;
 
 /**
  * A comparison function, which imposes a <i>total ordering</i> on some
- * collection of {@code <y>}s.
+ * collection of {@code <x>}s.
  */
 @FunctionalInterface
 public interface <X>Comparator {
   /**
-   * Comparator that compares two {@code <y>} values numerically.
+   * Comparator that compares two {@code <x>} values numerically.
    *
-   * @see <Y>#compare(<y>,<y>)
+   * @see <XX>#compare(<x>,<x>)
    */
-  public static final <X>Comparator NATURAL = <Y>::compare;
+  public static final <X>Comparator NATURAL = <XX>::compare;
 
   /**
-   * Comparator that compares two {@code <y>} values reverse numerically.
+   * Comparator that compares two {@code <x>} values reverse numerically.
    *
    * @see #reverse()
    */
@@ -43,13 +43,13 @@ public interface <X>Comparator {
    * a positive integer as the first argument is less than, equal to, or greater
    * than the second.
    *
-   * @param f1 The first {@code <y>} to be compared.
-   * @param f2 the second {@code <y>} to be compared.
+   * @param f1 The first {@code <x>} to be compared.
+   * @param f2 the second {@code <x>} to be compared.
    * @return A negative integer, zero, or a positive integer as the first
    *         argument is less than, equal to, or greater than the second.
    * @see java.util.Comparator#compare(Object,Object)
    */
-  int compare(<y> f1, <y> f2);
+  int compare(<x> f1, <x> f2);
 
   /**
    * Returns a comparator that imposes the reverse ordering of this comparator.

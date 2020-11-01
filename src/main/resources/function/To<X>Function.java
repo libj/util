@@ -17,8 +17,8 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that produces a <y>-valued result. This is the
- * {@code <y>}-producing primitive specialization for
+ * Represents a function that produces a <x>-valued result. This is the
+ * {@code <x>}-producing primitive specialization for
  * {@link java.util.function.Function}.
  *
  * @param <T> The type of the input to the function.
@@ -32,5 +32,5 @@ public interface To<X>Function<T> {
    * @param value The function argument.
    * @return The function result.
    */
-  <y> applyAs<X>(T value);
+  <x> applyAs<X>(T value);
 }

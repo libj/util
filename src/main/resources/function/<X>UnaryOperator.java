@@ -19,9 +19,9 @@ package org.libj.util.function;
 import java.util.Objects;
 
 /**
- * Represents an operation on a single {@code <y>}-valued operand that
- * produces a {@code <y>}-valued result. This is the primitive type
- * specialization of {@link java.util.function.UnaryOperator} for {@code <y>}.
+ * Represents an operation on a single {@code <x>}-valued operand that
+ * produces a {@code <x>}-valued result. This is the primitive type
+ * specialization of {@link java.util.function.UnaryOperator} for {@code <x>}.
  *
  * @see java.util.function.UnaryOperator
  */
@@ -33,7 +33,7 @@ public interface <X>UnaryOperator {
    * @param operand The operand.
    * @return The operator result.
    */
-  <y> applyAs<X>(<y> operand);
+  <x> applyAs<X>(<x> operand);
 
   /**
    * Returns a composed operator that first applies the {@code before} operator
@@ -49,7 +49,7 @@ public interface <X>UnaryOperator {
    */
   default <X>UnaryOperator compose(<X>UnaryOperator before) {
     Objects.requireNonNull(before);
-    return (<y> v) -> applyAs<X>(before.applyAs<X>(v));
+    return (<x> v) -> applyAs<X>(before.applyAs<X>(v));
   }
 
   /**
@@ -66,7 +66,7 @@ public interface <X>UnaryOperator {
    */
   default <X>UnaryOperator andThen(<X>UnaryOperator after) {
     Objects.requireNonNull(after);
-    return (<y> t) -> after.applyAs<X>(applyAs<X>(t));
+    return (<x> t) -> after.applyAs<X>(applyAs<X>(t));
   }
 
   /**

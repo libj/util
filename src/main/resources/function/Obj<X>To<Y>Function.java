@@ -18,12 +18,12 @@ package org.libj.util.function;
 
 /**
  * Represents a function that accepts an object-valued argument and a
- * <y>-valued arguments and produces a <y>-valued result.
+ * <x>-valued arguments and produces a <y>-valued result.
  *
  * @see java.util.function.Function
  */
 @FunctionalInterface
-public interface Obj<X>To<X>Function<T> {
+public interface Obj<X>To<Y>Function<T> {
   /**
    * Applies this function to the given arguments.
    *
@@ -31,5 +31,5 @@ public interface Obj<X>To<X>Function<T> {
    * @param u The second function argument.
    * @return The function result.
    */
-  <y> applyAs<X>(T t, <y> u);
+  <y> applyAs<X>(T t, <x> u);
 }

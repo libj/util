@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
  * with allocation-free operation in steady state when expanded.
  * <p>
  * This class replicates the API of the {@link java.util.HashSet} class by
- * defining synonymous methods for a set of {@code <y>} values instead of
+ * defining synonymous methods for a set of {@code <x>} values instead of
  * Object references.
  */
 public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
@@ -44,7 +44,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   /**
    * Value that represents null in {@link #valueData}.
    */
-  static final <y> NULL = 0;
+  static final <x> NULL = 0;
 
   private final float loadFactor;
   private int resizeThreshold;
@@ -53,7 +53,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
    * Whether this set contains the value representing {@link #NULL}.
    */
   private boolean containsNull;
-  private <y>[] valueData;
+  private <x>[] valueData;
   private volatile int size;
   private transient volatile int modCount;
 
@@ -83,7 +83,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
     final int capacity = findNextPositivePowerOfTwo(initialCapacity);
     this.resizeThreshold = (int)(capacity * loadFactor);
-    this.valueData = new <y>[capacity];
+    this.valueData = new <x>[capacity];
   }
 
   /**
@@ -120,13 +120,13 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
    * @param c The collection whose values are to be added to this set.
    * @throws NullPointerException If the specified set is null.
    */
-  public Hash<X>Set(final Collection<<Y>> c) {
+  public Hash<X>Set(final Collection<<XX>> c) {
     this(c.size());
     addAll(c);
   }
 
   @Override
-  public boolean add(final <y> value) {
+  public boolean add(final <x> value) {
     if (value == NULL) {
       if (containsNull)
         return false;
@@ -136,7 +136,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
     }
 
     final int mask = valueData.length - 1;
-    int index = hash(<Y>.hashCode(value), mask);
+    int index = hash(<XX>.hashCode(value), mask);
     for (; valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return false;
@@ -160,12 +160,12 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public boolean addAll(final Collection<<Y>> c) {
+  public boolean addAll(final Collection<<XX>> c) {
     if (c.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); changed |= add(i.next()));
     return changed;
   }
 
@@ -180,14 +180,14 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified set is null.
    * @see #addAll(<X>Collection)
-   * @see #add(<y>)
+   * @see #add(<x>)
    */
   public boolean addAll(final Hash<X>Set s) {
     if (s.size() == 0)
       return false;
 
     boolean changed = false;
-    for (final <y> value : s.valueData)
+    for (final <x> value : s.valueData)
       if (value != NULL)
         changed |= add(value);
 
@@ -198,12 +198,12 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public boolean contains(final <y> value) {
+  public boolean contains(final <x> value) {
     if (value == NULL)
       return containsNull;
 
     final int mask = valueData.length - 1;
-    for (int index = hash(<Y>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
+    for (int index = hash(<XX>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask))
       if (valueData[index] == value)
         return true;
 
@@ -223,11 +223,11 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public boolean containsAll(final Collection<<Y>> c) {
+  public boolean containsAll(final Collection<<XX>> c) {
     if (c.size() == 0)
       return true;
 
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext();)
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();)
       if (!contains(i.next()))
         return false;
 
@@ -235,7 +235,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public boolean remove(final <y> value) {
+  public boolean remove(final <x> value) {
     if (value == NULL) {
       if (!containsNull)
         return false;
@@ -246,7 +246,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
     }
 
     final int mask = valueData.length - 1;
-    for (int index = hash(<Y>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
+    for (int index = hash(<XX>.hashCode(value), mask); valueData[index] != NULL; index = nextIndex(index, mask)) {
       if (valueData[index] == value) {
         ++modCount;
         valueData[index] = NULL;
@@ -260,7 +260,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public boolean removeAll(final <y> ... a) {
+  public boolean removeAll(final <x> ... a) {
     boolean changed = false;
     for (int i = 0; i < a.length; ++i)
       changed |= remove(a[i]);
@@ -276,9 +276,9 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public boolean removeAll(final Collection<<Y>> c) {
+  public boolean removeAll(final Collection<<XX>> c) {
     boolean changed = false;
-    for (final Iterator<<Y>> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); changed |= remove(i.next()));
     return changed;
   }
 
@@ -291,12 +291,12 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
    * @return {@code true} if this set changed as a result of the call.
    * @throws NullPointerException If the specified collection is null.
    * @see #removeAll(<X>Collection)
-   * @see #remove(<y>)
-   * @see #contains(<y>)
+   * @see #remove(<x>)
+   * @see #contains(<x>)
    */
   public boolean removeAll(final Hash<X>Set s) {
     boolean changed = false;
-    for (final <y> value : s.valueData)
+    for (final <x> value : s.valueData)
       if (value != NULL)
         changed |= remove(value);
 
@@ -308,11 +308,11 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public boolean retainAll(final <X>Collection c) {
-    final <y>[] values = new <y>[this.valueData.length];
+    final <x>[] values = new <x>[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final <y> value : values)
+    for (final <x> value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -320,12 +320,12 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public boolean retainAll(final Collection<<Y>> c) {
-    final <y>[] values = new <y>[this.valueData.length];
+  public boolean retainAll(final Collection<<XX>> c) {
+    final <x>[] values = new <x>[this.valueData.length];
     System.arraycopy(this.valueData, 0, values, 0, values.length);
 
     boolean changed = false;
-    for (final <y> value : values)
+    for (final <x> value : values)
       if (!c.contains(value))
         changed |= remove(value);
 
@@ -353,13 +353,13 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public <y>[] toArray(<y>[] a) {
+  public <x>[] toArray(<x>[] a) {
     if (a.length < size())
-      a = new <y>[size()];
+      a = new <x>[size()];
 
     int i = 0;
-    final <y>[] values = this.valueData;
-    for (final <y> value : values)
+    final <x>[] values = this.valueData;
+    for (final <x> value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -370,13 +370,13 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   @Override
-  public <Y>[] toArray(<Y>[] a) {
+  public <XX>[] toArray(<XX>[] a) {
     if (a.length < size())
-      a = new <Y>[size()];
+      a = new <XX>[size()];
 
     int i = 0;
-    final <y>[] values = this.valueData;
-    for (final <y> value : values)
+    final <x>[] values = this.valueData;
+    for (final <x> value : values)
       if (NULL != value)
         a[i++] = value;
 
@@ -399,7 +399,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
     private int expectedModCount = modCount;
 
     <X>Itr() {
-      final <y>[] valueData = Hash<X>Set.this.valueData;
+      final <x>[] valueData = Hash<X>Set.this.valueData;
       final int length = valueData.length;
       int i = length;
       if (valueData[length - 1] != NULL)
@@ -419,7 +419,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
     }
 
     @Override
-    public <y> next() {
+    public <x> next() {
       checkForComodification();
       if (remaining == 1 && containsNull) {
         remaining = 0;
@@ -429,7 +429,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
       }
 
       findNext();
-      final <y>[] values = Hash<X>Set.this.valueData;
+      final <x>[] values = Hash<X>Set.this.valueData;
       return values[getPosition(values)];
     }
 
@@ -443,7 +443,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
         containsNull = false;
       }
       else {
-        final <y>[] values = Hash<X>Set.this.valueData;
+        final <x>[] values = Hash<X>Set.this.valueData;
         final int position = getPosition(values);
         values[position] = NULL;
         --size;
@@ -455,7 +455,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
     }
 
     private void findNext() {
-      final <y>[] valueData = Hash<X>Set.this.valueData;
+      final <x>[] valueData = Hash<X>Set.this.valueData;
       final int mask = valueData.length - 1;
       isPositionValid = true;
       for (int i = positionCounter - 1; i >= stopCounter; --i) {
@@ -471,7 +471,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
       throw new NoSuchElementException();
     }
 
-    private int getPosition(final <y>[] values) {
+    private int getPosition(final <x>[] values) {
       return positionCounter & (values.length - 1);
     }
 
@@ -488,17 +488,17 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 <_>
 <_>  @Override
 <_>  public <X>Stream stream() {
-<_>    return StreamSupport.<y>Stream(spliterator(), false);
+<_>    return StreamSupport.<x>Stream(spliterator(), false);
 <_>  }
 <_>
 <_>  @Override
 <_>  public <X>Stream parallelStream() {
-<_>    return StreamSupport.<y>Stream(spliterator(), true);
+<_>    return StreamSupport.<x>Stream(spliterator(), true);
 <_>  }
 
   private void compactChain(int deleteIndex) {
     ++modCount;
-    final <y>[] values = this.valueData;
+    final <x>[] values = this.valueData;
     final int mask = values.length - 1;
     int index = deleteIndex;
     while (true) {
@@ -506,7 +506,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
       if (values[index] == NULL)
         return;
 
-      final int hash = hash(<Y>.hashCode(values[index]), mask);
+      final int hash = hash(<XX>.hashCode(values[index]), mask);
       if (index < hash && (hash <= deleteIndex || deleteIndex <= index) || hash <= deleteIndex && deleteIndex <= index) {
         values[deleteIndex] = values[index];
         values[index] = NULL;
@@ -519,10 +519,10 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
     ++modCount;
     final int mask = newCapacity - 1;
     this.resizeThreshold = (int)(newCapacity * loadFactor);
-    final <y>[] valueData = new <y>[newCapacity];
-    for (final <y> value : this.valueData) {
+    final <x>[] valueData = new <x>[newCapacity];
+    for (final <x> value : this.valueData) {
       if (value != NULL) {
-        int newHash = hash(<Y>.hashCode(value), mask);
+        int newHash = hash(<XX>.hashCode(value), mask);
         for (; valueData[newHash] != NULL; newHash = ++newHash & mask);
         valueData[newHash] = value;
       }
@@ -544,7 +544,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   public Hash<X>Set clone() {
     try {
       final Hash<X>Set clone = (Hash<X>Set)super.clone();
-      clone.valueData = new <y>[valueData.length];
+      clone.valueData = new <x>[valueData.length];
       System.arraycopy(valueData, 0, clone.valueData, 0, valueData.length);
       return clone;
     }
@@ -567,9 +567,9 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public int hashCode() {
-    int hashCode = containsNull ? <Y>.hashCode(NULL) : 0;
+    int hashCode = containsNull ? <XX>.hashCode(NULL) : 0;
     for (int i = 0; i < valueData.length; ++i)
-      hashCode += <Y>.hashCode(valueData[i]);
+      hashCode += <XX>.hashCode(valueData[i]);
 
     return hashCode;
   }

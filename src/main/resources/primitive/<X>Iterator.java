@@ -21,7 +21,7 @@ import java.util.Objects;
 
 /**
  * A replica of the {@link java.util.Iterator} interface that defines synonymous
- * methods for the iteration over {@code <y>} values instead of Object
+ * methods for the iteration over {@code <x>} values instead of Object
  * references.
  */
 public interface <X>Iterator {
@@ -40,7 +40,7 @@ public interface <X>Iterator {
    * @return The next value in the iteration.
    * @throws NoSuchElementException If the iteration has no more values.
    */
-  <y> next();
+  <x> next();
 
   /**
    * Removes from the underlying collection the last value returned by this

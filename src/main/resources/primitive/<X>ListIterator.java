@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 
 /**
  * A replica of the {@link java.util.ListIterator} interface that defines
- * synonymous methods for the iteration over {@code <y>} values instead of
+ * synonymous methods for the iteration over {@code <x>} values instead of
  * Object references.
  */
 public interface <X>ListIterator extends <X>Iterator {
@@ -47,7 +47,7 @@ public interface <X>ListIterator extends <X>Iterator {
    * @throws NoSuchElementException If the iteration has no next value.
    */
   @Override
-  <y> next();
+  <x> next();
 
   /**
    * Returns {@code true} if this list iterator has more values when
@@ -72,7 +72,7 @@ public interface <X>ListIterator extends <X>Iterator {
    * @throws NoSuchElementException If the iteration has no previous
    *         value.
    */
-  <y> previous();
+  <x> previous();
 
   /**
    * Returns the index of the value that would be returned by a
@@ -131,7 +131,7 @@ public interface <X>ListIterator extends <X>Iterator {
    *         {@code add} have been called after the last call to
    *         {@code next} or {@code previous}.
    */
-  void set(<y> value);
+  void set(<x> value);
 
   /**
    * Inserts the specified value into the list (optional operation).
@@ -151,5 +151,5 @@ public interface <X>ListIterator extends <X>Iterator {
    * @throws IllegalArgumentException If some aspect of this value
    *         prevents it from being added to this list.
    */
-  void add(<y> value);
+  void add(<x> value);
 }

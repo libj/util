@@ -18,8 +18,8 @@ package org.libj.util.function;
 
 /**
  * Represents an operation that accepts an object-valued argument and two
- * {@code <y>}-valued arguments, and returns no result. This is the
- * {@code (reference, <y>, <y>)} specialization of
+ * {@code <x>}-valued arguments, and returns no result. This is the
+ * {@code (reference, <x>, <x>)} specialization of
  * {@link Bi<X>Consumer}. Unlike most other functional interfaces,
  * {@link ObjBi<X>Consumer} is expected to operate via side-effects.
  *
@@ -35,5 +35,5 @@ public interface ObjBi<X>Consumer<T> {
    * @param v1 The second input argument.
    * @param v2 The third input argument.
    */
-  void accept(T t, <y> v1, <y> v2);
+  void accept(T t, <x> v1, <x> v2);
 }

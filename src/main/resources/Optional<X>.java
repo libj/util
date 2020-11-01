@@ -23,13 +23,13 @@ import org.libj.util.function.<X>Consumer;
 import org.libj.util.function.<X>Supplier;
 
 /**
- * A container object which may or may not contain a {@code <y>} value. If a
+ * A container object which may or may not contain a {@code <x>} value. If a
  * value is present, {@code isPresent()} returns {@code true}. If no value is
  * present, the object is considered <i>empty</i> and {@code isPresent()}
  * returns {@code false}.
  * <p>
  * Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(<y>) orElse()} (returns a
+ * value are provided, such as {@link #orElse(<x>) orElse()} (returns a
  * default value if no value is present) and {@link #ifPresent(<X>Consumer)
  * ifPresent()} (performs an action if a value is present).
  * <p>
@@ -51,7 +51,7 @@ public final class Optional<X> {
    * If true then the value is present, otherwise indicates no value is present.
    */
   private final boolean isPresent;
-  private final <y> value;
+  private final <x> value;
 
   /**
    * Construct an empty instance.
@@ -82,9 +82,9 @@ public final class Optional<X> {
   /**
    * Construct an instance with the described value.
    *
-   * @param value The <y> value to describe.
+   * @param value The <x> value to describe.
    */
-  private Optional<X>(final <y> value) {
+  private Optional<X>(final <x> value) {
     this.isPresent = true;
     this.value = value;
   }
@@ -95,7 +95,7 @@ public final class Optional<X> {
    * @param value The value to describe.
    * @return An {@code Optional<X>} with the value present.
    */
-  public static Optional<X> of(final <y> value) {
+  public static Optional<X> of(final <x> value) {
     return new Optional<X>(value);
   }
 
@@ -109,7 +109,7 @@ public final class Optional<X> {
    * @return The value described by this {@code Optional<X>}.
    * @throws NoSuchElementException If no value is present.
    */
-  public <y> getAs<X>() {
+  public <x> getAs<X>() {
     if (isPresent)
       return value;
 
@@ -170,7 +170,7 @@ public final class Optional<X> {
 //   * only that value, otherwise returns an empty {@code <X>Stream}.
 //   * <p>
 //   * <b>Note:</b> This method can be used to transform a {@code Stream} of
-//   * optional <y>s to an {@code <X>Stream} of present <y>s:
+//   * optional <x>s to an {@code <X>Stream} of present <x>s:
 //   *
 //   * <pre>
 //   * {@code
@@ -191,7 +191,7 @@ public final class Optional<X> {
    * @param other The value to be returned, if no value is present.
    * @return The value, if present, otherwise {@code other}.
    */
-  public <y> orElse(final <y> other) {
+  public <x> orElse(final <x> other) {
     return isPresent ? value : other;
   }
 
@@ -205,7 +205,7 @@ public final class Optional<X> {
    * @throws NullPointerException If no value is present and the supplying
    *           function is {@code null}.
    */
-  public <y> orElseGet(final <X>Supplier supplier) {
+  public <x> orElseGet(final <X>Supplier supplier) {
     return isPresent ? value : supplier.getAs<X>();
   }
 
@@ -216,7 +216,7 @@ public final class Optional<X> {
    * @return The value described by this {@code Optional<X>}.
    * @throws NoSuchElementException If no value is present.
    */
-  public <y> orElseThrow() {
+  public <x> orElseThrow() {
     if (isPresent)
       return value;
 
@@ -239,7 +239,7 @@ public final class Optional<X> {
    * @throws NullPointerException If no value is present and the exception
    *           supplying function is {@code null}.
    */
-  public <T extends Throwable> <y> orElseThrow(final Supplier<? extends T> exceptionSupplier) throws T {
+  public <T extends Throwable> <x> orElseThrow(final Supplier<? extends T> exceptionSupplier) throws T {
     if (isPresent)
       return value;
 
@@ -280,7 +280,7 @@ public final class Optional<X> {
    */
   @Override
   public int hashCode() {
-    return isPresent ? <Y>.hashCode(value) : 0;
+    return isPresent ? <XX>.hashCode(value) : 0;
   }
 
   /**

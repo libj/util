@@ -18,7 +18,7 @@ package org.libj.util.function;
 
 /**
  * Represents an operation that accepts two object-valued argument and a
- * {@code <y>}-valued argument, and returns no result. Unlike most other
+ * {@code <x>}-valued argument, and returns no result. Unlike most other
  * functional interfaces, {@link BiObj<X>Consumer} is expected to operate
  * via side-effects.
  *
@@ -35,5 +35,5 @@ public interface BiObj<X>Consumer<T,U> {
    * @param u The second input argument.
    * @param v The third input argument.
    */
-  void accept(T t, U u, <y> v);
+  void accept(T t, U u, <x> v);
 }

@@ -17,8 +17,8 @@
 package org.libj.util.function;
 
 /**
- * Represents a supplier of {@code <y>}-valued results. This is the
- * {@code <y>}-producing primitive specialization of
+ * Represents a supplier of {@code <x>}-valued results. This is the
+ * {@code <x>}-producing primitive specialization of
  * {@link java.util.function.Supplier}.
  * <p>
  * There is no requirement that a distinct result be returned each time the
@@ -36,5 +36,5 @@ public interface <X>Supplier {
    *
    * @return A result.
    */
-  <y> getAs<X>();
+  <x> getAs<X>();
 }
