@@ -17,19 +17,19 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that accepts a <y>-valued argument and produces a
- * <y>-valued result. This is the {@code <y>}-to-{@code <y>} primitive
+ * Represents a function that accepts a <x>-valued argument and produces a
+ * <y>-valued result. This is the {@code <x>}-to-{@code <y>} primitive
  * specialization of {@link java.util.function.Function}.
  *
  * @see java.util.function.Function
  */
 @FunctionalInterface
-public interface <X>To<X>Function {
+public interface <X>To<Y>Function {
   /**
    * Applies this function to the given arguments.
    *
    * @param t The function argument.
    * @return The function result.
    */
-  <y> applyAs<X>(<y> t);
+  <y> applyAs<X>(<x> t);
 }
