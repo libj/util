@@ -137,11 +137,6 @@
                 <template>src/main/resources/function/Obj&lt;X&gt;To&lt;Y&gt;Function.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
-              <map>
-                <Y>X</Y>
-                <y>x</y>
-                <YY>XX</YY>
-              </map>
               <parameters>
                 <int>
                   <skip>true</skip>
