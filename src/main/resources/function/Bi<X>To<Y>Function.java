@@ -32,5 +32,5 @@ public interface Bi<X>To<Y>Function {
    * @param u The second function argument.
    * @return The function result.
    */
-  <y> applyAs<X>(<x> t, <x> u);
+  <y> applyAs<Y>(<x> t, <x> u);
 }

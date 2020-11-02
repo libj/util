@@ -68,11 +68,9 @@
                 <template>src/main/resources/primitive/Hash&lt;X&gt;Set.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
-              <parameters>
-                <boolean>
-                  <skip>true</skip>
-                </boolean>
-              </parameters>
+              <skips>
+                <skip>boolean</skip>
+              </skips>
             </configuration>
           </execution>
           <execution>
@@ -91,6 +89,8 @@
                 <template>src/main/resources/function/Obj&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/ObjBi&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/Tri&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/Bi&lt;X&gt;To&lt;Y&gt;Function.java</template>
+                <template>src/main/resources/function/Obj&lt;X&gt;To&lt;Y&gt;Function.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
             </configuration>
@@ -111,17 +111,11 @@
                 <template>src/main/resources/function/To&lt;X&gt;Function.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
-              <parameters>
-                <int>
-                  <skip>true</skip>
-                </int>
-                <long>
-                  <skip>true</skip>
-                </long>
-                <double>
-                  <skip>true</skip>
-                </double>
-              </parameters>
+              <skips>
+                <skip>int</skip>
+                <skip>long</skip>
+                <skip>double</skip>
+              </skips>
             </configuration>
           </execution>
           <execution>
@@ -133,21 +127,16 @@
             <configuration>
               <templates>
                 <template>src/main/resources/function/&lt;X&gt;To&lt;Y&gt;Function.java</template>
-                <template>src/main/resources/function/Bi&lt;X&gt;To&lt;Y&gt;Function.java</template>
-                <template>src/main/resources/function/Obj&lt;X&gt;To&lt;Y&gt;Function.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
-              <parameters>
-                <int>
-                  <skip>true</skip>
-                </int>
-                <long>
-                  <skip>true</skip>
-                </long>
-                <double>
-                  <skip>true</skip>
-                </double>
-              </parameters>
+              <skips>
+                <skip>int,long</skip>
+                <skip>long,int</skip>
+                <skip>double,int</skip>
+                <skip>int,double</skip>
+                <skip>double,long</skip>
+                <skip>long,double</skip>
+              </skips>
             </configuration>
           </execution>
           <execution>
@@ -161,17 +150,11 @@
                 <template>src/main/resources/Optional&lt;X&gt;.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util</destDir>
-              <parameters>
-                <int>
-                  <skip>true</skip>
-                </int>
-                <long>
-                  <skip>true</skip>
-                </long>
-                <double>
-                  <skip>true</skip>
-                </double>
-              </parameters>
+              <skips>
+                <skip>int</skip>
+                <skip>long</skip>
+                <skip>double</skip>
+              </skips>
             </configuration>
           </execution>
           <execution>
@@ -185,11 +168,9 @@
                 <template>src/main/resources/primitive/&lt;X&gt;TimSort.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
-              <parameters>
-                <boolean>
-                  <skip>true</skip>
-                </boolean>
-              </parameters>
+              <skips>
+                <skip>boolean</skip>
+              </skips>
             </configuration>
           </execution>
           <execution>
@@ -203,10 +184,10 @@
                 <template>src/main/resources/primitive/&lt;X&gt;PairedTimSort.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
+              <skips>
+                <skip>boolean</skip>
+              </skips>
               <parameters>
-                <boolean>
-                  <skip>true</skip>
-                </boolean>
                 <object>
                   <types>
                     <X></X>
@@ -233,15 +214,18 @@
                 <template>src/test/resources/Hash&lt;X&gt;SetTest.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-test-sources/codegen/org/libj/util/primitive</destDir>
-              <parameters>
-                <boolean>
-                  <skip>true</skip>
-                </boolean>
-              </parameters>
+              <skips>
+                <skip>boolean</skip>
+              </skips>
             </configuration>
           </execution>
         </executions>
         <configuration>
+          <alias>
+            <Y>X</Y>
+            <y>x</y>
+            <YY>XX</YY>
+          </alias>
           <parameters>
             <boolean>
               <types>

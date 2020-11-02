@@ -31,5 +31,5 @@ public interface Obj<X>To<Y>Function<T> {
    * @param u The second function argument.
    * @return The function result.
    */
-  <y> applyAs<X>(T t, <x> u);
+  <y> applyAs<Y>(T t, <x> u);
 }
