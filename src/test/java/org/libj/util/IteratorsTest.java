@@ -23,6 +23,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
@@ -89,5 +90,15 @@ public class IteratorsTest {
     final List<String> list = Arrays.asList("a", "b", "c");
     assertEquals("c", Iterators.lastElement(list.iterator()));
     assertNull(Iterators.lastElement(Arrays.asList().iterator()));
+  }
+
+  @Test
+  public void testToEnumeration() {
+    final List<String> list = Arrays.asList("a", "b", "c");
+    final Enumeration<String> enumeration = Iterators.toEnumeration(list.iterator());
+    for (int i = 0; i < list.size(); ++i) {
+      assertTrue(enumeration.hasMoreElements());
+      assertEquals(list.get(i), enumeration.nextElement());
+    }
   }
 }

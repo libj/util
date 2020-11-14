@@ -16,6 +16,7 @@
 
 package org.libj.util;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -169,6 +170,29 @@ public final class Iterators {
    */
   public static <T,E>Iterator<E> flatIterator(final List<T> list) {
     return new FlatListIterator<>(list);
+  }
+
+  /**
+   * Returns an {@link Enumeration} wrapping the provided {@link Iterator}.
+   *
+   * @param <T> The type of the object in the {@link Enumeration}.
+   * @param i The {@link Iterator} to wrap with an {@link Enumeration}.
+   * @return An {@link Enumeration} wrapping the provided {@link Iterator}.
+   * @throws NullPointerException If {@code i} is null.
+   */
+  public static <T>Enumeration<T> toEnumeration(final Iterator<T> i) {
+    Objects.requireNonNull(i);
+    return new Enumeration<T>() {
+      @Override
+      public boolean hasMoreElements() {
+        return i.hasNext();
+      }
+
+      @Override
+      public T nextElement() {
+        return i.next();
+      }
+    };
   }
 
   private Iterators() {
