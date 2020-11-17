@@ -170,6 +170,8 @@ public class StringPathsTest {
     assertEquals("arp/../", StringPaths.getParent("arp/../pom.xml"));
     assertEquals("/usr/share/../share/../", StringPaths.getParent("/usr/share/../share/../../"));
     assertEquals("file:///usr/local/bin/../lib/../", StringPaths.getParent("file:///usr/local/bin/../lib/../bin"));
+    assertNull(StringPaths.getParent("resource"));
+    assertNull(StringPaths.getParent("classpath://resource"));
   }
 
   @Test

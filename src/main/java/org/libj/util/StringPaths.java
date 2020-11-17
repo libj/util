@@ -392,7 +392,7 @@ public final class StringPaths {
   public static String getParent(final String path) {
     final int offset = path.length() - 1;
     final int index = path.charAt(offset) == '/' ? path.lastIndexOf('/', offset - 1) : path.lastIndexOf('/', offset);
-    return index < 0 || path.charAt(index) == ':' ? null : path.substring(0, index + 1);
+    return index < 0 || path.charAt(index) == ':' || index >= 2 && path.regionMatches(index - 2, "://", 0, 3) ? null : path.substring(0, index + 1);
   }
 
   /**
