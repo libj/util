@@ -166,7 +166,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
       }
       catch (final Exception e) {
         if (attemptNo > maxRetries || !retryOn(e))
-          retryFailed(null, attemptNo, getDelayMs(attemptNo - 1));
+          retryFailed(e, attemptNo, getDelayMs(attemptNo - 1));
 
         long delayMs = getDelayMs(attemptNo);
         if (jitter > 0)
