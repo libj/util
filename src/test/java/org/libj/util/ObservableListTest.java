@@ -107,11 +107,11 @@ public class ObservableListTest {
       }
 
       @Override
-      protected boolean beforeAdd(final int index, final String element) {
+      protected Object beforeAdd(final int index, final String element, final Object preventDefault) {
         assertEquals(expectedString, element);
         assertFalse(contains(element));
         beforeAdd = true;
-        return true;
+        return element;
       }
 
       @Override

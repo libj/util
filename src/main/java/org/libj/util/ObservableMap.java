@@ -36,12 +36,14 @@ import java.util.function.Function;
  * @param <V> The type of mapped values.
  * @see #beforeGet(Object)
  * @see #afterGet(Object,Object,RuntimeException)
- * @see #beforePut(Object,Object,Object)
+ * @see #beforePut(Object,Object,Object,Object)
  * @see #afterPut(Object,Object,Object,RuntimeException)
  * @see #beforeRemove(Object,Object)
  * @see #afterRemove(Object,Object,RuntimeException)
  */
 public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
+  protected static final Object preventDefault = ObservableCollection.preventDefault;
+
   /**
    * Creates a new {@link ObservableMap} with the specified target {@link Map}.
    *
@@ -104,8 +106,10 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #get(Object)}.
    *
    * @param key The key whose associated value is to be retrieved.
+   * @return The key whose associated value is to be retrieved.
    */
-  protected void beforeGet(final Object key) {
+  protected Object beforeGet(final Object key) {
+    return key;
   }
 
   /**
@@ -116,8 +120,10 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * @param value The value retrieved via {@link #get(Object)}.
    * @param e A {@link RuntimeException} that occurred during the get operation,
    *          or {@code null} if no exception occurred.
+   * @return The value to be retrieved via {@link #get(Object)}.
    */
-  protected void afterGet(final Object key, final V value, final RuntimeException e) {
+  protected V afterGet(final Object key, final V value, final RuntimeException e) {
+    return value;
   }
 
   /**
@@ -130,12 +136,12 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    *          the key.
    * @param newValue The new value to be put for the key in the enclosed
    *          {@link Map}.
-   * @return If this method returns {@code false}, the subsequent {@code put}
-   *         operation will not be performed; otherwise, the operation will be
-   *         performed.
+   * @param preventDefault The object to return if the subsequent {@code put}
+   *          operation is to be prevented.
+   * @return The new value to be put for the key in the enclosed {@link Map}.
    */
-  protected boolean beforePut(final K key, final V oldValue, final V newValue) {
-    return true;
+  protected Object beforePut(final K key, final V oldValue, final V newValue, final Object preventDefault) {
+    return newValue;
   }
 
   /**
@@ -192,6 +198,55 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * the retrieval and removal of entries.
    */
   protected class ObservableEntrySet extends ObservableSet<Map.Entry<K,V>> {
+    private class ObservableEntry implements Map.Entry<K,V> {
+      private final Map.Entry<K,V> target;
+
+      private ObservableEntry(final Entry<K,V> target) {
+        this.target = target;
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public K getKey() {
+        return (K)beforeGet(target.getKey());
+      }
+
+      @Override
+      public V getValue() {
+        return ObservableMap.this.afterGet(target.getKey(), target.getValue(), null);
+      }
+
+      @Override
+      @SuppressWarnings("unchecked")
+      public V setValue(final V newValue) {
+        final V oldValue = getValue();
+        final Object beforePut = ObservableMap.this.beforePut(getKey(), oldValue, newValue, preventDefault);
+        if (beforePut != preventDefault)
+          target.setValue((V)beforePut);
+
+        return oldValue;
+      }
+
+      @Override
+      public int hashCode() {
+        return target.hashCode();
+      }
+
+      @Override
+      public boolean equals(final Object obj) {
+        return target.equals(obj);
+      }
+
+      @Override
+      public String toString() {
+        return target.toString();
+      }
+    }
+
+    private final ThreadLocal<K> localKey = new ThreadLocal<>();
+    private final ThreadLocal<V> localOldValue = new ThreadLocal<>();
+    private final ThreadLocal<V> localNewValue = new ThreadLocal<>();
+
     /**
      * Creates a new {@link ObservableEntrySet} for the specified {@link Set
      * Set&lt;Map.Entry&lt;K,V&gt;&gt;}.
@@ -200,20 +255,35 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
      * @throws NullPointerException If the specified {@link Set
      *           Set&lt;Map.Entry&lt;K,V&gt;&gt;}} is null.
      */
-    protected ObservableEntrySet(final Set<Entry<K,V>> set) {
+    protected ObservableEntrySet(final Set<Map.Entry<K,V>> set) {
       super(set);
     }
 
-    private final ThreadLocal<K> localKey = new ThreadLocal<>();
-    private final ThreadLocal<V> localOldValue = new ThreadLocal<>();
-    private final ThreadLocal<V> localNewValue = new ThreadLocal<>();
+    @Override
+    protected Map.Entry<K,V> afterGet(final Map.Entry<K,V> value, final RuntimeException e) {
+      return new ObservableEntry(value);
+    }
 
     @Override
-    protected boolean beforeAdd(final Entry<K,V> element) {
-      localKey.set(element.getKey());
-      localNewValue.set(element.getValue());
-      localOldValue.set(ObservableMap.this.get(element.getKey()));
-      return ObservableMap.this.beforePut(element.getKey(), localOldValue.get(), element.getValue());
+    @SuppressWarnings("unchecked")
+    protected Object beforeAdd(Map.Entry<K,V> element, final Object preventDefault) {
+      final K key = element.getKey();
+      final V oldValue = ObservableMap.this.get(key);
+      final V newValue = element.getValue();
+      final Object beforePut = ObservableMap.this.beforePut(key, oldValue, newValue, ObservableCollection.preventDefault);
+      if (beforePut == ObservableCollection.preventDefault)
+        return preventDefault;
+
+      localKey.set(key);
+      localNewValue.set((V)beforePut);
+      localOldValue.set(oldValue);
+
+      return beforePut == newValue ? element : new ObservableEntry(element) {
+        @Override
+        public V getValue() {
+          return (V)beforePut;
+        }
+      };
     }
 
     @Override
@@ -225,9 +295,14 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
     @SuppressWarnings("unchecked")
     protected boolean beforeRemove(final Object element) {
       final Map.Entry<K,V> entry = (Map.Entry<K,V>)element;
-      localKey.set(entry.getKey());
-      localNewValue.set(entry.getValue());
-      return ObservableMap.this.beforeRemove(entry.getKey(), entry.getValue());
+      final K key = entry.getKey();
+      final V value = entry.getValue();
+      if (!ObservableMap.this.beforeRemove(key, value))
+        return false;
+
+      localKey.set(key);
+      localNewValue.set(value);
+      return true;
     }
 
     @Override
@@ -269,7 +344,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
     private final ThreadLocal<V> localNewValue = new ThreadLocal<>();
 
     @Override
-    protected boolean beforeAdd(final K element) {
+    protected K beforeAdd(final K element, final Object preventDefault) {
       throw new UnsupportedOperationException();
     }
 
@@ -360,8 +435,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public V get(final Object key) {
-    beforeGet(key);
+  public V get(Object key) {
+    key = beforeGet(key);
     V value = null;
     RuntimeException exception = null;
     try {
@@ -401,7 +476,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #replace(Object,Object,Object)} for the final "put" operation into
    * the underlying {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
    *
@@ -413,10 +488,12 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    *         there was no mapping for {@code key}.
    */
   @SuppressWarnings("unchecked")
-  protected V put(final K key, V oldValue, final V newValue) {
-    if (!beforePut(key, oldValue, newValue))
+  protected V put(final K key, V oldValue, V newValue) {
+    final Object beforePut = beforePut(key, oldValue, newValue, preventDefault);
+    if (beforePut == preventDefault)
       return oldValue;
 
+    newValue = (V)beforePut;
     RuntimeException exception = null;
     try {
       oldValue = (V)target.put(key, newValue);
@@ -439,7 +516,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
    */
@@ -456,7 +533,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
    */
@@ -468,8 +545,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)}
-   * and {@link #afterPut(Object,Object,Object,RuntimeException)} are called
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
+   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified for the
    * addition of each entry in the argument map.
    */
@@ -535,7 +612,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
    */
@@ -551,7 +628,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the enclosed collection is modified.
    */
@@ -599,7 +676,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
    * before and after the an entry is removed in the enclosed collection.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
@@ -616,7 +693,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
@@ -637,7 +714,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
    * before and after the an entry is removed in the enclosed collection.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
@@ -658,7 +735,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #afterRemove(Object,Object,RuntimeException)} are called immediately
    * before and after the an entry is removed in the enclosed collection.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
@@ -671,21 +748,23 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object)} and
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
    * {@link #afterPut(Object,Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is put in the enclosed
    * collection.
    */
   @Override
+  @SuppressWarnings("unchecked")
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
     Objects.requireNonNull(function);
     for (final Map.Entry<K,V> entry : entrySet()) {
       final K key = entry.getKey();
       final V oldValue = entry.getValue();
-      final V newValue = function.apply(key, oldValue);
-      if (!beforePut(key, oldValue, newValue))
+      final Object beforePut = beforePut(key, oldValue, function.apply(key, oldValue), preventDefault);
+      if (beforePut == preventDefault)
         continue;
 
+      final V newValue = (V)beforePut;
       RuntimeException exception = null;
       try {
         entry.setValue(newValue);
@@ -716,7 +795,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
 
   @Override
   public Collection<V> values() {
-    return values == null ? values = new TransCollection<>(entrySet(), Entry::getValue, null) : values;
+    return values == null ? values = new TransCollection<>(entrySet(), Map.Entry::getValue, null) : values;
   }
 
   private void touchEntries() {

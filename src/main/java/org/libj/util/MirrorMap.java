@@ -356,13 +356,13 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
 
   @Override
   @SuppressWarnings("unchecked")
-  protected boolean beforePut(final K key, final V oldValue, final V newValue) {
+  protected V beforePut(final K key, final V oldValue, final V newValue, final Object preventDefault) {
     if (mirrorMap(false) != null) {
       unlocked = unlock();
       mirrorMap.target.put(key, PENDING);
     }
 
-    return true;
+    return newValue;
   }
 
   @Override
@@ -426,12 +426,14 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   @Override
-  protected void beforeGet(final Object key) {
+  protected Object beforeGet(final Object key) {
     beforeContainsKey(key);
+    return key;
   }
 
   @Override
-  protected void afterGet(final Object key, final V value, final RuntimeException e) {
+  protected V afterGet(final Object key, final V value, final RuntimeException e) {
     lock(unlocked);
+    return value;
   }
 }

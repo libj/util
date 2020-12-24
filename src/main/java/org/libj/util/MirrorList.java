@@ -369,13 +369,13 @@ public class MirrorList<V,R> extends ObservableList<V> {
 
   @Override
   @SuppressWarnings("unchecked")
-  protected boolean beforeAdd(final int index, final V element) {
+  protected Object beforeAdd(final int index, final V element, final Object preventDefault) {
     unlocked = unlock();
     if (mirrorList(false) != null)
       mirrorList.target.add(index, PENDING);
 
     lock(unlocked);
-    return true;
+    return element;
   }
 
   @Override

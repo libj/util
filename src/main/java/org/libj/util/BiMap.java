@@ -64,12 +64,12 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   protected void setTarget(final Map<K,V> map) {
     super.target = new ObservableMap<K,V>(map) {
       @Override
-      protected boolean beforePut(final K key, final V oldValue, final V newValue) {
+      protected V beforePut(final K key, final V oldValue, final V newValue, final Object preventDefault) {
         ((ObservableMap<K,V>)BiMap.this.reverse.target).target.put(newValue, key);
         if (oldValue != null)
           ((ObservableMap<K,V>)BiMap.this.reverse.target).target.remove(oldValue);
 
-        return true;
+        return newValue;
       }
 
       @Override
@@ -110,7 +110,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
       private final ThreadLocal<V> localValue = new ThreadLocal<>();
 
       @Override
-      protected boolean beforeAdd(final K element) {
+      protected K beforeAdd(final K element, final Object preventDefault) {
         throw new UnsupportedOperationException();
       }
 
@@ -138,7 +138,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   public Collection<V> values() {
     return values == null ? values = new ObservableCollection<V>(target.values()) {
       @Override
-      protected boolean beforeAdd(final V element) {
+      protected V beforeAdd(final V element, final Object preventDefault) {
         throw new UnsupportedOperationException();
       }
 
@@ -155,7 +155,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
       @Override
-      protected boolean beforeAdd(final Entry<K,V> element) {
+      protected Object beforeAdd(final Entry<K,V> element, final Object preventDefault) {
         throw new UnsupportedOperationException();
       }
 

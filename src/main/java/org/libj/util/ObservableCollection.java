@@ -32,12 +32,14 @@ import java.util.stream.Stream;
  * that facilitates modification of the elements in this list.
  *
  * @param <E> The type of elements in this collection.
- * @see #beforeAdd(Object)
+ * @see #beforeAdd(Object,Object)
  * @see #afterAdd(Object,RuntimeException)
  * @see #beforeRemove(Object)
  * @see #afterRemove(Object,RuntimeException)
  */
 public abstract class ObservableCollection<E> extends DelegateCollection<E> {
+  protected static final Object preventDefault = new Object();
+
   public ObservableCollection(final Collection<E> collection) {
     super(collection);
   }
@@ -61,12 +63,12 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * the enclosed {@link Collection}.
    *
    * @param element The element to be added to the enclosed {@link Collection}.
-   * @return If this method returns {@code true}, the subsequent <u>add</u>
-   *         operation will be performed; if this method returns {@code false},
-   *         the subsequent <u>add</u> operation will not be performed.
+   * @param preventDefault The object to return if the subsequent {@code add}
+   *          operation is to be prevented.
+   * @return The element to be added to the enclosed {@link Collection}.
    */
-  protected boolean beforeAdd(final E element) {
-    return true;
+  protected Object beforeAdd(final E element, final Object preventDefault) {
+    return element;
   }
 
   /**
@@ -227,17 +229,21 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(Object)} and
+   * The callback methods {@link #beforeAdd(Object,Object)} and
    * {@link ObservableCollection#afterAdd(Object, RuntimeException)} are called
    * immediately before and after the enclosed collection is modified. If
-   * {@link #beforeAdd(Object)} returns false, the element will not be added.
+   * {@link #beforeAdd(Object,Object)} returns false, the element will not be
+   * added.
    */
   @Override
-  public boolean add(final E e) {
+  @SuppressWarnings("unchecked")
+  public boolean add(E e) {
     final int size = size();
-    if (!beforeAdd(e))
+    final Object beforeAdd = beforeAdd(e, preventDefault);
+    if (beforeAdd == preventDefault)
       return size != size();
 
+    e = (E)beforeAdd;
     RuntimeException exception = null;
     try {
       super.add(e);
@@ -256,11 +262,11 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(Object)} and
+   * The callback methods {@link #beforeAdd(Object,Object)} and
    * {@link #afterAdd(Object,RuntimeException)} are called immediately before
    * and after the enclosed collection is modified for the addition of each
    * element in the argument Collection. All elements for which
-   * {@link #beforeAdd(Object)} returns false will not be added to this
+   * {@link #beforeAdd(Object,Object)} returns false will not be added to this
    * collection.
    */
   @Override

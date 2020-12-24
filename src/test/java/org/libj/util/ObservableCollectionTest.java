@@ -56,10 +56,11 @@ public class ObservableCollectionTest {
   public void test() {
     final ObservableCollection<String> collection = new ObservableCollection<String>(new HashSet<>()) {
       @Override
-      protected boolean beforeAdd(final String element) {
+      protected Object beforeAdd(final String element, final Object preventDefault) {
         assertEquals(expectedString, element);
         assertFalse(contains(element));
-        return beforeAdd = true;
+        beforeAdd = true;
+        return element;
       }
 
       @Override

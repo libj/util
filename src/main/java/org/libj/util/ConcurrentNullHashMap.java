@@ -97,7 +97,7 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
    * @throws IllegalArgumentException If the initial capacity is negative or the
    *           load factor or concurrencyLevel are nonpositive.
    */
-  public ConcurrentNullHashMap(int initialCapacity, float loadFactor, int concurrencyLevel) {
+  public ConcurrentNullHashMap(final int initialCapacity, final float loadFactor, final int concurrencyLevel) {
     super(initialCapacity, loadFactor, concurrencyLevel);
   }
 
@@ -131,6 +131,11 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   }
 
   @Override
+  public boolean containsValue(final Object value) {
+    return super.containsValue(notNull(value));
+  }
+
+  @Override
   public V get(final Object key) {
     final V value = super.get(notNull(key));
     return value == NULL ? null : value;
@@ -143,17 +148,22 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   }
 
   @Override
+  public boolean replace(final K key, final V oldValue, final V newValue) {
+    return super.replace(notNull(key), notNull(oldValue), notNull(newValue));
+  }
+
+  @Override
+  public V replace(final K key, final V value) {
+    final V oldValue = super.replace(notNull(key), notNull(value));
+    return oldValue == NULL ? null : oldValue;
+  }
+
+  @Override
   public Collection<V> values() {
     return new ObservableCollection<V>(super.values()) {
       @Override
       protected V afterGet(final V value, final RuntimeException e) {
         return value == NULL ? null : value;
-      }
-
-      @Override
-      protected boolean beforeAdd(final V element) {
-        this.add(notNull(element));
-        return false;
       }
     };
   }
@@ -183,20 +193,52 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
     };
   }
 
+  private class NullEnumeration<E> implements Enumeration<E> {
+    private final Enumeration<E> target;
+
+    private NullEnumeration(final Enumeration<E> target) {
+      this.target = target;
+    }
+
+    @Override
+    public boolean hasMoreElements() {
+      return target.hasMoreElements();
+    }
+
+    @Override
+    public E nextElement() {
+      final E key = target.nextElement();
+      return key == NULL ? null : key;
+    }
+  }
+
   @Override
   public Enumeration<K> keys() {
-    final Enumeration<K> keys = super.keys();
-    return new Enumeration<K>() {
+    return new NullEnumeration<>(super.keys());
+  }
+
+  @Override
+  public Enumeration<V> elements() {
+    return new NullEnumeration<>(super.elements());
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean equals(final Object o) {
+    if (!(o instanceof Map))
+      return false;
+
+    final Map<Object,Object> m = (Map<Object,Object>)o;
+    return super.equals(new ObservableMap<Object,Object>(m) {
       @Override
-      public boolean hasMoreElements() {
-        return keys.hasMoreElements();
+      protected Object beforeGet(final Object key) {
+        return notNull(key);
       }
 
       @Override
-      public K nextElement() {
-        final K key = keys.nextElement();
-        return key == NULL ? null : key;
+      protected Object afterGet(final Object key, final Object value, final RuntimeException e) {
+        return notNull(value);
       }
-    };
+    });
   }
 }

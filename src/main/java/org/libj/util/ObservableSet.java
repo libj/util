@@ -34,12 +34,14 @@ import java.util.stream.Stream;
  *
  * @param <E> The type of elements in this set.
  * @see #afterGet(Object,RuntimeException)
- * @see #beforeAdd(Object)
+ * @see #beforeAdd(Object,Object)
  * @see #afterAdd(Object,RuntimeException)
  * @see #beforeRemove(Object)
  * @see #afterRemove(Object,RuntimeException)
  */
 public abstract class ObservableSet<E> extends DelegateSet<E> {
+  protected static final Object preventDefault = ObservableCollection.preventDefault;
+
   /**
    * Creates a new {@link ObservableList} with the specified target {@code set}.
    *
@@ -69,12 +71,12 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * the enclosed {@link Set}.
    *
    * @param element The element to be added to the enclosed {@link Set}.
-   * @return If this method returns {@code false}, the subsequent {@code add}
-   *         operation will not be performed; otherwise, the subsequent
-   *         {@code add} operation will be performed.
+   * @param preventDefault The object to return if the subsequent {@code add}
+   *          operation is to be prevented.
+   * @return The element to be added to the enclosed {@link Set}.
    */
-  protected boolean beforeAdd(final E element) {
-    return true;
+  protected Object beforeAdd(final E element, final Object preventDefault) {
+    return element;
   }
 
   /**
@@ -230,17 +232,21 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(Object)} and
+   * The callback methods {@link #beforeAdd(Object,Object)} and
    * {@link #afterAdd(Object,RuntimeException)} are called immediately before
-   * and after the enclosed set is modified. If {@link #beforeAdd(Object)}
-   * returns false, the element will not be added.
+   * and after the enclosed set is modified. If
+   * {@link #beforeAdd(Object,Object)} returns false, the element will not be
+   * added.
    */
   @Override
-  public boolean add(final E e) {
+  @SuppressWarnings("unchecked")
+  public boolean add(E e) {
     final int size = size();
-    if (!beforeAdd(e))
+    final Object beforeAdd = beforeAdd(e, preventDefault);
+    if (beforeAdd == preventDefault)
       return size != size();
 
+    e = (E)beforeAdd;
     RuntimeException exception = null;
     try {
       target.add(e);
@@ -259,11 +265,12 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(Object)} and
+   * The callback methods {@link #beforeAdd(Object,Object)} and
    * {@link #afterAdd(Object,RuntimeException)} are called immediately before
    * and after the enclosed set is modified for the addition of each element in
-   * the argument Collection. All elements for which {@link #beforeAdd(Object)}
-   * returns false will not be added to this collection.
+   * the argument Collection. All elements for which
+   * {@link #beforeAdd(Object,Object)} returns false will not be added to this
+   * collection.
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {

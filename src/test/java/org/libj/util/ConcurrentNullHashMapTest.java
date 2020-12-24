@@ -22,6 +22,7 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -61,6 +62,13 @@ public class ConcurrentNullHashMapTest {
   }
 
   @Test
+  public void testContains() {
+    final ConcurrentNullHashMap<String,String> map = new ConcurrentNullHashMap<>(Collections.singletonMap(null, null));
+    assertTrue(map.containsKey(null));
+    assertTrue(map.contains(null));
+  }
+
+  @Test
   public void testGet() {
     final ConcurrentNullHashMap<String,String> map = new ConcurrentNullHashMap<>(Collections.singletonMap(null, null));
     assertTrue(map.containsKey(null));
@@ -78,6 +86,26 @@ public class ConcurrentNullHashMapTest {
     final ConcurrentNullHashMap<String,String> map = new ConcurrentNullHashMap<>(Collections.singletonMap(null, null));
     assertTrue(map.containsKey(null));
     assertNull(map.get(null));
+  }
+
+  @Test
+  public void testReplaceKV() {
+    final ConcurrentNullHashMap<String,String> map = new ConcurrentNullHashMap<>();
+    map.put(str, str);
+    map.put(null, null);
+
+    assertEquals(str, map.replace(str, null));
+    assertNull(map.replace(null, null));
+  }
+
+  @Test
+  public void testReplaceKVV() {
+    final ConcurrentNullHashMap<String,String> map = new ConcurrentNullHashMap<>();
+    map.put(str, str);
+    map.put(null, null);
+
+    assertTrue(map.replace(str, str, null));
+    assertTrue(map.replace(null, null, null));
   }
 
   @Test
@@ -110,5 +138,41 @@ public class ConcurrentNullHashMapTest {
     }
 
     assertFalse(keys.hasMoreElements());
+  }
+
+  @Test
+  public void testElements() {
+    final ConcurrentNullHashMap<String,String> map = new ConcurrentNullHashMap<>();
+    map.put(str, str);
+    map.put(null, null);
+    final Enumeration<String> elements = map.elements();
+    assertTrue(elements.hasMoreElements());
+    String key = elements.nextElement();
+    if (key == null) {
+      assertTrue(elements.hasMoreElements());
+      assertEquals(str, elements.nextElement());
+    }
+    else if (str.equals(key)) {
+      assertTrue(elements.hasMoreElements());
+      assertNull(elements.nextElement());
+    }
+    else {
+      fail();
+    }
+
+    assertFalse(elements.hasMoreElements());
+  }
+
+  @Test
+  public void testEquals() {
+    final HashMap<String,String> other = new HashMap<>();
+    other.put(str, str);
+    other.put(null, null);
+
+    final ConcurrentNullHashMap<String,String> map = new ConcurrentNullHashMap<>();
+    map.put(str, str);
+    map.put(null, null);
+
+    assertEquals(other, map);
   }
 }

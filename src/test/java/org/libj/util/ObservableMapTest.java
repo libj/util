@@ -56,11 +56,12 @@ public class ObservableMapTest {
   public void test() {
     final ObservableMap<Integer,String> map = new ObservableMap<Integer,String>(new HashMap<>()) {
       @Override
-      protected boolean beforePut(final Integer key, final String oldValue, final String newValue) {
+      protected Object beforePut(final Integer key, final String oldValue, final String newValue, final Object preventDefault) {
         assertEquals(expectedKey, key);
         assertEquals(expectedValue, newValue);
         assertFalse(containsKey(key));
-        return beforePut = true;
+        beforePut = true;
+        return newValue;
       }
 
       @Override

@@ -375,9 +375,9 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
     return new ObservableSet<V>(edges) {
       @Override
       @SuppressWarnings("unchecked")
-      protected boolean beforeAdd(final V element) {
+      protected Object beforeAdd(final V element, final Object preventDefault) {
         AbstractDigraph.this.add((K)vertex, element);
-        return false;
+        return preventDefault;
       }
 
       @Override
@@ -497,7 +497,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       return get(indexToObject.get(v));
     }, null)) {
       @Override
-      protected boolean beforeAdd(final Set<V> element) {
+      protected Object beforeAdd(final Set<V> element, final Object preventDefault) {
         throw new UnsupportedOperationException();
       }
 
@@ -527,7 +527,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   public Set<Map.Entry<K,Set<V>>> entrySet() {
     return new ObservableSet<Map.Entry<K,Set<V>>>(new TransSet<Integer,Map.Entry<K,Set<V>>>(indexToObject.keySet(), i -> new AbstractMap.SimpleEntry(indexToObject.get(i), getEdgesAtIndex(i, true)), null)) {
       @Override
-      protected boolean beforeAdd(final Map.Entry<K,Set<V>> element) {
+      protected Object beforeAdd(final Map.Entry<K,Set<V>> element, final Object preventDefault) {
         throw new UnsupportedOperationException();
       }
 

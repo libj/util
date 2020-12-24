@@ -150,13 +150,13 @@ public class SortedList<E> extends ObservableList<E> {
   }
 
   @Override
-  protected boolean beforeAdd(final int index, final E element) {
+  protected Object beforeAdd(final int index, final E element, final Object preventDefault) {
     final int properIndex = getIndex(index, element, false);
     if (index == properIndex)
-      return true;
+      return element;
 
     target.add(properIndex, element);
-    return false;
+    return preventDefault;
   }
 
   /**

@@ -43,7 +43,7 @@ import org.libj.lang.Assertions;
  * @param <E> The type of elements in this list.
  * @see #beforeGet(int,ListIterator)
  * @see #afterGet(int,Object,ListIterator,RuntimeException)
- * @see #beforeAdd(int,Object)
+ * @see #beforeAdd(int,Object,Object)
  * @see #afterAdd(int,Object,RuntimeException)
  * @see #beforeRemove(int)
  * @see #afterRemove(Object,RuntimeException)
@@ -51,6 +51,8 @@ import org.libj.lang.Assertions;
  * @see #afterSet(int,Object,RuntimeException)
  */
 public abstract class ObservableList<E> extends DelegateList<E> {
+  protected static final Object preventDefault = ObservableCollection.preventDefault;
+
   private final int fromIndex;
   private int toIndex;
 
@@ -120,12 +122,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * @param index The index for the element to be added to the enclosed
    *          {@link List}.
    * @param element The element to be added to the enclosed {@link List}.
-   * @return If this method returns {@code true}, the subsequent <u>add</u>
-   *         operation will be performed; if this method returns {@code false},
-   *         the subsequent <u>add</u> operation will not be performed.
+   * @param preventDefault The object to return if the subsequent {@code add}
+   *          operation is to be prevented.
+   * @return The element to be added to the enclosed {@link List}.
    */
-  protected boolean beforeAdd(final int index, final E element) {
-    return true;
+  protected Object beforeAdd(final int index, final E element, final Object preventDefault) {
+    return element;
   }
 
   /**
@@ -205,10 +207,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   protected void afterSet(final int index, final E oldElement, final RuntimeException e) {
   }
 
-  protected void addFast(final int index, final E element) {
-    if (!beforeAdd(index, element))
+  @SuppressWarnings("unchecked")
+  protected void addFast(final int index, E element) {
+    final Object beforeAdd = beforeAdd(index, element, preventDefault);
+    if (beforeAdd == preventDefault)
       return;
 
+    element = (E)beforeAdd;
     RuntimeException exception = null;
     try {
       super.add(index + fromIndex, element);
@@ -227,11 +232,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object)} and
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and
    * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
    * before and after the enclosed {@link List} is modified for the addition of
-   * the element. If {@link #beforeAdd(int,Object)} returns {@code false}, the
-   * element will not be added.
+   * the element. If {@link #beforeAdd(int,Object,Object)} returns
+   * {@code false}, the element will not be added.
    */
   @Override
   public boolean add(final E e) {
@@ -243,11 +248,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object)} and
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and
    * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
    * before and after the enclosed {@link List} is modified for the addition of
-   * the element. If {@link #beforeAdd(int,Object)} returns {@code false}, the
-   * element will not be added.
+   * the element. If {@link #beforeAdd(int,Object,Object)} returns
+   * {@code false}, the element will not be added.
    */
   @Override
   public void add(final int index, final E element) {
@@ -258,12 +263,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object)} and
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and
    * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
    * before and after the enclosed {@link List} is modified for the addition of
    * each element in the specified {@link Collection}. All elements for which
-   * {@link #beforeAdd(int,Object)} returns {@code false} will not be added to
-   * this {@link List}.
+   * {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be
+   * added to this {@link List}.
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -277,12 +282,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object)} and
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and
    * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
    * before and after the enclosed {@link List} is modified for the addition of
    * each element in the specified {@link Collection}. All elements for which
-   * {@link #beforeAdd(int,Object)} returns {@code false} will not be added to
-   * this {@link List}.
+   * {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be
+   * added to this {@link List}.
    */
   @Override
   public boolean addAll(int index, final Collection<? extends E> c) {
@@ -464,10 +469,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * elements for which {@link #beforeSet(int,Object)} returns {@code false}
    * will not be set in this {@link List}. Calling
    * {@link ListIterator#add(Object)} will delegate a callback to
-   * {@link #beforeAdd(int,Object)} and
+   * {@link #beforeAdd(int,Object,Object)} and
    * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeAdd(int,Object)} returns {@code false}
-   * will not be added to this {@link List}.
+   * elements for which {@link #beforeAdd(int,Object,Object)} returns
+   * {@code false} will not be added to this {@link List}.
    */
   @Override
   public ListIterator<E> listIterator() {
@@ -596,11 +601,14 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
 
     @Override
-    public void add(final E e) {
+    @SuppressWarnings("unchecked")
+    public void add(E e) {
       final int index = indexForNext();
-      if (!beforeAdd(index, e))
+      final Object beforeAdd = beforeAdd(index, e, preventDefault);
+      if (beforeAdd == preventDefault)
         return;
 
+      e = (E)beforeAdd;
       RuntimeException exception = null;
       try {
         super.add(e);
@@ -644,10 +652,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * elements for which {@link #beforeSet(int,Object)} returns {@code false}
    * will not be set in this {@link List}. Calling
    * {@link ListIterator#add(Object)} will delegate a callback to
-   * {@link #beforeAdd(int,Object)} and
+   * {@link #beforeAdd(int,Object,Object)} and
    * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeAdd(int,Object)} returns {@code false}
-   * will not be added to this {@link List}.
+   * elements for which {@link #beforeAdd(int,Object,Object)} returns
+   * {@code false} will not be added to this {@link List}.
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
@@ -871,8 +879,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
 
     @Override
-    protected boolean beforeAdd(final int index, final E element) {
-      return ObservableList.this.beforeAdd(index, element);
+    protected Object beforeAdd(final int index, final E element, final Object preventDefault) {
+      return ObservableList.this.beforeAdd(index, element, preventDefault);
     }
 
     @Override
