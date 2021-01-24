@@ -54,7 +54,7 @@ public class RetryPolicyTest {
   }
 
   @Test
-  public void testWithPolicy() {
+  public void testWithPolicy() throws RetryFailureException {
     final boolean[] called = new boolean[1];
 
     try {
@@ -82,7 +82,7 @@ public class RetryPolicyTest {
   }
 
   @Test
-  public void testLinearBackoff() {
+  public void testLinearBackoff() throws RetryFailureException {
     final int attempts = 5;
     final int delayMs = 100;
 
@@ -123,7 +123,7 @@ public class RetryPolicyTest {
   }
 
   @Test
-  public void testExponentialBackoff() {
+  public void testExponentialBackoff() throws RetryFailureException {
     final int attempts = 5;
     final float factor = 1.5f;
     final int startDelay = 100;

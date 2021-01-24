@@ -22,7 +22,7 @@ package org.libj.util.retry;
  *
  * @see RetryPolicy#run(Retryable)
  */
-public class RetryFailureException extends RuntimeException {
+public class RetryFailureException extends Exception {
   private static final long serialVersionUID = 4067260656337660435L;
 
   private final int attemptNo;

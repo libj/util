@@ -66,7 +66,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
       throw new IllegalArgumentException("maxRetries (" + maxRetries + ") must be a positive value");
   }
 
-  private void retryFailed(final Exception cause, final int attemptNo, final long delayMs) throws E {
+  private void retryFailed(final Exception cause, final int attemptNo, final long delayMs) throws E, RetryFailureException {
     final E e = onRetryFailure(cause, attemptNo, delayMs);
     if (e != null)
       throw e;
@@ -117,7 +117,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    *           {@code false}.
    * @throws NullPointerException If {@code retryable} is null.
    */
-  public final <T>T run(final Retryable<T,E> retryable) throws E {
+  public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureException {
     return run0(retryable, 0);
   }
 
@@ -137,7 +137,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @throws IllegalArgumentException If {@code timeout} is negative.
    * @throws NullPointerException If the value of {@code timeout} is negative.
    */
-  public final <T>T run(final Retryable<T,E> retryable, final long timeout) throws E {
+  public final <T>T run(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureException {
     if (timeout < 0)
       throw new IllegalArgumentException("timeout value (" + timeout + ") is negative");
 
@@ -156,7 +156,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
   protected void onRetry(final int attemptNo) {
   }
 
-  private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E {
+  private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureException {
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
     for (int attemptNo = 1;; ++attemptNo) {
