@@ -266,7 +266,7 @@ public final class StringPaths {
    * @param child The child pathname string.
    * @return A path string from a parent pathname string and a child pathname
    *         string.
-   * @throws NullPointerException If @{@code parent} or {@code child} is null.
+   * @throws NullPointerException If {@code parent} or {@code child} is null.
    * @see StringPaths#isAbsoluteLocalWindows(String)
    */
   public static String newPath(final String parent, final String child) {
