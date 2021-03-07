@@ -1,4 +1,4 @@
-/* Copyright (c) 2020 LibJ
+/* Copyright (c) 2019 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -17,20 +17,25 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that accepts an object-valued argument and a
- * <x>-valued arguments and produces a <y>-valued result.
+ * Represents a function that accepts two object-valued argument and two
+ * {@code <x>}-valued arguments, and produces a result. This is the four-arity
+ * specialization of {@link java.util.function.Function}.
  *
  * @param <T> The type of the object argument to the operation.
- * @see java.util.function.Function
+ * @param <U> The type of the second object argument to the operation.
+ * @param <R> The type of the result of the function.
+ * @see java.util.function.BiFunction
  */
 @FunctionalInterface
-public interface Obj<X>To<Y>Function<T> {
+public interface BiObjBi<X>Function<T,U,R> {
   /**
-   * Applies this function to the given arguments.
+   * Performs this operation on the given arguments.
    *
-   * @param t The first function argument.
-   * @param u The second function argument.
+   * @param t The first input argument.
+   * @param u The second input argument.
+   * @param i The third input argument.
+   * @param j The fourth input argument.
    * @return The function result.
    */
-  <y> applyAs<Y>(T t, <x> u);
+  R apply(T t, U u, <x> i, <x> j);
 }
