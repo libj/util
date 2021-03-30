@@ -420,10 +420,8 @@ public class MirrorList<V,R> extends ObservableList<V> {
     unlocked = unlock();
     mirrorList(true);
     final Object obj = target.get(index);
-    if (obj == PENDING) {
-      final V value = mirror.reflectionToValue((R)mirrorList.target.get(index));
-      target.set(index, value);
-    }
+    if (obj == PENDING)
+      target.set(index, mirror.reflectionToValue((R)mirrorList.target.get(index)));
   }
 
   @Override
