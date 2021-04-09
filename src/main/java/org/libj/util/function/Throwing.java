@@ -21,6 +21,7 @@ import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.ObjIntConsumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -121,6 +122,31 @@ public final class Throwing {
    * @return The specified {@link BiConsumer} instance.
    */
   public static <T,U>BiConsumer<T,U> rethrow(final ThrowingBiConsumer<T,U,?> consumer) {
+    return consumer;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified
+   * {@link ThrowingBiConsumer}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s,i) -> {
+   *   if (i == 0)
+   *     throw new IllegalArgumentException("i=" + i);
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   consumer.accept(i, -i);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the consumer's operation.
+   * @param consumer The {@link ThrowingBiConsumer}.
+   * @return The specified {@link BiConsumer} instance.
+   */
+  public static <T>ObjIntConsumer<T> rethrow(final ThrowingObjIntConsumer<T,?> consumer) {
     return consumer;
   }
 

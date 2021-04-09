@@ -28,7 +28,7 @@ import java.util.function.BiFunction;
  *
  * <pre>
  * {@code
- * BiFunction<Integer,Integer,String> function = Throwing.<Integer,Integer,String>rethrow((i, j) -> {
+ * BiFunction<Integer,Integer,String> function = Throwing.<Integer,Integer,String>rethrow((i,j) -> {
  *   if (i == 0)
  *     throw new IllegalArgumentException("i=" + i);
  *   return String.valueOf(i);

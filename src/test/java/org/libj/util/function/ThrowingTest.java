@@ -17,12 +17,14 @@
 package org.libj.util.function;
 
 import static org.junit.Assert.*;
+import static org.libj.util.function.Throwing.*;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -33,7 +35,7 @@ public class ThrowingTest {
   @Test
   public void testRunnable() {
     try {
-      final Runnable runnable = Throwing.rethrow(() -> {
+      final Runnable runnable = rethrow(() -> {
         if (true)
           throw new IOException();
       });
@@ -49,7 +51,7 @@ public class ThrowingTest {
   @Test
   public void testSupplier() {
     try {
-      final Supplier<String> supplier = Throwing.rethrow(() -> {
+      final Supplier<String> supplier = rethrow(() -> {
         if (true)
           throw new IOException();
 
@@ -69,7 +71,7 @@ public class ThrowingTest {
     try {
       Arrays
         .asList(2, 1, 0)
-        .forEach(Throwing.rethrow(i -> {
+        .forEach(rethrow(i -> {
           if (i == 0)
             throw new IOException("i=" + i);
         }));
@@ -85,7 +87,7 @@ public class ThrowingTest {
   @Test
   public void testBiConsumer() {
     try {
-      final BiConsumer<Integer,Integer> consumer = Throwing.rethrow((i, j) -> {
+      final BiConsumer<Integer,Integer> consumer = rethrow((Integer i, Integer j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });
@@ -102,9 +104,28 @@ public class ThrowingTest {
   }
 
   @Test
+  public void testObjIntConsumer() {
+    try {
+      final ObjIntConsumer<String> consumer = rethrow((String s, int i) -> {
+        if (i == 0)
+          throw new IOException("i=" + i);
+      });
+
+      for (int i = 3; i >= 0; --i)
+        consumer.accept(null, i);
+
+      fail("Expected IOException");
+    }
+    catch (final Exception e) {
+      assertSame(IOException.class, e.getClass());
+      assertEquals("i=0", e.getMessage());
+    }
+  }
+
+  @Test
   public void testTriConsumer() {
     try {
-      final TriConsumer<Integer,Integer,Integer> consumer = Throwing.rethrow((i, j, k) -> {
+      final TriConsumer<Integer,Integer,Integer> consumer = rethrow((i,j,k) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });
@@ -145,7 +166,7 @@ public class ThrowingTest {
   @Test
   public void testBiPredicate() {
     try {
-      final BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i, j) -> {
+      final BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i,j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
 
@@ -169,7 +190,7 @@ public class ThrowingTest {
       Arrays
         .asList(2, 1, 0)
         .stream()
-        .map(Throwing.rethrow((Integer i) -> {
+        .map(rethrow((Integer i) -> {
           if (i == 0)
             throw new IOException("i=" + i);
 
@@ -188,7 +209,7 @@ public class ThrowingTest {
   @Test
   public void testBiFunction() {
     try {
-      final BiFunction<Integer,Integer,String> function = Throwing.rethrow((Integer i, Integer j) -> {
+      final BiFunction<Integer,Integer,String> function = rethrow((Integer i, Integer j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
 
