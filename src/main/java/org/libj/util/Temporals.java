@@ -45,7 +45,7 @@ public final class Temporals {
       if (o2 instanceof LocalTime)
         return ((LocalTime)o1).compareTo((LocalTime)o2);
 
-      throw new IllegalArgumentException(o1.getClass() + " cannot be compared to " + o2.getClass());
+      throw new IllegalArgumentException(o1.getClass().getName() + " cannot be compared to " + o2.getClass().getName());
     }
 
     if (o1 instanceof LocalDate) {
