@@ -133,7 +133,7 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s,i) -> {
+   * ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s, i) -> {
    *   if (i == 0)
    *     throw new IllegalArgumentException("i=" + i);
    * });

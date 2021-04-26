@@ -33,7 +33,7 @@ import java.util.function.ObjIntConsumer;
  * <pre>
  * {
  *   &#64;code
- *   ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s,i) -> {
+ *   ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s, i) -> {
  *     if (i == 0)
  *       throw new IllegalArgumentException("i=" + i);
  *   });

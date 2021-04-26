@@ -277,7 +277,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       return adjEdges;
 
     final ArrayList<TransSet<Integer,V>> transEdges = new ArrayList<>(initialCapacity);
-    return adjEdges = new TransList<>(adj, (v,ws) -> {
+    return adjEdges = new TransList<>(adj, (v, ws) -> {
       if (ws == null)
         return null;
 

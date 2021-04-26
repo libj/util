@@ -125,7 +125,7 @@ public class ThrowingTest {
   @Test
   public void testTriConsumer() {
     try {
-      final TriConsumer<Integer,Integer,Integer> consumer = rethrow((i,j,k) -> {
+      final TriConsumer<Integer,Integer,Integer> consumer = rethrow((i, j, k) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });
@@ -166,7 +166,7 @@ public class ThrowingTest {
   @Test
   public void testBiPredicate() {
     try {
-      final BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i,j) -> {
+      final BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i, j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
 

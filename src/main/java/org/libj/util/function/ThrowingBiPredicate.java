@@ -28,7 +28,7 @@ import java.util.function.BiPredicate;
  *
  * <pre>
  * {@code
- * BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i,j) -> {
+ * BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i, j) -> {
  *   if (i == 0)
  *     throw new IllegalArgumentException("i=" + i);
  *   return false;

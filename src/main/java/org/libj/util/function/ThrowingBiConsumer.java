@@ -30,7 +30,7 @@ import java.util.function.BiConsumer;
  *
  * <pre>
  * {@code
- * BiConsumer<Integer,Integer> consumer = Throwing.<Integer,Integer>rethrow((i,j) -> {
+ * BiConsumer<Integer,Integer> consumer = Throwing.<Integer,Integer>rethrow((i, j) -> {
  *   if (i == 0)
  *     throw new IllegalArgumentException("i=" + i);
  * });
