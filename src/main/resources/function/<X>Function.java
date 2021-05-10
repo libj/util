@@ -22,7 +22,7 @@ package org.libj.util.function;
  * {@link java.util.function.Function}.
  *
  * @param <R> The type of the result of the function.
- * 
+ *
  * @see java.util.function.Function
  */
 @FunctionalInterface
