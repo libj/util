@@ -1167,7 +1167,7 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Concatenate the provided arrays of a common type into a single array.
+   * Concatenate the provided array and single element into a single array.
    *
    * @param <T> Type parameter of object.
    * @param array The base array to be concatenated.
@@ -1180,6 +1180,23 @@ public final class ArrayUtil extends PrimitiveSort {
     final T[] concat = (T[])Array.newInstance(array.getClass().getComponentType(), array.length + 1);
     System.arraycopy(array, 0, concat, 0, array.length);
     concat[array.length] = element;
+    return concat;
+  }
+
+  /**
+   * Concatenate the provided single element and array into a single array.
+   *
+   * @param <T> Type parameter of object.
+   * @param element The element to be concatenated.
+   * @param array The array to be concatenated.
+   * @return The concatenated array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T>T[] concat(final T element, final T[] array) {
+    final T[] concat = (T[])Array.newInstance(array.getClass().getComponentType(), array.length + 1);
+    concat[0] = element;
+    System.arraycopy(array, 0, concat, 1, array.length);
     return concat;
   }
 
@@ -1322,6 +1339,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param <T> Type parameter of object.
    * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
    * @param obj The object to locate.
    * @return {@code true} if the object exists, {@code false} otherwise.
    * @throws NullPointerException If {@code array} is null.
