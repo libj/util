@@ -1,6 +1,6 @@
 # LibJ Util
 
-[![Build Status](https://travis-ci.org/libj/util.svg?branch=master)](https://travis-ci.org/libj/util)
+[![Build Status](https://travis-ic.org/libj/util.svg?branch=master)](https://travis-ic.org/libj/util)
 [![Coverage Status](https://coveralls.io/repos/github/libj/util/badge.svg)](https://coveralls.io/github/libj/util)
 [![Javadocs](https://www.javadoc.io/badge/org.libj/util.svg)](https://www.javadoc.io/doc/org.libj/util)
 [![Released Version](https://img.shields.io/maven-central/v/org.libj/util.svg)](https://mvnrepository.com/artifact/org.libj/util)
