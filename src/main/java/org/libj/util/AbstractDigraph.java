@@ -825,7 +825,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       clone.objectToIndex = objectToIndex.clone();
       clone.indexToObject = clone.objectToIndex.reverse();
       clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
-      for (int i = 0; i < clone.adj.size(); ++i) {
+      for (int i = 0, len = clone.adj.size(); i < len; ++i) {
         final LinkedHashSet<Integer> set = clone.adj.get(i);
         clone.adj.set(i, set == null ? null : (LinkedHashSet<Integer>)set.clone());
       }
@@ -919,7 +919,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   @Override
   public String toString() {
     final StringBuilder builder = new StringBuilder();
-    for (int v = 0; v < adj.size(); ++v) {
+    for (int v = 0, len = adj.size(); v < len; ++v) {
       final Object obj = indexToObject.get(v);
       final LinkedHashSet<Integer> ws = adj.get(v);
       builder.append(obj).append(':');

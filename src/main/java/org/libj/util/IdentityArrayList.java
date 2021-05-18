@@ -135,7 +135,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     boolean modified = false;
     OUT:
-    for (int i = 0; i < c.size(); ++i) {
+    for (int i = 0, len = c.size(); i < len; ++i) {
       final Object o = get(i);
       for (final Object obj : c)
         if (obj == o)
@@ -171,7 +171,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public int indexOf(final Object o) {
-      for (int i = 0; i < target.size(); ++i)
+      for (int i = 0, len = target.size(); i < len; ++i)
         if (o == target.get(i))
           return i;
 
@@ -222,7 +222,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
       boolean modified = false;
       OUT:
-      for (int i = 0; i < c.size(); ++i) {
+      for (int i = 0, len = c.size(); i < len; ++i) {
         final Object o = target.get(i);
         for (final Object obj : c)
           if (obj == o)

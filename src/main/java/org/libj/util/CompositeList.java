@@ -390,7 +390,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
 
   private void incSectionIndexes(final ComponentList componentList, final int index) {
     final ArrayIntList compositeIndexes = componentList.getIndexes();
-    for (int j = 0; j < compositeIndexes.size(); j++) {
+    for (int j = 0, len = compositeIndexes.size(); j < len; j++) {
       final int compositeIndex = compositeIndexes.get(j);
       if (compositeIndex >= index)
         compositeIndexes.set(j, compositeIndex + 1);
@@ -399,7 +399,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
 
   private void decSectionIndexes(final ComponentList componentList, final int index) {
     final ArrayIntList compositeIndexes = componentList.getIndexes();
-    for (int j = 0; j < compositeIndexes.size(); j++) {
+    for (int j = 0, len = compositeIndexes.size(); j < len; j++) {
       final int compositeIndex = compositeIndexes.get(j);
       if (compositeIndex > index)
         compositeIndexes.set(j, compositeIndex - 1);
@@ -547,7 +547,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
         clone.componentLists.add(componentList.clone());
 
       final IdentityHashMap<E,E> clones = new IdentityHashMap<>();
-      for (int i = 0; i < clone.target.size(); ++i) {
+      for (int i = 0, len = clone.target.size(); i < len; ++i) {
         final E item = (E)clone.target.get(i);
         final E copy = clone(item);
         clones.put(item, copy);
@@ -557,7 +557,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       clone.typeToComponentList = new HashMap<>();
       for (final ComponentList componentList : clone.componentLists) {
         clone.typeToComponentList.put(componentList.type, componentList);
-        for (int i = 0; i < componentList.target.size(); ++i)
+        for (int i = 0, len = componentList.target.size(); i < len; ++i)
           componentList.target.set(i, clones.get(componentList.target.get(i)));
       }
 

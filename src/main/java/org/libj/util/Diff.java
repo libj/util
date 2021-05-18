@@ -541,12 +541,12 @@ public class Diff {
    */
   public byte[] toBytes() {
     int bits = lengthSizeSize;
-    for (int i = 0; i < this.mods.size(); ++i)
+    for (int i = 0, len = this.mods.size(); i < len; ++i)
       bits += this.mods.get(i).getSize();
 
     final byte[] dest = new byte[1 + (bits - 1) / 8];
     int offset = writeLengthSize(dest, lengthSize);
-    for (int i = 0; i < this.mods.size(); ++i)
+    for (int i = 0, len = this.mods.size(); i < len; ++i)
       offset = this.mods.get(i).encode(dest, offset);
 
     return dest;

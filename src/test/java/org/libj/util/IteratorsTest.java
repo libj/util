@@ -96,7 +96,7 @@ public class IteratorsTest {
   public void testToEnumeration() {
     final List<String> list = Arrays.asList("a", "b", "c");
     final Enumeration<String> enumeration = Iterators.toEnumeration(list.iterator());
-    for (int i = 0; i < list.size(); ++i) {
+    for (int i = 0, len = list.size(); i < len; ++i) {
       assertTrue(enumeration.hasMoreElements());
       assertEquals(list.get(i), enumeration.nextElement());
     }

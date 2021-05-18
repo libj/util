@@ -68,7 +68,7 @@ public class PairedSortTest {
 
   private static <T>void test(final List<T> data, final IntComparator c) {
     final int[] order = new int[data.size()];
-    ArrayUtil.fillIncremental(order, 0);
+    ArrayUtil.fillSequence(order, 0);
     randomize(data, order);
     CollectionUtil.sort(data, order, c);
   }
