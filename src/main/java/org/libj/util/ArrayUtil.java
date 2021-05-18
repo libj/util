@@ -2436,16 +2436,15 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to
-   * {@code array[array.length - 1]}.
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
    *
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static byte[] fillIncremental(final byte[] array, byte start) {
+  public static byte[] fillSequence(final byte[] array, byte start) {
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2453,16 +2452,15 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to
-   * {@code array[array.length - 1]}.
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
    *
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static char[] fillIncremental(final char[] array, char start) {
+  public static Byte[] fillSequence(final Byte[] array, byte start) {
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2470,16 +2468,15 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to
-   * {@code array[array.length - 1]}.
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
    *
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static short[] fillIncremental(final short[] array, short start) {
+  public static char[] fillSequence(final char[] array, char start) {
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2487,16 +2484,15 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to
-   * {@code array[array.length - 1]}.
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
    *
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static int[] fillIncremental(final int[] array, int start) {
+  public static Character[] fillSequence(final Character[] array, char start) {
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2504,16 +2500,15 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to
-   * {@code array[array.length - 1]}.
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
    *
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static long[] fillIncremental(final long[] array, long start) {
+  public static short[] fillSequence(final short[] array, short start) {
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2521,16 +2516,15 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to
-   * {@code array[array.length - 1]}.
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
    *
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static float[] fillIncremental(final float[] array, float start) {
+  public static Short[] fillSequence(final Short[] array, short start) {
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2538,16 +2532,127 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Fill the provided array with +1 incremental values starting at the provided
-   * {@code start} value from {@code array[0]}, to
-   * {@code array[array.length - 1]}.
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
    *
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static double[] fillIncremental(final double[] array, double start) {
+  public static int[] fillSequence(final int[] array, int start) {
+    for (int i = 0; i < array.length; ++i)
+      array[i] = start++;
+
+    return array;
+  }
+
+  /**
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
+   *
+   * @param array The target array.
+   * @param start The starting value.
+   * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static Integer[] fillSequence(final Integer[] array, int start) {
+    for (int i = 0; i < array.length; ++i)
+      array[i] = start++;
+
+    return array;
+  }
+
+  /**
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
+   *
+   * @param array The target array.
+   * @param start The starting value.
+   * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static long[] fillSequence(final long[] array, long start) {
+    for (int i = 0; i < array.length; ++i)
+      array[i] = start++;
+
+    return array;
+  }
+
+  /**
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
+   *
+   * @param array The target array.
+   * @param start The starting value.
+   * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static Long[] fillSequence(final Long[] array, long start) {
+    for (int i = 0; i < array.length; ++i)
+      array[i] = start++;
+
+    return array;
+  }
+
+  /**
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
+   *
+   * @param array The target array.
+   * @param start The starting value.
+   * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static float[] fillSequence(final float[] array, float start) {
+    for (int i = 0; i < array.length; ++i)
+      array[i] = start++;
+
+    return array;
+  }
+
+  /**
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
+   *
+   * @param array The target array.
+   * @param start The starting value.
+   * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static Float[] fillSequence(final Float[] array, float start) {
+    for (int i = 0; i < array.length; ++i)
+      array[i] = start++;
+
+    return array;
+  }
+
+  /**
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
+   *
+   * @param array The target array.
+   * @param start The starting value.
+   * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static double[] fillSequence(final double[] array, double start) {
+    for (int i = 0; i < array.length; ++i)
+      array[i] = start++;
+
+    return array;
+  }
+
+  /**
+   * Fill the provided array with a sequence of values starting with the
+   * provided {@code start} value.
+   *
+   * @param array The target array.
+   * @param start The starting value.
+   * @return The provided array.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static Double[] fillSequence(final Double[] array, double start) {
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2578,8 +2683,38 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array with {@code length} number of repeated {@code value}
    *         members.
    */
+  public static Boolean[] createRepeat(final Boolean value, final int length) {
+    final Boolean[] array = new Boolean[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
   public static byte[] createRepeat(final byte value, final int length) {
     final byte[] array = new byte[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
+  public static Byte[] createRepeat(final Byte value, final int length) {
+    final Byte[] array = new Byte[length];
     Arrays.fill(array, value);
     return array;
   }
@@ -2608,8 +2743,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array with {@code length} number of repeated {@code value}
    *         members.
    */
-  public static double[] createRepeat(final double value, final int length) {
-    final double[] array = new double[length];
+  public static Character[] createRepeat(final Character value, final int length) {
+    final Character[] array = new Character[length];
     Arrays.fill(array, value);
     return array;
   }
@@ -2623,8 +2758,23 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array with {@code length} number of repeated {@code value}
    *         members.
    */
-  public static float[] createRepeat(final float value, final int length) {
-    final float[] array = new float[length];
+  public static short[] createRepeat(final short value, final int length) {
+    final short[] array = new short[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
+  public static Short[] createRepeat(final Short value, final int length) {
+    final Short[] array = new Short[length];
     Arrays.fill(array, value);
     return array;
   }
@@ -2653,6 +2803,21 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array with {@code length} number of repeated {@code value}
    *         members.
    */
+  public static Integer[] createRepeat(final Integer value, final int length) {
+    final Integer[] array = new Integer[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
   public static long[] createRepeat(final long value, final int length) {
     final long[] array = new long[length];
     Arrays.fill(array, value);
@@ -2668,8 +2833,68 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array with {@code length} number of repeated {@code value}
    *         members.
    */
-  public static short[] createRepeat(final short value, final int length) {
-    final short[] array = new short[length];
+  public static Long[] createRepeat(final Long value, final int length) {
+    final Long[] array = new Long[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
+  public static float[] createRepeat(final float value, final int length) {
+    final float[] array = new float[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
+  public static Float[] createRepeat(final Float value, final int length) {
+    final Float[] array = new Float[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
+  public static double[] createRepeat(final double value, final int length) {
+    final double[] array = new double[length];
+    Arrays.fill(array, value);
+    return array;
+  }
+
+  /**
+   * Create a new array by repeating the provided {@code value} by the provided
+   * {@code length} number of times.
+   *
+   * @param value The value to repeat.
+   * @param length The number of times to repeat the value.
+   * @return A new array with {@code length} number of repeated {@code value}
+   *         members.
+   */
+  public static Double[] createRepeat(final Double value, final int length) {
+    final Double[] array = new Double[length];
     Arrays.fill(array, value);
     return array;
   }
