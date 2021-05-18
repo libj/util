@@ -23,12 +23,12 @@ import org.junit.Test;
 public class GroupsTest {
   @Test
   public void testPermute() {
-    int k = 2;
+    int k = 3;
     Groups.permute((a, n) -> {
 //      for (int i = n; i < a.length; ++i)
 //        System.out.print(a[i]);
 //      ArrayUtil.toString(a, '.', n, a.length);
-      System.out.println(ArrayUtil.toString(a, '.', n, a.length - n));
+      System.out.println("(" + ArrayUtil.toString(a, ',', n, a.length - n) + ")");
       // System.out.println(Arrays.toString(a, n));
     }, k, "a", "b", "c", "d", "e");
   }

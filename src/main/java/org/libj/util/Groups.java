@@ -17,6 +17,11 @@
 package org.libj.util;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
@@ -72,6 +77,19 @@ public final class Groups {
   }
 
   @SafeVarargs
+  public static <T>Collection<List<T>> combine(final int r, final boolean allowDuplicates, final boolean orderMatters, final T ... elements) {
+    final Collection<List<T>> set = allowDuplicates ? new ArrayList<>() : new HashSet<>();
+    Groups.permute((a, n) -> {
+      a = ArrayUtil.subArray(a, n, a.length);
+      if (!orderMatters)
+        Arrays.sort(a);
+
+      set.add(Arrays.asList(a));
+    }, r, elements);
+    return set;
+  }
+
+  @SafeVarargs
   public static <T>void permute(final Consumer<T[]> consumer, final T ... elements) {
     recursePermute(consumer, elements.length, elements);
   }
@@ -98,8 +116,8 @@ public final class Groups {
   }
 
   @SafeVarargs
-  public static <T>void permute(final ObjIntConsumer<T[]> consumer, final int k, final T ... elements) {
-    permute(consumer, 0, k, elements);
+  public static <T>void permute(final ObjIntConsumer<T[]> consumer, final int r, final T ... elements) {
+    permute(consumer, 0, elements.length - r, elements);
   }
 
   private static <T>void permute(final ObjIntConsumer<T[]> consumer, final int n, final int k, final T[] elements) {
