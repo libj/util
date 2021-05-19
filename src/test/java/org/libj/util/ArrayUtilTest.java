@@ -101,8 +101,10 @@ public class ArrayUtilTest {
   @Test
   public void testSubArray() {
     final String[] array = {"a", "b", "c", "d", "e", "f"};
-    assertArrayEquals(new String[] {"c", "d", "e"}, ArrayUtil.subArray(array, 2, 5));
+    assertArrayEquals(new String[] {"c", "d", "e"}, ArrayUtil.subArray(array, 2, 3));
+    assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f"}, ArrayUtil.subArray(array, 0));
     assertArrayEquals(new String[] {"c", "d", "e", "f"}, ArrayUtil.subArray(array, 2));
+    assertArrayEquals(new String[] {}, ArrayUtil.subArray(array, 200));
   }
 
   @Test

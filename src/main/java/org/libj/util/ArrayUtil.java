@@ -2918,40 +2918,311 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Returns an array that is the subArray of the provided array. Calling this
-   * method is the equivalent of calling Arrays.subArray(array, beginIndex,
-   * array.length).
+   * method is the equivalent of {@link #subArray(byte[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
    *
-   * @param <T> Type parameter of object.
-   * @param array The specified {@code array}.
-   * @param beginIndex The index to become the start of the new array.
-   * @return The subArray of the specified {@code array}.
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static <T>T[] subArray(final T[] array, final int beginIndex) {
-    return subArray(array, beginIndex, array.length);
+  public static byte[] subArray(final byte[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static byte[] subArray(final byte[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final byte[] subArray = new byte[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(short[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static short[] subArray(final short[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static short[] subArray(final short[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final short[] subArray = new short[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(int[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static int[] subArray(final int[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static int[] subArray(final int[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final int[] subArray = new int[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(long[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static long[] subArray(final long[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static long[] subArray(final long[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final long[] subArray = new long[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(float[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static float[] subArray(final float[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static float[] subArray(final float[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final float[] subArray = new float[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(double[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static double[] subArray(final double[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static double[] subArray(final double[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final double[] subArray = new double[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(boolean[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static boolean[] subArray(final boolean[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static boolean[] subArray(final boolean[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final boolean[] subArray = new boolean[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(char[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static char[] subArray(final char[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array.
+   *
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
+   */
+  public static char[] subArray(final char[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
+    final char[] subArray = new char[length];
+    if (length == 0)
+      return subArray;
+
+    System.arraycopy(array, offset, subArray, 0, length);
+    return subArray;
+  }
+
+  /**
+   * Returns an array that is the subArray of the provided array. Calling this
+   * method is the equivalent of {@link #subArray(Object[],int,int)
+   * Arrays.subArray(array, offset, array.length)}.
+   *
+   * @param <T> Type parameter of object.
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @return The subArray of the provided {@code array}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static <T>T[] subArray(final T[] array, final int offset) {
+    return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
   /**
    * Returns an array that is the subArray of the provided array.
    *
    * @param <T> Type parameter of object.
-   * @param array The specified {@code array}.
-   * @param beginIndex The index to become the start of the new array.
-   * @param endIndex The index to become the end of the new array.
-   * @return The subArray of the specified {@code array}.
+   * @param array The provided {@code array}.
+   * @param offset Starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The subArray of the provided {@code array}.
    * @throws NullPointerException If {@code array} is null.
+   * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] subArray(final T[] array, final int beginIndex, final int endIndex) {
-    if (endIndex < beginIndex)
-      throw new IllegalArgumentException("endIndex < beginIndex");
-
+  public static <T>T[] subArray(final T[] array, final int offset, final int length) {
+    Assertions.assertOffsetLength("offset", offset, "length", length);
     final Class<?> componentType = array.getClass().getComponentType();
-    final T[] subArray = (T[])Array.newInstance(componentType, endIndex - beginIndex);
-    if (beginIndex == endIndex)
+    final T[] subArray = (T[])Array.newInstance(componentType, length);
+    if (length == 0)
       return subArray;
 
-    System.arraycopy(array, beginIndex, subArray, 0, endIndex - beginIndex);
+    System.arraycopy(array, offset, subArray, 0, length);
     return subArray;
   }
 
