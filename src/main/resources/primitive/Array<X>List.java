@@ -168,7 +168,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public <x> get(final int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRange("index", index, "size()", size(), false);
     return valueData[fromIndex + index];
   }
 
@@ -182,7 +182,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public boolean add(int index, final <x> value) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRange("index", index, "size()", size(), true);
     index += fromIndex;
     shiftRight(index, 1);
     valueData[updateState(index, 1)] = value;
@@ -304,7 +304,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public boolean addAll(int index, final <x>[] values, final int offset, final int length) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRange("index", index, "size()", size(), true);
     if (values.length == 0)
       return false;
 
@@ -345,7 +345,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public boolean addAll(int index, final Collection<<XX>> c) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRange("index", index, "size()", size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -360,7 +360,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public boolean addAll(int index, final <X>Collection c) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRange("index", index, "size()", size(), true);
     final int len = c.size();
     if (len == 0)
       return false;
@@ -375,7 +375,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public <x> set(int index, final <x> value) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRange("index", index, "size()", size(), false);
     index += fromIndex;
     final <x> oldValue = valueData[index];
     valueData[index] = value;
@@ -385,7 +385,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public <x> removeIndex(int index) {
-    Assertions.assertRange(index, size(), false);
+    Assertions.assertRange("index", index, "size()", size(), false);
     index += fromIndex;
     final <x> value = valueData[index];
     shiftLeft(index, 1);
@@ -605,13 +605,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public <X>ListIterator listIterator(final int index) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRange("index", index, "size()", size(), true);
     return new <X>ListItr(index);
   }
 
   @Override
   public Array<X>List subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     if (this.toIndex < 0)
       this.toIndex = size;
 

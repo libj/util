@@ -237,7 +237,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @Override
   @SuppressWarnings("unchecked")
   public E get(final int index) {
-    Assertions.assertRange(index, size);
+    Assertions.assertRange("index", index, "size", size);
     return (E)elementData[deref(index)];
   }
 
@@ -259,7 +259,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     }
 
     ++modCount;
-    Assertions.assertRange(index, size);
+    Assertions.assertRange("index", index, "size", size);
     ensureCapacity(size + 1 + 1);
     final int pos = deref(index);
     if (pos == head) {
@@ -322,7 +322,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @SuppressWarnings("unchecked")
   public E set(final int index, final E element) {
     ++modCount;
-    Assertions.assertRange(index, size);
+    Assertions.assertRange("index", index, "size", size);
     final int realIndex = deref(index);
     final E oldValue = (E)elementData[realIndex];
     elementData[realIndex] = element;
@@ -336,7 +336,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @SuppressWarnings("unchecked")
   public E remove(final int index) {
     ++modCount;
-    Assertions.assertRange(index, size);
+    Assertions.assertRange("index", index, "size", size);
     final int pos = deref(index);
 
     final E e = (E)elementData[pos];

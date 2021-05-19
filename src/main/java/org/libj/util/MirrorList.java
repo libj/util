@@ -432,7 +432,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   @Override
   @SuppressWarnings("unchecked")
   public MirrorList<V,R> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return newInstance(target.subList(fromIndex, toIndex), (reflections != null ? reflections : mirrorList.target).subList(fromIndex, toIndex));
   }
 }

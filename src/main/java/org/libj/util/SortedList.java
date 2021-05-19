@@ -264,7 +264,7 @@ public class SortedList<E> extends ObservableList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    Assertions.assertRange(index, size(), true);
+    Assertions.assertRange("index", index, "size()", size(), true);
     return new CursorListIterator<E>(target.listIterator(index)) {
       private void shift(int dist) {
         if (dist < 0) {
@@ -327,7 +327,7 @@ public class SortedList<E> extends ObservableList<E> {
 
   @Override
   public SortedList<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange(fromIndex, toIndex, size());
+    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return new SortedList<E>(target.subList(fromIndex, toIndex), comparator, false);
   }
 }

@@ -60,7 +60,7 @@ public final class ZipFiles {
       if (predicate != null && !predicate.test(zipEntry))
         continue;
 
-      final File file = new File(destDir + File.separator + zipEntry.getName());
+      final File file = new File(destDir, zipEntry.getName());
       if (zipEntry.isDirectory()) {
         file.mkdirs();
         continue;
