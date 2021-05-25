@@ -18,6 +18,7 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import org.junit.Test;
@@ -285,5 +286,77 @@ public class ArrayUtilTest {
     ArrayUtil.reverse(array);
     for (int i = 0; i < array.length; ++i)
       assertEquals(String.valueOf(array.length - i - 1), array[i]);
+  }
+
+  @Test
+  public void testShiftByte() {
+    final byte[] expected = {3, 4, 5, 1, 2};
+    final byte[] actual = {1, 2, 3, 4, 5};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual);
+  }
+
+  @Test
+  public void testShiftShort() {
+    final short[] expected = {3, 4, 5, 1, 2};
+    final short[] actual = {1, 2, 3, 4, 5};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual);
+  }
+
+  @Test
+  public void testShiftInt() {
+    final int[] expected = {3, 4, 5, 1, 2};
+    final int[] actual = {1, 2, 3, 4, 5};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual);
+  }
+
+  @Test
+  public void testShiftLong() {
+    final long[] expected = {3, 4, 5, 1, 2};
+    final long[] actual = {1, 2, 3, 4, 5};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual);
+  }
+
+  @Test
+  public void testShiftFloat() {
+    final float[] expected = {3, 4, 5, 1, 2};
+    final float[] actual = {1, 2, 3, 4, 5};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual, 0);
+  }
+
+  @Test
+  public void testShiftDouble() {
+    final double[] expected = {3, 4, 5, 1, 2};
+    final double[] actual = {1, 2, 3, 4, 5};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual, 0);
+  }
+
+  @Test
+  public void testShiftBoolean() {
+    final boolean[] expected = {false, true, true, false, true};
+    final boolean[] actual = {false, true, false, true, true};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual);
+  }
+
+  @Test
+  public void testShiftChar() {
+    final char[] expected = {3, 4, 5, 1, 2};
+    final char[] actual = {1, 2, 3, 4, 5};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual);
+  }
+
+  @Test
+  public void testShiftString() {
+    final String[] expected = {"3", "4", "5", "1", "2"};
+    final String[] actual = {"1", "2", "3", "4", "5"};
+    ArrayUtil.shift(actual, 2);
+    assertArrayEquals(Arrays.toString(actual), expected, actual);
   }
 }

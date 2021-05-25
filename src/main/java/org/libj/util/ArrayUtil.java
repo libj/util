@@ -601,6 +601,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
@@ -653,6 +655,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
@@ -701,6 +705,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key) {
@@ -720,6 +726,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key, final ByteComparator c) {
@@ -768,6 +776,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key) {
@@ -787,6 +797,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key, final ShortComparator c) {
@@ -835,6 +847,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key) {
@@ -854,6 +868,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key, final IntComparator c) {
@@ -902,6 +918,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key) {
@@ -921,6 +939,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key, final FloatComparator c) {
@@ -969,6 +989,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key) {
@@ -988,6 +1010,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key, final DoubleComparator c) {
@@ -1036,6 +1060,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key) {
@@ -1055,6 +1081,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key, final LongComparator c) {
@@ -4381,13 +4409,52 @@ public final class ArrayUtil extends PrimitiveSort {
    * Reverses the order of the members in the provided array.
    *
    * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
    * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    */
-  public static byte[] reverse(final byte[] array) {
+  public static byte[] reverse(final byte[] array, final int fromIndex, final int toIndex) {
     if (array == null || array.length <= 1)
       return array;
 
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
+      array[i] ^= array[j];
+      array[j] ^= array[i];
+      array[i] ^= array[j];
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static byte[] reverse(final byte[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   */
+  public static short[] reverse(final short[] array, final int fromIndex, final int toIndex) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4403,10 +4470,25 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The provided array with its members reversed.
    */
   public static short[] reverse(final short[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   */
+  public static int[] reverse(final int[] array, final int fromIndex, final int toIndex) {
     if (array == null || array.length <= 1)
       return array;
 
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4422,10 +4504,25 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The provided array with its members reversed.
    */
   public static int[] reverse(final int[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   */
+  public static long[] reverse(final long[] array, final int fromIndex, final int toIndex) {
     if (array == null || array.length <= 1)
       return array;
 
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4441,10 +4538,95 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The provided array with its members reversed.
    */
   public static long[] reverse(final long[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   */
+  public static float[] reverse(final float[] array, final int fromIndex, final int toIndex) {
     if (array == null || array.length <= 1)
       return array;
 
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    float tmp;
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
+      tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static float[] reverse(final float[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   */
+  public static double[] reverse(final double[] array, final int fromIndex, final int toIndex) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    double tmp;
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
+      tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+
+    return array;
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @return The provided array with its members reversed.
+   */
+  public static double[] reverse(final double[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   */
+  public static boolean[] reverse(final boolean[] array, final int fromIndex, final int toIndex) {
+    if (array == null || array.length <= 1)
+      return array;
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4460,10 +4642,25 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The provided array with its members reversed.
    */
   public static boolean[] reverse(final boolean[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the order of the members in the provided array.
+   *
+   * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   */
+  public static char[] reverse(final char[] array, final int fromIndex, final int toIndex) {
     if (array == null || array.length <= 1)
       return array;
 
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4478,35 +4675,31 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array of members to be reversed.
    * @return The provided array with its members reversed.
    */
-  public static float[] reverse(final float[] array) {
-    if (array == null || array.length <= 1)
-      return array;
-
-    float temp;
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
-      temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-
-    return array;
+  public static char[] reverse(final char[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
   }
 
   /**
    * Reverses the order of the members in the provided array.
    *
+   * @param <T> The component type of the array.
    * @param array The array of members to be reversed.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
    * @return The provided array with its members reversed.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
    */
-  public static double[] reverse(final double[] array) {
-    if (array == null || array.length <= 1)
+  public static <T>T[] reverse(final T[] array, final int fromIndex, final int toIndex) {
+    if (array == null || array.length < 2)
       return array;
 
-    double temp;
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    T tmp;
     for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
-      temp = array[i];
+      tmp = array[i];
       array[i] = array[j];
-      array[j] = temp;
+      array[j] = tmp;
     }
 
     return array;
@@ -4519,19 +4712,496 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array of members to be reversed.
    * @return The provided array with its members reversed.
    */
-  @SafeVarargs
-  public static <T>T[] reverse(final T ... array) {
-    if (array == null || array.length < 2)
-      return array;
+  public static <T>T[] reverse(final T[] array) {
+    return array == null ? null : reverse(array, 0, array.length);
+  }
 
-    T temp;
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
-      temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final byte[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final byte[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final byte[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
     }
 
-    return array;
+    final byte value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final short[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final short[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final short[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final short value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final int[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final int[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final int[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final int value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final long[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final long[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final long[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final long value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final float[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final float[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final float[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final float value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final double[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final double[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final double[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final double value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final boolean[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final boolean[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final boolean[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final boolean value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static void shift(final char[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static void shift(final char[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static void shift(final char[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final char value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param <T> The component type of the array.
+   * @param array The array of members to circularly shift.
+   * @param fromIndex The index of the first element, inclusive, to be reversed.
+   * @param toIndex The index of the last element, exclusive, to be reversed.
+   * @param offset The offset.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
+   */
+  public static <T>void shift(final T[] array, final int fromIndex, final int toIndex, final int offset) {
+    if (offset < 0)
+      throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
+
+    if (array.length < offset)
+      throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
+
+    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    if (offset != 0 && array.length != offset)
+      shift(array, offset, array.length, array.length, offset);
+  }
+
+  /**
+   * Circularly shifts the members in the provided array by the specified
+   * {@code offset}
+   *
+   * @param <T> The component type of the array.
+   * @param array The array of members to circularly shift.
+   * @param offset The offset.
+   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater
+   *           than {@code array.length}.
+   */
+  public static <T>void shift(final T[] array, final int offset) {
+    shift(array, 0, array.length, offset);
+  }
+
+  private static <T>void shift(final T[] array, final int from, final int to, final int len, final int off) {
+    if (from == to) {
+      if (to != off)
+        shift(array, 0, off, len, off);
+
+      return;
+    }
+
+    final T value = array[from];
+    shift(array, from + 1, to, len, off);
+    final int i = from - off;
+    array[i < 0 ? len + i : i] = value;
   }
 
   private ArrayUtil() {
