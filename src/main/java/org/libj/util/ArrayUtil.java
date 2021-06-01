@@ -1154,11 +1154,35 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   @SafeVarargs
+  private static <T>T[] concat0(final T[] array1, final T[] array2, final T[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (int i = 0; i < arrays.length; ++i)
+      length += arrays[i].length;
+
+    final T[] concat = Arrays.copyOf(array1, length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    for (int i = 0, l = array1.length + array2.length; i < arrays.length; l += arrays[i].length, ++i)
+      System.arraycopy(arrays[i], 0, concat, l, arrays[i].length);
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given 2-dimensional array
+   * as a 1-dimensional array.
+   *
+   * @param <T> Type parameter of object.
+   * @param arrays The 2-dimensional array, whose array members are to be
+   *          concatenated into a 1-dimensional array.
+   * @return A new array containing the members of the given 2-dimensional array
+   * as a 1-dimensional array.
+   * @throws NullPointerException If {@code arrays} is null.
+   */
   @SuppressWarnings("unchecked")
-  private static <T>T[] concat0(final T[] ... arrays) {
+  public static <T>T[] concat(final T[][] arrays) {
     int length = 0;
-    for (final T[] array : arrays)
-      length += array.length;
+    for (int i = 0; i < arrays.length; ++i)
+      length += arrays[i].length;
 
     final T[] concat = (T[])Array.newInstance(arrays[0].getClass().getComponentType(), length);
     for (int i = 0, l = 0; i < arrays.length; l += arrays[i].length, ++i)
@@ -1168,68 +1192,105 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Concatenate the provided arrays of a common type into a single array.
+   * Returns a new array containing the members of the given arrays concatenated
+   * in the provided order.
    *
    * @param <T> Type parameter of object.
-   * @param arrays The arrays to be concatenated.
-   * @return The concatenated array.
-   * @throws NullPointerException If {@code arrays} is null.
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated
+   *         in the provided order.
+   * @throws NullPointerException If {@code array1}, {code array2} or
+   *           {@code arrays} is null.
    */
-  @SafeVarargs
-  public static <T>T[] concat(final T[] ... arrays) {
-    return concat0(arrays);
-  }
-
-  /**
-   * Concatenate the provided arrays of a common type into a single array.
-   *
-   * @param <T> Type parameter of object.
-   * @param array The base array to be concatenated.
-   * @param elements The additional elements to be concatenated.
-   * @return The concatenated array.
-   * @throws NullPointerException If {@code array} or {@code elements} is null.
-   */
-  @SafeVarargs
-  public static <T>T[] concat(final T[] array, final T ... elements) {
-    return concat0(array, elements);
-  }
-
-  /**
-   * Concatenate the provided array and single element into a single array.
-   *
-   * @param <T> Type parameter of object.
-   * @param array The base array to be concatenated.
-   * @param element The additional element to be concatenated.
-   * @return The concatenated array.
-   * @throws NullPointerException If {@code array} is null.
-   */
-  @SuppressWarnings("unchecked")
-  public static <T>T[] concat(final T[] array, final T element) {
-    final T[] concat = (T[])Array.newInstance(array.getClass().getComponentType(), array.length + 1);
-    System.arraycopy(array, 0, concat, 0, array.length);
-    concat[array.length] = element;
+  public static <T>T[] concat(final T[] array1, final T[] array2) {
+    int length = array1.length + array2.length;
+    final T[] concat = Arrays.copyOf(array1, length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
     return concat;
   }
 
   /**
-   * Concatenate the provided single element and array into a single array.
+   * Returns a new array containing the members of the given arrays concatenated
+   * in the provided order.
    *
    * @param <T> Type parameter of object.
-   * @param element The element to be concatenated.
-   * @param array The array to be concatenated.
-   * @return The concatenated array.
-   * @throws NullPointerException If {@code array} is null.
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated
+   *         in the provided order.
+   * @throws NullPointerException If {@code array1}, {code array2} or
+   *           {@code arrays} is null.
+   */
+  @SafeVarargs
+  public static <T>T[] concat(final T[] array1, final T[] array2, final T[] ... arrays) {
+    return concat0(array1, array2, arrays);
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated
+   * in the provided order.
+   *
+   * @param <T> Type parameter of object.
+   * @param array The array of first elements to be concatenated.
+   * @param element1 The next element to be concatenated.
+   * @param elements The additional elements to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated
+   *         in the provided order.
+   * @throws NullPointerException If {@code array} or {@code elements} is null.
+   */
+  @SafeVarargs
+  public static <T>T[] concat(final T[] array, final T element1, final T ... elements) {
+    Arrays.copyOf(array, array.length + 1 + elements.length);
+    final T[] concat = Arrays.copyOf(array, array.length + 1 + elements.length);
+    concat[array.length] = element1;
+    System.arraycopy(elements, 0, concat, array.length + 1, elements.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given {@code element} and
+   * provided {@code array}.
+   *
+   * @param <T> Type parameter of object.
+   * @param element1 The first element to be concatenated.
+   * @param array The additional elements to be concatenated.
+   * @return A new array containing the members of the given {@code element} and
+   *         provided {@code array}.
+   * @throws NullPointerException If {@code elements} is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] concat(final T element, final T[] array) {
+  public static <T>T[] concat(final T element1, final T[] array) {
     final T[] concat = (T[])Array.newInstance(array.getClass().getComponentType(), array.length + 1);
-    concat[0] = element;
+    concat[0] = element1;
     System.arraycopy(array, 0, concat, 1, array.length);
     return concat;
   }
 
   /**
-   * Create a new array by removing existing elements from the provided array.
+   * Returns a new array containing the members of the given {@code element} and
+   * provided {@code array}.
+   *
+   * @param <T> Type parameter of object.
+   * @param element1 The first element to be concatenated.
+   * @param element2 The second element to be concatenated.
+   * @param elements The additional elements to be concatenated.
+   * @return A new array containing the members of the given {@code element} and
+   *         provided {@code array}.
+   * @throws NullPointerException If {@code elements} is null.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T>T[] concat(final T element1, final T element2, final T ... elements) {
+    final T[] concat = (T[])Array.newInstance(elements.getClass().getComponentType(), elements.length + 2);
+    concat[0] = element1;
+    concat[1] = element2;
+    System.arraycopy(elements, 0, concat, 2, elements.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array by removing existing elements from the provided array.
    *
    * @param <T> Type parameter of object.
    * @param array The array to be spliced.
@@ -1247,7 +1308,7 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a new array by removing existing elements from the provided array.
+   * Returns a new array by removing existing elements from the provided array.
    *
    * @param <T> Type parameter of object.
    * @param array The array to be spliced.
@@ -1279,7 +1340,7 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a new array by removing existing elements from the provided array.
+   * Returns a new array by removing existing elements from the provided array.
    *
    * @param <T> Type parameter of object.
    * @param array The array to be spliced.
