@@ -29,7 +29,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -58,7 +58,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -90,7 +90,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -125,7 +125,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -336,7 +336,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -366,7 +366,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -399,7 +399,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -435,7 +435,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -651,7 +651,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -682,7 +682,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -716,7 +716,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *
@@ -753,7 +753,7 @@ public class Functions {
   /**
    * Returns an "and"-composed function that applies its output to the the
    * inputs of the given functions in the provided order. The return of the
-   * composed function is a {@link Stream Stream<R>} of results of the argument
+   * composed function is a {@link Stream Stream&lt;R&gt;} of results of the argument
    * functions in the provided order. If evaluation of any function throws an
    * exception, it is relayed to the caller of the composed function.
    *

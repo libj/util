@@ -31,8 +31,7 @@ import java.util.function.ObjIntConsumer;
  * pattern:
  *
  * <pre>
- * {
- *   &#64;code
+ * {@code
  *   ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s, i) -> {
  *     if (i == 0)
  *       throw new IllegalArgumentException("i=" + i);
