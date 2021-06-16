@@ -44,7 +44,7 @@ public enum Zip {
     @Override
     public byte[] decompress(final byte[] compressed) throws IOException {
       try (final InputStream in = new ZipInputStream(new ByteArrayInputStream(compressed))) {
-        return decompress(in);
+        return Zip.decompress(in);
       }
     }
   },
@@ -63,7 +63,7 @@ public enum Zip {
     @Override
     public byte[] decompress(final byte[] compressed) throws IOException {
       try (final InputStream in = new GZIPInputStream(new ByteArrayInputStream(compressed))) {
-        return decompress(in);
+        return Zip.decompress(in);
       }
     }
   };
