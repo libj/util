@@ -88,10 +88,12 @@ public final class Patterns {
     return getGroupNames(pattern.toString(), 0, 0);
   }
 
+  private static String[] empty = new String[0];
+
   private static String[] getGroupNames(final String regex, final int index, final int depth) {
     final int start = regex.indexOf("(?<", index);
     if (start < 0)
-      return depth == 0 ? null : new String[depth];
+      return depth == 0 ? empty : new String[depth];
 
     final int end = regex.indexOf('>', start + 3);
     if (end < 0)
