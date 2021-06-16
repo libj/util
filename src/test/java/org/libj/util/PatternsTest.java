@@ -26,7 +26,7 @@ import org.junit.Test;
 public class PatternsTest {
   @Test
   public void testGetGroupNames() {
-    assertArrayEquals(null, Patterns.getGroupNames(Pattern.compile("test")));
+    assertArrayEquals(new String[0], Patterns.getGroupNames(Pattern.compile("test")));
     assertArrayEquals(new String[] {"one"}, Patterns.getGroupNames(Pattern.compile("(?<one>[a-z])")));
     assertArrayEquals(new String[] {"one", "two"}, Patterns.getGroupNames(Pattern.compile("(?<one>[a-z])(?<two>[a-z])")));
     assertArrayEquals(new String[] {"one", "two", "three"}, Patterns.getGroupNames(Pattern.compile("(?<one>[a-z])(?<two>[a-z](?<three>[a-z]))")));
