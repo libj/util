@@ -207,6 +207,24 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   protected void afterSet(final int index, final E oldElement, final RuntimeException e) {
   }
 
+  /**
+   * Delegate method that is invoked for all {@link Object#equals(Object)}
+   * operations. This method is intended to be overridden to support behavior
+   * that is not inherently possible with the default reliance on
+   * {@link Object#equals(Object)} for the determination of object equality by
+   * this {@link ObservableList}.
+   *
+   * @implNote This method is guaranteed to be invoked with a non-null
+   *           {@code o1}.
+   * @param o1 An object.
+   * @param o2 An object to be compared with a for equality.
+   * @return {@code true} if this object is the same as the obj argument;
+   *         {@code false} otherwise.
+   */
+  protected boolean equals(final Object o1, final Object o2) {
+    return o1.equals(o2);
+  }
+
   @SuppressWarnings("unchecked")
   protected void addFast(final int index, E element) {
     final Object beforeAdd = beforeAdd(index, element, preventDefault);
@@ -333,7 +351,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
     else {
       for (int i = 0; i < size; ++i)
-        if (o.equals(get(i)))
+        if (equals(o, get(i)))
           return true;
     }
 
@@ -410,7 +428,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
     else {
       for (int i = 0; i < size; ++i)
-        if (o.equals(get(i)))
+        if (equals(o, get(i)))
           return i;
     }
 
@@ -434,7 +452,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
     else {
       for (int i = size() - 1; i >= 0; --i)
-        if (o.equals(get(i)))
+        if (equals(o, get(i)))
           return i;
     }
 
@@ -1072,7 +1090,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
         for (int i = 0; i < size; ++i) {
           final Object e1 = get(i);
           final Object e2 = that.get(i);
-          if (!Objects.equals(e1, e2))
+          if (e1 == null ? e2 != null : !equals(e1, e2))
             return false;
         }
       }
@@ -1081,7 +1099,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
         for (int i = 0; i < size; ++i) {
           final Object e1 = get(i);
           final Object e2 = thatIterator.next();
-          if (!Objects.equals(e1, e2))
+          if (e1 == null ? e2 != null : !equals(e1, e2))
             return false;
         }
       }
@@ -1091,7 +1109,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       for (int i = 0; i < size; ++i) {
         final Object e1 = thisIterator.next();
         final Object e2 = that.get(i);
-        if (!Objects.equals(e1, e2))
+        if (e1 == null ? e2 != null : !equals(e1, e2))
           return false;
       }
     }
@@ -1101,7 +1119,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       for (int i = 0; i < size; ++i) {
         final Object e1 = thisIterator.next();
         final Object e2 = thatIterator.next();
-        if (!Objects.equals(e1, e2))
+        if (e1 == null ? e2 != null : !equals(e1, e2))
           return false;
       }
     }

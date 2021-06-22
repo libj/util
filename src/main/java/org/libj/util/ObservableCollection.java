@@ -110,6 +110,24 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   }
 
   /**
+   * Delegate method that is invoked for all {@link Object#equals(Object)}
+   * operations. This method is intended to be overridden to support behavior
+   * that is not inherently possible with the default reliance on
+   * {@link Object#equals(Object)} for the determination of object equality by
+   * this {@link ObservableCollection}.
+   *
+   * @implNote This method is guaranteed to be invoked with a non-null
+   *           {@code o1}.
+   * @param o1 An object.
+   * @param o2 An object to be compared with a for equality.
+   * @return {@code true} if this object is the same as the obj argument;
+   *         {@code false} otherwise.
+   */
+  protected boolean equals(final Object o1, final Object o2) {
+    return o1.equals(o2);
+  }
+
+  /**
    * A {@link DelegateIterator} that delegates callback methods to the parent
    * {@link ObservableCollection} instance for the retrieval and removal of
    * elements.
@@ -199,7 +217,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
     }
     else {
       while (iterator.hasNext())
-        if (o.equals(iterator.next()))
+        if (equals(o, iterator.next()))
           return true;
     }
 
