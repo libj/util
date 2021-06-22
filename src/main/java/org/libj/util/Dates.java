@@ -17,8 +17,6 @@
 package org.libj.util;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -65,40 +63,6 @@ public final class Dates {
   public static final int SECONDS_IN_WEEK = SECONDS_IN_MINUTE * MINUTES_IN_WEEK;
   /** Number of milliseconds in a week. */
   public static final int MILLISECONDS_IN_WEEK = MILLISECONDS_IN_SECOND * SECONDS_IN_WEEK;
-
-  private static final ThreadLocal<SimpleDateFormat> iso8601 = SimpleDateFormats.newSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-
-  private static final class IsoDate extends Date {
-    private static final long serialVersionUID = -3516661689900839721L;
-
-    private IsoDate(final long time) {
-      super(time);
-    }
-
-    @Override
-    public String toString() {
-      return DateTimeFormatter.ISO_INSTANT.format(toInstant());
-    }
-
-    @Override
-    public IsoDate clone() {
-      return (IsoDate)super.clone();
-    }
-  }
-
-  /**
-   * Returns a new {@link Date} object representing the {@code time}.
-   * <p>
-   * The class returned by this method overrides {@link Date#toString()} to
-   * format the date as per the ISO-8601 instant format in UTC, such as
-   * '2011-12-03T10:15:30Z'.
-   *
-   * @param time The milliseconds since January 1, 1970, 00:00:00 GMT.
-   * @return A new {@link Date} object representing the {@code time}.
-   */
-  public static Date newDate(final long time) {
-    return new IsoDate(time);
-  }
 
   /**
    * Returns a name in the "short" style of the TimeZone specified by
@@ -636,7 +600,7 @@ public final class Dates {
    *         millis.
    */
   public static String epochMilliToIso8601(final long epochMilli) {
-    return Dates.iso8601.get().format(epochMilli);
+    return SimpleDateFormats.ISO_8601.get().format(epochMilli);
   }
 
   private Dates() {

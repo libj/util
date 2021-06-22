@@ -202,7 +202,7 @@ public final class Temporals {
    * @throws NullPointerException If {@code dataTime} is null.
    */
   public static Date toDate(final LocalDateTime dateTime) {
-    return Dates.newDate(toEpochMilli(dateTime));
+    return SimpleDateFormats.newDate(toEpochMilli(dateTime), SimpleDateFormats.ISO_8601);
   }
 
   /**

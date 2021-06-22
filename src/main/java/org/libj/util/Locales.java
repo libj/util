@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.stream.StreamSupport;
 
 import org.libj.lang.Strings;
 
@@ -123,25 +124,35 @@ public final class Locales {
    * specified string is null. Examples: {@code "en"}, {@code "de_DE"},
    * {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"}, {@code "fr_MAC"}.
    *
-   * @param string The string.
+   * @param str The string.
    * @return A {@link Locale} representation of a string based locale that has
    *         the form {@code "{language}_{country}_{variant}"}, or {@code null}
    *         if the specified string is null.
    */
-  public static Locale parse(String string) {
-    if (string == null)
+  public static Locale parse(final String str) {
+    if (str == null)
       return null;
 
-    string = string.trim();
+    final String string = str.trim();
     if ("default".equals(string.toLowerCase()))
       return Locale.getDefault();
 
     // Extract language
     final int languageIndex = string.indexOf('_');
-    if (languageIndex < 0) // No further "_" so is "{language}" only
-      return new Locale(Strings.requireLettersOrDigits(string), "");
+    if (languageIndex < 0) { // No further "_" so is "{language}" only
+      string.chars().forEach(c -> {
+        if (!Character.isLetterOrDigit(c))
+          throw new IllegalArgumentException(string);
+      });
 
-    final String language = Strings.requireLettersOrDigits(string.substring(0, languageIndex));
+      return new Locale(string, "");
+    }
+
+    final String language = string.substring(0, languageIndex);
+    language.chars().forEach(c -> {
+      if (!Character.isLetterOrDigit(c))
+        throw new IllegalArgumentException(string);
+    });
 
     // Extract country
     final int countryIndex = string.indexOf('_', languageIndex + 1);
