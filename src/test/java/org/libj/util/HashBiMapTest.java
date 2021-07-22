@@ -26,7 +26,7 @@ import org.junit.Test;
 public class HashBiMapTest {
   @SuppressWarnings("unlikely-arg-type")
   public static void test(final HashBiMap<Integer,String> map, final int offset, final boolean testClone) {
-    for (int i = offset; i < 100 + offset; i++) {
+    for (int i = offset; i < 100 + offset; ++i) {
       final String value = String.valueOf(i + offset);
       map.put(i + offset, value);
       assertEquals(value, map.get(i + offset));

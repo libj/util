@@ -86,7 +86,7 @@ public class ObservableCollectionTest {
     };
 
     // add()
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       collection.add(expectedString = String.valueOf(i));
       assertAdded();
     }

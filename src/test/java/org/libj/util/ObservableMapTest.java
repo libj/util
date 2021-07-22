@@ -92,7 +92,7 @@ public class ObservableMapTest {
     };
 
     // put()
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; ++i) {
       map.put(expectedKey = i, expectedValue = String.valueOf(i));
       assertPut();
     }

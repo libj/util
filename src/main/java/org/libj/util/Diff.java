@@ -95,8 +95,7 @@ public class Diff {
    * @return The new offset adjusted by the written bits.
    */
   private static int writeLength(final byte[] dest, final int offset, final int length, final byte lengthSize) {
-    final byte[] bytes = new byte[1 + (lengthSize - 1) / 8];
-    Bytes.toBytes(length, bytes, 0, true);
+    final byte[] bytes = Bytes.toBytes(length, new byte[1 + (lengthSize - 1) / 8], 0, true);
     return Bytes.writeBitsB(dest, offset, bytes, lengthSize);
   }
 

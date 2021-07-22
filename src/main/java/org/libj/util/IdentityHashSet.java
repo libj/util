@@ -235,7 +235,7 @@ public class IdentityHashSet<E> extends HashSet<E> {
     map = new IdentityHashMap<>(Math.max((int)(capacity / .75f) + 1, 16));
 
     // Read in all elements in the proper order.
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; ++i) {
       @SuppressWarnings("unchecked")
       final E e = (E)s.readObject();
       map.put(e, PRESENT);
