@@ -106,13 +106,13 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
   /**
    * The entrypoint for a {@link Retryable} object to be executed. Exceptions in
    * {@link Retryable#retry(RetryPolicy,int)} will be considered for retry if
-   * the number of {@link #maxRetries} has not been exceeded, and
+   * the number of {@link #maxRetries} has not been met and
    * {@link #retryOn(Exception)} returns {@code true}.
    *
    * @param <T> The type of the result object.
    * @param retryable The {@link Retryable} object to run.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
-   * @throws RetryFailureException If retry attempts have exceeded
+   * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
    *           {@code false}.
    * @throws NullPointerException If {@code retryable} is null.
@@ -125,14 +125,14 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
   /**
    * The entrypoint for a {@link Retryable} object to be executed. Exceptions in
    * {@link Retryable#retry(RetryPolicy,int)} will be considered for retry if
-   * the number of {@link #maxRetries} has not been exceeded, and
+   * the number of {@link #maxRetries} has not been met and
    * {@link #retryOn(Exception)} returns {@code true}.
    *
    * @param <T> The type of the result object.
    * @param retryable The {@link Retryable} object to run.
    * @param timeout The maximum time to retry in milliseconds.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
-   * @throws RetryFailureException If retry attempts have exceeded
+   * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, if {@link #retryOn(Exception)} returns
    *           {@code false}, or if {@code timeout} is exceeded.
    * @throws IllegalArgumentException If {@code timeout} is negative.

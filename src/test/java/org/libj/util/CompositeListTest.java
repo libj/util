@@ -71,7 +71,6 @@ public class CompositeListTest {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     protected Object clone(final Object item) {
       if (item instanceof Integer)
         return new Integer((Integer)item);

@@ -40,6 +40,7 @@ package org.libj.util.primitive;
  * @author Josh Bloch
  * @see java.util.TimSort
  */
+@SuppressWarnings("all")
 class <X>PairedTimSort extends PrimitiveTimSort {
   /**
    * the array of sortable values being sorted.

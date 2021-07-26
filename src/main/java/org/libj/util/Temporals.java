@@ -241,8 +241,7 @@ public final class Temporals {
    * @return A new {@link LocalDateTime} of the instant specified by the
    *         {@code long} value representing milliseconds from the epoch, in the
    *         default time-zone.
-   * @throws DateTimeException If {@code time} exceeds the maximum or minimum
-   *           values.
+   * @throws DateTimeException If the result exceeds the supported range.
    */
   public static LocalDateTime toLocalDateTime(final long time) {
     return LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
