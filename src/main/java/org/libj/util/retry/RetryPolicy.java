@@ -74,8 +74,13 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
     if (e != null)
       throw e;
 
-    final RetryFailureException re = new RetryFailureException(attemptNo, delayMs);
-    for (int i = exceptions.size() - 1; i >= 0; --i)
+    final int size = exceptions.size();
+    if (size == 0)
+      throw new RetryFailureException(attemptNo, delayMs);
+
+    final Exception cause = exceptions.get(size - 1);
+    final RetryFailureException re = new RetryFailureException(cause, attemptNo, delayMs);
+    for (int i = size - 2; i >= 0; --i)
       re.addSuppressed(exceptions.get(i));
 
     exceptions.clear();
