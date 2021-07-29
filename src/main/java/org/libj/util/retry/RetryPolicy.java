@@ -17,6 +17,9 @@
 package org.libj.util.retry;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,12 +69,17 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
       throw new IllegalArgumentException("maxRetries (" + maxRetries + ") must be a positive value");
   }
 
-  private void retryFailed(final Exception cause, final int attemptNo, final long delayMs) throws E, RetryFailureException {
-    final E e = onRetryFailure(cause, attemptNo, delayMs);
+  private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureException {
+    final E e = onRetryFailure(exceptions, attemptNo, delayMs);
     if (e != null)
       throw e;
 
-    throw new RetryFailureException(cause, attemptNo, delayMs);
+    final RetryFailureException re = new RetryFailureException(attemptNo, delayMs);
+    for (int i = exceptions.size() - 1; i >= 0; --i)
+      re.addSuppressed(exceptions.get(i));
+
+    exceptions.clear();
+    throw re;
   }
 
   /**
@@ -91,15 +99,15 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * If this method is not overridden, or if it returns {@code null}, a
    * {@link RetryFailureException} will be thrown instead.
    *
-   * @param e The exception that occurred during execution of a
+   * @param exceptions The exceptions that occurred during execution of a
    *          {@link Retryable} object.
    * @param attemptNo The attempt number on which the exception was thrown.
    * @param delayMs The delay (in milliseconds) from the previous invocation
    *          attempt.
-   * @return The {@link Exception} instance signifying the terminal failure of
-   *         the {@link RetryPolicy} execution.
+   * @return The {@link Exception} instance of type {@code <E>} signifying the
+   *         terminal failure of the {@link RetryPolicy} execution.
    */
-  protected E onRetryFailure(final Exception e, final int attemptNo, final long delayMs) {
+  protected E onRetryFailure(final List<Exception> exceptions, final int attemptNo, final long delayMs) {
     return null;
   }
 
@@ -159,16 +167,21 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
   }
 
   private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureException {
+    final List<Exception> exceptions = new ArrayList<>();
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
+    Exception previousException = null;
     for (int attemptNo = 1;; ++attemptNo) {
       onRetry(attemptNo);
       try {
         return retryable.retry(this, attemptNo);
       }
       catch (final Exception e) {
+        if (previousException == null || e.getClass() != previousException.getClass() || !Objects.equals(e.getMessage(), previousException.getMessage()))
+          exceptions.add(previousException = e);
+
         if (attemptNo > maxRetries || !retryOn(e))
-          retryFailed(e, attemptNo, getDelayMs(attemptNo - 1));
+          retryFailed(exceptions, attemptNo, getDelayMs(attemptNo - 1));
 
         long delayMs = getDelayMs(attemptNo);
         if (jitter > 0)
@@ -177,7 +190,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
         if (timeout > 0) {
           final long remaining = timeout - runTime;
           if (remaining <= 0)
-            retryFailed(null, attemptNo, delayMs);
+            retryFailed(exceptions, attemptNo, delayMs);
 
           if (remaining < delayMs)
             delayMs = remaining;
@@ -188,7 +201,8 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
           runTime = System.currentTimeMillis() - startTime;
         }
         catch (final InterruptedException ie) {
-          retryFailed(ie, attemptNo, delayMs);
+          exceptions.add(ie);
+          retryFailed(exceptions, attemptNo, delayMs);
         }
       }
 

@@ -19,6 +19,7 @@ package org.libj.util.retry;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -62,8 +63,8 @@ public class RetryPolicyTest {
         private static final long serialVersionUID = 3973463128089152060L;
 
         @Override
-        protected IOException onRetryFailure(final Exception e, final int attemptNo, final long delayMs) {
-          return new IOException(e);
+        protected IOException onRetryFailure(final List<Exception> exceptions, final int attemptNo, final long delayMs) {
+          return new IOException(exceptions.get(exceptions.size() - 1));
         }
       }.run((retryPolicy, attemptNo) -> {
         if (called[0])
@@ -102,11 +103,6 @@ public class RetryPolicyTest {
       @Override
       protected boolean retryOn(final Exception e) {
         return true;
-      }
-
-      @Override
-      protected RuntimeException onRetryFailure(final Exception e, final int attemptNo, final long delayMs) {
-        return null;
       }
     }.run((retryPolicy, attemptNo) -> {
       if (index[0] < attempts) {
@@ -147,11 +143,6 @@ public class RetryPolicyTest {
       @Override
       protected boolean retryOn(final Exception e) {
         return true;
-      }
-
-      @Override
-      protected RuntimeException onRetryFailure(final Exception e, final int attemptNo, final long delayMs) {
-        return null;
       }
     }.run((retryPolicy, attemptNo) -> {
       if (index[0] < attempts) {
