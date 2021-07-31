@@ -50,18 +50,18 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    *
    * @param maxRetries A positive value representing the number of retry
    *          attempts allowed by the {@link RetryPolicy}.
-   * @param jitter The factor multiplier to be applied to
-   *          {@link #getDelayMs(int)} to thereafter be added to the delay for
-   *          each retry.
+   * @param jitter The maximum value of a random factor multiplier to be applied
+   *          to {@link #getDelayMs(int)} to be added to the delay for each
+   *          retry.
    * @throws IllegalArgumentException If {@code maxRetries} or {@code jitter} is
    *           negative.
    */
   public RetryPolicy(final int maxRetries, final double jitter) {
     if (maxRetries < 0)
-      throw new IllegalArgumentException("maxRetries (" + maxRetries + ") is negative");
+      throw new IllegalArgumentException("maxRetries (" + maxRetries + ") must be a positive value");
 
     if (jitter < 0)
-      throw new IllegalArgumentException("jitter (" + jitter + ") is negative");
+      throw new IllegalArgumentException("jitter (" + jitter + ") must be a positive value");
 
     this.maxRetries = maxRetries;
     this.jitter = jitter;
@@ -154,7 +154,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    */
   public final <T>T run(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureException {
     if (timeout < 0)
-      throw new IllegalArgumentException("timeout value (" + timeout + ") is negative");
+      throw new IllegalArgumentException("timeout value (" + timeout + ") must be a positive value");
 
     return run0(retryable, timeout);
   }

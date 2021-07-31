@@ -49,8 +49,8 @@ public abstract class ExponentialBackoffRetryPolicy<E extends Exception> extends
    * @param noDelayOnFirstRetry {@code true} for the first retry to be attempted
    *          immediately, otherwise {@code false} for the first retry to be
    *          attempted after {@code delayMs}.
-   * @param jitter The factor multiplier to be applied to {@code delayMs} to
-   *          thereafter be added to the delay for each retry.
+   * @param jitter The maximum value of a random factor multiplier to be applied
+   *          to {@code delayMs} to be added to the delay for each retry.
    * @throws IllegalArgumentException If {@code delayMs}, {@code maxDelayMs},
    *           {@code maxRetries} or {@code jitter} is negative.
    */
@@ -73,6 +73,10 @@ public abstract class ExponentialBackoffRetryPolicy<E extends Exception> extends
 
   @Override
   protected long getDelayMs(final int attemptNo) {
-    return Math.min(attemptNo == 1 && noDelayOnFirstRetry ? 0 : (int)(delayMs * StrictMath.pow(backoffFactor, attemptNo - 1)), maxDelayMs);
+    if (attemptNo == 1 && noDelayOnFirstRetry)
+      return 0;
+
+    final double delay = delayMs * StrictMath.pow(backoffFactor, attemptNo - 1);
+    return delay < maxDelayMs ? (long)delay : maxDelayMs;
   }
 }

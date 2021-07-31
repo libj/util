@@ -40,8 +40,8 @@ public abstract class LinearDelayRetryPolicy<E extends Exception> extends RetryP
    * @param noDelayOnFirstRetry {@code true} for the first retry to be attempted
    *          immediately, otherwise {@code false} for the first retry to be
    *          attempted after {@code delayMs}.
-   * @param jitter The factor multiplier to be applied to {@code delayMs} to
-   *          thereafter be added to the delay for each retry.
+   * @param jitter The maximum value of a random factor multiplier to be applied
+   *          to {@code delayMs} to be added to the delay for each retry.
    * @throws IllegalArgumentException If {@code delayMs}, {@code maxRetries} or
    *           {@code jitter} is negative.
    */
