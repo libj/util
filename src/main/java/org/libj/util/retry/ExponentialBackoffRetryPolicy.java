@@ -30,6 +30,7 @@ public abstract class ExponentialBackoffRetryPolicy<E extends Exception> extends
   private final double backoffFactor;
   private final int maxDelayMs;
   private final boolean noDelayOnFirstRetry;
+  private boolean maxDelay;
 
   /**
    * Creates a new {@link ExponentialBackoffRetryPolicy} with the specified
@@ -76,7 +77,13 @@ public abstract class ExponentialBackoffRetryPolicy<E extends Exception> extends
     if (attemptNo == 1 && noDelayOnFirstRetry)
       return 0;
 
+    if (maxDelay)
+      return maxDelayMs;
+
     final double delay = delayMs * StrictMath.pow(backoffFactor, attemptNo - 1);
-    return delay < maxDelayMs ? (long)delay : maxDelayMs;
+    if (maxDelay = maxDelayMs < delay)
+      return maxDelayMs;
+
+    return (long)delay;
   }
 }

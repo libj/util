@@ -100,7 +100,9 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         return;
 
       try {
-        logger.debug("Starting sync....");
+        if (logger.isDebugEnabled())
+          logger.debug("Starting sync....");
+
         if (runningThreadCount.get() > 0) {
           synchronized (finishLock) {
             synchronizing = true;
@@ -181,7 +183,9 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
       return;
     }
 
-    logger.debug("Waiting for unlock to exec new threads...");
+    if (logger.isDebugEnabled())
+      logger.debug("Waiting for unlock to exec new threads...");
+
     synchronized (startLock) {
       doExecute(wrapper);
     }
