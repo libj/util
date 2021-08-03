@@ -194,6 +194,10 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     return target.listIterator(index);
   }
 
+  protected final void superClear() {
+    super.clear();
+  }
+
   @Override
   public void clear() {
     target.clear();
@@ -340,6 +344,10 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     return target.parallelStream();
   }
 
+  public final boolean superEquals(final Object obj) {
+    return super.equals(obj);
+  }
+
   @Override
   public boolean equals(final Object obj) {
     if (obj == this)
@@ -352,6 +360,10 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     return Objects.equals(target, that.target);
   }
 
+  protected final int superHashCode() {
+    return super.hashCode();
+  }
+
   @Override
   public int hashCode() {
     int hashCode = 1;
@@ -359,6 +371,10 @@ public abstract class DelegateList<E> extends AbstractList<E> {
       hashCode = 31 * hashCode + target.hashCode();
 
     return hashCode;
+  }
+
+  protected final String superToString() {
+    return super.toString();
   }
 
   @Override

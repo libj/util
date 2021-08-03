@@ -17,11 +17,17 @@
 package org.libj.util;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.Spliterator;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 import org.libj.lang.Assertions;
 
@@ -361,5 +367,55 @@ public class TransList<S,T> extends DelegateList<T> {
   public TransList<S,T> subList(final int fromIndex, final int toIndex) {
     Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return new TransList<S,T>(target.subList(fromIndex, toIndex), sourceToTarget, targetToSource);
+  }
+
+  @Override
+  public void replaceAll(final UnaryOperator<T> operator) {
+    superReplaceAll(operator);
+  }
+
+  @Override
+  public void sort(final Comparator<? super T> c) {
+    superSort(c);
+  }
+
+  @Override
+  public void forEach(final Consumer<? super T> action) {
+    superForEach(action);
+  }
+
+  @Override
+  public boolean removeIf(final Predicate<? super T> filter) {
+    return superRemoveIf(filter);
+  }
+
+  @Override
+  public Spliterator<T> spliterator() {
+    return superSpliterator();
+  }
+
+  @Override
+  public Stream<T> stream() {
+    return superStream();
+  }
+
+  @Override
+  public Stream<T> parallelStream() {
+    return superParallelStream();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return superEquals(obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return superHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return superToString();
   }
 }
