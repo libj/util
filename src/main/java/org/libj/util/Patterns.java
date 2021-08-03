@@ -26,6 +26,58 @@ import java.util.regex.PatternSyntaxException;
  */
 public final class Patterns {
   private static final ConcurrentHashMap<String,Pattern> propertyNameToPattern = new ConcurrentHashMap<>();
+  private static final char[] escapeChars = {'!', '$', '(', ')', '*', '+', '-', '.', '<', '=', '>', '?', '[', '\\', ']', '^', '{', '|', '}'};
+
+  /**
+   * Returns {@code true} if the provided char is a Java Regular Expression
+   * metacharacter, {@code false} otherwise.
+   *
+   * @param ch
+   * @return {@code true} if the provided char is a Java Regular Expression
+   *         metacharacter, {@code false} otherwise.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String
+   *      Literals</a>
+   */
+  public static boolean isMetaCharacter(final char ch) {
+    return Arrays.binarySearch(escapeChars, ch) > -1;
+  }
+
+  /**
+   * Returns the provided {@code regex} with regular expression literal
+   * characters escaped.
+   *
+   * @param regex The string to escape.
+   * @return The provided {@code regex} with regular expression literal
+   *         characters escaped.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String
+   *      Literals</a>
+   */
+  public static StringBuilder escape(final StringBuilder regex) {
+    for (int i = regex.length() - 1; i >= 0; --i) {
+      final char ch = regex.charAt(i);
+      if (isMetaCharacter(ch))
+        regex.insert(i, '\\');
+    }
+
+    return regex;
+  }
+
+  /**
+   * Returns the provided {@code regex} with regular expression literal
+   * characters escaped.
+   *
+   * @param regex The string to escape.
+   * @return The provided {@code regex} with regular expression literal
+   *         characters escaped.
+   * @see <a href=
+   *      "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String
+   *      Literals</a>
+   */
+  public static String escape(final String regex) {
+    return escape(new StringBuilder(regex)).toString();
+  }
 
   /**
    * Compiles the given regular expression into a pattern.
@@ -72,7 +124,7 @@ public final class Patterns {
   }
 
   /**
-   * Returns a string array of the group names of the specified {@code pattern}.
+   * Returns a string array of the group names of the provided {@code pattern}.
    * <p>
    * This implementation expects the group name encoding as:
    *
@@ -81,10 +133,27 @@ public final class Patterns {
    * </pre>
    *
    * @param pattern The {@link Pattern}.
-   * @return A string array of the group names of the specified {@code pattern}.
+   * @return A string array of the group names of the provided {@code pattern}.
    * @throws NullPointerException If {@code pattern} is null.
    */
   public static String[] getGroupNames(final Pattern pattern) {
+    return getGroupNames(pattern.toString(), 0, 0);
+  }
+
+  /**
+   * Returns a string array of the group names of the provided {@code pattern}.
+   * <p>
+   * This implementation expects the group name encoding as:
+   *
+   * <pre>
+   * {@code (?<name>regex)}
+   * </pre>
+   *
+   * @param pattern The {@link Pattern}.
+   * @return A string array of the group names of the provided {@code pattern}.
+   * @throws NullPointerException If {@code pattern} is null.
+   */
+  public static String[] getGroupNames(final String pattern) {
     return getGroupNames(pattern.toString(), 0, 0);
   }
 
