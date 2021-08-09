@@ -97,9 +97,10 @@ public final class StreamSearcher {
      * @throws IOException If an I/O error has occurred.
      * @throws IllegalArgumentException If the given {@code offset} is out of
      *           range.
-     * @throws NullPointerException If {@code in} is null.
+     * @throws IllegalArgumentException If {@code in} is null.
      */
     public int search(final Reader in, final char[] buffer, final int offset) throws IOException {
+      Assertions.assertNotNull(in);
       if (buffer != null)
         Assertions.assertRangeArray(offset, buffer.length);
 

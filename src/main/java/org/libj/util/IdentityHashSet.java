@@ -30,6 +30,8 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.TreeSet;
 
+import org.libj.lang.Assertions;
+
 /**
  * This class implements the {@link Set} interface, backed by a hash table
  * (actually a {@link IdentityHashMap} instance). It makes no guarantees as to
@@ -108,9 +110,10 @@ public class IdentityHashSet<E> extends HashSet<E> {
    * collection.
    *
    * @param c The collection whose elements are to be placed into this set.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   public IdentityHashSet(final Collection<? extends E> c) {
+    Assertions.assertNotNull(c);
     map = new IdentityHashMap<>(Math.max((int)(c.size() / .75f) + 1, 16));
     addAll(c);
   }

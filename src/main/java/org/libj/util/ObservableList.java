@@ -60,7 +60,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    * {@link List}.
    *
    * @param list The target {@link List}.
-   * @throws NullPointerException If {@code list} is null.
+   * @throws IllegalArgumentException If {@code list} is null.
    */
   public ObservableList(final List<E> list) {
     this(list, 0, -1);
@@ -75,7 +75,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    *          the target list, inclusive.
    * @param toIndex The starting index as the upper limit of the elements in the
    *          target list, exclusive.
-   * @throws NullPointerException If {@code list} is null.
+   * @throws IllegalArgumentException If {@code list} is null.
    */
   protected ObservableList(final List<E> list, final int fromIndex, final int toIndex) {
     super(list);
@@ -509,7 +509,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
      * {@link ListIterator}.
      *
      * @param iterator The {@link ListIterator}.
-     * @throws NullPointerException If the specified {@link ListIterator} is
+     * @throws IllegalArgumentException If the specified {@link ListIterator} is
      *           null.
      */
     protected ObservableListIterator(final ListIterator<? extends E> iterator) {
@@ -878,8 +878,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
      *          the target list, inclusive.
      * @param toIndex The starting index as the upper limit of the elements in
      *          the target list, exclusive.
-     * @throws NullPointerException If the specified {@link List List&lt;E&gt;}
-     *           is null.
+     * @throws IllegalArgumentException If the specified {@link List
+     *           List&lt;E&gt;} is null.
      */
     protected ObservableSubList(final List<E> list, final int fromIndex, final int toIndex) {
       super(list, fromIndex, toIndex);

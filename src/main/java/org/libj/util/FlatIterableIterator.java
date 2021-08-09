@@ -19,6 +19,8 @@ package org.libj.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.libj.lang.Assertions;
+
 /**
  * An {@link Iterator} for N-dimensional collections implementing the
  * {@link Iterable} interface of type {@code <T>} that iterates through the leaf
@@ -34,10 +36,10 @@ public abstract class FlatIterableIterator<T,E> extends FlatIterator<E,Iterator<
    * Creates a new {@link FlatSequentialIterator} for collection to be iterated.
    *
    * @param c The collection to be iterated.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   public FlatIterableIterator(final T c) {
-    stack.add(iterator(c));
+    stack.add(iterator(Assertions.assertNotNull(c)));
   }
 
   /**
@@ -45,7 +47,7 @@ public abstract class FlatIterableIterator<T,E> extends FlatIterator<E,Iterator<
    *
    * @param c The collection.
    * @return An {@link Iterator} for the specified collection.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   protected abstract Iterator<?> iterator(T c);
 

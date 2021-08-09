@@ -25,6 +25,8 @@ import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.libj.lang.Assertions;
+
 /**
  * Utility functions pertaining to {@link ZipFile}.
  */
@@ -35,7 +37,7 @@ public final class ZipFiles {
    * @param zipFile The {@link ZipFile}.
    * @param destDir The destination directory.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code zipFile} or {@code destDir} is
+   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is
    *           null.
    */
   public static void extract(final ZipFile zipFile, final File destDir) throws IOException {
@@ -50,10 +52,12 @@ public final class ZipFiles {
    * @param destDir The destination directory.
    * @param predicate The {@link Predicate} (can be null).
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code zipFile} or {@code destDir} is
+   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is
    *           null.
    */
   public static void extract(final ZipFile zipFile, final File destDir, final Predicate<? super ZipEntry> predicate) throws IOException {
+    Assertions.assertNotNull(zipFile);
+    Assertions.assertNotNull(destDir);
     final Enumeration<? extends ZipEntry> entries = zipFile.entries();
     while (entries.hasMoreElements()) {
       final ZipEntry zipEntry = entries.nextElement();
@@ -67,10 +71,7 @@ public final class ZipFiles {
       }
 
       file.getParentFile().mkdirs();
-      try (
-        final InputStream in = zipFile.getInputStream(zipEntry);
-        final FileOutputStream out = new FileOutputStream(file);
-      ) {
+      try (final InputStream in = zipFile.getInputStream(zipEntry); final FileOutputStream out = new FileOutputStream(file);) {
         for (int ch; (ch = in.read()) != -1; out.write(ch));
       }
     }

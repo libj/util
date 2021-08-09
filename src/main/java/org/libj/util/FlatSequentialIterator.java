@@ -18,8 +18,8 @@ package org.libj.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
+import org.libj.lang.Assertions;
 import org.libj.util.primitive.ArrayIntList;
 
 /**
@@ -37,10 +37,10 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
    * Creates a new {@link FlatSequentialIterator} for collection to be iterated.
    *
    * @param c The collection to be iterated.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   public FlatSequentialIterator(final T c) {
-    stack.add(Objects.requireNonNull(c));
+    stack.add(Assertions.assertNotNull(c));
     indices.add(0);
   }
 

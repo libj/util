@@ -29,6 +29,8 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateList} contains some other {@link List}, to which it
  * delegates its method calls, possibly transforming the data along the way or
@@ -49,10 +51,10 @@ public abstract class DelegateList<E> extends AbstractList<E> {
    * Creates a new {@link DelegateList} with the specified target {@link List}.
    *
    * @param target The target {@link List}.
-   * @throws NullPointerException If the target {@link List} is null.
+   * @throws IllegalArgumentException If the target {@link List} is null.
    */
   public DelegateList(final List<E> target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**
@@ -104,7 +106,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
 //   *           collection is not assignable to the
 //   *           {@linkplain Class#getComponentType runtime component type} of the
 //   *           generated array.
-//   * @throws NullPointerException If the generator function is null.
+//   * @throws IllegalArgumentException If the generator function is null.
 //   */
 //  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
 //    return super.toArray(generator);
@@ -248,7 +250,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
    *           <i>mutually comparable</i> using the specified comparator.
    * @throws UnsupportedOperationException If the list's list-iterator does not
    *           support the {@code set} operation.
-   * @throws IllegalArgumentException If the comparator is found to violate the
+   * @throws NullPointerException If the comparator is found to violate the
    *           {@link Comparator} contract.
    */
   protected final void superSort(final Comparator<? super E> c) {
@@ -265,7 +267,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
    * {@link Collection#forEach(Consumer)}.
    *
    * @param action The action to be performed for each element.
-   * @throws NullPointerException If the specified action is null
+   * @throws NullPointerException If the specified action is null.
    */
   protected final void superForEach(final Consumer<? super E> action) {
     super.forEach(action);
@@ -295,7 +297,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
 
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
-    return target.removeIf(filter);
+    return target.removeIf(Assertions.assertNotNull(filter));
   }
 
   /**

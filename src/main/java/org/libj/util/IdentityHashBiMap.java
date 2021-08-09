@@ -21,6 +21,8 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.libj.lang.Assertions;
+
 /**
  * Bidirectional map ({@link BiMap}) backed by a {@link IdentityHashMap}.
  *
@@ -50,11 +52,11 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
    * mappings in the specified map.
    *
    * @param m The map whose mappings are to be placed into this map.
-   * @throws NullPointerException If the specified map is null.
+   * @throws IllegalArgumentException If the specified map is null.
    */
   public IdentityHashBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(m);
+    putAll(Assertions.assertNotNull(m));
   }
 
   /**

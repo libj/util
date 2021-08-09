@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.libj.lang.Assertions;
+
 /**
  * A concurrent {@link HashSet} implementation backed by a
  * {@link ConcurrentHashMap}.
@@ -84,11 +86,11 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    * collection.
    *
    * @param c The collection whose elements are to be placed into this set.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   public ConcurrentHashSet(final Collection<? extends E> c) {
     map = new CloneableConcurrentHashMap<>(DEFAULT_CAPACITY);
-    addAll(c);
+    addAll(Assertions.assertNotNull(c));
   }
 
   /**

@@ -21,6 +21,8 @@ import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateSpliterator} contains some other {@link Spliterator}, to
  * which it delegates its method calls, possibly transforming the data along the
@@ -43,10 +45,10 @@ public abstract class DelegateSpliterator<T> implements Spliterator<T> {
    * {@link Spliterator}.
    *
    * @param target The target {@link Spliterator}.
-   * @throws NullPointerException If the target {@link Spliterator} is null.
+   * @throws IllegalArgumentException If the target {@link Spliterator} is null.
    */
   public DelegateSpliterator(final Spliterator<T> target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**

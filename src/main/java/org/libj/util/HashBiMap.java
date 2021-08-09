@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.libj.lang.Assertions;
+
 /**
  * Bidirectional map ({@link BiMap}) backed by a {@link HashMap}.
  *
@@ -62,11 +64,11 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
    * specified {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
-   * @throws NullPointerException If the specified map is null.
+   * @throws IllegalArgumentException If the specified map is null.
    */
   public HashBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(m);
+    putAll(Assertions.assertNotNull(m));
   }
 
   /**

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 
+import org.libj.lang.Assertions;
 import org.libj.lang.ObjectUtil;
 import org.libj.util.primitive.ArrayIntList;
 import org.slf4j.Logger;
@@ -210,7 +211,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
      *
      * @param logger The {@link Logger} to which debug information is to be be
      *          printed.
-     * @throws NullPointerException If {@code logger} is null.
+     * @throws IllegalArgumentException If {@code logger} is null.
      */
     protected void print(final Logger logger) {
       final StringBuilder builder = new StringBuilder();
@@ -219,7 +220,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       indexes.stream().forEach(i -> builder.append(' ').append(i));
       builder.append("\n    E:");
       forEach(e -> builder.append(' ').append(ObjectUtil.simpleIdentityString(e)));
-      logger.info(builder.append('\n').toString());
+      Assertions.assertNotNull(logger).info(builder.append('\n').toString());
     }
 
     @Override
@@ -422,10 +423,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
 
   @Override
   protected void afterAdd(final int index, final E element, final RuntimeException e) {
-    final ComponentList componentList = getOrCreateComponentList(element);
-    if (componentList == null)
-      throw new IllegalArgumentException("Object of type " + element.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
-
+    final ComponentList componentList = Assertions.assertNotNull(getOrCreateComponentList(element), "Object of type " + element.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
     componentLists.add(index, componentList);
     if (index == size() - 1) {
       indexes.add(componentList.size());
@@ -461,10 +459,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       componentList.setUnsafe(componentIndex, newElement);
     }
     else {
-      final ComponentList newComponentList = getOrCreateComponentList(newElement);
-      if (newComponentList == null)
-        throw new IllegalArgumentException("Object of type " + newElement.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
-
+      final ComponentList newComponentList = Assertions.assertNotNull(getOrCreateComponentList(newElement), "Object of type " + newElement.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
       componentList.removeUnsafe(componentIndex);
       for (int i = index + 1; i < componentLists.size(); ++i) {
         final ComponentList nextComponentList = componentLists.get(i);
@@ -508,7 +503,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
    *
    * @param logger The {@link Logger} to which debug information is to be be
    *          printed.
-   * @throws NullPointerException If {@code logger} is null.
+   * @throws IllegalArgumentException If {@code logger} is null.
    */
   protected void print(final Logger logger) {
     final StringBuilder builder = new StringBuilder();
@@ -518,7 +513,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     forEach(e -> builder.append(' ').append(ObjectUtil.simpleIdentityString(e)));
     builder.append("\n  A:");
     componentLists.forEach(e -> builder.append(' ').append(ObjectUtil.simpleIdentityString(e)));
-    logger.info(builder.append('\n').toString());
+    Assertions.assertNotNull(logger).info(builder.append('\n').toString());
     new IdentityHashSet<>(componentLists).forEach(e -> e.print(logger));
   }
 

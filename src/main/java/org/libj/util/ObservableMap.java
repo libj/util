@@ -19,11 +19,12 @@ package org.libj.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateMap} that provides callback methods to observe the
@@ -48,7 +49,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * Creates a new {@link ObservableMap} with the specified target {@link Map}.
    *
    * @param map The target {@link Map}.
-   * @throws NullPointerException If {@code map} is null.
+   * @throws IllegalArgumentException If {@code map} is null.
    */
   public ObservableMap(final Map<K,V> map) {
     super(map);
@@ -252,7 +253,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
      * Set&lt;Map.Entry&lt;K,V&gt;&gt;}.
      *
      * @param set The {@link Iterator}.
-     * @throws NullPointerException If the specified {@link Set
+     * @throws IllegalArgumentException If the specified {@link Set
      *           Set&lt;Map.Entry&lt;K,V&gt;&gt;}} is null.
      */
     protected ObservableEntrySet(final Set<Map.Entry<K,V>> set) {
@@ -323,9 +324,9 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   }
 
   /**
-   * An {@link ObservableSet ObservableSet&lt;K&gt;} that
-   * delegates callback methods to the parent {@link ObservableMap} instance for
-   * the retrieval and removal of keys.
+   * An {@link ObservableSet ObservableSet&lt;K&gt;} that delegates callback
+   * methods to the parent {@link ObservableMap} instance for the retrieval and
+   * removal of keys.
    */
   protected class ObservableKeySet extends ObservableSet<K> {
     /**
@@ -333,8 +334,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
      * Set&lt;K&gt;}.
      *
      * @param set The {@link Iterator}.
-     * @throws NullPointerException If the specified {@link Set Set&lt;K&gt;}}
-     *           is null.
+     * @throws IllegalArgumentException If the specified {@link Set
+     *           Set&lt;K&gt;}} is null.
      */
     protected ObservableKeySet(final Set<K> set) {
       super(set);
@@ -756,7 +757,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
-    Objects.requireNonNull(function);
+    Assertions.assertNotNull(function);
     for (final Map.Entry<K,V> entry : entrySet()) {
       final K key = entry.getKey();
       final V oldValue = entry.getValue();
@@ -799,7 +800,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   }
 
   private void touchEntries() {
-    for (final Iterator<?> i = entrySet().iterator(); i.hasNext(); i.next());
+    for (final Iterator<?> i = entrySet().iterator(); i.hasNext(); i.next())
+      ;
   }
 
   /**

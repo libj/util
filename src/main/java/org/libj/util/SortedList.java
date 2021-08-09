@@ -46,7 +46,7 @@ public class SortedList<E> extends ObservableList<E> {
    * @param <T> The parameter requiring elements of type {@link Comparable
    *          Comparable&lt;? super E&gt;}.
    * @param list The {@link List} of comparable elements.
-   * @throws NullPointerException If the provided {@link List list} is null.
+   * @throws IllegalArgumentException If the provided {@link List list} is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public <T extends Comparable<? super E>>SortedList(final List<T> list) {
@@ -61,11 +61,11 @@ public class SortedList<E> extends ObservableList<E> {
    *
    * @param list The {@link List}.
    * @param comparator The {@link Comparator}.
-   * @throws NullPointerException If the provided {@link List list} or
+   * @throws IllegalArgumentException If the provided {@link List list} or
    *           {@link Comparator comparator} is null.
    */
   public SortedList(final List<E> list, final Comparator<E> comparator) {
-    this(list, Objects.requireNonNull(comparator), true);
+    this(list, Assertions.assertNotNull(comparator), true);
   }
 
   private SortedList(final List<E> list, final Comparator<E> comparator, final boolean sort) {

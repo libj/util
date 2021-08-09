@@ -25,6 +25,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateCollection} contains some other {@link Collection}, to which
  * it delegates its method calls, possibly transforming the data along the way
@@ -46,10 +48,10 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    * {@link Collection}.
    *
    * @param target The target {@link Collection}.
-   * @throws NullPointerException If the target {@link Collection} is null.
+   * @throws IllegalArgumentException If the target {@link Collection} is null.
    */
   public DelegateCollection(final Collection<E> target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**
@@ -153,7 +155,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    * {@link Collection#forEach(Consumer)}.
    *
    * @param action The action to be performed for each element.
-   * @throws NullPointerException If the specified action is null
+   * @throws NullPointerException If the specified action is null.
    */
   protected final void superForEach(final Consumer<? super E> action) {
     super.forEach(action);

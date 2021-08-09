@@ -24,6 +24,8 @@ import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.libj.lang.Assertions;
+
 /**
  * Bidirectional map ({@link BiMap}) backed by a {@link TreeMap}.
  *
@@ -55,11 +57,11 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
    * {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
-   * @throws NullPointerException If the specified map is null.
+   * @throws IllegalArgumentException If the specified map is null.
    */
   public TreeBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(m);
+    putAll(Assertions.assertNotNull(m));
   }
 
   /**
@@ -70,7 +72,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
    * @param valueComparator The comparator that will be used to order the
    *          reverse map. If {@code null}, the {@linkplain Comparable natural
    *          ordering} of the keys will be used.
-   * @throws NullPointerException If the specified map is null.
+   * @throws IllegalArgumentException If the specified map is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public TreeBiMap(final SortedMap<? extends K,? extends V> m, final Comparator<? super V> valueComparator) {

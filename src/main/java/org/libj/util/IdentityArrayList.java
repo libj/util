@@ -63,10 +63,10 @@ public class IdentityArrayList<E> extends ArrayList<E> {
    * the order they are returned by the collection's iterator.
    *
    * @param c The collection whose elements are to be placed into this list.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   public IdentityArrayList(final Collection<? extends E> c) {
-    super(c);
+    super(Assertions.assertNotNull(c));
   }
 
   /**

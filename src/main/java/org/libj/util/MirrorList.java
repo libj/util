@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 import org.libj.lang.Assertions;
 
@@ -134,12 +133,12 @@ public class MirrorList<V,R> extends ObservableList<V> {
    * @param mirror The {@link Mirror} specifying the
    *          {@link Mirror#valueToReflection(Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object) R -> V} methods.
-   * @throws NullPointerException If any of the specified parameters is null.
+   * @throws IllegalArgumentException If any of the specified parameters is null.
    */
   public MirrorList(final List<V> values, final List<R> reflections, final Mirror<V,R> mirror) {
     super(values);
-    this.mirror = Objects.requireNonNull(mirror);
-    this.reflections = reflections;
+    this.mirror = Assertions.assertNotNull(mirror);
+    this.reflections = Assertions.assertNotNull(reflections);
   }
 
   /**

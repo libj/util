@@ -17,13 +17,13 @@
 package org.libj.util.concurrent;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.libj.lang.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,11 +154,11 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
    * @param command The runnable task.
    * @throws RejectedExecutionException If this task cannot be accepted for
    *           execution.
-   * @throws NullPointerException If {@code command} is null.
+   * @throws IllegalArgumentException If {@code command} is null.
    */
   @Override
   public void execute(final Runnable command) {
-    Objects.requireNonNull(command);
+    Assertions.assertNotNull(command);
     final Runnable wrapper = () -> {
       try {
         command.run();

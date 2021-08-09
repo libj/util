@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.libj.lang.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,11 +129,11 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
    *           {@code false}.
-   * @throws NullPointerException If {@code retryable} is null.
+   * @throws IllegalArgumentException If {@code retryable} is null.
    * @throws E Generic exception signifying terminal failure.
    */
   public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureException {
-    return run0(retryable, 0);
+    return run0(Assertions.assertNotNull(retryable), 0);
   }
 
   /**
@@ -148,15 +149,15 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, if {@link #retryOn(Exception)} returns
    *           {@code false}, or if {@code timeout} is exceeded.
-   * @throws IllegalArgumentException If {@code timeout} is negative.
-   * @throws NullPointerException If the value of {@code timeout} is negative.
+   * @throws IllegalArgumentException If {@code retryable} is null, or if
+   *           {@code timeout} is negative.
    * @throws E Generic exception signifying terminal failure.
    */
   public final <T>T run(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureException {
     if (timeout < 0)
       throw new IllegalArgumentException("timeout value (" + timeout + ") must be a positive value");
 
-    return run0(retryable, timeout);
+    return run0(Assertions.assertNotNull(retryable), timeout);
   }
 
   /**

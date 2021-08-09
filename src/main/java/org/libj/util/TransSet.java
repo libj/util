@@ -18,10 +18,11 @@ package org.libj.util;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import org.libj.lang.Assertions;
 
 /**
  * An implementation of the {@link Set} interface that transforms the elements
@@ -52,10 +53,10 @@ public class TransSet<S,T> extends DelegateSet<T> {
    *          {@code S -> T}.
    * @param targetToSource The {@link Function} defining the translation from
    *          {@code T -> S}.
-   * @throws NullPointerException If {@code source} is null.
+   * @throws IllegalArgumentException If {@code source} is null.
    */
   public TransSet(final Set<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
-    super.target = Objects.requireNonNull(source);
+    super.target = Assertions.assertNotNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
   }

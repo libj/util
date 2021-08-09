@@ -119,9 +119,9 @@ public class StringPathsTest {
   public void testGetName() {
     try {
       StringPaths.getName(null);
-      fail("Expected NullPointerException");
+      fail("Expected IllegalArgumentException");
     }
-    catch (final NullPointerException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
@@ -143,9 +143,9 @@ public class StringPathsTest {
   public void testGetSimpleName() {
     try {
       StringPaths.getSimpleName(null);
-      fail("Expected NullPointerException");
+      fail("Expected IllegalArgumentException");
     }
-    catch (final NullPointerException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {

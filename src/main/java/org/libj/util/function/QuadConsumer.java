@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import java.util.Objects;
+import org.libj.lang.Assertions;
 
 /**
  * Represents an operation that accepts four input arguments and returns no
@@ -55,10 +55,10 @@ public interface QuadConsumer<T,U,V,W> {
    * @param after The operation to perform after this operation.
    * @return A composed {@link QuadConsumer} that performs in sequence this
    *         operation followed by the {@code after} operation.
-   * @throws NullPointerException if {@code after} is null.
+   * @throws IllegalArgumentException if {@code after} is null.
    */
   default QuadConsumer<T,U,V,W> andThen(final QuadConsumer<? super T,? super U,? super V,? super W> after) {
-    Objects.requireNonNull(after);
+    Assertions.assertNotNull(after);
     return (t, u, v, w) -> {
       accept(t, u, v, w);
       after.accept(t, u, v, w);

@@ -21,6 +21,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
 
+import org.libj.lang.Assertions;
+
 /**
  * Utility functions for operations pertaining to {@link Locale}.
  */
@@ -171,10 +173,10 @@ public final class Locales {
    * @return An array of {@link Locale} objects that represent the string based
    *         locale elements in {@code strings} that have the form
    *         {@code "{language}_{country}_{variant}"}.
-   * @throws NullPointerException If {@code strings} is null.
+   * @throws IllegalArgumentException If {@code strings} is null.
    */
   public static Locale[] parse(final Collection<String> strings) {
-    final Locale[] locales = new Locale[strings.size()];
+    final Locale[] locales = new Locale[Assertions.assertNotNull(strings).size()];
     final Iterator<String> iterator = strings.iterator();
     for (int i = 0; iterator.hasNext(); ++i)
       locales[i] = parse(iterator.next());
@@ -193,14 +195,14 @@ public final class Locales {
    * @return An array of {@link Locale} objects that represent the string based
    *         locale elements in {@code strings} that have the form
    *         {@code "{language}_{country}_{variant}"}.
-   * @throws NullPointerException If {@code enumeration} is null.
+   * @throws IllegalArgumentException If {@code enumeration} is null.
    */
   public static Locale[] parse(final Enumeration<String> enumeration) {
     return parse(enumeration, 0);
   }
 
   private static Locale[] parse(final Enumeration<String> enumeration, final int depth) {
-    if (!enumeration.hasMoreElements())
+    if (!Assertions.assertNotNull(enumeration).hasMoreElements())
       return new Locale[depth];
 
     final Locale locale = parse(enumeration.nextElement());

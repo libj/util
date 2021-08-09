@@ -21,6 +21,8 @@ import java.util.ListIterator;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateListIterator} contains some other {@link ListIterator}, to
  * which it delegates its method calls, possibly transforming the data along the
@@ -43,10 +45,11 @@ public abstract class DelegateListIterator<E> extends AbstractIterator<E> implem
    * {@link ListIterator}.
    *
    * @param target The target {@link ListIterator}.
-   * @throws NullPointerException If the target {@link ListIterator} is null.
+   * @throws IllegalArgumentException If the target {@link ListIterator} is
+   *           null.
    */
   public DelegateListIterator(final ListIterator<? extends E> target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**

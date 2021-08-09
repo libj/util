@@ -18,6 +18,8 @@ package org.libj.util.primitive;
 
 import java.lang.reflect.Array;
 
+import org.libj.lang.Assertions;
+
 /**
  * This class provides the base implementation of an array-backed list of the
  * {@link PrimitiveCollection} interface, specifically designed to abstract the
@@ -56,10 +58,10 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
    * @param parent The parent list.
    * @param fromIndex Low endpoint (inclusive) of the subList.
    * @param toIndex High endpoint (exclusive) of the subList.
-   * @throws NullPointerException If the specified parent list is null.
+   * @throws IllegalArgumentException If {@code parent} is null.
    */
   protected PrimitiveArrayList(final PrimitiveArrayList<T> parent, final int fromIndex, final int toIndex) {
-    this.parent = parent;
+    this.parent = Assertions.assertNotNull(parent);
     if (parent.child == null) {
       this.sibling = this;
       parent.child = this;

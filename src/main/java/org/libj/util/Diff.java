@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.libj.lang.Assertions;
 import org.libj.lang.Bytes;
 
 import name.fraser.neil.plaintext.diff_match_patch;
@@ -118,10 +119,10 @@ public class Diff {
    *
    * @param bytes The {@code byte[]} array.
    * @return The {@link Diff} object decoded from the byte array.
-   * @throws NullPointerException If {@code bytes} is null.
+   * @throws IllegalArgumentException If {@code bytes} is null.
    */
   public static Diff decode(final byte[] bytes) {
-    final byte lengthSize = getLengthSize(bytes[0]);
+    final byte lengthSize = getLengthSize(Assertions.assertNotNull(bytes)[0]);
     final int limit = bytes.length * 8 - lengthSize - 2;
 
     final List<Mod> mods = new ArrayList<>();

@@ -23,6 +23,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
 
+import org.libj.lang.Assertions;
+
 /**
  * A map that maintains 2 representations of its key-value entries:
  * <ol>
@@ -128,12 +130,13 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
    * @param mirror The {@link Mirror} specifying the
    *          {@link Mirror#valueToReflection(Object,Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object,Object) R -> V} methods.
-   * @throws NullPointerException If any of the specified parameters is null.
+   * @throws IllegalArgumentException If any of the specified parameters is
+   *           null.
    */
   public MirrorMap(final Map<K,V> values, final Map<K,R> reflections, final Mirror<K,V,R> mirror) {
     super(values);
-    this.mirror = Objects.requireNonNull(mirror);
-    this.reflections = reflections;
+    this.mirror = Assertions.assertNotNull(mirror);
+    this.reflections = Assertions.assertNotNull(reflections);
   }
 
   /**

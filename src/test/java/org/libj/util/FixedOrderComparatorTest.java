@@ -26,9 +26,9 @@ public class FixedOrderComparatorTest {
   public void test() {
     try {
       new FixedOrderComparator<>((String[])null);
-      fail("Expected NullPointerException");
+      fail("Expected IllegalArgumentException");
     }
-    catch (final NullPointerException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     final FixedOrderComparator<String> comparator = new FixedOrderComparator<>("z", "a", "t", "r", "q", "b");

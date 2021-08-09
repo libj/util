@@ -16,8 +16,9 @@
 
 package org.libj.util.function;
 
-import java.util.Objects;
 import java.util.function.Function;
+
+import org.libj.lang.Assertions;
 
 /**
  * Represents a function that accepts five arguments and produces a result. This
@@ -58,10 +59,10 @@ public interface PentaFunction<T,U,V,W,X,R> {
    * @param after The function to apply after this function is applied.
    * @return A composed function that first applies this function and then
    *         applies the {@code after} function.
-   * @throws NullPointerException If {@code after} is null.
+   * @throws IllegalArgumentException If {@code after} is null.
    */
   default <S>PentaFunction<T,U,V,W,X,S> andThen(final Function<? super R,? extends S> after) {
-    Objects.requireNonNull(after);
+    Assertions.assertNotNull(after);
     return (T t, U u, V v, W w, X x) -> after.apply(apply(t, u, v, w, x));
   }
 }

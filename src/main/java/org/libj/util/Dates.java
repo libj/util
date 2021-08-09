@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.libj.lang.Assertions;
 import org.libj.lang.Numbers;
 
 /**
@@ -443,11 +444,11 @@ public final class Dates {
    * @return The millis representation of the
    *         <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
    *         formatted date-time string.
-   * @throws NullPointerException If {@code iso8601} is null.
+   * @throws IllegalArgumentException If {@code iso8601} is null.
    * @throws ParseException If a parsing error has occurred.
    */
   public static long iso8601ToEpochMilli(final String iso8601) throws ParseException {
-    final int len = iso8601.length();
+    final int len = Assertions.assertNotNull(iso8601).length();
     // The minimum length of a iso8601 dateTime is 14
     if (len < 14)
       throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 0);

@@ -26,6 +26,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateSet} contains some other {@link Set}, to which it delegates
  * its method calls, possibly transforming the data along the way or providing
@@ -46,10 +48,10 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
    * Creates a new {@link DelegateSet} with the specified target {@link Set}.
    *
    * @param target The target {@link Set}.
-   * @throws NullPointerException If the target {@link Set} is null.
+   * @throws IllegalArgumentException If the target {@link Set} is null.
    */
   public DelegateSet(final Set<E> target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**
@@ -101,7 +103,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
 //   *           collection is not assignable to the
 //   *           {@linkplain Class#getComponentType runtime component type} of the
 //   *           generated array.
-//   * @throws NullPointerException If the generator function is null.
+//   * @throws IllegalArgumentException If the generator function is null.
 //   */
 //  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
 //    return super.toArray(generator);
@@ -153,7 +155,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
    * {@link Collection#forEach(Consumer)}.
    *
    * @param action The action to be performed for each element.
-   * @throws NullPointerException If the specified action is null
+   * @throws NullPointerException If the specified action is null.
    */
   protected final void superForEach(final Consumer<? super E> action) {
     super.forEach(action);

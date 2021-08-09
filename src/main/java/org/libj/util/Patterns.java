@@ -21,6 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.libj.lang.Assertions;
+
 /**
  * Utility functions for operations pertaining to {@link Pattern}.
  */
@@ -88,7 +90,7 @@ public final class Patterns {
    * @param regex The expression to be compiled.
    * @return The given regular expression compiled into a pattern.
    * @throws PatternSyntaxException If the expression's syntax is invalid.
-   * @throws NullPointerException If {@code regex} is null.
+   * @throws IllegalArgumentException If {@code regex} is null.
    */
   public static Pattern compile(final String regex) {
     return compile(regex, 0);
@@ -112,10 +114,10 @@ public final class Patterns {
    * @throws IllegalArgumentException If bit values other than those
    *           corresponding to the defined match flags are set in {@code flags}
    * @throws PatternSyntaxException If the expression's syntax is invalid
-   * @throws NullPointerException If {@code regex} is null.
+   * @throws IllegalArgumentException If {@code regex} is null.
    */
   public static Pattern compile(final String regex, final int flags) {
-    final String key = regex + "$" + flags;
+    final String key = Assertions.assertNotNull(regex) + "$" + flags;
     Pattern pattern = propertyNameToPattern.get(key);
     if (pattern == null)
       propertyNameToPattern.put(key, pattern = Pattern.compile(regex, flags));
@@ -134,10 +136,10 @@ public final class Patterns {
    *
    * @param pattern The {@link Pattern}.
    * @return A string array of the group names of the provided {@code pattern}.
-   * @throws NullPointerException If {@code pattern} is null.
+   * @throws IllegalArgumentException If {@code pattern} is null.
    */
   public static String[] getGroupNames(final Pattern pattern) {
-    return getGroupNames(pattern.toString(), 0, 0);
+    return getGroupNames(Assertions.assertNotNull(pattern).toString(), 0, 0);
   }
 
   /**
@@ -151,10 +153,10 @@ public final class Patterns {
    *
    * @param pattern The {@link Pattern}.
    * @return A string array of the group names of the provided {@code pattern}.
-   * @throws NullPointerException If {@code pattern} is null.
+   * @throws IllegalArgumentException If {@code pattern} is null.
    */
   public static String[] getGroupNames(final String pattern) {
-    return getGroupNames(pattern.toString(), 0, 0);
+    return getGroupNames(Assertions.assertNotNull(pattern), 0, 0);
   }
 
   private static String[] empty = new String[0];

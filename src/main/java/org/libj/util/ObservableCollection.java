@@ -140,7 +140,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
      * {@link Iterator}.
      *
      * @param iterator The {@link Iterator}.
-     * @throws NullPointerException If the specified {@link Iterator} is null.
+     * @throws IllegalArgumentException If the specified {@link Iterator} is null.
      */
     protected ObservableIterator(final Iterator<E> iterator) {
       super(iterator);

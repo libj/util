@@ -20,14 +20,16 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.libj.lang.Assertions;
+
 /**
- * A {@link DelegateIterator} contains some other {@link Iterator}, to which
- * it delegates its method calls, possibly transforming the data along the way or
+ * A {@link DelegateIterator} contains some other {@link Iterator}, to which it
+ * delegates its method calls, possibly transforming the data along the way or
  * providing additional functionality. The class {@link DelegateIterator} itself
  * simply overrides all methods of {@link Iterator} with versions that pass all
- * requests to the source {@link Iterator}. Subclasses of {@link DelegateIterator}
- * may further override some of these methods and may also provide additional
- * methods and fields.
+ * requests to the source {@link Iterator}. Subclasses of
+ * {@link DelegateIterator} may further override some of these methods and may
+ * also provide additional methods and fields.
  *
  * @param <E> The type of elements returned by this iterator.
  */
@@ -41,10 +43,10 @@ public abstract class DelegateIterator<E> extends AbstractIterator<E> {
    * {@link Iterator}.
    *
    * @param target The target {@link Iterator}.
-   * @throws NullPointerException If the target {@link Iterator} is null.
+   * @throws IllegalArgumentException If the target {@link Iterator} is null.
    */
   public DelegateIterator(final Iterator<E> target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**

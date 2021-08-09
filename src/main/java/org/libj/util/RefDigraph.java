@@ -23,6 +23,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
+import org.libj.lang.Assertions;
+
 /**
  * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
  * permitting self-loops and parallel edges.
@@ -68,14 +70,14 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
    * @param initialCapacity The initial capacity of the digraph.
    * @throws IllegalArgumentException If the specified initial capacity is
    *           negative.
-   * @throws NullPointerException If {@code keyToValue} is null.
+   * @throws IllegalArgumentException If {@code keyToValue} is null.
    */
   public RefDigraph(final int initialCapacity, final Function<K,V> keyToValue) {
     super(0, true);
     digraph = new Digraph<>(initialCapacity);
     vertices = new ArrayList<>(initialCapacity);
     references = new HashSet<>(initialCapacity);
-    this.reference = Objects.requireNonNull(keyToValue);
+    this.reference = Assertions.assertNotNull(keyToValue);
   }
 
   /**
@@ -83,7 +85,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
    *
    * @param keyToValue The function to obtain the referenced value of type
    *          {@code V} from a key of type {@code K}.
-   * @throws NullPointerException If {@code keyToValue} is null.
+   * @throws IllegalArgumentException If {@code keyToValue} is null.
    */
   public RefDigraph(final Function<K,V> keyToValue) {
     this(10, keyToValue);
@@ -129,7 +131,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
 
   @Override
   public boolean add(final K vertex) {
-    vertices.add(Objects.requireNonNull(vertex));
+    vertices.add(Assertions.assertNotNull(vertex));
     return digraph.add(reference.apply(vertex));
   }
 

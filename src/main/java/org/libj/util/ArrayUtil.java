@@ -67,14 +67,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final byte[] a, int aFromIndex, final int aToIndex, final byte[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -112,14 +113,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final char[] a, int aFromIndex, final int aToIndex, final char[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -157,14 +159,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final short[] a, int aFromIndex, final int aToIndex, final short[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -202,14 +205,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final int[] a, int aFromIndex, final int aToIndex, final int[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -247,14 +251,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final long[] a, int aFromIndex, final int aToIndex, final long[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -292,14 +297,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final float[] a, int aFromIndex, final int aToIndex, final float[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -337,14 +343,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final double[] a, int aFromIndex, final int aToIndex, final double[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -382,14 +389,15 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array to be tested.
    * @return {@code true} If the two arrays, over the provided ranges, are
    *         equal.
-   * @throws IllegalArgumentException If {@code aFromIndex > aToIndex} or if
-   *           {@code bFromIndex > bToIndex}.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code aFromIndex < 0 or aToIndex > a.length} or if
    *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If either array is null, or if
+   *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final Object[] a, int aFromIndex, final int aToIndex, final Object[] b, int bFromIndex, final int bToIndex) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(b);
     Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
     Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
 
@@ -424,7 +432,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param a The array.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int lengthDeep(final Object[] a) {
     return lengthDeep(a, false);
@@ -443,7 +451,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          included in the count.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static <T>int lengthDeep(final T[] a, final boolean countArrayReferences) {
     return lengthDeep(a, null, countArrayReferences);
@@ -468,10 +476,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *          included in the count.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>int lengthDeep(final T[] a, final Function<? super T,T[]> resolver, final boolean countArrayReferences) {
+    Assertions.assertNotNull(a);
     int size = 0;
     for (int i = 0; i < a.length; ++i) {
       final T member = a[i];
@@ -502,7 +511,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param a The array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static Object[] flatten(final Object[] a) {
     return flatten(a, null, false);
@@ -520,7 +529,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          they are not included in the resulting array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static Object[] flatten(final Object[] a, final boolean retainArrayReferences) {
     return flatten(a, null, retainArrayReferences);
@@ -545,10 +554,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *          they are not included in the resulting array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] flatten(final T[] a, final Function<? super T,T[]> resolver, final boolean retainArrayReferences) {
+    Assertions.assertNotNull(a);
     final T[] out = (T[])Array.newInstance(a.getClass().getComponentType(), lengthDeep(a, resolver, retainArrayReferences));
     flatten0(a, out, resolver, retainArrayReferences, -1);
     return out;
@@ -583,9 +593,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final T key) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key);
   }
 
@@ -603,9 +615,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
@@ -636,9 +649,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<? super T> c) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, c);
   }
 
@@ -657,9 +671,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -688,9 +703,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, ByteComparator.NATURAL);
   }
 
@@ -707,9 +723,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, ByteComparator.NATURAL);
   }
@@ -728,9 +745,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key, final ByteComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -759,9 +777,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, ShortComparator.NATURAL);
   }
 
@@ -778,9 +797,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, ShortComparator.NATURAL);
   }
@@ -799,9 +819,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key, final ShortComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -830,9 +851,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, IntComparator.NATURAL);
   }
 
@@ -849,9 +871,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, IntComparator.NATURAL);
   }
@@ -870,9 +893,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key, final IntComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -901,9 +925,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, FloatComparator.NATURAL);
   }
 
@@ -920,9 +945,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, FloatComparator.NATURAL);
   }
@@ -941,7 +967,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key, final FloatComparator c) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
@@ -972,9 +998,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, DoubleComparator.NATURAL);
   }
 
@@ -991,9 +1018,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, DoubleComparator.NATURAL);
   }
@@ -1012,7 +1040,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key, final DoubleComparator c) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
@@ -1043,9 +1071,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, LongComparator.NATURAL);
   }
 
@@ -1062,9 +1091,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, LongComparator.NATURAL);
   }
@@ -1083,9 +1113,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key, final LongComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -1115,7 +1146,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array whose members are to be replaced.
    * @return The the original array instance with its members replaced by the
    *         operator.
-   * @throws NullPointerException If {@code operator} or {@code array} is null.
+   * @throws IllegalArgumentException If {@code operator} or {@code array} is null.
    */
   @SafeVarargs
   public static <T>T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
@@ -1133,7 +1164,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param predicate The {@link Predicate} that defines the filter.
    * @param array The array whose members are to be filtered.
    * @return A new array instance with members that pass the filter.
-   * @throws NullPointerException If {@code predicate} or {@code array} is null.
+   * @throws IllegalArgumentException If {@code predicate} or {@code array} is null.
    */
   @SafeVarargs
   public static <T>T[] filter(final Predicate<? super T> predicate, final T ... array) {
@@ -1176,7 +1207,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          concatenated into a 1-dimensional array.
    * @return A new array containing the members of the given 2-dimensional array
    * as a 1-dimensional array.
-   * @throws NullPointerException If {@code arrays} is null.
+   * @throws IllegalArgumentException If {@code arrays} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T[][] arrays) {
@@ -1200,7 +1231,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array2 The second array to be concatenated.
    * @return A new array containing the members of the given arrays concatenated
    *         in the provided order.
-   * @throws NullPointerException If {@code array1}, {code array2} or
+   * @throws IllegalArgumentException If {@code array1}, {code array2} or
    *           {@code arrays} is null.
    */
   public static <T>T[] concat(final T[] array1, final T[] array2) {
@@ -1220,7 +1251,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param arrays The remaining arrays to be concatenated.
    * @return A new array containing the members of the given arrays concatenated
    *         in the provided order.
-   * @throws NullPointerException If {@code array1}, {code array2} or
+   * @throws IllegalArgumentException If {@code array1}, {code array2} or
    *           {@code arrays} is null.
    */
   @SafeVarargs
@@ -1238,7 +1269,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param elements The additional elements to be concatenated.
    * @return A new array containing the members of the given arrays concatenated
    *         in the provided order.
-   * @throws NullPointerException If {@code array} or {@code elements} is null.
+   * @throws IllegalArgumentException If {@code array} or {@code elements} is null.
    */
   @SafeVarargs
   public static <T>T[] concat(final T[] array, final T element1, final T ... elements) {
@@ -1258,7 +1289,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The additional elements to be concatenated.
    * @return A new array containing the members of the given {@code element} and
    *         provided {@code array}.
-   * @throws NullPointerException If {@code elements} is null.
+   * @throws IllegalArgumentException If {@code elements} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T element1, final T[] array) {
@@ -1278,7 +1309,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param elements The additional elements to be concatenated.
    * @return A new array containing the members of the given {@code element} and
    *         provided {@code array}.
-   * @throws NullPointerException If {@code elements} is null.
+   * @throws IllegalArgumentException If {@code elements} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T element1, final T element2, final T ... elements) {
@@ -1298,7 +1329,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          array (with origin 0). If negative, index will be set to its
    *          calculated value from the end of the array (with origin 1).
    * @return A new array with elements removed from the provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>T[] splice(final T[] array, int start) {
     if (start < 0)
@@ -1319,7 +1350,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          remove. If deleteCount is 0, no elements are removed, but a new
    *          reference to the array is returned.
    * @return A new array with elements removed from the provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount) {
@@ -1353,7 +1384,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param items The elements to add to the array, beginning at the start
    *          index.
    * @return A new array with elements removed from the provided array.
-   * @throws NullPointerException If {@code array} or {@code items} is null.
+   * @throws IllegalArgumentException If {@code array} or {@code items} is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount, final T ... items) {
@@ -1381,7 +1412,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array to search.
    * @param obj The object to locate.
    * @return The index of the object if it is found, or -1 otherwise.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>int indexOf(final T[] array, final T obj) {
     return indexOf0(array, 0, array.length, obj);
@@ -1396,7 +1427,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param len The number of elements to search.
    * @param obj The object to locate.
    * @return The index of the object if it is found, or -1 otherwise.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>int indexOf(final T[] array, final int off, int len, final T obj) {
     return indexOf0(array, off, Math.min(len, array.length), obj);
@@ -1417,7 +1448,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array to search.
    * @param obj The object to locate.
    * @return {@code true} if the object exists, {@code false} otherwise.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>boolean contains(final T[] array, final T obj) {
     return indexOf(array, obj) >= 0;
@@ -1432,7 +1463,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param len The number of elements to search.
    * @param obj The object to locate.
    * @return {@code true} if the object exists, {@code false} otherwise.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>boolean contains(final T[] array, final int off, final int len, final T obj) {
     return indexOf(array, off, len, obj) >= 0;
@@ -2289,7 +2320,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
-   * @throws NullPointerException If the specified array is not null and the
+   * @throws IllegalArgumentException If the specified array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final char delimiter, final Function<? super T,String> function) {
@@ -2323,7 +2354,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
-   * @throws NullPointerException If the specified array is not null and the
+   * @throws IllegalArgumentException If the specified array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final char delimiter, final int offset, final Function<? super T,String> function) {
@@ -2373,7 +2404,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
-   * @throws NullPointerException If the specified array is not null and the
+   * @throws IllegalArgumentException If the specified array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final char delimiter, final int offset, int length, final Function<? super T,String> function) {
@@ -2419,7 +2450,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
-   * @throws NullPointerException If the specified array is not null and the
+   * @throws IllegalArgumentException If the specified array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final String delimiter, final Function<? super T,String> function) {
@@ -2453,7 +2484,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
-   * @throws NullPointerException If the specified array is not null and the
+   * @throws IllegalArgumentException If the specified array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final String delimiter, final int offset, final Function<? super T,String> function) {
@@ -2503,7 +2534,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
    *         array, or {@code null} if the specified array is null.
-   * @throws NullPointerException If the specified array is not null and the
+   * @throws IllegalArgumentException If the specified array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final String delimiter, final int offset, int length, final Function<? super T,String> function) {
@@ -2531,7 +2562,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static byte[] fillSequence(final byte[] array, byte start) {
     for (int i = 0; i < array.length; ++i)
@@ -2547,7 +2578,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Byte[] fillSequence(final Byte[] array, byte start) {
     for (int i = 0; i < array.length; ++i)
@@ -2563,7 +2594,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static char[] fillSequence(final char[] array, char start) {
     for (int i = 0; i < array.length; ++i)
@@ -2579,7 +2610,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Character[] fillSequence(final Character[] array, char start) {
     for (int i = 0; i < array.length; ++i)
@@ -2595,7 +2626,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static short[] fillSequence(final short[] array, short start) {
     for (int i = 0; i < array.length; ++i)
@@ -2611,7 +2642,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Short[] fillSequence(final Short[] array, short start) {
     for (int i = 0; i < array.length; ++i)
@@ -2627,7 +2658,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static int[] fillSequence(final int[] array, int start) {
     for (int i = 0; i < array.length; ++i)
@@ -2643,7 +2674,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Integer[] fillSequence(final Integer[] array, int start) {
     for (int i = 0; i < array.length; ++i)
@@ -2659,7 +2690,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static long[] fillSequence(final long[] array, long start) {
     for (int i = 0; i < array.length; ++i)
@@ -2675,7 +2706,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Long[] fillSequence(final Long[] array, long start) {
     for (int i = 0; i < array.length; ++i)
@@ -2691,7 +2722,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static float[] fillSequence(final float[] array, float start) {
     for (int i = 0; i < array.length; ++i)
@@ -2707,7 +2738,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Float[] fillSequence(final Float[] array, float start) {
     for (int i = 0; i < array.length; ++i)
@@ -2723,7 +2754,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static double[] fillSequence(final double[] array, double start) {
     for (int i = 0; i < array.length; ++i)
@@ -2739,7 +2770,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The target array.
    * @param start The starting value.
    * @return The provided array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Double[] fillSequence(final Double[] array, double start) {
     for (int i = 0; i < array.length; ++i)
@@ -3013,7 +3044,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static byte[] subArray(final byte[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3026,7 +3057,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static byte[] subArray(final byte[] array, final int offset, final int length) {
@@ -3047,7 +3078,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static short[] subArray(final short[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3060,7 +3091,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static short[] subArray(final short[] array, final int offset, final int length) {
@@ -3081,7 +3112,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static int[] subArray(final int[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3094,7 +3125,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static int[] subArray(final int[] array, final int offset, final int length) {
@@ -3115,7 +3146,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static long[] subArray(final long[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3128,7 +3159,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static long[] subArray(final long[] array, final int offset, final int length) {
@@ -3149,7 +3180,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static float[] subArray(final float[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3162,7 +3193,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static float[] subArray(final float[] array, final int offset, final int length) {
@@ -3183,7 +3214,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static double[] subArray(final double[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3196,7 +3227,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static double[] subArray(final double[] array, final int offset, final int length) {
@@ -3217,7 +3248,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static boolean[] subArray(final boolean[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3230,7 +3261,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static boolean[] subArray(final boolean[] array, final int offset, final int length) {
@@ -3251,7 +3282,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static char[] subArray(final char[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3264,7 +3295,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static char[] subArray(final char[] array, final int offset, final int length) {
@@ -3286,7 +3317,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The provided {@code array}.
    * @param offset Starting offset in the array.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>T[] subArray(final T[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
@@ -3300,7 +3331,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset Starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The subArray of the provided {@code array}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   @SuppressWarnings("unchecked")
@@ -3419,7 +3450,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final boolean[] array) {
     shuffle(array, getRandom());
@@ -3442,7 +3473,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final byte[] array) {
     shuffle(array, getRandom());
@@ -3465,7 +3496,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final short[] array) {
     shuffle(array, getRandom());
@@ -3488,7 +3519,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final int[] array) {
     shuffle(array, getRandom());
@@ -3511,7 +3542,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final long[] array) {
     shuffle(array, getRandom());
@@ -3534,7 +3565,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final float[] array) {
     shuffle(array, getRandom());
@@ -3557,7 +3588,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final double[] array) {
     shuffle(array, getRandom());
@@ -3580,7 +3611,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * This method runs in linear time.
    *
    * @param array The list to be shuffled.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final Object[] array) {
     shuffle(array, getRandom());
@@ -3600,7 +3631,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final boolean[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3621,7 +3652,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array the array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final byte[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3642,7 +3673,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final char[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3663,7 +3694,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final short[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3684,7 +3715,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final int[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3705,7 +3736,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final long[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3726,7 +3757,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final float[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3747,7 +3778,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final double[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3768,7 +3799,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array to be shuffled.
    * @param random The source of randomness to use to shuffle the array.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final Object[] array, final Random random) {
     for (int i = array.length; i > 1; --i)
@@ -3795,8 +3826,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final byte[] order) {
     sort(data, order, ByteComparator.NATURAL);
@@ -3823,9 +3854,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final byte[] order, final ByteComparator comparator) {
     if (data.length != order.length)
@@ -3854,8 +3885,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final char[] order) {
     sort(data, order, CharComparator.NATURAL);
@@ -3882,9 +3913,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final char[] order, final CharComparator comparator) {
     if (data.length != order.length)
@@ -3913,8 +3944,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final short[] order) {
     sort(data, order, ShortComparator.NATURAL);
@@ -3941,9 +3972,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final short[] order, final ShortComparator comparator) {
     if (data.length != order.length)
@@ -3972,8 +4003,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final int[] order) {
     sort(data, order, IntComparator.NATURAL);
@@ -4000,9 +4031,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final int[] order, final IntComparator comparator) {
     if (data.length != order.length)
@@ -4031,8 +4062,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final long[] order) {
     sort(data, order, LongComparator.NATURAL);
@@ -4059,9 +4090,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final long[] order, final LongComparator comparator) {
     if (data.length != order.length)
@@ -4090,8 +4121,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final float[] order) {
     sort(data, order, FloatComparator.NATURAL);
@@ -4118,9 +4149,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final float[] order, final FloatComparator comparator) {
     if (data.length != order.length)
@@ -4149,8 +4180,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final double[] order) {
     sort(data, order, DoubleComparator.NATURAL);
@@ -4177,9 +4208,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.length}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final double[] order, final DoubleComparator comparator) {
     if (data.length != order.length)
@@ -4211,8 +4242,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The {@link List} of {@link Comparable} objects providing the
    *          order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.length != order.size()}.
    */
   public static <T extends Comparable<? super T>>void sort(final Object[] data, final List<T> order) {
     if (data.length != order.size())
@@ -4250,15 +4281,15 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param order The {@link List} providing the order of indices to sort
    *          {@code data}.
    * @param comparator The {@link Comparator} for members of {@code order}.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.length != order.size()}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.length != order.size()}.
    */
   public static <T>void sort(final Object[] data, final List<? extends T> order, final Comparator<? super T> comparator) {
     if (data.length != order.size())
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.size());
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
   }
@@ -4269,9 +4300,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code byte}s.
    * @param c The {@link ByteComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final byte[] a, final ByteComparator c) {
+    Assertions.assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4283,9 +4315,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link ByteComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final byte[] a, final int fromIndex, final int toIndex, final ByteComparator c) {
+    Assertions.assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4298,9 +4331,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code char}s.
    * @param c The {@link CharComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final char[] a, final CharComparator c) {
+    Assertions.assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4312,9 +4346,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link CharComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final char[] a, final int fromIndex, final int toIndex, final CharComparator c) {
+    Assertions.assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4327,9 +4362,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code short}s.
    * @param c The {@link ShortComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final short[] a, final ShortComparator c) {
+    Assertions.assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4341,9 +4377,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link ShortComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final short[] a, final int fromIndex, final int toIndex, final ShortComparator c) {
+    Assertions.assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4356,9 +4393,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code int}s.
    * @param c The {@link IntComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final int[] a, final IntComparator c) {
+    Assertions.assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4370,9 +4408,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link IntComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final int[] a, final int fromIndex, final int toIndex, final IntComparator c) {
+    Assertions.assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4385,9 +4424,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code long}s.
    * @param c The {@link LongComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final long[] a, final LongComparator c) {
+    Assertions.assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4399,9 +4439,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link LongComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final long[] a, final int fromIndex, final int toIndex, final LongComparator c) {
+    Assertions.assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4414,9 +4455,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code float}s.
    * @param c The {@link FloatComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final float[] a, final FloatComparator c) {
+    Assertions.assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4428,9 +4470,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link FloatComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final float[] a, final int fromIndex, final int toIndex, final FloatComparator c) {
+    Assertions.assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4443,9 +4486,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code double}s.
    * @param c The {@link DoubleComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final double[] a, final DoubleComparator c) {
+    Assertions.assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4457,9 +4501,10 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link DoubleComparator}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final double[] a, final int fromIndex, final int toIndex, final DoubleComparator c) {
+    Assertions.assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4787,11 +4832,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final byte[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -4809,11 +4854,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final byte[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -4841,11 +4886,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final short[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -4863,11 +4908,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final short[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -4895,11 +4940,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final int[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -4917,11 +4962,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final int[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -4949,11 +4994,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final long[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -4971,11 +5016,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final long[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5003,11 +5048,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final float[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -5025,11 +5070,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final float[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5057,11 +5102,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final double[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -5079,11 +5124,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final double[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5111,11 +5156,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final boolean[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -5133,11 +5178,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final boolean[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5165,11 +5210,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final char[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -5187,11 +5232,11 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final char[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5220,11 +5265,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
-   * @throws NullPointerException If {@code array} is null.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static <T>void shift(final T[] array, final int fromIndex, final int toIndex, final int offset) {
+    Assertions.assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
@@ -5243,11 +5288,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param <T> The component type of the array.
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws NullPointerException If {@code array} is null.
-   * @throws IllegalArgumentException If {@code offset} is negative or greater
-   *           than {@code array.length}.
+   * @throws IllegalArgumentException If {@code array} is null, or if
+   *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static <T>void shift(final T[] array, final int offset) {
+    Assertions.assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 

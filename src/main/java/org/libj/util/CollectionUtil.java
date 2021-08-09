@@ -22,7 +22,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Objects;
 import java.util.function.Function;
 
 import org.libj.lang.Assertions;
@@ -62,7 +61,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param out The output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
-   * @throws NullPointerException If {@code in} or {@code out} is null.
+   * @throws IllegalArgumentException If {@code in} or {@code out} is null.
    */
   public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out) {
     return flatten(in, out, null, false);
@@ -82,7 +81,7 @@ public final class CollectionUtil extends PrimitiveSort {
    *          {@code false}, they are not included in the output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
-   * @throws NullPointerException If {@code in} or {@code out} is null.
+   * @throws IllegalArgumentException If {@code in} or {@code out} is null.
    */
   public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final boolean retainCollectionReferences) {
     return flatten(in, out, null, retainCollectionReferences);
@@ -110,10 +109,12 @@ public final class CollectionUtil extends PrimitiveSort {
    *          {@code false}, they are not included in the output collection.
    * @return The specified output collection, filled with the one-dimensional
    *         representation of the input collection.
-   * @throws NullPointerException If {@code in} or {@code out} is null.
+   * @throws IllegalArgumentException If {@code in} or {@code out} is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <C extends Collection<T>,T>C flatten(final Collection<? extends T> in, final C out, final Function<T,? extends Collection<T>> resolver, final boolean retainCollectionReferences) {
+    Assertions.assertNotNull(in);
+    Assertions.assertNotNull(out);
     for (final T member : in) {
       final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
       if (inner != null) {
@@ -145,7 +146,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param <T> The type of list elements.
    * @param list The list.
    * @return The specified list.
-   * @throws NullPointerException If {@code list} is null.
+   * @throws IllegalArgumentException If {@code list} is null.
    */
   public static <L extends List<T>,T>L flatten(final L list) {
     flatten(list, (Function<T,List<T>>)null, false);
@@ -163,7 +164,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param retainListReferences If {@code true}, members that reference a
    *          {@link List} are retained; if {@code false}, they are removed.
    * @return The specified list.
-   * @throws NullPointerException If {@code list} is null.
+   * @throws IllegalArgumentException If {@code list} is null.
    */
   public static <L extends List<T>,T>L flatten(final L list, final boolean retainListReferences) {
     flatten(list, (Function<T,List<T>>)null, retainListReferences);
@@ -189,11 +190,11 @@ public final class CollectionUtil extends PrimitiveSort {
    *          null, {@code member instanceof List} is used to determine whether
    *          the member value represents a list.
    * @return The specified list.
-   * @throws NullPointerException If {@code list} is null.
+   * @throws IllegalArgumentException If {@code list} is null.
    */
   @SuppressWarnings("unchecked")
   public static <L extends List<T>,T>L flatten(final L list, final Function<T,? extends List<T>> resolver, final boolean retainListReferences) {
-    final ListIterator<T> iterator = list.listIterator();
+    final ListIterator<T> iterator = Assertions.assertNotNull(list).listIterator();
     int i = 0;
     while (iterator.hasNext()) {
       final T member = iterator.next();
@@ -227,10 +228,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return A class representing the component type of the specified
    *         collection, or {@code null} if the collection has no member
    *         objects.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   public static Class<?> getComponentType(final Collection<?> c) {
-    if (c.size() == 0)
+    if (Assertions.assertNotNull(c).size() == 0)
       return null;
 
     final Iterator<?> iterator = c.iterator();
@@ -259,10 +260,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param type The class.
    * @return {@code true} if the specified class is instance-assignable for each
    *         member object of the specified collection, otherwise {@code false}.
-   * @throws NullPointerException If {@code c} or {@code type} is null.
+   * @throws IllegalArgumentException If {@code c} or {@code type} is null.
    */
   public static boolean isComponentType(final Collection<?> c, final Class<?> type) {
-    for (final Object member : c)
+    for (final Object member : Assertions.assertNotNull(c))
       if (member != null && !type.isInstance(member))
         return false;
 
@@ -281,7 +282,6 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return A string representation of the specified collection, using the
    *         specified delimiter between the string representation of each
    *         element.
-   * @throws NullPointerException If the specified collection is null.
    */
   public static String toString(final Collection<?> c, final char del) {
     if (c == null)
@@ -311,7 +311,6 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return A string representation of the specified collection, using the
    *         specified delimiter between the string representation of each
    *         element.
-   * @throws NullPointerException If the specified collection is null.
    */
   public static String toString(final Collection<?> c, final String del) {
     if (c == null)
@@ -359,9 +358,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex > toIndex}
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0} or
    *           {@code toIndex > a.length}
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key);
   }
@@ -389,9 +389,10 @@ public final class CollectionUtil extends PrimitiveSort {
    *         be {@code >= 0} if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the
    *           elements of the array.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<? extends T> a, final T key) {
+    Assertions.assertNotNull(a);
     return binarySearch0(a, 0, a.size(), key);
   }
 
@@ -424,12 +425,13 @@ public final class CollectionUtil extends PrimitiveSort {
    *           <i>mutually comparable</i> using the specified comparator, or the
    *           search key is not comparable to the elements in the range using
    *           this comparator.
-   * @throws IllegalArgumentException If {@code fromIndex > toIndex}
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0} or
    *           {@code toIndex > a.length}
-   * @throws NullPointerException If {@code a} or {@code c} is null.
+   * @throws IllegalArgumentException If {@code a} or {@code c} is null, or if
+   *           {@code fromIndex > toIndex}.
    */
   public static <T>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, c);
   }
@@ -459,9 +461,10 @@ public final class CollectionUtil extends PrimitiveSort {
    *           <i>mutually comparable</i> using the specified comparator, or the
    *           search key is not comparable to the elements of the list using
    *           this comparator.
-   * @throws NullPointerException If {@code a} or {@code c} is null.
+   * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   public static <T>int binarySearch(final List<? extends T> a, final T key, final Comparator<? super T> c) {
+    Assertions.assertNotNull(a);
     return binarySearch0(a, 0, a.size(), key, c);
   }
 
@@ -511,9 +514,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<? extends T> a, final T key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key);
   }
 
@@ -529,9 +533,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws IllegalArgumentException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
@@ -546,9 +551,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
-   * @throws NullPointerException If {@code a} or {@code c} is null.
+   * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   public static <T>int binaryClosestSearch(final List<? extends T> a, final T key, final Comparator<? super T> c) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -565,9 +571,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired
    *         value.
-   * @throws NullPointerException If {@code a} or {@code c} is null.
+   * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   public static <T>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -612,9 +619,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayIntList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayIntList} is null.
+   * @throws IllegalArgumentException If the specified {@link ArrayIntList} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, Integer::compare);
   }
 
@@ -629,9 +637,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayIntList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayIntList} is null.
+   * @throws IllegalArgumentException If the specified {@link ArrayIntList} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int key, final IntComparator c) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -648,9 +657,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayIntList} matching the desired
    *         value. The returned index will be less than or equal to an exact
    *         match.
-   * @throws NullPointerException If the specified {@link ArrayIntList} is null.
+   * @throws IllegalArgumentException If the specified {@link ArrayIntList} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int fromIndex, final int toIndex, final int key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, Integer::compare);
   }
@@ -669,9 +679,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayIntList} matching the desired
    *         value. The returned index will be less than or equal to an exact
    *         match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int fromIndex, final int toIndex, final int key, final IntComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -701,10 +712,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayLongList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayLongList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayLongList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final long key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, Long::compare);
   }
 
@@ -719,10 +731,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayLongList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayLongList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayLongList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final long key, final LongComparator c) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -740,10 +753,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayLongList} matching the desired
    *         value. The returned index will be less than or equal to an exact
    *         match.
-   * @throws NullPointerException If the specified {@link ArrayLongList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayLongList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final int fromIndex, final int toIndex, final long key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, Long::compare);
   }
@@ -762,9 +776,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayLongList} matching the desired
    *         value. The returned index will be less than or equal to an exact
    *         match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final int fromIndex, final int toIndex, final long key, final LongComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -794,10 +809,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayFloatList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayFloatList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayFloatList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final float key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, Float::compare);
   }
 
@@ -812,10 +828,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayFloatList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayFloatList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayFloatList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final float key, final FloatComparator c) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -832,10 +849,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayFloatList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayFloatList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayFloatList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final int fromIndex, final int toIndex, final float key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, Float::compare);
   }
@@ -854,9 +872,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayFloatList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final int fromIndex, final int toIndex, final float key, final FloatComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -886,10 +905,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayDoubleList} matching
    *         the desired value. The returned index will be less than or equal to
    *         an exact match.
-   * @throws NullPointerException If the specified {@link ArrayDoubleList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayDoubleList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final double key) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, Double::compare);
   }
 
@@ -904,10 +924,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link ArrayDoubleList} matching
    *         the desired value. The returned index will be less than or equal to
    *         an exact match.
-   * @throws NullPointerException If the specified {@link ArrayDoubleList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayDoubleList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final double key, final DoubleComparator c) {
+    Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -925,10 +946,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayDoubleList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified {@link ArrayDoubleList} is
+   * @throws IllegalArgumentException If the specified {@link ArrayDoubleList} is
    *           null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final int fromIndex, final int toIndex, final double key) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, Double::compare);
   }
@@ -948,9 +970,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the {@link ArrayDoubleList} matching the
    *         desired value. The returned index will be less than or equal to an
    *         exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @throws IllegalArgumentException If the specified array is null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final int fromIndex, final int toIndex, final double key, final DoubleComparator c) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -980,9 +1003,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param a The members to add to the collection.
    * @return The specified collection with the specified vararg parameters added
    *         as members to the collection.
-   * @throws NullPointerException If {@code c} or {@code a} is null.
+   * @throws IllegalArgumentException If {@code c} or {@code a} is null.
    */
   public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a) {
+    Assertions.assertNotNull(a);
     for (int i = 0; i < a.length; ++i)
       c.add(a[i]);
 
@@ -997,15 +1021,18 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param <T> The type of collection elements.
    * @param c The collection.
    * @param a0 The first member to add to the collection.
-   * @param an The remaining members to add to the collection.
+   * @param aN The remaining members to add to the collection.
    * @return The specified collection with the specified vararg parameters added
    *         as members to the collection.
-   * @throws NullPointerException If {@code c} or {@code a} is null.
+   * @throws IllegalArgumentException If {@code c}, {@code a0}, or {@code aN} is null.
    */
   @SafeVarargs
-  public static <C extends Collection<T>,T>C asCollection(final C c, final T a0, final T ... an) {
+  public static <C extends Collection<T>,T>C asCollection(final C c, final T a0, final T ... aN) {
+    Assertions.assertNotNull(c);
+    Assertions.assertNotNull(a0);
+    Assertions.assertNotNull(aN);
     c.add(a0);
-    Collections.addAll(c, an);
+    Collections.addAll(c, aN);
     return c;
   }
 
@@ -1021,14 +1048,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The index of the last member (exclusive) to be added.
    * @return The specified collection with the specified vararg parameters added
    *         as members to the collection.
-   * @throws IllegalArgumentException If {@code fromIndex} is greater than
-   *           {@code toIndex}.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is less than 0,
    *           or if {@code toIndex} is greater than the length of the specified
    *           array.
-   * @throws NullPointerException If {@code c} or {@code a} is null.
+   * @throws IllegalArgumentException If {@code c} or {@code a} is null, or if
+   *           {@code fromIndex} is greater than {@code toIndex}.
    */
   public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a, final int fromIndex, final int toIndex) {
+    Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     for (int i = fromIndex; i < toIndex; ++i)
       c.add(a[i]);
@@ -1049,11 +1076,13 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified target collection with the elements of the specified
    *         vararg parameter collections concatenated as members to the target
    *         collection.
-   * @throws NullPointerException If {@code target}, {@code collections}, or a
-   *           member element in {@code collections} is null.
+   * @throws IllegalArgumentException If {@code target} or {@code collections}
+   *           is null.
    */
   @SafeVarargs
   public static <C extends Collection<T>,T>C concat(final C target, final Collection<? extends T> ... collections) {
+    Assertions.assertNotNull(target);
+    Assertions.assertNotNull(collections);
     for (final Collection<? extends T> collection : collections)
       target.addAll(collection);
 
@@ -1071,12 +1100,12 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param size The size of each partition.
    * @return An array of sublists of the specified list partitioned to the
    *         specified size.
-   * @throws IllegalArgumentException If {@code size} is less than or equal to
-   *           0.
-   * @throws NullPointerException If {@code list} is null.
+   * @throws IllegalArgumentException If {@code list} is null, or if
+   *           {@code size} is less than or equal to 0.
    */
   @SuppressWarnings("unchecked")
   public static <T>List<T>[] partition(final List<T> list, final int size) {
+    Assertions.assertNotNull(list);
     if (size <= 0)
       throw new IllegalArgumentException("Size must be positive: " + size);
 
@@ -1112,8 +1141,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final byte[] order) {
     sort(data, order, ByteComparator.NATURAL);
@@ -1140,15 +1169,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final byte[] order, final ByteComparator comparator) {
-    if (data.size() != order.length)
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -1173,8 +1201,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final char[] order) {
     sort(data, order, CharComparator.NATURAL);
@@ -1201,15 +1229,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final char[] order, final CharComparator comparator) {
-    if (data.size() != order.length)
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -1234,8 +1261,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final short[] order) {
     sort(data, order, ShortComparator.NATURAL);
@@ -1262,15 +1289,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final short[] order, final ShortComparator comparator) {
-    if (data.size() != order.length)
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -1295,8 +1321,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final int[] order) {
     sort(data, order, IntComparator.NATURAL);
@@ -1323,15 +1349,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final int[] order, final IntComparator comparator) {
-    if (data.size() != order.length)
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -1356,8 +1381,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final long[] order) {
     sort(data, order, LongComparator.NATURAL);
@@ -1384,15 +1409,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final long[] order, final LongComparator comparator) {
-    if (data.size() != order.length)
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -1417,8 +1441,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final float[] order) {
     sort(data, order, FloatComparator.NATURAL);
@@ -1445,15 +1469,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final float[] order, final FloatComparator comparator) {
-    if (data.size() != order.length)
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -1478,8 +1501,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final double[] order) {
     sort(data, order, DoubleComparator.NATURAL);
@@ -1506,15 +1529,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.length}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final double[] order, final DoubleComparator comparator) {
-    if (data.size() != order.length)
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
-    Objects.requireNonNull(comparator);
+    Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -1542,8 +1564,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param data The {@link List} providing the data.
    * @param order The {@link List} of {@link Comparable} objects providing the
    *          order of indices to sort {@code data}.
-   * @throws NullPointerException If {@code data} or {@code order} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.size()}.
    */
   public static <T extends Comparable<? super T>>void sort(final List<?> data, final List<T> order) {
     sort(data, order, (o1, o2) -> o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2));
@@ -1573,12 +1595,12 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param order The {@link List} providing the order of indices to sort
    *          {@code data}.
    * @param comparator The {@link Comparator} for members of {@code order}.
-   * @throws NullPointerException If {@code data}, {@code order}, or
-   *           {@code comparator} is null.
-   * @throws IllegalArgumentException If {@code data.size() != order.size()}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.size() != order.size()}.
    */
   public static <T>void sort(final List<?> data, final List<? extends T> order, final Comparator<? super T> comparator) {
-    if (data.size() != order.size())
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).size())
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
 
     sortIndexed(data, buildIndex(order.size()), (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));

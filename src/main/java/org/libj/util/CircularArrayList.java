@@ -143,7 +143,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
    * the order they are returned by the collection's iterator.
    *
    * @param c The collection whose elements are to be placed into this list.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws IllegalArgumentException If the specified collection is null.
    */
   public CircularArrayList(final Collection<? extends E> c) {
     tail = c.size();

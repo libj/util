@@ -26,6 +26,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateMap} contains some other {@link Map}, to which it delegates
  * its method calls, possibly transforming the data along the way or providing
@@ -47,10 +49,10 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * Creates a new {@link DelegateMap} with the specified target {@link Map}.
    *
    * @param target The target {@link Map}.
-   * @throws NullPointerException If the target {@link Map} is null.
+   * @throws IllegalArgumentException If the target {@link Map} is null.
    */
   public DelegateMap(final Map<K,V> target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**
@@ -351,10 +353,11 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    *           supported by this map.
    * @throws ClassCastException If the class of the specified key or value
    *           prevents it from being stored in this map.
-   * @throws IllegalArgumentException If some property of the specified key or
-   *           value prevents it from being stored in this map.
-   * @throws NullPointerException If the specified key is null and this map does
-   *           not support null keys or the value or remappingFunction is null.
+   * @throws NullPointerException If some property of the specified key or value
+   *           prevents it from being stored in this map.
+   * @throws IllegalArgumentException If the specified key is null and this map
+   *           does not support null keys or the value or remappingFunction is
+   *           null.
    */
   protected final V superMerge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
     return super.merge(key, value, remappingFunction);
@@ -397,8 +400,8 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    *           null values.
    * @throws ClassCastException If a replacement value is of an inappropriate
    *           type for this map.
-   * @throws NullPointerException If function or a replacement value is null,
-   *           and this map does not permit null keys or values.
+   * @throws NullPointerException If function or a replacement value is
+   *           null, and this map does not permit null keys or values.
    * @throws IllegalArgumentException If some property of a replacement value
    *           prevents it from being stored in this map.
    * @throws ConcurrentModificationException If an entry is found to be removed

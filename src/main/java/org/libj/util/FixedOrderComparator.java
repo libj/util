@@ -18,7 +18,8 @@ package org.libj.util;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.Objects;
+
+import org.libj.lang.Assertions;
 
 /**
  * A {@link Comparator} that accepts a fixed definition of terms specifying an
@@ -41,11 +42,11 @@ public class FixedOrderComparator<T extends Comparable<? super T>> implements Co
    * {@code null}.
    *
    * @param order The terms that defined the order.
-   * @throws NullPointerException If {@code order} is null.
+   * @throws IllegalArgumentException If {@code order} is null.
    */
   @SafeVarargs
   public FixedOrderComparator(final T ... order) {
-    this.order = Objects.requireNonNull(order);
+    this.order = Assertions.assertNotNull(order);
   }
 
   @Override
