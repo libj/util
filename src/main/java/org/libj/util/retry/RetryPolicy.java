@@ -20,8 +20,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 import org.libj.lang.Assertions;
+import org.libj.util.function.ThrowingRunnable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,6 +136,46 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    */
   public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureException {
     return run0(Assertions.assertNotNull(retryable), 0);
+  }
+
+  /**
+   * The entrypoint for a {@link Callable} object to be executed. Exceptions in
+   * {@link Callable#call()} will be considered for retry if the number of
+   * {@link #maxRetries} has not been met and {@link #retryOn(Exception)}
+   * returns {@code true}.
+   *
+   * @param <T> The type of the result object.
+   * @param callable The {@link Callable} object to run.
+   * @return The resulting value from {@link Callable#call()}.
+   * @throws RetryFailureException If retry attempts have met
+   *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
+   *           {@code false}.
+   * @throws IllegalArgumentException If {@code callable} is null.
+   * @throws E Generic exception signifying terminal failure.
+   */
+  public final <T>T run(final Callable<T> callable) throws E, RetryFailureException {
+    Assertions.assertNotNull(callable);
+    return run0((r, a) -> callable.call(), 0);
+  }
+
+  /**
+   * The entrypoint for a {@link ThrowingRunnable} object to be executed.
+   * Exceptions in {@link ThrowingRunnable#run()} will be considered for retry
+   * if the number of {@link #maxRetries} has not been met and
+   * {@link #retryOn(Exception)} returns {@code true}.
+   *
+   * @param <T> The type of the result object.
+   * @param runnable The {@link ThrowingRunnable} object to run.
+   * @return The resulting value from {@link Runnable#run()}.
+   * @throws RetryFailureException If retry attempts have met
+   *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
+   *           {@code false}.
+   * @throws IllegalArgumentException If {@code runnable} is null.
+   * @throws E Generic exception signifying terminal failure.
+   */
+  public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureException {
+    Assertions.assertNotNull(runnable);
+    return run0((r, a) -> { runnable.run(); return null; }, 0);
   }
 
   /**
