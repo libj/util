@@ -76,7 +76,7 @@ public abstract class FlatIterableIterator<T,E> extends FlatIterator<E,Iterator<
 
   @Override
   public E next() {
-    if (!hasNext && !hasNext())
+    if (!hasNext())
       throw new NoSuchElementException();
 
     hasNext = false;

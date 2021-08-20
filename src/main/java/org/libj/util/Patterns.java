@@ -159,7 +159,7 @@ public final class Patterns {
     return getGroupNames(Assertions.assertNotNull(pattern), 0, 0);
   }
 
-  private static String[] empty = new String[0];
+  private static String[] empty = {};
 
   private static String[] getGroupNames(final String regex, final int index, final int depth) {
     final int start = regex.indexOf("(?<", index);
