@@ -51,9 +51,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   private final Object finishLock = new Object();
   private volatile boolean synchronizing;
 
-  /**
-   * The source {@link ExecutorService}.
-   */
+  /** The source {@link ExecutorService}. */
   private final ExecutorService executorService;
 
   /**
@@ -135,10 +133,10 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
     }
   }
 
-  private void doExecute(final Runnable command) {
+  private void doExecute(final Runnable runnable) {
     runningThreadCount.incrementAndGet();
     try {
-      executorService.execute(command);
+      executorService.execute(runnable);
     }
     catch (final Throwable t) {
       runningThreadCount.decrementAndGet();
@@ -147,21 +145,21 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Executes the given command at some time in the future. If the
-   * {@link SynchronizingExecutorService} is synchronizing, the given command
-   * will wait until {@link #onSynchronize()} returns.
+   * Executes the provided {@code runnable} at some time in the future. If the
+   * {@link SynchronizingExecutorService} is synchronizing, the provided
+   * {@code runnable} will wait until {@link #onSynchronize()} returns.
    *
-   * @param command The runnable task.
+   * @param runnable The runnable task.
    * @throws RejectedExecutionException If this task cannot be accepted for
    *           execution.
    * @throws IllegalArgumentException If {@code command} is null.
    */
   @Override
-  public void execute(final Runnable command) {
-    Assertions.assertNotNull(command);
+  public void execute(final Runnable runnable) {
+    Assertions.assertNotNull(runnable);
     final Runnable wrapper = () -> {
       try {
-        command.run();
+        runnable.run();
       }
       finally {
         if (logger.isDebugEnabled())
