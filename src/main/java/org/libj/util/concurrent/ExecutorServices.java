@@ -16,22 +16,227 @@
 
 package org.libj.util.concurrent;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import org.libj.lang.Assertions;
+import org.libj.lang.Threads;
 
 /**
  * Utility functions for operations pertaining to {@link ExecutorService}.
  */
 public final class ExecutorServices {
+  static class InterruptExecutorService extends DelegateExecutorService {
+    final long timeout;
+    final TimeUnit unit;
+
+    InterruptExecutorService(final ExecutorService target, final long timeout, final TimeUnit unit) {
+      super(target);
+      this.timeout = timeout;
+      this.unit = unit;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code task} is null.
+     */
+    @Override
+    public void execute(final Runnable command) {
+      super.execute(Threads.interruptAfterTimeout(command, timeout, unit));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code task} is null.
+     */
+    @Override
+    public <T>Future<T> submit(final Callable<T> task) {
+      return super.submit(Threads.interruptAfterTimeout(task, timeout, unit));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code task} is null.
+     */
+    @Override
+    public <T>Future<T> submit(final Runnable task, final T result) {
+      return super.submit(Threads.interruptAfterTimeout(task, timeout, unit), result);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code task} is null.
+     */
+    @Override
+    public Future<?> submit(final Runnable task) {
+      return super.submit(Threads.interruptAfterTimeout(task, timeout, unit));
+    }
+
+    private <T>List<Callable<T>> interruptAfterTimeout(final Collection<? extends Callable<T>> tasks) {
+      final List<Callable<T>> interruptableTasks = new ArrayList<>(Assertions.assertNotNull(tasks).size());
+      final Iterator<? extends Callable<T>> iterator = tasks.iterator();
+      while (iterator.hasNext())
+        interruptableTasks.add(Threads.interruptAfterTimeout(Assertions.assertNotNull(iterator.next()), timeout, unit));
+
+      return interruptableTasks;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code tasks} or any member of
+     *           {@code tasks} is null.
+     */
+    @Override
+    public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
+      return super.invokeAll(interruptAfterTimeout(tasks));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code tasks} or any member of
+     *           {@code tasks} is null.
+     */
+    @Override
+    public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
+      return super.invokeAll(interruptAfterTimeout(tasks), timeout, unit);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code tasks} or any member of
+     *           {@code tasks} is null.
+     */
+    @Override
+    public <T>T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
+      return super.invokeAny(interruptAfterTimeout(tasks));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code tasks} or any member of
+     *           {@code tasks} is null.
+     */
+    @Override
+    public <T>T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+      return super.invokeAny(interruptAfterTimeout(tasks), timeout, unit);
+    }
+  }
+
+  static class InterruptScheduledExecutorService extends InterruptExecutorService implements ScheduledExecutorService {
+    private final ScheduledExecutorService target;
+
+    InterruptScheduledExecutorService(final ScheduledExecutorService target, final long timeout, final TimeUnit unit) {
+      super(target, timeout, unit);
+      this.target = target;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code command} is null.
+     */
+    @Override
+    public ScheduledFuture<?> schedule(final Runnable command, final long delay, final TimeUnit unit) {
+      return target.schedule(Threads.interruptAfterTimeout(command, this.timeout, this.unit), delay, unit);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code callable} is null.
+     */
+    @Override
+    public <V>ScheduledFuture<V> schedule(final Callable<V> callable, final long delay, final TimeUnit unit) {
+      return target.schedule(Threads.interruptAfterTimeout(callable, this.timeout, this.unit), delay, unit);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code command} is null.
+     */
+    @Override
+    public ScheduledFuture<?> scheduleAtFixedRate(final Runnable command, final long initialDelay, final long period, final TimeUnit unit) {
+      return target.scheduleAtFixedRate(Threads.interruptAfterTimeout(command, this.timeout, this.unit), initialDelay, period, unit);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException If {@code command} is null.
+     */
+    @Override
+    public ScheduledFuture<?> scheduleWithFixedDelay(final Runnable command, final long initialDelay, final long delay, final TimeUnit unit) {
+      return target.scheduleWithFixedDelay(Threads.interruptAfterTimeout(command, this.timeout, this.unit), initialDelay, delay, unit);
+    }
+  }
+
+  /**
+   * Returns a new {@link ExecutorService} instance that wraps the provided
+   * {@code executor}, and is configured to schedule all executed or submitted
+   * {@link Runnable} or {@link Callable} tasks to be
+   * {@linkplain Thread#interrupt() interrupted} once the provided
+   * {@code timeout} of {@link TimeUnit unit} expires.
+   *
+   * @param executor The {@link ExecutorService} to be wrapped.
+   * @param timeout The maximum time to wait.
+   * @param unit The {@link TimeUnit} of the {@code timeout} argument.
+   * @return A new {@link ExecutorService} instance that wraps the provided
+   *         {@code executor}, and is configured to schedule all executed or
+   *         submitted {@link Runnable} or {@link Callable} tasks to be
+   *         {@linkplain Thread#interrupt() interrupted} once the provided
+   *         {@code timeout} of {@link TimeUnit unit} expires.
+   * @throws IllegalArgumentException If {@code executor} or {@code unit} is
+   *           null, or if {@code timeout} is negative.
+   */
+  public static ExecutorService interruptAfterTimeout(final ExecutorService executor, final long timeout, final TimeUnit unit) {
+    return new InterruptExecutorService(Assertions.assertNotNull(executor), Assertions.assertNotNegative(timeout), Assertions.assertNotNull(unit));
+  }
+
+  /**
+   * Returns a new {@link ScheduledExecutorService} instance that wraps the
+   * provided {@code executor}, and is configured to schedule all executed or
+   * submitted {@link Runnable} or {@link Callable} tasks to be
+   * {@linkplain Thread#interrupt() interrupted} once the provided
+   * {@code timeout} of {@link TimeUnit unit} expires.
+   *
+   * @param executor The {@link ScheduledExecutorService} to be wrapped.
+   * @param timeout The maximum time to wait.
+   * @param unit The {@link TimeUnit} of the {@code timeout} argument.
+   * @return A new {@link ScheduledExecutorService} instance that wraps the
+   *         provided {@code executor}, and is configured to schedule all
+   *         executed or submitted {@link Runnable} or {@link Callable} tasks to
+   *         be {@linkplain Thread#interrupt() interrupted} once the provided
+   *         {@code timeout} of {@link TimeUnit unit} expires.
+   * @throws IllegalArgumentException If {@code executor} or {@code unit} is
+   *           null, or if {@code timeout} is negative.
+   */
+  public static ScheduledExecutorService interruptAfterTimeout(final ScheduledExecutorService executor, final long timeout, final TimeUnit unit) {
+    return new InterruptScheduledExecutorService(Assertions.assertNotNull(executor), Assertions.assertNotNegative(timeout), Assertions.assertNotNull(unit));
+  }
+
   /**
    * Executes the provided {@link Runnable} {@code tasks} in the given
    * {@link ExecutorService} {@code executor}, returning a {@link Future}

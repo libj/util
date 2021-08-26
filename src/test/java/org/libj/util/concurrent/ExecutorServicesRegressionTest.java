@@ -18,26 +18,34 @@ package org.libj.util.concurrent;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.junit.Test;
+import org.libj.lang.ThreadsTest;
+import org.libj.util.function.BiObjBiLongConsumer;
 
 public class ExecutorServicesRegressionTest {
   private static class Task implements Runnable {
-    private final int runTime;
+    private final long sleepTime;
 
-    private Task(final int runTime) {
-      this.runTime = runTime;
+    private Task(final long sleepTime) {
+      this.sleepTime = sleepTime;
     }
 
     @Override
     public void run() {
       try {
-        Thread.sleep(runTime);
+        Thread.sleep(sleepTime);
       }
       catch (final InterruptedException e) {
       }
@@ -152,5 +160,105 @@ public class ExecutorServicesRegressionTest {
       assertTrue(future.isDone());
       assertFalse(future.get());
     }
+  }
+
+  private static final Random r = new Random();
+  private static final int numInterruptTests = 100;
+
+  private static void test(final int numTests, final BiObjBiLongConsumer<ExecutorService,CountDownLatch> consumer) throws InterruptedException {
+    final CountDownLatch latch = new CountDownLatch(numTests);
+    final long timeout = 200;
+    final long sleepTime = timeout + (r.nextBoolean() ? 1 : -1) * 50;
+    final ExecutorService executor = ExecutorServices.interruptAfterTimeout(Executors.newCachedThreadPool(), timeout, TimeUnit.MILLISECONDS);
+    for (int i = 0; i < numTests; ++i)
+      consumer.accept(executor, latch, sleepTime, timeout);
+
+    latch.await();
+  }
+
+  private static <V>Callable<V> newCallable(final CountDownLatch latch, final long sleep, final long timeout) {
+    final Runnable r = ThreadsTest.newRunnable(latch, sleep, timeout);
+    return () -> {
+      r.run();
+      return null;
+    };
+  }
+
+  private static <V>Collection<Callable<V>> newCallables(final CountDownLatch latch, final long sleep, final long timeout, final int len) {
+    final ArrayList<Callable<V>> c = new ArrayList<>(len);
+    for (int i = 0; i < len; ++i)
+      c.add(newCallable(latch, sleep, timeout));
+
+    return c;
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutExecute() throws InterruptedException {
+    test(numInterruptTests, (e, l, s, t) -> e.execute(ThreadsTest.newRunnable(l, s, t)));
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutSubmit() throws InterruptedException {
+    test(numInterruptTests, (e, l, s, t) -> e.submit(ThreadsTest.newRunnable(l, s, t)));
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutSubmitResult() throws InterruptedException {
+    test(numInterruptTests, (e, l, s, t) -> e.submit(ThreadsTest.newRunnable(l, s, t), null));
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutSubmitCallable() throws InterruptedException {
+    test(numInterruptTests, (e, l, s, t) -> e.submit(newCallable(l, s, t)));
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutInvokeAll() throws InterruptedException {
+    test(20, (e, l, s, t) -> {
+      try {
+        e.invokeAll(newCallables(l, s, t, r.nextInt(20)));
+      }
+      catch (final InterruptedException x) {
+        throw new RuntimeException(x);
+      }
+    });
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutInvokeAllTimeout() throws InterruptedException {
+    test(20, (e, l, s, t) -> {
+      try {
+        e.invokeAll(newCallables(l, s, t, r.nextInt(20)), 100, TimeUnit.MILLISECONDS);
+      }
+      catch (final InterruptedException x) {
+        throw new RuntimeException(x);
+      }
+    });
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutInvokeAny() throws InterruptedException {
+    test(1, (e, l, s, t) -> {
+      try {
+        e.invokeAny(newCallables(l, s, t, r.nextInt(numInterruptTests)));
+      }
+      catch (final ExecutionException | InterruptedException x) {
+        throw new RuntimeException(x);
+      }
+    });
+  }
+
+  @Test
+  public void testInterruptAfterTimeoutInvokeAnyTimeout() throws InterruptedException {
+    test(1, (e, l, s, t) -> {
+      try {
+        e.invokeAny(newCallables(l, s, t, r.nextInt(numInterruptTests)), 200, TimeUnit.MILLISECONDS);
+      }
+      catch (final TimeoutException x) {
+      }
+      catch (final ExecutionException | InterruptedException x) {
+        throw new RuntimeException(x);
+      }
+    });
   }
 }
