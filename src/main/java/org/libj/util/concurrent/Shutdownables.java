@@ -87,6 +87,7 @@ public final class Shutdownables {
 
     final ExecutorService shutdownExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().withNamePrefix("awaitTermination").build());
     final List<Future<Boolean>> futures = shutdownExecutor.invokeAll(callables, timeout, unit);
+    shutdownExecutor.shutdown();
     final AtomicReference<ExecutionException> ee = new AtomicReference<>();
     final boolean success = futures.stream().allMatch(f -> {
       try {

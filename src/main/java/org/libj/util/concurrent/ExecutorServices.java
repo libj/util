@@ -17,6 +17,7 @@
 package org.libj.util.concurrent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.libj.lang.Assertions;
 import org.libj.lang.Threads;
@@ -246,7 +248,7 @@ public final class ExecutorServices {
    * or by throwing an exception. The results of this method are undefined if
    * the given collection is modified while this operation is in progress.
    *
-   * @param executor The {@code ExecutorService} in which to invoke the provided
+   * @param executor The {@link ExecutorService} in which to invoke the provided
    *          {@code tasks}.
    * @param tasks The collection of {@link Runnable} tasks.
    * @return A {@link Future} representing the aggregate status of the
@@ -258,7 +260,7 @@ public final class ExecutorServices {
    *           execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Collection<? extends Runnable> tasks) {
-    return invokeAll(executor, t -> t.run(), Assertions.assertNotEmpty(tasks).toArray(new Runnable[tasks.size()]));
+    return invokeAll(executor, Runnable::run, Assertions.assertNotNull(tasks).toArray(new Runnable[tasks.size()]));
   }
 
   /**
@@ -270,7 +272,7 @@ public final class ExecutorServices {
    * or by throwing an exception. The results of this method are undefined if
    * the given collection is modified while this operation is in progress.
    *
-   * @param executor The {@code ExecutorService} in which to invoke the provided
+   * @param executor The {@link ExecutorService} in which to invoke the provided
    *          {@code tasks}.
    * @param tasks The array of {@link Runnable} tasks.
    * @return A {@link Future} representing the aggregate status of the
@@ -282,7 +284,7 @@ public final class ExecutorServices {
    *           execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Runnable ... tasks) {
-    return invokeAll(executor, t -> t.run(), Assertions.assertNotEmpty(tasks));
+    return invokeAll(executor, Runnable::run, Assertions.assertNotNull(tasks));
   }
 
   /**
@@ -296,7 +298,7 @@ public final class ExecutorServices {
    * given collection is modified while this operation is in progress.
    *
    * @param <T> The type parameter of the {@code tasks} to be invoked.
-   * @param executor The {@code ExecutorService} in which to invoke the provided
+   * @param executor The {@link ExecutorService} in which to invoke the provided
    *          {@code tasks}.
    * @param proxy The {@link Consumer} to proxy the invocation call of each
    *          task.
@@ -311,7 +313,7 @@ public final class ExecutorServices {
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final Collection<? extends T> tasks) {
-    return invokeAll(executor, (Consumer)proxy, Assertions.assertNotEmpty(tasks).toArray());
+    return invokeAll(executor, (Consumer)proxy, Assertions.assertNotNull(tasks).toArray());
   }
 
   /**
@@ -325,7 +327,7 @@ public final class ExecutorServices {
    * given collection is modified while this operation is in progress.
    *
    * @param <T> The type parameter of the {@code tasks} to be invoked.
-   * @param executor The {@code ExecutorService} in which to invoke the provided
+   * @param executor The {@link ExecutorService} in which to invoke the provided
    *          {@code tasks}.
    * @param proxy The {@link Consumer} to proxy the invocation call of each
    *          task.
@@ -342,6 +344,7 @@ public final class ExecutorServices {
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final T ... tasks) {
     Assertions.assertNotNull(executor);
     Assertions.assertNotNull(proxy);
+    Assertions.assertNotNull(tasks);
     final AtomicBoolean started = new AtomicBoolean(false);
     final AtomicBoolean cancelled = new AtomicBoolean(false);
     final Thread[] threads = new Thread[tasks.length];
@@ -445,6 +448,84 @@ public final class ExecutorServices {
         }
       }
     };
+  }
+
+  /**
+   * Executes the provided generic {@code tasks} via the specified
+   * {@link Consumer} {@code proxy} in the given {@link ExecutorService}
+   * {@code executor}, returning a list of {@link Future}s holding their status
+   * and results when all complete. {@link Future#isDone} is {@code true} for
+   * each element of the returned list. Note that a <em>completed</em> task
+   * could have terminated either normally or by throwing an exception. The
+   * results of this method are undefined if the given collection is modified
+   * while this operation is in progress.
+   *
+   * @param tasks the collection of tasks
+   * @param <T> The type of the tasks.
+   * @param <R> The type of the values returned from the tasks.
+   * @param executor The {@link ExecutorService} in which to invoke the provided
+   *          {@code tasks}.
+   * @param proxy The {@link Function} to proxy the invocation call of each
+   *          task.
+   * @return A list of {@link Future}s representing the tasks, in the same
+   *         sequential order as produced by the iterator for the given task
+   *         list, each of which has completed.
+   * @throws InterruptedException If interrupted while waiting, in which case
+   *           unfinished tasks are cancelled.
+   * @throws IllegalArgumentException If {@code tasks} or any member of
+   *           {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for
+   *           execution.
+   */
+  @SafeVarargs
+  @SuppressWarnings("unchecked")
+  public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final T ... tasks) throws InterruptedException {
+    final Callable<R>[] callables = new Callable[Assertions.assertNotNull(tasks).length];
+    for (int i = 0; i < tasks.length; ++i) {
+      final T task = Assertions.assertNotNull(tasks[i]);
+      callables[i] = () -> proxy.apply(task);
+    }
+
+    return executor.invokeAll(Arrays.asList(callables));
+  }
+
+  /**
+   * Executes the provided generic {@code tasks} via the specified
+   * {@link Consumer} {@code proxy} in the given {@link ExecutorService}
+   * {@code executor}, returning a list of {@link Future}s holding their status
+   * and results when all complete. {@link Future#isDone} is {@code true} for
+   * each element of the returned list. Note that a <em>completed</em> task
+   * could have terminated either normally or by throwing an exception. The
+   * results of this method are undefined if the given collection is modified
+   * while this operation is in progress.
+   *
+   * @param tasks the collection of tasks
+   * @param <T> The type of the tasks.
+   * @param <R> The type of the values returned from the tasks.
+   * @param executor The {@link ExecutorService} in which to invoke the provided
+   *          {@code tasks}.
+   * @param proxy The {@link Function} to proxy the invocation call of each
+   *          task.
+   * @return A list of {@link Future}s representing the tasks, in the same
+   *         sequential order as produced by the iterator for the given task
+   *         list, each of which has completed.
+   * @throws InterruptedException If interrupted while waiting, in which case
+   *           unfinished tasks are cancelled.
+   * @throws IllegalArgumentException If {@code tasks} or any member of
+   *           {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for
+   *           execution.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
+    final Callable<R>[] callables = new Callable[Assertions.assertNotNull(tasks).size()];
+    final Iterator<T> iterator = tasks.iterator();
+    for (int i = 0; iterator.hasNext(); ++i) {
+      final T task = Assertions.assertNotNull(iterator.next());
+      callables[i] = () -> proxy.apply(task);
+    }
+
+    return executor.invokeAll(Arrays.asList(callables));
   }
 
   private ExecutorServices() {
