@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import org.libj.lang.Assertions;
 import org.libj.util.function.ThrowingRunnable;
@@ -60,16 +61,8 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    *           negative.
    */
   public RetryPolicy(final int maxRetries, final double jitter) {
-    if (maxRetries < 0)
-      throw new IllegalArgumentException("maxRetries (" + maxRetries + ") must be a positive value");
-
-    if (jitter < 0)
-      throw new IllegalArgumentException("jitter (" + jitter + ") must be a positive value");
-
-    this.maxRetries = maxRetries;
-    this.jitter = jitter;
-    if (maxRetries <= 0)
-      throw new IllegalArgumentException("maxRetries (" + maxRetries + ") must be a positive value");
+    this.maxRetries = Assertions.assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
+    this.jitter = Assertions.assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
   }
 
   private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureException {
@@ -81,19 +74,18 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
     if (size == 0)
       throw new RetryFailureException(attemptNo, delayMs);
 
-    final Exception cause = exceptions.get(size - 1);
-    final RetryFailureException re = new RetryFailureException(cause, attemptNo, delayMs);
+    final RetryFailureException re = new RetryFailureException(exceptions.get(size - 1), attemptNo, delayMs);
     for (int i = size - 2; i >= 0; --i)
       re.addSuppressed(exceptions.get(i));
 
-    exceptions.clear();
     throw re;
   }
 
   /**
-   * Specifies the exception conditions of when a retry should occur.
+   * Specifies the conditions under which a retry should occur given the
+   * provided {@link Exception}.
    *
-   * @param e The exception that occurred during execution of a
+   * @param e The non-null exception that occurred during execution of a
    *          {@link Retryable} object.
    * @return {@code true} if a retry should occur, otherwise {@code false}.
    */
@@ -108,7 +100,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * {@link RetryFailureException} will be thrown instead.
    *
    * @param exceptions The exceptions that occurred during execution of a
-   *          {@link Retryable} object.
+   *          {@link Retryable} object in the order of their occurrence.
    * @param attemptNo The attempt number on which the exception was thrown.
    * @param delayMs The delay (in milliseconds) from the previous invocation
    *          attempt.
@@ -175,7 +167,10 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    */
   public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureException {
     Assertions.assertNotNull(runnable);
-    return run0((r, a) -> { runnable.run(); return null; }, 0);
+    return run0((r, a) -> {
+      runnable.run();
+      return null;
+    }, 0);
   }
 
   /**
@@ -186,20 +181,20 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    *
    * @param <T> The type of the result object.
    * @param retryable The {@link Retryable} object to run.
-   * @param timeout The maximum time to retry in milliseconds.
+   * @param timeout The maximum time after which this {@link RetryPolicy} is to
+   *          throw a {@link RetryFailureException}.
+   * @param unit The time unit of the {@code timeout} argument.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
    * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, if {@link #retryOn(Exception)} returns
    *           {@code false}, or if {@code timeout} is exceeded.
-   * @throws IllegalArgumentException If {@code retryable} is null, or if
-   *           {@code timeout} is negative.
+   * @throws IllegalArgumentException If {@code retryable} or {@code unit} is
+   *           null, or if {@code timeout} is negative.
    * @throws E Generic exception signifying terminal failure.
    */
-  public final <T>T run(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureException {
-    if (timeout < 0)
-      throw new IllegalArgumentException("timeout value (" + timeout + ") must be a positive value");
-
-    return run0(Assertions.assertNotNull(retryable), timeout);
+  public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureException {
+    Assertions.assertPositive(timeout, "timeout value (%d) must be a positive value", timeout);
+    return run0(Assertions.assertNotNull(retryable), TimeUnit.MILLISECONDS.convert(timeout, Assertions.assertNotNull(unit)));
   }
 
   /**

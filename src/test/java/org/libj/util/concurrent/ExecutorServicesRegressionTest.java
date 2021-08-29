@@ -65,16 +65,6 @@ public class ExecutorServicesRegressionTest {
   }
 
   @Test
-  public void testTasksNotEmpty() {
-    try {
-      ExecutorServices.invokeAll(Executors.newCachedThreadPool());
-      fail("Expected IllegalArgumentException");
-    }
-    catch (final IllegalArgumentException e) {
-    }
-  }
-
-  @Test
   public void testTasksNotNull() {
     try {
       ExecutorServices.invokeAll(Executors.newCachedThreadPool(), (Runnable[])null);
