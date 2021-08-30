@@ -120,11 +120,11 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @param <T> The type of the result object.
    * @param retryable The {@link Retryable} object to run.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
+   * @throws IllegalArgumentException If {@code retryable} is null.
+   * @throws E Generic exception signifying terminal failure.
    * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
    *           {@code false}.
-   * @throws IllegalArgumentException If {@code retryable} is null.
-   * @throws E Generic exception signifying terminal failure.
    */
   public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureException {
     return run0(Assertions.assertNotNull(retryable), 0);
@@ -139,11 +139,11 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @param <T> The type of the result object.
    * @param callable The {@link Callable} object to run.
    * @return The resulting value from {@link Callable#call()}.
+   * @throws IllegalArgumentException If {@code callable} is null.
+   * @throws E Generic exception signifying terminal failure.
    * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
    *           {@code false}.
-   * @throws IllegalArgumentException If {@code callable} is null.
-   * @throws E Generic exception signifying terminal failure.
    */
   public final <T>T run(final Callable<T> callable) throws E, RetryFailureException {
     Assertions.assertNotNull(callable);
@@ -159,11 +159,11 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @param <T> The type of the result object.
    * @param runnable The {@link ThrowingRunnable} object to run.
    * @return The resulting value from {@link Runnable#run()}.
+   * @throws IllegalArgumentException If {@code runnable} is null.
+   * @throws E Generic exception signifying terminal failure.
    * @throws RetryFailureException If retry attempts have met
    *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
    *           {@code false}.
-   * @throws IllegalArgumentException If {@code runnable} is null.
-   * @throws E Generic exception signifying terminal failure.
    */
   public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureException {
     Assertions.assertNotNull(runnable);
@@ -185,12 +185,12 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    *          throw a {@link RetryFailureException}.
    * @param unit The time unit of the {@code timeout} argument.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
-   * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, if {@link #retryOn(Exception)} returns
-   *           {@code false}, or if {@code timeout} is exceeded.
    * @throws IllegalArgumentException If {@code retryable} or {@code unit} is
    *           null, or if {@code timeout} is negative.
    * @throws E Generic exception signifying terminal failure.
+   * @throws RetryFailureException If retry attempts have met
+   *           {@link #maxRetries}, if {@link #retryOn(Exception)} returns
+   *           {@code false}, or if {@code timeout} is exceeded.
    */
   public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureException {
     Assertions.assertPositive(timeout, "timeout value (%d) must be a positive value", timeout);
