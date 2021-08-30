@@ -432,7 +432,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param a The array.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int lengthDeep(final Object[] a) {
     return lengthDeep(a, false);
@@ -451,7 +451,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          included in the count.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static <T>int lengthDeep(final T[] a, final boolean countArrayReferences) {
     return lengthDeep(a, null, countArrayReferences);
@@ -476,7 +476,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          included in the count.
    * @return The length of the specified array, summed with the lengths of all
    *         nested arrays at every depth.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>int lengthDeep(final T[] a, final Function<? super T,T[]> resolver, final boolean countArrayReferences) {
@@ -511,7 +511,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param a The array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static Object[] flatten(final Object[] a) {
     return flatten(a, null, false);
@@ -529,7 +529,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          they are not included in the resulting array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static Object[] flatten(final Object[] a, final boolean retainArrayReferences) {
     return flatten(a, null, retainArrayReferences);
@@ -554,7 +554,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *          they are not included in the resulting array.
    * @return A one-dimensional array with the members of the specified array,
    *         and the members of all nested arrays at every depth.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] flatten(final T[] a, final Function<? super T,T[]> resolver, final boolean retainArrayReferences) {
@@ -593,10 +593,9 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
-  public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final T key) {
-    Assertions.assertNotNull(a);
+  public static <T extends Comparable<? super T>>int binaryClosestSearch(final T[] a, final T key) {
     Assertions.assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key);
   }
@@ -615,18 +614,80 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
-  public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
+  public static <T extends Comparable<? super T>>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
     Assertions.assertNotNull(a);
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
 
-  private static <T extends Comparable<? super T>> int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key) {
+  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key) {
     for (int mid, com; fromIndex < toIndex;) {
       mid = (fromIndex + toIndex) / 2;
       com = key.compareTo(a[mid]);
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
+      else
+        return mid;
+    }
+
+    return (fromIndex + toIndex) / 2;
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match. The returned index will be less than or equal to an exact match.
+   *
+   * @param <T> Type parameter of {@link Comparable} object.
+   * @param <K> Type parameter of key.
+   * @param a The sorted array.
+   * @param key The value to match.
+   * @param objectToKey {@link Function} to dereference the key of an object.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws IllegalArgumentException If the provided array or
+   *           {@code objectToKey} is null.
+   */
+  public static <T,K extends Comparable<? super K>>int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(objectToKey);
+    return binaryClosestSearch0(a, 0, a.length, key, objectToKey);
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match. The returned index will be less than or equal to an exact match.
+   *
+   * @param <T> Type parameter of {@link Comparable} object.
+   * @param <K> Type parameter of key.
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param objectToKey {@link Function} to dereference the key of an object.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If the provided array or
+   *           {@code objectToKey} is null.
+   */
+  public static <T,K extends Comparable<? super K>>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(objectToKey);
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, objectToKey);
+  }
+
+  private static <T,K extends Comparable<? super K>>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final K key, final Function<T,K> objectToKey) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = key.compareTo(objectToKey.apply(a[mid]));
       if (com < 0)
         toIndex = mid;
       else if (com > 0)
@@ -649,7 +710,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<? super T> c) {
     Assertions.assertNotNull(a);
@@ -671,7 +732,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     Assertions.assertNotNull(a);
@@ -699,11 +760,75 @@ public final class ArrayUtil extends PrimitiveSort {
    * value provided. The returned index will be less than or equal to an exact
    * match.
    *
+   * @param <T> Type parameter of object.
+   * @param <K> Type parameter of key.
+   * @param a The sorted array.
+   * @param key The value to match.
+   * @param objectToKey {@link Function} to dereference the key of an object.
+   * @param c The {@link Comparator} for objects of type {@code <T>}.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws IllegalArgumentException If the provided array or
+   *           {@code objectToKey} is null.
+   */
+  public static <T,K>int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(objectToKey);
+    return binaryClosestSearch0(a, 0, a.length, key, objectToKey, c);
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
+   * @param <T> Type parameter of object.
+   * @param <K> Type parameter of key.
+   * @param a The sorted array.
+   * @param fromIndex The starting index of the sorted array to search from.
+   * @param toIndex The ending index of the sorted array to search to.
+   * @param key The value to match.
+   * @param objectToKey {@link Function} to dereference the key of an object.
+   * @param c The {@link Comparator} for objects of type {@code <T>}.
+   * @return The closest index of the sorted array matching the desired value.
+   *         The returned index will be less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If
+   *           {@code fromIndex < 0 or toIndex > a.length}.
+   * @throws IllegalArgumentException If the provided array or
+   *           {@code objectToKey} is null.
+   */
+  public static <T,K>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
+    Assertions.assertNotNull(a);
+    Assertions.assertNotNull(objectToKey);
+    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, objectToKey, c);
+  }
+
+  private static <T,K>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
+    for (int mid, com; fromIndex < toIndex;) {
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, objectToKey.apply(a[mid]));
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
+      else
+        return mid;
+    }
+
+    return (fromIndex + toIndex) / 2;
+  }
+
+  /**
+   * Find the index of the sorted array whose value most closely matches the
+   * value provided. The returned index will be less than or equal to an exact
+   * match.
+   *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
     Assertions.assertNotNull(a);
@@ -723,7 +848,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key) {
     Assertions.assertNotNull(a);
@@ -745,7 +870,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key, final ByteComparator c) {
     Assertions.assertNotNull(a);
@@ -777,7 +902,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
     Assertions.assertNotNull(a);
@@ -797,7 +922,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key) {
     Assertions.assertNotNull(a);
@@ -819,7 +944,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key, final ShortComparator c) {
     Assertions.assertNotNull(a);
@@ -851,7 +976,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
     Assertions.assertNotNull(a);
@@ -871,7 +996,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key) {
     Assertions.assertNotNull(a);
@@ -893,7 +1018,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key, final IntComparator c) {
     Assertions.assertNotNull(a);
@@ -925,7 +1050,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
     Assertions.assertNotNull(a);
@@ -945,7 +1070,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key) {
     Assertions.assertNotNull(a);
@@ -967,7 +1092,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key, final FloatComparator c) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
@@ -998,7 +1123,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
     Assertions.assertNotNull(a);
@@ -1018,7 +1143,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key) {
     Assertions.assertNotNull(a);
@@ -1040,7 +1165,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key, final DoubleComparator c) {
     Assertions.assertRangeArray(fromIndex, toIndex, a.length);
@@ -1071,7 +1196,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value.
    *         The returned index will be less than or equal to an exact match.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
     Assertions.assertNotNull(a);
@@ -1091,7 +1216,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key) {
     Assertions.assertNotNull(a);
@@ -1113,7 +1238,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         The returned index will be less than or equal to an exact match.
    * @throws ArrayIndexOutOfBoundsException If
    *           {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key, final LongComparator c) {
     Assertions.assertNotNull(a);
@@ -1477,7 +1602,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final byte[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1492,7 +1617,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1508,7 +1633,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final byte[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -1536,7 +1661,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final byte[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1551,7 +1676,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1567,7 +1692,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final byte[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -1595,7 +1720,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final char[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1610,7 +1735,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final char[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1626,7 +1751,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final char[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -1654,7 +1779,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final char[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1669,7 +1794,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final char[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1685,7 +1810,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final char[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -1713,7 +1838,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final short[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1728,7 +1853,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final short[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1744,7 +1869,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final short[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -1772,7 +1897,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final short[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1787,7 +1912,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final short[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1803,7 +1928,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final short[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -1831,7 +1956,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final int[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1846,7 +1971,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final int[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1862,7 +1987,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final int[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -1890,7 +2015,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final int[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1905,7 +2030,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final int[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1921,7 +2046,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final int[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -1949,7 +2074,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final long[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -1964,7 +2089,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final long[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -1980,7 +2105,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final long[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -2008,7 +2133,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final long[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -2023,7 +2148,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final long[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -2039,7 +2164,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final long[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -2067,7 +2192,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final float[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -2082,7 +2207,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final float[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -2098,7 +2223,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final float[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -2126,7 +2251,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final float[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -2141,7 +2266,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final float[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -2157,7 +2282,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final float[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -2185,7 +2310,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final double[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -2200,7 +2325,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final double[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -2216,7 +2341,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final double[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -2244,7 +2369,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final double[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -2259,7 +2384,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final double[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -2275,7 +2400,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final double[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -2303,7 +2428,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final Object[] array, final char delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -2319,8 +2444,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
-   * @throws IllegalArgumentException If the specified array is not null and the
+   *         array, or {@code null} If the provided array is null.
+   * @throws IllegalArgumentException If the provided array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final char delimiter, final Function<? super T,String> function) {
@@ -2336,7 +2461,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -2353,8 +2478,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
-   * @throws IllegalArgumentException If the specified array is not null and the
+   *         array, or {@code null} If the provided array is null.
+   * @throws IllegalArgumentException If the provided array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final char delimiter, final int offset, final Function<? super T,String> function) {
@@ -2371,7 +2496,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final Object[] array, final char delimiter, final int offset, int length) {
     if (array == null)
@@ -2403,8 +2528,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param length The number of array elements to be included.
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
-   * @throws IllegalArgumentException If the specified array is not null and the
+   *         array, or {@code null} If the provided array is null.
+   * @throws IllegalArgumentException If the provided array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final char delimiter, final int offset, int length, final Function<? super T,String> function) {
@@ -2433,7 +2558,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array.
    * @param delimiter The delimiter.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final Object[] array, final String delimiter) {
     return array == null ? null : toString(array, delimiter, 0, array.length);
@@ -2449,8 +2574,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
-   * @throws IllegalArgumentException If the specified array is not null and the
+   *         array, or {@code null} If the provided array is null.
+   * @throws IllegalArgumentException If the provided array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final String delimiter, final Function<? super T,String> function) {
@@ -2466,7 +2591,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param delimiter The delimiter.
    * @param offset The starting offset in the array.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset);
@@ -2483,8 +2608,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
-   * @throws IllegalArgumentException If the specified array is not null and the
+   *         array, or {@code null} If the provided array is null.
+   * @throws IllegalArgumentException If the provided array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final String delimiter, final int offset, final Function<? super T,String> function) {
@@ -2501,7 +2626,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param offset The starting offset in the array.
    * @param length The number of array elements to be included.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
+   *         array, or {@code null} If the provided array is null.
    */
   public static String toString(final Object[] array, final String delimiter, final int offset, int length) {
     if (array == null)
@@ -2533,8 +2658,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param length The number of array elements to be included.
    * @param function The {@code toString} function.
    * @return The delimiter delimited {@link #toString()} representation of the
-   *         array, or {@code null} if the specified array is null.
-   * @throws IllegalArgumentException If the specified array is not null and the
+   *         array, or {@code null} If the provided array is null.
+   * @throws IllegalArgumentException If the provided array is not null and the
    *           function is null.
    */
   public static <T>String toString(final T[] array, final String delimiter, final int offset, int length, final Function<? super T,String> function) {
