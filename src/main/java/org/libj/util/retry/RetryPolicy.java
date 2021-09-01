@@ -32,37 +32,267 @@ import org.slf4j.LoggerFactory;
  * A policy that defines the conditions and timing of when retries should be
  * performed.
  * <p>
- * The {@link #retryOn(Exception)} method specifies the exception conditions of
- * when a retry should occur.
- * <p>
- * The {@link #run(Retryable)} method is the entrypoint for a {@link Retryable}
- * object to be executed.
+ * The {@code #run} methods are the entrypoints for a {@link Retryable} object
+ * to be executed.
  *
  * @param <E> The type parameter of the {@link Exception} instance signifying
  *          terminal failure of the {@link RetryPolicy} execution.
  */
-public abstract class RetryPolicy<E extends Exception> implements Serializable {
-  private static final long serialVersionUID = -8480057566592276543L;
+public class RetryPolicy<E extends Exception> implements Serializable {
+  private static final long serialVersionUID = -9105939315622837002L;
   private static final Logger logger = LoggerFactory.getLogger(RetryPolicy.class);
 
+  public static class Builder {
+    private final int startDelayMs;
+
+    /**
+     * @param startDelayMs A positive value representing the delay for the first
+     *          retry, in milliseconds, which is also used as the multiplicative
+     *          factor for subsequent backed-off delays.
+     * @throws IllegalArgumentException If {@code startDelayMs} is negative.
+     */
+    public Builder(final int startDelayMs) {
+      this.startDelayMs = Assertions.assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
+    }
+
+    private int maxRetries = Integer.MAX_VALUE;
+
+    /**
+     * @param maxRetries A positive value representing the number of retry
+     *          attempts allowed by the {@link RetryPolicy}.
+     * @return {@code this} builder.
+     * @throws IllegalArgumentException If {@code maxRetries} is negative.
+     */
+    public Builder withMaxRetries(final int maxRetries) {
+      this.maxRetries = Assertions.assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
+      return this;
+    }
+
+    private double jitter = 0;
+
+    /**
+     * @param jitter The maximum value of a random factor multiplier to be
+     *          applied to {@link #getDelayMs(int)} to be added to the delay for
+     *          each retry.
+     * @return {@code this} builder.
+     * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
+     */
+    public Builder withJitter(final double jitter) {
+      this.jitter = Assertions.assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
+      return this;
+    }
+
+    private boolean delayOnFirstRetry = false;
+
+    /**
+     * @param delayOnFirstRetry {@code true} for the first retry to be attempted
+     *          after {@code startDelayMs}, otherwise {@code false} for the
+     *          first retry to be attempted immediately.
+     * @return {@code this} builder.
+     */
+    public Builder withDelayOnFirstRetry(final boolean delayOnFirstRetry) {
+      this.delayOnFirstRetry = delayOnFirstRetry;
+      return this;
+    }
+
+    private double backoffFactor = 1;
+
+    /**
+     * @param backoffFactor The base of the backoff exponential function, i.e. a
+     *          value of {@code 2} represents a backoff function of {@code 2^a},
+     *          where {@code a} is the attempt number.
+     * @return {@code this} builder.
+     * @throws IllegalArgumentException If {@code backoffFactor} is less than
+     *           {@code 1}.
+     */
+    public Builder withBackoffFactor(final double backoffFactor) {
+      this.backoffFactor = backoffFactor;
+      if (backoffFactor < 1.0)
+        throw new IllegalArgumentException("backoffFactor (" + backoffFactor + ") must be >= 1.0");
+
+      return this;
+    }
+
+    private long maxDelayMs = Long.MAX_VALUE;
+
+    /**
+     * @param maxDelayMs The maximum delay, in milliseconds, which takes effect
+     *          if the delay computed by the backoff function is a greater
+     *          value.
+     * @return {@code this} builder.
+     * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
+     */
+    public Builder withMaxDelayMs(final long maxDelayMs) {
+      this.maxDelayMs = Assertions.assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
+      return this;
+    }
+
+    /**
+     * Returns a new {@link RetryPolicy} with the parameters in this
+     * {@link Builder}.
+     *
+     * @param <E> The type parameter of the {@link Exception} instance
+     *          signifying terminal failure of the {@link RetryPolicy}
+     *          execution.
+     * @param retryOn The {@link RetryOn} specifying the conditions under which
+     *          a retry should occur given the provided non-null
+     *          {@link Exception}, returning {@code true} if a retry should
+     *          occur, and {@code false} otherwise.
+     * @return A new {@link RetryPolicy} with the parameters in this
+     *         {@link Builder}.
+     * @throws IllegalArgumentException If {@code retryOn} is null.
+     */
+    public <E extends Exception>RetryPolicy<E> build(final RetryOn retryOn) {
+      return new RetryPolicy<>(retryOn, maxRetries, startDelayMs, jitter, delayOnFirstRetry, backoffFactor, maxDelayMs);
+    }
+  }
+
   private final int maxRetries;
+  private final long maxDelayMs;
+  private final long startDelayMs;
   private final double jitter;
+  private final double backoffFactor;
+  private final boolean delayOnFirstRetry;
+  private final RetryOn retryOn;
 
   /**
    * Creates a new {@link RetryPolicy} with the specified {@code maxRetries}
    * value.
    *
+   * @param retryOn The {@link RetryOn} specifying the conditions under which a
+   *          retry should occur given the provided non-null {@link Exception},
+   *          returning {@code true} if a retry should occur, and {@code false}
+   *          otherwise.
    * @param maxRetries A positive value representing the number of retry
    *          attempts allowed by the {@link RetryPolicy}.
+   * @param startDelayMs A positive value representing the delay for the first
+   *          retry, in milliseconds, which is also used as the multiplicative
+   *          factor for subsequent backed-off delays.
    * @param jitter The maximum value of a random factor multiplier to be applied
    *          to {@link #getDelayMs(int)} to be added to the delay for each
    *          retry.
-   * @throws IllegalArgumentException If {@code maxRetries} or {@code jitter} is
-   *           negative.
+   * @param delayOnFirstRetry {@code true} for the first retry to be attempted
+   *          after {@code startDelayMs}, otherwise {@code false} for the first
+   *          retry to be attempted immediately.
+   * @param backoffFactor The base of the backoff exponential function, i.e. a
+   *          value of {@code 2} represents a backoff function of {@code 2^a},
+   *          where {@code a} is the attempt number.
+   * @param maxDelayMs The maximum delay, in milliseconds, which takes effect if
+   *          the delay computed by the backoff function is a greater value.
+   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
+   *           {@code startDelayMs}, {@code jitter} or {@code maxDelayMs} is
+   *           negative, or if {@code backoffFactor} is less than {@code 1}.
    */
-  public RetryPolicy(final int maxRetries, final double jitter) {
+  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry, final double backoffFactor, final long maxDelayMs) {
+    this.retryOn = Assertions.assertNotNull(retryOn);
     this.maxRetries = Assertions.assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
+    this.startDelayMs = Assertions.assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
     this.jitter = Assertions.assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
+    this.delayOnFirstRetry = delayOnFirstRetry;
+    this.backoffFactor = backoffFactor;
+    if (backoffFactor < 1.0)
+      throw new IllegalArgumentException("backoffFactor (" + backoffFactor + ") must be >= 1.0");
+
+    this.maxDelayMs = Assertions.assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
+  }
+
+  /**
+   * Creates a new {@link RetryPolicy} with the specified {@code maxRetries}
+   * value.
+   *
+   * @param retryOn The {@link RetryOn} specifying the conditions under which a
+   *          retry should occur given the provided non-null {@link Exception},
+   *          returning {@code true} if a retry should occur, and {@code false}
+   *          otherwise.
+   * @param maxRetries A positive value representing the number of retry
+   *          attempts allowed by the {@link RetryPolicy}.
+   * @param startDelayMs A positive value representing the delay for the first
+   *          retry, in milliseconds, which is also used as the multiplicative
+   *          factor for subsequent backed-off delays.
+   * @param jitter The maximum value of a random factor multiplier to be applied
+   *          to {@link #getDelayMs(int)} to be added to the delay for each
+   *          retry.
+   * @param delayOnFirstRetry {@code true} for the first retry to be attempted
+   *          after {@code startDelayMs}, otherwise {@code false} for the first
+   *          retry to be attempted immediately.
+   * @param backoffFactor The base of the backoff exponential function, i.e. a
+   *          value of {@code 2} represents a backoff function of {@code 2^a},
+   *          where {@code a} is the attempt number.
+   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
+   *           {@code startDelayMs}, or {@code jitter} is negative, or if
+   *           {@code backoffFactor} is less than {@code 1}.
+   */
+  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry, final double backoffFactor) {
+    this(retryOn, maxRetries, startDelayMs, jitter, delayOnFirstRetry, backoffFactor, Long.MAX_VALUE);
+  }
+
+  /**
+   * Creates a new {@link RetryPolicy} with the specified {@code maxRetries}
+   * value.
+   *
+   * @param retryOn The {@link RetryOn} specifying the conditions under which a
+   *          retry should occur given the provided non-null {@link Exception},
+   *          returning {@code true} if a retry should occur, and {@code false}
+   *          otherwise.
+   * @param maxRetries A positive value representing the number of retry
+   *          attempts allowed by the {@link RetryPolicy}.
+   * @param startDelayMs A positive value representing the delay for the first
+   *          retry, in milliseconds, which is also used as the multiplicative
+   *          factor for subsequent backed-off delays.
+   * @param delayOnFirstRetry {@code true} for the first retry to be attempted
+   *          after {@code startDelayMs}, otherwise {@code false} for the first
+   *          retry to be attempted immediately.
+   * @param jitter The maximum value of a random factor multiplier to be applied
+   *          to {@link #getDelayMs(int)} to be added to the delay for each
+   *          retry.
+   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
+   *           {@code startDelayMs}, or {@code jitter} is negative.
+   */
+  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry) {
+    this(retryOn, maxRetries, startDelayMs, jitter, delayOnFirstRetry, 1, Long.MAX_VALUE);
+  }
+
+  /**
+   * Creates a new {@link RetryPolicy} with the specified {@code maxRetries}
+   * value.
+   *
+   * @param retryOn The {@link RetryOn} specifying the conditions under which a
+   *          retry should occur given the provided non-null {@link Exception},
+   *          returning {@code true} if a retry should occur, and {@code false}
+   *          otherwise.
+   * @param maxRetries A positive value representing the number of retry
+   *          attempts allowed by the {@link RetryPolicy}.
+   * @param startDelayMs A positive value representing the delay for the first
+   *          retry, in milliseconds, which is also used as the multiplicative
+   *          factor for subsequent backed-off delays.
+   * @param jitter The maximum value of a random factor multiplier to be applied
+   *          to {@link #getDelayMs(int)} to be added to the delay for each
+   *          retry.
+   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
+   *           {@code startDelayMs}, or {@code jitter} is negative.
+   */
+  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter) {
+    this(retryOn, maxRetries, startDelayMs, jitter, false, 1, Long.MAX_VALUE);
+  }
+
+  /**
+   * Creates a new {@link RetryPolicy} with the specified {@code maxRetries}
+   * value.
+   *
+   * @param retryOn The {@link RetryOn} specifying the conditions under which a
+   *          retry should occur given the provided non-null {@link Exception},
+   *          returning {@code true} if a retry should occur, and {@code false}
+   *          otherwise.
+   * @param maxRetries A positive value representing the number of retry
+   *          attempts allowed by the {@link RetryPolicy}.
+   * @param startDelayMs A positive value representing the delay for the first
+   *          retry, in milliseconds, which is also used as the multiplicative
+   *          factor for subsequent backed-off delays.
+   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries}, or
+   *           {@code startDelayMs} is negative.
+   */
+  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs) {
+    this(retryOn, maxRetries, startDelayMs, 0, false, 1, Long.MAX_VALUE);
   }
 
   private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureException {
@@ -80,16 +310,6 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
 
     throw re;
   }
-
-  /**
-   * Specifies the conditions under which a retry should occur given the
-   * provided {@link Exception}.
-   *
-   * @param e The non-null exception that occurred during execution of a
-   *          {@link Retryable} object.
-   * @return {@code true} if a retry should occur, otherwise {@code false}.
-   */
-  protected abstract boolean retryOn(final Exception e);
 
   /**
    * Callback to return the {@link Exception} instance of type {@code <E>} to be
@@ -112,29 +332,10 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
   }
 
   /**
-   * The entrypoint for a {@link Retryable} object to be executed. Exceptions in
-   * {@link Retryable#retry(RetryPolicy,int)} will be considered for retry if
-   * the number of {@link #maxRetries} has not been met and
-   * {@link #retryOn(Exception)} returns {@code true}.
-   *
-   * @param <T> The type of the result object.
-   * @param retryable The {@link Retryable} object to run.
-   * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
-   * @throws IllegalArgumentException If {@code retryable} is null.
-   * @throws E Generic exception signifying terminal failure.
-   * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
-   *           {@code false}.
-   */
-  public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureException {
-    return run0(Assertions.assertNotNull(retryable), 0);
-  }
-
-  /**
    * The entrypoint for a {@link Callable} object to be executed. Exceptions in
    * {@link Callable#call()} will be considered for retry if the number of
-   * {@link #maxRetries} has not been met and {@link #retryOn(Exception)}
-   * returns {@code true}.
+   * {@link #maxRetries} has not been met and {@link #retryOn} returns
+   * {@code true}.
    *
    * @param <T> The type of the result object.
    * @param callable The {@link Callable} object to run.
@@ -142,10 +343,11 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @throws IllegalArgumentException If {@code callable} is null.
    * @throws E Generic exception signifying terminal failure.
    * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
+   *           {@link #maxRetries}, or if {@link #retryOn} returns
    *           {@code false}.
    */
   public final <T>T run(final Callable<T> callable) throws E, RetryFailureException {
+    Assertions.assertNotNull(retryOn);
     Assertions.assertNotNull(callable);
     return run0((r, a) -> callable.call(), 0);
   }
@@ -153,8 +355,8 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
   /**
    * The entrypoint for a {@link ThrowingRunnable} object to be executed.
    * Exceptions in {@link ThrowingRunnable#run()} will be considered for retry
-   * if the number of {@link #maxRetries} has not been met and
-   * {@link #retryOn(Exception)} returns {@code true}.
+   * if the number of {@link #maxRetries} has not been met and {@link #retryOn}
+   * returns {@code true}.
    *
    * @param <T> The type of the result object.
    * @param runnable The {@link ThrowingRunnable} object to run.
@@ -162,10 +364,11 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @throws IllegalArgumentException If {@code runnable} is null.
    * @throws E Generic exception signifying terminal failure.
    * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, or if {@link #retryOn(Exception)} returns
+   *           {@link #maxRetries}, or if {@link #retryOn} returns
    *           {@code false}.
    */
   public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureException {
+    Assertions.assertNotNull(retryOn);
     Assertions.assertNotNull(runnable);
     return run0((r, a) -> {
       runnable.run();
@@ -176,8 +379,27 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
   /**
    * The entrypoint for a {@link Retryable} object to be executed. Exceptions in
    * {@link Retryable#retry(RetryPolicy,int)} will be considered for retry if
-   * the number of {@link #maxRetries} has not been met and
-   * {@link #retryOn(Exception)} returns {@code true}.
+   * the number of {@link #maxRetries} has not been met and {@link #retryOn}
+   * returns {@code true}.
+   *
+   * @param <T> The type of the result object.
+   * @param retryable The {@link Retryable} object to run.
+   * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
+   * @throws IllegalArgumentException If {@code retryable} is null.
+   * @throws E Generic exception signifying terminal failure.
+   * @throws RetryFailureException If retry attempts have met
+   *           {@link #maxRetries}, or if {@link #retryOn} returns
+   *           {@code false}.
+   */
+  public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureException {
+    return run0(Assertions.assertNotNull(retryable), 0);
+  }
+
+  /**
+   * The entrypoint for a {@link Retryable} object to be executed. Exceptions in
+   * {@link Retryable#retry(RetryPolicy,int)} will be considered for retry if
+   * the number of {@link #maxRetries} has not been met and {@link #retryOn}
+   * returns {@code true}.
    *
    * @param <T> The type of the result object.
    * @param retryable The {@link Retryable} object to run.
@@ -189,12 +411,15 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    *           null, or if {@code timeout} is negative.
    * @throws E Generic exception signifying terminal failure.
    * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, if {@link #retryOn(Exception)} returns
-   *           {@code false}, or if {@code timeout} is exceeded.
+   *           {@link #maxRetries}, if {@link #retryOn} returns {@code false},
+   *           or if {@code timeout} is exceeded.
    */
   public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureException {
+    Assertions.assertNotNull(retryOn);
+    Assertions.assertNotNull(retryable);
     Assertions.assertPositive(timeout, "timeout value (%d) must be a positive value", timeout);
-    return run0(Assertions.assertNotNull(retryable), TimeUnit.MILLISECONDS.convert(timeout, Assertions.assertNotNull(unit)));
+    Assertions.assertNotNull(unit);
+    return run0(retryable, TimeUnit.MILLISECONDS.convert(timeout, unit));
   }
 
   /**
@@ -223,7 +448,7 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
         if (previousException == null || e.getClass() != previousException.getClass() || !Objects.equals(e.getMessage(), previousException.getMessage()))
           exceptions.add(previousException = e);
 
-        if (attemptNo > maxRetries || !retryOn(e))
+        if (attemptNo > maxRetries || !retryOn.retryOn(e))
           retryFailed(exceptions, attemptNo, getDelayMs(attemptNo - 1));
 
         long delayMs = getDelayMs(attemptNo);
@@ -263,6 +488,8 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
     return this.maxRetries;
   }
 
+  private boolean isMaxDelay;
+
   /**
    * Returns the delay in milliseconds for the specified attempt number. This
    * method is intended to be implemented by a subclass to define the backoff
@@ -271,5 +498,17 @@ public abstract class RetryPolicy<E extends Exception> implements Serializable {
    * @param attemptNo The attempt number, starting with {@code 1}.
    * @return The delay in milliseconds for the specified attempt number.
    */
-  protected abstract long getDelayMs(int attemptNo);
+  protected long getDelayMs(final int attemptNo) {
+    if (attemptNo == 1 && !delayOnFirstRetry)
+      return 0;
+
+    if (isMaxDelay)
+      return maxDelayMs;
+
+    final double delay = startDelayMs * StrictMath.pow(backoffFactor, attemptNo - 1);
+    if (isMaxDelay = maxDelayMs < delay)
+      return maxDelayMs;
+
+    return (long)delay;
+  }
 }

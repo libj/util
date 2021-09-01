@@ -19,8 +19,6 @@ package org.libj.util.retry;
 /**
  * Thrown to indicate the ultimate failure of retried invocation(s) by a
  * {@link RetryPolicy}.
- *
- * @see RetryPolicy#run(Retryable)
  */
 public class RetryFailureException extends Exception {
   private static final long serialVersionUID = 4067260656337660435L;

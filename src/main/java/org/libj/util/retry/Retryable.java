@@ -17,8 +17,8 @@
 package org.libj.util.retry;
 
 /**
- * Interface that provides retry ability for a class when executed via
- * {@link RetryPolicy#run(Retryable)}.
+ * Interface that provides retry ability for a class when executed via the
+ * {@code RetryPolicy.run} functions.
  * <p>
  * This is a functional interface whose functional method is
  * {@link #retry(RetryPolicy,int)}.
