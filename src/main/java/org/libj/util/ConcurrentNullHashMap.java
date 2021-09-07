@@ -24,11 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A {@link ConcurrentHashMap} supporting {@code null} keys.
- * <p>
- * <b>NOTE:</b> This class does not properly handle
- * {@link ConcurrentHashMap#keySet()} and
- * {@link ConcurrentHashMap#keySet(Object)}.
  *
+ * @implNote This class does not properly handle
+ *           {@link ConcurrentHashMap#keySet()} and
+ *           {@link ConcurrentHashMap#keySet(Object)}.
  * @param <K> The type of keys maintained by this map.
  * @param <V> The type of mapped values.
  */

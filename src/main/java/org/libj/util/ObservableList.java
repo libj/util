@@ -112,12 +112,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * Callback method that is invoked immediately before an element is added to
    * the enclosed {@link List}.
-   * <p>
-   * <b>Note:</b> It is possible for {@code index} to be {@code -1}, in case the
-   * <u>add</u> operation is executed from an {@link Iterator} when a prior
-   * {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
-   * {@link ListIterator#set(Object)} has already been called.
    *
+   * @implNote It is possible for {@code index} to be {@code -1}, in case the
+   *           <u>add</u> operation is executed from an {@link Iterator} when a
+   *           prior {@link Iterator#remove()} or
+   *           {@link ListIterator#add(Object)} or
+   *           {@link ListIterator#set(Object)} has already been called.
    * @param index The index for the element to be added to the enclosed
    *          {@link List}.
    * @param element The element to be added to the enclosed {@link List}.
@@ -144,12 +144,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * Callback method that is invoked immediately before an element is removed
    * from the enclosed {@link List}.
-   * <p>
-   * <b>Note:</b> It is possible for {@code index} to be {@code -1}, in case the
-   * <u>remove</u> operation is executed from an {@link Iterator} when a prior
-   * {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
-   * {@link ListIterator#set(Object)} has already been called.
    *
+   * @implNote It is possible for {@code index} to be {@code -1}, in case the
+   *           <u>remove</u> operation is executed from an {@link Iterator} when
+   *           a prior {@link Iterator#remove()} or
+   *           {@link ListIterator#add(Object)} or
+   *           {@link ListIterator#set(Object)} has already been called.
    * @param index The index of the element to be removed from the enclosed
    *          {@link List}.
    * @return If this method returns {@code true}, the subsequent <u>remove</u>
@@ -176,12 +176,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * Callback method that is invoked immediately before an element is set at an
    * index in the enclosed {@link List}.
-   * <p>
-   * <b>Note:</b> It is possible for {@code index} to be {@code -1}, in case the
-   * <u>set</u> operation is executed from an {@link Iterator} when a prior
-   * {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
-   * {@link ListIterator#set(Object)} has already been called.
    *
+   * @implNote It is possible for {@code index} to be {@code -1}, in case the
+   *           <u>set</u> operation is executed from an {@link Iterator} when a
+   *           prior {@link Iterator#remove()} or
+   *           {@link ListIterator#add(Object)} or
+   *           {@link ListIterator#set(Object)} has already been called.
    * @param index The index for the element to be set in the enclosed
    *          {@link List}.
    * @param newElement The element to be set in the enclosed {@link List}.

@@ -166,8 +166,8 @@ public final class StringPaths {
    * Tests whether the specified string represents an absolute system
    * identifier.
    * <p>
-   * <b>Note:</b> This method does not perform strict path validation, but
-   * merely inspects its prefix to match known absolute path patterns.
+   * This method does not perform strict path validation, but merely inspects
+   * its prefix to match known absolute path patterns.
    * <p>
    * This method performs the following tests to detect whether the specified
    * string is an absolute path:
@@ -190,8 +190,8 @@ public final class StringPaths {
    * Tests whether the specified string represents an absolute public
    * identifier.
    * <p>
-   * <b>Note:</b> This method does not perform strict path validation, but
-   * merely inspects its prefix to match known absolute path patterns.
+   * This method does not perform strict path validation, but merely inspects
+   * its prefix to match known absolute path patterns.
    * <p>
    * This method performs the following tests to detect whether the specified
    * string is an absolute path:
@@ -213,8 +213,8 @@ public final class StringPaths {
    * Tests whether the specified string represents an absolute path, either
    * system or public.
    * <p>
-   * <b>Note:</b> This method does not perform strict path validation, but
-   * merely inspects its prefix to match known absolute path patterns.
+   * This method does not perform strict path validation, but merely inspects
+   * its prefix to match known absolute path patterns.
    *
    * @param path The string to test.
    * @return {@code true} if the specified string represents an absolute path,

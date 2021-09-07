@@ -53,10 +53,9 @@ public final class ClassLoaders {
    * Returns a {@link File} array representing the paths in the classpath of the
    * bootstrap {@link ClassLoader}. The classpath is determined from the
    * {@code "sun.boot.class.path"} system property.
-   * <p>
-   * <b>Note:</b> The {@code "sun.boot.class.path"} property has been removed in
-   * Java 9+.
    *
+   * @implNote The {@code "sun.boot.class.path"} property has been removed in
+   *           Java 9+.
    * @return A {@link File} array representing the paths in the classpath of the
    *         bootstrap {@link ClassLoader}.
    */

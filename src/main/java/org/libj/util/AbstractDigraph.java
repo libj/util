@@ -433,15 +433,13 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   /**
    * Returns {@code true} if at least one vertex in this digraph contains the
    * specified {@code edges}.
-   * <p>
-   * <b>Note:</b> If a vertex is not associated to any edges, its value is not
-   * {@code null}, but rather an empty set. Therefore, this method will return
-   * {@code null} if the specified {@code edges} is null.
-   * <p>
-   * <b>Note:</b> The expected type of the {@code edges} is {@code Set<V>}, but
-   * this method accepts type {@link Object} to match the interface for
-   * {@link Map#containsValue(Object)}.
    *
+   * @implNote If a vertex is not associated to any edges, its value is not
+   *           {@code null}, but rather an empty set. Therefore, this method
+   *           will return {@code null} if the specified {@code edges} is null.
+   * @implNote The expected type of the {@code edges} is {@code Set<V>}, but
+   *           this method accepts type {@link Object} to match the interface
+   *           for {@link Map#containsValue(Object)}.
    * @return {@code true} if at least one vertex in this digraph contains the
    *         specified {@code edges}.
    * @param edges The edges.

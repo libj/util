@@ -29,19 +29,20 @@ import org.libj.util.function.<X>Supplier;
  * returns {@code false}.
  * <p>
  * Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(<x>) orElse()} (returns a
- * default value if no value is present) and {@link #ifPresent(<X>Consumer)
- * ifPresent()} (performs an action if a value is present).
+ * value are provided, such as {@link #orElse(<x>) orElse()} (returns a default
+ * value if no value is present) and {@link #ifPresent(<X>Consumer) ifPresent()}
+ * (performs an action if a value is present).
  * <p>
  * This is a value-based class; use of identity-sensitive operations (including
  * reference equality ({@code ==}), identity hash code, or synchronization) on
- * instances of {@code Optional<X>} may have unpredictable results and should
- * be avoided.
- * <p>
- * <b>Note:</b> {@code Optional<X>} is primarily intended for use as a method
- * return type where there is a clear need to represent "no result." A variable
- * whose type is {@code Optional<X>} should never itself be {@code null}; it
- * should always point to an {@code Optional<X>} instance.
+ * instances of {@code Optional<X>} may have unpredictable results and should be
+ * avoided.
+ *
+ * @implNote {@code Optional<X>} is primarily intended for use as a
+ *           method return type where there is a clear need to represent "no
+ *           result." A variable whose type is {@code Optional<X>} should never
+ *           itself be {@code null}; it should always point to an
+ *           {@code Optional<X>} instance.
  */
 public final class Optional<X> {
   /** Common instance for {@code empty()}. */
@@ -55,9 +56,9 @@ public final class Optional<X> {
 
   /**
    * Construct an empty instance.
-   * <p>
-   * <b>Note:</b> Generally only one empty instance, {@link Optional<X>#EMPTY},
-   * should exist per VM.
+   *
+   * @implNote Generally only one empty instance, {@link Optional<X>#EMPTY},
+   *           should exist per VM.
    */
   private Optional<X>() {
     this.isPresent = false;
@@ -65,14 +66,13 @@ public final class Optional<X> {
   }
 
   /**
-   * Returns an empty {@code Optional<X>} instance. No value is present for
-   * this {@code Optional<X>}.
-   * <p>
-   * <b>Note:</b> Though it may be tempting to do so, avoid testing if an object
-   * is empty by comparing with {@code ==} against instances returned by
-   * {@code Optional<X>.empty()}. There is no guarantee that it is a
-   * singleton. Instead, use {@link #isPresent()}.
+   * Returns an empty {@code Optional<X>} instance. No value is present for this
+   * {@code Optional<X>}.
    *
+   * @implNote Though it may be tempting to do so, avoid testing if an object is
+   *           empty by comparing with {@code ==} against instances returned by
+   *           {@code Optional<X>.empty()}. There is no guarantee that it is a
+   *           singleton. Instead, use {@link #isPresent()}.
    * @return An empty {@code Optional<X>}.
    */
   public static Optional<X> empty() {
@@ -102,10 +102,9 @@ public final class Optional<X> {
   /**
    * If a value is present, returns the value, otherwise throws
    * {@code NoSuchElementException}.
-   * <p>
-   * <b>Note:</b> The preferred alternative to this method is
-   * {@link #orElseThrow()}.
    *
+   * @implNote The preferred alternative to this method is
+   *           {@link #orElseThrow()}.
    * @return The value described by this {@code Optional<X>}.
    * @throws NoSuchElementException If no value is present.
    */
@@ -226,11 +225,10 @@ public final class Optional<X> {
   /**
    * If a value is present, returns the value, otherwise throws an exception
    * produced by the exception supplying function.
-   * <p>
-   * <b>Note:</b> A method reference to the exception constructor with an empty
-   * argument list can be used as the supplier. For example,
-   * {@code IllegalStateException::new}.
    *
+   * @implNote A method reference to the exception constructor with an empty
+   *           argument list can be used as the supplier. For example,
+   *           {@code IllegalStateException::new}.
    * @param <T> Type of the exception to be thrown
    * @param exceptionSupplier The supplying function that produces an exception
    *          to be thrown.
@@ -287,11 +285,10 @@ public final class Optional<X> {
    * Returns a non-empty string representation of this {@code Optional<X>}
    * suitable for debugging. The exact presentation format is unspecified and
    * may vary between implementations and versions.
-   * <p>
-   * <b>Note:</b> If a value is present the result must include its string
-   * representation in the result. Empty and present {@code Optional<X>}s must
-   * be unambiguously differentiable.
    *
+   * @implNote If a value is present the result must include its string
+   *           representation in the result. Empty and present
+   *           {@code Optional<X>}s must be unambiguously differentiable.
    * @return The string representation of this instance.
    */
   @Override

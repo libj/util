@@ -58,10 +58,9 @@ public abstract class HashPrimitiveSet implements Serializable {
    * the specified value.
    * <p>
    * If {@code value <= 0}, this method returns {@code 1}.
-   * <p>
-   * <b>Note:</b> This method is not suitable for {@link Integer#MIN_VALUE} or
-   * numbers greater than {@code 2^30}.
    *
+   * @implSpec This method is not suitable for {@link Integer#MIN_VALUE} or
+   *           numbers greater than {@code 2^30}.
    * @param value Value from which to return the next power of 2.
    * @return The next power of 2 from the specified value, or the value itself
    *         if it is a power of 2.
