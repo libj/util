@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 import org.libj.lang.Assertions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
@@ -57,6 +59,8 @@ import org.libj.lang.Assertions;
  * @see Digraph
  */
 public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
+  private static final Logger logger = LoggerFactory.getLogger(RefDigraph.class);
+
   protected final Function<K,V> reference;
   private Digraph<Object> digraph;
   private ArrayList<K> vertices;
@@ -77,7 +81,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
     digraph = new Digraph<>(initialCapacity);
     vertices = new ArrayList<>(initialCapacity);
     references = new HashSet<>(initialCapacity);
-    this.reference = Assertions.assertNotNull(keyToValue);
+    reference = Assertions.assertNotNull(keyToValue);
   }
 
   /**
@@ -102,7 +106,9 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   @SuppressWarnings("unchecked")
   protected V indexToValue(final int v) {
     swapRefs();
-    return reference.apply((K)indexToObject.get(v));
+    final V ref = reference.apply((K)indexToObject.get(v));
+    System.err.println(ref);
+    return ref;
   }
 
   /**
@@ -120,8 +126,11 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
       final V ref = reference.apply(vertex);
       references.remove(ref);
       final Integer index = digraph.objectToIndex.remove(ref);
-      if (index != null)
-        digraph.objectToIndex.put(vertex, index);
+      if (index != null) {
+        final Integer oldIndex = digraph.objectToIndex.put(vertex, index);
+        if (oldIndex != null && logger.isDebugEnabled())
+          logger.debug("Remapped object at index " + oldIndex + " to " + index + ": " + vertex);
+      }
     }
 
     vertices.clear();
@@ -136,15 +145,14 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * Add directed edge ({@code from -> to}) to this digraph. Calling
-   * this with {@code to = null} is the equivalent of calling:
+   * Add directed edge ({@code from -> to}) to this digraph. Calling this with
+   * {@code to = null} is the equivalent of calling:
    *
    * <pre>
    * {@code addVertex(from)}
    * </pre>
    *
-   * <b>Note:</b> This method is not thread safe.
-   *
+   * @implSpec This method is not thread safe.
    * @param from The tail vertex.
    * @param to The head vertex reference.
    * @return {@code true} if this digraph has been modified, and {@code false}

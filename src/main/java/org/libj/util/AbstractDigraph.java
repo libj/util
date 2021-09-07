@@ -141,9 +141,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
 
   /**
    * Get if exists or create an index for the specified vertex.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
    *
+   * @implSpec This method is not thread safe.
    * @param vertex The vertex.
    * @return The index of the vertex.
    */
@@ -167,9 +166,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
 
   /**
    * Add directed edge ({@code from} -> { @code to}) to this digraph.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
    *
+   * @implSpec This method is not thread safe.
    * @param from The tail vertex.
    * @param to The head vertex.
    * @return {@code true} if this digraph has been modified, and {@code false}
@@ -199,9 +197,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * Add directed edge ({@code from -> to}) to this digraph. Calling this with
    * {@code to = null} is the equivalent of calling
    * {@code AbstractDigraph.add(from)}.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
    *
+   * @implSpec This method is not thread safe.
    * @param from The tail vertex.
    * @param to The head vertex.
    * @return {@code true} if this digraph has been modified, and {@code false}
@@ -216,9 +213,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
 
   /**
    * Add a vertex to the graph.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
    *
+   * @implSpec This method is not thread safe.
    * @param vertex The vertex.
    * @return {@code true} if this digraph has been modified, and {@code false}
    *         if the specified vertex already existed in the digraph.
@@ -236,8 +232,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    *
    * If the digraph previously contained a mapping for the vertex, the old edges
    * are replaced by the specified value.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
+   *
+   * @implSpec This method is not thread safe.
    */
   @Override
   public Set<V> put(final K vertex, final Set<V> edges) {
@@ -255,8 +251,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * from {@code key} to {@code value} in the specified map. The behavior of
    * this operation is undefined if the specified map is modified while the
    * operation is in progress.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
+   *
+   * @implSpec This method is not thread safe.
    */
   @Override
   public void putAll(final Map<? extends K,? extends Set<V>> m) {
@@ -309,9 +305,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * If an instance of {@link TransSet} is returned, modifications made to this
    * digraph are reflected in the set, and modifications made to the set are
    * reflected in this digraph.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
    *
+   * @implSpec This method is not thread safe.
    * @param v The vertex index.
    * @param makeNew Whether a new empty set should be instantiated if the set of
    *          edges at the specified vertex is null.
@@ -797,9 +792,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   /**
    * Returns the reverse post order of a depth first search analysis of the
    * digraph, or {@code null} if no such order exists due to a cycle.
-   * <p>
-   * <b>Note:</b> This method is not thread safe.
    *
+   * @implSpec This method is not thread safe.
    * @return The reverse post order of a depth first search analysis of the
    *         digraph, or {@code null} if no such order exists due to a cycle.
    */
