@@ -262,7 +262,8 @@ public final class Temporals {
    * @throws IllegalArgumentException If {@code t1} or {@code t2} is null.
    */
   public static LocalTime subtract(final LocalTime t1, final LocalTime t2) {
-    return LocalTime.ofNanoOfDay(NANOS_IN_DAY - ChronoUnit.NANOS.between(Assertions.assertNotNull(t1), Assertions.assertNotNull(t2)));
+    final long between = ChronoUnit.NANOS.between(Assertions.assertNotNull(t1), Assertions.assertNotNull(t2));
+    return LocalTime.ofNanoOfDay(between == 0 ? 0 : NANOS_IN_DAY - between);
   }
 
   private Temporals() {

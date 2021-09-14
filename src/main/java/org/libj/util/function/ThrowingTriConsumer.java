@@ -23,9 +23,9 @@ import java.util.function.BiConsumer;
  * result. Unlike most other functional interfaces, {@link TriConsumer} is
  * expected to operate via side-effects.
  * <p>
- * The {@link ThrowingBiConsumer} distinguishes itself from {@link BiConsumer} by
- * allowing the functional interface to throw an {@link Exception}. This can be
- * used to allow lambda expressions to propagate checked exceptions up the
+ * The {@link ThrowingTriConsumer} distinguishes itself from {@link BiConsumer}
+ * by allowing the functional interface to throw an {@link Exception}. This can
+ * be used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  *
  * <pre>
@@ -43,7 +43,7 @@ import java.util.function.BiConsumer;
  * @param <U> The type of the second input to the operation.
  * @param <V> The type of the third input to the operation.
  * @param <E> The type of the exception that can be thrown.
- * @see Throwing
+ * @see Throwing#rethrow(ThrowingTriConsumer)
  */
 @FunctionalInterface
 public interface ThrowingTriConsumer<T,U,V,E extends Exception> extends TriConsumer<T,U,V> {
@@ -65,6 +65,7 @@ public interface ThrowingTriConsumer<T,U,V,E extends Exception> extends TriConsu
    * @param u The second input argument.
    * @param v The third input argument.
    * @throws E If an exception has occurred.
+   * @see TriConsumer#accept(Object,Object,Object)
    */
   void acceptThrows(T t, U u, V v) throws E;
 }

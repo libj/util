@@ -36,7 +36,7 @@ package org.libj.util.function;
  * </pre>
  *
  * @param <E> The type of the exception that can be thrown.
- * @see Runnable#run()
+ * @see Throwing#rethrow(ThrowingRunnable)
  */
 @FunctionalInterface
 public interface ThrowingRunnable<E extends Exception> extends Runnable {

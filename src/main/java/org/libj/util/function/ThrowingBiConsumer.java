@@ -42,7 +42,7 @@ import java.util.function.BiConsumer;
  * @param <T> The type of the first input to the operation.
  * @param <U> The type of the second input to the operation.
  * @param <E> The type of the exception that can be thrown.
- * @see Throwing
+ * @see Throwing#rethrow(ThrowingBiConsumer)
  */
 @FunctionalInterface
 public interface ThrowingBiConsumer<T,U,E extends Exception> extends BiConsumer<T,U> {
@@ -63,6 +63,7 @@ public interface ThrowingBiConsumer<T,U,E extends Exception> extends BiConsumer<
    * @param t The first input argument.
    * @param u The second input argument.
    * @throws E If an exception has occurred.
+   * @see BiConsumer#accept(Object,Object)
    */
   void acceptThrows(T t, U u) throws E;
 }

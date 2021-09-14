@@ -39,7 +39,7 @@ import java.util.function.Supplier;
  *
  * @param <T> The type of results supplied by this supplier.
  * @param <E> The type of the exception that can be thrown.
- * @see Runnable#run()
+ * @see Throwing#rethrow(ThrowingSupplier)
  */
 @FunctionalInterface
 public interface ThrowingSupplier<T,E extends Exception> extends Supplier<T> {
@@ -55,7 +55,7 @@ public interface ThrowingSupplier<T,E extends Exception> extends Supplier<T> {
   }
 
   /**
-   * Gets a result.
+   * Gets a result, allowing an exception to be thrown.
    *
    * @return A result.
    * @throws E If an exception has occurred.

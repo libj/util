@@ -43,7 +43,7 @@ import java.util.function.Function;
  * @param <T> The type of the input to the operation.
  * @param <R> The type of the result of the function.
  * @param <E> The type of the exception that can be thrown.
- * @see Throwing
+ * @see Throwing#rethrow(ThrowingFunction)
  */
 @FunctionalInterface
 public interface ThrowingFunction<T,R,E extends Exception> extends Function<T,R> {
@@ -65,6 +65,7 @@ public interface ThrowingFunction<T,R,E extends Exception> extends Function<T,R>
    * @param t The input argument.
    * @return The function result.
    * @throws E If an exception has occurred.
+   * @see Function#apply(Object)
    */
   R applyThrows(T t) throws E;
 }

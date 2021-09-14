@@ -43,7 +43,7 @@ import java.util.function.ObjIntConsumer;
  *
  * @param <T> The type of the object argument to the operation.
  * @param <E> The type of the exception that can be thrown.
- * @see Throwing
+ * @see Throwing#rethrow(ThrowingObjIntConsumer)
  */
 @FunctionalInterface
 public interface ThrowingObjIntConsumer<T,E extends Exception> extends ObjIntConsumer<T> {
@@ -64,6 +64,7 @@ public interface ThrowingObjIntConsumer<T,E extends Exception> extends ObjIntCon
    * @param t The first input argument.
    * @param value The second input argument.
    * @throws E If an exception has occurred.
+   * @see ObjIntConsumer#accept(Object,int)
    */
   void acceptThrows(T t, int value) throws E;
 }

@@ -21,9 +21,9 @@ import java.util.function.BiFunction;
 /**
  * Represents a function that accepts two arguments and produces a result.
  * <p>
- * The {@link ThrowingFunction} distinguishes itself from {@link BiFunction} by
- * allowing the functional interface to throw an {@link Exception}. This can be
- * used to allow lambda expressions to propagate checked exceptions up the
+ * The {@link ThrowingBiFunction} distinguishes itself from {@link BiFunction}
+ * by allowing the functional interface to throw an {@link Exception}. This can
+ * be used to allow lambda expressions to propagate checked exceptions up the
  * expression's call stack. An example of this pattern:
  *
  * <pre>
@@ -42,7 +42,7 @@ import java.util.function.BiFunction;
  * @param <U> The type of the second input to the operation.
  * @param <R> The type of the result of the function.
  * @param <E> The type of the exception that can be thrown.
- * @see Throwing
+ * @see Throwing#rethrow(ThrowingBiFunction)
  */
 @FunctionalInterface
 public interface ThrowingBiFunction<T,U,R,E extends Exception> extends BiFunction<T,U,R> {
@@ -65,6 +65,7 @@ public interface ThrowingBiFunction<T,U,R,E extends Exception> extends BiFunctio
    * @param u The second function argument.
    * @return The function result.
    * @throws E If an exception has occurred.
+   * @see BiFunction#apply(Object,Object)
    */
   R applyThrows(T t, U u) throws E;
 }
