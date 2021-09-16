@@ -17,20 +17,24 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that produces a {@code <x>}-valued result. This is the
- * {@code <x>}-producing primitive specialization for
- * {@link java.util.function.Function}.
+ * Represents a function that accepts an object-valued argument and two
+ * {@code <x>}-valued arguments, and produces a result. This is the
+ * {@code (reference, <x>, <x>)} specialization of
+ * {@link org.libj.util.function.Bi<X>Function}.
  *
- * @param <T> The type of the input to the function.
- * @see java.util.function.Function
+ * @param <T> The type of the object argument to the operation.
+ * @param <R> The type of the result of the function.
+ * @see org.libj.util.function.Bi<X>Function
  */
 @FunctionalInterface
-public interface To<X>Function<T> {
+public interface ObjBi<X>Function<T,R> {
   /**
-   * Applies this function to the given argument.
+   * Performs this operation on the given arguments.
    *
-   * @param value The function argument.
+   * @param t The first input argument.
+   * @param i The second input argument.
+   * @param j The third input argument.
    * @return The function result.
    */
-  <x> applyAs<X>(T value);
+  R apply(T t, <x> i, <x> j);
 }

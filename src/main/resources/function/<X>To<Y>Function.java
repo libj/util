@@ -17,8 +17,8 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that accepts a <x>-valued argument and produces a
- * <y>-valued result. This is the {@code <x>}-to-{@code <y>} primitive
+ * Represents a function that accepts a {@code <x>}-valued argument and produces a
+ * {@code <y>}-valued result. This is the {@code <x>}-to-{@code <y>} primitive
  * specialization of {@link java.util.function.Function}.
  *
  * @see java.util.function.Function

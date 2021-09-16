@@ -17,11 +17,12 @@
 package org.libj.util.function;
 
 /**
- * Represents a function that accepts two <x>-valued arguments and produces a
- * <x>-valued result. This is the two-arity {@code <x>}-to-{@code <x>}
- * primitive specialization of {@link java.util.function.Function}.
- * @param <R> The type of the result of the function.
+ * Represents a function that accepts two {@code <x>}-valued arguments and
+ * produces a {@code <x>}-valued result. This is the two-arity
+ * {@code <x>}-to-{@code <x>} primitive specialization of
+ * {@link java.util.function.Function}.
  *
+ * @param <R> The type of the result of the function.
  * @see java.util.function.Function
  */
 @FunctionalInterface

@@ -18,7 +18,7 @@ package org.libj.util.function;
 
 /**
  * Represents a function that accepts an object-valued argument and a
- * <x>-valued arguments and produces a <y>-valued result.
+ * {@code <x>}-valued arguments and produces a {@code <y>}-valued result.
  *
  * @param <T> The type of the object argument to the operation.
  * @see java.util.function.Function
