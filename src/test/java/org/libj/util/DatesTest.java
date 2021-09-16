@@ -55,12 +55,12 @@ public class DatesTest {
   }
 
   private static void testTime2(final long expected, final String iso8601) throws ParseException {
-    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601));
-    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601)));
-    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace(":", "")));
-    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace("T", "")));
-    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "")));
-    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "").replace("T", "")));
+    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601), 1);
+    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601)), 1);
+    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace(":", "")), 1);
+    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace("T", "")), 1);
+    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "")), 1);
+    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "").replace("T", "")), 1);
   }
 
   private static void testTime(final long expected, final String iso8601) throws ParseException {
