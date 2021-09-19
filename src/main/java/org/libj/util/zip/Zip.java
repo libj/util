@@ -86,7 +86,7 @@ public enum Zip {
    * @throws IOException If an I/O error has occurred.
    * @throws IllegalArgumentException If {@code decompressed} is null.
    */
-  public abstract byte[] compress(final byte[] decompressed) throws IOException;
+  public abstract byte[] compress(byte[] decompressed) throws IOException;
 
   /**
    * Returns the decompressed bytes from the provided {@code compressed} bytes.
@@ -96,5 +96,5 @@ public enum Zip {
    * @throws IOException If an I/O error has occurred.
    * @throws IllegalArgumentException If {@code compressed} is null.
    */
-  public abstract byte[] decompress(final byte[] compressed) throws IOException;
+  public abstract byte[] decompress(byte[] compressed) throws IOException;
 }
