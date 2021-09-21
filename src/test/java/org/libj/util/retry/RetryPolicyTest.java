@@ -40,7 +40,7 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new RetryPolicy<RuntimeException>(e -> true, attempts, delayMs).run((retryPolicy, attemptNo) -> {
+    assertEquals("PASS", new RetryPolicy<>(e -> true, (e, a, d) -> new RuntimeException(), attempts, delayMs).run((retryPolicy, attemptNo) -> {
       if (index[0] < attempts) {
         final long delayMs1 = retryPolicy.getDelayMs(attemptNo);
         assertEquals(delays[index[0]++], delayMs1);
@@ -73,7 +73,7 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i)
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new RetryPolicy<RuntimeException>(e -> true, attempts, startDelay, 0, false, factor, maxDelay).run((retryPolicy, attemptNo) -> {
+    assertEquals("PASS", new RetryPolicy<>(e -> true, (e, a, d) -> new RetryFailureException(a, d), attempts, startDelay, 0, false, factor, maxDelay).run((retryPolicy, attemptNo) -> {
       if (index[0] < attempts) {
         final long delayMs = retryPolicy.getDelayMs(attemptNo);
         assertEquals(delays[index[0]++], delayMs);

@@ -24,6 +24,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import org.libj.lang.Assertions;
+import org.libj.lang.Throwables;
 import org.libj.util.function.ThrowingRunnable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,12 +139,17 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      *          a retry should occur given the provided non-null
      *          {@link Exception}, returning {@code true} if a retry should
      *          occur, and {@code false} otherwise.
+     * @param onRetryFailure The {@link OnRetryFailure} specifying the
+     *          {@link Exception} instance of type {@code <E>} to be thrown in
+     *          the event of terminal failure of the {@link RetryPolicy}
+     *          execution.
      * @return A new {@link RetryPolicy} with the parameters in this
      *         {@link Builder}.
-     * @throws IllegalArgumentException If {@code retryOn} is null.
+     * @throws IllegalArgumentException If {@code retryOn} or
+     *           {@code onRetryFailure} is null.
      */
-    public <E extends Exception>RetryPolicy<E> build(final RetryOn retryOn) {
-      return new RetryPolicy<>(retryOn, maxRetries, startDelayMs, jitter, delayOnFirstRetry, backoffFactor, maxDelayMs);
+    public <E extends Exception>RetryPolicy<E> build(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure) {
+      return new RetryPolicy<>(retryOn, onRetryFailure, maxRetries, startDelayMs, jitter, delayOnFirstRetry, backoffFactor, maxDelayMs);
     }
   }
 
@@ -154,6 +160,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
   private final double backoffFactor;
   private final boolean delayOnFirstRetry;
   private final RetryOn retryOn;
+  private final OnRetryFailure<E> onRetryFailure;
 
   /**
    * Creates a new {@link RetryPolicy} with the specified {@code maxRetries}
@@ -163,6 +170,9 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          retry should occur given the provided non-null {@link Exception},
    *          returning {@code true} if a retry should occur, and {@code false}
    *          otherwise.
+   * @param onRetryFailure The {@link OnRetryFailure} specifying the
+   *          {@link Exception} instance of type {@code <E>} to be thrown in the
+   *          event of terminal failure of the {@link RetryPolicy} execution.
    * @param maxRetries A positive value representing the number of retry
    *          attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first
@@ -179,12 +189,14 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          where {@code a} is the attempt number.
    * @param maxDelayMs The maximum delay, in milliseconds, which takes effect if
    *          the delay computed by the backoff function is a greater value.
-   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
+   * @throws IllegalArgumentException If {@code retryOn} or
+   *           {@code onRetryFailure} is null, or if {@code maxRetries},
    *           {@code startDelayMs}, {@code jitter} or {@code maxDelayMs} is
    *           negative, or if {@code backoffFactor} is less than {@code 1}.
    */
-  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry, final double backoffFactor, final long maxDelayMs) {
+  public RetryPolicy(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry, final double backoffFactor, final long maxDelayMs) {
     this.retryOn = Assertions.assertNotNull(retryOn);
+    this.onRetryFailure = Assertions.assertNotNull(onRetryFailure);
     this.maxRetries = Assertions.assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
     this.startDelayMs = Assertions.assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
     this.jitter = Assertions.assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
@@ -204,6 +216,9 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          retry should occur given the provided non-null {@link Exception},
    *          returning {@code true} if a retry should occur, and {@code false}
    *          otherwise.
+   * @param onRetryFailure The {@link OnRetryFailure} specifying the
+   *          {@link Exception} instance of type {@code <E>} to be thrown in the
+   *          event of terminal failure of the {@link RetryPolicy} execution.
    * @param maxRetries A positive value representing the number of retry
    *          attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first
@@ -218,12 +233,13 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param backoffFactor The base of the backoff exponential function, i.e. a
    *          value of {@code 2} represents a backoff function of {@code 2^a},
    *          where {@code a} is the attempt number.
-   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
-   *           {@code startDelayMs}, or {@code jitter} is negative, or if
+   * @throws IllegalArgumentException If {@code retryOn} or
+   *           {@code onRetryFailure} is null, or if {@code maxRetries},
+   *           {@code startDelayMs} or {@code jitter} is negative, or if
    *           {@code backoffFactor} is less than {@code 1}.
    */
-  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry, final double backoffFactor) {
-    this(retryOn, maxRetries, startDelayMs, jitter, delayOnFirstRetry, backoffFactor, Long.MAX_VALUE);
+  public RetryPolicy(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry, final double backoffFactor) {
+    this(retryOn, onRetryFailure, maxRetries, startDelayMs, jitter, delayOnFirstRetry, backoffFactor, Long.MAX_VALUE);
   }
 
   /**
@@ -234,6 +250,9 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          retry should occur given the provided non-null {@link Exception},
    *          returning {@code true} if a retry should occur, and {@code false}
    *          otherwise.
+   * @param onRetryFailure The {@link OnRetryFailure} specifying the
+   *          {@link Exception} instance of type {@code <E>} to be thrown in the
+   *          event of terminal failure of the {@link RetryPolicy} execution.
    * @param maxRetries A positive value representing the number of retry
    *          attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first
@@ -245,11 +264,12 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param jitter The maximum value of a random factor multiplier to be applied
    *          to {@link #getDelayMs(int)} to be added to the delay for each
    *          retry.
-   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
-   *           {@code startDelayMs}, or {@code jitter} is negative.
+   * @throws IllegalArgumentException If {@code retryOn} or
+   *           {@code onRetryFailure} is null, or if {@code maxRetries},
+   *           {@code startDelayMs} or {@code jitter} is negative.
    */
-  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry) {
-    this(retryOn, maxRetries, startDelayMs, jitter, delayOnFirstRetry, 1, Long.MAX_VALUE);
+  public RetryPolicy(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry) {
+    this(retryOn, onRetryFailure, maxRetries, startDelayMs, jitter, delayOnFirstRetry, 1, Long.MAX_VALUE);
   }
 
   /**
@@ -260,6 +280,9 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          retry should occur given the provided non-null {@link Exception},
    *          returning {@code true} if a retry should occur, and {@code false}
    *          otherwise.
+   * @param onRetryFailure The {@link OnRetryFailure} specifying the
+   *          {@link Exception} instance of type {@code <E>} to be thrown in the
+   *          event of terminal failure of the {@link RetryPolicy} execution.
    * @param maxRetries A positive value representing the number of retry
    *          attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first
@@ -268,11 +291,12 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param jitter The maximum value of a random factor multiplier to be applied
    *          to {@link #getDelayMs(int)} to be added to the delay for each
    *          retry.
-   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries},
-   *           {@code startDelayMs}, or {@code jitter} is negative.
+   * @throws IllegalArgumentException If {@code retryOn} or
+   *           {@code onRetryFailure} is null, or if {@code maxRetries},
+   *           {@code startDelayMs} or {@code jitter} is negative.
    */
-  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs, final double jitter) {
-    this(retryOn, maxRetries, startDelayMs, jitter, false, 1, Long.MAX_VALUE);
+  public RetryPolicy(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs, final double jitter) {
+    this(retryOn, onRetryFailure, maxRetries, startDelayMs, jitter, false, 1, Long.MAX_VALUE);
   }
 
   /**
@@ -283,52 +307,33 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          retry should occur given the provided non-null {@link Exception},
    *          returning {@code true} if a retry should occur, and {@code false}
    *          otherwise.
+   * @param onRetryFailure The {@link OnRetryFailure} specifying the
+   *          {@link Exception} instance of type {@code <E>} to be thrown in the
+   *          event of terminal failure of the {@link RetryPolicy} execution.
    * @param maxRetries A positive value representing the number of retry
    *          attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first
    *          retry, in milliseconds, which is also used as the multiplicative
    *          factor for subsequent backed-off delays.
-   * @throws IllegalArgumentException If {@code retryOn}, {@code maxRetries}, or
-   *           {@code startDelayMs} is negative.
+   * @throws IllegalArgumentException If {@code retryOn} or
+   *           {@code onRetryFailure} is null, or if {@code onRetryFailure},
+   *           {@code maxRetries} or {@code startDelayMs} is negative.
    */
-  public RetryPolicy(final RetryOn retryOn, final int maxRetries, final long startDelayMs) {
-    this(retryOn, maxRetries, startDelayMs, 0, false, 1, Long.MAX_VALUE);
+  public RetryPolicy(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs) {
+    this(retryOn, onRetryFailure, maxRetries, startDelayMs, 0, false, 1, Long.MAX_VALUE);
   }
 
-  private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureException {
-    final E e = onRetryFailure(exceptions, attemptNo, delayMs);
+  private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureRuntimeException {
+    final E e = onRetryFailure.onRetryFailure(exceptions, attemptNo, delayMs);
     if (e != null)
       throw e;
 
     final int size = exceptions.size();
     if (size == 0)
-      throw new RetryFailureException(attemptNo, delayMs);
+      throw new RetryFailureRuntimeException(attemptNo, delayMs);
 
-    final RetryFailureException re = new RetryFailureException(exceptions.get(size - 1), attemptNo, delayMs);
-    for (int i = size - 2; i >= 0; --i)
-      re.addSuppressed(exceptions.get(i));
-
-    throw re;
-  }
-
-  /**
-   * Callback to return the {@link Exception} instance of type {@code <E>} to be
-   * thrown in the event of terminal failure of the {@link RetryPolicy}
-   * execution.
-   * <p>
-   * If this method is not overridden, or if it returns {@code null}, a
-   * {@link RetryFailureException} will be thrown instead.
-   *
-   * @param exceptions The exceptions that occurred during execution of a
-   *          {@link Retryable} object in the order of their occurrence.
-   * @param attemptNo The attempt number on which the exception was thrown.
-   * @param delayMs The delay (in milliseconds) from the previous invocation
-   *          attempt.
-   * @return The {@link Exception} instance of type {@code <E>} signifying the
-   *         terminal failure of the {@link RetryPolicy} execution.
-   */
-  protected E onRetryFailure(final List<Exception> exceptions, final int attemptNo, final long delayMs) {
-    return null;
+    final RetryFailureRuntimeException re = new RetryFailureRuntimeException(exceptions.get(size - 1), attemptNo, delayMs);
+    throw Throwables.addSuppressed(re, exceptions, size - 2, -1);
   }
 
   /**
@@ -341,12 +346,15 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param callable The {@link Callable} object to run.
    * @return The resulting value from {@link Callable#call()}.
    * @throws IllegalArgumentException If {@code callable} is null.
-   * @throws E Generic exception signifying terminal failure.
-   * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, or if {@link #retryOn} returns
-   *           {@code false}.
+   * @throws E Exception produced by {@link #onRetryFailure} signifying terminal
+   *           failure, or if the retry attempts have met {@link #maxRetries},
+   *           or {@link #retryOn} returns {@code false}.
+   * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns
+   *           {@code null} when invoked in the event of a terminal failure, or
+   *           if the retry attempts have met {@link #maxRetries}, or
+   *           {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final Callable<T> callable) throws E, RetryFailureException {
+  public final <T>T run(final Callable<T> callable) throws E, RetryFailureRuntimeException {
     Assertions.assertNotNull(retryOn);
     Assertions.assertNotNull(callable);
     return run0((r, a) -> callable.call(), 0);
@@ -362,12 +370,15 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param runnable The {@link ThrowingRunnable} object to run.
    * @return The resulting value from {@link Runnable#run()}.
    * @throws IllegalArgumentException If {@code runnable} is null.
-   * @throws E Generic exception signifying terminal failure.
-   * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, or if {@link #retryOn} returns
-   *           {@code false}.
+   * @throws E Exception produced by {@link #onRetryFailure} signifying terminal
+   *           failure, or if the retry attempts have met {@link #maxRetries},
+   *           or {@link #retryOn} returns {@code false}.
+   * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns
+   *           {@code null} when invoked in the event of a terminal failure, or
+   *           if the retry attempts have met {@link #maxRetries}, or
+   *           {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureException {
+  public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureRuntimeException {
     Assertions.assertNotNull(retryOn);
     Assertions.assertNotNull(runnable);
     return run0((r, a) -> {
@@ -386,12 +397,15 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param retryable The {@link Retryable} object to run.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
    * @throws IllegalArgumentException If {@code retryable} is null.
-   * @throws E Generic exception signifying terminal failure.
-   * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, or if {@link #retryOn} returns
-   *           {@code false}.
+   * @throws E Exception produced by {@link #onRetryFailure} signifying terminal
+   *           failure, or if the retry attempts have met {@link #maxRetries},
+   *           or {@link #retryOn} returns {@code false}.
+   * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns
+   *           {@code null} when invoked in the event of a terminal failure, or
+   *           if the retry attempts have met {@link #maxRetries}, or
+   *           {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureException {
+  public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureRuntimeException {
     return run0(Assertions.assertNotNull(retryable), 0);
   }
 
@@ -404,17 +418,20 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param <T> The type of the result object.
    * @param retryable The {@link Retryable} object to run.
    * @param timeout The maximum time after which this {@link RetryPolicy} is to
-   *          throw a {@link RetryFailureException}.
+   *          invoke {@link #onRetryFailure}.
    * @param unit The time unit of the {@code timeout} argument.
    * @return The resulting value from {@link Retryable#retry(RetryPolicy,int)}.
    * @throws IllegalArgumentException If {@code retryable} or {@code unit} is
    *           null, or if {@code timeout} is negative.
-   * @throws E Generic exception signifying terminal failure.
-   * @throws RetryFailureException If retry attempts have met
-   *           {@link #maxRetries}, if {@link #retryOn} returns {@code false},
-   *           or if {@code timeout} is exceeded.
+   * @throws E Exception produced by {@link #onRetryFailure} signifying terminal
+   *           failure, or if the retry attempts have met {@link #maxRetries},
+   *           or {@link #retryOn} returns {@code false}.
+   * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns
+   *           {@code null} when invoked in the event of a terminal failure, or
+   *           if the retry attempts have met {@link #maxRetries}, or
+   *           {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureException {
+  public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureRuntimeException {
     Assertions.assertNotNull(retryOn);
     Assertions.assertNotNull(retryable);
     Assertions.assertPositive(timeout, "timeout value (%d) must be a positive value", timeout);
@@ -434,7 +451,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
   protected void onRetry(final int attemptNo) {
   }
 
-  private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureException {
+  private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureRuntimeException {
     final List<Exception> exceptions = new ArrayList<>();
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
