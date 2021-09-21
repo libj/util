@@ -35,6 +35,195 @@ public abstract class PrimitiveSort {
     return idx;
   }
 
+  private static <T>void recurse(final byte[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final byte obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final byte[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final byte[] tmp = new byte[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data[i] = tmp[i];
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final char[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final char obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final char[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final char[] tmp = new char[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data[i] = tmp[i];
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final short[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final short obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final short[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final short[] tmp = new short[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data[i] = tmp[i];
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final int[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final int obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final int[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final int[] tmp = new int[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data[i] = tmp[i];
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final long[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final long obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final long[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final long[] tmp = new long[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data[i] = tmp[i];
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final float[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final float obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final float[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final float[] tmp = new float[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data[i] = tmp[i];
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final double[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final double obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final double[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final double[] tmp = new double[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data[i] = tmp[i];
+        tmp[i] = 0;
+      }
+    }
+  }
+
   private static <T>void recurse(final T[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
@@ -59,6 +248,195 @@ public abstract class PrimitiveSort {
       for (int i = 0; i < len; ++i) {
         data[i] = (T)tmp[i];
         tmp[i] = null;
+      }
+    }
+  }
+
+  private static <T>void recurse(final CharList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final char obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final CharList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final char[] tmp = new char[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data.set(i, tmp[i]);
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final ShortList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final short obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final ShortList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final short[] tmp = new short[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data.set(i, tmp[i]);
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final IntList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final int obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final IntList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final int[] tmp = new int[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data.set(i, tmp[i]);
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final LongList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final long obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final LongList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final long[] tmp = new long[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data.set(i, tmp[i]);
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final FloatList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final float obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final FloatList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final float[] tmp = new float[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data.set(i, tmp[i]);
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final DoubleList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final double obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final DoubleList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final double[] tmp = new double[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data.set(i, tmp[i]);
+        tmp[i] = 0;
+      }
+    }
+  }
+
+  private static <T>void recurse(final ByteList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final byte obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final ByteList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final byte[] tmp = new byte[len];
+      for (int i = 0; i < len; ++i) {
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) {
+        data.set(i, tmp[i]);
+        tmp[i] = 0;
       }
     }
   }
@@ -189,14 +567,154 @@ public abstract class PrimitiveSort {
     DoubleTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
   }
 
-  protected static void sortIndexed(final Object[] data, final int[] idx, final IntComparator c) {
+  protected static void sortIndexed(final Object[] data, final ByteList order, final int[] idx, final IntComparator c) {
     IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
     swap(data, idx);
+    swap(order, idx);
   }
 
-  protected static void sortIndexed(final List<?> data, final int[] idx, final IntComparator c) {
+  protected static void sortIndexed(final Object[] data, final CharList order, final int[] idx, final IntComparator c) {
     IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
     swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final Object[] data, final ShortList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final Object[] data, final IntList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final Object[] data, final LongList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final Object[] data, final FloatList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final Object[] data, final DoubleList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final Object[] data, final Object[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final Object[] data, final List<?> order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final byte[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final char[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final short[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final int[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final long[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final float[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final double[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final ByteList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final CharList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final ShortList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final IntList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final LongList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final FloatList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final DoubleList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final Object[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final List<?> order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
   }
 
   protected static void sortPaired(final Object[] data, final byte[] order, final int fromIndex, final int toIndex, final ByteComparator comparator) {

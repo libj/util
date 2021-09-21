@@ -1178,7 +1178,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1238,7 +1238,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1298,7 +1298,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1358,7 +1358,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1418,7 +1418,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1478,7 +1478,7 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1538,7 +1538,72 @@ public final class CollectionUtil extends PrimitiveSort {
 
     Assertions.assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
-    PrimitiveSort.sortIndexed(data, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the {@link List} of {@link Comparable} objects in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param <T> The type parameter for the {@link Comparable} objects of
+   *          {@code order}.
+   * @param data The {@link List} providing the data.
+   * @param order The {@link List} of {@link Comparable} objects providing the
+   *          order of indices to sort {@code data}.
+   * @throws IllegalArgumentException If {@code data} or {@code order} is null,
+   *           or if {@code data.size() != order.length}.
+   */
+  public static <T extends Comparable<? super T>>void sort(final List<?> data, final T[] order) {
+    sort(data, order, (o1, o2) -> o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2));
+  }
+
+  /**
+   * Sorts the {@link List} in the first argument matching the sorted order of
+   * the {@link List} in the second argument.
+   * <p>
+   * For example, {@code data} and {@code order} are initialized to:
+   *
+   * <pre>
+   *  data: g i j h e a c d b f
+   * order: 6 8 9 7 4 0 2 3 1 5
+   * </pre>
+   *
+   * After {@code sort(data, order)} is called:
+   *
+   * <pre>
+   *  data: a b c d e f g h i j
+   * order: 0 1 2 3 4 5 6 7 8 9
+   * </pre>
+   *
+   * @param <T> The type parameter for the {@link Comparable} objects of
+   *          {@code order}.
+   * @param data The {@link List} providing the data.
+   * @param order The {@link List} providing the order of indices to sort
+   *          {@code data}.
+   * @param comparator The {@link Comparator} for members of {@code order}.
+   * @throws IllegalArgumentException If {@code data}, {@code order} or
+   *           {@code comparator} is null, or if
+   *           {@code data.size() != order.length}.
+   */
+  public static <T>void sort(final List<?> data, final T[] order, final Comparator<? super T> comparator) {
+    if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).length)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+
+    sortIndexed(data, order, buildIndex(order.length), (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
@@ -1603,7 +1668,7 @@ public final class CollectionUtil extends PrimitiveSort {
     if (Assertions.assertNotNull(data).size() != Assertions.assertNotNull(order).size())
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
 
-    sortIndexed(data, buildIndex(order.size()), (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
+    sortIndexed(data, order, buildIndex(order.size()), (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
   }
 
   private CollectionUtil() {

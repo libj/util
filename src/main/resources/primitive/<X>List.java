@@ -575,7 +575,7 @@ public interface <X>List extends <X>Collection {
 
     final int[] idx = PrimitiveSort.buildIndex(size());
     final <X>Comparator comparator = c != null ? c : <X>Comparator.NATURAL;
-    PrimitiveSort.sortIndexed(p, idx, new IntComparator() {
+    PrimitiveSort.sortIndexed(p, this, idx, new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
         return comparator.compare(get(o1), get(o2));
@@ -614,7 +614,7 @@ public interface <X>List extends <X>Collection {
 
     final int[] idx = PrimitiveSort.buildIndex(size());
     final <X>Comparator comparator = c != null ? c : <X>Comparator.NATURAL;
-    PrimitiveSort.sortIndexed(p, idx, new IntComparator() {
+    PrimitiveSort.sortIndexed(p, this, idx, new IntComparator() {
       @Override
       public int compare(final int o1, final int o2) {
         return comparator.compare(get(o1), get(o2));
