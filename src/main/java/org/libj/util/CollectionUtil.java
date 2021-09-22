@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1669,6 +1671,37 @@ public final class CollectionUtil extends PrimitiveSort {
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
 
     sortIndexed(data, order, buildIndex(order.size()), (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
+  }
+
+  private static final <T>int dedupe(final List<T> a, final int len, final int index, final int depth, final Comparator<? super T> c) {
+    if (index == len)
+      return depth;
+
+    final T element = a.get(index);
+    if (c.compare(a.get(index - 1), element) == 0)
+      return dedupe(a, len, index + 1, depth, c);
+
+    final int length = dedupe(a, len, index + 1, depth + 1, c);
+    a.set(depth, element);
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided {@link List} by reordering the unique elements in
+   * ascending order specified by the given {@link Comparator}, returning the
+   * number of unique elements.
+   *
+   * @param <T> The type parameter of the provided {@link List}.
+   * @param l The list to dedupe.
+   * @param c The {@link Comparator}.
+   * @return The number of unique elements after having reordering the unique
+   *         elements in ascending order specified by the given
+   *         {@link Comparator}.
+   * @throws IllegalArgumentException If the provided {@link List} or
+   *           {@link Comparator} is null.
+   */
+  public static final <T>int dedupe(final List<T> l, final Comparator<? super T> c) {
+    return assertNotNull(l).size() <= 1 ? l.size() : dedupe(l, l.size(), 1, 1, assertNotNull(c));
   }
 
   private CollectionUtil() {

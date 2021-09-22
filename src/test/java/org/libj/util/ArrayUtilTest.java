@@ -19,6 +19,7 @@ package org.libj.util;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Objects;
 
 import org.junit.Test;
@@ -358,5 +359,241 @@ public class ArrayUtilTest {
     final String[] actual = {"1", "2", "3", "4", "5"};
     ArrayUtil.shift(actual, 2);
     assertArrayEquals(Arrays.toString(actual), expected, actual);
+  }
+
+  private static void assertDedupe(byte[] array, final int len) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array));
+      final byte[] expected = ArrayUtil.fillSequence(new byte[len], (byte)1);
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array);
+    }
+  }
+
+  @Test
+  public void testDedupeByte() {
+    assertDedupe((byte[])null, 0);
+    assertDedupe(new byte[] {}, 0);
+    assertDedupe(new byte[] {1}, 1);
+    assertDedupe(new byte[] {1, 2}, 2);
+    assertDedupe(new byte[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9);
+    assertDedupe(new byte[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9);
+  }
+
+  private static void assertDedupe(char[] array, final int len) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array));
+      final char[] expected = ArrayUtil.fillSequence(new char[len], (char)1);
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array);
+    }
+  }
+
+  @Test
+  public void testDedupeChar() {
+    assertDedupe((char[])null, 0);
+    assertDedupe(new char[] {}, 0);
+    assertDedupe(new char[] {1}, 1);
+    assertDedupe(new char[] {1, 2}, 2);
+    assertDedupe(new char[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9);
+    assertDedupe(new char[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9);
+  }
+
+  private static void assertDedupe(short[] array, final int len) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array));
+      final short[] expected = ArrayUtil.fillSequence(new short[len], (short)1);
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array);
+    }
+  }
+
+  @Test
+  public void testDedupeShort() {
+    assertDedupe((short[])null, 0);
+    assertDedupe(new short[] {}, 0);
+    assertDedupe(new short[] {1}, 1);
+    assertDedupe(new short[] {1, 2}, 2);
+    assertDedupe(new short[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9);
+    assertDedupe(new short[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9);
+  }
+
+  private static void assertDedupe(int[] array, final int len) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array));
+      final int[] expected = ArrayUtil.fillSequence(new int[len], 1);
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array);
+    }
+  }
+
+  @Test
+  public void testDedupeInt() {
+    assertDedupe((int[])null, 0);
+    assertDedupe(new int[] {}, 0);
+    assertDedupe(new int[] {1}, 1);
+    assertDedupe(new int[] {1, 2}, 2);
+    assertDedupe(new int[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9);
+    assertDedupe(new int[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9);
+  }
+
+  private static void assertDedupe(long[] array, final int len) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array));
+      final long[] expected = ArrayUtil.fillSequence(new long[len], 1);
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array);
+    }
+  }
+
+  @Test
+  public void testDedupeLong() {
+    assertDedupe((long[])null, 0);
+    assertDedupe(new long[] {}, 0);
+    assertDedupe(new long[] {1}, 1);
+    assertDedupe(new long[] {1, 2}, 2);
+    assertDedupe(new long[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9);
+    assertDedupe(new long[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9);
+  }
+
+  private static void assertDedupe(float[] array, final int len) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array));
+      final float[] expected = ArrayUtil.fillSequence(new float[len], 1);
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array, 0);
+    }
+  }
+
+  @Test
+  public void testDedupeFloat() {
+    assertDedupe((float[])null, 0);
+    assertDedupe(new float[] {}, 0);
+    assertDedupe(new float[] {1}, 1);
+    assertDedupe(new float[] {1, 2}, 2);
+    assertDedupe(new float[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9);
+    assertDedupe(new float[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9);
+  }
+
+  private static void assertDedupe(double[] array, final int len) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array));
+      final double[] expected = ArrayUtil.fillSequence(new double[len], 1);
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array, 0);
+    }
+  }
+
+  @Test
+  public void testDedupeDouble() {
+    assertDedupe((double[])null, 0);
+    assertDedupe(new double[] {}, 0);
+    assertDedupe(new double[] {1}, 1);
+    assertDedupe(new double[] {1, 2}, 2);
+    assertDedupe(new double[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9);
+    assertDedupe(new double[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9);
+  }
+
+  private static void assertDedupe(Integer[] array, final int len, final Comparator<? super Integer> c) {
+    if (array == null) {
+      try {
+        ArrayUtil.dedupe(array, c);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, ArrayUtil.dedupe(array, c));
+      final Object[] expected = new Object[len];
+      for (int i = 0; i < len;)
+        expected[i] = ++i;
+
+      if (array.length > len)
+        array = ArrayUtil.subArray(array, 0, len);
+
+      assertArrayEquals(expected, array);
+    }
+  }
+
+  @Test
+  public void testDedupeObject() {
+    final Comparator<Integer> c = (o1, o2) -> Integer.compare(o1, o2);
+    assertDedupe((Integer[])null, 0, c);
+    assertDedupe(new Integer[] {}, 0, c);
+    assertDedupe(new Integer[] {1}, 1, c);
+    assertDedupe(new Integer[] {1, 2}, 2, c);
+    assertDedupe(new Integer[] {1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9}, 9, c);
+    assertDedupe(new Integer[] {1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9}, 9, c);
   }
 }

@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.Test;
@@ -118,5 +119,38 @@ public class CollectionUtilTest {
         for (int j = 0; j < list.size() % p; ++j)
           assertEquals(list.get(p * parts + j), partitions[parts].get(j));
     }
+  }
+
+  private static void assertDedupe(List<Integer> list, final int len, final Comparator<? super Integer> c) {
+    if (list == null) {
+      try {
+        CollectionUtil.dedupe(list, c);
+        fail("Expected IllegalArgumentException");
+      }
+      catch (final IllegalArgumentException e) {
+      }
+    }
+    else {
+      assertEquals(len, CollectionUtil.dedupe(list, c));
+      final List<Integer> expected = new ArrayList<>(len);
+      for (int i = 0; i < len;)
+        expected.add(++i);
+
+      if (list.size() > len)
+        list = list.subList(0, len);
+
+      assertEquals(expected, list);
+    }
+  }
+
+  @Test
+  public void testDedupeObject() {
+    final Comparator<Integer> c = (o1, o2) -> Integer.compare(o1, o2);
+    assertDedupe(null, 0, c);
+    assertDedupe(Arrays.asList(), 0, c);
+    assertDedupe(Arrays.asList(1), 1, c);
+    assertDedupe(Arrays.asList(1, 2), 2, c);
+    assertDedupe(Arrays.asList(1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9), 9, c);
+    assertDedupe(Arrays.asList(1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9), 9, c);
   }
 }

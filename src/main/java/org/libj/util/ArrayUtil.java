@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -26,7 +28,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
-import org.libj.lang.Assertions;
 import org.libj.util.primitive.ByteComparator;
 import org.libj.util.primitive.CharComparator;
 import org.libj.util.primitive.DoubleComparator;
@@ -74,10 +75,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final byte[] a, int aFromIndex, final int aToIndex, final byte[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -120,10 +121,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final char[] a, int aFromIndex, final int aToIndex, final char[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -166,10 +167,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final short[] a, int aFromIndex, final int aToIndex, final short[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -212,10 +213,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final int[] a, int aFromIndex, final int aToIndex, final int[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -258,10 +259,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final long[] a, int aFromIndex, final int aToIndex, final long[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -304,10 +305,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final float[] a, int aFromIndex, final int aToIndex, final float[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -350,10 +351,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final double[] a, int aFromIndex, final int aToIndex, final double[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -396,10 +397,10 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code bFromIndex > bToIndex}.
    */
   public static boolean equals(final Object[] a, int aFromIndex, final int aToIndex, final Object[] b, int bFromIndex, final int bToIndex) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(b);
-    Assertions.assertRangeArray(aFromIndex, aToIndex, a.length);
-    Assertions.assertRangeArray(bFromIndex, bToIndex, b.length);
+    assertNotNull(a);
+    assertNotNull(b);
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
 
     final int aLength = aToIndex - aFromIndex;
     final int bLength = bToIndex - bFromIndex;
@@ -480,7 +481,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>int lengthDeep(final T[] a, final Function<? super T,T[]> resolver, final boolean countArrayReferences) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     int size = 0;
     for (int i = 0; i < a.length; ++i) {
       final T member = a[i];
@@ -558,7 +559,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] flatten(final T[] a, final Function<? super T,T[]> resolver, final boolean retainArrayReferences) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     final T[] out = (T[])Array.newInstance(a.getClass().getComponentType(), lengthDeep(a, resolver, retainArrayReferences));
     flatten0(a, out, resolver, retainArrayReferences, -1);
     return out;
@@ -596,7 +597,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final T[] a, final T key) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key);
   }
 
@@ -617,8 +618,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
 
@@ -653,8 +654,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code objectToKey} is null.
    */
   public static <T,K extends Comparable<? super K>>int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(objectToKey);
+    assertNotNull(a);
+    assertNotNull(objectToKey);
     return binaryClosestSearch0(a, 0, a.length, key, objectToKey);
   }
 
@@ -678,9 +679,9 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code objectToKey} is null.
    */
   public static <T,K extends Comparable<? super K>>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(objectToKey);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertNotNull(objectToKey);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, objectToKey);
   }
 
@@ -713,7 +714,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<? super T> c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, c);
   }
 
@@ -735,8 +736,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static <T>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -772,8 +773,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code objectToKey} is null.
    */
   public static <T,K>int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(objectToKey);
+    assertNotNull(a);
+    assertNotNull(objectToKey);
     return binaryClosestSearch0(a, 0, a.length, key, objectToKey, c);
   }
 
@@ -798,9 +799,9 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code objectToKey} is null.
    */
   public static <T,K>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
-    Assertions.assertNotNull(a);
-    Assertions.assertNotNull(objectToKey);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertNotNull(objectToKey);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, objectToKey, c);
   }
 
@@ -831,7 +832,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, ByteComparator.NATURAL);
   }
 
@@ -851,8 +852,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, ByteComparator.NATURAL);
   }
 
@@ -873,8 +874,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final int fromIndex, final int toIndex, final byte key, final ByteComparator c) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -905,7 +906,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, ShortComparator.NATURAL);
   }
 
@@ -925,8 +926,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, ShortComparator.NATURAL);
   }
 
@@ -947,8 +948,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final short[] a, final int fromIndex, final int toIndex, final short key, final ShortComparator c) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -979,7 +980,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, IntComparator.NATURAL);
   }
 
@@ -999,8 +1000,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, IntComparator.NATURAL);
   }
 
@@ -1021,8 +1022,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int fromIndex, final int toIndex, final int key, final IntComparator c) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -1053,7 +1054,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, FloatComparator.NATURAL);
   }
 
@@ -1073,8 +1074,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, FloatComparator.NATURAL);
   }
 
@@ -1095,7 +1096,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final float[] a, final int fromIndex, final int toIndex, final float key, final FloatComparator c) {
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -1126,7 +1127,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, DoubleComparator.NATURAL);
   }
 
@@ -1146,8 +1147,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, DoubleComparator.NATURAL);
   }
 
@@ -1168,7 +1169,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final double[] a, final int fromIndex, final int toIndex, final double key, final DoubleComparator c) {
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -1199,7 +1200,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     return binaryClosestSearch0(a, 0, a.length, key, LongComparator.NATURAL);
   }
 
@@ -1219,8 +1220,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, LongComparator.NATURAL);
   }
 
@@ -1241,8 +1242,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If the provided array is null.
    */
   public static int binaryClosestSearch(final long[] a, final int fromIndex, final int toIndex, final long key, final LongComparator c) {
-    Assertions.assertNotNull(a);
-    Assertions.assertRangeArray(fromIndex, toIndex, a.length);
+    assertNotNull(a);
+    assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
@@ -1275,8 +1276,8 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SafeVarargs
   public static <T>T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
-    Assertions.assertNotNull(operator);
-    Assertions.assertNotNull(array);
+    assertNotNull(operator);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = operator.apply(array[i]);
 
@@ -1300,8 +1301,8 @@ public final class ArrayUtil extends PrimitiveSort {
 
   @SuppressWarnings("unchecked")
   private static <T>T[] filter0(final Predicate<? super T> predicate, final int index, final int depth, final T ... array) {
-    Assertions.assertNotNull(predicate);
-    Assertions.assertNotNull(array);
+    assertNotNull(predicate);
+    assertNotNull(array);
     if (index == array.length)
       return (T[])Array.newInstance(array.getClass().getComponentType(), depth);
 
@@ -1315,9 +1316,9 @@ public final class ArrayUtil extends PrimitiveSort {
 
   @SafeVarargs
   private static <T>T[] concat0(final T[] array1, final T[] array2, final T[] ... arrays) {
-    Assertions.assertNotNull(array1);
-    Assertions.assertNotNull(array2);
-    Assertions.assertNotNull(arrays);
+    assertNotNull(array1);
+    assertNotNull(array2);
+    assertNotNull(arrays);
     int length = array1.length + array2.length;
     for (int i = 0; i < arrays.length; ++i)
       length += arrays[i].length;
@@ -1343,7 +1344,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T[][] arrays) {
-    Assertions.assertNotNull(arrays);
+    assertNotNull(arrays);
     int length = 0;
     for (int i = 0; i < arrays.length; ++i)
       length += arrays[i].length;
@@ -1368,8 +1369,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           null.
    */
   public static <T>T[] concat(final T[] array1, final T[] array2) {
-    Assertions.assertNotNull(array1);
-    Assertions.assertNotNull(array2);
+    assertNotNull(array1);
+    assertNotNull(array2);
     final int length = array1.length + array2.length;
     final T[] concat = Arrays.copyOf(array1, length);
     System.arraycopy(array2, 0, concat, array1.length, array2.length);
@@ -1408,8 +1409,8 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SafeVarargs
   public static <T>T[] concat(final T[] array, final T element1, final T ... elements) {
-    Assertions.assertNotNull(array);
-    Assertions.assertNotNull(elements);
+    assertNotNull(array);
+    assertNotNull(elements);
     Arrays.copyOf(array, array.length + 1 + elements.length);
     final T[] concat = Arrays.copyOf(array, array.length + 1 + elements.length);
     concat[array.length] = element1;
@@ -1430,7 +1431,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T element1, final T[] array) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     final T[] concat = (T[])Array.newInstance(array.getClass().getComponentType(), array.length + 1);
     concat[0] = element1;
     System.arraycopy(array, 0, concat, 1, array.length);
@@ -1451,7 +1452,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T element1, final T element2, final T ... elements) {
-    Assertions.assertNotNull(elements);
+    assertNotNull(elements);
     final T[] concat = (T[])Array.newInstance(elements.getClass().getComponentType(), elements.length + 2);
     concat[0] = element1;
     concat[1] = element2;
@@ -1471,7 +1472,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>T[] splice(final T[] array, int start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (start < 0)
       start += array.length;
 
@@ -1494,7 +1495,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (deleteCount == 0)
       return array.clone();
 
@@ -1529,8 +1530,8 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount, final T ... items) {
-    Assertions.assertNotNull(array);
-    Assertions.assertNotNull(items);
+    assertNotNull(array);
+    assertNotNull(items);
     if (items.length == 0)
       return splice(array, start, deleteCount);
 
@@ -1558,7 +1559,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>int indexOf(final T[] array, final T obj) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return indexOf0(array, 0, array.length, obj);
   }
 
@@ -1574,7 +1575,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>int indexOf(final T[] array, final int off, int len, final T obj) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return indexOf0(array, off, Math.min(len, array.length), obj);
   }
 
@@ -2556,7 +2557,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null)
       return "null";
 
-    Assertions.assertNotNull(function);
+    assertNotNull(function);
     if (array.length <= offset)
       return "";
 
@@ -2687,7 +2688,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null)
       return "null";
 
-    Assertions.assertNotNull(function);
+    assertNotNull(function);
     if (array.length <= offset)
       return "";
 
@@ -2712,7 +2713,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static byte[] fillSequence(final byte[] array, byte start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2729,7 +2730,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Byte[] fillSequence(final Byte[] array, byte start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2746,7 +2747,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static char[] fillSequence(final char[] array, char start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2763,7 +2764,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Character[] fillSequence(final Character[] array, char start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2780,7 +2781,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static short[] fillSequence(final short[] array, short start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2797,7 +2798,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Short[] fillSequence(final Short[] array, short start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2814,7 +2815,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static int[] fillSequence(final int[] array, int start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2831,7 +2832,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Integer[] fillSequence(final Integer[] array, int start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2848,7 +2849,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static long[] fillSequence(final long[] array, long start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2865,7 +2866,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Long[] fillSequence(final Long[] array, long start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2882,7 +2883,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static float[] fillSequence(final float[] array, float start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2899,7 +2900,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Float[] fillSequence(final Float[] array, float start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2916,7 +2917,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static double[] fillSequence(final double[] array, double start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -2933,7 +2934,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static Double[] fillSequence(final Double[] array, double start) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = 0; i < array.length; ++i)
       array[i] = start++;
 
@@ -3208,7 +3209,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static byte[] subArray(final byte[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3223,8 +3224,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static byte[] subArray(final byte[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final byte[] subArray = new byte[length];
     if (length == 0)
       return subArray;
@@ -3244,7 +3245,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static short[] subArray(final short[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3259,8 +3260,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static short[] subArray(final short[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final short[] subArray = new short[length];
     if (length == 0)
       return subArray;
@@ -3280,7 +3281,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static int[] subArray(final int[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3295,8 +3296,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static int[] subArray(final int[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final int[] subArray = new int[length];
     if (length == 0)
       return subArray;
@@ -3316,7 +3317,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static long[] subArray(final long[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3331,8 +3332,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static long[] subArray(final long[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final long[] subArray = new long[length];
     if (length == 0)
       return subArray;
@@ -3352,7 +3353,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static float[] subArray(final float[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3367,8 +3368,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static float[] subArray(final float[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final float[] subArray = new float[length];
     if (length == 0)
       return subArray;
@@ -3388,7 +3389,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static double[] subArray(final double[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3403,8 +3404,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static double[] subArray(final double[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final double[] subArray = new double[length];
     if (length == 0)
       return subArray;
@@ -3424,7 +3425,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static boolean[] subArray(final boolean[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3439,8 +3440,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static boolean[] subArray(final boolean[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final boolean[] subArray = new boolean[length];
     if (length == 0)
       return subArray;
@@ -3460,7 +3461,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static char[] subArray(final char[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3475,8 +3476,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   public static char[] subArray(final char[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final char[] subArray = new char[length];
     if (length == 0)
       return subArray;
@@ -3497,7 +3498,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static <T>T[] subArray(final T[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3514,8 +3515,8 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SuppressWarnings("unchecked")
   public static <T>T[] subArray(final T[] array, final int offset, final int length) {
-    Assertions.assertNotNull(array);
-    Assertions.assertOffsetLength("offset", offset, "length", length);
+    assertNotNull(array);
+    assertOffsetLength("offset", offset, "length", length);
     final Class<?> componentType = array.getClass().getComponentType();
     final T[] subArray = (T[])Array.newInstance(componentType, length);
     if (length == 0)
@@ -3529,7 +3530,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final boolean[] arr, final int i, final int j) {
-    final boolean tmp = Assertions.assertNotNull(arr)[i];
+    final boolean tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3538,7 +3539,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final byte[] arr, final int i, final int j) {
-    final byte tmp = Assertions.assertNotNull(arr)[i];
+    final byte tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3547,7 +3548,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final char[] arr, final int i, final int j) {
-    final char tmp = Assertions.assertNotNull(arr)[i];
+    final char tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3556,7 +3557,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final short[] arr, final int i, final int j) {
-    final short tmp = Assertions.assertNotNull(arr)[i];
+    final short tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3565,7 +3566,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final int[] arr, final int i, final int j) {
-    final int tmp = Assertions.assertNotNull(arr)[i];
+    final int tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3574,7 +3575,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final long[] arr, final int i, final int j) {
-    final long tmp = Assertions.assertNotNull(arr)[i];
+    final long tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3583,7 +3584,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final float[] arr, final int i, final int j) {
-    final float tmp = Assertions.assertNotNull(arr)[i];
+    final float tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3592,7 +3593,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final double[] arr, final int i, final int j) {
-    final double tmp = Assertions.assertNotNull(arr)[i];
+    final double tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3601,7 +3602,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * Swaps the two specified elements in the provided array.
    */
   private static void swap(final Object[] arr, final int i, final int j) {
-    final Object tmp = Assertions.assertNotNull(arr)[i];
+    final Object tmp = assertNotNull(arr)[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
@@ -3813,7 +3814,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final boolean[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3835,7 +3836,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final byte[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3857,7 +3858,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final char[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3879,7 +3880,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final short[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3901,7 +3902,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final int[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3923,7 +3924,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final long[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3945,7 +3946,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final float[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3967,7 +3968,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final double[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -3989,7 +3990,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null.
    */
   public static void shuffle(final Object[] array, final Random random) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     for (int i = array.length; i > 1; --i)
       swap(array, i - 1, random.nextInt(i));
   }
@@ -4047,8 +4048,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final byte[] order, final ByteComparator comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4108,8 +4109,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final char[] order, final CharComparator comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4169,8 +4170,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final short[] order, final ShortComparator comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4230,8 +4231,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final int[] order, final IntComparator comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4291,8 +4292,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final long[] order, final LongComparator comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4352,8 +4353,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final float[] order, final FloatComparator comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4413,8 +4414,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final double[] order, final DoubleComparator comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4448,8 +4449,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           or if {@code data.length != order.length}.
    */
   public static <T extends Comparable<? super T>>void sort(final Object[] data, final T[] order) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4490,12 +4491,12 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.length}.
    */
   public static <T>void sort(final Object[] data, final T[] order, final Comparator<? super T> comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
-    Assertions.assertNotNull(comparator);
+    assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.length);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
@@ -4527,8 +4528,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *           or if {@code data.length != order.size()}.
    */
   public static <T extends Comparable<? super T>>void sort(final Object[] data, final List<T> order) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.size())
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
 
@@ -4569,12 +4570,12 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code data.length != order.size()}.
    */
   public static <T>void sort(final Object[] data, final List<? extends T> order, final Comparator<? super T> comparator) {
-    Assertions.assertNotNull(data);
-    Assertions.assertNotNull(order);
+    assertNotNull(data);
+    assertNotNull(order);
     if (data.length != order.size())
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
 
-    Assertions.assertNotNull(comparator);
+    assertNotNull(comparator);
     final int[] idx = PrimitiveSort.buildIndex(order.size());
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
   }
@@ -4588,7 +4589,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final byte[] a, final ByteComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4603,7 +4604,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final byte[] a, final int fromIndex, final int toIndex, final ByteComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4619,7 +4620,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final char[] a, final CharComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4634,7 +4635,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final char[] a, final int fromIndex, final int toIndex, final CharComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4650,7 +4651,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final short[] a, final ShortComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4665,7 +4666,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final short[] a, final int fromIndex, final int toIndex, final ShortComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4681,7 +4682,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final int[] a, final IntComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4696,7 +4697,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final int[] a, final int fromIndex, final int toIndex, final IntComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4712,7 +4713,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final long[] a, final LongComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4727,7 +4728,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final long[] a, final int fromIndex, final int toIndex, final LongComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4743,7 +4744,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final float[] a, final FloatComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4758,7 +4759,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final float[] a, final int fromIndex, final int toIndex, final FloatComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4774,7 +4775,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final double[] a, final DoubleComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     sort(a, 0, a.length, c);
   }
 
@@ -4789,7 +4790,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} is null.
    */
   public static void sort(final double[] a, final int fromIndex, final int toIndex, final DoubleComparator c) {
-    Assertions.assertNotNull(a);
+    assertNotNull(a);
     if (c != null)
       PrimitiveSort.sort(a, fromIndex, toIndex, c);
     else
@@ -4810,7 +4811,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
@@ -4844,7 +4845,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
@@ -4878,7 +4879,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
@@ -4912,7 +4913,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
@@ -4946,7 +4947,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     float tmp;
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       tmp = array[i];
@@ -4981,7 +4982,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     double tmp;
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       tmp = array[i];
@@ -5016,7 +5017,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
@@ -5050,7 +5051,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length <= 1)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) {
       array[i] ^= array[j];
       array[j] ^= array[i];
@@ -5085,7 +5086,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (array == null || array.length < 2)
       return array;
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     T tmp;
     for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) {
       tmp = array[i];
@@ -5121,14 +5122,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final byte[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5143,7 +5144,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final byte[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5175,14 +5176,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final short[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5197,7 +5198,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final short[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5229,14 +5230,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final int[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5251,7 +5252,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final int[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5283,14 +5284,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final long[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5305,7 +5306,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final long[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5337,14 +5338,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final float[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5359,7 +5360,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final float[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5391,14 +5392,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final double[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5413,7 +5414,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final double[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5445,14 +5446,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final boolean[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5467,7 +5468,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final boolean[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5499,14 +5500,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final char[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5521,7 +5522,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static void shift(final char[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5554,14 +5555,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static <T>void shift(final T[] array, final int fromIndex, final int toIndex, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
 
     if (array.length < offset)
       throw new IllegalArgumentException("offset (" + offset + ") must less than array.length (" + array.length + ")");
 
-    Assertions.assertRangeArray(fromIndex, toIndex, array.length);
+    assertRangeArray(fromIndex, toIndex, array.length);
     if (offset != 0 && array.length != offset)
       shift(array, offset, array.length, array.length, offset);
   }
@@ -5577,7 +5578,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *           {@code offset} is negative or greater than {@code array.length}.
    */
   public static <T>void shift(final T[] array, final int offset) {
-    Assertions.assertNotNull(array);
+    assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
@@ -5593,6 +5594,219 @@ public final class ArrayUtil extends PrimitiveSort {
     shift(array, from + 1, to, len, off);
     final int i = from - off;
     array[i < 0 ? len + i : i] = value;
+  }
+
+  private static final int dedupe(final byte[] tables, final int len, final int index, final int depth) {
+    if (index == len)
+      return depth;
+
+    final byte element = tables[index];
+    if (tables[index - 1] == element)
+      return dedupe(tables, len, index + 1, depth);
+
+    final int length = dedupe(tables, len, index + 1, depth + 1);
+    tables[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique values in
+   * ascending order, returning the number of unique values.
+   *
+   * @param a The array to dedupe.
+   * @return The number of unique values after having reordering the unique
+   *         values in ascending order.
+   * @throws IllegalArgumentException If the provided array is null.
+   */
+  public static final int dedupe(final byte[] a) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
+  }
+
+  private static final int dedupe(final char[] tables, final int len, final int index, final int depth) {
+    if (index == len)
+      return depth;
+
+    final char element = tables[index];
+    if (tables[index - 1] == element)
+      return dedupe(tables, len, index + 1, depth);
+
+    final int length = dedupe(tables, len, index + 1, depth + 1);
+    tables[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique values in
+   * ascending order, returning the number of unique values.
+   *
+   * @param a The array to dedupe.
+   * @return The number of unique values after having reordering the unique
+   *         values in ascending order.
+   * @throws IllegalArgumentException If the provided array is null.
+   */
+  public static final int dedupe(final char[] a) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
+  }
+
+  private static final int dedupe(final short[] tables, final int len, final int index, final int depth) {
+    if (index == len)
+      return depth;
+
+    final short element = tables[index];
+    if (tables[index - 1] == element)
+      return dedupe(tables, len, index + 1, depth);
+
+    final int length = dedupe(tables, len, index + 1, depth + 1);
+    tables[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique values in
+   * ascending order, returning the number of unique values.
+   *
+   * @param a The array to dedupe.
+   * @return The number of unique values after having reordering the unique
+   *         values in ascending order.
+   * @throws IllegalArgumentException If the provided array is null.
+   */
+  public static final int dedupe(final short[] a) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
+  }
+
+  private static final int dedupe(final int[] tables, final int len, final int index, final int depth) {
+    if (index == len)
+      return depth;
+
+    final int element = tables[index];
+    if (tables[index - 1] == element)
+      return dedupe(tables, len, index + 1, depth);
+
+    final int length = dedupe(tables, len, index + 1, depth + 1);
+    tables[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique values in
+   * ascending order, returning the number of unique values.
+   *
+   * @param a The array to dedupe.
+   * @return The number of unique values after having reordering the unique
+   *         values in ascending order.
+   * @throws IllegalArgumentException If the provided array is null.
+   */
+  public static final int dedupe(final int[] a) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
+  }
+
+  private static final int dedupe(final long[] tables, final int len, final int index, final int depth) {
+    if (index == len)
+      return depth;
+
+    final long element = tables[index];
+    if (tables[index - 1] == element)
+      return dedupe(tables, len, index + 1, depth);
+
+    final int length = dedupe(tables, len, index + 1, depth + 1);
+    tables[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique values in
+   * ascending order, returning the number of unique values.
+   *
+   * @param a The array to dedupe.
+   * @return The number of unique values after having reordering the unique
+   *         values in ascending order.
+   * @throws IllegalArgumentException If the provided array is null.
+   */
+  public static final int dedupe(final long[] a) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
+  }
+
+  private static final int dedupe(final float[] tables, final int len, final int index, final int depth) {
+    if (index == len)
+      return depth;
+
+    final float element = tables[index];
+    if (tables[index - 1] == element)
+      return dedupe(tables, len, index + 1, depth);
+
+    final int length = dedupe(tables, len, index + 1, depth + 1);
+    tables[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique values in
+   * ascending order, returning the number of unique values.
+   *
+   * @param a The array to dedupe.
+   * @return The number of unique values after having reordering the unique
+   *         values in ascending order.
+   * @throws IllegalArgumentException If the provided array is null.
+   */
+  public static final int dedupe(final float[] a) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
+  }
+
+  private static final int dedupe(final double[] tables, final int len, final int index, final int depth) {
+    if (index == len)
+      return depth;
+
+    final double element = tables[index];
+    if (tables[index - 1] == element)
+      return dedupe(tables, len, index + 1, depth);
+
+    final int length = dedupe(tables, len, index + 1, depth + 1);
+    tables[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique values in
+   * ascending order, returning the number of unique values.
+   *
+   * @param a The array to dedupe.
+   * @return The number of unique values after having reordering the unique
+   *         values in ascending order.
+   * @throws IllegalArgumentException If the provided array is null.
+   */
+  public static final int dedupe(final double[] a) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
+  }
+
+  private static final <T>int dedupe(final T[] a, final int len, final int index, final int depth, final Comparator<? super T> c) {
+    if (index == len)
+      return depth;
+
+    final T element = a[index];
+    if (c.compare(a[index - 1], element) == 0)
+      return dedupe(a, len, index + 1, depth, c);
+
+    final int length = dedupe(a, len, index + 1, depth + 1, c);
+    a[depth] = element;
+    return length;
+  }
+
+  /**
+   * Deduplicates the provided array by reordering the unique elements in
+   * ascending order specified by the given {@link Comparator}, returning the
+   * number of unique elements.
+   *
+   * @param <T> The type parameter of the provided array.
+   * @param a The array to dedupe.
+   * @param c The {@link Comparator}.
+   * @return The number of unique elements after having reordering the unique
+   *         elements in ascending order specified by the given
+   *         {@link Comparator}.
+   * @throws IllegalArgumentException If the provided array or
+   *           {@link Comparator} is null.
+   */
+  public static final <T>int dedupe(final T[] a, final Comparator<? super T> c) {
+    return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1, assertNotNull(c));
   }
 
   private ArrayUtil() {
