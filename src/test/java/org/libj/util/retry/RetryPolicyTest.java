@@ -26,7 +26,7 @@ public class RetryPolicyTest {
   private static final Logger logger = LoggerFactory.getLogger(RetryPolicyTest.class);
 
   @Test
-  public void testLinearBackoff() throws RetryFailureException {
+  public void testLinearBackoff() {
     final int attempts = 5;
     final int delayMs = 100;
 

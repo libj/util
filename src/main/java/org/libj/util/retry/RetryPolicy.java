@@ -16,6 +16,8 @@
 
 package org.libj.util.retry;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,6 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import org.libj.lang.Assertions;
 import org.libj.lang.Throwables;
 import org.libj.util.function.ThrowingRunnable;
 import org.slf4j.Logger;
@@ -43,17 +44,41 @@ public class RetryPolicy<E extends Exception> implements Serializable {
   private static final long serialVersionUID = -9105939315622837002L;
   private static final Logger logger = LoggerFactory.getLogger(RetryPolicy.class);
 
-  public static class Builder {
-    private final int startDelayMs;
+  /**
+   * A builder for {@link RetryPolicy RetryPolicy&lt;E&gt;} instances.
+   *
+   * @param <E> The type parameter of the {@link Exception} instance signifying
+   *          terminal failure of the {@link RetryPolicy} execution.
+   */
+  public static class Builder<E extends Exception> implements Cloneable {
+    private final OnRetryFailure<E> onRetryFailure;
+
+    /**
+     * Creates a new {@link Builder Builder&lt;E&gt;} with the provided
+     * {@link OnRetryFailure OnRetryFailure&lt;E&gt;}.
+     *
+     * @param onRetryFailure The {@link OnRetryFailure} specifying the
+     *          {@link Exception} instance of type {@code <E>} to be thrown in
+     *          the event of terminal failure of the {@link RetryPolicy}
+     *          execution.
+     * @throws IllegalArgumentException If {@code onRetryFailure} is null.
+     */
+    public Builder(final OnRetryFailure<E> onRetryFailure) {
+      this.onRetryFailure = assertNotNull(onRetryFailure);
+    }
+
+    private int startDelayMs = 0;
 
     /**
      * @param startDelayMs A positive value representing the delay for the first
      *          retry, in milliseconds, which is also used as the multiplicative
      *          factor for subsequent backed-off delays.
+     * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code startDelayMs} is negative.
      */
-    public Builder(final int startDelayMs) {
-      this.startDelayMs = Assertions.assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
+    public Builder<E> withStartDelay(final int startDelayMs) {
+      this.startDelayMs = assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
+      return this;
     }
 
     private int maxRetries = Integer.MAX_VALUE;
@@ -64,8 +89,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code maxRetries} is negative.
      */
-    public Builder withMaxRetries(final int maxRetries) {
-      this.maxRetries = Assertions.assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
+    public Builder<E> withMaxRetries(final int maxRetries) {
+      this.maxRetries = assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
       return this;
     }
 
@@ -78,8 +103,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
      */
-    public Builder withJitter(final double jitter) {
-      this.jitter = Assertions.assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
+    public Builder<E> withJitter(final double jitter) {
+      this.jitter = assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
       return this;
     }
 
@@ -91,7 +116,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      *          first retry to be attempted immediately.
      * @return {@code this} builder.
      */
-    public Builder withDelayOnFirstRetry(final boolean delayOnFirstRetry) {
+    public Builder<E> withDelayOnFirstRetry(final boolean delayOnFirstRetry) {
       this.delayOnFirstRetry = delayOnFirstRetry;
       return this;
     }
@@ -106,7 +131,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @throws IllegalArgumentException If {@code backoffFactor} is less than
      *           {@code 1}.
      */
-    public Builder withBackoffFactor(final double backoffFactor) {
+    public Builder<E> withBackoffFactor(final double backoffFactor) {
       this.backoffFactor = backoffFactor;
       if (backoffFactor < 1.0)
         throw new IllegalArgumentException("backoffFactor (" + backoffFactor + ") must be >= 1.0");
@@ -123,8 +148,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
      */
-    public Builder withMaxDelayMs(final long maxDelayMs) {
-      this.maxDelayMs = Assertions.assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
+    public Builder<E> withMaxDelayMs(final long maxDelayMs) {
+      this.maxDelayMs = assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
       return this;
     }
 
@@ -132,24 +157,27 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * Returns a new {@link RetryPolicy} with the parameters in this
      * {@link Builder}.
      *
-     * @param <E> The type parameter of the {@link Exception} instance
-     *          signifying terminal failure of the {@link RetryPolicy}
-     *          execution.
      * @param retryOn The {@link RetryOn} specifying the conditions under which
      *          a retry should occur given the provided non-null
      *          {@link Exception}, returning {@code true} if a retry should
      *          occur, and {@code false} otherwise.
-     * @param onRetryFailure The {@link OnRetryFailure} specifying the
-     *          {@link Exception} instance of type {@code <E>} to be thrown in
-     *          the event of terminal failure of the {@link RetryPolicy}
-     *          execution.
      * @return A new {@link RetryPolicy} with the parameters in this
      *         {@link Builder}.
-     * @throws IllegalArgumentException If {@code retryOn} or
-     *           {@code onRetryFailure} is null.
+     * @throws IllegalArgumentException If {@code retryOn} is null.
      */
-    public <E extends Exception>RetryPolicy<E> build(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure) {
+    public RetryPolicy<E> build(final RetryOn retryOn) {
       return new RetryPolicy<>(retryOn, onRetryFailure, maxRetries, startDelayMs, jitter, delayOnFirstRetry, backoffFactor, maxDelayMs);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Builder<E> clone() {
+      try {
+        return (Builder<E>)super.clone();
+      }
+      catch (final CloneNotSupportedException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
@@ -195,17 +223,17 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *           negative, or if {@code backoffFactor} is less than {@code 1}.
    */
   public RetryPolicy(final RetryOn retryOn, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry, final double backoffFactor, final long maxDelayMs) {
-    this.retryOn = Assertions.assertNotNull(retryOn);
-    this.onRetryFailure = Assertions.assertNotNull(onRetryFailure);
-    this.maxRetries = Assertions.assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
-    this.startDelayMs = Assertions.assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
-    this.jitter = Assertions.assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
+    this.retryOn = assertNotNull(retryOn);
+    this.onRetryFailure = assertNotNull(onRetryFailure);
+    this.maxRetries = assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
+    this.startDelayMs = assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
+    this.jitter = assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
     this.delayOnFirstRetry = delayOnFirstRetry;
     this.backoffFactor = backoffFactor;
     if (backoffFactor < 1.0)
       throw new IllegalArgumentException("backoffFactor (" + backoffFactor + ") must be >= 1.0");
 
-    this.maxDelayMs = Assertions.assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
+    this.maxDelayMs = assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
   }
 
   /**
@@ -355,8 +383,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *           {@link #retryOn} returns {@code false}.
    */
   public final <T>T run(final Callable<T> callable) throws E, RetryFailureRuntimeException {
-    Assertions.assertNotNull(retryOn);
-    Assertions.assertNotNull(callable);
+    assertNotNull(retryOn);
+    assertNotNull(callable);
     return run0((r, a) -> callable.call(), 0);
   }
 
@@ -379,8 +407,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *           {@link #retryOn} returns {@code false}.
    */
   public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureRuntimeException {
-    Assertions.assertNotNull(retryOn);
-    Assertions.assertNotNull(runnable);
+    assertNotNull(retryOn);
+    assertNotNull(runnable);
     return run0((r, a) -> {
       runnable.run();
       return null;
@@ -406,7 +434,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *           {@link #retryOn} returns {@code false}.
    */
   public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureRuntimeException {
-    return run0(Assertions.assertNotNull(retryable), 0);
+    return run0(assertNotNull(retryable), 0);
   }
 
   /**
@@ -432,10 +460,10 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *           {@link #retryOn} returns {@code false}.
    */
   public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureRuntimeException {
-    Assertions.assertNotNull(retryOn);
-    Assertions.assertNotNull(retryable);
-    Assertions.assertPositive(timeout, "timeout value (%d) must be a positive value", timeout);
-    Assertions.assertNotNull(unit);
+    assertNotNull(retryOn);
+    assertNotNull(retryable);
+    assertPositive(timeout, "timeout value (%d) must be a positive value", timeout);
+    assertNotNull(unit);
     return run0(retryable, TimeUnit.MILLISECONDS.convert(timeout, unit));
   }
 
