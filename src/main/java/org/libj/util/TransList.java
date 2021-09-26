@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -28,8 +30,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-
-import org.libj.lang.Assertions;
 
 /**
  * An implementation of the List interface that transforms the elements of
@@ -63,7 +63,7 @@ public class TransList<S,T> extends DelegateList<T> {
    * @throws IllegalArgumentException If {@code source} is null.
    */
   public TransList(final List<S> source, final BiFunction<Integer,S,T> sourceToTarget, final BiFunction<Integer,T,S> targetToSource) {
-    super.target = Assertions.assertNotNull(source);
+    super.target = assertNotNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
   }
@@ -238,7 +238,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T get(final int index) {
-    Assertions.assertRange("index", index, "size()", size(), false);
+    assertRange("index", index, "size()", size(), false);
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
@@ -248,7 +248,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T set(final int index, final T element) {
-    Assertions.assertRange("index", index, "size()", size(), false);
+    assertRange("index", index, "size()", size(), false);
     if (sourceToTarget == null || targetToSource == null)
       throw new UnsupportedOperationException();
 
@@ -257,7 +257,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public void add(final int index, final T element) {
-    Assertions.assertRange("index", index, "size()", size(), true);
+    assertRange("index", index, "size()", size(), true);
     if (targetToSource == null)
       throw new UnsupportedOperationException();
 
@@ -267,7 +267,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   @SuppressWarnings("unchecked")
   public T remove(final int index) {
-    Assertions.assertRange("index", index, "size()", size(), false);
+    assertRange("index", index, "size()", size(), false);
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
@@ -299,7 +299,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public ListIterator<T> listIterator(final int index) {
-    Assertions.assertRange("index", index, "size()", size(), true);
+    assertRange("index", index, "size()", size(), true);
     final ListIterator<S> iterator = target.listIterator();
     return new ListIterator<T>() {
       @Override
@@ -365,7 +365,7 @@ public class TransList<S,T> extends DelegateList<T> {
 
   @Override
   public TransList<S,T> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
+    assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return new TransList<S,T>(target.subList(fromIndex, toIndex), sourceToTarget, targetToSource);
   }
 

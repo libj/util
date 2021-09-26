@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -29,8 +31,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.TreeSet;
-
-import org.libj.lang.Assertions;
 
 /**
  * This class implements the {@link Set} interface, backed by a hash table
@@ -111,7 +111,7 @@ public class IdentityHashSet<E> extends HashSet<E> {
    * @throws IllegalArgumentException If the specified collection is null.
    */
   public IdentityHashSet(final Collection<? extends E> c) {
-    Assertions.assertNotNull(c);
+    assertNotNull(c);
     map = new IdentityHashMap<>(Math.max((int)(c.size() / .75f) + 1, 16));
     addAll(c);
   }

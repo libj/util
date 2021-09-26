@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,8 +25,6 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateMap} that provides callback methods to observe the
@@ -757,7 +757,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
-    Assertions.assertNotNull(function);
+    assertNotNull(function);
     for (final Map.Entry<K,V> entry : entrySet()) {
       final K key = entry.getKey();
       final V oldValue = entry.getValue();

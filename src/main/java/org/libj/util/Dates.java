@@ -16,12 +16,13 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.libj.lang.Assertions;
 import org.libj.lang.Numbers;
 
 /**
@@ -448,7 +449,7 @@ public final class Dates {
    * @throws ParseException If a parsing error has occurred.
    */
   public static long iso8601ToEpochMilli(final String iso8601) throws ParseException {
-    final int len = Assertions.assertNotNull(iso8601).length();
+    final int len = assertNotNull(iso8601).length();
     // The minimum length of a iso8601 dateTime is 14
     if (len < 14)
       throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 0);

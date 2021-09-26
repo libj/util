@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -26,8 +28,6 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.Comparator;
 import java.util.Date;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for operations pertaining to the {@code java.time} package.
@@ -218,7 +218,7 @@ public final class Temporals {
    * @throws IllegalArgumentException If {@code dataTime} is null.
    */
   public static long toEpochMilli(final LocalDateTime dateTime) {
-    return Assertions.assertNotNull(dateTime).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    return assertNotNull(dateTime).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
   }
 
   /**
@@ -231,7 +231,7 @@ public final class Temporals {
    * @throws IllegalArgumentException If {@code date} is null.
    */
   public static LocalDateTime toLocalDateTime(final Date date) {
-    return Assertions.assertNotNull(date).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return assertNotNull(date).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
   }
 
   /**
@@ -262,7 +262,7 @@ public final class Temporals {
    * @throws IllegalArgumentException If {@code t1} or {@code t2} is null.
    */
   public static LocalTime subtract(final LocalTime t1, final LocalTime t2) {
-    final long between = ChronoUnit.NANOS.between(Assertions.assertNotNull(t1), Assertions.assertNotNull(t2));
+    final long between = ChronoUnit.NANOS.between(assertNotNull(t1), assertNotNull(t2));
     return LocalTime.ofNanoOfDay(between == 0 ? 0 : NANOS_IN_DAY - between);
   }
 

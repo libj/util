@@ -15,10 +15,9 @@
  */
 
 package org.libj.util.concurrent;
+import static org.libj.lang.Assertions.*;
 
 import java.util.concurrent.ThreadFactory;
-
-import org.libj.lang.Assertions;
 
 /**
  * A builder that produces {@link ThreadFactory} instances given provided
@@ -69,7 +68,7 @@ public class ThreadFactoryBuilder {
    * @throws IllegalArgumentException If {@code stackSize} is negative.
    */
   public ThreadFactoryBuilder withStackSize(final int stackSize) {
-    this.stackSize = Assertions.assertNotNegative(stackSize);
+    this.stackSize = assertNotNegative(stackSize);
     return this;
   }
 
@@ -102,7 +101,7 @@ public class ThreadFactoryBuilder {
    *           of {@link Thread#MIN_PRIORITY} and {@link Thread#MAX_PRIORITY}.
    */
   public ThreadFactoryBuilder withPriority(final int priority) {
-    this.priority = Assertions.assertRangeMinMax(priority, Thread.MIN_PRIORITY, Thread.MAX_PRIORITY);
+    this.priority = assertRangeMinMax(priority, Thread.MIN_PRIORITY, Thread.MAX_PRIORITY);
     return this;
   }
 

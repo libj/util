@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -28,8 +30,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateList} contains some other {@link List}, to which it
@@ -54,7 +54,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
    * @throws IllegalArgumentException If the target {@link List} is null.
    */
   public DelegateList(final List<E> target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**
@@ -297,7 +297,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
 
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
-    return target.removeIf(Assertions.assertNotNull(filter));
+    return target.removeIf(assertNotNull(filter));
   }
 
   /**

@@ -15,6 +15,7 @@
  */
 
 package org.libj.util.concurrent;
+import static org.libj.lang.Assertions.*;
 
 import java.util.List;
 import java.util.concurrent.AbstractExecutorService;
@@ -23,7 +24,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.libj.lang.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -156,7 +156,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
    */
   @Override
   public void execute(final Runnable runnable) {
-    Assertions.assertNotNull(runnable);
+    assertNotNull(runnable);
     final Runnable wrapper = () -> {
       try {
         runnable.run();

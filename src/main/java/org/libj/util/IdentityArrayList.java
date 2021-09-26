@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link ArrayList} that resorts to the {@code ==} operator when checking an
@@ -64,7 +64,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
    * @throws IllegalArgumentException If the specified collection is null.
    */
   public IdentityArrayList(final Collection<? extends E> c) {
-    super(Assertions.assertNotNull(c));
+    super(assertNotNull(c));
   }
 
   /**
@@ -234,14 +234,14 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public IdentitySubList subList(final int fromIndex, final int toIndex) {
-      Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
+      assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
       return new IdentitySubList(target.subList(fromIndex, toIndex));
     }
   }
 
   @Override
   public List<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
+    assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return new IdentitySubList(super.subList(fromIndex, toIndex));
   }
 

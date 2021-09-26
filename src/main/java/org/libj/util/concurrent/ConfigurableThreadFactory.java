@@ -16,10 +16,10 @@
 
 package org.libj.util.concurrent;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link ThreadFactory} that provides a constructor that allows configuration
@@ -52,9 +52,9 @@ public class ConfigurableThreadFactory implements ThreadFactory {
     final SecurityManager s;
     this.group = group != null ? group : (s = System.getSecurityManager()) != null ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
     this.namePrefix = (namePrefix != null ? namePrefix : getClass().getSimpleName()) + "-" + threadFactorySeq.getAndIncrement() + "-";
-    this.stackSize = Assertions.assertNotNegative(stackSize);
+    this.stackSize = assertNotNegative(stackSize);
     this.daemon = daemon;
-    this.priority = Assertions.assertRangeMinMax(priority, Thread.MIN_PRIORITY, Thread.MAX_PRIORITY);
+    this.priority = assertRangeMinMax(priority, Thread.MIN_PRIORITY, Thread.MAX_PRIORITY);
   }
 
   @Override

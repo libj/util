@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,8 +30,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
-
-import org.libj.lang.Assertions;
 
 /**
  * Resizable-array implementation of the {@link java.util.List} interface with
@@ -235,7 +235,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @Override
   @SuppressWarnings("unchecked")
   public E get(final int index) {
-    Assertions.assertRange("index", index, "size", size);
+    assertRange("index", index, "size", size);
     return (E)elementData[deref(index)];
   }
 
@@ -257,7 +257,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     }
 
     ++modCount;
-    Assertions.assertRange("index", index, "size", size);
+    assertRange("index", index, "size", size);
     ensureCapacity(size + 1 + 1);
     final int pos = deref(index);
     if (pos == head) {
@@ -320,7 +320,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @SuppressWarnings("unchecked")
   public E set(final int index, final E element) {
     ++modCount;
-    Assertions.assertRange("index", index, "size", size);
+    assertRange("index", index, "size", size);
     final int realIndex = deref(index);
     final E oldValue = (E)elementData[realIndex];
     elementData[realIndex] = element;
@@ -334,7 +334,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @SuppressWarnings("unchecked")
   public E remove(final int index) {
     ++modCount;
-    Assertions.assertRange("index", index, "size", size);
+    assertRange("index", index, "size", size);
     final int pos = deref(index);
 
     final E e = (E)elementData[pos];

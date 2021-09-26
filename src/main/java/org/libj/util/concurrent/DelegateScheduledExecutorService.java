@@ -15,13 +15,12 @@
  */
 
 package org.libj.util.concurrent;
+import static org.libj.lang.Assertions.*;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateScheduledExecutorService} contains some other
@@ -46,8 +45,8 @@ public class DelegateScheduledExecutorService extends DelegateExecutorService im
    *           null.
    */
   public DelegateScheduledExecutorService(final ScheduledExecutorService target) {
-    super(Assertions.assertNotNull(target));
-    this.target = Assertions.assertNotNull(target);
+    super(assertNotNull(target));
+    this.target = assertNotNull(target);
   }
 
   /**

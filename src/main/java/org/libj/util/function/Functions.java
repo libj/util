@@ -16,11 +16,11 @@
 
 package org.libj.util.function;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for operations pertaining to {@link Function}.
@@ -46,8 +46,8 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
+    assertNotNull(f0);
+    assertNotNull(f1);
     return new Function<T,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t) {
@@ -79,9 +79,9 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
     return new Function<T,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t) {
@@ -116,10 +116,10 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     return new Function<T,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t) {
@@ -158,12 +158,12 @@ public class Functions {
    */
   @SafeVarargs
   public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3, final Function<T,? extends R> ... fN) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     for (final Function<T,? extends R> f : fN)
-      Assertions.assertNotNull(f);
+      assertNotNull(f);
 
     return new Function<T,Stream<R>>() {
       @Override
@@ -200,8 +200,8 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
+    assertNotNull(f0);
+    assertNotNull(f1);
     return new Function<T,R>() {
       @Override
       public R apply(final T t) {
@@ -238,9 +238,9 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
     return new Function<T,R>() {
       @Override
       public R apply(final T t) {
@@ -282,10 +282,10 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     return new Function<T,R>() {
       @Override
       public R apply(final T t) {
@@ -333,12 +333,12 @@ public class Functions {
    */
   @SafeVarargs
   public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3, final Function<T,? extends R> ... fN) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     for (final Function<T,? extends R> f : fN)
-      Assertions.assertNotNull(f);
+      assertNotNull(f);
 
     return new Function<T,R>() {
       @Override
@@ -386,8 +386,8 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
+    assertNotNull(f0);
+    assertNotNull(f1);
     return new BiFunction<T,U,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t, final U u) {
@@ -420,9 +420,9 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
     return new BiFunction<T,U,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t, final U u) {
@@ -458,10 +458,10 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     return new BiFunction<T,U,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t, final U u) {
@@ -501,12 +501,12 @@ public class Functions {
    */
   @SafeVarargs
   public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3, final BiFunction<T,U,? extends R> ... fN) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     for (final BiFunction<T,U,? extends R> f : fN)
-      Assertions.assertNotNull(f);
+      assertNotNull(f);
 
     return new BiFunction<T,U,Stream<R>>() {
       @Override
@@ -544,8 +544,8 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
+    assertNotNull(f0);
+    assertNotNull(f1);
     return new BiFunction<T,U,R>() {
       @Override
       public R apply(final T t, final U u) {
@@ -583,9 +583,9 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
     return new BiFunction<T,U,R>() {
       @Override
       public R apply(final T t, final U u) {
@@ -628,10 +628,10 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     return new BiFunction<T,U,R>() {
       @Override
       public R apply(final T t, final U u) {
@@ -680,12 +680,12 @@ public class Functions {
    */
   @SafeVarargs
   public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3, final BiFunction<T,U,? extends R> ... fN) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     for (final BiFunction<T,U,? extends R> f : fN)
-      Assertions.assertNotNull(f);
+      assertNotNull(f);
 
     return new BiFunction<T,U,R>() {
       @Override
@@ -734,8 +734,8 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
+    assertNotNull(f0);
+    assertNotNull(f1);
     return new TriFunction<T,U,V,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t, final U u, final V v) {
@@ -769,9 +769,9 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
     return new TriFunction<T,U,V,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t, final U u, final V v) {
@@ -808,10 +808,10 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     return new TriFunction<T,U,V,Stream<R>>() {
       @Override
       public Stream<R> apply(final T t, final U u, final V v) {
@@ -852,12 +852,12 @@ public class Functions {
    */
   @SafeVarargs
   public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3, final TriFunction<T,U,V,? extends R> ... fN) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     for (final TriFunction<T,U,V,? extends R> f : fN)
-      Assertions.assertNotNull(f);
+      assertNotNull(f);
 
     return new TriFunction<T,U,V,Stream<R>>() {
       @Override
@@ -896,8 +896,8 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
+    assertNotNull(f0);
+    assertNotNull(f1);
     return new TriFunction<T,U,V,R>() {
       @Override
       public R apply(final T t, final U u, final V v) {
@@ -936,9 +936,9 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
     return new TriFunction<T,U,V,R>() {
       @Override
       public R apply(final T t, final U u, final V v) {
@@ -982,10 +982,10 @@ public class Functions {
    * @throws IllegalArgumentException If any provided function is null.
    */
   public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     return new TriFunction<T,U,V,R>() {
       @Override
       public R apply(final T t, final U u, final V v) {
@@ -1035,12 +1035,12 @@ public class Functions {
    */
   @SafeVarargs
   public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3, final TriFunction<T,U,V,? extends R> ... fN) {
-    Assertions.assertNotNull(f0);
-    Assertions.assertNotNull(f1);
-    Assertions.assertNotNull(f2);
-    Assertions.assertNotNull(f3);
+    assertNotNull(f0);
+    assertNotNull(f1);
+    assertNotNull(f2);
+    assertNotNull(f3);
     for (final TriFunction<T,U,V,? extends R> f : fN)
-      Assertions.assertNotNull(f);
+      assertNotNull(f);
 
     return new TriFunction<T,U,V,R>() {
       @Override

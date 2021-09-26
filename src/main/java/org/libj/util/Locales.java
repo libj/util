@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for operations pertaining to {@link Locale}.
@@ -176,7 +176,7 @@ public final class Locales {
    * @throws IllegalArgumentException If {@code strings} is null.
    */
   public static Locale[] parse(final Collection<String> strings) {
-    final Locale[] locales = new Locale[Assertions.assertNotNull(strings).size()];
+    final Locale[] locales = new Locale[assertNotNull(strings).size()];
     final Iterator<String> iterator = strings.iterator();
     for (int i = 0; iterator.hasNext(); ++i)
       locales[i] = parse(iterator.next());
@@ -202,7 +202,7 @@ public final class Locales {
   }
 
   private static Locale[] parse(final Enumeration<String> enumeration, final int depth) {
-    if (!Assertions.assertNotNull(enumeration).hasMoreElements())
+    if (!assertNotNull(enumeration).hasMoreElements())
       return new Locale[depth];
 
     final Locale locale = parse(enumeration.nextElement());

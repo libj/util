@@ -16,9 +16,9 @@
 
 package org.libj.util.primitive;
 
-import java.util.List;
+import static org.libj.lang.Assertions.*;
 
-import org.libj.lang.Assertions;
+import java.util.List;
 
 /**
  * Utility class providing algorithms for sorting paired lists and arrays.
@@ -480,7 +480,7 @@ public abstract class PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   protected static void sort(final byte[] a, final int fromIndex, final int toIndex, final ByteComparator c) {
-    ByteTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
+    ByteTimSort.sort(assertNotNull(a), fromIndex, toIndex, assertNotNull(c), null, 0, 0);
   }
 
   /**
@@ -494,7 +494,7 @@ public abstract class PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   protected static void sort(final char[] a, final int fromIndex, final int toIndex, final CharComparator c) {
-    CharTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
+    CharTimSort.sort(assertNotNull(a), fromIndex, toIndex, assertNotNull(c), null, 0, 0);
   }
 
   /**
@@ -508,7 +508,7 @@ public abstract class PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   protected static void sort(final short[] a, final int fromIndex, final int toIndex, final ShortComparator c) {
-    ShortTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
+    ShortTimSort.sort(assertNotNull(a), fromIndex, toIndex, assertNotNull(c), null, 0, 0);
   }
 
   /**
@@ -522,7 +522,7 @@ public abstract class PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   protected static void sort(final int[] a, final int fromIndex, final int toIndex, final IntComparator c) {
-    IntTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
+    IntTimSort.sort(assertNotNull(a), fromIndex, toIndex, assertNotNull(c), null, 0, 0);
   }
 
   /**
@@ -536,7 +536,7 @@ public abstract class PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   protected static void sort(final long[] a, final int fromIndex, final int toIndex, final LongComparator c) {
-    LongTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
+    LongTimSort.sort(assertNotNull(a), fromIndex, toIndex, assertNotNull(c), null, 0, 0);
   }
 
   /**
@@ -550,7 +550,7 @@ public abstract class PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   protected static void sort(final float[] a, final int fromIndex, final int toIndex, final FloatComparator c) {
-    FloatTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
+    FloatTimSort.sort(assertNotNull(a), fromIndex, toIndex, assertNotNull(c), null, 0, 0);
   }
 
   /**
@@ -564,7 +564,7 @@ public abstract class PrimitiveSort {
    * @throws IllegalArgumentException If {@code a} or {@code c} is null.
    */
   protected static void sort(final double[] a, final int fromIndex, final int toIndex, final DoubleComparator c) {
-    DoubleTimSort.sort(Assertions.assertNotNull(a), fromIndex, toIndex, Assertions.assertNotNull(c), null, 0, 0);
+    DoubleTimSort.sort(assertNotNull(a), fromIndex, toIndex, assertNotNull(c), null, 0, 0);
   }
 
   protected static void sortIndexed(final Object[] data, final ByteList order, final int[] idx, final IntComparator c) {

@@ -16,12 +16,12 @@
 
 package org.libj.util.zip;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
-
-import org.libj.lang.Assertions;
 
 /**
  * Writes ZIP content.
@@ -36,7 +36,7 @@ public class ZipWriter implements AutoCloseable {
    * @throws IllegalArgumentException If {@code out} is null.
    */
   public ZipWriter(final ZipOutputStream out) {
-    this.out = Assertions.assertNotNull(out);
+    this.out = assertNotNull(out);
   }
 
   /**
@@ -49,10 +49,10 @@ public class ZipWriter implements AutoCloseable {
    * @throws IllegalArgumentException If {@code name} or {@code bytes} is null.
    */
   public void write(final String name, final byte[] bytes) throws IOException, ZipException {
-    final ZipEntry entry = new ZipEntry(Assertions.assertNotNull(name));
+    final ZipEntry entry = new ZipEntry(assertNotNull(name));
     entry.setTime(System.currentTimeMillis());
     out.putNextEntry(entry);
-    out.write(Assertions.assertNotNull(bytes));
+    out.write(assertNotNull(bytes));
   }
 
   /**

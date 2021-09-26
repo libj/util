@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import org.libj.lang.Assertions;
+import static org.libj.lang.Assertions.*;
 
 /**
  * Represents an operation that accepts five input arguments and returns no
@@ -60,7 +60,7 @@ public interface PentaConsumer<T,U,V,W,X> {
    * @throws IllegalArgumentException if {@code after} is null.
    */
   default PentaConsumer<T,U,V,W,X> andThen(final PentaConsumer<? super T,? super U,? super V,? super W,? super X> after) {
-    Assertions.assertNotNull(after);
+    assertNotNull(after);
     return (t, u, v, w, x) -> {
       accept(t, u, v, w, x);
       after.accept(t, u, v, w, x);

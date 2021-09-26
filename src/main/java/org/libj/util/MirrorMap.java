@@ -16,14 +16,14 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
-
-import org.libj.lang.Assertions;
 
 /**
  * A map that maintains 2 representations of its key-value entries:
@@ -135,8 +135,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
    */
   public MirrorMap(final Map<K,V> values, final Map<K,R> reflections, final Mirror<K,V,R> mirror) {
     super(values);
-    this.mirror = Assertions.assertNotNull(mirror);
-    this.reflections = Assertions.assertNotNull(reflections);
+    this.mirror = assertNotNull(mirror);
+    this.reflections = assertNotNull(reflections);
   }
 
   /**

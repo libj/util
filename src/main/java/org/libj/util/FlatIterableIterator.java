@@ -16,10 +16,10 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import org.libj.lang.Assertions;
 
 /**
  * An {@link Iterator} for N-dimensional collections implementing the
@@ -39,7 +39,7 @@ public abstract class FlatIterableIterator<T,E> extends FlatIterator<E,Iterator<
    * @throws IllegalArgumentException If the specified collection is null.
    */
   public FlatIterableIterator(final T c) {
-    stack.add(iterator(Assertions.assertNotNull(c)));
+    stack.add(iterator(assertNotNull(c)));
   }
 
   /**

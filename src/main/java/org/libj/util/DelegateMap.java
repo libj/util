@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -25,8 +27,6 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateMap} contains some other {@link Map}, to which it delegates
@@ -52,7 +52,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws IllegalArgumentException If the target {@link Map} is null.
    */
   public DelegateMap(final Map<K,V> target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**

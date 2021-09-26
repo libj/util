@@ -16,10 +16,10 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Calendar;
 import java.util.TimeZone;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for operations pertaining to {@link Calendar}.
@@ -38,7 +38,7 @@ public final class CalendarUtil {
    * @throws IllegalArgumentException If {@code timeZone} is null.
    */
   public static Calendar newCalendar(final long time, final TimeZone timeZone) {
-    final Calendar calendar = Calendar.getInstance(Assertions.assertNotNull(timeZone, "timeZone == null"));
+    final Calendar calendar = Calendar.getInstance(assertNotNull(timeZone, "timeZone == null"));
     calendar.setTimeInMillis(time);
     return calendar;
   }

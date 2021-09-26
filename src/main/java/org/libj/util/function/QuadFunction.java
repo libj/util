@@ -16,9 +16,9 @@
 
 package org.libj.util.function;
 
-import java.util.function.Function;
+import static org.libj.lang.Assertions.*;
 
-import org.libj.lang.Assertions;
+import java.util.function.Function;
 
 /**
  * Represents a function that accepts four arguments and produces a result. This
@@ -59,7 +59,7 @@ public interface QuadFunction<T,U,V,W,R> {
    * @throws IllegalArgumentException If {@code after} is null.
    */
   default <S>QuadFunction<T,U,V,W,S> andThen(final Function<? super R,? extends S> after) {
-    Assertions.assertNotNull(after);
+    assertNotNull(after);
     return (T t, U u, V v, W w) -> after.apply(apply(t, u, v, w));
   }
 }

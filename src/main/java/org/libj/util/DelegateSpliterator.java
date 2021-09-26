@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateSpliterator} contains some other {@link Spliterator}, to
@@ -48,7 +48,7 @@ public abstract class DelegateSpliterator<T> implements Spliterator<T> {
    * @throws IllegalArgumentException If the target {@link Spliterator} is null.
    */
   public DelegateSpliterator(final Spliterator<T> target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**

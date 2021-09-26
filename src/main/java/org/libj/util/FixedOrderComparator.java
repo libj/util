@@ -16,10 +16,10 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.Serializable;
 import java.util.Comparator;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link Comparator} that accepts a fixed definition of terms specifying an
@@ -44,7 +44,7 @@ public class FixedOrderComparator<T extends Comparable<? super T>> implements Co
    */
   @SafeVarargs
   public FixedOrderComparator(final T ... order) {
-    this.order = Assertions.assertNotNull(order);
+    this.order = assertNotNull(order);
   }
 
   @Override

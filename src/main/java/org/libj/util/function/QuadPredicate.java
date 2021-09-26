@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import org.libj.lang.Assertions;
+import static org.libj.lang.Assertions.*;
 
 /**
  * Represents a predicate (boolean-valued function) of four arguments. This is
@@ -58,7 +58,7 @@ public interface QuadPredicate<T,U,V,W> {
    * @throws IllegalArgumentException If {@code other} is null.
    */
   default QuadPredicate<T,U,V,W> and(final QuadPredicate<? super T,? super U,? super V,? super W> other) {
-    Assertions.assertNotNull(other);
+    assertNotNull(other);
     return (T t, U u, V v, W w) -> test(t, u, v, w) && other.test(t, u, v, w);
   }
 
@@ -87,7 +87,7 @@ public interface QuadPredicate<T,U,V,W> {
    * @throws IllegalArgumentException If other is null.
    */
   default QuadPredicate<T,U,V,W> or(final QuadPredicate<? super T,? super U,? super V,? super W> other) {
-    Assertions.assertNotNull(other);
+    assertNotNull(other);
     return (T t, U u, V v, W w) -> test(t, u, v, w) || other.test(t, u, v, w);
   }
 }

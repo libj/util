@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Comparator;
@@ -28,8 +30,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateList} that provides callback methods to observe the
@@ -273,7 +273,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public void add(final int index, final E element) {
-    Assertions.assertRange("index", index, "size()", size(), true);
+    assertRange("index", index, "size()", size(), true);
     addFast(index, element);
   }
 
@@ -405,7 +405,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public E get(final int index) {
-    Assertions.assertRange("index", index, "size()", size(), false);
+    assertRange("index", index, "size()", size(), false);
     return getFast(index);
   }
 
@@ -676,7 +676,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    Assertions.assertRange("index", index, "size()", size(), true);
+    assertRange("index", index, "size()", size(), true);
     return newListIterator(super.listIterator(index + fromIndex));
   }
 
@@ -713,7 +713,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public E remove(final int index) {
-    Assertions.assertRange("index", index, "size()", size(), false);
+    assertRange("index", index, "size()", size(), false);
     return removeFast(index);
   }
 
@@ -749,7 +749,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public E set(final int index, final E element) {
-    Assertions.assertRange("index", index, "size()", size(), false);
+    assertRange("index", index, "size()", size(), false);
     if (!beforeSet(index, element))
       return null;
 
@@ -944,7 +944,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
   @Override
   public ObservableList<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
+    assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return newSubList(fromIndex, toIndex);
   }
 

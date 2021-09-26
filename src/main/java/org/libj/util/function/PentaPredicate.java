@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import org.libj.lang.Assertions;
+import static org.libj.lang.Assertions.*;
 
 /**
  * Represents a predicate (boolean-valued function) of five arguments. This is
@@ -60,7 +60,7 @@ public interface PentaPredicate<T,U,V,W,X> {
    * @throws IllegalArgumentException If {@code other} is null.
    */
   default PentaPredicate<T,U,V,W,X> and(final PentaPredicate<? super T,? super U,? super V,? super W,? super X> other) {
-    Assertions.assertNotNull(other);
+    assertNotNull(other);
     return (T t, U u, V v, W w, X x) -> test(t, u, v, w, x) && other.test(t, u, v, w, x);
   }
 
@@ -89,7 +89,7 @@ public interface PentaPredicate<T,U,V,W,X> {
    * @throws IllegalArgumentException If other is null.
    */
   default PentaPredicate<T,U,V,W,X> or(final PentaPredicate<? super T,? super U,? super V,? super W,? super X> other) {
-    Assertions.assertNotNull(other);
+    assertNotNull(other);
     return (T t, U u, V v, W w, X x) -> test(t, u, v, w, x) || other.test(t, u, v, w, x);
   }
 }

@@ -15,6 +15,7 @@
  */
 
 package org.libj.util.concurrent;
+import static org.libj.lang.Assertions.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,8 +25,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateExecutorService} contains some other
@@ -50,7 +49,7 @@ public class DelegateExecutorService implements ExecutorService {
    *           null.
    */
   public DelegateExecutorService(final ExecutorService target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**

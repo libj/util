@@ -15,10 +15,9 @@
  */
 
 package org.libj.util.primitive;
+import static org.libj.lang.Assertions.*;
 
 import java.lang.reflect.Array;
-
-import org.libj.lang.Assertions;
 
 /**
  * This class provides the base implementation of an array-backed list of the
@@ -60,7 +59,7 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
    * @throws IllegalArgumentException If {@code parent} is null.
    */
   protected PrimitiveArrayList(final PrimitiveArrayList<T> parent, final int fromIndex, final int toIndex) {
-    this.parent = Assertions.assertNotNull(parent);
+    this.parent = assertNotNull(parent);
     if (parent.child == null) {
       this.sibling = this;
       parent.child = this;

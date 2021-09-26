@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -25,8 +27,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.libj.lang.Assertions;
 
 /**
  * A concurrent {@link HashSet} implementation backed by a
@@ -87,7 +87,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    */
   public ConcurrentHashSet(final Collection<? extends E> c) {
     map = new CloneableConcurrentHashMap<>(DEFAULT_CAPACITY);
-    addAll(Assertions.assertNotNull(c));
+    addAll(assertNotNull(c));
   }
 
   /**

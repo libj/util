@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Comparator;
@@ -23,8 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link List} that guarantees sorted order of its elements.
@@ -63,7 +63,7 @@ public class SortedList<E> extends ObservableList<E> {
    *           {@link Comparator comparator} is null.
    */
   public SortedList(final List<E> list, final Comparator<E> comparator) {
-    this(list, Assertions.assertNotNull(comparator), true);
+    this(list, assertNotNull(comparator), true);
   }
 
   private SortedList(final List<E> list, final Comparator<E> comparator, final boolean sort) {
@@ -262,7 +262,7 @@ public class SortedList<E> extends ObservableList<E> {
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
-    Assertions.assertRange("index", index, "size()", size(), true);
+    assertRange("index", index, "size()", size(), true);
     return new CursorListIterator<E>(target.listIterator(index)) {
       private void shift(int dist) {
         if (dist < 0) {
@@ -325,7 +325,7 @@ public class SortedList<E> extends ObservableList<E> {
 
   @Override
   public SortedList<E> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
+    assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return new SortedList<E>(target.subList(fromIndex, toIndex), comparator, false);
   }
 }

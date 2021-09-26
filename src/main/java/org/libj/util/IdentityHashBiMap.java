@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.Serializable;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.libj.lang.Assertions;
 
 /**
  * Bidirectional map ({@link BiMap}) backed by a {@link IdentityHashMap}.
@@ -54,7 +54,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
    */
   public IdentityHashBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(Assertions.assertNotNull(m));
+    putAll(assertNotNull(m));
   }
 
   /**

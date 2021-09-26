@@ -16,11 +16,11 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-
-import org.libj.lang.Assertions;
 
 /**
  * An efficient stream searching class based on the Knuth-Morris-Pratt
@@ -100,9 +100,9 @@ public final class StreamSearcher {
      * @throws IllegalArgumentException If {@code in} is null.
      */
     public int search(final Reader in, final char[] buffer, final int offset) throws IOException {
-      Assertions.assertNotNull(in);
+      assertNotNull(in);
       if (buffer != null)
-        Assertions.assertRangeArray(offset, buffer.length);
+        assertRangeArray(offset, buffer.length);
 
       final int[] j = new int[patterns.length];
       int i = 0;
@@ -194,7 +194,7 @@ public final class StreamSearcher {
      */
     public int search(final InputStream in, final byte[] buffer, final int offset) throws IOException {
       if (buffer != null)
-        Assertions.assertRangeArray(offset, buffer.length);
+        assertRangeArray(offset, buffer.length);
 
       final int[] j = new int[patterns.length];
       int i = 0;

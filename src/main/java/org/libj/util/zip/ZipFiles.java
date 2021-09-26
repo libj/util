@@ -16,6 +16,8 @@
 
 package org.libj.util.zip;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,8 +26,6 @@ import java.util.Enumeration;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions pertaining to {@link ZipFile}.
@@ -56,8 +56,8 @@ public final class ZipFiles {
    *           null.
    */
   public static void extract(final ZipFile zipFile, final File destDir, final Predicate<? super ZipEntry> predicate) throws IOException {
-    Assertions.assertNotNull(zipFile);
-    Assertions.assertNotNull(destDir);
+    assertNotNull(zipFile);
+    assertNotNull(destDir);
     final Enumeration<? extends ZipEntry> entries = zipFile.entries();
     while (entries.hasMoreElements()) {
       final ZipEntry zipEntry = entries.nextElement();

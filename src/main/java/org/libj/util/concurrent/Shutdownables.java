@@ -15,6 +15,7 @@
  */
 
 package org.libj.util.concurrent;
+import static org.libj.lang.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for operations pertaining to {@link Shutdownable}.
@@ -64,12 +63,12 @@ public final class Shutdownables {
    *           is null, or if any member of {@code shutdownables} is null.
    */
   public static boolean awaitTermination(final long timeout, final TimeUnit unit, final Shutdownable ... shutdownables) throws InterruptedException {
-    Assertions.assertNotNull(unit);
-    Assertions.assertNotEmpty(shutdownables);
+    assertNotNull(unit);
+    assertNotEmpty(shutdownables);
     final List<Callable<Boolean>> callables = new ArrayList<>(shutdownables.length);
     final AtomicReference<InterruptedException> ie = new AtomicReference<>();
     for (final Shutdownable shutdownable : shutdownables) {
-      Assertions.assertNotNull(shutdownable);
+      assertNotNull(shutdownable);
       callables.add(() -> {
         try {
           return shutdownable.awaitTermination(timeout, unit);

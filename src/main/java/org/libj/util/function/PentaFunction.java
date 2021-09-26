@@ -16,9 +16,9 @@
 
 package org.libj.util.function;
 
-import java.util.function.Function;
+import static org.libj.lang.Assertions.*;
 
-import org.libj.lang.Assertions;
+import java.util.function.Function;
 
 /**
  * Represents a function that accepts five arguments and produces a result. This
@@ -62,7 +62,7 @@ public interface PentaFunction<T,U,V,W,X,R> {
    * @throws IllegalArgumentException If {@code after} is null.
    */
   default <S>PentaFunction<T,U,V,W,X,S> andThen(final Function<? super R,? extends S> after) {
-    Assertions.assertNotNull(after);
+    assertNotNull(after);
     return (T t, U u, V v, W w, X x) -> after.apply(apply(t, u, v, w, x));
   }
 }

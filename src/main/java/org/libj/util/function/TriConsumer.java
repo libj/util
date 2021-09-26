@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import org.libj.lang.Assertions;
+import static org.libj.lang.Assertions.*;
 
 /**
  * Represents an operation that accepts three input arguments and returns no
@@ -56,7 +56,7 @@ public interface TriConsumer<T,U,V> {
    * @throws IllegalArgumentException if {@code after} is null.
    */
   default TriConsumer<T,U,V> andThen(final TriConsumer<? super T,? super U,? super V> after) {
-    Assertions.assertNotNull(after);
+    assertNotNull(after);
     return (t, u, v) -> {
       accept(t, u, v);
       after.accept(t, u, v);

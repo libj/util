@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
@@ -23,8 +25,6 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import org.libj.lang.Assertions;
 
 /**
  * Bidirectional map ({@link BiMap}) backed by a {@link TreeMap}.
@@ -59,7 +59,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
    */
   public TreeBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(Assertions.assertNotNull(m));
+    putAll(assertNotNull(m));
   }
 
   /**

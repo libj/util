@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for operations pertaining to {@link Pattern}.
@@ -117,7 +117,7 @@ public final class Patterns {
    * @throws IllegalArgumentException If {@code regex} is null.
    */
   public static Pattern compile(final String regex, final int flags) {
-    final String key = Assertions.assertNotNull(regex) + "$" + flags;
+    final String key = assertNotNull(regex) + "$" + flags;
     Pattern pattern = propertyNameToPattern.get(key);
     if (pattern == null)
       propertyNameToPattern.put(key, pattern = Pattern.compile(regex, flags));
@@ -139,7 +139,7 @@ public final class Patterns {
    * @throws IllegalArgumentException If {@code pattern} is null.
    */
   public static String[] getGroupNames(final Pattern pattern) {
-    return getGroupNames(Assertions.assertNotNull(pattern).toString(), 0, 0);
+    return getGroupNames(assertNotNull(pattern).toString(), 0, 0);
   }
 
   /**
@@ -156,7 +156,7 @@ public final class Patterns {
    * @throws IllegalArgumentException If {@code pattern} is null.
    */
   public static String[] getGroupNames(final String pattern) {
-    return getGroupNames(Assertions.assertNotNull(pattern), 0, 0);
+    return getGroupNames(assertNotNull(pattern), 0, 0);
   }
 
   private static String[] empty = {};

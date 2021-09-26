@@ -16,13 +16,13 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-
-import org.libj.lang.Assertions;
 
 /**
  * A list that maintains 2 representations of its elements:
@@ -137,8 +137,8 @@ public class MirrorList<V,R> extends ObservableList<V> {
    */
   public MirrorList(final List<V> values, final List<R> reflections, final Mirror<V,R> mirror) {
     super(values);
-    this.mirror = Assertions.assertNotNull(mirror);
-    this.reflections = Assertions.assertNotNull(reflections);
+    this.mirror = assertNotNull(mirror);
+    this.reflections = assertNotNull(reflections);
   }
 
   /**
@@ -431,7 +431,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   @Override
   @SuppressWarnings("unchecked")
   public MirrorList<V,R> subList(final int fromIndex, final int toIndex) {
-    Assertions.assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
+    assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return newInstance(target.subList(fromIndex, toIndex), (reflections != null ? reflections : mirrorList.target).subList(fromIndex, toIndex));
   }
 }

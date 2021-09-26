@@ -16,6 +16,8 @@
 
 package org.libj.util.concurrent;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,7 +37,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.libj.lang.Assertions;
 import org.libj.lang.Threads;
 
 /**
@@ -93,10 +94,10 @@ public final class ExecutorServices {
     }
 
     private <T>List<Callable<T>> interruptAfterTimeout(final Collection<? extends Callable<T>> tasks) {
-      final List<Callable<T>> interruptableTasks = new ArrayList<>(Assertions.assertNotNull(tasks).size());
+      final List<Callable<T>> interruptableTasks = new ArrayList<>(assertNotNull(tasks).size());
       final Iterator<? extends Callable<T>> iterator = tasks.iterator();
       while (iterator.hasNext())
-        interruptableTasks.add(Threads.interruptAfterTimeout(Assertions.assertNotNull(iterator.next()), timeout, unit));
+        interruptableTasks.add(Threads.interruptAfterTimeout(assertNotNull(iterator.next()), timeout, unit));
 
       return interruptableTasks;
     }
@@ -214,7 +215,7 @@ public final class ExecutorServices {
    *           null, or if {@code timeout} is negative.
    */
   public static ExecutorService interruptAfterTimeout(final ExecutorService executor, final long timeout, final TimeUnit unit) {
-    return new InterruptExecutorService(Assertions.assertNotNull(executor), Assertions.assertNotNegative(timeout), Assertions.assertNotNull(unit));
+    return new InterruptExecutorService(assertNotNull(executor), assertNotNegative(timeout), assertNotNull(unit));
   }
 
   /**
@@ -236,7 +237,7 @@ public final class ExecutorServices {
    *           null, or if {@code timeout} is negative.
    */
   public static ScheduledExecutorService interruptAfterTimeout(final ScheduledExecutorService executor, final long timeout, final TimeUnit unit) {
-    return new InterruptScheduledExecutorService(Assertions.assertNotNull(executor), Assertions.assertNotNegative(timeout), Assertions.assertNotNull(unit));
+    return new InterruptScheduledExecutorService(assertNotNull(executor), assertNotNegative(timeout), assertNotNull(unit));
   }
 
   /**
@@ -260,7 +261,7 @@ public final class ExecutorServices {
    *           execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Collection<? extends Runnable> tasks) {
-    return invokeAll(executor, Runnable::run, Assertions.assertNotNull(tasks).toArray(new Runnable[tasks.size()]));
+    return invokeAll(executor, Runnable::run, assertNotNull(tasks).toArray(new Runnable[tasks.size()]));
   }
 
   /**
@@ -284,7 +285,7 @@ public final class ExecutorServices {
    *           execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Runnable ... tasks) {
-    return invokeAll(executor, Runnable::run, Assertions.assertNotNull(tasks));
+    return invokeAll(executor, Runnable::run, assertNotNull(tasks));
   }
 
   /**
@@ -313,7 +314,7 @@ public final class ExecutorServices {
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final Collection<? extends T> tasks) {
-    return invokeAll(executor, (Consumer)proxy, Assertions.assertNotNull(tasks).toArray());
+    return invokeAll(executor, (Consumer)proxy, assertNotNull(tasks).toArray());
   }
 
   /**
@@ -342,15 +343,15 @@ public final class ExecutorServices {
    */
   @SafeVarargs
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final T ... tasks) {
-    Assertions.assertNotNull(executor);
-    Assertions.assertNotNull(proxy);
-    Assertions.assertNotNull(tasks);
+    assertNotNull(executor);
+    assertNotNull(proxy);
+    assertNotNull(tasks);
     final AtomicBoolean started = new AtomicBoolean(false);
     final AtomicBoolean cancelled = new AtomicBoolean(false);
     final Thread[] threads = new Thread[tasks.length];
     final CountDownLatch latch = new CountDownLatch(tasks.length);
     for (int i = 0; i < tasks.length; ++i) {
-      final T task = Assertions.assertNotNull(tasks[i]);
+      final T task = assertNotNull(tasks[i]);
       final int index = i;
       executor.execute(() -> {
         if (!started.getAndSet(true)) {
@@ -419,7 +420,7 @@ public final class ExecutorServices {
 
       @Override
       public Boolean get(final long timeout, final TimeUnit unit) throws InterruptedException, TimeoutException {
-        return await(timeout, Assertions.assertNotNull(unit));
+        return await(timeout, assertNotNull(unit));
       }
 
       private Boolean await(final long timeout, final TimeUnit unit) throws InterruptedException, TimeoutException {
@@ -480,9 +481,9 @@ public final class ExecutorServices {
   @SafeVarargs
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final T ... tasks) throws InterruptedException {
-    final Callable<R>[] callables = new Callable[Assertions.assertNotNull(tasks).length];
+    final Callable<R>[] callables = new Callable[assertNotNull(tasks).length];
     for (int i = 0; i < tasks.length; ++i) {
-      final T task = Assertions.assertNotNull(tasks[i]);
+      final T task = assertNotNull(tasks[i]);
       callables[i] = () -> proxy.apply(task);
     }
 
@@ -518,10 +519,10 @@ public final class ExecutorServices {
    */
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
-    final Callable<R>[] callables = new Callable[Assertions.assertNotNull(tasks).size()];
+    final Callable<R>[] callables = new Callable[assertNotNull(tasks).size()];
     final Iterator<T> iterator = tasks.iterator();
     for (int i = 0; iterator.hasNext(); ++i) {
-      final T task = Assertions.assertNotNull(iterator.next());
+      final T task = assertNotNull(iterator.next());
       callables[i] = () -> proxy.apply(task);
     }
 

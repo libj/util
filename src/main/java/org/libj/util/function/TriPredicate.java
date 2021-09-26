@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import org.libj.lang.Assertions;
+import static org.libj.lang.Assertions.*;
 
 /**
  * Represents a predicate (boolean-valued function) of three arguments. This is
@@ -56,7 +56,7 @@ public interface TriPredicate<T,U,V> {
    * @throws IllegalArgumentException If {@code other} is null.
    */
   default TriPredicate<T,U,V> and(final TriPredicate<? super T,? super U,? super V> other) {
-    Assertions.assertNotNull(other);
+    assertNotNull(other);
     return (T t, U u, V v) -> test(t, u, v) && other.test(t, u, v);
   }
 
@@ -85,7 +85,7 @@ public interface TriPredicate<T,U,V> {
    * @throws IllegalArgumentException If other is null.
    */
   default TriPredicate<T,U,V> or(final TriPredicate<? super T,? super U,? super V> other) {
-    Assertions.assertNotNull(other);
+    assertNotNull(other);
     return (T t, U u, V v) -> test(t, u, v) || other.test(t, u, v);
   }
 }

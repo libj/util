@@ -16,12 +16,12 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.function.Consumer;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateListIterator} contains some other {@link ListIterator}, to
@@ -49,7 +49,7 @@ public abstract class DelegateListIterator<E> extends AbstractIterator<E> implem
    *           null.
    */
   public DelegateListIterator(final ListIterator<? extends E> target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**

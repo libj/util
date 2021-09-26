@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +25,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
-import org.libj.lang.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +82,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
     digraph = new Digraph<>(initialCapacity);
     vertices = new ArrayList<>(initialCapacity);
     references = new HashSet<>(initialCapacity);
-    reference = Assertions.assertNotNull(keyToValue);
+    reference = assertNotNull(keyToValue);
   }
 
   /**
@@ -140,7 +141,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
 
   @Override
   public boolean add(final K vertex) {
-    vertices.add(Assertions.assertNotNull(vertex));
+    vertices.add(assertNotNull(vertex));
     return digraph.add(reference.apply(vertex));
   }
 

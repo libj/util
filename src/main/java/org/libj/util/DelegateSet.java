@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
@@ -25,8 +27,6 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateSet} contains some other {@link Set}, to which it delegates
@@ -51,7 +51,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
    * @throws IllegalArgumentException If the target {@link Set} is null.
    */
   public DelegateSet(final Set<E> target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**

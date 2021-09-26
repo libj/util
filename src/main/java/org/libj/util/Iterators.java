@@ -16,14 +16,14 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for operations pertaining to {@link Iterator}.
@@ -53,7 +53,7 @@ public final class Iterators {
    *           null.
    */
   public static <E>void forEachRemainingReverse(final Iterator<E> iterator, final Consumer<? super E> consumer) {
-    recurseNext(Assertions.assertNotNull(iterator), Assertions.assertNotNull(consumer));
+    recurseNext(assertNotNull(iterator), assertNotNull(consumer));
   }
 
   /**
@@ -66,7 +66,7 @@ public final class Iterators {
    * @throws IllegalArgumentException If {@code iterator} is null.
    */
   public static int getSize(final Iterator<?> iterator) {
-    Assertions.assertNotNull(iterator);
+    assertNotNull(iterator);
     int i = 0;
     for (; iterator.hasNext(); ++i)
       iterator.next();
@@ -85,7 +85,7 @@ public final class Iterators {
    * @throws IllegalArgumentException If {@code iterator} is null.
    */
   public static <E>E lastElement(final Iterator<E> iterator) {
-    Assertions.assertNotNull(iterator);
+    assertNotNull(iterator);
     E element = null;
     while (iterator.hasNext())
       element = iterator.next();
@@ -105,8 +105,8 @@ public final class Iterators {
    * @throws IllegalArgumentException If {@code iterator} or {@code filter} is null.
    */
   public static <E>Iterator<E> filter(final Iterator<? extends E> iterator, final Predicate<? super E> filter) {
-    Assertions.assertNotNull(iterator);
-    Assertions.assertNotNull(filter);
+    assertNotNull(iterator);
+    assertNotNull(filter);
     return new Iterator<E>() {
       private boolean consumed = true;
       private E next;
@@ -185,7 +185,7 @@ public final class Iterators {
    * @throws IllegalArgumentException If {@code i} is null.
    */
   public static <T>Enumeration<T> toEnumeration(final Iterator<T> i) {
-    Assertions.assertNotNull(i);
+    assertNotNull(i);
     return new Enumeration<T>() {
       @Override
       public boolean hasMoreElements() {

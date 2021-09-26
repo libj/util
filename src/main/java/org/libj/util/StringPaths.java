@@ -16,10 +16,11 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.File;
 import java.util.regex.Pattern;
 
-import org.libj.lang.Assertions;
 import org.libj.lang.Strings;
 
 /**
@@ -100,7 +101,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalUnix(final String path) {
-    return unixPath.matcher(Assertions.assertNotNull(path)).matches();
+    return unixPath.matcher(assertNotNull(path)).matches();
   }
 
   /**
@@ -138,7 +139,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalWindows(final String path) {
-    return windowsPath.matcher(Assertions.assertNotNull(path)).matches();
+    return windowsPath.matcher(assertNotNull(path)).matches();
   }
 
   /**
@@ -206,7 +207,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsolutePublicId(final String path) {
-    return absolute.matcher(Assertions.assertNotNull(path)).matches();
+    return absolute.matcher(assertNotNull(path)).matches();
   }
 
   /**
@@ -235,7 +236,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String getProtocol(final String path) {
-    final int index = Assertions.assertNotNull(path).indexOf(":/");
+    final int index = assertNotNull(path).indexOf(":/");
     return index < 0 ? null : path.substring(0, index);
   }
 
@@ -271,8 +272,8 @@ public final class StringPaths {
    * @see StringPaths#isAbsoluteLocalWindows(String)
    */
   public static String newPath(final String parent, final String child) {
-    Assertions.assertNotNull(parent);
-    Assertions.assertNotNull(child);
+    assertNotNull(parent);
+    assertNotNull(child);
     if (child.length() == 0)
       return parent;
 
@@ -304,7 +305,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String canonicalize(final String path) {
-    return canonicalize(new StringBuilder(Assertions.assertNotNull(path)), isAbsoluteLocalWindows(path)).toString();
+    return canonicalize(new StringBuilder(assertNotNull(path)), isAbsoluteLocalWindows(path)).toString();
   }
 
   /**
@@ -324,7 +325,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static StringBuilder canonicalize(final StringBuilder path) {
-    return canonicalize(Assertions.assertNotNull(path), isAbsoluteLocalWindows(path.toString()));
+    return canonicalize(assertNotNull(path), isAbsoluteLocalWindows(path.toString()));
   }
 
   private static StringBuilder canonicalize(final StringBuilder path, final boolean isWindows) {
@@ -393,7 +394,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String getParent(final String path) {
-    final int offset = Assertions.assertNotNull(path).length() - 1;
+    final int offset = assertNotNull(path).length() - 1;
     final int index = path.charAt(offset) == '/' ? path.lastIndexOf('/', offset - 1) : path.lastIndexOf('/', offset);
     return index < 0 || path.charAt(index) == ':' || index >= 2 && path.regionMatches(index - 2, "://", 0, 3) ? null : path.substring(0, index + 1);
   }
@@ -410,7 +411,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String getCanonicalParent(final String path) {
-    final StringBuilder builder = canonicalize(new StringBuilder(Assertions.assertNotNull(path)));
+    final StringBuilder builder = canonicalize(new StringBuilder(assertNotNull(path)));
     final int index = builder.lastIndexOf("/");
     return index < 0 ? null : builder.substring(0, index + 1);
   }
@@ -435,7 +436,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null or empty.
    */
   public static String getName(final String path) {
-    if (Assertions.assertNotNull(path).length() == 0)
+    if (assertNotNull(path).length() == 0)
       throw new IllegalArgumentException("Empty path");
 
     return getName0(path);
@@ -454,7 +455,7 @@ public final class StringPaths {
    * @throws IllegalArgumentException If {@code path} is null or empty.
    */
   public static String getSimpleName(String path) {
-    if (Assertions.assertNotNull(path).length() == 0)
+    if (assertNotNull(path).length() == 0)
       throw new IllegalArgumentException("Empty path");
 
     path = getName0(path);

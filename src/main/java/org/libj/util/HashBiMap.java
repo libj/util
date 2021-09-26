@@ -16,11 +16,11 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.libj.lang.Assertions;
 
 /**
  * Bidirectional map ({@link BiMap}) backed by a {@link HashMap}.
@@ -66,7 +66,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
    */
   public HashBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(Assertions.assertNotNull(m));
+    putAll(assertNotNull(m));
   }
 
   /**

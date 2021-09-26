@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
@@ -24,8 +26,6 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateCollection} contains some other {@link Collection}, to which
@@ -51,7 +51,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    * @throws IllegalArgumentException If the target {@link Collection} is null.
    */
   public DelegateCollection(final Collection<E> target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**
