@@ -36,8 +36,6 @@ import org.libj.lang.Assertions;
  */
 public class ConcurrentHashSet<E> extends HashSet<E> {
   private static final class CloneableConcurrentHashMap<K,V> extends ConcurrentNullHashMap<K,V> {
-    private static final long serialVersionUID = -3259218346584869178L;
-
     private CloneableConcurrentHashMap(final int initialCapacity) {
       super(initialCapacity);
     }
@@ -58,7 +56,6 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
     }
   }
 
-  private static final long serialVersionUID = -2016698281843655212L;
 
   /**
    * The default initial table capacity. Must be a power of 2 (i.e., at least 1)

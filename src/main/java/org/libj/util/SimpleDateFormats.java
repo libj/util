@@ -50,7 +50,6 @@ public final class SimpleDateFormats {
 
   private static class IsoDateFormatLocal extends ThreadLocal<SimpleDateFormat> {
     private class IsoDateFormats extends SimpleDateFormat {
-      private static final long serialVersionUID = -5372728724513492901L;
       private final IsoDateFormat[] formats;
 
       IsoDateFormats(final Locale locale, final String ... patterns) {
@@ -89,8 +88,6 @@ public final class SimpleDateFormats {
     }
 
     private class IsoDateFormat extends SimpleDateFormat {
-      private static final long serialVersionUID = -6482262601307089887L;
-
       private final int index;
 
       IsoDateFormat(final String pattern, final Locale locale, final int index) {
@@ -125,8 +122,6 @@ public final class SimpleDateFormats {
   }
 
   public static final class IsoDate extends Date {
-    private static final long serialVersionUID = -3516661689900839721L;
-
     private final TimeZone timeZone;
     private final ThreadLocal<SimpleDateFormat> format;
     private final int index;

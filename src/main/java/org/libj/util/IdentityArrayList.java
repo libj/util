@@ -45,8 +45,6 @@ import org.libj.lang.Assertions;
  * @see ArrayList
  */
 public class IdentityArrayList<E> extends ArrayList<E> {
-  private static final long serialVersionUID = 8659556653288662381L;
-
   /**
    * Constructs an empty list with the specified initial capacity.
    *

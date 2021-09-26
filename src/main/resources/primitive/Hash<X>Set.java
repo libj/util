@@ -34,8 +34,6 @@ import java.util.NoSuchElementException;
  * Object references.
  */
 public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
-  private static final long serialVersionUID = <serialVersionUID>;
-
   /**
    * The load factor used when none specified in constructor.
    */

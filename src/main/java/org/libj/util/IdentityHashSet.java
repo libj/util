@@ -82,8 +82,6 @@ import org.libj.lang.Assertions;
  * @see IdentityHashMap
  */
 public class IdentityHashSet<E> extends HashSet<E> {
-  private static final long serialVersionUID = -1418532724651347957L;
-
   /**
    * The maximum capacity, used if a higher value is implicitly specified by
    * either of the constructors with arguments. MUST be a power of two <= 1 << 30.

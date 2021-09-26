@@ -29,8 +29,6 @@ import java.io.Serializable;
  * @see HashDoubleSet
  */
 public abstract class HashPrimitiveSet implements Serializable {
-  private static final long serialVersionUID = -4574768441675234182L;
-
   /**
    * Returns the hash for the specified value and mask.
    *

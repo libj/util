@@ -41,7 +41,6 @@ import org.slf4j.LoggerFactory;
  *          terminal failure of the {@link RetryPolicy} execution.
  */
 public class RetryPolicy<E extends Exception> implements Serializable {
-  private static final long serialVersionUID = -9105939315622837002L;
   private static final Logger logger = LoggerFactory.getLogger(RetryPolicy.class);
 
   /**

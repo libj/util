@@ -31,8 +31,6 @@ import org.libj.lang.Assertions;
  * @see HashMap
  */
 public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializable {
-  private static final long serialVersionUID = 2588014751081881163L;
-
   /**
    * Constructs an empty {@link HashBiMap} with the specified initial capacity
    * and load factor.

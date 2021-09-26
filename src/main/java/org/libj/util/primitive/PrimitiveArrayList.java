@@ -29,7 +29,6 @@ import org.libj.lang.Assertions;
  *          {@code long[]}).
  */
 public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
-  private static final long serialVersionUID = -1961742168777802072L;
   static final int DEFAULT_INITIAL_CAPACITY = 5;
 
   protected int fromIndex;

@@ -96,8 +96,6 @@ import org.libj.lang.Assertions;
  * @param <E> The type of elements in this list.
  */
 public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, RandomAccess, Serializable {
-  private static final long serialVersionUID = 6375462665857192545L;
-
   /** Default initial capacity. */
   private static final int DEFAULT_CAPACITY = 10;
 

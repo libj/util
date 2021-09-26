@@ -57,8 +57,6 @@ import org.libj.util.ArrayUtil;
  * that naturally encapsulates the list.
  */
 public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, RandomAccess {
-  private static final long serialVersionUID = <serialVersionUID>;
-
   private static final <x>[] EMPTY_VALUEDATA = {};
 
   /**

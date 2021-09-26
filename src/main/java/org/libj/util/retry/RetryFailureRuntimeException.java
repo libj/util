@@ -21,7 +21,6 @@ package org.libj.util.retry;
  * {@link RetryPolicy}.
  */
 public class RetryFailureRuntimeException extends RuntimeException {
-  private static final long serialVersionUID = 5540338195413853974L;
   private final int attemptNo;
   private final long delayMs;
 

@@ -33,7 +33,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @SuppressWarnings("unlikely-arg-type")
 public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
-  private static final long serialVersionUID = 6567470641062063194L;
   private static final Object NULL = new Object();
 
   @SuppressWarnings("unchecked")

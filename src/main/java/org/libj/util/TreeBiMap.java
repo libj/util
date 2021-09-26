@@ -35,8 +35,6 @@ import org.libj.lang.Assertions;
  * @see TreeMap
  */
 public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMap<K,V>, Serializable {
-  private static final long serialVersionUID = 4998484758818755246L;
-
   /**
    * Constructs an empty {@link TreeBiMap} ordered according to the given
    * comparator.

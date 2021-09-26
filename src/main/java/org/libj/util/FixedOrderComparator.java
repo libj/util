@@ -32,8 +32,6 @@ import org.libj.lang.Assertions;
  * @param <T> The {@link Comparable} type of element to be compared.
  */
 public class FixedOrderComparator<T extends Comparable<? super T>> implements Comparator<T>, Serializable {
-  private static final long serialVersionUID = 2125376584981534112L;
-
   private final T[] order;
 
   /**

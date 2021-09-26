@@ -32,8 +32,6 @@ import org.libj.lang.Assertions;
  * @see IdentityHashMap
  */
 public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializable {
-  private static final long serialVersionUID = 2588014751081881163L;
-
   /**
    * Constructs a new, empty map with the specified expected maximum size.
    * Putting more than the expected number of key-value mappings into the map
