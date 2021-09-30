@@ -329,6 +329,9 @@ public final class StringPaths {
   }
 
   private static StringBuilder canonicalize(final StringBuilder path, final boolean isWindows) {
+    if (path.length() <= 1)
+      return path;
+
     final int p = path.indexOf("://");
     final char[] prefix;
     if (p > -1) {
@@ -344,44 +347,79 @@ public final class StringPaths {
       path.delete(0, 2);
     }
     else if (path.charAt(1) == ':') {
-      prefix = new char[] {
-        Character.toLowerCase(path.charAt(0)), ':'
-      };
+      prefix = new char[] {Character.toLowerCase(path.charAt(0)), ':'};
       path.delete(0, 2);
     }
     else {
       prefix = null;
     }
 
-    final String s = isWindows ? "\\" : "/";
-    Strings.replaceAll(path, s + s, s);
-    Strings.replaceAll(path, s + "." + s, s);
-    if (Strings.startsWith(path, "." + s))
-      path.delete(0, 2);
-
-    if (Strings.endsWith(path, s + "."))
-      path.delete(path.length() - 2, path.length());
-
-    final String dotDot = s + ".." + s;
-    for (int end, start = 0; (end = path.indexOf(dotDot, start)) > -1;) {
-      start = path.lastIndexOf(s, end - 1);
-      if (start > -1) {
-        path.delete(start, end + 3);
-      }
-      else {
-        if (end > 0)
-          path.delete(0, end + 4);
-
-        break;
-      }
-    }
-
-    if (Strings.endsWith(path, s + "..")) {
-      final int start = path.lastIndexOf(s, path.length() - 4);
-      path.delete(start, path.length());
-    }
-
+    final char s = isWindows ? '\\' : '/';
+    final int len = path.length();
+    canonicalize(path, s, len, len - 1, -1, 0);
     return prefix == null ? path : path.insert(0, prefix);
+  }
+
+  private static int canonicalize(final StringBuilder path, final char s, final int len, int i, int sdd, final int depth) {
+    for (int del = 0, ch0 = '\0', ch1 = '\0', ch2 = '\0';; --i, ch2 = ch1, ch1 = ch0) {
+      ch0 = path.charAt(i);
+      if (ch0 == s) {
+        if (ch1 == '.' && ch2 == s) {
+          path.delete(i, i + 2);
+          del += 2;
+          sdd -= 2;
+        }
+        else if (ch1 == s) {
+          path.delete(i, i + 1);
+          ++del;
+          --sdd;
+        }
+        else if (ch1 == '.' && ch2 == '.') {
+          if (sdd > -1) {
+            final int rem = canonicalize(path, s, len, i - 1, i, depth + 1);
+            if (rem > 0) {
+              del += rem;
+              sdd -= rem;
+              i = sdd;
+            }
+          }
+          else {
+            sdd = i;
+          }
+        }
+        else if (ch1 == '.' && i == len - 2) {
+          path.delete(len - 2, len);
+          del += 2;
+          sdd -= 2;
+        }
+        else if (sdd > -1) {
+          sdd += 3;
+          path.delete(i, sdd);
+          del += sdd - i;
+          if (depth > 0)
+            return del;
+
+          sdd = -1;
+        }
+      }
+
+      if (i == 0) {
+        if (ch0 == '.') {
+          if (ch1 == s) {
+            path.delete(0, 2);
+            del += 2;
+          }
+        }
+        else if (sdd > -1 && ch0 != s) {
+          sdd += 4;
+          path.delete(i, sdd);
+          del += sdd - i;
+//          sdd = -1;
+        }
+
+        return del;
+      }
+    }
   }
 
   /**

@@ -16,8 +16,6 @@
 
 package org.libj.util.function;
 
-import static org.libj.lang.Assertions.*;
-
 import static org.junit.Assert.*;
 import static org.libj.util.function.Throwing.*;
 

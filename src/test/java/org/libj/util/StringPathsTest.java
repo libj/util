@@ -176,6 +176,9 @@ public class StringPathsTest {
 
   @Test
   public void testCanonicalize() {
+    assertEquals("", StringPaths.canonicalize(""));
+    assertEquals("../../../../config/src/main/resources/foo-bar.txt", StringPaths.canonicalize("../../../../config/src/main/resources/foo-bar.txt"));
+
     // Windows
     assertEquals("c:\\Windows\\System32", StringPaths.canonicalize("C:\\Windows\\\\System32"));
     assertEquals("c:\\Windows\\System32", StringPaths.canonicalize("C:\\Windows\\.\\System32"));
