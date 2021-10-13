@@ -22,11 +22,12 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.junit.Test;
+import org.libj.lang.Strings;
 
 public class PatternsTest {
   @Test
   public void testGetGroupNames() {
-    assertArrayEquals(new String[0], Patterns.getGroupNames(Pattern.compile("test")));
+    assertArrayEquals(Strings.EMPTY_ARRAY, Patterns.getGroupNames(Pattern.compile("test")));
     assertArrayEquals(new String[] {"one"}, Patterns.getGroupNames(Pattern.compile("(?<one>[a-z])")));
     assertArrayEquals(new String[] {"one", "two"}, Patterns.getGroupNames(Pattern.compile("(?<one>[a-z])(?<two>[a-z])")));
     assertArrayEquals(new String[] {"one", "two", "three"}, Patterns.getGroupNames(Pattern.compile("(?<one>[a-z])(?<two>[a-z](?<three>[a-z]))")));

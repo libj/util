@@ -82,7 +82,7 @@ public class ArrayUtilTest {
   @Test
   public void testTransform() {
     assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, ArrayUtil.replaceAll(String::toUpperCase, "one", "two", "three"));
-    assertArrayEquals(new String[] {}, ArrayUtil.replaceAll(String::toUpperCase, new String[] {}));
+    assertArrayEquals(Strings.EMPTY_ARRAY, ArrayUtil.replaceAll(String::toUpperCase, Strings.EMPTY_ARRAY));
   }
 
   @Test
@@ -106,7 +106,7 @@ public class ArrayUtilTest {
     assertArrayEquals(new String[] {"c", "d", "e"}, ArrayUtil.subArray(array, 2, 3));
     assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f"}, ArrayUtil.subArray(array, 0));
     assertArrayEquals(new String[] {"c", "d", "e", "f"}, ArrayUtil.subArray(array, 2));
-    assertArrayEquals(new String[] {}, ArrayUtil.subArray(array, 200));
+    assertArrayEquals(Strings.EMPTY_ARRAY, ArrayUtil.subArray(array, 200));
   }
 
   @Test
@@ -143,7 +143,7 @@ public class ArrayUtilTest {
     catch (final ArrayIndexOutOfBoundsException e) {
     }
 
-    assertArrayEquals(new String[] {}, ArrayUtil.splice(array, 0));
+    assertArrayEquals(Strings.EMPTY_ARRAY, ArrayUtil.splice(array, 0));
     assertArrayEquals(new String[] {"a"}, ArrayUtil.splice(array, 1));
     assertArrayEquals(new String[] {"a", "b"}, ArrayUtil.splice(array, 2));
     assertArrayEquals(new String[] {"a", "b", "c"}, ArrayUtil.splice(array, 3));
@@ -162,7 +162,7 @@ public class ArrayUtilTest {
     assertArrayEquals(new String[] {"a", "b", "c"}, ArrayUtil.splice(array, -3));
     assertArrayEquals(new String[] {"a", "b"}, ArrayUtil.splice(array, -4));
     assertArrayEquals(new String[] {"a"}, ArrayUtil.splice(array, -5));
-    assertArrayEquals(new String[] {}, ArrayUtil.splice(array, -6));
+    assertArrayEquals(Strings.EMPTY_ARRAY, ArrayUtil.splice(array, -6));
     try {
       ArrayUtil.splice(array, -7);
       fail("Expected NegativeArraySizeException");
