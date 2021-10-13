@@ -78,10 +78,13 @@ public final class SimpleDateFormats {
       @Override
       public StringBuffer format(final Date date, final StringBuffer toAppendTo, final FieldPosition pos) {
         final SimpleDateFormat format;
-        if (date instanceof IsoDate)
+        if (date instanceof IsoDate) {
           format = ((IsoDate)date).getFormat();
-        else
+        }
+        else {
           format = formats[formats.length - 1];
+          format.setTimeZone(Dates.UTC_TIME_ZONE);
+        }
 
         return format.format(date, toAppendTo, pos);
       }
