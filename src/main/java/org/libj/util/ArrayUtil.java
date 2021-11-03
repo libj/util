@@ -1550,69 +1550,503 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of an object in an array.
+   * Find the first index of a value in an array.
    *
-   * @param <T> Type parameter of object.
    * @param array The array to search.
-   * @param obj The object to locate.
-   * @return The index of the object if it is found, or -1 otherwise.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
    * @throws IllegalArgumentException If {@code array} is null.
    */
-  public static <T>int indexOf(final T[] array, final T obj) {
+  public static int indexOf(final byte[] array, final byte value) {
     assertNotNull(array);
-    return indexOf0(array, 0, array.length, obj);
+    return indexOf0(array, 0, array.length, value);
   }
 
   /**
-   * Find the index of an object in an array.
+   * Find the first index of a value in an array.
    *
-   * @param <T> Type parameter of object.
    * @param array The array to search.
    * @param off The offset at which to start searching.
    * @param len The number of elements to search.
-   * @param obj The object to locate.
-   * @return The index of the object if it is found, or -1 otherwise.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
    * @throws IllegalArgumentException If {@code array} is null.
    */
-  public static <T>int indexOf(final T[] array, final int off, int len, final T obj) {
+  public static int indexOf(final byte[] array, final int off, int len, final byte value) {
     assertNotNull(array);
-    return indexOf0(array, off, Math.min(len, array.length), obj);
+    return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final T[] array, final int off, final int len, final T obj) {
+  private static <T>int indexOf0(final byte[] array, final int off, final int len, final byte value) {
     for (int i = off; i < len; ++i)
-      if (obj.equals(array[i]))
+      if (value == array[i])
         return i;
 
     return -1;
   }
 
   /**
-   * Check for the existence of an object in an array.
+   * Find the first index of a value in an array.
    *
-   * @param <T> Type parameter of object.
    * @param array The array to search.
-   * @param obj The object to locate.
-   * @return {@code true} if the object exists, {@code false} otherwise.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
    * @throws IllegalArgumentException If {@code array} is null.
    */
-  public static <T>boolean contains(final T[] array, final T obj) {
-    return indexOf(array, obj) >= 0;
+  public static int indexOf(final char[] array, final char value) {
+    assertNotNull(array);
+    return indexOf0(array, 0, array.length, value);
   }
 
   /**
-   * Check for the existence of an object in an array.
+   * Find the first index of a value in an array.
    *
-   * @param <T> Type parameter of object.
    * @param array The array to search.
    * @param off The offset at which to start searching.
    * @param len The number of elements to search.
-   * @param obj The object to locate.
-   * @return {@code true} if the object exists, {@code false} otherwise.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
    * @throws IllegalArgumentException If {@code array} is null.
    */
-  public static <T>boolean contains(final T[] array, final int off, final int len, final T obj) {
-    return indexOf(array, off, len, obj) >= 0;
+  public static int indexOf(final char[] array, final int off, int len, final char value) {
+    assertNotNull(array);
+    return indexOf0(array, off, Math.min(len, array.length), value);
+  }
+
+  private static <T>int indexOf0(final char[] array, final int off, final int len, final char value) {
+    for (int i = off; i < len; ++i)
+      if (value == array[i])
+        return i;
+
+    return -1;
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final short[] array, final short value) {
+    assertNotNull(array);
+    return indexOf0(array, 0, array.length, value);
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final short[] array, final int off, int len, final short value) {
+    assertNotNull(array);
+    return indexOf0(array, off, Math.min(len, array.length), value);
+  }
+
+  private static <T>int indexOf0(final short[] array, final int off, final int len, final short value) {
+    for (int i = off; i < len; ++i)
+      if (value == array[i])
+        return i;
+
+    return -1;
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final int[] array, final int value) {
+    assertNotNull(array);
+    return indexOf0(array, 0, array.length, value);
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final int[] array, final int off, int len, final int value) {
+    assertNotNull(array);
+    return indexOf0(array, off, Math.min(len, array.length), value);
+  }
+
+  private static <T>int indexOf0(final int[] array, final int off, final int len, final int value) {
+    for (int i = off; i < len; ++i)
+      if (value == array[i])
+        return i;
+
+    return -1;
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final long[] array, final long value) {
+    assertNotNull(array);
+    return indexOf0(array, 0, array.length, value);
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final long[] array, final int off, int len, final long value) {
+    assertNotNull(array);
+    return indexOf0(array, off, Math.min(len, array.length), value);
+  }
+
+  private static <T>int indexOf0(final long[] array, final int off, final int len, final long value) {
+    for (int i = off; i < len; ++i)
+      if (value == array[i])
+        return i;
+
+    return -1;
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final float[] array, final float value) {
+    assertNotNull(array);
+    return indexOf0(array, 0, array.length, value);
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final float[] array, final int off, int len, final float value) {
+    assertNotNull(array);
+    return indexOf0(array, off, Math.min(len, array.length), value);
+  }
+
+  private static <T>int indexOf0(final float[] array, final int off, final int len, final float value) {
+    for (int i = off; i < len; ++i)
+      if (value == array[i])
+        return i;
+
+    return -1;
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final double[] array, final double value) {
+    assertNotNull(array);
+    return indexOf0(array, 0, array.length, value);
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static int indexOf(final double[] array, final int off, int len, final double value) {
+    assertNotNull(array);
+    return indexOf0(array, off, Math.min(len, array.length), value);
+  }
+
+  private static <T>int indexOf0(final double[] array, final int off, final int len, final double value) {
+    for (int i = off; i < len; ++i)
+      if (value == array[i])
+        return i;
+
+    return -1;
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param <T> Type parameter of {@code obj}.
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static <T>int indexOf(final T[] array, final T value) {
+    assertNotNull(array);
+    return indexOf0(array, 0, array.length, value);
+  }
+
+  /**
+   * Find the first index of a value in an array.
+   *
+   * @param <T> Type parameter of {@code obj}.
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return The index of the value if it is found, otherwise {@code -1}.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static <T>int indexOf(final T[] array, final int off, int len, final T value) {
+    assertNotNull(array);
+    return indexOf0(array, off, Math.min(len, array.length), value);
+  }
+
+  private static <T>int indexOf0(final T[] array, final int off, final int len, final T value) {
+    for (int i = off; i < len; ++i)
+      if (value.equals(array[i]))
+        return i;
+
+    return -1;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final byte[] array, final byte value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final byte[] array, final int off, final int len, final byte value) {
+    return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final char[] array, final char value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final char[] array, final int off, final int len, final char value) {
+    return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final short[] array, final short value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final short[] array, final int off, final int len, final short value) {
+    return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final int[] array, final int value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final int[] array, final int off, final int len, final int value) {
+    return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final long[] array, final long value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final long[] array, final int off, final int len, final long value) {
+    return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final float[] array, final float value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final float[] array, final int off, final int len, final float value) {
+    return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final double[] array, final double value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The value to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static boolean contains(final double[] array, final int off, final int len, final double value) {
+    return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param <T> Type parameter of {@code obj}.
+   * @param array The array to search.
+   * @param value The object to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static <T>boolean contains(final T[] array, final T value) {
+    return indexOf(array, value) >= 0;
+  }
+
+  /**
+   * Linear search for the existence of a value in an array.
+   *
+   * @param <T> Type parameter of {@code obj}.
+   * @param array The array to search.
+   * @param off The offset at which to start searching.
+   * @param len The number of elements to search.
+   * @param value The object to locate.
+   * @return {@code true} if the value exists, {@code false} otherwise.
+   * @throws IllegalArgumentException If {@code array} is null.
+   */
+  public static <T>boolean contains(final T[] array, final int off, final int len, final T value) {
+    return indexOf(array, off, len, value) >= 0;
   }
 
   /**
