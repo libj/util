@@ -20,6 +20,7 @@ import static org.libj.lang.Assertions.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
@@ -202,6 +203,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     }
   }
 
+  private static List<Exception> testExceptions = Arrays.asList(new Exception());
+
   private final int maxRetries;
   private final long maxDelayMs;
   private final long startDelayMs;
@@ -245,7 +248,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param maxDelayMs The maximum delay, in milliseconds, which takes effect if
    *          the delay computed by the backoff function is a greater value.
    * @throws IllegalArgumentException If {@code retryOn} or
-   *           {@code onRetryFailure} is null, or if {@code maxRetries},
+   *           {@code onRetryFailure} is null, or if {@code onRetryFailure}
+   *           returns a null value, or if {@code maxRetries},
    *           {@code startDelayMs}, {@code jitter} or {@code maxDelayMs} is
    *           negative, or if {@code backoffFactor} is less than {@code 1}.
    */
@@ -262,6 +266,10 @@ public class RetryPolicy<E extends Exception> implements Serializable {
       throw new IllegalArgumentException("backoffFactor (" + backoffFactor + ") must be >= 1.0");
 
     this.maxDelayMs = assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
+
+    final E test = onRetryFailure.onRetryFailure(testExceptions.get(0), testExceptions, 0, 0);
+    if (test == null)
+      throw new IllegalArgumentException("onRetryFailure must return a non-null instance of type <E>");
   }
 
   /**
@@ -295,7 +303,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          value of {@code 2} represents a backoff function of {@code 2^a},
    *          where {@code a} is the attempt number.
    * @throws IllegalArgumentException If {@code retryOn} or
-   *           {@code onRetryFailure} is null, or if {@code maxRetries},
+   *           {@code onRetryFailure} is null, or if {@code onRetryFailure}
+   *           returns a null value, or if {@code maxRetries},
    *           {@code startDelayMs} or {@code jitter} is negative, or if
    *           {@code backoffFactor} is less than {@code 1}.
    */
@@ -331,7 +340,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          to {@link #getDelayMs(int)} to be added to the delay for each
    *          retry.
    * @throws IllegalArgumentException If {@code retryOn} or
-   *           {@code onRetryFailure} is null, or if {@code maxRetries},
+   *           {@code onRetryFailure} is null, or if {@code onRetryFailure}
+   *           returns a null value, or if {@code maxRetries},
    *           {@code startDelayMs} or {@code jitter} is negative.
    */
   public RetryPolicy(final RetryOn retryOn, final IntConsumer onRetry, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs, final double jitter, final boolean delayOnFirstRetry) {
@@ -363,7 +373,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          to {@link #getDelayMs(int)} to be added to the delay for each
    *          retry.
    * @throws IllegalArgumentException If {@code retryOn} or
-   *           {@code onRetryFailure} is null, or if {@code maxRetries},
+   *           {@code onRetryFailure} is null, or if {@code onRetryFailure}
+   *           returns a null value, or if {@code maxRetries},
    *           {@code startDelayMs} or {@code jitter} is negative.
    */
   public RetryPolicy(final RetryOn retryOn, final IntConsumer onRetry, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs, final double jitter) {
@@ -392,24 +403,26 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          retry, in milliseconds, which is also used as the multiplicative
    *          factor for subsequent backed-off delays.
    * @throws IllegalArgumentException If {@code retryOn} or
-   *           {@code onRetryFailure} is null, or if {@code onRetryFailure},
-   *           {@code maxRetries} or {@code startDelayMs} is negative.
+   *           {@code onRetryFailure} is null, or if {@code onRetryFailure}
+   *           returns a null value, or if {@code maxRetries} or
+   *           {@code startDelayMs} is negative.
    */
   public RetryPolicy(final RetryOn retryOn, final IntConsumer onRetry, final OnRetryFailure<E> onRetryFailure, final int maxRetries, final long startDelayMs) {
     this(retryOn, onRetry, onRetryFailure, maxRetries, startDelayMs, 0, false, 1, Long.MAX_VALUE);
   }
 
   private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureRuntimeException {
-    final E e = onRetryFailure.onRetryFailure(exceptions, attemptNo, delayMs);
-    if (e != null)
-      throw e;
-
     final int size = exceptions.size();
-    if (size == 0)
+    final Exception lastException = size == 0 ? null : exceptions.remove(size - 1);
+    final E e = onRetryFailure.onRetryFailure(lastException, exceptions, attemptNo, delayMs);
+    if (e != null)
+      throw Throwables.addSuppressed(e, exceptions, size - 1, 0);
+
+    if (lastException == null)
       throw new RetryFailureRuntimeException(attemptNo, delayMs);
 
-    final RetryFailureRuntimeException re = new RetryFailureRuntimeException(exceptions.get(size - 1), attemptNo, delayMs);
-    throw Throwables.addSuppressed(re, exceptions, size - 2, -1);
+    final RetryFailureRuntimeException re = new RetryFailureRuntimeException(lastException, attemptNo, delayMs);
+    throw Throwables.addSuppressed(re, exceptions, size - 1, 0);
   }
 
   /**
