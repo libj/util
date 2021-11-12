@@ -324,6 +324,11 @@ public class SortedList<E> extends ObservableList<E> {
   }
 
   @Override
+  public void sort(final Comparator<? super E> c) {
+    super.sort(c != null ? c : comparator);
+  }
+
+  @Override
   public SortedList<E> subList(final int fromIndex, final int toIndex) {
     assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return new SortedList<E>(target.subList(fromIndex, toIndex), comparator, false);
