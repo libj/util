@@ -25,9 +25,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * An implementation of the {@link Set} interface that transforms the elements
- * of the supplied source {@link Set} based on {@code sourceToTarget} and
- * {@code targetToSource} lambda functions.
+ * An implementation of the {@link Set} interface that transforms the elements of the supplied source {@link Set} based on
+ * {@code sourceToTarget} and {@code targetToSource} lambda functions.
  *
  * @param <S> Type of source {@link Set}.
  * @param <T> Type of target {@link Set}.
@@ -38,21 +37,18 @@ public class TransSet<S,T> extends DelegateSet<T> {
   protected final Function<T,S> targetToSource;
 
   /**
-   * Creates a new {@link TransSet} with the specified source Set, and functions
-   * defining the translation of objects types {@code S -> T} and
-   * {@code T -> S}.
+   * Creates a new {@link TransSet} with the specified source Set, and functions defining the translation of objects types
+   * {@code S -> T} and {@code T -> S}.
    * <p>
-   * If {@code sourceToTarget} is null, all methods that require a translation
-   * of {@code S -> T} will throw a {@link UnsupportedOperationException}.
+   * If {@code sourceToTarget} is null, all methods that require a translation of {@code S -> T} will throw a
+   * {@link UnsupportedOperationException}.
    * <p>
-   * If {@code targetToSource} is null, all methods that require a translation
-   * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
+   * If {@code targetToSource} is null, all methods that require a translation of {@code T -> S} will throw a
+   * {@link UnsupportedOperationException}.
    *
    * @param source The source Set of type {@code <S>}.
-   * @param sourceToTarget The {@link Function} defining the translation from
-   *          {@code S -> T}.
-   * @param targetToSource The {@link Function} defining the translation from
-   *          {@code T -> S}.
+   * @param sourceToTarget The {@link Function} defining the translation from {@code S -> T}.
+   * @param targetToSource The {@link Function} defining the translation from {@code T -> S}.
    * @throws IllegalArgumentException If {@code source} is null.
    */
   public TransSet(final Set<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
@@ -162,7 +158,6 @@ public class TransSet<S,T> extends DelegateSet<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     if (c.size() == 0)
       return true;
@@ -184,7 +179,6 @@ public class TransSet<S,T> extends DelegateSet<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object e : c)
@@ -194,7 +188,6 @@ public class TransSet<S,T> extends DelegateSet<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final Iterator<S> iterator = target.iterator();

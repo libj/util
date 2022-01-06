@@ -32,11 +32,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
- * A {@link DelegateList} that provides callback methods to observe the
- * retrieval, addition, and removal of elements, either due to direct method
- * invocation on the list instance itself, or via {@link #iterator()},
- * {@link #listIterator()}, {@link #subList(int,int)}, and any other entrypoint
- * that facilitates access to the elements in this list, either for modification
+ * A {@link DelegateList} that provides callback methods to observe the retrieval, addition, and removal of elements, either due to
+ * direct method invocation on the list instance itself, or via {@link #iterator()}, {@link #listIterator()},
+ * {@link #subList(int,int)}, and any other entrypoint that facilitates access to the elements in this list, either for modification
  * or retrieval.
  *
  * @param <E> The type of elements in this list.
@@ -56,8 +54,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   private int toIndex;
 
   /**
-   * Creates a new {@link ObservableList} with the specified target
-   * {@link List}.
+   * Creates a new {@link ObservableList} with the specified target {@link List}.
    *
    * @param list The target {@link List}.
    * @throws IllegalArgumentException If {@code list} is null.
@@ -67,14 +64,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * Creates a new {@link ObservableList} with the specified target list, and
-   * from and to indexes to limit the scope of the target list.
+   * Creates a new {@link ObservableList} with the specified target list, and from and to indexes to limit the scope of the target
+   * list.
    *
    * @param list The target {@link List} object.
-   * @param fromIndex The starting index as the lower limit of the elements in
-   *          the target list, inclusive.
-   * @param toIndex The starting index as the upper limit of the elements in the
-   *          target list, exclusive.
+   * @param fromIndex The starting index as the lower limit of the elements in the target list, inclusive.
+   * @param toIndex The starting index as the upper limit of the elements in the target list, exclusive.
    * @throws IllegalArgumentException If {@code list} is null.
    */
   protected ObservableList(final List<E> list, final int fromIndex, final int toIndex) {
@@ -84,45 +79,34 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * Callback method that is invoked immediately before an element is retrieved
-   * from the enclosed {@link List}.
+   * Callback method that is invoked immediately before an element is retrieved from the enclosed {@link List}.
    *
-   * @param index The index of the element to be retrieved from the enclosed
-   *          {@link List}.
-   * @param iterator The {@link ListIterator} instance if the get is a result of
-   *          an iterator reference, otherwise {@code null}.
+   * @param index The index of the element to be retrieved from the enclosed {@link List}.
+   * @param iterator The {@link ListIterator} instance if the get is a result of an iterator reference, otherwise {@code null}.
    */
   protected void beforeGet(final int index, final ListIterator<E> iterator) {
   }
 
   /**
-   * Callback method that is invoked immediately after an element is retrieved
-   * from the enclosed {@link List}.
-   *  @param index The index of the element retrieved from the enclosed
-   *          {@link List}.
+   * Callback method that is invoked immediately after an element is retrieved from the enclosed {@link List}.
+   *
+   * @param index The index of the element retrieved from the enclosed {@link List}.
    * @param element The element retrieved from the enclosed {@link List}.
-   * @param iterator The {@link Iterator} instance if the get is a result of an
- *          iterator reference, otherwise {@code null}.
-   * @param e A {@link RuntimeException} that occurred during the get operation,
-*          or {@code null} if no exception occurred.
+   * @param iterator The {@link Iterator} instance if the get is a result of an iterator reference, otherwise {@code null}.
+   * @param e A {@link RuntimeException} that occurred during the get operation, or {@code null} if no exception occurred.
    */
   protected void afterGet(final int index, final E element, final ListIterator<? super E> iterator, final RuntimeException e) {
   }
 
   /**
-   * Callback method that is invoked immediately before an element is added to
-   * the enclosed {@link List}.
+   * Callback method that is invoked immediately before an element is added to the enclosed {@link List}.
    *
-   * @implNote It is possible for {@code index} to be {@code -1}, in case the
-   *           <u>add</u> operation is executed from an {@link Iterator} when a
-   *           prior {@link Iterator#remove()} or
-   *           {@link ListIterator#add(Object)} or
+   * @implNote It is possible for {@code index} to be {@code -1}, in case the <u>add</u> operation is executed from an
+   *           {@link Iterator} when a prior {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
    *           {@link ListIterator#set(Object)} has already been called.
-   * @param index The index for the element to be added to the enclosed
-   *          {@link List}.
+   * @param index The index for the element to be added to the enclosed {@link List}.
    * @param element The element to be added to the enclosed {@link List}.
-   * @param preventDefault The object to return if the subsequent {@code add}
-   *          operation is to be prevented.
+   * @param preventDefault The object to return if the subsequent {@code add} operation is to be prevented.
    * @return The element to be added to the enclosed {@link List}.
    */
   protected Object beforeAdd(final int index, final E element, final Object preventDefault) {
@@ -130,95 +114,73 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * Callback method that is invoked immediately after an element is added to
-   * the enclosed {@link List}.
+   * Callback method that is invoked immediately after an element is added to the enclosed {@link List}.
    *
    * @param index The index of the element added to the enclosed {@link List}.
    * @param element The element to be added to the enclosed {@link List}.
-   * @param e A {@link RuntimeException} that occurred during the add operation,
-   *          or {@code null} if no exception occurred.
+   * @param e A {@link RuntimeException} that occurred during the add operation, or {@code null} if no exception occurred.
    */
   protected void afterAdd(final int index, final E element, final RuntimeException e) {
   }
 
   /**
-   * Callback method that is invoked immediately before an element is removed
-   * from the enclosed {@link List}.
+   * Callback method that is invoked immediately before an element is removed from the enclosed {@link List}.
    *
-   * @implNote It is possible for {@code index} to be {@code -1}, in case the
-   *           <u>remove</u> operation is executed from an {@link Iterator} when
-   *           a prior {@link Iterator#remove()} or
-   *           {@link ListIterator#add(Object)} or
+   * @implNote It is possible for {@code index} to be {@code -1}, in case the <u>remove</u> operation is executed from an
+   *           {@link Iterator} when a prior {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
    *           {@link ListIterator#set(Object)} has already been called.
-   * @param index The index of the element to be removed from the enclosed
-   *          {@link List}.
-   * @return If this method returns {@code true}, the subsequent <u>remove</u>
-   *         operation will be performed; if this method returns {@code false},
-   *         the subsequent <u>remove</u> operation will not be performed.
+   * @param index The index of the element to be removed from the enclosed {@link List}.
+   * @return If this method returns {@code true}, the subsequent <u>remove</u> operation will be performed; if this method returns
+   *         {@code false}, the subsequent <u>remove</u> operation will not be performed.
    */
   protected boolean beforeRemove(final int index) {
     return true;
   }
 
   /**
-   * Callback method that is invoked immediately after an element is removed
-   * from the enclosed {@link List}.
+   * Callback method that is invoked immediately after an element is removed from the enclosed {@link List}.
    *
-   * @param element The element removed from the enclosed {@link List}, or
-   *          attempted to be removed from the {@link List} in case of a
-   *          {@link RuntimeException}.
-   * @param e A {@link RuntimeException} that occurred during the remove
-   *          operation, or {@code null} if no exception occurred.
+   * @param element The element removed from the enclosed {@link List}, or attempted to be removed from the {@link List} in case of
+   *          a {@link RuntimeException}.
+   * @param e A {@link RuntimeException} that occurred during the remove operation, or {@code null} if no exception occurred.
    */
   protected void afterRemove(final Object element, final RuntimeException e) {
   }
 
   /**
-   * Callback method that is invoked immediately before an element is set at an
-   * index in the enclosed {@link List}.
+   * Callback method that is invoked immediately before an element is set at an index in the enclosed {@link List}.
    *
-   * @implNote It is possible for {@code index} to be {@code -1}, in case the
-   *           <u>set</u> operation is executed from an {@link Iterator} when a
-   *           prior {@link Iterator#remove()} or
-   *           {@link ListIterator#add(Object)} or
+   * @implNote It is possible for {@code index} to be {@code -1}, in case the <u>set</u> operation is executed from an
+   *           {@link Iterator} when a prior {@link Iterator#remove()} or {@link ListIterator#add(Object)} or
    *           {@link ListIterator#set(Object)} has already been called.
-   * @param index The index for the element to be set in the enclosed
-   *          {@link List}.
+   * @param index The index for the element to be set in the enclosed {@link List}.
    * @param newElement The element to be set in the enclosed {@link List}.
-   * @return If this method returns {@code true}, the subsequent <u>set</u>
-   *         operation will be performed; if this method returns {@code false},
-   *         the subsequent <u>set</u> operation will not be performed.
+   * @return If this method returns {@code true}, the subsequent <u>set</u> operation will be performed; if this method returns
+   *         {@code false}, the subsequent <u>set</u> operation will not be performed.
    */
   protected boolean beforeSet(final int index, final E newElement) {
     return true;
   }
 
   /**
-   * Callback method that is invoked immediately after an element is set at an
-   * index to the enclosed {@link List}.
+   * Callback method that is invoked immediately after an element is set at an index to the enclosed {@link List}.
    *
    * @param index The index of the element set in the enclosed {@link List}.
-   * @param oldElement The old element at the index of the enclosed
-   *          {@link List}.
-   * @param e A {@link RuntimeException} that occurred during the set
-   *          operation, or {@code null} if no exception occurred.
+   * @param oldElement The old element at the index of the enclosed {@link List}.
+   * @param e A {@link RuntimeException} that occurred during the set operation, or {@code null} if no exception occurred.
    */
   protected void afterSet(final int index, final E oldElement, final RuntimeException e) {
   }
 
   /**
-   * Delegate method that is invoked for all {@link Object#equals(Object)}
-   * operations. This method is intended to be overridden to support behavior
-   * that is not inherently possible with the default reliance on
-   * {@link Object#equals(Object)} for the determination of object equality by
-   * this {@link ObservableList}.
+   * Delegate method that is invoked for all {@link Object#equals(Object)} operations. This method is intended to be overridden to
+   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
+   * determination of object equality by this {@link ObservableList}.
    *
-   * @implNote This method is guaranteed to be invoked with a non-null
-   *           {@code o1}.
+   * @implNote This method is guaranteed to be invoked with a non-null {@code o1}.
    * @param o1 An object.
    * @param o2 An object to be compared with a for equality.
-   * @return {@code true} if this object is the same as the obj argument;
-   *         {@code false} otherwise.
+   * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
    */
   protected boolean equals(final Object o1, final Object o2) {
     return o1.equals(o2);
@@ -249,11 +211,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object,Object)} and
-   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified for the addition of
-   * the element. If {@link #beforeAdd(int,Object,Object)} returns
-   * {@code false}, the element will not be added.
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and {@link #afterAdd(int,Object,RuntimeException)} are called
+   * immediately before and after the enclosed {@link List} is modified for the addition of the element. If
+   * {@link #beforeAdd(int,Object,Object)} returns {@code false}, the element will not be added.
    */
   @Override
   public boolean add(final E e) {
@@ -265,11 +225,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object,Object)} and
-   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified for the addition of
-   * the element. If {@link #beforeAdd(int,Object,Object)} returns
-   * {@code false}, the element will not be added.
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and {@link #afterAdd(int,Object,RuntimeException)} are called
+   * immediately before and after the enclosed {@link List} is modified for the addition of the element. If
+   * {@link #beforeAdd(int,Object,Object)} returns {@code false}, the element will not be added.
    */
   @Override
   public void add(final int index, final E element) {
@@ -280,12 +238,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object,Object)} and
-   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified for the addition of
-   * each element in the specified {@link Collection}. All elements for which
-   * {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be
-   * added to this {@link List}.
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and {@link #afterAdd(int,Object,RuntimeException)} are called
+   * immediately before and after the enclosed {@link List} is modified for the addition of each element in the specified
+   * {@link Collection}. All elements for which {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be added to
+   * this {@link List}.
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -299,12 +255,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeAdd(int,Object,Object)} and
-   * {@link #afterAdd(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified for the addition of
-   * each element in the specified {@link Collection}. All elements for which
-   * {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be
-   * added to this {@link List}.
+   * The callback methods {@link #beforeAdd(int,Object,Object)} and {@link #afterAdd(int,Object,RuntimeException)} are called
+   * immediately before and after the enclosed {@link List} is modified for the addition of each element in the specified
+   * {@link Collection}. All elements for which {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be added to
+   * this {@link List}.
    */
   @Override
   public boolean addAll(int index, final Collection<? extends E> c) {
@@ -320,11 +274,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed {@link List} is modified for the removal of each
-   * element. All elements for which {@link #beforeRemove(int)} returns
-   * {@code false} will not be removed from this {@link List}.
+   * The callback methods {@link #beforeRemove(int)} and {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed {@link List} is modified for the removal of each element. All elements for which
+   * {@link #beforeRemove(int)} returns {@code false} will not be removed from this {@link List}.
    */
   @Override
   public void clear() {
@@ -335,10 +287,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each member of the enclosed list is referenced.
    */
   @Override
   public boolean contains(final Object o) {
@@ -360,13 +310,10 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each member of the enclosed list is referenced.
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     if (c.size() == 0)
       return true;
@@ -399,9 +346,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after the get operation on the enclosed {@link List}.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after the get operation on the enclosed {@link List}.
    */
   @Override
   public E get(final int index) {
@@ -412,10 +358,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each member of the enclosed list is referenced.
    */
   @Override
   public int indexOf(final Object o) {
@@ -437,10 +381,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each member of the enclosed list is referenced.
    */
   @Override
   public int lastIndexOf(final Object o) {
@@ -461,11 +403,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * Calling {@link Iterator#remove()} will delegate a callback to
-   * {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeRemove(int)} returns {@code false} will
-   * not be removed from this {@link List}.
+   * Calling {@link Iterator#remove()} will delegate a callback to {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} on this instance. All elements for which {@link #beforeRemove(int)} returns
+   * {@code false} will not be removed from this {@link List}.
    */
   @Override
   public Iterator<E> iterator() {
@@ -475,21 +415,14 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * Calling {@link ListIterator#remove()} will delegate a callback to
-   * {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeRemove(int)} returns {@code false} will
-   * not be removed from this {@link List}. Calling
-   * {@link ListIterator#set(Object)} will delegate a callback to
-   * {@link #beforeSet(int,Object)} and
-   * {@link #afterSet(int,Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeSet(int,Object)} returns {@code false}
-   * will not be set in this {@link List}. Calling
-   * {@link ListIterator#add(Object)} will delegate a callback to
-   * {@link #beforeAdd(int,Object,Object)} and
-   * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeAdd(int,Object,Object)} returns
-   * {@code false} will not be added to this {@link List}.
+   * Calling {@link ListIterator#remove()} will delegate a callback to {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} on this instance. All elements for which {@link #beforeRemove(int)} returns
+   * {@code false} will not be removed from this {@link List}. Calling {@link ListIterator#set(Object)} will delegate a callback to
+   * {@link #beforeSet(int,Object)} and {@link #afterSet(int,Object,RuntimeException)} on this instance. All elements for which
+   * {@link #beforeSet(int,Object)} returns {@code false} will not be set in this {@link List}. Calling
+   * {@link ListIterator#add(Object)} will delegate a callback to {@link #beforeAdd(int,Object,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All elements for which {@link #beforeAdd(int,Object,Object)}
+   * returns {@code false} will not be added to this {@link List}.
    */
   @Override
   public ListIterator<E> listIterator() {
@@ -497,20 +430,17 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * A {@link CursorListIterator} that delegates callback methods to the
-   * defining {@link ObservableList} instance for the retrieval, addition, and
-   * removal of elements.
+   * A {@link CursorListIterator} that delegates callback methods to the defining {@link ObservableList} instance for the retrieval,
+   * addition, and removal of elements.
    */
   protected class ObservableListIterator extends CursorListIterator<E> {
     private E current;
 
     /**
-     * Creates a new {@link CursorListIterator} for the specified
-     * {@link ListIterator}.
+     * Creates a new {@link CursorListIterator} for the specified {@link ListIterator}.
      *
      * @param iterator The {@link ListIterator}.
-     * @throws IllegalArgumentException If the specified {@link ListIterator} is
-     *           null.
+     * @throws IllegalArgumentException If the specified {@link ListIterator} is null.
      */
     protected ObservableListIterator(final ListIterator<? extends E> iterator) {
       super(iterator);
@@ -643,10 +573,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * Factory method that returns a new instance of an
-   * {@link ObservableListIterator} for the specified {@link ListIterator
-   * ListIterator&lt;E&gt;}. This method is intended to be overridden by
-   * subclasses in order to provide instances of the subclass.
+   * Factory method that returns a new instance of an {@link ObservableListIterator} for the specified {@link ListIterator
+   * ListIterator&lt;E&gt;}. This method is intended to be overridden by subclasses in order to provide instances of the subclass.
    *
    * @param iterator The target {@link ListIterator ListIterator&lt;E&gt;}.
    * @return A new instance of an {@link ObservableListIterator}.
@@ -658,21 +586,14 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * Calling {@link ListIterator#remove()} will delegate a callback to
-   * {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeRemove(int)} returns {@code false} will
-   * not be removed from this {@link List}. Calling
-   * {@link ListIterator#set(Object)} will delegate a callback to
-   * {@link #beforeSet(int,Object)} and
-   * {@link #afterSet(int,Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeSet(int,Object)} returns {@code false}
-   * will not be set in this {@link List}. Calling
-   * {@link ListIterator#add(Object)} will delegate a callback to
-   * {@link #beforeAdd(int,Object,Object)} and
-   * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All
-   * elements for which {@link #beforeAdd(int,Object,Object)} returns
-   * {@code false} will not be added to this {@link List}.
+   * Calling {@link ListIterator#remove()} will delegate a callback to {@link #beforeRemove(int)} and
+   * {@link #afterRemove(Object,RuntimeException)} on this instance. All elements for which {@link #beforeRemove(int)} returns
+   * {@code false} will not be removed from this {@link List}. Calling {@link ListIterator#set(Object)} will delegate a callback to
+   * {@link #beforeSet(int,Object)} and {@link #afterSet(int,Object,RuntimeException)} on this instance. All elements for which
+   * {@link #beforeSet(int,Object)} returns {@code false} will not be set in this {@link List}. Calling
+   * {@link ListIterator#add(Object)} will delegate a callback to {@link #beforeAdd(int,Object,Object)} and
+   * {@link #afterAdd(int,Object,RuntimeException)} on this instance. All elements for which {@link #beforeAdd(int,Object,Object)}
+   * returns {@code false} will not be added to this {@link List}.
    */
   @Override
   public ListIterator<E> listIterator(final int index) {
@@ -705,11 +626,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed {@link List} is modified for the removal of the
-   * element. If {@link #beforeRemove(int)} returns {@code false}, the element
-   * will not be removed, and this method will return {@code null}.
+   * The callback methods {@link #beforeRemove(int)} and {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed {@link List} is modified for the removal of the element. If {@link #beforeRemove(int)} returns
+   * {@code false}, the element will not be removed, and this method will return {@code null}.
    */
   @Override
   public E remove(final int index) {
@@ -720,14 +639,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed {@link List} is modified. If
-   * {@link #beforeRemove(int)} returns {@code false}, the element will not be
+   * The callback methods {@link #beforeRemove(int)} and {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed {@link List} is modified. If {@link #beforeRemove(int)} returns {@code false}, the element will not be
    * removed.
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
     if (index < 0)
@@ -741,11 +657,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeSet(int,Object)} and
-   * {@link #afterSet(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified. If
-   * {@link #beforeSet(int,Object)} returns {@code false}, the element will not
-   * be set, and this method will return {@code null}.
+   * The callback methods {@link #beforeSet(int,Object)} and {@link #afterSet(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed {@link List} is modified. If {@link #beforeSet(int,Object)} returns {@code false}, the element
+   * will not be set, and this method will return {@code null}.
    */
   @Override
   public E set(final int index, final E element) {
@@ -772,17 +686,13 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed {@link List} is modified for the removal of each
-   * element in the specified {@link Collection}. All elements for which
-   * {@link #beforeRemove(int)} returns {@code false} will not be removed from
-   * this {@link List}.
+   * The callback methods {@link #beforeRemove(int)} and {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed {@link List} is modified for the removal of each element in the specified {@link Collection}. All
+   * elements for which {@link #beforeRemove(int)} returns {@code false} will not be removed from this {@link List}.
    *
    * @see Collection#removeAll(Collection)
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object e : c)
@@ -794,11 +704,9 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed {@link List} is modified for the removal of each
-   * element. All elements for which {@link #beforeRemove(int)} returns
-   * {@code false} will not be removed from this {@link List}.
+   * The callback methods {@link #beforeRemove(int)} and {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed {@link List} is modified for the removal of each element. All elements for which
+   * {@link #beforeRemove(int)} returns {@code false} will not be removed from this {@link List}.
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
@@ -813,15 +721,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeRemove(int)} and
-   * {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed {@link List} is modified for the removal of each
-   * element not in the specified {@link Collection}. All elements for which
-   * {@link #beforeRemove(int)} returns {@code false} will not be removed from
-   * this {@link List}.
+   * The callback methods {@link #beforeRemove(int)} and {@link #afterRemove(Object,RuntimeException)} are called immediately before
+   * and after the enclosed {@link List} is modified for the removal of each element not in the specified {@link Collection}. All
+   * elements for which {@link #beforeRemove(int)} returns {@code false} will not be removed from this {@link List}.
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     if (c.size() > 0) {
       final int size = size();
@@ -842,16 +746,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is
-   * retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    * <p>
-   * The callback methods {@link #beforeSet(int,Object)} and
-   * {@link #afterSet(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified. If
-   * {@link #beforeSet(int,Object)} returns {@code false}, the element will not
-   * be set.
+   * The callback methods {@link #beforeSet(int,Object)} and {@link #afterSet(int,Object,RuntimeException)} are called immediately
+   * before and after the enclosed {@link List} is modified. If {@link #beforeSet(int,Object)} returns {@code false}, the element
+   * will not be set.
    */
   @Override
   public void replaceAll(final UnaryOperator<E> operator) {
@@ -864,22 +764,17 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * An {@link ObservableList} that delegates callback methods to the
-   * parent {@link ObservableList} instance for the retrieval, addition, and
-   * removal of elements.
+   * An {@link ObservableList} that delegates callback methods to the parent {@link ObservableList} instance for the retrieval,
+   * addition, and removal of elements.
    */
   protected class ObservableSubList extends ObservableList<E> {
     /**
-     * Creates a new {@link org.libj.util.ObservableList.ObservableSubList} for
-     * the specified {@link List List&lt;E&gt;}.
+     * Creates a new {@link org.libj.util.ObservableList.ObservableSubList} for the specified {@link List List&lt;E&gt;}.
      *
      * @param list The {@link List List&lt;E&gt;}.
-     * @param fromIndex The starting index as the lower limit of the elements in
-     *          the target list, inclusive.
-     * @param toIndex The starting index as the upper limit of the elements in
-     *          the target list, exclusive.
-     * @throws IllegalArgumentException If the specified {@link List
-     *           List&lt;E&gt;} is null.
+     * @param fromIndex The starting index as the lower limit of the elements in the target list, inclusive.
+     * @param toIndex The starting index as the upper limit of the elements in the target list, exclusive.
+     * @throws IllegalArgumentException If the specified {@link List List&lt;E&gt;} is null.
      */
     protected ObservableSubList(final List<E> list, final int fromIndex, final int toIndex) {
       super(list, fromIndex, toIndex);
@@ -927,15 +822,11 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   /**
-   * Factory method that returns a new instance of an {@link ObservableSubList}
-   * for the specified {@code fromIndex} and {@code toIndex}. This method is
-   * intended to be overridden by subclasses in order to provide instances of
-   * the subclass.
+   * Factory method that returns a new instance of an {@link ObservableSubList} for the specified {@code fromIndex} and
+   * {@code toIndex}. This method is intended to be overridden by subclasses in order to provide instances of the subclass.
    *
-   * @param fromIndex The starting index as the lower limit of the elements in
-   *          the target list, inclusive.
-   * @param toIndex The starting index as the upper limit of the elements in the
-   *          target list, exclusive.
+   * @param fromIndex The starting index as the lower limit of the elements in the target list, inclusive.
+   * @param toIndex The starting index as the upper limit of the elements in the target list, exclusive.
    * @return A new instance of an {@link ObservableSubList}.
    */
   protected ObservableSubList newSubList(final int fromIndex, final int toIndex) {
@@ -951,10 +842,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each member of the enclosed list is referenced.
    */
   @Override
   public void sort(final Comparator<? super E> c) {
@@ -964,10 +853,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each member of the enclosed list is referenced.
    */
   @Override
   public Object[] toArray() {
@@ -977,10 +864,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int,ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each member of the enclosed list is
-   * referenced.
+   * The callback methods {@link #beforeGet(int,ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each member of the enclosed list is referenced.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -998,25 +883,24 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     return a;
   }
 
-//  /**
-//   * {@inheritDoc}
-//   * <p>
-//   * The callback methods {@link #beforeGet(int,ListIterator)} and
-//   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-//   * immediately before and after each member of the enclosed list is
-//   * referenced.
-//   */
-//  @Override
-//  public <T>T[] toArray(final IntFunction<T[]> generator) {
-//    return superToArray(generator);
-//  }
+  // /**
+  // * {@inheritDoc}
+  // * <p>
+  // * The callback methods {@link #beforeGet(int,ListIterator)} and
+  // * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
+  // * immediately before and after each member of the enclosed list is
+  // * referenced.
+  // */
+  // @Override
+  // public <T>T[] toArray(final IntFunction<T[]> generator) {
+  // return superToArray(generator);
+  // }
 
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    */
   @Override
   public void forEach(final Consumer<? super E> action) {
@@ -1026,9 +910,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    */
   @Override
   public Spliterator<E> spliterator() {
@@ -1038,9 +921,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    */
   @Override
   public Stream<E> stream() {
@@ -1050,9 +932,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    */
   @Override
   public Stream<E> parallelStream() {
@@ -1067,9 +948,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -1129,9 +1009,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    */
   @Override
   public int hashCode() {
@@ -1145,9 +1024,8 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeGet(int, ListIterator)} and
-   * {@link #afterGet(int,Object,ListIterator,RuntimeException)} are called
-   * immediately before and after each element of the enclosed list is retrieved.
+   * The callback methods {@link #beforeGet(int, ListIterator)} and {@link #afterGet(int,Object,ListIterator,RuntimeException)} are
+   * called immediately before and after each element of the enclosed list is retrieved.
    */
   @Override
   public String toString() {

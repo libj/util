@@ -25,13 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * A {@link ConcurrentHashMap} supporting {@code null} keys.
  *
- * @implNote This class does not properly handle
- *           {@link ConcurrentHashMap#keySet()} and
- *           {@link ConcurrentHashMap#keySet(Object)}.
+ * @implNote This class does not properly handle {@link ConcurrentHashMap#keySet()} and {@link ConcurrentHashMap#keySet(Object)}.
  * @param <K> The type of keys maintained by this map.
  * @param <V> The type of mapped values.
  */
-@SuppressWarnings("unlikely-arg-type")
 public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   private static final Object NULL = new Object();
 
@@ -41,13 +38,11 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   }
 
   /**
-   * Creates a new, empty map with an initial table size accommodating the
-   * specified number of elements without the need to dynamically resize.
+   * Creates a new, empty map with an initial table size accommodating the specified number of elements without the need to
+   * dynamically resize.
    *
-   * @param initialCapacity The implementation performs internal sizing to
-   *          accommodate this many elements.
-   * @throws IllegalArgumentException If the initial capacity of elements is
-   *           negative.
+   * @param initialCapacity The implementation performs internal sizing to accommodate this many elements.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative.
    */
   public ConcurrentNullHashMap(final int initialCapacity) {
     super(initialCapacity);
@@ -63,37 +58,28 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   }
 
   /**
-   * Creates a new, empty map with an initial table size based on the given
-   * number of elements ({@code initialCapacity}) and initial table density
-   * ({@code loadFactor}).
+   * Creates a new, empty map with an initial table size based on the given number of elements ({@code initialCapacity}) and initial
+   * table density ({@code loadFactor}).
    *
-   * @param initialCapacity The initial capacity. The implementation performs
-   *          internal sizing to accommodate this many elements, given the
-   *          specified load factor.
-   * @param loadFactor The load factor (table density) for establishing the
-   *          initial table size.
-   * @throws IllegalArgumentException If the initial capacity of elements is
-   *           negative or the load factor is nonpositive.
+   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements,
+   *          given the specified load factor.
+   * @param loadFactor The load factor (table density) for establishing the initial table size.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive.
    */
   public ConcurrentNullHashMap(final int initialCapacity, final float loadFactor) {
     this(initialCapacity, loadFactor, 1);
   }
 
   /**
-   * Creates a new, empty map with an initial table size based on the given
-   * number of elements ({@code initialCapacity}), table density
-   * ({@code loadFactor}), and number of concurrently updating threads
-   * ({@code concurrencyLevel}).
+   * Creates a new, empty map with an initial table size based on the given number of elements ({@code initialCapacity}), table
+   * density ({@code loadFactor}), and number of concurrently updating threads ({@code concurrencyLevel}).
    *
-   * @param initialCapacity The initial capacity. The implementation performs
-   *          internal sizing to accommodate this many elements, given the
-   *          specified load factor.
-   * @param loadFactor The load factor (table density) for establishing the
-   *          initial table size.
-   * @param concurrencyLevel The estimated number of concurrently updating
-   *          threads. The implementation may use this value as a sizing hint.
-   * @throws IllegalArgumentException If the initial capacity is negative or the
-   *           load factor or concurrencyLevel are nonpositive.
+   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements,
+   *          given the specified load factor.
+   * @param loadFactor The load factor (table density) for establishing the initial table size.
+   * @param concurrencyLevel The estimated number of concurrently updating threads. The implementation may use this value as a
+   *          sizing hint.
+   * @throws IllegalArgumentException If the initial capacity is negative or the load factor or concurrencyLevel are nonpositive.
    */
   public ConcurrentNullHashMap(final int initialCapacity, final float loadFactor, final int concurrencyLevel) {
     super(initialCapacity, loadFactor, concurrencyLevel);
@@ -226,8 +212,7 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
     if (!(o instanceof Map))
       return false;
 
-    final Map<Object,Object> m = (Map<Object,Object>)o;
-    return super.equals(new ObservableMap<Object,Object>(m) {
+    final Map<Object,Object> m = new ObservableMap<Object,Object>((Map<Object,Object>)o) {
       @Override
       protected Object beforeGet(final Object key) {
         return notNull(key);
@@ -237,6 +222,8 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
       protected Object afterGet(final Object key, final Object value, final RuntimeException e) {
         return notNull(value);
       }
-    });
+    };
+
+    return super.equals(m);
   }
 }

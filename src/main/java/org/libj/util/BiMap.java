@@ -21,13 +21,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Bidirectional map that maintains both {@code key->value} and
- * {@code value->key} mappings. This implementation utilizes the mechanisms of
- * the {@link ObservableMap} to guarantee operational symmetry between the
- * {@code this} map and the {@link #reverse()} map. Methods defined in the
- * {@link Map} interface that result in a mutation to the {@code this} instance
- * will also result in reflected operations to the {@link #reverse()} instance.
- * This implementation is not synchronized.
+ * Bidirectional map that maintains both {@code key->value} and {@code value->key} mappings. This implementation utilizes the
+ * mechanisms of the {@link ObservableMap} to guarantee operational symmetry between the {@code this} map and the {@link #reverse()}
+ * map. Methods defined in the {@link Map} interface that result in a mutation to the {@code this} instance will also result in
+ * reflected operations to the {@link #reverse()} instance. This implementation is not synchronized.
  *
  * @param <K> The type of keys maintained by this map.
  * @param <V> The type of mapped values.
@@ -87,8 +84,8 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   protected abstract BiMap<V,K> newEmptyReverseMap();
 
   /**
-   * Returns the reverse of this map, maintaining {@code value->key} mappings.
-   * Mutations to the map returned by this method map are reflected in this map.
+   * Returns the reverse of this map, maintaining {@code value->key} mappings. Mutations to the map returned by this method map are
+   * reflected in this map.
    *
    * @return The reverse map.
    */
@@ -97,7 +94,6 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsValue(final Object value) {
     return reverse.containsKey(value);
   }
@@ -115,7 +111,6 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
       }
 
       @Override
-      @SuppressWarnings("unlikely-arg-type")
       protected boolean beforeRemove(final Object element) {
         if (!BiMap.this.containsKey(element))
           return false;

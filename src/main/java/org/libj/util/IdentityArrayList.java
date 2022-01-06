@@ -24,11 +24,9 @@ import java.util.List;
 import java.util.RandomAccess;
 
 /**
- * A {@link ArrayList} that resorts to the {@code ==} operator when checking an
- * element for equality, instead of the {@link Object#equals(Object)} method.
- * This class overrides all methods that perform a test for equality of elements
- * in the list, and supports the sub-list operation by returning an
- * {@link IdentitySubList}.
+ * A {@link ArrayList} that resorts to the {@code ==} operator when checking an element for equality, instead of the
+ * {@link Object#equals(Object)} method. This class overrides all methods that perform a test for equality of elements in the list,
+ * and supports the sub-list operation by returning an {@link IdentitySubList}.
  * <ul>
  * <li>{@link #contains(Object)}</li>
  * <li>{@link #containsAll(Collection)}</li>
@@ -49,16 +47,15 @@ public class IdentityArrayList<E> extends ArrayList<E> {
    * Constructs an empty list with the specified initial capacity.
    *
    * @param initialCapacity The initial capacity of the list.
-   * @throws IllegalArgumentException If the specified initial capacity is
-   *           negative.
+   * @throws IllegalArgumentException If the specified initial capacity is negative.
    */
   public IdentityArrayList(final int initialCapacity) {
     super(initialCapacity);
   }
 
   /**
-   * Constructs a list containing the elements of the specified collection, in
-   * the order they are returned by the collection's iterator.
+   * Constructs a list containing the elements of the specified collection, in the order they are returned by the collection's
+   * iterator.
    *
    * @param c The collection whose elements are to be placed into this list.
    * @throws IllegalArgumentException If the specified collection is null.
@@ -75,7 +72,6 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean contains(final Object o) {
     return indexOf(o) > -1;
   }
@@ -99,7 +95,6 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
     if (index < 0)
@@ -109,7 +104,6 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     if (c == null)
       return false;
@@ -146,8 +140,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   /**
-   * A {@link DelegateList} providing the same behavior of
-   * {@link IdentityArrayList} to the class returned by
+   * A {@link DelegateList} providing the same behavior of {@link IdentityArrayList} to the class returned by
    * {@link ArrayList#subList(int,int)}.
    */
   protected class IdentitySubList extends DelegateList<E> implements RandomAccess {
@@ -162,7 +155,6 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     }
 
     @Override
-    @SuppressWarnings("unlikely-arg-type")
     public boolean contains(final Object o) {
       return indexOf(o) > -1;
     }
@@ -186,7 +178,6 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     }
 
     @Override
-    @SuppressWarnings("unlikely-arg-type")
     public boolean remove(final Object o) {
       final int index = indexOf(o);
       if (index < 0)
@@ -196,7 +187,6 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     }
 
     @Override
-    @SuppressWarnings("unlikely-arg-type")
     public boolean removeAll(final Collection<?> c) {
       if (c == null)
         return false;

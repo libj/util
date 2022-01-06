@@ -169,13 +169,12 @@ public class DigraphTest {
   }
 
   @Test
-  @SuppressWarnings("unlikely-arg-type")
   public void testContainsValue() {
     final Digraph<Integer> digraph = makeDirectedAcyclicGraph();
     assertTrue(digraph.containsValue(Collections.singleton(12)));
     assertTrue(digraph.containsValue(Collections.EMPTY_SET));
     assertTrue(digraph.containsValue(CollectionUtil.asCollection(new HashSet<>(), 12, 11, 10)));
-    assertFalse(digraph.containsValue(-1));
+    assertFalse(digraph.containsValue(CollectionUtil.asCollection(new HashSet<>(), -1)));
   }
 
   @Test

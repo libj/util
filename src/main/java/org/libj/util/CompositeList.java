@@ -28,74 +28,61 @@ import org.libj.util.primitive.ArrayIntList;
 import org.slf4j.Logger;
 
 /**
- * The {@code CompositeList<E,T>} is comprised of {@code ComponentList<E>}s that
- * each maintain elements (of type {@code <E>}) conforming to a particular type
- * {@code <T>}. For instance, consider:
+ * The {@code CompositeList<E,T>} is comprised of {@code ComponentList<E>}s that each maintain elements (of type {@code <E>})
+ * conforming to a particular type {@code <T>}. For instance, consider:
  *
  * <pre>
  * {@code new CompositeList<Number,Class<? extends Number>>(Integer.class, Long.class, Double.class)}
  * </pre>
  *
- * This {@link CompositeList} is comprised of {@code ComponentList<Number>}
- * lists that each maintains elements specific to the types:
- * {@code Integer.class}, {@code Long.class}, and {@code Double.class}. This
- * {@link CompositeList} can be used to store instances of {@link Integer},
- * {@link Long} or {@link Double}, which will internally be stored in the
- * appropriate {@code ComponentList<Number>}.
+ * This {@link CompositeList} is comprised of {@code ComponentList<Number>} lists that each maintains elements specific to the
+ * types: {@code Integer.class}, {@code Long.class}, and {@code Double.class}. This {@link CompositeList} can be used to store
+ * instances of {@link Integer}, {@link Long} or {@link Double}, which will internally be stored in the appropriate
+ * {@code ComponentList<Number>}.
  * <p>
- * Each {@code ComponentList<Number>} of the {@link CompositeList} is created
- * with the abstract method {@link #getOrCreateComponentList(Object)} in the
- * order in which it was instantiated. For instance, consider the following
+ * Each {@code ComponentList<Number>} of the {@link CompositeList} is created with the abstract method
+ * {@link #getOrCreateComponentList(Object)} in the order in which it was instantiated. For instance, consider the following
  * procedure:<br>
  * <blockquote>{@code
  * compositeList.add(1);
  * compositeList.add(5.3);
  * compositeList.add(99999L);
  * }</blockquote><br>
- * This procedure will result in a {@link CompositeList} that has 3
- * {@link ComponentList}s:<br>
+ * This procedure will result in a {@link CompositeList} that has 3 {@link ComponentList}s:<br>
  * <blockquote>{@code
  * ComponentList<Integer>
  * ComponentList<Double>
  * ComponentList<Long>
  * }</blockquote><br>
- * Thereafter, all elements of type {@link Integer} will go into the
- * {@code ComponentList<Integer>}, all elements of type {@link Double} will go
- * into the {@code ComponentList<Double>}, and all elements of type {@link Long}
- * will go into the {@code ComponentList<Long>}.
+ * Thereafter, all elements of type {@link Integer} will go into the {@code ComponentList<Integer>}, all elements of type
+ * {@link Double} will go into the {@code ComponentList<Double>}, and all elements of type {@link Long} will go into the
+ * {@code ComponentList<Long>}.
  * <p>
  * The {@link CompositeList} guarantees the following:
  * <ul>
- * <li>The order of the {@link ComponentList}s inside the {@link CompositeList}
- * is maintained.</li>
- * <li>Elements added to the individual {@link ComponentList}s will be reflected
- * in the {@link CompositeList} in proper order (i.e. all {@link Double}s will
- * always come before all {@link Integer}s).</li>
- * <li>Elements added to the {@link CompositeList} will be reflected in the
- * appropriate {@link ComponentList}s.</li>
- * <li>All list mutation operations will uphold proper order for both the
- * {@link CompositeList} and the {@link ComponentList}s within (including those
- * via {@link java.util.Iterator} and {@link java.util.ListIterator}).</li>
+ * <li>The order of the {@link ComponentList}s inside the {@link CompositeList} is maintained.</li>
+ * <li>Elements added to the individual {@link ComponentList}s will be reflected in the {@link CompositeList} in proper order (i.e.
+ * all {@link Double}s will always come before all {@link Integer}s).</li>
+ * <li>Elements added to the {@link CompositeList} will be reflected in the appropriate {@link ComponentList}s.</li>
+ * <li>All list mutation operations will uphold proper order for both the {@link CompositeList} and the {@link ComponentList}s
+ * within (including those via {@link java.util.Iterator} and {@link java.util.ListIterator}).</li>
  * </ul>
  *
- * @param <E> The type of elements in this list and internal
- *          {@link ComponentList}s.
+ * @param <E> The type of elements in this list and internal {@link ComponentList}s.
  * @param <T> The type for separation of {@link ComponentList}s.
  */
 @SuppressWarnings("static-method")
 public abstract class CompositeList<E,T> extends ObservableList<E> implements Cloneable {
   /**
-   * The component list of the {@link CompositeList} that stores instances
-   * extending type {@code <E>}, which is separated from other such
-   * {@link ComponentList}s by objects of type {@code <T>}.
+   * The component list of the {@link CompositeList} that stores instances extending type {@code <E>}, which is separated from other
+   * such {@link ComponentList}s by objects of type {@code <T>}.
    */
   public class ComponentList extends ObservableList<E> implements Cloneable {
     protected final T type;
     protected ArrayIntList indexes;
 
     /**
-     * Creates a new {@link ComponentList} that maintains elements for the
-     * specified type.
+     * Creates a new {@link ComponentList} that maintains elements for the specified type.
      *
      * @param type The type this {@link ComponentList} will maintain.
      */
@@ -210,8 +197,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     /**
      * Print method for debugging.
      *
-     * @param logger The {@link Logger} to which debug information is to be be
-     *          printed.
+     * @param logger The {@link Logger} to which debug information is to be be printed.
      * @throws IllegalArgumentException If {@code logger} is null.
      */
     protected void print(final Logger logger) {
@@ -253,8 +239,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Creates a new {@link CompositeList} with the specified types for which
-   * {@link ComponentList}s will be created.
+   * Creates a new {@link CompositeList} with the specified types for which {@link ComponentList}s will be created.
    *
    * @param types The types for which {@link ComponentList}s will be created.
    */
@@ -267,8 +252,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Creates a new {@link CompositeList} with the specified types for which
-   * {@link ComponentList}s will be created.
+   * Creates a new {@link CompositeList} with the specified types for which {@link ComponentList}s will be created.
    *
    * @param types The types for which {@link ComponentList}s will be created.
    */
@@ -280,13 +264,11 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Returns {@code true} if this {@link CompositeList} contains the specified
-   * type registered for {@link ComponentList}s, regardless of whether the
-   * {@link ComponentList} has been instantiated or not.
+   * Returns {@code true} if this {@link CompositeList} contains the specified type registered for {@link ComponentList}s,
+   * regardless of whether the {@link ComponentList} has been instantiated or not.
    *
    * @param type The type.
-   * @return {@code true} if this {@link CompositeList} contains the specified
-   *         type registered for {@link ComponentList}s.
+   * @return {@code true} if this {@link CompositeList} contains the specified type registered for {@link ComponentList}s.
    */
   protected boolean containsComponentType(final T type) {
     return typeToComponentList.containsKey(type);
@@ -295,11 +277,9 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   /**
    * Returns the {@link ComponentList} for the specified type.
    *
-   * @implNote If the specified type is registered in the {@link CompositeList}
-   *           but a {@link ComponentList} has not yet been instantiated for the
-   *           type, this method will return {@code null}. Refer to
-   *           {@link #containsComponentType(Object)} to determine if type is
-   *           registered.
+   * @implNote If the specified type is registered in the {@link CompositeList} but a {@link ComponentList} has not yet been
+   *           instantiated for the type, this method will return {@code null}. Refer to {@link #containsComponentType(Object)} to
+   *           determine if type is registered.
    * @param type The type.
    * @return The {@link ComponentList} for the specified type.
    */
@@ -308,12 +288,10 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Returns the {@link ComponentList} at the specified index of component
-   * lists.
+   * Returns the {@link ComponentList} at the specified index of component lists.
    *
    * @param index The index.
-   * @return The {@link ComponentList} at the specified index of component
-   *         lists.
+   * @return The {@link ComponentList} at the specified index of component lists.
    * @throws IndexOutOfBoundsException If the index is out of range.
    */
   protected ComponentList getComponentList(final int index) {
@@ -323,8 +301,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   /**
    * Registers the specified {@link ComponentList} for the provided type.
    *
-   * @param type The type for which the {@link ComponentList} is to be
-   *          registered.
+   * @param type The type for which the {@link ComponentList} is to be registered.
    * @param componentList The {@link ComponentList}.
    */
   protected void registerComponentList(final T type, final ComponentList componentList) {
@@ -332,8 +309,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Creates a new {@link ComponentList} for the specified type. This method can
-   * be overridden by subclasses.
+   * Creates a new {@link ComponentList} for the specified type. This method can be overridden by subclasses.
    *
    * @param type The type for which {@link ComponentList}s is to be created.
    * @return The {@link ComponentList}.
@@ -343,14 +319,11 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Returns the {@link ComponentList} for the specified element, creating one
-   * if the {@link ComponentList} has not yet been instantiated. This method
-   * must be implemented by subclasses.
+   * Returns the {@link ComponentList} for the specified element, creating one if the {@link ComponentList} has not yet been
+   * instantiated. This method must be implemented by subclasses.
    *
-   * @param element The element for which {@link ComponentList}s is to be
-   *          retrieved.
-   * @return The {@link ComponentList} for the specified type. This method must
-   *         be implemented by subclasses.
+   * @param element The element for which {@link ComponentList}s is to be retrieved.
+   * @return The {@link ComponentList} for the specified type. This method must be implemented by subclasses.
    */
   protected abstract ComponentList getOrCreateComponentList(E element);
 
@@ -502,8 +475,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   /**
    * Print method for debugging.
    *
-   * @param logger The {@link Logger} to which debug information is to be be
-   *          printed.
+   * @param logger The {@link Logger} to which debug information is to be be printed.
    * @throws IllegalArgumentException If {@code logger} is null.
    */
   protected void print(final Logger logger) {
@@ -519,10 +491,8 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   /**
-   * Returns a clone of the specified item. This method is necessary for
-   * {@link #clone()} to be able to properly clone elements maintained by this
-   * list. The default implementation is to return the specified instance
-   * reference.
+   * Returns a clone of the specified item. This method is necessary for {@link #clone()} to be able to properly clone elements
+   * maintained by this list. The default implementation is to return the specified instance reference.
    *
    * @param item The item to be cloned.
    * @return A clone of the specified item.
@@ -532,7 +502,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "unlikely-arg-type"})
+  @SuppressWarnings("unchecked")
   public CompositeList<E,T> clone() {
     try {
       final CompositeList<E,T> clone = (CompositeList<E,T>)super.clone();

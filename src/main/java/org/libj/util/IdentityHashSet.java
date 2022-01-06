@@ -33,47 +33,35 @@ import java.util.Spliterator;
 import java.util.TreeSet;
 
 /**
- * This class implements the {@link Set} interface, backed by a hash table
- * (actually a {@link IdentityHashMap} instance). It makes no guarantees as to
- * the iteration order of the set; in particular, it does not guarantee that the
- * order will remain constant over time. This class permits the null element.
+ * This class implements the {@link Set} interface, backed by a hash table (actually a {@link IdentityHashMap} instance). It makes
+ * no guarantees as to the iteration order of the set; in particular, it does not guarantee that the order will remain constant over
+ * time. This class permits the null element.
  * <p>
- * This class offers constant time performance for the basic operations
- * ({@code add}, {@code remove}, {@code contains} and {@code size}), assuming
- * the hash function disperses the elements properly among the buckets.
- * Iterating over this set requires time proportional to the sum of the
- * {@link IdentityHashSet} instance's size (the number of elements) plus the
- * "capacity" of the backing {@link IdentityHashMap} instance (the number of
- * buckets). Thus, it's very important not to set the initial capacity too high
- * (or the load factor too low) if iteration performance is important.
+ * This class offers constant time performance for the basic operations ({@code add}, {@code remove}, {@code contains} and
+ * {@code size}), assuming the hash function disperses the elements properly among the buckets. Iterating over this set requires
+ * time proportional to the sum of the {@link IdentityHashSet} instance's size (the number of elements) plus the "capacity" of the
+ * backing {@link IdentityHashMap} instance (the number of buckets). Thus, it's very important not to set the initial capacity too
+ * high (or the load factor too low) if iteration performance is important.
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If
- * multiple threads access a hash set concurrently, and at least one of the
- * threads modifies the set, it <i>must</i> be synchronized externally. This is
- * typically accomplished by synchronizing on some object that naturally
- * encapsulates the set. If no such object exists, the set should be "wrapped"
- * using the {@link Collections#synchronizedSet(Set)} method. This is best done
- * at creation time, to prevent accidental unsynchronized access to the set:
+ * <strong>Note that this implementation is not synchronized.</strong> If multiple threads access a hash set concurrently, and at
+ * least one of the threads modifies the set, it <i>must</i> be synchronized externally. This is typically accomplished by
+ * synchronizing on some object that naturally encapsulates the set. If no such object exists, the set should be "wrapped" using the
+ * {@link Collections#synchronizedSet(Set)} method. This is best done at creation time, to prevent accidental unsynchronized access
+ * to the set:
  *
  * <pre>
  * {@code Set s = Collections.synchronizedSet(new IdentityHashSet(...))}
  * </pre>
  *
- * The iterators returned by this class's {@code iterator} method are
- * <i>fail-fast</i>: if the set is modified at any time after the iterator is
- * created, in any way except through the iterator's own {@code remove} method,
- * the Iterator throws a {@link ConcurrentModificationException}. Thus, in the
- * face of concurrent modification, the iterator fails quickly and cleanly,
- * rather than risking arbitrary, non-deterministic behavior at an undetermined
- * time in the future.
+ * The iterators returned by this class's {@code iterator} method are <i>fail-fast</i>: if the set is modified at any time after the
+ * iterator is created, in any way except through the iterator's own {@code remove} method, the Iterator throws a
+ * {@link ConcurrentModificationException}. Thus, in the face of concurrent modification, the iterator fails quickly and cleanly,
+ * rather than risking arbitrary, non-deterministic behavior at an undetermined time in the future.
  * <p>
- * Note that the fail-fast behavior of an iterator cannot be guaranteed as it
- * is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification. Fail-fast iterators throw
- * {@link ConcurrentModificationException} on a best-effort basis. Therefore, it
- * would be wrong to write a program that depended on this exception for its
- * correctness: <i>the fail-fast behavior of iterators should be used only to
- * detect bugs.</i>
+ * Note that the fail-fast behavior of an iterator cannot be guaranteed as it is, generally speaking, impossible to make any hard
+ * guarantees in the presence of unsynchronized concurrent modification. Fail-fast iterators throw
+ * {@link ConcurrentModificationException} on a best-effort basis. Therefore, it would be wrong to write a program that depended on
+ * this exception for its correctness: <i>the fail-fast behavior of iterators should be used only to detect bugs.</i>
  *
  * @param <E> The type of elements maintained by this set.
  * @see Collection
@@ -83,8 +71,8 @@ import java.util.TreeSet;
  */
 public class IdentityHashSet<E> extends HashSet<E> {
   /**
-   * The maximum capacity, used if a higher value is implicitly specified by
-   * either of the constructors with arguments. MUST be a power of two <= 1 << 30.
+   * The maximum capacity, used if a higher value is implicitly specified by either of the constructors with arguments. MUST be a
+   * power of two <= 1 << 30.
    */
   static final int MAXIMUM_CAPACITY = 1 << 30;
 
@@ -94,18 +82,15 @@ public class IdentityHashSet<E> extends HashSet<E> {
   private static final Object PRESENT = new Object();
 
   /**
-   * Constructs a new, empty set; the backing {@link IdentityHashMap} instance
-   * has default expected maximum size (21).
+   * Constructs a new, empty set; the backing {@link IdentityHashMap} instance has default expected maximum size (21).
    */
   public IdentityHashSet() {
     map = new IdentityHashMap<>();
   }
 
   /**
-   * Constructs a new set containing the elements in the specified collection.
-   * The {@link IdentityHashMap} is created with default load factor (0.75) and
-   * an initial capacity sufficient to contain the elements in the specified
-   * collection.
+   * Constructs a new set containing the elements in the specified collection. The {@link IdentityHashMap} is created with default
+   * load factor (0.75) and an initial capacity sufficient to contain the elements in the specified collection.
    *
    * @param c The collection whose elements are to be placed into this set.
    * @throws IllegalArgumentException If the specified collection is null.
@@ -117,8 +102,8 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Constructs a new, empty set; the backing {@link IdentityHashMap} instance
-   * has the specified initial capacity and default load factor (0.75).
+   * Constructs a new, empty set; the backing {@link IdentityHashMap} instance has the specified initial capacity and default load
+   * factor (0.75).
    *
    * @param initialCapacity The initial capacity of the hash table.
    * @throws IllegalArgumentException If the initial capacity is less than zero.
@@ -143,7 +128,6 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean contains(final Object o) {
     return map.containsKey(o);
   }
@@ -154,7 +138,6 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     return map.remove(o) == PRESENT;
   }
@@ -170,8 +153,7 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Returns a shallow copy of this {@link IdentityHashSet} instance (the
-   * elements themselves are not cloned).
+   * Returns a shallow copy of this {@link IdentityHashSet} instance (the elements themselves are not cloned).
    *
    * @return A shallow copy of this {@link IdentityHashSet} instance.
    */
@@ -184,13 +166,10 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Save the state of this {@link IdentityHashSet} instance to a stream (that
-   * is, serialize it).
+   * Save the state of this {@link IdentityHashSet} instance to a stream (that is, serialize it).
    *
-   * @serialData The capacity of the backing {@link IdentityHashMap} instance
-   *             (int), followed by the size of the set (the number of elements
-   *             it contains) (int), followed by all of its elements (each an
-   *             Object) in no particular order.
+   * @serialData The capacity of the backing {@link IdentityHashMap} instance (int), followed by the size of the set (the number of
+   *             elements it contains) (int), followed by all of its elements (each an Object) in no particular order.
    * @param s The {@link ObjectInputStream}.
    * @throws IOException If an I/O error has occurred.
    */
@@ -210,12 +189,10 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Reconstitute the {@link IdentityHashSet} instance from a stream (that is,
-   * deserialize it).
+   * Reconstitute the {@link IdentityHashSet} instance from a stream (that is, deserialize it).
    *
    * @param s The {@link ObjectInputStream}.
-   * @throws ClassNotFoundException If the class of a serialized object could
-   *           not be found.
+   * @throws ClassNotFoundException If the class of a serialized object could not be found.
    * @throws IOException If an I/O error has occurred.
    */
   private void readObject(final ObjectInputStream s) throws IOException, ClassNotFoundException {

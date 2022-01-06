@@ -24,7 +24,6 @@ import java.util.Map;
 import org.junit.Test;
 
 public class HashBiMapTest {
-  @SuppressWarnings("unlikely-arg-type")
   public static void test(final HashBiMap<Integer,String> map, final int offset, final boolean testClone) {
     for (int i = offset; i < 100 + offset; ++i) {
       final String value = String.valueOf(i + offset);
@@ -34,7 +33,7 @@ public class HashBiMapTest {
     }
 
     map.remove(7 + offset);
-    assertFalse(map.containsValue(7 + offset));
+    assertFalse(map.containsKey(7 + offset));
 
     map.reverse().remove(String.valueOf(8 + offset));
     assertFalse(map.containsKey(8 + offset));

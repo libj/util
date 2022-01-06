@@ -29,8 +29,7 @@ import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A concurrent {@link HashSet} implementation backed by a
- * {@link ConcurrentHashMap}.
+ * A concurrent {@link HashSet} implementation backed by a {@link ConcurrentHashMap}.
  *
  * @param <E> The type of elements maintained by this set.
  */
@@ -58,8 +57,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
 
 
   /**
-   * The default initial table capacity. Must be a power of 2 (i.e., at least 1)
-   * and at most {@code ConcurrentHashMap.MAXIMUM_CAPACITY}.
+   * The default initial table capacity. Must be a power of 2 (i.e., at least 1) and at most
+   * {@code ConcurrentHashMap.MAXIMUM_CAPACITY}.
    */
   private static final int DEFAULT_CAPACITY = 16;
 
@@ -69,18 +68,15 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   private static final Object PRESENT = new Object();
 
   /**
-   * Constructs a new, empty set; the backing {@link ConcurrentHashMap} instance
-   * has default expected maximum size (16).
+   * Constructs a new, empty set; the backing {@link ConcurrentHashMap} instance has default expected maximum size (16).
    */
   public ConcurrentHashSet() {
     map = new CloneableConcurrentHashMap<>();
   }
 
   /**
-   * Constructs a new set containing the elements in the specified collection.
-   * The {@link ConcurrentHashMap} is created with default load factor (0.75)
-   * and an initial capacity sufficient to contain the elements in the specified
-   * collection.
+   * Constructs a new set containing the elements in the specified collection. The {@link ConcurrentHashMap} is created with default
+   * load factor (0.75) and an initial capacity sufficient to contain the elements in the specified collection.
    *
    * @param c The collection whose elements are to be placed into this set.
    * @throws IllegalArgumentException If the specified collection is null.
@@ -91,8 +87,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Constructs a new, empty set; the backing {@link ConcurrentHashMap} instance
-   * has the specified initial capacity and default load factor (0.75).
+   * Constructs a new, empty set; the backing {@link ConcurrentHashMap} instance has the specified initial capacity and default load
+   * factor (0.75).
    *
    * @param initialCapacity The initial capacity of the hash table.
    * @throws IllegalArgumentException If the initial capacity is less than zero.
@@ -117,7 +113,6 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean contains(final Object o) {
     return map.containsKey(o);
   }
@@ -128,7 +123,6 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     return map.remove(o) == PRESENT;
   }
@@ -158,13 +152,10 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Save the state of this {@link ConcurrentHashSet} instance to a stream (that
-   * is, serialize it).
+   * Save the state of this {@link ConcurrentHashSet} instance to a stream (that is, serialize it).
    *
-   * @serialData The capacity of the backing {@link ConcurrentHashMap} instance
-   *             (int), followed by the size of the set (the number of elements
-   *             it contains) (int), followed by all of its elements (each an
-   *             Object) in no particular order.
+   * @serialData The capacity of the backing {@link ConcurrentHashMap} instance (int), followed by the size of the set (the number
+   *             of elements it contains) (int), followed by all of its elements (each an Object) in no particular order.
    * @param s The {@link ObjectInputStream}.
    * @throws IOException If an I/O error has occurred.
    */
@@ -184,12 +175,10 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Reconstitute the {@link ConcurrentHashSet} instance from a stream (that is,
-   * deserialize it).
+   * Reconstitute the {@link ConcurrentHashSet} instance from a stream (that is, deserialize it).
    *
    * @param s The {@link ObjectInputStream}.
-   * @throws ClassNotFoundException If the class of a serialized object could
-   *           not be found.
+   * @throws ClassNotFoundException If the class of a serialized object could not be found.
    * @throws IOException If an I/O error has occurred.
    */
   private void readObject(final ObjectInputStream s) throws ClassNotFoundException, IOException {

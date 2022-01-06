@@ -32,9 +32,8 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
- * An implementation of the List interface that transforms the elements of
- * the supplied source List based on {@code sourceToTarget} and
- * {@code targetToSource} lambda functions.
+ * An implementation of the List interface that transforms the elements of the supplied source List based on {@code sourceToTarget}
+ * and {@code targetToSource} lambda functions.
  *
  * @param <S> Type of source List.
  * @param <T> Type of target List.
@@ -45,21 +44,18 @@ public class TransList<S,T> extends DelegateList<T> {
   protected final BiFunction<Integer,T,S> targetToSource;
 
   /**
-   * Creates a new {@link TransList} with the specified source List, and
-   * functions defining the translation of objects types {@code S -> T} and
-   * {@code T -> S}.
+   * Creates a new {@link TransList} with the specified source List, and functions defining the translation of objects types
+   * {@code S -> T} and {@code T -> S}.
    * <p>
-   * If {@code sourceToTarget} is null, all methods that require a translation
-   * of {@code S -> T} will throw a {@link UnsupportedOperationException}.
+   * If {@code sourceToTarget} is null, all methods that require a translation of {@code S -> T} will throw a
+   * {@link UnsupportedOperationException}.
    * <p>
-   * If {@code targetToSource} is null, all methods that require a translation
-   * of {@code T -> S} will throw a {@link UnsupportedOperationException}.
+   * If {@code targetToSource} is null, all methods that require a translation of {@code T -> S} will throw a
+   * {@link UnsupportedOperationException}.
    *
    * @param source The source List of type {@code <S>}.
-   * @param sourceToTarget The {@link BiFunction} defining the translation from
-   *          {@code S -> T}.
-   * @param targetToSource The {@link BiFunction} defining the translation from
-   *          {@code T -> S}.
+   * @param sourceToTarget The {@link BiFunction} defining the translation from {@code S -> T}.
+   * @param targetToSource The {@link BiFunction} defining the translation from {@code T -> S}.
    * @throws IllegalArgumentException If {@code source} is null.
    */
   public TransList(final List<S> source, final BiFunction<Integer,S,T> sourceToTarget, final BiFunction<Integer,T,S> targetToSource) {
@@ -177,7 +173,6 @@ public class TransList<S,T> extends DelegateList<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     if (c.size() == 0)
       return true;
@@ -199,7 +194,6 @@ public class TransList<S,T> extends DelegateList<T> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
     for (final Object e : c)
@@ -209,7 +203,7 @@ public class TransList<S,T> extends DelegateList<T> {
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "unlikely-arg-type"})
+  @SuppressWarnings("unchecked")
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final int size = size();

@@ -38,29 +38,26 @@ public class SortedList<E> extends ObservableList<E> {
   private final Comparator<E> comparator;
 
   /**
-   * Creates a new {@link SortedList} with the provided {@link List list} of
-   * comparable elements as the underlying target.
+   * Creates a new {@link SortedList} with the provided {@link List list} of comparable elements as the underlying target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
-   * @param <T> The parameter requiring elements of type {@link Comparable
-   *          Comparable&lt;? super E&gt;}.
+   * @param <T> The parameter requiring elements of type {@link Comparable Comparable&lt;? super E&gt;}.
    * @param list The {@link List} of comparable elements.
    * @throws IllegalArgumentException If the provided {@link List list} is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
-  public <T extends Comparable<? super E>>SortedList(final List<T> list) {
+  public <T extends Comparable<? super E>> SortedList(final List<T> list) {
     this((List)list, DEFAULT_COMPARATOR, true);
   }
 
   /**
-   * Creates a new {@link SortedList} with the provided {@link List list} and
-   * {@link Comparator comparator} as the underlying target.
+   * Creates a new {@link SortedList} with the provided {@link List list} and {@link Comparator comparator} as the underlying
+   * target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List}.
    * @param comparator The {@link Comparator}.
-   * @throws IllegalArgumentException If the provided {@link List list} or
-   *           {@link Comparator comparator} is null.
+   * @throws IllegalArgumentException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
   public SortedList(final List<E> list, final Comparator<E> comparator) {
     this(list, assertNotNull(comparator), true);
@@ -160,11 +157,10 @@ public class SortedList<E> extends ObservableList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * <b>Runtime performance</b>: {@code O(log2(n) * m)} if the provided
-   * collection is a {@link SortedList}; otherwise {@code O(n * m)}.
+   * <b>Runtime performance</b>: {@code O(log2(n) * m)} if the provided collection is a {@link SortedList}; otherwise
+   * {@code O(n * m)}.
    */
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean containsAll(final Collection<?> c) {
     if (c.size() == 0)
       return true;
@@ -185,7 +181,6 @@ public class SortedList<E> extends ObservableList<E> {
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean retainAll(final Collection<?> c) {
     if (c.size() > 0) {
       final int size = size();
@@ -230,7 +225,8 @@ public class SortedList<E> extends ObservableList<E> {
     if (!target.get(index).equals(o))
       return -1;
 
-    while (--index > 0 && target.get(index).equals(o));
+    while (--index > 0 && target.get(index).equals(o))
+      ;
     return index + 1;
   }
 
@@ -249,15 +245,15 @@ public class SortedList<E> extends ObservableList<E> {
       return -1;
 
     final int len = target.size();
-    while (++index < len && target.get(index).equals(o));
+    while (++index < len && target.get(index).equals(o))
+      ;
     return index - 1;
   }
 
   /**
    * {@inheritDoc}
    *
-   * @implNote The {@link ListIterator} returned by this method does not support
-   *           {@link ListIterator#add(Object)} or
+   * @implNote The {@link ListIterator} returned by this method does not support {@link ListIterator#add(Object)} or
    *           {@link ListIterator#set(Object)}.
    */
   @Override

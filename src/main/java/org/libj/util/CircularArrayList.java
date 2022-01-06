@@ -32,66 +32,46 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
 /**
- * Resizable-array implementation of the {@link java.util.List} interface with
- * circular indexing. This class is roughly equivalent to
- * {@link java.util.ArrayList}, except that it is optimized for removing
- * elements at the front and back of the list to facilitate use as a queue or
- * deque.
+ * Resizable-array implementation of the {@link java.util.List} interface with circular indexing. This class is roughly equivalent
+ * to {@link java.util.ArrayList}, except that it is optimized for removing elements at the front and back of the list to facilitate
+ * use as a queue or deque.
  * <p>
- * The {@link #size()}, {@link #isEmpty()}, {@link #get(int)},
- * {@link #set(int,Object)}, {@link #iterator()}, {@link #listIterator()}, and
- * {@link #listIterator(int)} operations run in constant time. The
- * {@link #add(Object)} and {@link #add(int,Object)} operations run in
- * <i>amortized constant time</i>, that is, adding {@code n} elements requires
- * O(n) time. All of the other operations run in linear time (roughly speaking).
- * The constant factor is low compared to that for the
+ * The {@link #size()}, {@link #isEmpty()}, {@link #get(int)}, {@link #set(int,Object)}, {@link #iterator()},
+ * {@link #listIterator()}, and {@link #listIterator(int)} operations run in constant time. The {@link #add(Object)} and
+ * {@link #add(int,Object)} operations run in <i>amortized constant time</i>, that is, adding {@code n} elements requires O(n) time.
+ * All of the other operations run in linear time (roughly speaking). The constant factor is low compared to that for the
  * {@link java.util.LinkedList} implementation.
  * <p>
- * Each {@link CircularArrayList} instance has a capacity, which is the size of
- * the array used to store the elements in the list. The capacity is always at
- * least as large as the list size. As elements are added to an
- * {@link CircularArrayList}, the capacity grows automatically via
- * {@link #ensureCapacity(int)}, and incurs a constant amortized time cost for
- * each addition.
+ * Each {@link CircularArrayList} instance has a capacity, which is the size of the array used to store the elements in the list.
+ * The capacity is always at least as large as the list size. As elements are added to an {@link CircularArrayList}, the capacity
+ * grows automatically via {@link #ensureCapacity(int)}, and incurs a constant amortized time cost for each addition.
  * <p>
- * An application can increase the capacity of an {@link CircularArrayList}
- * instance before adding a large number of elements using the
- * {@link #ensureCapacity(int)} operation. This may reduce the amount of
- * incremental reallocation.
+ * An application can increase the capacity of an {@link CircularArrayList} instance before adding a large number of elements using
+ * the {@link #ensureCapacity(int)} operation. This may reduce the amount of incremental reallocation.
  * <p>
  * <b>This implementation is not synchronized</b>
  * <p>
- * If multiple threads access a
- * {@link CircularArrayList} concurrently, and at least one of the threads
- * modifies the list structurally, it must be synchronized externally. (A
- * structural modification is any operation that adds or deletes one or more
- * elements, or explicitly resizes the backing array; merely setting the value
- * of an element is not a structural modification.) This is typically
- * accomplished by synchronizing on some object that naturally encapsulates the
- * list. If no object exists, the list should be "wrapped" using the
- * {@link java.util.Collections#synchronizedList(java.util.List)} method. This
- * is best done at creation time, to prevent accidental unsynchronized access to
- * the list:
+ * If multiple threads access a {@link CircularArrayList} concurrently, and at least one of the threads modifies the list
+ * structurally, it must be synchronized externally. (A structural modification is any operation that adds or deletes one or more
+ * elements, or explicitly resizes the backing array; merely setting the value of an element is not a structural modification.) This
+ * is typically accomplished by synchronizing on some object that naturally encapsulates the list. If no object exists, the list
+ * should be "wrapped" using the {@link java.util.Collections#synchronizedList(java.util.List)} method. This is best done at
+ * creation time, to prevent accidental unsynchronized access to the list:
  *
  * <pre>
  * List list = Collections.synchronizedList(new CircularArrayList(...));
  * </pre>
  *
- * The iterators returned by this class's {@link #iterator()} and
- * {@link #listIterator()} methods are fail-fast: if list is structurally
- * modified at any time after the iterator is created, in any way except through
- * the iterator's own remove or add methods, the iterator will throw a
- * {@link ConcurrentModificationException}. Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than risking
- * arbitrary, non-deterministic behavior at an undetermined time in the future.
+ * The iterators returned by this class's {@link #iterator()} and {@link #listIterator()} methods are fail-fast: if list is
+ * structurally modified at any time after the iterator is created, in any way except through the iterator's own remove or add
+ * methods, the iterator will throw a {@link ConcurrentModificationException}. Thus, in the face of concurrent modification, the
+ * iterator fails quickly and cleanly, rather than risking arbitrary, non-deterministic behavior at an undetermined time in the
+ * future.
  * <p>
- * Note that the fail-fast behavior of an iterator cannot be guaranteed as it
- * is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification. Fail-fast iterators throw
- * {@link ConcurrentModificationException} on a best-effort basis. Therefore, it
- * would be wrong to write a program that depended on this exception for its
- * correctness: <i>the fail-fast behavior of iterators should be used only to
- * detect bugs</i>.
+ * Note that the fail-fast behavior of an iterator cannot be guaranteed as it is, generally speaking, impossible to make any hard
+ * guarantees in the presence of unsynchronized concurrent modification. Fail-fast iterators throw
+ * {@link ConcurrentModificationException} on a best-effort basis. Therefore, it would be wrong to write a program that depended on
+ * this exception for its correctness: <i>the fail-fast behavior of iterators should be used only to detect bugs</i>.
  *
  * @param <E> The type of elements in this list.
  */
@@ -101,20 +81,15 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   protected transient Object[] elementData;
 
-  // head points to the first logical element in the array, and
-  // tail points to the element following the last. This means
-  // that the list is empty when head == tail. It also means
-  // that the array array has to have an extra space in it.
+  // head points to the first logical element in the array, and tail points to the element following the last. This means
+  // that the list is empty when head == tail. It also means that the array array has to have an extra space in it.
   protected int head = 0;
 
-  // head points to the first logical element in the array, and
-  // tail points to the element following the last. This means
-  // that the list is empty when head == tail. It also means
-  // that the array array has to have an extra space in it.
+  // head points to the first logical element in the array, and tail points to the element following the last. This means
+  // that the list is empty when head == tail. It also means that the array array has to have an extra space in it.
   protected int tail = 0;
 
-  // Strictly speaking, we don't need to keep a handle to size,
-  // as it can be calculated programmatically, but keeping it
+  // Strictly speaking, we don't need to keep a handle to size, as it can be calculated programmatically, but keeping it
   // makes the algorithms faster.
   protected int size = 0;
 
@@ -129,16 +104,15 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
    * Constructs an empty list with the specified initial capacity.
    *
    * @param initialCapacity The initial capacity of the list.
-   * @throws NegativeArraySizeException If the specified initial capacity is
-   *           negative.
+   * @throws NegativeArraySizeException If the specified initial capacity is negative.
    */
   public CircularArrayList(final int initialCapacity) {
     elementData = new Object[initialCapacity];
   }
 
   /**
-   * Constructs a list containing the elements of the specified collection, in
-   * the order they are returned by the collection's iterator.
+   * Constructs a list containing the elements of the specified collection, in the order they are returned by the collection's
+   * iterator.
    *
    * @param c The collection whose elements are to be placed into this list.
    * @throws IllegalArgumentException If the specified collection is null.
@@ -150,9 +124,8 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   }
 
   /**
-   * Increases the capacity of this {@link CircularArrayList} instance, if
-   * necessary, to ensure that it can hold at least the number of elements
-   * specified by the minimum capacity argument.
+   * Increases the capacity of this {@link CircularArrayList} instance, if necessary, to ensure that it can hold at least the number
+   * of elements specified by the minimum capacity argument.
    *
    * @param minCapacity The desired minimum capacity.
    */
@@ -171,8 +144,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     }
   }
 
-  // Takes a logical index (as if head was always 0),
-  // and dereferences the index
+  // Takes a logical index (as if head was always 0), and dereferences the index
   private int deref(final int index) {
     return (index + head) % elementData.length;
   }
@@ -195,7 +167,6 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean contains(final Object o) {
     return indexOf(o) >= 0;
   }
@@ -327,8 +298,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     return oldValue;
   }
 
-  // This method is the main reason we re-wrote the class.
-  // It is optimized for removing first and last elements
+  // This method is the main reason we re-wrote the class. It is optimized for removing first and last elements
   // but also allows you to remove in the middle of the list.
   @Override
   @SuppressWarnings("unchecked")
@@ -340,8 +310,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     final E e = (E)elementData[pos];
 
     elementData[pos] = null;
-    // optimized for FIFO access, i.e. adding to back and
-    // removing from front
+    // optimized for FIFO access, i.e. adding to back and removing from front
     if (pos == head) {
       head = (head + 1) % elementData.length;
     }
@@ -362,7 +331,6 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean remove(final Object o) {
     final int index = indexOf(o);
     if (index < 0)
@@ -453,13 +421,11 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeFirstOccurrence(final Object o) {
     return remove(o);
   }
 
   @Override
-  @SuppressWarnings("unlikely-arg-type")
   public boolean removeLastOccurrence(final Object o) {
     final int index = lastIndexOf(o);
     if (index < 0)
@@ -537,8 +503,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   public int size() {
-    // the size can also be worked out each time as:
-    // (tail + array.length - head) % array.length
+    // the size can also be worked out each time as: (tail + array.length - head) % array.length
     return size;
   }
 
