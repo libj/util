@@ -83,17 +83,19 @@
               <templates>
                 <template>src/main/resources/function/Bi&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/Bi&lt;X&gt;Function.java</template>
+                <template>src/main/resources/function/Bi&lt;X&gt;To&lt;Y&gt;Function.java</template>
                 <template>src/main/resources/function/BiObj&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/BiObj&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/BiObjBi&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/BiObjBi&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/BiObjTo&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/Obj&lt;X&gt;Function.java</template>
+                <template>src/main/resources/function/Obj&lt;X&gt;To&lt;Y&gt;Function.java</template>
                 <template>src/main/resources/function/ObjBi&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/ObjBi&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/Tri&lt;X&gt;Consumer.java</template>
-                <template>src/main/resources/function/Bi&lt;X&gt;To&lt;Y&gt;Function.java</template>
-                <template>src/main/resources/function/Obj&lt;X&gt;To&lt;Y&gt;Function.java</template>
+                <template>src/main/resources/function/TriObj&lt;X&gt;Consumer.java</template>
+                <template>src/main/resources/function/TriObj&lt;X&gt;Function.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
             </configuration>

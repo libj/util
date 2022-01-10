@@ -19,6 +19,8 @@ import static org.libj.lang.Assertions.*;
 
 import java.util.concurrent.ThreadFactory;
 
+import org.libj.util.function.TriObjLongFunction;
+
 /**
  * A builder that produces {@link ThreadFactory} instances given provided
  * options.
@@ -105,12 +107,27 @@ public class ThreadFactoryBuilder {
     return this;
   }
 
+  private TriObjLongFunction<ThreadGroup,Runnable,String,Thread> newThreadFunction;
+
+  public ThreadFactoryBuilder withWewThread(final TriObjLongFunction<ThreadGroup,Runnable,String,Thread> newThreadFunction) {
+    this.newThreadFunction = newThreadFunction;
+    return this;
+  }
+
   /**
    * Returns a new {@link ThreadFactory} given the provided options.
    *
    * @return A new {@link ThreadFactory} given the provided options.
    */
   public ThreadFactory build() {
-    return new ConfigurableThreadFactory(group, namePrefix, stackSize, daemon, priority);
+    if (newThreadFunction == null)
+      return new ConfigurableThreadFactory(group, namePrefix, stackSize, daemon, priority);
+
+    return new ConfigurableThreadFactory(group, namePrefix, stackSize, daemon, priority) {
+      @Override
+      public Thread newThread(final Runnable r) {
+        return newThreadFunction.apply(group, r, namePrefix, stackSize);
+      }
+    };
   }
 }
