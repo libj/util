@@ -24,7 +24,7 @@ package org.libj.util.function;
  *
  * @param <T> The type of the object argument to the operation.
  * @param <R> The type of the result of the function.
- * @see org.libj.util.function.Bi<X>Function
+ * @see Bi<X>Function
  */
 @FunctionalInterface
 public interface ObjBi<X>Function<T,R> {

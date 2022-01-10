@@ -25,7 +25,7 @@ package org.libj.util.function;
  * @param <U> The type of the second object argument to the operation.
  * @param <V> The type of the third object argument to the operation.
  * @param <R> The type of the result of the function.
- * @see org.libj.util.function.TriFunction
+ * @see TriFunction
  */
 @FunctionalInterface
 public interface TriObj<X>Function<T,U,V,R> {
