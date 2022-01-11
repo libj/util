@@ -15,6 +15,7 @@
  */
 
 package org.libj.util.concurrent;
+
 import static org.libj.lang.Assertions.*;
 
 import java.util.Collection;
@@ -27,26 +28,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A {@link DelegateExecutorService} contains some other
- * {@link ExecutorService}, to which it delegates its method calls, possibly
- * transforming the data along the way or providing additional functionality.
- * The class {@link DelegateExecutorService} itself simply overrides all methods
- * of {@link ExecutorService} with versions that pass all requests to the target
- * {@link ExecutorService}. Subclasses of {@link DelegateExecutorService} may
- * further override some of these methods and may also provide additional
- * methods and fields.
+ * A {@link DelegateExecutorService} contains some other {@link ExecutorService}, to which it delegates its method calls, possibly
+ * transforming the data along the way or providing additional functionality. The class {@link DelegateExecutorService} itself
+ * simply overrides all methods of {@link ExecutorService} with versions that pass all requests to the target
+ * {@link ExecutorService}. Subclasses of {@link DelegateExecutorService} may further override some of these methods and may also
+ * provide additional methods and fields.
  */
-public class DelegateExecutorService implements ExecutorService {
+public class DelegateExecutorService implements ExecutorService, Shutdownable<List<Runnable>> {
   /** The target {@link ExecutorService}. */
-  protected final ExecutorService target;
+  protected ExecutorService target;
 
   /**
-   * Creates a new {@link DelegateExecutorService} with the specified target
-   * {@link ExecutorService}.
+   * Creates a new {@link DelegateExecutorService} with the specified target {@link ExecutorService}.
    *
    * @param target The target {@link ExecutorService}.
-   * @throws IllegalArgumentException If the target {@link ExecutorService} is
-   *           null.
+   * @throws IllegalArgumentException If the target {@link ExecutorService} is null.
    */
   public DelegateExecutorService(final ExecutorService target) {
     this.target = assertNotNull(target);

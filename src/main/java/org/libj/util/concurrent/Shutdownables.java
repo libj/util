@@ -15,6 +15,7 @@
  */
 
 package org.libj.util.concurrent;
+
 import static org.libj.lang.Assertions.*;
 
 import java.util.ArrayList;
@@ -32,42 +33,33 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public final class Shutdownables {
   /**
-   * Blocks until all provided {@link Shutdownable shutdownables} have
-   * {@linkplain Shutdownable#awaitTermination(long,TimeUnit) terminated} after
-   * a shutdown request, or the timeout occurs, or the current thread is
-   * interrupted, whichever happens first.
+   * Blocks until all provided {@link Shutdownable shutdownables} have {@linkplain Shutdownable#awaitTermination(long,TimeUnit)
+   * terminated} after a shutdown request, or the timeout occurs, or the current thread is interrupted, whichever happens first.
    *
    * @implNote
    * @param timeout The maximum time to wait.
    * @param unit The time unit of the timeout argument.
-   * @param shutdownables The {@link Shutdownable}s on which to
-   *          {@linkplain Shutdownable#awaitTermination(long,TimeUnit) await
+   * @param shutdownables The {@link Shutdownable}s on which to {@linkplain Shutdownable#awaitTermination(long,TimeUnit) await
    *          termination}.
-   * @return {@code true} if all provided {@link Shutdownable shutdownables}
-   *         have successfully
-   *         {@linkplain Shutdownable#awaitTermination(long,TimeUnit)
-   *         terminated}, and {@code false} if any of the provided
-   *         {@link Shutdownable shutdownables} have failed to
-   *         {@linkplain Shutdownable#awaitTermination(long,TimeUnit) terminate}
+   * @return {@code true} if all provided {@link Shutdownable shutdownables} have successfully
+   *         {@linkplain Shutdownable#awaitTermination(long,TimeUnit) terminated}, and {@code false} if any of the provided
+   *         {@link Shutdownable shutdownables} have failed to {@linkplain Shutdownable#awaitTermination(long,TimeUnit) terminate}
    *         or the timeout elapsed before termination.
-   * @throws InterruptedException If the current thread is interrupted while
-   *           waiting, an {@link InterruptedException} is raised immediately.
-   *           If any thread of {@code shutdownables} is interrupted while
-   *           waiting, an {@link InterruptedException} is raised after the call
-   *           to {@link Shutdownable#awaitTermination(long,TimeUnit)} of all
-   *           {@code shutdownables} has returned. If multiple
-   *           {@link InterruptedException}s occur, they are added as
-   *           {@linkplain Throwable#addSuppressed(Throwable) suppressed}
-   *           exceptions on the {@link InterruptedException} to be thrown.
-   * @throws IllegalArgumentException If {@code unit} or {@code shutdownables}
-   *           is null, or if any member of {@code shutdownables} is null.
+   * @throws InterruptedException If the current thread is interrupted while waiting, an {@link InterruptedException} is raised
+   *           immediately. If any thread of {@code shutdownables} is interrupted while waiting, an {@link InterruptedException} is
+   *           raised after the call to {@link Shutdownable#awaitTermination(long,TimeUnit)} of all {@code shutdownables} has
+   *           returned. If multiple {@link InterruptedException}s occur, they are added as
+   *           {@linkplain Throwable#addSuppressed(Throwable) suppressed} exceptions on the {@link InterruptedException} to be
+   *           thrown.
+   * @throws IllegalArgumentException If {@code unit} or {@code shutdownables} is null, or if any member of {@code shutdownables} is
+   *           null.
    */
-  public static boolean awaitTermination(final long timeout, final TimeUnit unit, final Shutdownable ... shutdownables) throws InterruptedException {
+  public static boolean awaitTermination(final long timeout, final TimeUnit unit, final Shutdownable<?> ... shutdownables) throws InterruptedException {
     assertNotNull(unit);
     assertNotEmpty(shutdownables);
     final List<Callable<Boolean>> callables = new ArrayList<>(shutdownables.length);
     final AtomicReference<InterruptedException> ie = new AtomicReference<>();
-    for (final Shutdownable shutdownable : shutdownables) {
+    for (final Shutdownable<?> shutdownable : shutdownables) {
       assertNotNull(shutdownable);
       callables.add(() -> {
         try {

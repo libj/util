@@ -19,10 +19,11 @@ package org.libj.util.concurrent;
 import java.util.concurrent.TimeUnit;
 
 /**
- * An abstraction of a lifecycle can involves the shutting down of completable
- * dependencies.
+ * An abstraction of a lifecycle can involves the shutting down of completable dependencies.
+ *
+ * @param <T> The type parameter for completable dependencies.
  */
-public interface Shutdownable {
+public interface Shutdownable<T> {
   /**
    * Returns {@code true} if this instance has been shut down.
    *
@@ -31,47 +32,40 @@ public interface Shutdownable {
   boolean isShutdown();
 
   /**
-   * Returns {@code true} if all outstanding completable dependencies have
-   * completed following shut down. Note that {@link #isTerminated()} is never
-   * {@code true} unless either {@link #shutdown()} or {@link #shutdownNow()}
-   * was called first.
+   * Returns {@code true} if all outstanding completable dependencies have completed following shut down. Note that
+   * {@link #isTerminated()} is never {@code true} unless either {@link #shutdown()} or {@link #shutdownNow()} was called first.
    *
-   * @return {@code true} if all outstanding completable dependencies have
-   *         completed following shut down.
+   * @return {@code true} if all outstanding completable dependencies have completed following shut down.
    */
   boolean isTerminated();
 
   /**
-   * Initiates an orderly shutdown in which all active and pending completable
-   * dependencies are completed, but no new completable dependencies will be
-   * accepted. Invocation has no additional effect if already shut down.
+   * Initiates an orderly shutdown in which all active and pending completable dependencies are completed, but no new completable
+   * dependencies will be accepted. Invocation has no additional effect if already shut down.
    * <p>
-   * This method does not wait for completable dependencies to complete
-   * execution. Use {@link #awaitTermination(long,TimeUnit)} to do that.
+   * This method does not wait for completable dependencies to complete execution. Use {@link #awaitTermination(long,TimeUnit)} to
+   * do that.
    */
   void shutdown();
 
   /**
-   * Attempts to stop all active completable dependencies, and dismissed all
-   * pending completable dependencies.
+   * Attempts to stop all active completable dependencies, and dismissed all pending completable dependencies.
    * <p>
-   * This method does not wait for completable dependencies to terminate. Use
-   * {@link #awaitTermination(long,TimeUnit)} to do that.
+   * This method does not wait for completable dependencies to terminate. Use {@link #awaitTermination(long,TimeUnit)} to do that.
    * <p>
-   * There are no guarantees beyond best-effort attempts to stop processing
-   * completable dependencies.
+   * There are no guarantees beyond best-effort attempts to stop processing completable dependencies.
+   *
+   * @return An object result of the shutdown process.
    */
-  void shutdownNow();
+  T shutdownNow();
 
   /**
-   * Blocks until all completable dependencies have completed execution after a
-   * shutdown request, or the timeout occurs, or the current thread is
-   * interrupted, whichever happens first.
+   * Blocks until all completable dependencies have completed execution after a shutdown request, or the timeout occurs, or the
+   * current thread is interrupted, whichever happens first.
    *
    * @param timeout The maximum time to wait.
    * @param unit The time unit of the timeout argument.
-   * @return {@code true} if this instance terminated and {@code false} if the
-   *         timeout elapsed before termination.
+   * @return {@code true} if this instance terminated and {@code false} if the timeout elapsed before termination.
    * @throws InterruptedException If interrupted while waiting.
    */
   boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
