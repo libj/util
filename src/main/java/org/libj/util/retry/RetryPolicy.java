@@ -412,17 +412,17 @@ public class RetryPolicy<E extends Exception> implements Serializable {
   }
 
   private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureRuntimeException {
-    final int size = exceptions.size();
-    final Exception lastException = size == 0 ? null : exceptions.remove(size - 1);
+    int size = exceptions.size();
+    final Exception lastException = size == 0 ? null : exceptions.remove(--size);
     final E e = onRetryFailure.onRetryFailure(lastException, exceptions, attemptNo, delayMs);
     if (e != null)
-      throw Throwables.addSuppressed(e, exceptions, size - 1, 0);
+      throw size == 0 ? e : Throwables.addSuppressed(e, exceptions, size - 1, 0);
 
     if (lastException == null)
       throw new RetryFailureRuntimeException(attemptNo, delayMs);
 
     final RetryFailureRuntimeException re = new RetryFailureRuntimeException(lastException, attemptNo, delayMs);
-    throw Throwables.addSuppressed(re, exceptions, size - 1, 0);
+    throw size == 0 ? re : Throwables.addSuppressed(re, exceptions, size - 1, 0);
   }
 
   /**
