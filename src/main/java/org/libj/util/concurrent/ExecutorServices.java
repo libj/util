@@ -347,7 +347,7 @@ public final class ExecutorServices {
     assertNotNull(proxy);
     assertNotNull(tasks);
     final AtomicBoolean started = new AtomicBoolean(false);
-    final AtomicBoolean cancelled = new AtomicBoolean(false);
+    final AtomicBoolean canceled = new AtomicBoolean(false);
     final Thread[] threads = new Thread[tasks.length];
     final CountDownLatch latch = new CountDownLatch(tasks.length);
     for (int i = 0; i < tasks.length; ++i) {
@@ -360,7 +360,7 @@ public final class ExecutorServices {
           }
         }
 
-        if (cancelled.get())
+        if (canceled.get())
           return;
 
         threads[index] = Thread.currentThread();
@@ -383,7 +383,7 @@ public final class ExecutorServices {
           return false;
 
         done = true;
-        cancelled.set(true);
+        canceled.set(true);
         if (mayInterruptIfRunning && started.get())
           for (final Thread thread : threads)
             if (thread != null)
@@ -394,7 +394,7 @@ public final class ExecutorServices {
 
       @Override
       public boolean isCancelled() {
-        return cancelled.get();
+        return canceled.get();
       }
 
       @Override
@@ -424,7 +424,7 @@ public final class ExecutorServices {
       }
 
       private Boolean await(final long timeout, final TimeUnit unit) throws InterruptedException, TimeoutException {
-        if (cancelled.get())
+        if (canceled.get())
           return false;
 
         if (!started.get()) {

@@ -33,9 +33,7 @@ public class SortedListTest {
 
   @Test
   public void testConstructorSignature() {
-    // final SortedList<Object> bad = new SortedList<Object>(new
-    // ArrayList<Object>()); // Should not be allowed cause Object is not
-    // Comparable
+    // final SortedList<Object> bad = new SortedList<Object>(new ArrayList<Object>()); // Should not be allowed cause Object is not Comparable
     final SortedList<Object> good = new SortedList<>(new ArrayList<>(), (o1, o2) -> 0);
     good.add(new Object());
     good.add(new Object());
@@ -179,7 +177,7 @@ public class SortedListTest {
 
   @Test
   public void testStory() {
-    final SortedList<String> list = new SortedList<>(new ArrayList<String>());
+    final SortedList<String> list = new SortedList<>(new ArrayList<>());
     list.add(0, "f");
     assertListEquals(list, "f");
     list.add(1, "b");
@@ -215,5 +213,34 @@ public class SortedListTest {
     assertListEquals(list, "d", "d", "h");
     assertEquals(-1, list.indexOf("a"));
     assertEquals(2, list.lastIndexOf("h"));
+  }
+
+  private static class Foo implements Comparable<Foo> {
+    private int bar;
+
+    private Foo(final int bar) {
+      this.bar = bar;
+    }
+
+    @Override
+    public int compareTo(final Foo o) {
+      return bar > o.bar ? -1 : 1;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(bar);
+    }
+  }
+
+  @Test
+  public void testComparable() {
+    final SortedList<Foo> list = new SortedList<>(new ArrayList<>());
+    list.add(new Foo(1));
+    list.add(new Foo(0));
+    list.add(new Foo(2));
+    list.add(new Foo(4));
+    list.add(new Foo(3));
+    assertEquals(list, Arrays.asList(4, 3, 2, 1, 0));
   }
 }

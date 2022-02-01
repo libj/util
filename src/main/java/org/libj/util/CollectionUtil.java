@@ -583,10 +583,10 @@ public final class CollectionUtil extends PrimitiveSort {
   private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<? extends T> a, int from, int to, final T key) {
     for (int mid; from < to;) {
       mid = (from + to) / 2;
-      final int comparison = key.compareTo(a.get(mid));
-      if (comparison < 0)
+      final int c = key.compareTo(a.get(mid));
+      if (c < 0)
         to = mid;
-      else if (comparison > 0)
+      else if (c > 0)
         from = mid + 1;
       else
         return mid;
@@ -598,10 +598,10 @@ public final class CollectionUtil extends PrimitiveSort {
   private static <T>int binaryClosestSearch0(final List<? extends T> a, int from, int to, final T key, final Comparator<? super T> comparator) {
     for (int mid; from < to;) {
       mid = (from + to) / 2;
-      final int comparison = comparator.compare(key, a.get(mid));
-      if (comparison < 0)
+      final int c = comparator.compare(key, a.get(mid));
+      if (c < 0)
         to = mid;
-      else if (comparison > 0)
+      else if (c > 0)
         from = mid + 1;
       else
         return mid;

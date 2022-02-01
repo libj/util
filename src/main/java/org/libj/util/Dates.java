@@ -67,16 +67,13 @@ public final class Dates {
   public static final int MILLISECONDS_IN_WEEK = MILLISECONDS_IN_SECOND * SECONDS_IN_WEEK;
 
   /**
-   * Returns a name in the "short" style of the TimeZone specified by
-   * {@code id}. If the specified {@code date} is in Daylight Saving Time in the
-   * TimeZone, a Daylight Saving Time name is returned (even if the TimeZone
-   * doesn't observe Daylight Saving Time). Otherwise, a Standard Time name is
-   * returned.
+   * Returns a name in the "short" style of the TimeZone specified by {@code id}. If the specified {@code date} is in Daylight
+   * Saving Time in the TimeZone, a Daylight Saving Time name is returned (even if the TimeZone doesn't observe Daylight Saving
+   * Time). Otherwise, a Standard Time name is returned.
    *
    * @param id The id of the TimeZone.
    * @param date The given date.
-   * @return A name in the "short" style of the TimeZone specified by
-   *         {@code id}.
+   * @return A name in the "short" style of the TimeZone specified by {@code id}.
    */
   public static String getTimeZoneShortName(final String id, final Date date) {
     final TimeZone timezone = TimeZone.getTimeZone(id);
@@ -84,58 +81,50 @@ public final class Dates {
   }
 
   /**
-   * Returns {@code date} with its time mutated by setting the specified
-   * temporal parameters.
+   * Returns {@code date} with its time mutated by setting the specified temporal parameters.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters.
    */
   public static Date setTimeInPlace(final Date date, final int hours) {
     return setTimeInPlace(date, hours, 0, 0, 0);
   }
 
   /**
-   * Returns {@code date} with its time mutated by setting the specified
-   * temporal parameters.
+   * Returns {@code date} with its time mutated by setting the specified temporal parameters.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters.
    */
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes) {
     return setTimeInPlace(date, hours, minutes, 0, 0);
   }
 
   /**
-   * Returns {@code date} with its time mutated by setting the specified
-   * temporal parameters.
+   * Returns {@code date} with its time mutated by setting the specified temporal parameters.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters.
    */
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes, final int seconds) {
     return setTimeInPlace(date, hours, minutes, seconds, 0);
   }
 
   /**
-   * Returns {@code date} with its time mutated by setting the specified
-   * temporal parameters.
+   * Returns {@code date} with its time mutated by setting the specified temporal parameters.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters.
    */
   @SuppressWarnings("deprecation")
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
@@ -149,58 +138,50 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date} and the
-   * specified temporal parameters.
+   * Returns a new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
-   * @return A new {@link Date} object with its time set by {@code date} and the
-   *         specified temporal parameters.
+   * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours) {
     return setTime(date, hours, 0, 0, 0);
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date} and the
-   * specified temporal parameters.
+   * Returns a new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
-   * @return A new {@link Date} object with its time set by {@code date} and the
-   *         specified temporal parameters.
+   * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours, final int minutes) {
     return setTime(date, hours, minutes, 0, 0);
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date} and the
-   * specified temporal parameters.
+   * Returns a new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
-   * @return A new {@link Date} object with its time set by {@code date} and the
-   *         specified temporal parameters.
+   * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours, final int minutes, final int seconds) {
     return setTime(date, hours, minutes, seconds, 0);
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date} and the
-   * specified temporal parameters.
+   * Returns a new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
-   * @return A new {@link Date} object with its time set by {@code date} and the
-   *         specified temporal parameters.
+   * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
    */
   public static Date setTime(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final Date update = new Date(date.getTime());
@@ -209,58 +190,50 @@ public final class Dates {
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified temporal
-   * parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters to its current value.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
    */
   public static Date addTimeInPlace(final Date date, final int hours) {
     return addTimeInPlace(date, hours, 0, 0, 0);
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified temporal
-   * parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters to its current value.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
    */
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes) {
     return addTimeInPlace(date, hours, minutes, 0, 0);
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified temporal
-   * parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters to its current value.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
    */
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes, final int seconds) {
     return addTimeInPlace(date, hours, minutes, seconds, 0);
   }
 
   /**
-   * Returns {@code date} with its time mutated by adding the specified temporal
-   * parameters to its current value.
+   * Returns {@code date} with its time mutated by adding the specified temporal parameters to its current value.
    *
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
-   * @return {@code date} with its time mutated by setting the specified
-   *         temporal parameters to its current value.
+   * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
    */
   @SuppressWarnings("deprecation")
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
@@ -271,58 +244,58 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date}, and
-   * the specified temporal parameters added each current value.
+   * Returns a new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   * value.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
-   * @return A new {@link Date} object with its time set by {@code date}, and
-   *         the specified temporal parameters added each current value.
+   * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   *         value.
    */
   public static Date addTime(final Date date, final int hours) {
     return addTime(date, hours, 0, 0, 0);
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date}, and
-   * the specified temporal parameters added each current value.
+   * Returns a new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   * value.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
-   * @return A new {@link Date} object with its time set by {@code date}, and
-   *         the specified temporal parameters added each current value.
+   * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   *         value.
    */
   public static Date addTime(final Date date, final int hours, final int minutes) {
     return addTime(date, hours, minutes, 0, 0);
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date}, and
-   * the specified temporal parameters added each current value.
+   * Returns a new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   * value.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
-   * @return A new {@link Date} object with its time set by {@code date}, and
-   *         the specified temporal parameters added each current value.
+   * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   *         value.
    */
   public static Date addTime(final Date date, final int hours, final int minutes, final int seconds) {
     return addTime(date, hours, minutes, seconds, 0);
   }
 
   /**
-   * Returns a new {@link Date} object with its time set by {@code date}, and
-   * the specified temporal parameters added each current value.
+   * Returns a new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   * value.
    *
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
-   * @return A new {@link Date} object with its time set by {@code date}, and
-   *         the specified temporal parameters added each current value.
+   * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
+   *         value.
    */
   public static Date addTime(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final Date update = new Date(date.getTime());
@@ -331,8 +304,7 @@ public final class Dates {
   }
 
   /**
-   * Returns the milliseconds part of the specified {@code dateTime}. The value
-   * returned will be between 0 and 999.
+   * Returns the milliseconds part of the specified {@code dateTime}. The value returned will be between 0 and 999.
    *
    * @param dateTime The {@link Date}.
    * @return The milliseconds part of the specified {@code dateTime}.
@@ -342,9 +314,8 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@link Date} object with its date part removed. The new
-   * {@link Date} will have the "sub 1 day" remainder of {@code dateTime} as
-   * it's time value.
+   * Returns a new {@link Date} object with its date part removed. The new {@link Date} will have the "sub 1 day" remainder of
+   * {@code dateTime} as it's time value.
    *
    * @param dateTime The {@link Date}.
    * @return A new {@link Date} object with its date part removed.
@@ -354,8 +325,8 @@ public final class Dates {
   }
 
   /**
-   * Returns a {@code long} time value with its date part removed. The returned
-   * {@code long} will be the "sub 1 day" remainder of {@code dateTime}.
+   * Returns a {@code long} time value with its date part removed. The returned {@code long} will be the "sub 1 day" remainder of
+   * {@code dateTime}.
    *
    * @param dateTime The {@code long} time value.
    * @return A {@code long} time value with its date part removed.
@@ -368,8 +339,8 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@link Date} object with its time part removed. The new
-   * {@link Date} will have its "sub 1 day" time part set to 0.
+   * Returns a new {@link Date} object with its time part removed. The new {@link Date} will have its "sub 1 day" time part set to
+   * 0.
    *
    * @param dateTime The {@link Date}.
    * @return A new {@link Date} object with its time part removed.
@@ -379,8 +350,8 @@ public final class Dates {
   }
 
   /**
-   * Returns a {@code long} time value with its time part removed. The returned
-   * {@code long} will have its "sub 1 day" time part set to 0.
+   * Returns a {@code long} time value with its time part removed. The returned {@code long} will have its "sub 1 day" time part set
+   * to 0.
    *
    * @param dateTime The {@code long} time value.
    * @return A {@code long} time value with its time part removed.
@@ -390,8 +361,7 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@link Date} object with its milliseconds part removed. The
-   * new {@link Date} will have its milliseconds set to 0.
+   * Returns a new {@link Date} object with its milliseconds part removed. The new {@link Date} will have its milliseconds set to 0.
    *
    * @param dateTime The {@link Date}.
    * @return A new {@link Date} object with its milliseconds part removed.
@@ -402,8 +372,7 @@ public final class Dates {
   }
 
   /**
-   * Returns a {@code long} time value with its seconds part removed. The
-   * returned {@code long} will have its seconds part set to 0.
+   * Returns a {@code long} time value with its seconds part removed. The returned {@code long} will have its seconds part set to 0.
    *
    * @param time The {@code long} time value.
    * @return A {@code long} time value with its seconds part removed.
@@ -413,8 +382,7 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@link Date} object with its milliseconds part removed. The
-   * new {@link Date} will have its milliseconds set to 0.
+   * Returns a new {@link Date} object with its milliseconds part removed. The new {@link Date} will have its milliseconds set to 0.
    *
    * @param dateTime The {@link Date}.
    * @return A new {@link Date} object with its milliseconds part removed.
@@ -425,8 +393,8 @@ public final class Dates {
   }
 
   /**
-   * Returns a {@code long} time value with its milliseconds part removed. The
-   * returned {@code long} will have its milliseconds part set to 0.
+   * Returns a {@code long} time value with its milliseconds part removed. The returned {@code long} will have its milliseconds part
+   * set to 0.
    *
    * @param time The {@code long} time value.
    * @return A {@code long} time value with its milliseconds part removed.
@@ -436,15 +404,11 @@ public final class Dates {
   }
 
   /**
-   * Converts a <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
-   * formatted date-time string to epoch millis.
+   * Converts a <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time string to epoch millis.
    *
-   * @param iso8601 The
-   *          <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
-   *          formatted date-time string to convert.
-   * @return The millis representation of the
-   *         <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
-   *         formatted date-time string.
+   * @param iso8601 The <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time string to convert.
+   * @return The millis representation of the <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time
+   *         string.
    * @throws IllegalArgumentException If {@code iso8601} is null.
    * @throws ParseException If a parsing error has occurred.
    */
@@ -590,19 +554,28 @@ public final class Dates {
   }
 
   /**
-   * Converts the provided epoch millis to a
-   * <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted
-   * date-time string representation.
+   * Converts the provided epoch millis to a <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time
+   * string representation.
    *
-   * @param epochMilli The epoch millis to convert to
-   *          <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
-   *          formatted date-time string representation.
-   * @return A <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a>
-   *         formatted date-time string representation of the provided epoch
-   *         millis.
+   * @param epochMilli The epoch millis to convert to <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted
+   *          date-time string representation.
+   * @return A <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time string representation of the
+   *         provided epoch millis.
    */
   public static String epochMilliToIso8601(final long epochMilli) {
     return SimpleDateFormats.ISO_8601.get().format(epochMilli);
+  }
+
+  /**
+   * Returns the current time in seconds as the difference, measured in seconds, between the current time and midnight, January 1,
+   * 1970 UTC.
+   *
+   * @return The current time in seconds the difference, measured in seconds, between the current time and midnight, January 1, 1970
+   *         UTC.
+   * @see System#currentTimeMillis()
+   */
+  public static int currentTimeSecs() {
+    return (int)(System.currentTimeMillis() / 1000);
   }
 
   private Dates() {
