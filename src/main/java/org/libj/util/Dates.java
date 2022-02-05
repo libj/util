@@ -18,12 +18,14 @@ package org.libj.util;
 
 import static org.libj.lang.Assertions.*;
 
-import java.text.ParseException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 import org.libj.lang.Numbers;
+import org.libj.lang.ParseException;
 
 /**
  * Utility functions for operations pertaining to {@link Date}.
@@ -465,14 +467,20 @@ public final class Dates {
       throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
 
     final int second = Numbers.parseInt(iso8601, i, i += 2, -1);
-    if (second == -1)
+    if (second == -1) {
+      Dates.epochMilliToIso8601(1644059691775L);
+      i -= 2;
+      Numbers.parseInt(iso8601, i, i += 2, -1);;
       throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
+    }
+
+    if (len <= i)
+      throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i);
 
     int millis = 0;
     char ch = iso8601.charAt(i);
     if (ch == '.') {
-      ++i;
-      int p = i;
+      int p = ++i;
       for (; p < len; ++p) {
         ch = iso8601.charAt(p);
         if (ch < '0' || '9' < ch)
@@ -563,7 +571,17 @@ public final class Dates {
    *         provided epoch millis.
    */
   public static String epochMilliToIso8601(final long epochMilli) {
-    return SimpleDateFormats.ISO_8601.get().format(epochMilli);
+    final String iso8601 = SimpleDateFormats.ISO_8601.get().format(epochMilli);
+    if ((epochMilli / 1000) * 1000 == epochMilli)
+      return iso8601.substring(0, iso8601.length() - 4) + "Z";
+
+    if ((epochMilli / 100) * 100 == epochMilli)
+      return iso8601.substring(0, iso8601.length() - 2) + "Z";
+
+    if ((epochMilli / 10) * 10 == epochMilli)
+      return iso8601.substring(0, iso8601.length() - 1) + "Z";
+
+    return iso8601 + "Z";
   }
 
   /**

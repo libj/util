@@ -19,12 +19,14 @@ package org.libj.util;
 import static org.junit.Assert.*;
 import static org.libj.lang.Strings.Align.*;
 
-import java.text.ParseException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.libj.lang.ParseException;
 import org.libj.lang.Strings;
 
 public class DatesTest {
@@ -54,46 +56,59 @@ public class DatesTest {
     return builder.toString();
   }
 
-  private static void testTime2(final long expected, final String iso8601) throws ParseException {
-    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601), 1);
-    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601)), 1);
-    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace(":", "")), 1);
-    assertEquals(expected, Dates.iso8601ToEpochMilli(iso8601.replace("T", "")), 1);
-    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "")), 1);
-    assertEquals(expected, Dates.iso8601ToEpochMilli(removeDashes(iso8601).replace(":", "").replace("T", "")), 1);
+  private static void assertEpochEquals(final long expected, final String iso8601) throws ParseException {
+    final long actual = Dates.iso8601ToEpochMilli(iso8601);
+    assertEquals(iso8601 + ": " + expected + " != " + expected + " ~ " + Math.abs(expected - actual), expected, actual, 1);
   }
 
-  private static void testTime(final long expected, final String iso8601) throws ParseException {
+  private static void testTime2(final long expected, final String iso8601) throws ParseException {
+    assertEpochEquals(expected, iso8601);
+    assertEpochEquals(expected, removeDashes(iso8601));
+    assertEpochEquals(expected, iso8601.replace(":", ""));
+    assertEpochEquals(expected, iso8601.replace("T", ""));
+    assertEpochEquals(expected, removeDashes(iso8601).replace(":", ""));
+    assertEpochEquals(expected, removeDashes(iso8601).replace(":", "").replace("T", ""));
+  }
+
+  private static void testTime(final long expected, String iso8601) throws ParseException {
     testTime2(expected, iso8601);
-    testTime2(expected, iso8601 + "Z");
-    final int hourOffset = (int)(Math.random() * 24);
+    iso8601 = iso8601.substring(0, iso8601.length() - 1);
+
+    final int hourOffset = (int)(Math.random() * 18);
     final String offset = Strings.pad(String.valueOf(hourOffset), RIGHT, 2, '0');
     testTime2(expected - hourOffset * 60 * 60 * 1000, iso8601 + "+" + offset);
     testTime2(expected + hourOffset * 60 * 60 * 1000, iso8601 + "-" + offset);
+
     final int minOffset = (int)(Math.random() * 60);
     final String offset2 = offset + ":" + Strings.pad(String.valueOf(minOffset), RIGHT, 2, '0');
     testTime2(expected - (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "+" + offset2);
     testTime2(expected + (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "-" + offset2);
+
     final String offset3 = offset + Strings.pad(String.valueOf(minOffset), RIGHT, 2, '0');
     testTime2(expected - (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "+" + offset3);
     testTime2(expected + (hourOffset * 60 + minOffset) * 60 * 1000, iso8601 + "-" + offset3);
   }
 
+  private static long usingTimeApi(final String iso8601) {
+    OffsetDateTime odt = OffsetDateTime.parse(iso8601);
+    Instant instant = odt.toInstant();
+    return instant.getEpochSecond() * 1000;
+  }
+
   @Test
   public void testIso8601ToEpochMilli() throws ParseException {
-    TimeZone.setDefault(Dates.UTC_TIME_ZONE);
     long time = Dates.iso8601ToEpochMilli("2020-05-24T09:20:55.5Z");
-    testTime(time, "2020-05-24T09:20:55.5");
-    testTime(time, "2020-05-24T09:20:55.50");
-    testTime(time, "2020-05-24T09:20:55.500");
-    testTime(time, "2020-05-24T09:20:55.5002");
-    testTime(time, "2020-05-24T09:20:55.50021");
-    testTime(time, "2020-05-24T09:20:55.500210");
-    testTime(time, "2020-05-24T09:20:55.5002101");
-    testTime(time, "2020-05-24T09:20:55.50021012");
-    testTime(time, "2020-05-24T09:20:55.500210123");
-    testTime(time, "2020-05-24T09:20:55.5002101234");
-    testTime(time, "2020-05-24T09:20:55.50021012345");
+    testTime(time, "2020-05-24T09:20:55.5Z");
+    testTime(time, "2020-05-24T09:20:55.50Z");
+    testTime(time, "2020-05-24T09:20:55.500Z");
+    testTime(time, "2020-05-24T09:20:55.5002Z");
+    testTime(time, "2020-05-24T09:20:55.50021Z");
+    testTime(time, "2020-05-24T09:20:55.500210Z");
+    testTime(time, "2020-05-24T09:20:55.5002101Z");
+    testTime(time, "2020-05-24T09:20:55.50021012Z");
+    testTime(time, "2020-05-24T09:20:55.500210123Z");
+    testTime(time, "2020-05-24T09:20:55.5002101234Z");
+    testTime(time, "2020-05-24T09:20:55.50021012345Z");
 
     for (int i = 0; i < 100; ++i) {
       time = System.currentTimeMillis();
