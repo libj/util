@@ -18,8 +18,6 @@ package org.libj.util;
 
 import static org.libj.lang.Assertions.*;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -593,7 +591,30 @@ public final class Dates {
    * @see System#currentTimeMillis()
    */
   public static int currentTimeSecs() {
-    return (int)(System.currentTimeMillis() / 1000);
+    return (int)(System.currentTimeMillis() / Dates.MILLISECONDS_IN_SECOND);
+  }
+
+  /**
+   * Returns the current time in hours as the difference, measured in hours, between the current time and midnight, January 1, 1970
+   * UTC.
+   *
+   * @return The current time in hours the difference, measured in hours, between the current time and midnight, January 1, 1970
+   *         UTC.
+   * @see System#currentTimeMillis()
+   */
+  public static int currentTimeHours() {
+    return (int)(System.currentTimeMillis() / Dates.MILLISECONDS_IN_HOUR);
+  }
+
+  /**
+   * Returns the current time in days as the difference, measured in days, between the current time and midnight, January 1, 1970
+   * UTC.
+   *
+   * @return The current time in days the difference, measured in days, between the current time and midnight, January 1, 1970 UTC.
+   * @see System#currentTimeMillis()
+   */
+  public static int currentTimeDays() {
+    return (int)(System.currentTimeMillis() / Dates.MILLISECONDS_IN_DAY);
   }
 
   private Dates() {
