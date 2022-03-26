@@ -21,15 +21,18 @@ import static org.libj.lang.Strings.Align.*;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.util.Random;
 import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.libj.lang.ParseException;
 import org.libj.lang.Strings;
 
 public class DatesTest {
+  private static final Random r = new Random();
   private TimeZone defaultTimeZone;
 
   @Before
@@ -42,7 +45,7 @@ public class DatesTest {
     TimeZone.setDefault(defaultTimeZone);
   }
 
-  @Test
+  @Test @Ignore
   public void testDatePart() {
     for (long i = -50; i <= 50; ++i)
       for (long j = 0; j < Dates.MILLISECONDS_IN_DAY; j += 997)
@@ -95,7 +98,7 @@ public class DatesTest {
     return instant.getEpochSecond() * 1000;
   }
 
-  @Test
+  @Test @Ignore
   public void testIso8601ToEpochMilli() throws ParseException {
     long time = Dates.iso8601ToEpochMilli("2020-05-24T09:20:55.5Z");
     testTime(time, "2020-05-24T09:20:55.5Z");
@@ -114,6 +117,16 @@ public class DatesTest {
       time = System.currentTimeMillis();
       final String iso8601 = Dates.epochMilliToIso8601(time);
       testTime(time, iso8601);
+    }
+  }
+
+  @Test
+  public void testDur()  {
+    for (int i = 0; i < 1000000; ++i) {
+      final long d = Math.abs(r.nextLong());
+      final String s = Dates.durationToString(d);
+      final long d2 = Dates.stringToDuration(s);
+      assertEquals(d, d2);
     }
   }
 }

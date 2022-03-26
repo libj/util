@@ -617,6 +617,167 @@ public final class Dates {
     return (int)(System.currentTimeMillis() / Dates.MILLISECONDS_IN_DAY);
   }
 
+  /**
+   * Returns the milliseconds duration representation of the specified string duration.
+   * <p>
+   * The duration format is expressed with the regular expression:
+   * <pre>
+   * (\d+w)?(\d+d)?(\d+h)?(\d+m)?(\d*(.\d{1,3})s)?
+   * </pre>
+   * With the following key for units:
+   * <p>
+   * <table>
+   * <caption>Unit Key</caption>
+   * <tr><td><b>Unit</b></td><td><b>Description</b></td></tr>
+   * <tr><td><code><b>w</b></code></td><td>Week</td></tr>
+   * <tr><td><code><b>d</b></code></td><td>Day</td></tr>
+   * <tr><td><code><b>h</b></code></td><td>Hour</td></tr>
+   * <tr><td><code><b>m</b></code></td><td>Minute</td></tr>
+   * <tr><td><code><b>s</b></code></td><td>Second</td></tr>
+   * </table>
+   *
+   * @implSpec The second unit duration supports 3 fractional decimal digits.
+   * @param str The duration string.
+   * @return The milliseconds duration representation of the specified string duration.
+   * @see #durationToString(long)
+   */
+  public static long stringToDuration(final String str) {
+    assertNotNull(str);
+    long dur = 0;
+
+    long v = 0;
+    int d = 0;
+    boolean dot = false;
+    for (int i = 0, len = str.length(); i < len; ++i) {
+      final char ch = str.charAt(i);
+      if (ch == 's') {
+        int a;
+        if (!dot || d == 0)
+          a = 1000;
+        else if (d == 1)
+          a = 100;
+        else if (d == 2)
+          a = 10;
+        else if (d == 3)
+          a = 1;
+        else
+          throw new IllegalArgumentException("Fractional values are only supported for 3 digits of second precision: " + str);
+
+        dur += v * a;
+        v = 0;
+        d = 0;
+      }
+      else if (ch == 'm') {
+        dur += v * MILLISECONDS_IN_MINUTE;
+        v = 0;
+        d = 0;
+        if (dot)
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+      }
+      else if (ch == 'h') {
+        dur += v * MILLISECONDS_IN_HOUR;
+        v = 0;
+        d = 0;
+        if (dot)
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+      }
+      else if (ch == 'd') {
+        dur += v * MILLISECONDS_IN_DAY;
+        v = 0;
+        d = 0;
+        if (dot)
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+      }
+      else if (ch == 'w') {
+        dur += v * MILLISECONDS_IN_WEEK;
+        v = 0;
+        d = 0;
+        if (dot)
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+      }
+      else if ('0' <= ch && ch <= '9') {
+        v *= 10;
+        v += ch - '0';
+        ++d;
+      }
+      else if (ch == '.') {
+        dot = true;
+        d = 0;
+      }
+      else {
+        throw new IllegalArgumentException("Unsupported character " + ch + " at position " + i + ": " + str);
+      }
+    }
+
+    return dur;
+  }
+
+  /**
+   * Returns the string duration representation of the specified duration in milliseconds.
+   * <p>
+   * The duration format is expressed with the regular expression:
+   * <pre>
+   * (\d+w)?(\d+d)?(\d+h)?(\d+m)?(\d*(.\d{1,3})s)?
+   * </pre>
+   * With the following key for units:
+   * <p>
+   * <table>
+   * <caption>Unit Key</caption>
+   * <tr><td><b>Unit</b></td><td><b>Description</b></td></tr>
+   * <tr><td><code><b>w</b></code></td><td>Week</td></tr>
+   * <tr><td><code><b>d</b></code></td><td>Day</td></tr>
+   * <tr><td><code><b>h</b></code></td><td>Hour</td></tr>
+   * <tr><td><code><b>m</b></code></td><td>Minute</td></tr>
+   * <tr><td><code><b>s</b></code></td><td>Second</td></tr>
+   * </table>
+   *
+   * @implSpec The second unit duration supports 3 fractional decimal digits.
+   * @param duration The duration in milliseconds.
+   * @return The string duration representation of the specified duration in milliseconds.
+   * @see #stringToDuration(String)
+   */
+  public static String durationToString(long duration) {
+    final StringBuilder s = new StringBuilder();
+    final long days = duration / MILLISECONDS_IN_DAY;
+    if (days != 0) {
+      duration -= days * MILLISECONDS_IN_DAY;
+      s.append(days).append('d');
+    }
+
+    final long hours = duration / MILLISECONDS_IN_HOUR;
+    if (hours != 0) {
+      duration -= hours * MILLISECONDS_IN_HOUR;
+      s.append(hours).append('h');
+    }
+
+    final long minutes = duration / MILLISECONDS_IN_MINUTE;
+    if (minutes != 0) {
+      duration -= minutes * MILLISECONDS_IN_MINUTE;
+      s.append(minutes).append("m");
+    }
+
+    final long seconds = duration / MILLISECONDS_IN_SECOND;
+    if (seconds != 0) {
+      duration -= seconds * MILLISECONDS_IN_SECOND;
+      s.append(seconds);
+    }
+    else if (duration != 0)
+      s.append('0');
+    else
+      return s.length() == 0 ? "0s" : s.toString();
+
+    if (duration > 0) {
+      if (duration < 10)
+        s.append(".00").append(duration);
+      else if (duration < 100)
+        s.append(".0").append(duration);
+      else
+        s.append('.').append(duration);
+    }
+
+    return s.append('s').toString();
+  }
+
   private Dates() {
   }
 }
