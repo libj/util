@@ -123,7 +123,7 @@ public class DatesTest {
   @Test
   public void testDur()  {
     for (int i = 0; i < 1000000; ++i) {
-      final long d = Math.abs(r.nextLong());
+      final long d = r.nextLong();
       final String s = Dates.durationToString(d);
       final long d2 = Dates.stringToDuration(s);
       assertEquals(d, d2);

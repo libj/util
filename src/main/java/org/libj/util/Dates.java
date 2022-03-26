@@ -622,7 +622,7 @@ public final class Dates {
    * <p>
    * The duration format is expressed with the regular expression:
    * <pre>
-   * (\d+w)?(\d+d)?(\d+h)?(\d+m)?(\d*(.\d{1,3})s)?
+   * -?(\d+w)?(\d+d)?(\d+h)?(\d+m)?(\d*(.\d{1,3})s)?
    * </pre>
    * With the following key for units:
    * <p>
@@ -639,6 +639,7 @@ public final class Dates {
    * @implSpec The second unit duration supports 3 fractional decimal digits.
    * @param str The duration string.
    * @return The milliseconds duration representation of the specified string duration.
+   * @throws IllegalArgumentException If {@code str} is null, or if {@code str} does not match the regular expression format.
    * @see #durationToString(long)
    */
   public static long stringToDuration(final String str) {
@@ -647,9 +648,15 @@ public final class Dates {
 
     long v = 0;
     int d = 0;
-    boolean dot = false;
-    for (int i = 0, len = str.length(); i < len; ++i) {
-      final char ch = str.charAt(i);
+    boolean dot = false, isNegative;
+
+    char ch;
+    int i = 0;
+    if (isNegative = ((ch = str.charAt(0)) == '-')) {
+      ch = str.charAt(++i);
+    }
+
+    for (final int end = str.length() - 1;; ch = str.charAt(++i)) {
       if (ch == 's') {
         int a;
         if (!dot || d == 0)
@@ -707,9 +714,12 @@ public final class Dates {
       else {
         throw new IllegalArgumentException("Unsupported character " + ch + " at position " + i + ": " + str);
       }
+
+      if (i == end)
+        break;
     }
 
-    return dur;
+    return isNegative ? -dur : dur;
   }
 
   /**
@@ -717,7 +727,7 @@ public final class Dates {
    * <p>
    * The duration format is expressed with the regular expression:
    * <pre>
-   * (\d+w)?(\d+d)?(\d+h)?(\d+m)?(\d*(.\d{1,3})s)?
+   * -?(\d+w)?(\d+d)?(\d+h)?(\d+m)?(\d*(.\d{1,3})s)?
    * </pre>
    * With the following key for units:
    * <p>
@@ -738,6 +748,17 @@ public final class Dates {
    */
   public static String durationToString(long duration) {
     final StringBuilder s = new StringBuilder();
+    if (duration < 0) {
+      s.append('-');
+      duration = -duration;
+    }
+
+    final long weeks = duration / MILLISECONDS_IN_WEEK;
+    if (weeks != 0) {
+      duration -= weeks * MILLISECONDS_IN_WEEK;
+      s.append(weeks).append('w');
+    }
+
     final long days = duration / MILLISECONDS_IN_DAY;
     if (days != 0) {
       duration -= days * MILLISECONDS_IN_DAY;
@@ -761,10 +782,12 @@ public final class Dates {
       duration -= seconds * MILLISECONDS_IN_SECOND;
       s.append(seconds);
     }
-    else if (duration != 0)
+    else if (duration != 0) {
       s.append('0');
-    else
+    }
+    else {
       return s.length() == 0 ? "0s" : s.toString();
+    }
 
     if (duration > 0) {
       if (duration < 10)
