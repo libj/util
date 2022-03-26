@@ -36,7 +36,7 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
 
   /**
    * Creates a new, empty map with an initial table size accommodating the specified number of elements without the need to
-   * dynamically resize, and the provided {@code multiSupplier}.
+   * dynamically resize, and the provided {@code multiSupplier} for the underlying map instance.
    *
    * @param initialCapacity The implementation performs internal sizing to accommodate this many elements.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
@@ -49,7 +49,8 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
   }
 
   /**
-   * Creates a new map with the same mappings as the given map, and the provided {@code multiSupplier}.
+   * Creates a new map with the same mappings as the given map, and the provided {@code multiSupplier} for the underlying map
+   * instance.
    *
    * @param m The map.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
@@ -62,7 +63,7 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
 
   /**
    * Creates a new, empty map with an initial table size based on the given number of elements ({@code initialCapacity}), initial
-   * table density ({@code loadFactor}), and the provided {@code multiSupplier}.
+   * table density ({@code loadFactor}), and the provided {@code multiSupplier} for the underlying map instance.
    *
    * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements,
    *          given the specified load factor.
@@ -95,7 +96,8 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
   }
 
   /**
-   * Creates a new, empty map with the default initial table size (16).
+   * Creates a new, empty map with the default initial table size (16), and the provided {@code multiSupplier} for the underlying
+   * map instance.
    *
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws IllegalArgumentException If {@code multiSupplier} is null.
