@@ -45,16 +45,15 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected ConcurrentHashMap<K,V> clone() {
+    protected CloneableConcurrentHashMap<K,V> clone() {
       try {
-        return (ConcurrentHashMap<K,V>)super.clone();
+        return (CloneableConcurrentHashMap<K,V>)super.clone();
       }
       catch (final CloneNotSupportedException e) {
         throw new RuntimeException(e);
       }
     }
   }
-
 
   /**
    * The default initial table capacity. Must be a power of 2 (i.e., at least 1) and at most
@@ -138,8 +137,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   }
 
   /**
-   * Returns a shallow copy of this {@link ConcurrentHashSet} instance (the
-   * elements themselves are not cloned).
+   * Returns a shallow copy of this {@link ConcurrentHashSet} instance (the elements themselves are not cloned).
    *
    * @return A shallow copy of this {@link ConcurrentHashSet} instance.
    */
@@ -147,7 +145,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   @SuppressWarnings("unchecked")
   public ConcurrentHashSet<E> clone() {
     final ConcurrentHashSet<E> newSet = (ConcurrentHashSet<E>)super.clone();
-    newSet.map = (CloneableConcurrentHashMap<E,Object>)map.clone();
+    newSet.map = map.clone();
     return newSet;
   }
 
