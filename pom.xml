@@ -96,6 +96,7 @@
                 <template>src/main/resources/function/Tri&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/TriObj&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/TriObj&lt;X&gt;Function.java</template>
+                <template>src/main/resources/function/&lt;X&gt;&lt;Y&gt;Consumer.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/function</destDir>
             </configuration>
