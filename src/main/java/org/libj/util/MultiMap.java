@@ -24,29 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-class MultiMapSupport {
-  /**
-   * Return a non-null list of values for a given key. The returned list may be empty.
-   * <p />
-   * If there is no entry for the key in the map, a new empty {@link List} instance is created, registered within the map to hold
-   * the values of the key and returned from the method.
-   *
-   * @param <K> The type of keys maintained by this map.
-   * @param <V> The type of mapped values.
-   * @param <C> The type of mapped value {@link Collection}.
-   * @param map The {@link MultiMap}.
-   * @param key The key.
-   * @return value The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
-   */
-  static <K,V,C extends Collection<V>>C getValues(final MultiMap<K,V,C> map, final K key) {
-    C l = map.get(key);
-    if (l == null)
-      map.put(key, l = map.newCollection());
-
-    return l;
-  }
-}
-
 /**
  * A {@link Map} with keys mapped to zero or more values.
  *
@@ -63,16 +40,35 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   C newCollection();
 
   /**
+   * Return a non-null list of values for a given key. The returned list may be empty.
+   * <p>
+   * If there is no entry for the key in the map, a new empty {@link List} instance is created, registered within the map to hold
+   * the values of the key and returned from the method.
+   *
+   * @param key The key.
+   * @return value The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
+   */
+  default C getOrNew(final K key) {
+    C l = get(key);
+    if (l == null)
+      put(key, l = newCollection());
+
+    return l;
+  }
+
+  /**
    * Set the value for the key to be a one item {@link Collection} consisting of the supplied value. Any existing values will be
    * replaced.
    *
    * @param key The key.
    * @param value The single value of the key.
+   * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
    */
-  default void putSingle(final K key, final V value) {
-    final C values = MultiMapSupport.getValues(this, key);
+  default C putSingle(final K key, final V value) {
+    final C values = getOrNew(key);
     values.clear();
     values.add(value);
+    return values;
   }
 
   /**
@@ -80,10 +76,12 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    *
    * @param key The key.
    * @param value The value to be added.
+   * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
    */
-  default void add(final K key, final V value) {
-    final C values = MultiMapSupport.getValues(this, key);
+  default C add(final K key, final V value) {
+    final C values = getOrNew(key);
     values.add(value);
+    return values;
   }
 
   /**
@@ -92,17 +90,17 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    *
    * @param key The key.
    * @param newValues The values to be added.
+   * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
    * @throws IllegalArgumentException If the supplied array of new values is null.
    */
   @SuppressWarnings("unchecked")
-  default void addAll(final K key, final V ... newValues) {
+  default C addAll(final K key, final V ... newValues) {
     assertNotNull(newValues, "Supplied array of values must not be null");
-    if (newValues.length == 0)
-      return;
-
-    final C values = MultiMapSupport.getValues(this, key);
+    final C values = getOrNew(key);
     for (final V value : newValues)
       values.add(value);
+
+    return values;
   }
 
   /**
@@ -112,16 +110,16 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    *
    * @param key The key.
    * @param valueList The list of values to be added.
+   * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
    * @throws IllegalArgumentException If the supplied value list is null.
    */
-  default void addAll(final K key, final Collection<V> valueList) {
+  default C addAll(final K key, final Collection<V> valueList) {
     assertNotNull(valueList, "Supplied array of values must not be null");
-    if (valueList.isEmpty())
-      return;
-
-    final C values = MultiMapSupport.getValues(this, key);
-    for (V value : valueList)
+    final C values = getOrNew(key);
+    for (final V value : valueList)
       values.add(value);
+
+    return values;
   }
 
   /**
@@ -145,15 +143,17 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    *
    * @param key The key
    * @param value The value to be added.
+   * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
    * @throws UnsupportedOperationException If the type of the value {@link Collection} does not extend {@link List}.
    */
   @SuppressWarnings("unchecked")
-  default void addFirst(final K key, final V value) {
-    final C values = MultiMapSupport.getValues(this, key);
-    if (values instanceof List)
-      ((List<V>)values).add(0, value);
-    else
+  default C addFirst(final K key, final V value) {
+    final C values = getOrNew(key);
+    if (!(values instanceof List))
       throw new UnsupportedOperationException("addFirst is not supported by Collection type: " + values.getClass().getName());
+
+    ((List<V>)values).add(0, value);
+    return values;
   }
 
   /**
@@ -164,7 +164,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    * @return {@code true} if the method resulted in a change to the map.
    */
   default boolean removeValue(final K key, final V value) {
-    final C values = MultiMapSupport.getValues(this, key);
+    final C values = getOrNew(key);
     return values != null && values.remove(value);
   }
 
@@ -177,7 +177,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    * @return {@code true} if the method resulted in a change to the map.
    */
   default boolean removeIf(final K key, final Predicate<? super V> test) {
-    final C values = MultiMapSupport.getValues(this, key);
+    final C values = getOrNew(key);
     if (values == null)
       return false;
 
