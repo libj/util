@@ -36,13 +36,13 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void initiallyContainsNoElements() {
-    for (<x> i = 0; i < 100; ++i)
+    for (<x> i = 0; i < 100; ++i) // [N]
       assertFalse(testSet.contains(i));
   }
 
   @Test
   public void initiallyContainsNoBoxedElements() {
-    for (<x> i = 0; i < 100; ++i)
+    for (<x> i = 0; i < 100; ++i) // [N]
       assertFalse(testSet.contains(<XX>.valueOf(i)));
   }
 
@@ -305,10 +305,10 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldResizeWhenItHitsCapacity() {
-    for (<x> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i)
+    for (<x> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i) // [N]
       assertTrue(testSet.add(i));
 
-    for (<x> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i)
+    for (<x> i = 0; i < 2 * INITIAL_CAPACITY - 1; ++i) // [N]
       assertTrue(testSet.contains(i));
   }
 
@@ -568,13 +568,13 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
 
   @Test
   public void consecutiveValuesShouldBeCorrectlyStored() {
-    for (<x> i = 0; i < 127; ++i)
+    for (<x> i = 0; i < 127; ++i) // [N]
       testSet.add(i);
 
     assertEquals(127, testSet.size());
 
     int distinctElements = 0;
-    for (final <X>Iterator i = testSet.iterator(); i.hasNext(); i.next())
+    for (final <X>Iterator i = testSet.iterator(); i.hasNext(); i.next()) // [I]
       ++distinctElements;
 
     assertEquals(distinctElements, 127);
@@ -622,13 +622,13 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   @Test
   public void shouldGenerateStringRepresentation() {
     final <x>[] testEntries = {(<x>)65, (<x>)68, (<x>)83, (<x>)104, (<x>)111, (<x>)75, (<x>)83, (<x>)97};
-    for (final <x> testEntry : testEntries)
+    for (final <x> testEntry : testEntries) // [A]
       testSet.add(testEntry);
 
     final String string = testSet.toString();
     final String[] parts = string.substring(1, string.length() - 1).replace(" ", "").split(",");
     final HashSet<String> strings = CollectionUtil.asCollection(new HashSet<>(testSet.size()), parts);
-    for (final <x> testEntry : testEntries)
+    for (final <x> testEntry : testEntries) // [A]
       assertTrue(Arrays.toString(parts), strings.contains(String.valueOf(testEntry)));
   }
 
@@ -646,7 +646,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
     final HashSet<<XX>> compatibleSet = new HashSet<>();
     final long seed = System.nanoTime();
     final Random r = new Random(seed);
-    for (int i = 0; i < 1024; ++i) {
+    for (int i = 0; i < 1024; ++i) { // [N]
       final <x> value = (<x>)r.nextInt();
       compatibleSet.add(value);
       testSet.add(value);

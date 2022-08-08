@@ -41,13 +41,13 @@ public class RetryPolicyTest {
     final int delayMs = 100;
 
     final int[] delays = new int[attempts];
-    for (int i = 1; i < attempts; ++i)
+    for (int i = 1; i < attempts; ++i) // [N]
       delays[i] = delayMs;
 
     final int[] index = {0};
     final long[] timings = new long[attempts];
     timings[0] = System.currentTimeMillis();
-    for (int i = 0; i < attempts - 1; ++i)
+    for (int i = 0; i < attempts - 1; ++i) // [N]
       timings[i + 1] = timings[i] + delays[i];
 
     assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RuntimeException(), attempts, delayMs).run((retryPolicy, attemptNo) -> {
@@ -73,14 +73,14 @@ public class RetryPolicyTest {
 
     final int[] delays = new int[attempts];
     delays[0] = startDelay;
-    for (int i = 0; i < attempts - 1; ++i)
+    for (int i = 0; i < attempts - 1; ++i) // [N]
       delays[i + 1] = (int)Math.min(delays[i] * factor, maxDelay);
 
     delays[0] = 0;
     final int[] index = {0};
     final long[] timings = new long[attempts];
     timings[0] = System.currentTimeMillis();
-    for (int i = 0; i < attempts - 1; ++i)
+    for (int i = 0; i < attempts - 1; ++i) // [N]
       timings[i + 1] = timings[i] + delays[i];
 
     assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RetryFailureException(a, d), attempts, startDelay, 0, false, factor, maxDelay).run((retryPolicy, attemptNo) -> {

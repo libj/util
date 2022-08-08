@@ -22,9 +22,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * An {@link Iterator} for N-dimensional collections implementing the
- * {@link Iterable} interface of type {@code <T>} that iterates through the leaf
- * members of the collections of type {@code <E>}.
+ * An {@link Iterator} for N-dimensional collections implementing the {@link Iterable} interface of type {@code <T>} that iterates
+ * through the leaf members of the collections of type {@code <E>}.
  *
  * @param <E> The type of leaf member elements.
  * @param <T> The type of the collection.
@@ -57,7 +56,7 @@ public abstract class FlatIterableIterator<T,E> extends FlatIterator<E,Iterator<
     if (hasNext)
       return true;
 
-    for (Iterator<?> current;;) {
+    for (Iterator<?> current;;) { // [X]
       while (!(current = stack.get(stack.size() - 1)).hasNext()) {
         stack.remove(stack.size() - 1);
         if (stack.size() == 0)

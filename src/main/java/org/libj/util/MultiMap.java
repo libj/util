@@ -97,7 +97,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   default C addAll(final K key, final V ... newValues) {
     assertNotNull(newValues, "Supplied array of values must not be null");
     final C values = getOrNew(key);
-    for (final V value : newValues)
+    for (final V value : newValues) // [A]
       values.add(value);
 
     return values;
@@ -109,14 +109,14 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    * array of values is null.
    *
    * @param key The key.
-   * @param valueList The list of values to be added.
+   * @param newValues The list of values to be added.
    * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
    * @throws IllegalArgumentException If the supplied value list is null.
    */
-  default C addAll(final K key, final Collection<V> valueList) {
-    assertNotNull(valueList, "Supplied array of values must not be null");
+  default C addAll(final K key, final Collection<V> newValues) {
+    assertNotNull(newValues, "Supplied array of values must not be null");
     final C values = getOrNew(key);
-    for (final V value : valueList)
+    for (final V value : newValues) // [C]
       values.add(value);
 
     return values;
@@ -207,12 +207,12 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
     if (!keySet().equals(otherMap.keySet()))
       return false;
 
-    for (final Entry<K,C> e : entrySet()) {
+    for (final Entry<K,C> e : entrySet()) { // [S]
       final C olist = otherMap.get(e.getKey());
       if (e.getValue().size() != olist.size())
         return false;
 
-      for (final V v : e.getValue())
+      for (final V v : e.getValue()) // [C]
         if (!olist.contains(v))
           return false;
     }

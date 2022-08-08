@@ -64,7 +64,7 @@ public class FunctionsTest {
     final Function<Double,String> p0 = new DoubleToString();
     final Function<String,String> p1 = new Negate();
     final Function<String,BigDecimal> p2 = new StringToBigDecimal();
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final double input = random.nextDouble();
       final BigDecimal result = p0.andThen(p1).andThen(p2).apply(input);
       assertEquals(-input, result.doubleValue(), Math.ulp(input));
@@ -76,7 +76,7 @@ public class FunctionsTest {
     final Function<Double,String> p0 = new DoubleToString();
     final Function<String,String> p1 = new Negate();
     final Function<String,String> p2 = new Identity();
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final double input = random.nextDouble();
       final Stream<String> result1 = p0.andThen(and(p1, p2)).apply(input);
       final Stream<String> result2 = p0.andThen(and(p2, p1)).apply(input);
@@ -90,7 +90,7 @@ public class FunctionsTest {
     final Function<Double,String> p0 = new DoubleToString();
     final Function<String,String> p1 = new Negate();
     final Function<String,String> p2 = new Identity();
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final double input = random.nextDouble();
       final String result1 = p0.andThen(or(p1, p2)).apply(input);
       final String result2 = p0.andThen(or(p2, p1)).apply(input);
@@ -110,7 +110,7 @@ public class FunctionsTest {
 
     final Function<Serializable,String> finish = s -> new StringBuilder(s.toString()).reverse().toString();
 
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final int input = random.nextInt();
       final String result = and(p0, p1, p2).andThen(s -> s.map(or(p3, p4).andThen(finish))).apply(input).findAny().get();
       assertEquals(String.valueOf(Math.abs(input)) + "9", result);

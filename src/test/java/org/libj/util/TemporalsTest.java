@@ -28,9 +28,9 @@ import org.junit.Test;
 public class TemporalsTest {
   @Test
   public void testConversion() {
-    for (int year = -10000; year < 10000; year += 127) {
-      for (int month = 1; month < 13; month++) {
-        for (int date = 1; date < 29; date++) {
+    for (int year = -10000; year < 10000; year += 127) { // [N]
+      for (int month = 1; month < 13; month++) { // [N]
+        for (int date = 1; date < 29; date++) { // [N]
           final int hour = (int)(Math.random() * 24);
           if (hour == 2)
             continue;

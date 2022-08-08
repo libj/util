@@ -34,7 +34,7 @@ public class TieredRangeFetcherTest {
     final int dbFrom = 20;
     final int dbTo = 30;
     final SortedMap<Integer,Object> db = new TreeMap<>();
-    for (int i = 20; i < 30; i++)
+    for (int i = 20; i < 30; ++i) // [N]
       db.put(i, i);
 
     final TieredRangeFetcher<Integer,Object> webLoader = new TieredRangeFetcher<Integer,Object>(null) {
@@ -49,7 +49,7 @@ public class TieredRangeFetcherTest {
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
         logger.info("WEB -> (" + from + ", " + to + "]");
         final SortedMap<Integer,Object> results = new TreeMap<>();
-        for (int i = from; i < to; i++)
+        for (int i = from; i < to; ++i) // [N]
           results.put(i, i);
 
         return results;
@@ -85,7 +85,7 @@ public class TieredRangeFetcherTest {
           range[1] = range[1] < to ? to : range[1];
         }
 
-        for (final Map.Entry<Integer,Object> entry : data.entrySet())
+        for (final Map.Entry<Integer,Object> entry : data.entrySet()) // [S]
           if (db.containsKey(entry.getKey()))
             fail("Attempted to insert a key that already exists: " + entry.getKey());
           else

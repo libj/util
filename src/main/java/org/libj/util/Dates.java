@@ -479,7 +479,7 @@ public final class Dates {
     char ch = iso8601.charAt(i);
     if (ch == '.') {
       int p = ++i;
-      for (; p < len; ++p) {
+      for (; p < len; ++p) { // [N]
         ch = iso8601.charAt(p);
         if (ch < '0' || '9' < ch)
           break;
@@ -656,7 +656,7 @@ public final class Dates {
       ch = str.charAt(++i);
     }
 
-    for (final int end = str.length() - 1;; ch = str.charAt(++i)) {
+    for (final int end = str.length() - 1;; ch = str.charAt(++i)) { // [N]
       if (ch == 's') {
         int a;
         if (!dot || d == 0)

@@ -59,7 +59,7 @@ public class TransSetTest {
   @Test
   public void test() {
     final Set<Integer> source = new HashSet<>();
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; ++i) // [N]
       source.add(i);
 
     test(new TransSet<>(source, String::valueOf, Integer::valueOf));

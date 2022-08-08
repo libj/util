@@ -36,7 +36,6 @@ public final class Shutdownables {
    * Blocks until all provided {@link Shutdownable shutdownables} have {@linkplain Shutdownable#awaitTermination(long,TimeUnit)
    * terminated} after a shutdown request, or the timeout occurs, or the current thread is interrupted, whichever happens first.
    *
-   * @implNote
    * @param timeout The maximum time to wait.
    * @param unit The time unit of the timeout argument.
    * @param shutdownables The {@link Shutdownable}s on which to {@linkplain Shutdownable#awaitTermination(long,TimeUnit) await
@@ -59,7 +58,7 @@ public final class Shutdownables {
     assertNotEmpty(shutdownables);
     final List<Callable<Boolean>> callables = new ArrayList<>(shutdownables.length);
     final AtomicReference<InterruptedException> ie = new AtomicReference<>();
-    for (final Shutdownable<?> shutdownable : shutdownables) {
+    for (final Shutdownable<?> shutdownable : shutdownables) { // [A]
       assertNotNull(shutdownable);
       callables.add(() -> {
         try {

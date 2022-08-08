@@ -24,9 +24,8 @@ import java.util.regex.Pattern;
 import org.libj.lang.Strings;
 
 /**
- * Utility functions that perform a variety of operations on {@link String}
- * objects representing either system paths (UNIX or Windows), or file URL paths
- * (resembling {@code file:/...}).
+ * Utility functions that perform a variety of operations on {@link String} objects representing either system paths (UNIX or
+ * Windows), or file URL paths (resembling {@code file:/...}).
  */
 public final class StringPaths {
   // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch08s18.html
@@ -64,8 +63,7 @@ public final class StringPaths {
   }
 
   /**
-   * Tests whether the specified string is an URL that represents an absolute
-   * local file path.
+   * Tests whether the specified string is an URL that represents an absolute local file path.
    * <p>
    * For a string to be considered an absolute local URL, it must:
    * <ol>
@@ -75,8 +73,7 @@ public final class StringPaths {
    * </ol>
    *
    * @param path The path to test.
-   * @return {@code true} if the specified string is an URL that represents an
-   *         absolute local file path, otherwise {@code false}.
+   * @return {@code true} if the specified string is an URL that represents an absolute local file path, otherwise {@code false}.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalURL(final String path) {
@@ -96,8 +93,7 @@ public final class StringPaths {
    * </ol>
    *
    * @param path The path to test.
-   * @return {@code true} if the specified string represents an absolute UNIX
-   *         file path, otherwise {@code false}.
+   * @return {@code true} if the specified string represents an absolute UNIX file path, otherwise {@code false}.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalUnix(final String path) {
@@ -105,8 +101,7 @@ public final class StringPaths {
   }
 
   /**
-   * Tests whether the specified string represents an absolute Windows file
-   * path.
+   * Tests whether the specified string represents an absolute Windows file path.
    * <p>
    * A valid Windows file path matches the following patterns:
    * <ol>
@@ -134,8 +129,7 @@ public final class StringPaths {
    * </ol>
    *
    * @param path The path to test.
-   * @return {@code true} if the specified string represents an absolute Windows
-   *         file path, otherwise {@code false}.
+   * @return {@code true} if the specified string represents an absolute Windows file path, otherwise {@code false}.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalWindows(final String path) {
@@ -147,16 +141,13 @@ public final class StringPaths {
    * <p>
    * For a string to be considered an absolute local file path, it must:
    * <ol>
-   * <li>Match a local file URL:
-   * {@link StringPaths#isAbsoluteLocalURL(String)}</li>
-   * <li>Match a Windows path:
-   * {@link StringPaths#isAbsoluteLocalWindows(String)}</li>
+   * <li>Match a local file URL: {@link StringPaths#isAbsoluteLocalURL(String)}</li>
+   * <li>Match a Windows path: {@link StringPaths#isAbsoluteLocalWindows(String)}</li>
    * <li>Match a UNIX path: {@link StringPaths#isAbsoluteLocalUnix(String)}</li>
    * </ol>
    *
    * @param path The path to test.
-   * @return {@code true} if the specified string represents an absolute local
-   *         file path, otherwise {@code false}.
+   * @return {@code true} if the specified string represents an absolute local file path, otherwise {@code false}.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsoluteLocal(final String path) {
@@ -164,23 +155,18 @@ public final class StringPaths {
   }
 
   /**
-   * Tests whether the specified string represents an absolute system
-   * identifier.
+   * Tests whether the specified string represents an absolute system identifier.
    * <p>
-   * This method does not perform strict path validation, but merely inspects
-   * its prefix to match known absolute path patterns.
+   * This method does not perform strict path validation, but merely inspects its prefix to match known absolute path patterns.
    * <p>
-   * This method performs the following tests to detect whether the specified
-   * string is an absolute path:
+   * This method performs the following tests to detect whether the specified string is an absolute path:
    * <ol>
    * <li>If the string starts with {@code '/'} (UNIX paths).</li>
-   * <li>If the string starts with {@code "?:\"}, where {@code ?} is a letter,
-   * case insensitive (Windows paths).</li>
+   * <li>If the string starts with {@code "?:\"}, where {@code ?} is a letter, case insensitive (Windows paths).</li>
    * </ol>
    *
    * @param path The string to test.
-   * @return {@code true} if the specified string represents an absolute system
-   *         identifier, otherwise {@code false}.
+   * @return {@code true} if the specified string represents an absolute system identifier, otherwise {@code false}.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsoluteSystemId(final String path) {
@@ -188,22 +174,18 @@ public final class StringPaths {
   }
 
   /**
-   * Tests whether the specified string represents an absolute public
-   * identifier.
+   * Tests whether the specified string represents an absolute public identifier.
    * <p>
-   * This method does not perform strict path validation, but merely inspects
-   * its prefix to match known absolute path patterns.
+   * This method does not perform strict path validation, but merely inspects its prefix to match known absolute path patterns.
    * <p>
-   * This method performs the following tests to detect whether the specified
-   * string is an absolute path:
+   * This method performs the following tests to detect whether the specified string is an absolute path:
    * <ol>
-   * <li>If the string starts with {@code "<protocol>://"}, where
-   * {@code <protocol>} is any string matching {@code [a-zA-Z0-9]+}.</li>
+   * <li>If the string starts with {@code "<protocol>://"}, where {@code <protocol>} is any string matching
+   * {@code [a-zA-Z0-9]+}.</li>
    * </ol>
    *
    * @param path The string to test.
-   * @return {@code true} if the specified string represents an absolute public
-   *         identifier, otherwise {@code false}.
+   * @return {@code true} if the specified string represents an absolute public identifier, otherwise {@code false}.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsolutePublicId(final String path) {
@@ -211,15 +193,12 @@ public final class StringPaths {
   }
 
   /**
-   * Tests whether the specified string represents an absolute path, either
-   * system or public.
+   * Tests whether the specified string represents an absolute path, either system or public.
    * <p>
-   * This method does not perform strict path validation, but merely inspects
-   * its prefix to match known absolute path patterns.
+   * This method does not perform strict path validation, but merely inspects its prefix to match known absolute path patterns.
    *
    * @param path The string to test.
-   * @return {@code true} if the specified string represents an absolute path,
-   *         either system or public, otherwise {@code false}.
+   * @return {@code true} if the specified string represents an absolute path, either system or public, otherwise {@code false}.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static boolean isAbsolute(final String path) {
@@ -227,12 +206,10 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the protocol section of the specified path, or {@code null} if a
-   * protocol section does not exist.
+   * Returns the protocol section of the specified path, or {@code null} if a protocol section does not exist.
    *
    * @param path The path from which to get the protocol section.
-   * @return The protocol section of the specified path, or {@code null} if a
-   *         protocol does not exist.
+   * @return The protocol section of the specified path, or {@code null} if a protocol does not exist.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String getProtocol(final String path) {
@@ -241,33 +218,25 @@ public final class StringPaths {
   }
 
   /**
-   * Creates a path string from a parent pathname string and a child pathname
-   * string.
+   * Creates a path string from a parent pathname string and a child pathname string.
    * <p>
    * This method operates with the following behavior:
    * <ol>
    * <li>If {@code child} is empty then this method returns {@code parent}.</li>
-   * <li>If {@code parent} is null or empty then this method returns
-   * {@code child}.</li>
-   * <li>If {@code parent} does not have a trailing slash, and {@code child}
-   * does not have a leading slash, one slash is added.</li>
-   * <li>If {@code parent} has a trailing slash, and {@code child} has a leading
-   * slash, one slash is discarded.</li>
-   * <li>If {@code parent} is determined to be a Windows path, then the '\'
-   * character is used as the name separator (in case a separator character must
-   * be inserted); otherwise, '/' is used.
+   * <li>If {@code parent} is null or empty then this method returns {@code child}.</li>
+   * <li>If {@code parent} does not have a trailing slash, and {@code child} does not have a leading slash, one slash is added.</li>
+   * <li>If {@code parent} has a trailing slash, and {@code child} has a leading slash, one slash is discarded.</li>
+   * <li>If {@code parent} is determined to be a Windows path, then the '\' character is used as the name separator (in case a
+   * separator character must be inserted); otherwise, '/' is used.
    * <p>
-   * <blockquote><b>Note:</b> This method does not modify separator characters
-   * in any parameter.</blockquote></li>
-   * <li>If {@code child} is absolute then it is converted into a relative
-   * pathname in a system-dependent way.</li>
+   * <blockquote><b>Note:</b> This method does not modify separator characters in any parameter.</blockquote></li>
+   * <li>If {@code child} is absolute then it is converted into a relative pathname in a system-dependent way.</li>
    * <li>Otherwise {@code child} is resolved against {@code parent}.</li>
    * </ol>
    *
    * @param parent The parent pathname string.
    * @param child The child pathname string.
-   * @return A path string from a parent pathname string and a child pathname
-   *         string.
+   * @return A path string from a parent pathname string and a child pathname string.
    * @throws IllegalArgumentException If {@code parent} or {@code child} is null.
    * @see StringPaths#isAbsoluteLocalWindows(String)
    */
@@ -289,19 +258,16 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the canonical form of the specified path, where {@code ".."} and
-   * {@code "."} path names are dereferenced, and redundant {@code '/'} (or
-   * {@code '\'} for Windows) path separators are removed.
+   * Returns the canonical form of the specified path, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
+   * {@code '/'} (or {@code '\'} for Windows) path separators are removed.
    * <p>
-   * This implementation differs from {@link File#getCanonicalPath()} by only
-   * canonicalizing the superficial form of the specified path. This
-   * implementation does not perform filesystem interaction, for the purpose of
-   * operations such as resolving symbolic links (on UNIX platforms).
+   * This implementation differs from {@link File#getCanonicalPath()} by only canonicalizing the superficial form of the specified
+   * path. This implementation does not perform filesystem interaction, for the purpose of operations such as resolving symbolic
+   * links (on UNIX platforms).
    *
    * @param path The path to canonicalize.
-   * @return The canonical form of the specified path, where {@code ".."} and
-   *         {@code "."} path names are dereferenced, and redundant {@code '/'}
-   *         (or {@code '\'} for Windows) path separators are removed.
+   * @return The canonical form of the specified path, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
+   *         {@code '/'} (or {@code '\'} for Windows) path separators are removed.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String canonicalize(final String path) {
@@ -309,19 +275,16 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the canonical form of the specified path, where {@code ".."} and
-   * {@code "."} path names are dereferenced, and redundant {@code '/'} path
-   * separators are removed.
+   * Returns the canonical form of the specified path, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
+   * {@code '/'} path separators are removed.
    * <p>
-   * This implementation differs from {@link File#getCanonicalPath()} by only
-   * canonicalizing the superficial form of the specified path. This
-   * implementation does not perform filesystem interaction, for the purpose of
-   * operations such as resolving symbolic links (on UNIX platforms).
+   * This implementation differs from {@link File#getCanonicalPath()} by only canonicalizing the superficial form of the specified
+   * path. This implementation does not perform filesystem interaction, for the purpose of operations such as resolving symbolic
+   * links (on UNIX platforms).
    *
    * @param path The path to canonicalize.
-   * @return The canonicalized {@code path} instance, where {@code ".."} and
-   *         {@code "."} path names are dereferenced, and redundant {@code '/'}
-   *         path separators are removed.
+   * @return The canonicalized {@code path} instance, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
+   *         {@code '/'} path separators are removed.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static StringBuilder canonicalize(final StringBuilder path) {
@@ -361,7 +324,7 @@ public final class StringPaths {
   }
 
   private static int canonicalize(final StringBuilder path, final char s, final int len, int i, int sdd, final int depth) {
-    for (int del = 0, ch0 = '\0', ch1 = '\0', ch2 = '\0';; --i, ch2 = ch1, ch1 = ch0) {
+    for (int del = 0, ch0 = '\0', ch1 = '\0', ch2 = '\0';; --i, ch2 = ch1, ch1 = ch0) { // [N]
       ch0 = path.charAt(i);
       if (ch0 == s) {
         if (ch1 == '.' && ch2 == s) {
@@ -423,12 +386,10 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the pathname of the parent of {@code path}, or {@code null} if
-   * {@code path} does not name a parent directory.
+   * Returns the pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.
    *
    * @param path The path string.
-   * @return The pathname of the parent of {@code path}, or {@code null} if
-   *         {@code path} does not name a parent directory.
+   * @return The pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String getParent(final String path) {
@@ -438,14 +399,12 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the canonical pathname of the parent of {@code path}, or
-   * {@code null} if {@code path} does not name a parent directory. In a
-   * canonical path, the {@code ".."} and {@code "."} path names are
-   * dereferenced, and redundant {@code '/'} path separators are removed.
+   * Returns the canonical pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.
+   * In a canonical path, the {@code ".."} and {@code "."} path names are dereferenced, and redundant {@code '/'} path separators
+   * are removed.
    *
    * @param path The path string.
-   * @return The canonical pathname of the parent of {@code path}, or
-   *         {@code null} if {@code path} does not name a parent directory.
+   * @return The canonical pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.
    * @throws IllegalArgumentException If {@code path} is null.
    */
   public static String getCanonicalParent(final String path) {
@@ -462,15 +421,12 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the name of the file or directory denoted by the specified
-   * pathname. This is just the last name in the name sequence of {@code path}.
-   * If the name sequence of {@code path} is empty, then the empty string is
-   * returned.
+   * Returns the name of the file or directory denoted by the specified pathname. This is just the last name in the name sequence of
+   * {@code path}. If the name sequence of {@code path} is empty, then the empty string is returned.
    *
    * @param path The path string.
-   * @return The name of the file or directory denoted by the specified
-   *         pathname, or the empty string if the name sequence of {@code path}
-   *         is empty.
+   * @return The name of the file or directory denoted by the specified pathname, or the empty string if the name sequence of
+   *         {@code path} is empty.
    * @throws IllegalArgumentException If {@code path} is null or empty.
    */
   public static String getName(final String path) {
@@ -481,15 +437,13 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the simple name of the file or directory denoted by the specified
-   * pathname. This is just the last name in the name sequence of {@code path},
-   * with its dot-extension removed, if present. If the name sequence of
-   * {@code path} is empty, then the empty string is returned.
+   * Returns the simple name of the file or directory denoted by the specified pathname. This is just the last name in the name
+   * sequence of {@code path}, with its dot-extension removed, if present. If the name sequence of {@code path} is empty, then the
+   * empty string is returned.
    *
    * @param path The path string.
-   * @return The simple name of the file or directory denoted by the specified
-   *         pathname, or the empty string if the name sequence of {@code path}
-   *         is empty.
+   * @return The simple name of the file or directory denoted by the specified pathname, or the empty string if the name sequence of
+   *         {@code path} is empty.
    * @throws IllegalArgumentException If {@code path} is null or empty.
    */
   public static String getSimpleName(String path) {

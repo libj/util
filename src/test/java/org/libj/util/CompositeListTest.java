@@ -40,7 +40,7 @@ public class CompositeListTest {
 
     assertEquals(expectedLength, elements.size());
     final Iterator iterator = elements.getCompositeList().iterator();
-    for (int i = 0; iterator.hasNext(); ++i) {
+    for (int i = 0; iterator.hasNext(); ++i) { // [I]
       final Object next = iterator.next();
       assertEquals("Index " + i, expected.get(i), next);
     }

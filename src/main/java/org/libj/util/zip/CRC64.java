@@ -1,4 +1,4 @@
-/* Copyright (c) 2021 OpenJAX
+/* Copyright (c) 2021 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,10 +35,8 @@ public class CRC64 implements Checksum {
    *
    * poly=0x42f0e1eba9ea3693 init=0x0 refin=false refout=false xorout=0x0
    *
-   * @see <a href="http://en.wikipedia.org/wiki/Cyclic_redundancy_check">Cyclic
-   *      redundancy check</a>
-   * @see <a href="http://reveng.sourceforge.net/crc-catalogue/17plus.htm">CRC
-   *      RevEng</a>
+   * @see <a href="http://en.wikipedia.org/wiki/Cyclic_redundancy_check">Cyclic redundancy check</a>
+   * @see <a href="http://reveng.sourceforge.net/crc-catalogue/17plus.htm">CRC RevEng</a>
    */
   private static final long[] CRC_TABLE = {
     0x0000000000000000L,
@@ -132,8 +130,7 @@ public class CRC64 implements Checksum {
   private long crc;
 
   /**
-   * Updates the CRC-64 checksum with the specified byte (the low eight bits of
-   * the argument b).
+   * Updates the CRC-64 checksum with the specified byte (the low eight bits of the argument b).
    *
    * @param b The byte to update the checksum with.
    */
@@ -142,8 +139,7 @@ public class CRC64 implements Checksum {
   }
 
   /**
-   * Updates the CRC-64 checksum with the specified byte (the low eight bits of
-   * the argument b).
+   * Updates the CRC-64 checksum with the specified byte (the low eight bits of the argument b).
    *
    * @param b The byte to update the checksum with.
    */
@@ -155,13 +151,12 @@ public class CRC64 implements Checksum {
   /**
    * Updates the CRC-64 checksum with the specified array of bytes.
    *
-   * @throws ArrayIndexOutOfBoundsException If {@code off} is negative, or
-   *           {@code len} is negative, or {@code off+len} is greater than the
-   *           length of the array {@code b}.
+   * @throws ArrayIndexOutOfBoundsException If {@code off} is negative, or {@code len} is negative, or {@code off+len} is greater
+   *           than the length of the array {@code b}.
    */
   @Override
   public void update(final byte[] b, final int off, int len) {
-    for (int i = off; len > 0; --len)
+    for (int i = off; len > 0; --len) // [A]
       update(b[i++]);
   }
 
@@ -170,8 +165,9 @@ public class CRC64 implements Checksum {
    *
    * @param b The array of bytes to update the checksum with.
    */
+  @Override
   public void update(final byte[] b) {
-    for (int i = 0; i < b.length; ++i)
+    for (int i = 0; i < b.length; ++i) // [A]
       update(b[i]);
   }
 

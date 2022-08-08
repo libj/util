@@ -78,7 +78,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public int indexOf(final Object o) {
-    for (int i = 0; i < size(); ++i)
+    for (int i = 0, len = size(); i < len; ++i) // [L]
       if (o == get(i))
         return i;
 
@@ -87,7 +87,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public int lastIndexOf(final Object o) {
-    for (int i = size() - 1; i >= 0; --i)
+    for (int i = size() - 1; i >= 0; --i) // [L]
       if (o == get(i))
         return i;
 
@@ -109,7 +109,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
       return false;
 
     final int size = size();
-    for (final Object o : c)
+    for (final Object o : c) // [C]
       remove(o);
 
     return size != size();
@@ -127,9 +127,9 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     boolean modified = false;
     OUT:
-    for (int i = 0, len = c.size(); i < len; ++i) {
+    for (int i = 0, len = c.size(); i < len; ++i) { // [L]
       final Object o = get(i);
-      for (final Object obj : c)
+      for (final Object obj : c) // [C]
         if (obj == o)
           continue OUT;
 
@@ -147,8 +147,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     /**
      * Creates a new {@link IdentitySubList} with the specified subList target.
      *
-     * @param target The subList to which the method calls of this instance will
-     *          be delegated.
+     * @param target The subList to which the method calls of this instance will be delegated.
      */
     public IdentitySubList(final List<E> target) {
       super(target);
@@ -161,7 +160,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public int indexOf(final Object o) {
-      for (int i = 0, len = target.size(); i < len; ++i)
+      for (int i = 0, len = target.size(); i < len; ++i) // [L]
         if (o == target.get(i))
           return i;
 
@@ -170,7 +169,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public int lastIndexOf(final Object o) {
-      for (int i = target.size() - 1; i >= 0; --i)
+      for (int i = target.size() - 1; i >= 0; --i) // [L]
         if (o == target.get(i))
           return i;
 
@@ -192,7 +191,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
         return false;
 
       final int size = target.size();
-      for (final Object o : c)
+      for (final Object o : c) // [C]
         remove(o);
 
       return size != target.size();
@@ -210,9 +209,9 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
       boolean modified = false;
       OUT:
-      for (int i = 0, len = c.size(); i < len; ++i) {
+      for (int i = 0, len = c.size(); i < len; ++i) { // [L]
         final Object o = target.get(i);
-        for (final Object obj : c)
+        for (final Object obj : c) // [C]
           if (obj == o)
             continue OUT;
 

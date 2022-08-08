@@ -18,6 +18,8 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.libj.util.Diff.Mod;
 import org.slf4j.Logger;
@@ -104,7 +106,8 @@ public class DiffTest {
     final int maxLength = Math.max(source.length(), target.length());
     final int bits = (int)(1 + StrictMath.log(maxLength) / StrictMath.log(2));
     logger.info("LengthSize: " + bits);
-    for (final Mod mod : diff.getMods())
-      logger.info(mod.toString());
+    final List<Mod> mods = diff.getMods();
+    for (int i = 0, len = mods.size(); i < len; ++i) // [L]
+      logger.info(mods.get(i).toString());
   }
 }

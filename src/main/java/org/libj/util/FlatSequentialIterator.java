@@ -24,9 +24,8 @@ import java.util.NoSuchElementException;
 import org.libj.util.primitive.ArrayIntList;
 
 /**
- * An {@link Iterator} for N-dimensional sequentially accessible collections of
- * type {@code <T>} (arrays or lists) that iterates through the leaf members of
- * the collections of type {@code <E>}.
+ * An {@link Iterator} for N-dimensional sequentially accessible collections of type {@code <T>} (arrays or lists) that iterates
+ * through the leaf members of the collections of type {@code <E>}.
  *
  * @param <E> The type of leaf member elements.
  * @param <T> The type of the collection.
@@ -54,13 +53,11 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
   protected abstract int size(T c);
 
   /**
-   * Returns the element at index {@code i} of the sequentially accessible
-   * collection {@code obj}.
+   * Returns the element at index {@code i} of the sequentially accessible collection {@code obj}.
    *
    * @param c The sequentially accessible collection.
    * @param i The index of the element.
-   * @return The element at index {@code i} of the sequentially accessible
-   *         collection {@code obj}.
+   * @return The element at index {@code i} of the sequentially accessible collection {@code obj}.
    */
   protected abstract Object get(T c, int i);
 
@@ -71,7 +68,7 @@ public abstract class FlatSequentialIterator<E,T> extends FlatIterator<E,T> {
       return true;
 
     T current;
-    for (int i = indices.peek();;) {
+    for (int i = indices.peek();;) { // [X]
       while (i == size(current = stack.get(stack.size() - 1))) {
         indices.pop();
         stack.remove(stack.size() - 1);

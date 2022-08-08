@@ -116,8 +116,7 @@ public final class ExecutorServices {
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException If {@code tasks} or any member of
-     *           {@code tasks} is null.
+     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
      */
     @Override
     public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
@@ -127,8 +126,7 @@ public final class ExecutorServices {
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException If {@code tasks} or any member of
-     *           {@code tasks} is null.
+     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
      */
     @Override
     public <T>T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
@@ -138,8 +136,7 @@ public final class ExecutorServices {
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException If {@code tasks} or any member of
-     *           {@code tasks} is null.
+     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
      */
     @Override
     public <T>T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
@@ -197,120 +194,88 @@ public final class ExecutorServices {
   }
 
   /**
-   * Returns a new {@link ExecutorService} instance that wraps the provided
-   * {@code executor}, and is configured to schedule all executed or submitted
-   * {@link Runnable} or {@link Callable} tasks to be
-   * {@linkplain Thread#interrupt() interrupted} once the provided
-   * {@code timeout} of {@link TimeUnit unit} expires.
+   * Returns a new {@link ExecutorService} instance that wraps the provided {@code executor}, and is configured to schedule all
+   * executed or submitted {@link Runnable} or {@link Callable} tasks to be {@linkplain Thread#interrupt() interrupted} once the
+   * provided {@code timeout} of {@link TimeUnit unit} expires.
    *
    * @param executor The {@link ExecutorService} to be wrapped.
    * @param timeout The maximum time to wait.
    * @param unit The {@link TimeUnit} of the {@code timeout} argument.
-   * @return A new {@link ExecutorService} instance that wraps the provided
-   *         {@code executor}, and is configured to schedule all executed or
-   *         submitted {@link Runnable} or {@link Callable} tasks to be
-   *         {@linkplain Thread#interrupt() interrupted} once the provided
-   *         {@code timeout} of {@link TimeUnit unit} expires.
-   * @throws IllegalArgumentException If {@code executor} or {@code unit} is
-   *           null, or if {@code timeout} is negative.
+   * @return A new {@link ExecutorService} instance that wraps the provided {@code executor}, and is configured to schedule all
+   *         executed or submitted {@link Runnable} or {@link Callable} tasks to be {@linkplain Thread#interrupt() interrupted} once
+   *         the provided {@code timeout} of {@link TimeUnit unit} expires.
+   * @throws IllegalArgumentException If {@code executor} or {@code unit} is null, or if {@code timeout} is negative.
    */
   public static ExecutorService interruptAfterTimeout(final ExecutorService executor, final long timeout, final TimeUnit unit) {
     return new InterruptExecutorService(assertNotNull(executor), assertNotNegative(timeout), assertNotNull(unit));
   }
 
   /**
-   * Returns a new {@link ScheduledExecutorService} instance that wraps the
-   * provided {@code executor}, and is configured to schedule all executed or
-   * submitted {@link Runnable} or {@link Callable} tasks to be
-   * {@linkplain Thread#interrupt() interrupted} once the provided
-   * {@code timeout} of {@link TimeUnit unit} expires.
+   * Returns a new {@link ScheduledExecutorService} instance that wraps the provided {@code executor}, and is configured to schedule
+   * all executed or submitted {@link Runnable} or {@link Callable} tasks to be {@linkplain Thread#interrupt() interrupted} once the
+   * provided {@code timeout} of {@link TimeUnit unit} expires.
    *
    * @param executor The {@link ScheduledExecutorService} to be wrapped.
    * @param timeout The maximum time to wait.
    * @param unit The {@link TimeUnit} of the {@code timeout} argument.
-   * @return A new {@link ScheduledExecutorService} instance that wraps the
-   *         provided {@code executor}, and is configured to schedule all
-   *         executed or submitted {@link Runnable} or {@link Callable} tasks to
-   *         be {@linkplain Thread#interrupt() interrupted} once the provided
-   *         {@code timeout} of {@link TimeUnit unit} expires.
-   * @throws IllegalArgumentException If {@code executor} or {@code unit} is
-   *           null, or if {@code timeout} is negative.
+   * @return A new {@link ScheduledExecutorService} instance that wraps the provided {@code executor}, and is configured to schedule
+   *         all executed or submitted {@link Runnable} or {@link Callable} tasks to be {@linkplain Thread#interrupt() interrupted}
+   *         once the provided {@code timeout} of {@link TimeUnit unit} expires.
+   * @throws IllegalArgumentException If {@code executor} or {@code unit} is null, or if {@code timeout} is negative.
    */
   public static ScheduledExecutorService interruptAfterTimeout(final ScheduledExecutorService executor, final long timeout, final TimeUnit unit) {
     return new InterruptScheduledExecutorService(assertNotNull(executor), assertNotNegative(timeout), assertNotNull(unit));
   }
 
   /**
-   * Executes the provided {@link Runnable} {@code tasks} in the given
-   * {@link ExecutorService} {@code executor}, returning a {@link Future}
-   * representing the aggregate status of the completion of all tasks.
-   * {@link Future#isDone} is {@code true} when all {@code tasks} are completed.
-   * Note that a <em>completed</em> task could have terminated either normally
-   * or by throwing an exception. The results of this method are undefined if
-   * the given collection is modified while this operation is in progress.
+   * Executes the provided {@link Runnable} {@code tasks} in the given {@link ExecutorService} {@code executor}, returning a
+   * {@link Future} representing the aggregate status of the completion of all tasks. {@link Future#isDone} is {@code true} when all
+   * {@code tasks} are completed. Note that a <em>completed</em> task could have terminated either normally or by throwing an
+   * exception. The results of this method are undefined if the given collection is modified while this operation is in progress.
    *
-   * @param executor The {@link ExecutorService} in which to invoke the provided
-   *          {@code tasks}.
+   * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
    * @param tasks The collection of {@link Runnable} tasks.
-   * @return A {@link Future} representing the aggregate status of the
-   *         completion of all tasks, whereby {@link Future#isDone} is
+   * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any
-   *           of member of {@code tasks} is null.
-   * @throws RejectedExecutionException If any task cannot be scheduled for
-   *           execution.
+   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Collection<? extends Runnable> tasks) {
     return invokeAll(executor, Runnable::run, assertNotNull(tasks).toArray(new Runnable[tasks.size()]));
   }
 
   /**
-   * Executes the provided {@link Runnable} {@code tasks} in the given
-   * {@link ExecutorService} {@code executor}, returning a {@link Future}
-   * representing the aggregate status of the completion of all tasks.
-   * {@link Future#isDone} is {@code true} when all {@code tasks} are completed.
-   * Note that a <em>completed</em> task could have terminated either normally
-   * or by throwing an exception. The results of this method are undefined if
-   * the given collection is modified while this operation is in progress.
+   * Executes the provided {@link Runnable} {@code tasks} in the given {@link ExecutorService} {@code executor}, returning a
+   * {@link Future} representing the aggregate status of the completion of all tasks. {@link Future#isDone} is {@code true} when all
+   * {@code tasks} are completed. Note that a <em>completed</em> task could have terminated either normally or by throwing an
+   * exception. The results of this method are undefined if the given collection is modified while this operation is in progress.
    *
-   * @param executor The {@link ExecutorService} in which to invoke the provided
-   *          {@code tasks}.
+   * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
    * @param tasks The array of {@link Runnable} tasks.
-   * @return A {@link Future} representing the aggregate status of the
-   *         completion of all tasks, whereby {@link Future#isDone} is
+   * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any
-   *           of member of {@code tasks} is null.
-   * @throws RejectedExecutionException If any task cannot be scheduled for
-   *           execution.
+   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Runnable ... tasks) {
     return invokeAll(executor, Runnable::run, assertNotNull(tasks));
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified
-   * {@link Consumer} {@code proxy} in the given {@link ExecutorService}
-   * {@code executor}, returning a {@link Future} representing the aggregate
-   * status of the completion of all tasks. {@link Future#isDone} is
-   * {@code true} when all {@code tasks} are completed. Note that a
-   * <em>completed</em> task could have terminated either normally or by
-   * throwing an exception. The results of this method are undefined if the
-   * given collection is modified while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
+   * {@link ExecutorService} {@code executor}, returning a {@link Future} representing the aggregate status of the completion of all
+   * tasks. {@link Future#isDone} is {@code true} when all {@code tasks} are completed. Note that a <em>completed</em> task could
+   * have terminated either normally or by throwing an exception. The results of this method are undefined if the given collection
+   * is modified while this operation is in progress.
    *
    * @param <T> The type parameter of the {@code tasks} to be invoked.
-   * @param executor The {@link ExecutorService} in which to invoke the provided
-   *          {@code tasks}.
-   * @param proxy The {@link Consumer} to proxy the invocation call of each
-   *          task.
+   * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
+   * @param proxy The {@link Consumer} to proxy the invocation call of each task.
    * @param tasks The array of generic tasks.
-   * @return A {@link Future} representing the aggregate status of the
-   *         completion of all tasks, whereby {@link Future#isDone} is
+   * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any
-   *           of member of {@code tasks} is null.
-   * @throws RejectedExecutionException If any task cannot be scheduled for
-   *           execution.
+   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final Collection<? extends T> tasks) {
@@ -318,28 +283,20 @@ public final class ExecutorServices {
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified
-   * {@link Consumer} {@code proxy} in the given {@link ExecutorService}
-   * {@code executor}, returning a {@link Future} representing the aggregate
-   * status of the completion of all tasks. {@link Future#isDone} is
-   * {@code true} when all {@code tasks} are completed. Note that a
-   * <em>completed</em> task could have terminated either normally or by
-   * throwing an exception. The results of this method are undefined if the
-   * given collection is modified while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
+   * {@link ExecutorService} {@code executor}, returning a {@link Future} representing the aggregate status of the completion of all
+   * tasks. {@link Future#isDone} is {@code true} when all {@code tasks} are completed. Note that a <em>completed</em> task could
+   * have terminated either normally or by throwing an exception. The results of this method are undefined if the given collection
+   * is modified while this operation is in progress.
    *
    * @param <T> The type parameter of the {@code tasks} to be invoked.
-   * @param executor The {@link ExecutorService} in which to invoke the provided
-   *          {@code tasks}.
-   * @param proxy The {@link Consumer} to proxy the invocation call of each
-   *          task.
+   * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
+   * @param proxy The {@link Consumer} to proxy the invocation call of each task.
    * @param tasks The array of generic tasks.
-   * @return A {@link Future} representing the aggregate status of the
-   *         completion of all tasks, whereby {@link Future#isDone} is
+   * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code proxy},
-   *           {@code tasks}, or any of member of {@code tasks} is null.
-   * @throws RejectedExecutionException If any task cannot be scheduled for
-   *           execution.
+   * @throws IllegalArgumentException If {@code executor}, {@code proxy}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SafeVarargs
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final T ... tasks) {
@@ -350,7 +307,7 @@ public final class ExecutorServices {
     final AtomicBoolean canceled = new AtomicBoolean(false);
     final Thread[] threads = new Thread[tasks.length];
     final CountDownLatch latch = new CountDownLatch(tasks.length);
-    for (int i = 0; i < tasks.length; ++i) {
+    for (int i = 0; i < tasks.length; ++i) { // [A]
       final T task = assertNotNull(tasks[i]);
       final int index = i;
       executor.execute(() -> {
@@ -385,7 +342,7 @@ public final class ExecutorServices {
         done = true;
         canceled.set(true);
         if (mayInterruptIfRunning && started.get())
-          for (final Thread thread : threads)
+          for (final Thread thread : threads) // [A]
             if (thread != null)
               thread.interrupt();
 
@@ -452,37 +409,28 @@ public final class ExecutorServices {
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified
-   * {@link Consumer} {@code proxy} in the given {@link ExecutorService}
-   * {@code executor}, returning a list of {@link Future}s holding their status
-   * and results when all complete. {@link Future#isDone} is {@code true} for
-   * each element of the returned list. Note that a <em>completed</em> task
-   * could have terminated either normally or by throwing an exception. The
-   * results of this method are undefined if the given collection is modified
-   * while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
+   * {@link ExecutorService} {@code executor}, returning a list of {@link Future}s holding their status and results when all
+   * complete. {@link Future#isDone} is {@code true} for each element of the returned list. Note that a <em>completed</em> task
+   * could have terminated either normally or by throwing an exception. The results of this method are undefined if the given
+   * collection is modified while this operation is in progress.
    *
    * @param tasks the collection of tasks
    * @param <T> The type of the tasks.
    * @param <R> The type of the values returned from the tasks.
-   * @param executor The {@link ExecutorService} in which to invoke the provided
-   *          {@code tasks}.
-   * @param proxy The {@link Function} to proxy the invocation call of each
-   *          task.
-   * @return A list of {@link Future}s representing the tasks, in the same
-   *         sequential order as produced by the iterator for the given task
-   *         list, each of which has completed.
-   * @throws InterruptedException If interrupted while waiting, in which case
-   *           unfinished tasks are cancelled.
-   * @throws IllegalArgumentException If {@code tasks} or any member of
-   *           {@code tasks} is null.
-   * @throws RejectedExecutionException If any task cannot be scheduled for
-   *           execution.
+   * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
+   * @param proxy The {@link Function} to proxy the invocation call of each task.
+   * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the
+   *         given task list, each of which has completed.
+   * @throws InterruptedException If interrupted while waiting, in which case unfinished tasks are cancelled.
+   * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SafeVarargs
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final T ... tasks) throws InterruptedException {
     final Callable<R>[] callables = new Callable[assertNotNull(tasks).length];
-    for (int i = 0; i < tasks.length; ++i) {
+    for (int i = 0; i < tasks.length; ++i) { // [A]
       final T task = assertNotNull(tasks[i]);
       callables[i] = () -> proxy.apply(task);
     }
@@ -491,37 +439,28 @@ public final class ExecutorServices {
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified
-   * {@link Consumer} {@code proxy} in the given {@link ExecutorService}
-   * {@code executor}, returning a list of {@link Future}s holding their status
-   * and results when all complete. {@link Future#isDone} is {@code true} for
-   * each element of the returned list. Note that a <em>completed</em> task
-   * could have terminated either normally or by throwing an exception. The
-   * results of this method are undefined if the given collection is modified
-   * while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
+   * {@link ExecutorService} {@code executor}, returning a list of {@link Future}s holding their status and results when all
+   * complete. {@link Future#isDone} is {@code true} for each element of the returned list. Note that a <em>completed</em> task
+   * could have terminated either normally or by throwing an exception. The results of this method are undefined if the given
+   * collection is modified while this operation is in progress.
    *
    * @param tasks the collection of tasks
    * @param <T> The type of the tasks.
    * @param <R> The type of the values returned from the tasks.
-   * @param executor The {@link ExecutorService} in which to invoke the provided
-   *          {@code tasks}.
-   * @param proxy The {@link Function} to proxy the invocation call of each
-   *          task.
-   * @return A list of {@link Future}s representing the tasks, in the same
-   *         sequential order as produced by the iterator for the given task
-   *         list, each of which has completed.
-   * @throws InterruptedException If interrupted while waiting, in which case
-   *           unfinished tasks are cancelled.
-   * @throws IllegalArgumentException If {@code tasks} or any member of
-   *           {@code tasks} is null.
-   * @throws RejectedExecutionException If any task cannot be scheduled for
-   *           execution.
+   * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
+   * @param proxy The {@link Function} to proxy the invocation call of each task.
+   * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the
+   *         given task list, each of which has completed.
+   * @throws InterruptedException If interrupted while waiting, in which case unfinished tasks are cancelled.
+   * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
+   * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
     final Callable<R>[] callables = new Callable[assertNotNull(tasks).size()];
     final Iterator<T> iterator = tasks.iterator();
-    for (int i = 0; iterator.hasNext(); ++i) {
+    for (int i = 0; iterator.hasNext(); ++i) { // [I]
       final T task = assertNotNull(iterator.next());
       callables[i] = () -> proxy.apply(task);
     }

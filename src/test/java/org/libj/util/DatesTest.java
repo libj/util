@@ -47,8 +47,8 @@ public class DatesTest {
 
   @Test @Ignore
   public void testDatePart() {
-    for (long i = -50; i <= 50; ++i)
-      for (long j = 0; j < Dates.MILLISECONDS_IN_DAY; j += 997)
+    for (long i = -50; i <= 50; ++i) // [N]
+      for (long j = 0; j < Dates.MILLISECONDS_IN_DAY; j += 997) // [N]
         assertEquals("Iteration: " + i + " " + j, j, Dates.dropDatePart(Dates.MILLISECONDS_IN_DAY * i + j));
   }
 
@@ -113,7 +113,7 @@ public class DatesTest {
     testTime(time, "2020-05-24T09:20:55.5002101234Z");
     testTime(time, "2020-05-24T09:20:55.50021012345Z");
 
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       time = System.currentTimeMillis();
       final String iso8601 = Dates.epochMilliToIso8601(time);
       testTime(time, iso8601);
@@ -122,7 +122,7 @@ public class DatesTest {
 
   @Test
   public void testDur()  {
-    for (int i = 0; i < 1000000; ++i) {
+    for (int i = 0; i < 1000000; ++i) { // [N]
       final long d = r.nextLong();
       final String s = Dates.durationToString(d);
       final long d2 = Dates.stringToDuration(s);

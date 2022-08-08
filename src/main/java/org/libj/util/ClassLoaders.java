@@ -29,19 +29,17 @@ public final class ClassLoaders {
 
     final String[] parts = value.split(File.pathSeparator);
     final File[] urls = new File[parts.length];
-    for (int i = 0; i < parts.length; ++i)
+    for (int i = 0; i < parts.length; ++i) // [A]
       urls[i] = new File(parts[i]);
 
     return urls;
   }
 
   /**
-   * Returns a {@link File} array representing the paths in the classpath of the
-   * system {@link ClassLoader}. The classpath is determined from the
-   * {@code "java.class.path"} system property.
+   * Returns a {@link File} array representing the paths in the classpath of the system {@link ClassLoader}. The classpath is
+   * determined from the {@code "java.class.path"} system property.
    *
-   * @return A {@link File} array representing the paths in the classpath of the
-   *         system {@link ClassLoader}.
+   * @return A {@link File} array representing the paths in the classpath of the system {@link ClassLoader}.
    * @see ClassLoader#getSystemClassLoader()
    */
   public static File[] getClassPath() {
@@ -50,30 +48,22 @@ public final class ClassLoaders {
   }
 
   /**
-   * Returns a {@link File} array representing the paths in the classpath of the
-   * bootstrap {@link ClassLoader}. The classpath is determined from the
-   * {@code "sun.boot.class.path"} system property.
+   * Returns a {@link File} array representing the paths in the classpath of the bootstrap {@link ClassLoader}. The classpath is
+   * determined from the {@code "sun.boot.class.path"} system property.
    *
-   * @implNote The {@code "sun.boot.class.path"} property has been removed in
-   *           Java 9+.
-   * @return A {@link File} array representing the paths in the classpath of the
-   *         bootstrap {@link ClassLoader}.
+   * @implNote The {@code "sun.boot.class.path"} property has been removed in Java 9+.
+   * @return A {@link File} array representing the paths in the classpath of the bootstrap {@link ClassLoader}.
    */
   public static File[] getBootstrapClassPath() {
     return getClassPath("sun.boot.class.path");
   }
 
   /**
-   * Returns a {@link File} array representing the paths in the Surefire test
-   * classpath of the current Java virtual machine. The classpath is determined
-   * from the {@code "surefire.test.class.path"} system property, which is set
-   * by the Surefire runtime.
+   * Returns a {@link File} array representing the paths in the Surefire test classpath of the current Java virtual machine. The
+   * classpath is determined from the {@code "surefire.test.class.path"} system property, which is set by the Surefire runtime.
    *
-   * @return A {@link File} array representing the paths in the Surefire test
-   *         classpath of the current Java virtual machine.
-   * @see <a href=
-   *      "https://maven.apache.org/surefire/maven-surefire-plugin/">Maven
-   *      Surefire Plugin</a>
+   * @return A {@link File} array representing the paths in the Surefire test classpath of the current Java virtual machine.
+   * @see <a href= "https://maven.apache.org/surefire/maven-surefire-plugin/">Maven Surefire Plugin</a>
    */
   public static File[] getTestClassPath() {
     return getClassPath("surefire.test.class.path");

@@ -20,12 +20,10 @@ import static org.libj.lang.Assertions.*;
 import java.lang.reflect.Array;
 
 /**
- * This class provides the base implementation of an array-backed list of the
- * {@link PrimitiveCollection} interface, specifically designed to abstract the
- * state management instructions for the instances of sub-lists.
+ * This class provides the base implementation of an array-backed list of the {@link PrimitiveCollection} interface, specifically
+ * designed to abstract the state management instructions for the instances of sub-lists.
  *
- * @param <T> The parameter representing the array type (i.e. {@code int[]} or
- *          {@code long[]}).
+ * @param <T> The parameter representing the array type (i.e. {@code int[]} or {@code long[]}).
  */
 public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   static final int DEFAULT_INITIAL_CAPACITY = 5;
@@ -48,10 +46,9 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Creates a sub-list, and integrates it into the specified parent list's
-   * sub-list graph. A sub-list instance shares the parent list's
-   * {@link #valueData}, and modifications made to any list in the graph of
-   * sub-lists are propagated with the {@link #updateState(int,int)} method.
+   * Creates a sub-list, and integrates it into the specified parent list's sub-list graph. A sub-list instance shares the parent
+   * list's {@link #valueData}, and modifications made to any list in the graph of sub-lists are propagated with the
+   * {@link #updateState(int,int)} method.
    *
    * @param parent The parent list.
    * @param fromIndex Low endpoint (inclusive) of the subList.
@@ -78,16 +75,14 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Update array store and index variables reflecting a modification at the
-   * specified index {@code i} and delta {@code d}, and propagate the
-   * modification to all child and their sibling sub-lists in this instance's
-   * sub-list graph.
+   * Update array store and index variables reflecting a modification at the specified index {@code i} and delta {@code d}, and
+   * propagate the modification to all child and their sibling sub-lists in this instance's sub-list graph.
    *
    * @param i The index at which a modification was made.
    * @param d The delta of the modification at the index.
    */
   private void updateStateChildren(final int i, final int d) {
-    for (PrimitiveArrayList<T> child = this.child; child != null; child = child.child) {
+    for (PrimitiveArrayList<T> child = this.child; child != null; child = child.child) { // [X]
       ++child.modCount;
       child.size = this.size;
       child.valueData = this.valueData;
@@ -104,16 +99,14 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Update array store and index variables reflecting a modification at the
-   * specified index {@code i} and delta {@code d}, and propagate the
-   * modification to all sibling and their child sub-lists in this instance's
-   * sub-list graph.
+   * Update array store and index variables reflecting a modification at the specified index {@code i} and delta {@code d}, and
+   * propagate the modification to all sibling and their child sub-lists in this instance's sub-list graph.
    *
    * @param i The index at which a modification was made.
    * @param d The delta of the modification at the index.
    */
   private void updateStateSiblings(final int i, final int d) {
-    for (PrimitiveArrayList<T> sibling = this.sibling; sibling != null && sibling != this; sibling = sibling.sibling) {
+    for (PrimitiveArrayList<T> sibling = this.sibling; sibling != null && sibling != this; sibling = sibling.sibling) { // [X]
       ++sibling.modCount;
       sibling.size = this.size;
       sibling.valueData = this.valueData;
@@ -130,10 +123,8 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Update array store and index variables reflecting a modification at the
-   * specified index {@code i} and delta {@code d}, and propagate the
-   * modification to all parent and sibling sub-lists in this instance's
-   * sub-list graph.
+   * Update array store and index variables reflecting a modification at the specified index {@code i} and delta {@code d}, and
+   * propagate the modification to all parent and sibling sub-lists in this instance's sub-list graph.
    *
    * @param i The index at which a modification was made.
    * @param d The delta of the modification at the index.
@@ -152,10 +143,8 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Update array store and index variables reflecting a modification at the
-   * specified index {@code i} and delta {@code d}, and propagate the
-   * modification to all parent, child, and sibling sub-lists in this instance's
-   * sub-list graph.
+   * Update array store and index variables reflecting a modification at the specified index {@code i} and delta {@code d}, and
+   * propagate the modification to all parent, child, and sibling sub-lists in this instance's sub-list graph.
    *
    * @param i The index at which a modification was made.
    * @param d The delta of the modification at the index.
@@ -169,8 +158,8 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Returns the number of values in this list. If this list contains more than
-   * {@link Integer#MAX_VALUE} values, returns {@link Integer#MAX_VALUE}.
+   * Returns the number of values in this list. If this list contains more than {@link Integer#MAX_VALUE} values, returns
+   * {@link Integer#MAX_VALUE}.
    *
    * @return The number of values in this list.
    */
@@ -190,8 +179,7 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Removes all of the elements from this list. The list will be empty after
-   * this call returns.
+   * Removes all of the elements from this list. The list will be empty after this call returns.
    */
   @Override
   public void clear() {
@@ -199,12 +187,9 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Creates and returns a copy of this list, containing the same value data in
-   * this list. The underlying array for the copy will not the same as this
-   * list, meaning that changes made to the copy will not be reflected in this
-   * list, and vice-versa. If this list has sub-lists, or is itself a sub-list
-   * of another list, neither the parent nor the children or siblings will be
-   * cloned.
+   * Creates and returns a copy of this list, containing the same value data in this list. The underlying array for the copy will
+   * not the same as this list, meaning that changes made to the copy will not be reflected in this list, and vice-versa. If this
+   * list has sub-lists, or is itself a sub-list of another list, neither the parent nor the children or siblings will be cloned.
    *
    * @return A copy of this list.
    */

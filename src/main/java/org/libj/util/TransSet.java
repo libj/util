@@ -107,9 +107,10 @@ public class TransSet<S,T> extends DelegateSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Object[] array = new Object[size()];
+    final int len = size();
+    final Object[] array = new Object[len];
     final Iterator<S> iterator = target.iterator();
-    for (int i = 0; i < size(); ++i) {
+    for (int i = 0; i < len; ++i) { // [A]
       final S e = iterator.next();
       array[i] = e == null ? null : sourceToTarget.apply(e);
     }
@@ -124,7 +125,7 @@ public class TransSet<S,T> extends DelegateSet<T> {
       throw new UnsupportedOperationException();
 
     final Iterator<S> iterator = target.iterator();
-    for (int i = 0; i < size(); ++i) {
+    for (int i = 0, len = size(); i < len; ++i) { // [A]
       final S e = iterator.next();
       a[i] = e == null ? null : (E)sourceToTarget.apply(e);
     }
@@ -162,7 +163,7 @@ public class TransSet<S,T> extends DelegateSet<T> {
     if (c.size() == 0)
       return true;
 
-    for (final Object e : c)
+    for (final Object e : c) // [C]
       if (contains(e))
         return true;
 
@@ -172,7 +173,7 @@ public class TransSet<S,T> extends DelegateSet<T> {
   @Override
   public boolean addAll(final Collection<? extends T> c) {
     boolean changed = false;
-    for (final T e : c)
+    for (final T e : c) // [C]
       changed |= add(e);
 
     return changed;
@@ -181,7 +182,7 @@ public class TransSet<S,T> extends DelegateSet<T> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object e : c)
+    for (final Object e : c) // [C]
       changed |= remove(e);
 
     return changed;

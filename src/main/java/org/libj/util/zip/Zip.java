@@ -71,7 +71,7 @@ public enum Zip {
   private static byte[] decompress(final InputStream in) throws IOException {
     final byte[] buffer = new byte[1024];
     try (final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-      for (int len; (len = in.read(buffer)) > 0;)
+      for (int len; (len = in.read(buffer)) > 0;) // [N]
         out.write(buffer, 0, len);
 
       return out.toByteArray();

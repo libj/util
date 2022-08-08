@@ -504,7 +504,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
-    for (final Map.Entry<? extends K,? extends V> entry : m.entrySet())
+    for (final Map.Entry<? extends K,? extends V> entry : m.entrySet()) // [S]
       put(entry.getKey(), entry.getValue());
   }
 
@@ -590,7 +590,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public void clear() {
-    for (final Iterator<K> i = keySet().iterator(); i.hasNext();) {
+    for (final Iterator<K> i = keySet().iterator(); i.hasNext();) { // [X]
       i.next();
       i.remove();
     }
@@ -687,7 +687,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @SuppressWarnings("unchecked")
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
     assertNotNull(function);
-    for (final Map.Entry<K,V> entry : entrySet()) {
+    for (final Map.Entry<K,V> entry : entrySet()) { // [S]
       final K key = entry.getKey();
       final V oldValue = entry.getValue();
       final Object beforePut = beforePut(key, oldValue, function.apply(key, oldValue), preventDefault);
@@ -729,8 +729,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   }
 
   private void touchEntries() {
-    for (final Iterator<?> i = entrySet().iterator(); i.hasNext(); i.next())
-      ;
+    for (final Iterator<?> i = entrySet().iterator(); i.hasNext(); i.next()); // [X]
   }
 
   /**

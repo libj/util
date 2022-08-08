@@ -162,20 +162,20 @@ public class ObservableListTest {
     };
 
     // add()
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       list.add(expectedString = String.valueOf(i));
       assertAdded();
     }
 
     // get()
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       list.get(i);
       assertGot();
     }
 
     // iterator.get()
-    for (final String s : list) {
-      assertNotNull(s);
+    for (int i = 0, len = list.size(); i < len; ++i) { // [L]
+      assertNotNull(list.get(i));
       assertGot();
     }
 
@@ -187,7 +187,7 @@ public class ObservableListTest {
 
     // testingGetReplace
     testingGetReplace = true;
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       list.get(i);
       assertGot();
     }
@@ -221,7 +221,7 @@ public class ObservableListTest {
 
     fromIndex = 0;
     // remove()
-    for (int i = 0; i < 100; i += 7) {
+    for (int i = 0; i < 100; i += 7) { // [N]
       list.remove(expectedString = String.valueOf(i));
       assertRemoved();
     }
@@ -257,7 +257,7 @@ public class ObservableListTest {
     }
 
     // removeIf()
-    for (int i = 9; i < 100; i += 23) {
+    for (int i = 9; i < 100; i += 23) { // [N]
       final int index = i;
       list.removeIf(s -> (expectedString = String.valueOf(index)).equals(s));
       assertRemoved();

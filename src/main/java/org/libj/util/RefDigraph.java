@@ -29,31 +29,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
- * permitting self-loops and parallel edges.
+ * A directed graph of an arbitrary-sized set of arbitrary-typed vertices, permitting self-loops and parallel edges.
  * <p>
- * This digraph differs from its {@link Digraph} superclass by offering a layer
- * of indirection between the object type {@code T}, and another type {@code R}
- * that is used as the linking value between edges. The required
- * {@code Function<T,R>} parameter in the constructor is used to dereference the
- * object of type {@code T} to objects by which edges are defined of type
- * {@code R}. The references are resolved prior to the {@code dfs()} method
- * call.
+ * This digraph differs from its {@link Digraph} superclass by offering a layer of indirection between the object type {@code T},
+ * and another type {@code R} that is used as the linking value between edges. The required {@code Function<T,R>} parameter in the
+ * constructor is used to dereference the object of type {@code T} to objects by which edges are defined of type {@code R}. The
+ * references are resolved prior to the {@code dfs()} method call.
  * <p>
- * Upon invocation of any method that invokes {@code dfs()}, the
- * {@link RefDigraph} swaps edges of type {@code R} to their linked object
- * references of type {@code T}, based on the translation of the supplied
- * {@code Function<T,R>} function.
+ * Upon invocation of any method that invokes {@code dfs()}, the {@link RefDigraph} swaps edges of type {@code R} to their linked
+ * object references of type {@code T}, based on the translation of the supplied {@code Function<T,R>} function.
  * <p>
- * It is important to note that this implementation assumes that an object of
- * type {@code T} will be encountered for each reference of type {@code R}.
+ * It is important to note that this implementation assumes that an object of type {@code T} will be encountered for each reference
+ * of type {@code R}.
  * <p>
  * Vertices can be added with {@link Digraph#add(Object)}.
  * <p>
  * Edges can be added with {@link Digraph#add(Object,Object)}.
  * <p>
- * The {@link RefDigraph} implements {@code Map<K,Set<V>>}, supporting all
- * required and optional operations.
+ * The {@link RefDigraph} implements {@code Map<K,Set<V>>}, supporting all required and optional operations.
  *
  * @param <K> The type of elements in this digraph.
  * @param <V> The type of referenced values.
@@ -70,11 +63,9 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   /**
    * Creates an empty digraph with the specified initial capacity.
    *
-   * @param keyToValue The function to obtain the referenced value of type
-   *          {@code V} from a key of type {@code K}.
+   * @param keyToValue The function to obtain the referenced value of type {@code V} from a key of type {@code K}.
    * @param initialCapacity The initial capacity of the digraph.
-   * @throws IllegalArgumentException If the specified initial capacity is
-   *           negative.
+   * @throws IllegalArgumentException If the specified initial capacity is negative.
    * @throws IllegalArgumentException If {@code keyToValue} is null.
    */
   public RefDigraph(final int initialCapacity, final Function<K,V> keyToValue) {
@@ -88,8 +79,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   /**
    * Creates an empty digraph with an initial capacity of ten.
    *
-   * @param keyToValue The function to obtain the referenced value of type
-   *          {@code V} from a key of type {@code K}.
+   * @param keyToValue The function to obtain the referenced value of type {@code V} from a key of type {@code K}.
    * @throws IllegalArgumentException If {@code keyToValue} is null.
    */
   public RefDigraph(final Function<K,V> keyToValue) {
@@ -113,17 +103,16 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * Swap vertex reference objects of type {@code V} with their equivalent
-   * object of type {@code K}.
+   * Swap vertex reference objects of type {@code V} with their equivalent object of type {@code K}.
    *
-   * @throws IllegalStateException If some vertex references have not been
-   *           specified before the call of this method.
+   * @throws IllegalStateException If some vertex references have not been specified before the call of this method.
    */
   private void swapRefs() {
     if (vertices.size() == 0)
       return;
 
-    for (final K vertex : vertices) {
+    for (int i = 0, len = vertices.size(); i < len; ++i) { // [L]
+      final K vertex = vertices.get(i);
       final V ref = reference.apply(vertex);
       references.remove(ref);
       final Integer index = digraph.objectToIndex.remove(ref);
@@ -146,18 +135,18 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * Add directed edge ({@code from -> to}) to this digraph. Calling this with
-   * {@code to = null} is the equivalent of calling:
+   * Add directed edge ({@code from -> to}) to this digraph. Calling this with {@code to = null} is the equivalent of calling:
    *
    * <pre>
-   * {@code addVertex(from)}
+   * {@code
+   * addVertex(from)
+   * }
    * </pre>
    *
    * @implSpec This method is not thread safe.
    * @param from The tail vertex.
    * @param to The head vertex reference.
-   * @return {@code true} if this digraph has been modified, and {@code false}
-   *         if the specified edge already existed in the digraph.
+   * @return {@code true} if this digraph has been modified, and {@code false} if the specified edge already existed in the digraph.
    */
   @Override
   public boolean add(final K from, final V to) {
@@ -182,8 +171,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * @throws IllegalStateException If some vertex references have not been
-   *           specified before the call of this method.
+   * @throws IllegalStateException If some vertex references have not been specified before the call of this method.
    */
   @Override
   public int getInDegree(final K vertex) {
@@ -192,8 +180,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * @throws IllegalStateException If some vertex references have not been
-   *           specified before the call of this method.
+   * @throws IllegalStateException If some vertex references have not been specified before the call of this method.
    */
   @Override
   public int getOutDegree(final K vertex) {
@@ -202,13 +189,10 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * Returns a directed cycle (as a list of vertex {@code K} objects) if the
-   * digraph has one, and null otherwise.
+   * Returns a directed cycle (as a list of vertex {@code K} objects) if the digraph has one, and null otherwise.
    *
-   * @return A directed cycle (as a list of vertex {@code K} objects) if the
-   *         digraph has one, and null otherwise.
-   * @throws IllegalStateException If some vertex references have not been
-   *           specified before the call of this method.
+   * @return A directed cycle (as a list of vertex {@code K} objects) if the digraph has one, and null otherwise.
+   * @throws IllegalStateException If some vertex references have not been specified before the call of this method.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -218,8 +202,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
   }
 
   /**
-   * @throws IllegalStateException If some vertex references have not been
-   *           specified before the call of this method.
+   * @throws IllegalStateException If some vertex references have not been specified before the call of this method.
    */
   @Override
   @SuppressWarnings("unchecked")

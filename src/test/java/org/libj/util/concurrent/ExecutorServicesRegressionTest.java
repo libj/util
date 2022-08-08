@@ -106,7 +106,7 @@ public class ExecutorServicesRegressionTest {
 
   @Test
   public void testCancelCompleteNormally() throws InterruptedException {
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final Future<Boolean> future = ExecutorServices.invokeAll(Executors.newCachedThreadPool(), new Task(100), new Task(400));
       assertFalse(future.isDone());
       Thread.sleep(500);
@@ -118,7 +118,7 @@ public class ExecutorServicesRegressionTest {
 
   @Test
   public void testGet() throws ExecutionException, InterruptedException {
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final Future<Boolean> future = ExecutorServices.invokeAll(Executors.newCachedThreadPool(), new Task(100), new Task(400));
       assertFalse(future.isDone());
       assertTrue(future.get());
@@ -127,7 +127,7 @@ public class ExecutorServicesRegressionTest {
 
   @Test
   public void testGetTimeout() throws ExecutionException, InterruptedException {
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final Future<Boolean> future = ExecutorServices.invokeAll(Executors.newCachedThreadPool(), new Task(100), new Task(1000));
       assertFalse(future.isDone());
       try {
@@ -141,7 +141,7 @@ public class ExecutorServicesRegressionTest {
 
   @Test
   public void testCancelComplete() throws ExecutionException, InterruptedException {
-    for (int i = 0; i < numTests; ++i) {
+    for (int i = 0; i < numTests; ++i) { // [N]
       final Future<Boolean> future = ExecutorServices.invokeAll(Executors.newCachedThreadPool(), new Task(100), new Task(2000));
       assertFalse(future.isDone());
       Thread.sleep(400);
@@ -160,7 +160,7 @@ public class ExecutorServicesRegressionTest {
     final long timeout = 200;
     final long sleepTime = timeout + (r.nextBoolean() ? 1 : -1) * 50;
     final ExecutorService executor = ExecutorServices.interruptAfterTimeout(Executors.newCachedThreadPool(), timeout, TimeUnit.MILLISECONDS);
-    for (int i = 0; i < numTests; ++i)
+    for (int i = 0; i < numTests; ++i) // [N]
       consumer.accept(executor, latch, sleepTime, timeout);
 
     latch.await();
@@ -176,7 +176,7 @@ public class ExecutorServicesRegressionTest {
 
   private static <V>Collection<Callable<V>> newCallables(final CountDownLatch latch, final long sleep, final long timeout, final int len) {
     final ArrayList<Callable<V>> c = new ArrayList<>(len);
-    for (int i = 0; i < len; ++i)
+    for (int i = 0; i < len; ++i) // [N]
       c.add(newCallable(latch, sleep, timeout));
 
     return c;

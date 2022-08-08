@@ -31,33 +31,25 @@ public final class Patterns {
   private static final char[] escapeChars = {'!', '$', '(', ')', '*', '+', '-', '.', '<', '=', '>', '?', '[', '\\', ']', '^', '{', '|', '}'};
 
   /**
-   * Returns {@code true} if the provided char is a Java Regular Expression
-   * metacharacter, {@code false} otherwise.
+   * Returns {@code true} if the provided char is a Java Regular Expression metacharacter, {@code false} otherwise.
    *
    * @param ch
-   * @return {@code true} if the provided char is a Java Regular Expression
-   *         metacharacter, {@code false} otherwise.
-   * @see <a href=
-   *      "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String
-   *      Literals</a>
+   * @return {@code true} if the provided char is a Java Regular Expression metacharacter, {@code false} otherwise.
+   * @see <a href= "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String Literals</a>
    */
   public static boolean isMetaCharacter(final char ch) {
     return Arrays.binarySearch(escapeChars, ch) > -1;
   }
 
   /**
-   * Returns the provided {@code regex} with regular expression literal
-   * characters escaped.
+   * Returns the provided {@code regex} with regular expression literal characters escaped.
    *
    * @param regex The string to escape.
-   * @return The provided {@code regex} with regular expression literal
-   *         characters escaped.
-   * @see <a href=
-   *      "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String
-   *      Literals</a>
+   * @return The provided {@code regex} with regular expression literal characters escaped.
+   * @see <a href= "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String Literals</a>
    */
   public static StringBuilder escape(final StringBuilder regex) {
-    for (int i = regex.length() - 1; i >= 0; --i) {
+    for (int i = regex.length() - 1; i >= 0; --i) { // [N]
       final char ch = regex.charAt(i);
       if (isMetaCharacter(ch))
         regex.insert(i, '\\');
@@ -67,15 +59,11 @@ public final class Patterns {
   }
 
   /**
-   * Returns the provided {@code regex} with regular expression literal
-   * characters escaped.
+   * Returns the provided {@code regex} with regular expression literal characters escaped.
    *
    * @param regex The string to escape.
-   * @return The provided {@code regex} with regular expression literal
-   *         characters escaped.
-   * @see <a href=
-   *      "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String
-   *      Literals</a>
+   * @return The provided {@code regex} with regular expression literal characters escaped.
+   * @see <a href= "https://docs.oracle.com/javase/tutorial/essential/regex/literals.html">String Literals</a>
    */
   public static String escape(final String regex) {
     return escape(new StringBuilder(regex)).toString();
@@ -84,8 +72,7 @@ public final class Patterns {
   /**
    * Compiles the given regular expression into a pattern.
    * <p>
-   * This method differentiates itself from {@link Pattern#compile(String)} by
-   * caching the result for faster subsequence execution.
+   * This method differentiates itself from {@link Pattern#compile(String)} by caching the result for faster subsequence execution.
    *
    * @param regex The expression to be compiled.
    * @return The given regular expression compiled into a pattern.
@@ -99,20 +86,16 @@ public final class Patterns {
   /**
    * Compiles the given regular expression into a pattern with the given flags.
    * <p>
-   * This method differentiates itself from {@link Pattern#compile(String,int)}
-   * by caching the result for faster subsequence execution.
+   * This method differentiates itself from {@link Pattern#compile(String,int)} by caching the result for faster subsequence
+   * execution.
    *
    * @param regex The expression to be compiled
-   * @param flags Match flags, a bit mask that may include
-   *          {@link Pattern#CASE_INSENSITIVE}, {@link Pattern#MULTILINE},
-   *          {@link Pattern#DOTALL}, {@link Pattern#UNICODE_CASE},
-   *          {@link Pattern#CANON_EQ}, {@link Pattern#UNIX_LINES},
-   *          {@link Pattern#LITERAL}, {@link Pattern#UNICODE_CHARACTER_CLASS}
-   *          and {@link Pattern#COMMENTS}
-   * @return the given regular expression compiled into a pattern with the given
-   *         flags
-   * @throws IllegalArgumentException If bit values other than those
-   *           corresponding to the defined match flags are set in {@code flags}
+   * @param flags Match flags, a bit mask that may include {@link Pattern#CASE_INSENSITIVE}, {@link Pattern#MULTILINE},
+   *          {@link Pattern#DOTALL}, {@link Pattern#UNICODE_CASE}, {@link Pattern#CANON_EQ}, {@link Pattern#UNIX_LINES},
+   *          {@link Pattern#LITERAL}, {@link Pattern#UNICODE_CHARACTER_CLASS} and {@link Pattern#COMMENTS}
+   * @return the given regular expression compiled into a pattern with the given flags
+   * @throws IllegalArgumentException If bit values other than those corresponding to the defined match flags are set in
+   *           {@code flags}
    * @throws PatternSyntaxException If the expression's syntax is invalid
    * @throws IllegalArgumentException If {@code regex} is null.
    */
@@ -177,19 +160,14 @@ public final class Patterns {
   }
 
   /**
-   * Unescapes the provided regex into a form that does not contain any regular
-   * expression syntax. For a regex to be "unescapable", it must satisfy the
-   * following conditions:
+   * Unescapes the provided regex into a form that does not contain any regular expression syntax. For a regex to be "unescapable",
+   * it must satisfy the following conditions:
    * <ol>
-   * <li>Have valid regular expression syntax. If this is not satisfied, a
-   * {@link PatternSyntaxException} will be thrown.</li>
-   * <li>Be able to match no more than 1 string (i.e. "abc" is technically a
-   * regular expression, however it can only match a single string: "abc"). If
-   * this is not satisfied, this method will return {@code null}.</li>
+   * <li>Have valid regular expression syntax. If this is not satisfied, a {@link PatternSyntaxException} will be thrown.</li>
+   * <li>Be able to match no more than 1 string (i.e. "abc" is technically a regular expression, however it can only match a single
+   * string: "abc"). If this is not satisfied, this method will return {@code null}.</li>
    * </ol>
-   * If the provided regex string contains definitions for special groups
-   * constructs, these constructs will be removed.
-   * <blockquote>
+   * If the provided regex string contains definitions for special groups constructs, these constructs will be removed.<blockquote>
    * <table>
    * <caption>Examples</caption>
    * <tr><td><b>Input</b></td><td><b>Output</b></td></tr>
@@ -203,11 +181,9 @@ public final class Patterns {
    * </blockquote>
    *
    * @param regex The {@link String} to unescape.
-   * @return The unescaped form of the regex if and only if the pattern is a
-   *         valid regular expression, and if it <u>cannot match more than 1
-   *         string</u>, or {@code null} if the specified string cannot be
-   *         parsed as a regular expression, or if it represents a regular
-   *         expression that can match multiple strings.
+   * @return The unescaped form of the regex if and only if the pattern is a valid regular expression, and if it <u>cannot match
+   *         more than 1 string</u>, or {@code null} if the specified string cannot be parsed as a regular expression, or if it
+   *         represents a regular expression that can match multiple strings.
    * @throws PatternSyntaxException If the expression's syntax is invalid.
    */
   public static String unescape(final String regex) {
@@ -230,7 +206,7 @@ public final class Patterns {
     boolean blockEscaped = false;
     char last = '\0';
     OUT:
-    for (int i = 0; i < len; escaped = isEscape(last = ch), ++i) {
+    for (int i = 0; i < len; escaped = isEscape(last = ch), ++i) { // [N]
       ch = regex.charAt(i);
       if (blockEscaped) {
         blockEscaped = !escaped || ch != 'E';
@@ -249,7 +225,7 @@ public final class Patterns {
           CharacterClassEnum characterClass = null;
           final int s = i + 2;
           int j = s;
-          for (; j < len; ++j) {
+          for (; j < len; ++j) { // [N]
             ch = regex.charAt(j);
             if (ch == '}' && characterClass != null) {
               multiMatch = true;
@@ -342,15 +318,13 @@ public final class Patterns {
   private static final int[] escapes = {'(', ')', '*', '+', '.', '?', '[', '\\', ']', '{', '|', '}'};
 
   /**
-   * Reduces groups and unescapes regex escaped chars in the specified
-   * {@link StringBuilder}.
+   * Reduces groups and unescapes regex escaped chars in the specified {@link StringBuilder}.
    *
    * @param builder The {@link StringBuilder}.
    * @param start The starting index.
    * @param end The ending index.
-   * @return The index in the {@link StringBuilder} representing the next group,
-   *         or {@code -1} if the specified {@link StringBuilder} cannot be
-   *         parsed.
+   * @return The index in the {@link StringBuilder} representing the next group, or {@code -1} if the specified
+   *         {@link StringBuilder} cannot be parsed.
    */
   static int reduceGroups(final StringBuilder builder, final int start, int end) {
     return reduceGroups(builder, false, start, end);
@@ -360,7 +334,7 @@ public final class Patterns {
     boolean escaped = false;
     boolean blockEscaped = false;
     char ch;
-    for (int i = start; i < builder.length(); escaped = (blockEscaped || !escaped) && isEscape(ch), ++i) {
+    for (int i = start; i < builder.length(); escaped = (blockEscaped || !escaped) && isEscape(ch), ++i) { // [N]
       ch = builder.charAt(i);
       if (blockEscaped) {
         if (escaped && ch == 'E') {
@@ -435,7 +409,7 @@ public final class Patterns {
 
   static int countEscapes(final CharSequence str, final int fromIndex) {
     int count = 0;
-    for (int j = fromIndex; j >= 0; --j) {
+    for (int j = fromIndex; j >= 0; --j) { // [N]
       if (isEscape(str.charAt(j)))
         ++count;
       else
@@ -445,19 +419,19 @@ public final class Patterns {
     return count;
   }
 
-  static int lastIndexOfUnEscaped(final CharSequence string, final char ch, final int start, final int end) {
-    for (int lastIndex = -1, i = start; true; lastIndex = i++) {
-      i = indexOfUnEscaped(string, ch, i, end);
+  static int lastIndexOfUnEscaped(final CharSequence str, final char ch, final int start, final int end) {
+    for (int lastIndex = -1, i = start;; lastIndex = i++) {
+      i = indexOfUnEscaped(str, ch, i, end);
       if (i < 0)
         return lastIndex;
     }
   }
 
-  static int indexOfUnEscaped(final CharSequence string, final char ch, final int start, final int end) {
+  static int indexOfUnEscaped(final CharSequence str, final char ch, final int start, final int end) {
     boolean escaped = false;
     int blockEscaped = -1;
-    for (int i = start; i < end; ++i) {
-      final char c = string.charAt(i);
+    for (int i = start; i < end; ++i) { // [N]
+      final char c = str.charAt(i);
       if (escaped) {
         escaped = false;
         if (blockEscaped < 0) {
@@ -483,10 +457,10 @@ public final class Patterns {
     return -1;
   }
 
-  private static int indexOfClassClose(final CharSequence string, final int fromIndex) {
+  private static int indexOfClassClose(final CharSequence str, final int fromIndex) {
     boolean escaped = false;
-    for (int i = Math.max(fromIndex, 0), len = string.length(), and = 0, depth = 1; i < len; ++i) {
-      final char c = string.charAt(i);
+    for (int i = Math.max(fromIndex, 0), len = str.length(), and = 0, depth = 1; i < len; ++i) { // [N]
+      final char c = str.charAt(i);
       if (and == 1) {
         if (c == '&') {
           ++and;
@@ -547,7 +521,7 @@ public final class Patterns {
 
   private static int consumeSpecial(final String str, final int len, final int start, final int end) {
     char ch, last = '\0';
-    for (int i = start; i < len; ++i, last = ch) {
+    for (int i = start; i < len; ++i, last = ch) { // [N]
       ch = str.charAt(i);
       if (i == start) {
         if (ch == ':' || ch == '=' || ch == '!' || ch == '>')
@@ -567,7 +541,7 @@ public final class Patterns {
           return -1;
 
         boolean hyphenSeen = false;
-        for (i = start; i < colon; ++i) {
+        for (i = start; i < colon; ++i) { // [N]
           ch = str.charAt(i);
           if (ch == 'i' || ch == 'd' || ch == 'm' || ch == 's' || ch == 'u' || ch == 'x')
             continue;
@@ -623,7 +597,7 @@ public final class Patterns {
     }
 
     boolean commaSeen = false;
-    for (int i = start + 1; i < close; ++i) {
+    for (int i = start + 1; i < close; ++i) { // [N]
       ch = str.charAt(i);
       if (ch == ',') {
         if (commaSeen)
@@ -667,7 +641,7 @@ public final class Patterns {
 
     int and = 0;
     boolean escaped = false;
-    for (char ch, last = first; i < toIndex; ++i, last = ch) {
+    for (char ch, last = first; i < toIndex; ++i, last = ch) { // [N]
       ch = str.charAt(i);
       if (and == 1) {
         if (ch == '&') {

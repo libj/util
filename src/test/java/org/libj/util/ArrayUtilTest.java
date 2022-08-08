@@ -28,7 +28,7 @@ import org.libj.lang.Strings;
 public class ArrayUtilTest {
   private static Object[] createRandomNestedArray() {
     final Object[] array = new Object[4];
-    for (int i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i) // [A]
       array[i] = Math.random() < 0.2 ? createRandomNestedArray() : Strings.getRandomAlpha(4);
 
     return array;
@@ -47,7 +47,7 @@ public class ArrayUtilTest {
 
   @Test
   public void testFlattenArray() {
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       final Object[] array = createRandomNestedArray();
       final Object[] result = ArrayUtil.flatten(array);
       assertEquals("[" + java.util.Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", java.util.Arrays.deepToString(result));
@@ -204,88 +204,88 @@ public class ArrayUtilTest {
   @Test
   public void testReverseBytes() {
     final byte[] array = new byte[100];
-    for (byte i = 0; i < array.length; ++i)
+    for (byte i = 0; i < array.length; ++i) // [A]
       array[i] = i;
 
     ArrayUtil.reverse(array);
-    for (byte i = 0; i < array.length; ++i)
+    for (byte i = 0; i < array.length; ++i) // [A]
       assertEquals((byte)(array.length - i - 1), array[i]);
   }
 
   @Test
   public void testReverseShort() {
     final short[] array = new short[100];
-    for (short i = 0; i < array.length; ++i)
+    for (short i = 0; i < array.length; ++i) // [A]
       array[i] = i;
 
     ArrayUtil.reverse(array);
-    for (short i = 0; i < array.length; ++i)
+    for (short i = 0; i < array.length; ++i) // [A]
       assertEquals((short)(array.length - i - 1), array[i]);
   }
 
   @Test
   public void testReverseInt() {
     final int[] array = new int[100];
-    for (int i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i) // [A]
       array[i] = i;
 
     ArrayUtil.reverse(array);
-    for (int i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i) // [A]
       assertEquals(array.length - i - 1, array[i]);
   }
 
   @Test
   public void testReverseLong() {
     final long[] array = new long[100];
-    for (long i = 0; i < array.length; ++i)
+    for (long i = 0; i < array.length; ++i) // [A]
       array[(int)i] = i;
 
     ArrayUtil.reverse(array);
-    for (long i = 0; i < array.length; ++i)
+    for (long i = 0; i < array.length; ++i) // [A]
       assertEquals(array.length - i - 1, array[(int)i]);
   }
 
   @Test
   public void testReverseFloat() {
     final float[] array = new float[100];
-    for (float i = 0; i < array.length; ++i)
+    for (float i = 0; i < array.length; ++i) // [A]
       array[(int)i] = i;
 
     ArrayUtil.reverse(array);
-    for (float i = 0; i < array.length; ++i)
+    for (float i = 0; i < array.length; ++i) // [A]
       assertEquals(array.length - i - 1, array[(int)i], 0);
   }
 
   @Test
   public void testReverseDouble() {
     final double[] array = new double[100];
-    for (double i = 0; i < array.length; ++i)
+    for (double i = 0; i < array.length; ++i) // [A]
       array[(int)i] = i;
 
     ArrayUtil.reverse(array);
-    for (double i = 0; i < array.length; ++i)
+    for (double i = 0; i < array.length; ++i) // [A]
       assertEquals(array.length - i - 1, array[(int)i], 0);
   }
 
   @Test
   public void testReverseBoolean() {
     final boolean[] array = new boolean[100];
-    for (int i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i) // [A]
       array[i] = i % 2 < 0;
 
     ArrayUtil.reverse(array);
-    for (double i = 0; i < array.length; ++i)
+    for (double i = 0; i < array.length; ++i) // [A]
       assertEquals(array.length - i - 1 < 0, array[(int)i]);
   }
 
   @Test
   public void testReverseObject() {
     final String[] array = new String[100];
-    for (int i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i) // [A]
       array[i] = String.valueOf(i);
 
     ArrayUtil.reverse(array);
-    for (int i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i) // [A]
       assertEquals(String.valueOf(array.length - i - 1), array[i]);
   }
 
@@ -576,7 +576,7 @@ public class ArrayUtilTest {
     else {
       assertEquals(len, ArrayUtil.dedupe(array, c));
       final Object[] expected = new Object[len];
-      for (int i = 0; i < len;)
+      for (int i = 0; i < len;) // [A]
         expected[i] = ++i;
 
       if (array.length > len)

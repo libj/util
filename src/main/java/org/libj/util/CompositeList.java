@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.List;
 
 import org.libj.lang.ObjectUtil;
 import org.libj.util.primitive.ArrayIntList;
@@ -133,7 +134,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
         compositeList.componentLists.add(compositeIndex, componentList);
         compositeList.addUnsafe(compositeIndex, element);
         final IdentityHashSet<ComponentList> visited = new IdentityHashSet<>();
-        for (int i = compositeIndex + 1; i < compositeList.size(); ++i) {
+        for (int i = compositeIndex + 1, len = compositeList.size(); i < len; ++i) { // [L]
           final ComponentList nextComponentList = compositeList.componentLists.get(i);
           if (nextComponentList == componentList)
             compositeList.indexes.set(i, compositeList.indexes.get(i) + 1);
@@ -146,7 +147,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
         }
 
         indexes.add(index, compositeIndex);
-        for (int i = index + 1; i < indexes.size(); ++i)
+        for (int i = index + 1, len = indexes.size(); i < len; ++i) // [L]
           indexes.set(i, indexes.get(i) + 1);
       }
     }
@@ -159,7 +160,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       compositeList.indexes.removeIndex(compositeIndex);
       final ComponentList componentList = compositeList.componentLists.remove(compositeIndex);
       final IdentityHashSet<ComponentList> visited = new IdentityHashSet<>();
-      for (int i = compositeIndex; i < compositeList.size(); ++i) {
+      for (int i = compositeIndex, len = compositeList.size(); i < len; ++i) { // [L]
         final ComponentList nextComponentList = compositeList.componentLists.get(i);
         if (nextComponentList == componentList)
           compositeList.indexes.set(i, compositeList.indexes.get(i) - 1);
@@ -171,7 +172,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
         decSectionIndexes(nextComponentList, compositeIndex);
       }
 
-      for (int i = index; i < indexes.size(); ++i)
+      for (int i = index, len = indexes.size(); i < len; ++i) // [L]
         indexes.set(i, indexes.get(i) - 1);
 
       return true;
@@ -247,7 +248,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   public CompositeList(final T ... types) {
     this();
     if (types != null)
-      for (final T type : types)
+      for (final T type : types) // [A]
         typeToComponentList.put(type, null);
   }
 
@@ -259,7 +260,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   public CompositeList(final Collection<? extends T> types) {
     this();
     if (types != null)
-      for (final T type : types)
+      for (final T type : types) // [A]
         typeToComponentList.put(type, null);
   }
 
@@ -355,9 +356,10 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     }
     else {
       componentList.addUnsafe(componentIndex, element);
-      componentList.indexes.add(componentIndex, compositeIndex);
-      for (int i = componentIndex + 1; i < componentList.indexes.size(); ++i)
-        componentList.indexes.set(i, componentList.indexes.get(i) + 1);
+      final ArrayIntList indexes = componentList.indexes;
+      indexes.add(componentIndex, compositeIndex);
+      for (int i = componentIndex + 1, len = indexes.size(); i < len; ++i) // [L]
+        indexes.set(i, indexes.get(i) + 1);
     }
 
     return componentIndex != null ? componentIndex : this.size() - 1;
@@ -365,7 +367,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
 
   private void incSectionIndexes(final ComponentList componentList, final int index) {
     final ArrayIntList compositeIndexes = componentList.getIndexes();
-    for (int j = 0, len = compositeIndexes.size(); j < len; j++) {
+    for (int j = 0, len = compositeIndexes.size(); j < len; j++) { // [L]
       final int compositeIndex = compositeIndexes.get(j);
       if (compositeIndex >= index)
         compositeIndexes.set(j, compositeIndex + 1);
@@ -374,7 +376,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
 
   private void decSectionIndexes(final ComponentList componentList, final int index) {
     final ArrayIntList compositeIndexes = componentList.getIndexes();
-    for (int j = 0, len = compositeIndexes.size(); j < len; j++) {
+    for (int j = 0, len = compositeIndexes.size(); j < len; j++) { // [L]
       final int compositeIndex = compositeIndexes.get(j);
       if (compositeIndex > index)
         compositeIndexes.set(j, compositeIndex - 1);
@@ -386,7 +388,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       return 0;
 
     final ArrayIntList compositeIndexes = componentList.getIndexes();
-    for (int i = componentList.size() - 1; i >= 0; --i) {
+    for (int i = componentList.size() - 1; i >= 0; --i) { // [L]
       final int compositeIndex = compositeIndexes.get(i);
       if (compositeIndex < index)
         return index;
@@ -409,7 +411,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
       if (componentIndex > -1) {
         indexes.add(index, componentIndex);
         final IdentityHashSet<ComponentList> visited = new IdentityHashSet<>();
-        for (int i = index + 1; i < componentLists.size(); ++i) {
+        for (int i = index + 1, len = componentLists.size(); i < len; ++i) { // [L]
           final ComponentList nextComponentList = componentLists.get(i);
           if (nextComponentList == componentList)
             indexes.set(i, indexes.get(i) + 1);
@@ -435,7 +437,7 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     else {
       final ComponentList newComponentList = assertNotNull(getOrCreateComponentList(newElement), "Object of type " + newElement.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
       componentList.removeUnsafe(componentIndex);
-      for (int i = index + 1; i < componentLists.size(); ++i) {
+      for (int i = index + 1, len = componentLists.size(); i < len; ++i) { // [L]
         final ComponentList nextComponentList = componentLists.get(i);
         if (nextComponentList == componentList)
           indexes.set(i, indexes.get(i) - 1);
@@ -453,11 +455,11 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
     final ComponentList componentList = componentLists.remove(index);
     componentList.removeUnsafe(indexes.removeIndex(index));
     final ArrayIntList componentIndexes = componentList.getIndexes();
-    for (int i = index; i < componentIndexes.size(); ++i)
+    for (int i = index, len = componentIndexes.size(); i < len; ++i) // [L]
       componentIndexes.set(i, componentIndexes.get(i) - 1);
 
     final IdentityHashSet<ComponentList> visited = new IdentityHashSet<>();
-    for (int i = index; i < componentLists.size(); ++i) {
+    for (int i = index, len = componentLists.size(); i < len; ++i) { // [L]
       final ComponentList nextComponentList = componentLists.get(i);
       if (nextComponentList == componentList)
         indexes.set(i, indexes.get(i) - 1);
@@ -502,29 +504,33 @@ public abstract class CompositeList<E,T> extends ObservableList<E> implements Cl
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public CompositeList<E,T> clone() {
     try {
       final CompositeList<E,T> clone = (CompositeList<E,T>)super.clone();
       clone.target = (ArrayList<E>)((ArrayList<E>)target).clone();
       clone.indexes = indexes.clone();
       clone.componentLists = new ArrayList<>();
-      for (final ComponentList componentList : componentLists)
-        clone.componentLists.add(componentList.clone());
+      for (int i = 0, len = componentLists.size(); i < len; ++i) // [L]
+        clone.componentLists.add(componentLists.get(i).clone());
 
       final IdentityHashMap<E,E> clones = new IdentityHashMap<>();
-      for (int i = 0, len = clone.target.size(); i < len; ++i) {
-        final E item = (E)clone.target.get(i);
+      final List cloneList = clone.target;
+      for (int i = 0, len = cloneList.size(); i < len; ++i) { // [L]
+        final E item = (E)cloneList.get(i);
         final E copy = clone(item);
         clones.put(item, copy);
-        clone.target.set(i, copy);
+        cloneList.set(i, copy);
       }
 
       clone.typeToComponentList = new HashMap<>();
-      for (final ComponentList componentList : clone.componentLists) {
-        clone.typeToComponentList.put(componentList.type, componentList);
-        for (int i = 0, len = componentList.target.size(); i < len; ++i)
-          componentList.target.set(i, clones.get(componentList.target.get(i)));
+      final ArrayList<ComponentList> cloneCompontentLists = clone.componentLists;
+      for (int i = 0, lenI = cloneCompontentLists.size(); i < lenI; ++i) { // [L]
+        final ComponentList cloneComponentList = cloneCompontentLists.get(i);
+        clone.typeToComponentList.put(cloneComponentList.type, cloneComponentList);
+        final List cloneComponentListTarget = cloneComponentList.target;
+        for (int j = 0, lenJ = cloneComponentListTarget.size(); j < lenJ; ++j) // [L]
+          cloneComponentListTarget.set(j, clones.get(cloneComponentListTarget.get(j)));
       }
 
       return clone;

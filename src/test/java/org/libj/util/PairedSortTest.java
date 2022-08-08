@@ -30,7 +30,7 @@ public class PairedSortTest {
   private static final int ITERATIONS = 100;
 
   private static <T>void randomize(final List<T> a, final int[] b) {
-    for (int c = 0; c < b.length; ++c) {
+    for (int c = 0; c < b.length; ++c) { // [A]
       final int i1 = (int)(Math.random() * b.length);
       final T a1 = a.get(i1);
       final int b1 = b[i1];
@@ -47,7 +47,7 @@ public class PairedSortTest {
   }
 
   private static <T>void test(final List<T> data) {
-    for (int i = 0; i < ITERATIONS; ++i) {
+    for (int i = 0; i < ITERATIONS; ++i) { // [N]
       testForward(data);
       testReverse(data);
     }
@@ -90,7 +90,7 @@ public class PairedSortTest {
 
   private static void testN(final int n) {
     final List<Integer> list = new ArrayList<>(n);
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i) // [L]
       list.add(i);
 
     test(list);

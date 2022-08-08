@@ -151,7 +151,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   private void writeObject(final ObjectOutputStream s) throws IOException {
     s.writeInt(size);
-    for (int i = 0; i != size; ++i)
+    for (int i = 0; i != size; ++i) // [A]
       s.writeObject(elementData[deref(i)]);
   }
 
@@ -162,7 +162,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     elementData = tail < DEFAULT_CAPACITY ? new Object[DEFAULT_CAPACITY] : new Object[tail];
 
     // Read in all elements in the proper order
-    for (int i = 0; i < tail; ++i)
+    for (int i = 0; i < tail; ++i) // [A]
       elementData[i] = s.readObject();
   }
 
@@ -174,12 +174,12 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @Override
   public int indexOf(final Object o) {
     if (o == null) {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size; ++i) // [A]
         if (elementData[deref(i)] == null)
           return i;
     }
     else {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size; ++i) // [A]
         if (o.equals(elementData[deref(i)]))
           return i;
     }
@@ -190,12 +190,12 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @Override
   public int lastIndexOf(final Object o) {
     if (o == null) {
-      for (int i = size - 1; i >= 0; --i)
+      for (int i = size - 1; i >= 0; --i) // [A]
         if (elementData[deref(i)] == null)
           return i;
     }
     else {
-      for (int i = size - 1; i >= 0; --i)
+      for (int i = size - 1; i >= 0; --i) // [A]
         if (o.equals(elementData[deref(i)]))
           return i;
     }
@@ -264,7 +264,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     ++modCount;
     ensureCapacity(size + addedSize + 1);
     final Iterator<? extends E> it = c.iterator();
-    for (int i = 0; i < addedSize; ++i, ++size) {
+    for (int i = 0; i < addedSize; ++i, ++size) { // [I]
       elementData[tail] = it.next();
       tail = (tail + 1) % elementData.length;
     }
@@ -281,7 +281,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     ++modCount;
     ensureCapacity(size + addedSize + 1);
     // FIXME: This is a very inefficient algorithm!
-    for (final E e : c)
+    for (final E e : c) // [C]
       add(index, e);
 
     return true;
@@ -342,7 +342,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   protected void removeRange(final int fromIndex, final int toIndex) {
-    for (int i = fromIndex; i < toIndex; ++i)
+    for (int i = fromIndex; i < toIndex; ++i) // [A]
       remove(i);
   }
 
@@ -515,7 +515,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @Override
   public void clear() {
     ++modCount;
-    for (int i = 0; i != size; ++i)
+    for (int i = 0; i != size; ++i) // [A]
       elementData[deref(i)] = null;
 
     head = tail = size = 0;
@@ -552,7 +552,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   @Override
   public String toString() {
     final StringBuilder builder = new StringBuilder("[");
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) { // [A]
       if (i > 0)
         builder.append(", ");
 

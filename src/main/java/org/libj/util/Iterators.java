@@ -38,28 +38,23 @@ public final class Iterators {
   }
 
   /**
-   * Traverses {@code iterator} and executes {@code consumer} for each element
-   * in reverse order.
+   * Traverses {@code iterator} and executes {@code consumer} for each element in reverse order.
    * <p>
-   * Note: The implementation of this method uses recursion to execute
-   * {@code consumer} for each element in reverse order. If {@code iterator} is
-   * expected to have more than ~8000 elements, this method may cause a
-   * {@link StackOverflowError}.
+   * Note: The implementation of this method uses recursion to execute {@code consumer} for each element in reverse order. If
+   * {@code iterator} is expected to have more than ~8000 elements, this method may cause a {@link StackOverflowError}.
    *
    * @param <E> The type of elements in {@code iterator}.
    * @param iterator The {@link Iterator} to traverse.
    * @param consumer The {@link Consumer} to execute on each element.
-   * @throws IllegalArgumentException If {@code iterator} or {@code consumer} is
-   *           null.
+   * @throws IllegalArgumentException If {@code iterator} or {@code consumer} is null.
    */
   public static <E>void forEachRemainingReverse(final Iterator<E> iterator, final Consumer<? super E> consumer) {
     recurseNext(assertNotNull(iterator), assertNotNull(consumer));
   }
 
   /**
-   * Returns the number of elements in {@code iterator}. This method iterates
-   * over all elements in {@code iterator} to produce the count. Any subsequent
-   * use of the {@code iterator} is not possible.
+   * Returns the number of elements in {@code iterator}. This method iterates over all elements in {@code iterator} to produce the
+   * count. Any subsequent use of the {@code iterator} is not possible.
    *
    * @param iterator The {@link Iterator} in which to count elements.
    * @return The number of elements in {@code iterator}.
@@ -68,20 +63,18 @@ public final class Iterators {
   public static int getSize(final Iterator<?> iterator) {
     assertNotNull(iterator);
     int i = 0;
-    for (; iterator.hasNext(); ++i)
+    for (; iterator.hasNext(); ++i) // [I]
       iterator.next();
 
     return i;
   }
 
   /**
-   * Traverses the given iterator, and returns the last element or {@code null}
-   * if the iterator does not have any elements.
+   * Traverses the given iterator, and returns the last element or {@code null} if the iterator does not have any elements.
    *
    * @param <E> The type of elements returned by the given iterator.
    * @param iterator The {@link Iterator} from which to return the last element.
-   * @return The last element from the given iterator, or {@code null} if the
-   *         iterator does not have any elements.
+   * @return The last element from the given iterator, or {@code null} if the iterator does not have any elements.
    * @throws IllegalArgumentException If {@code iterator} is null.
    */
   public static <E>E lastElement(final Iterator<E> iterator) {
@@ -94,14 +87,12 @@ public final class Iterators {
   }
 
   /**
-   * Returns an {@link Iterator} that iterates over the elements of
-   * {@code iterator} satisfying the {@code filter} predicate.
+   * Returns an {@link Iterator} that iterates over the elements of {@code iterator} satisfying the {@code filter} predicate.
    *
    * @param <E> The type of elements in {@code iterator}.
    * @param iterator The source {@link Iterator}.
    * @param filter The filter {@link Predicate}.
-   * @return An {@link Iterator} that iterates over the elements of
-   *         {@code iterator} satisfying the {@code filter} predicate.
+   * @return An {@link Iterator} that iterates over the elements of {@code iterator} satisfying the {@code filter} predicate.
    * @throws IllegalArgumentException If {@code iterator} or {@code filter} is null.
    */
   public static <E>Iterator<E> filter(final Iterator<? extends E> iterator, final Predicate<? super E> filter) {
@@ -121,7 +112,7 @@ public final class Iterators {
           return false;
         }
 
-        for (E member; iterator.hasNext();) {
+        for (E member; iterator.hasNext();) { // [I]
           if (filter.test(member = iterator.next())) {
             next = member;
             consumed = false;
@@ -145,15 +136,13 @@ public final class Iterators {
   }
 
   /**
-   * Returns a "flat" {@link Iterator} for the specified N-dimensional array of
-   * type {@code <T>}, whereby all nested array members are flattened at every
-   * depth.
+   * Returns a "flat" {@link Iterator} for the specified N-dimensional array of type {@code <T>}, whereby all nested array members
+   * are flattened at every depth.
    *
    * @param <T> The type of the array.
    * @param <E> The type of the array members.
    * @param array The input array.
-   * @return A "flat" {@link Iterator} for the specified N-dimensional array of
-   *         type {@code <T>}.
+   * @return A "flat" {@link Iterator} for the specified N-dimensional array of type {@code <T>}.
    * @throws IllegalArgumentException If the specified array is null.
    */
   public static <T,E>Iterator<E> flatIterator(final T[] array) {
@@ -161,15 +150,13 @@ public final class Iterators {
   }
 
   /**
-   * Returns a "flat" {@link Iterator} for the specified N-dimensional list of
-   * type {@code <T>}, whereby all nested list members are flattened at every
-   * depth.
+   * Returns a "flat" {@link Iterator} for the specified N-dimensional list of type {@code <T>}, whereby all nested list members are
+   * flattened at every depth.
    *
    * @param <T> The type of the list.
    * @param <E> The type of the list elements.
    * @param list The input list.
-   * @return A "flat" {@link Iterator} for the specified N-dimensional array of
-   *         type {@code <T>}.
+   * @return A "flat" {@link Iterator} for the specified N-dimensional array of type {@code <T>}.
    * @throws IllegalArgumentException If the specified list is null.
    */
   public static <T,E>Iterator<E> flatIterator(final List<T> list) {

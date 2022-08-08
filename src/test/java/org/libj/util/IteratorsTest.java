@@ -36,7 +36,7 @@ public class IteratorsTest {
   public void testFlatArray() {
     final Object[] array = {null, new Object[] {}, new Object[] {0, new Object[] {new Object[] {new Object[] {}, new Object[] {}}, new Object[] {1, new Object[] {new Object[] {new Object[] {new Object[] {new Object[] {}, new Object[] {}}}}}, new Object[] {}, 2}, 3}, 4, null, new Object[] {5, 6, null}}, 7, new Object[] {null}, new Object[] {8, new Object[] {9, null}, 10}, 11, 12, new Object[] {null, null}};
     final Iterator<Integer> iterator = new FlatArrayIterator<>(array);
-    for (int i = 0; i < expected.length; ++i) {
+    for (int i = 0; i < expected.length; ++i) { // [A]
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
@@ -48,7 +48,7 @@ public class IteratorsTest {
   public void testFlatList() {
     final List<?> list = Arrays.asList(null, Collections.EMPTY_LIST, Arrays.asList(0, Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST), Arrays.asList(1, Arrays.asList(Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST))), Collections.EMPTY_LIST, 2), 3), 4, null, Arrays.asList(5, 6, null)), 7, Arrays.asList((Integer)null), Arrays.asList(8, Arrays.asList(9, null), 10), 11, 12, Arrays.asList(null, null));
     final Iterator<Integer> iterator = new FlatListIterator<>(list);
-    for (int i = 0; i < expected.length; ++i) {
+    for (int i = 0; i < expected.length; ++i) { // [A]
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
@@ -60,7 +60,7 @@ public class IteratorsTest {
   public void testIterableList() {
     final Collection<?> list = Arrays.asList(null, Collections.EMPTY_LIST, Arrays.asList(0, Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST), Arrays.asList(1, Arrays.asList(Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST))), Collections.EMPTY_LIST, 2), 3), 4, null, Arrays.asList(5, 6, null)), 7, Arrays.asList((Integer)null), Arrays.asList(8, Arrays.asList(9, null), 10), 11, 12, Arrays.asList(null, null));
     final Iterator<Integer> iterator = new FlatCollectionIterator<>(list);
-    for (int i = 0; i < expected.length; ++i) {
+    for (int i = 0; i < expected.length; ++i) { // [A]
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
@@ -73,15 +73,15 @@ public class IteratorsTest {
     final List<Number> list = Arrays.asList(0, 0d, 1, 1d, 2, BigInteger.ZERO, 3.4f, BigDecimal.ONE, 3, 2d, BigInteger.ONE, 10L, 4f, (short)8, (byte)62, 4, BigInteger.valueOf(2L));
 
     final Iterator<? super Integer> integerIterator = Iterators.filter(list.iterator(), m -> m instanceof Integer);
-    for (int i = 0; integerIterator.hasNext(); ++i)
+    for (int i = 0; integerIterator.hasNext(); ++i) // [I]
       assertEquals(i, integerIterator.next());
 
     final Iterator<? super BigInteger> bigIntegerIterator = Iterators.filter(list.iterator(), m -> m instanceof BigInteger);
-    for (int i = 0; bigIntegerIterator.hasNext(); ++i)
+    for (int i = 0; bigIntegerIterator.hasNext(); ++i) // [I]
       assertEquals(BigInteger.valueOf(i), bigIntegerIterator.next());
 
     final Iterator<? super Double> doubleIterator = Iterators.filter(list.iterator(), m -> m instanceof Double);
-    for (int i = 0; doubleIterator.hasNext(); ++i)
+    for (int i = 0; doubleIterator.hasNext(); ++i) // [I]
       assertEquals((double)i, doubleIterator.next());
   }
 
@@ -96,7 +96,7 @@ public class IteratorsTest {
   public void testToEnumeration() {
     final List<String> list = Arrays.asList("a", "b", "c");
     final Enumeration<String> enumeration = Iterators.toEnumeration(list.iterator());
-    for (int i = 0, len = list.size(); i < len; ++i) {
+    for (int i = 0, len = list.size(); i < len; ++i) { // [L]
       assertTrue(enumeration.hasMoreElements());
       assertEquals(list.get(i), enumeration.nextElement());
     }

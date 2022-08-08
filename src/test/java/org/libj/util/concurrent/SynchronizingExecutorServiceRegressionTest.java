@@ -84,7 +84,7 @@ public class SynchronizingExecutorServiceRegressionTest {
       }
     };
 
-    for (int j = 0; j < testConsumerThreads; j++) {
+    for (int j = 0; j < testConsumerThreads; j++) { // [N]
       if (this.error != null)
         fail(this.error);
 

@@ -57,7 +57,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    */
   default boolean addAll(final <x> ... a) {
     boolean changed = false;
-    for (int i = 0; i < a.length; ++i)
+    for (int i = 0; i < a.length; ++i) // [A]
       changed |= add(a[i]);
 
     return changed;
@@ -147,7 +147,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    */
   default boolean removeAll(final Collection<<XX>> c) {
     final int beforeSize = size();
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) {
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) { // [X]
       final <x> value = i.next();
       while (remove(value));
     }
@@ -239,7 +239,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @see #contains(<x>)
    */
   default boolean containsAll(final <X>Collection c) {
-    for (final <X>Iterator i = c.iterator(); i.hasNext();)
+    for (final <X>Iterator i = c.iterator(); i.hasNext();) // [X]
       if (!contains(i.next()))
         return false;
 
@@ -260,7 +260,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @see #contains(<x>)
    */
   default boolean containsAll(final Collection<<XX>> c) {
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();)
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [X]
       if (!contains(i.next()))
         return false;
 

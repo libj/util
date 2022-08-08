@@ -22,12 +22,10 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * A {@link Comparator} that accepts a fixed definition of terms specifying an
- * order. When {@link #compare(Comparable,Comparable)} is invoked, the
- * comparator first attempts to equate each argument to the order terms. If
- * either argument is matched, the term's order determines the result of the
- * comparison. If neither argument is matched, the result of the comparison is
- * determined by with {@link Comparable#compareTo(Object)}.
+ * A {@link Comparator} that accepts a fixed definition of terms specifying an order. When {@link #compare(Comparable,Comparable)}
+ * is invoked, the comparator first attempts to equate each argument to the order terms. If either argument is matched, the term's
+ * order determines the result of the comparison. If neither argument is matched, the result of the comparison is determined by with
+ * {@link Comparable#compareTo(Object)}.
  *
  * @param <T> The {@link Comparable} type of element to be compared.
  */
@@ -35,9 +33,8 @@ public class FixedOrderComparator<T extends Comparable<? super T>> implements Co
   private final T[] order;
 
   /**
-   * Creates a new {@link FixedOrderComparator} with the specified order of
-   * terms. The vararg array cannot be {@code null}, but member terms can be
-   * {@code null}.
+   * Creates a new {@link FixedOrderComparator} with the specified order of terms. The vararg array cannot be {@code null}, but
+   * member terms can be {@code null}.
    *
    * @param order The terms that defined the order.
    * @throws IllegalArgumentException If {@code order} is null.
@@ -49,7 +46,7 @@ public class FixedOrderComparator<T extends Comparable<? super T>> implements Co
 
   @Override
   public int compare(final T o1, final T o2) {
-    for (final T term : order) {
+    for (final T term : order) { // [A]
       if (term == null) {
         if (o1 == null)
           return o2 == null ? 0 : -1;

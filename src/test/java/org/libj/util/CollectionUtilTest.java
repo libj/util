@@ -30,7 +30,7 @@ import org.libj.lang.Strings;
 public class CollectionUtilTest {
   private static List<Object> createRandomNestedList() {
     final List<Object> list = new ArrayList<>(4);
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 4; ++i) // [N]
       list.add(Math.random() < 0.2 ? createRandomNestedList() : Strings.getRandomAlpha(4));
 
     return list;
@@ -55,7 +55,7 @@ public class CollectionUtilTest {
 
   @Test
   public void testFlattenListN() {
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       final List<Object> list = createRandomNestedList();
       final String expected = "[" + list.toString().replace("[", "").replace("]", "") + "]";
       CollectionUtil.flatten(list);
@@ -81,7 +81,7 @@ public class CollectionUtilTest {
 
   @Test
   public void testFlattenCollectionN() {
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       final List<Object> list = createRandomNestedList();
       final List<Object> result = CollectionUtil.flatten(list, new ArrayList<>());
       assertEquals("[" + list.toString().replace("[", "").replace("]", "") + "]", result.toString());
@@ -106,17 +106,17 @@ public class CollectionUtilTest {
   @Test
   public void testPartitions() {
     final List<String> list = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
-    for (int p = 1; p < list.size(); ++p) {
+    for (int p = 1; p < list.size(); ++p) { // [N]
       final List<String>[] partitions = CollectionUtil.partition(list, p);
       final int parts = list.size() / p;
       final int remainder = list.size() % p;
       assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);
-      for (int i = 0; i < parts; ++i)
-        for (int j = 0; j < p; ++j)
+      for (int i = 0; i < parts; ++i) // [L]
+        for (int j = 0; j < p; ++j) // [L]
           assertEquals(list.get(i * p + j), partitions[i].get(j));
 
       if (remainder != 0)
-        for (int j = 0; j < list.size() % p; ++j)
+        for (int j = 0, len = list.size(); j < len % p; ++j) // [L]
           assertEquals(list.get(p * parts + j), partitions[parts].get(j));
     }
   }
@@ -133,7 +133,7 @@ public class CollectionUtilTest {
     else {
       assertEquals(len, CollectionUtil.dedupe(list, c));
       final List<Integer> expected = new ArrayList<>(len);
-      for (int i = 0; i < len;)
+      for (int i = 0; i < len;) // [L]
         expected.add(++i);
 
       if (list.size() > len)

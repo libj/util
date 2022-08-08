@@ -168,7 +168,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
     s.writeInt(map.size());
 
     // Write out all elements in the proper order.
-    for (final E e : map.keySet())
+    for (final E e : map.keySet()) // [S]
       s.writeObject(e);
   }
 
@@ -197,7 +197,7 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
     map = new CloneableConcurrentHashMap<>(Math.max((int)(capacity / .75f) + 1, 16));
 
     // Read in all elements in the proper order.
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) { // [N]
       @SuppressWarnings("unchecked")
       final E e = (E)s.readObject();
       map.put(e, PRESENT);

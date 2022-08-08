@@ -246,7 +246,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public boolean addAll(final Collection<? extends E> c) {
     boolean changed = false;
-    for (final E e : c)
+    for (final E e : c) // [C]
       changed |= add(e);
 
     return changed;
@@ -265,7 +265,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (c.size() == 0)
       return false;
 
-    for (final E e : c)
+    for (final E e : c) // [C]
       add(index++, e);
 
     return true;
@@ -280,7 +280,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
    */
   @Override
   public void clear() {
-    for (int i = size() - 1; i >= 0; --i)
+    for (int i = size() - 1; i >= 0; --i) // [L]
       remove(i);
   }
 
@@ -294,12 +294,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   public boolean contains(final Object o) {
     final int size = size();
     if (o == null) {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size; ++i) // [L]
         if (get(i) == null)
           return true;
     }
     else {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size; ++i) // [L]
         if (equals(o, get(i)))
           return true;
     }
@@ -318,7 +318,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     if (c.size() == 0)
       return true;
 
-    for (final Object o : c)
+    for (final Object o : c) // [C]
       if (!contains(o))
         return false;
 
@@ -365,12 +365,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   public int indexOf(final Object o) {
     final int size = size();
     if (o == null) {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size; ++i) // [L]
         if (get(i) == null)
           return i;
     }
     else {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size; ++i) // [L]
         if (equals(o, get(i)))
           return i;
     }
@@ -387,12 +387,12 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public int lastIndexOf(final Object o) {
     if (o == null) {
-      for (int i = size() - 1; i >= 0; --i)
+      for (int i = size() - 1; i >= 0; --i) // [L]
         if (get(i) == null)
           return i;
     }
     else {
-      for (int i = size() - 1; i >= 0; --i)
+      for (int i = size() - 1; i >= 0; --i) // [L]
         if (equals(o, get(i)))
           return i;
     }
@@ -695,7 +695,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object e : c)
+    for (final Object e : c) // [C]
       changed |= remove(e);
 
     return changed;
@@ -711,7 +711,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
     final int size = size();
-    for (int i = size - 1; i >= 0; --i)
+    for (int i = size - 1; i >= 0; --i) // [L]
       if (filter.test(getFast(i)))
         removeFast(i);
 
@@ -729,7 +729,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   public boolean retainAll(final Collection<?> c) {
     if (c.size() > 0) {
       final int size = size();
-      for (int i = size - 1; i >= 0; --i)
+      for (int i = size - 1; i >= 0; --i) // [L]
         if (!c.contains(getFast(i)))
           remove(i);
 
@@ -874,7 +874,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       a = (T[])Array.newInstance(a.getClass().getComponentType(), size());
 
     final int size = size();
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < size; ++i) // [L]
       a[i] = (T)get(i);
 
     if (a.length > size())
@@ -941,7 +941,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   private void touchElements() {
-    for (int i = 0, len = size(); i < len; ++i)
+    for (int i = 0, len = size(); i < len; ++i) // [L]
       get(i);
   }
 
@@ -966,7 +966,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
 
     if (this instanceof RandomAccess) {
       if (that instanceof RandomAccess) {
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) { // [L]
           final Object e1 = get(i);
           final Object e2 = that.get(i);
           if (e1 == null ? e2 != null : !equals(e1, e2))
@@ -975,7 +975,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
       }
       else {
         final Iterator<?> thatIterator = that.iterator();
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) { // [L]
           final Object e1 = get(i);
           final Object e2 = thatIterator.next();
           if (e1 == null ? e2 != null : !equals(e1, e2))
@@ -985,7 +985,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     }
     else if (that instanceof RandomAccess) {
       final Iterator<?> thisIterator = that.iterator();
-      for (int i = 0; i < size; ++i) {
+      for (int i = 0; i < size; ++i) { // [L]
         final Object e1 = thisIterator.next();
         final Object e2 = that.get(i);
         if (e1 == null ? e2 != null : !equals(e1, e2))
@@ -995,7 +995,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
     else {
       final Iterator<?> thisIterator = that.iterator();
       final Iterator<?> thatIterator = that.iterator();
-      for (int i = 0; i < size; ++i) {
+      for (int i = 0; i < size; ++i) { // [L]
         final Object e1 = thisIterator.next();
         final Object e2 = thatIterator.next();
         if (e1 == null ? e2 != null : !equals(e1, e2))

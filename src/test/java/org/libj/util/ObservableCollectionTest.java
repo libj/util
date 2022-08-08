@@ -86,7 +86,7 @@ public class ObservableCollectionTest {
     };
 
     // add()
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       collection.add(expectedString = String.valueOf(i));
       assertAdded();
     }
@@ -96,7 +96,7 @@ public class ObservableCollectionTest {
     assertAdded();
 
     // remove()
-    for (int i = 0; i < 100; i += 7) {
+    for (int i = 0; i < 100; i += 7) { // [N]
       collection.remove(expectedString = String.valueOf(i));
       assertRemoved();
     }
@@ -113,7 +113,7 @@ public class ObservableCollectionTest {
     }
 
     // removeIf()
-    for (int i = 9; i < 100; i += 23) {
+    for (int i = 9; i < 100; i += 23) { // [N]
       final int index = i;
       collection.removeIf(s -> (expectedString = String.valueOf(index)).equals(s));
       assertRemoved();

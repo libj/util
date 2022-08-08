@@ -29,7 +29,7 @@ public abstract class PrimitiveSort {
 
   protected static int[] buildIndex(final int len) {
     final int[] idx = new int[len];
-    for (int i = 0; i < len; ++i)
+    for (int i = 0; i < len; ++i) // [A]
       idx[i] = i;
 
     return idx;
@@ -51,11 +51,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final byte[] tmp = new byte[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = tmp[i];
         tmp[i] = 0;
       }
@@ -78,11 +78,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final char[] tmp = new char[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = tmp[i];
         tmp[i] = 0;
       }
@@ -105,11 +105,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final short[] tmp = new short[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = tmp[i];
         tmp[i] = 0;
       }
@@ -132,11 +132,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final int[] tmp = new int[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = tmp[i];
         tmp[i] = 0;
       }
@@ -159,11 +159,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final long[] tmp = new long[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = tmp[i];
         tmp[i] = 0;
       }
@@ -186,11 +186,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final float[] tmp = new float[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = tmp[i];
         tmp[i] = 0;
       }
@@ -213,11 +213,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final double[] tmp = new double[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = tmp[i];
         tmp[i] = 0;
       }
@@ -241,11 +241,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final Object[] tmp = new Object[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data[idx[i]];
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data[i] = (T)tmp[i];
         tmp[i] = null;
       }
@@ -268,11 +268,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final char[] tmp = new char[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, tmp[i]);
         tmp[i] = 0;
       }
@@ -295,11 +295,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final short[] tmp = new short[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, tmp[i]);
         tmp[i] = 0;
       }
@@ -322,11 +322,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final int[] tmp = new int[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, tmp[i]);
         tmp[i] = 0;
       }
@@ -349,11 +349,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final long[] tmp = new long[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, tmp[i]);
         tmp[i] = 0;
       }
@@ -376,11 +376,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final float[] tmp = new float[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, tmp[i]);
         tmp[i] = 0;
       }
@@ -403,11 +403,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final double[] tmp = new double[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, tmp[i]);
         tmp[i] = 0;
       }
@@ -430,11 +430,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final byte[] tmp = new byte[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, tmp[i]);
         tmp[i] = 0;
       }
@@ -458,11 +458,11 @@ public abstract class PrimitiveSort {
     }
     else {
       final Object[] tmp = new Object[len];
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         tmp[i] = data.get(idx[i]);
       }
 
-      for (int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i) { // [A]
         data.set(i, (T)tmp[i]);
         tmp[i] = null;
       }
@@ -470,8 +470,7 @@ public abstract class PrimitiveSort {
   }
 
   /**
-   * Sorts the specified array of {@code byte}s, according to the provided
-   * {@link ByteComparator}.
+   * Sorts the specified array of {@code byte}s, according to the provided {@link ByteComparator}.
    *
    * @param a The array of {@code byte}s.
    * @param fromIndex The index of the first element, inclusive, to be sorted.
@@ -484,8 +483,7 @@ public abstract class PrimitiveSort {
   }
 
   /**
-   * Sorts the specified array of {@code char}s, according to the provided
-   * {@link CharComparator}.
+   * Sorts the specified array of {@code char}s, according to the provided {@link CharComparator}.
    *
    * @param a The array of {@code char}s.
    * @param fromIndex The index of the first element, inclusive, to be sorted.
@@ -498,8 +496,7 @@ public abstract class PrimitiveSort {
   }
 
   /**
-   * Sorts the specified array of {@code short}s, according to the provided
-   * {@link ShortComparator}.
+   * Sorts the specified array of {@code short}s, according to the provided {@link ShortComparator}.
    *
    * @param a The array of {@code short}s.
    * @param fromIndex The index of the first element, inclusive, to be sorted.
@@ -512,8 +509,7 @@ public abstract class PrimitiveSort {
   }
 
   /**
-   * Sorts the specified array of {@code int}s, according to the provided
-   * {@link IntComparator}.
+   * Sorts the specified array of {@code int}s, according to the provided {@link IntComparator}.
    *
    * @param a The array of {@code int}s.
    * @param fromIndex The index of the first element, inclusive, to be sorted.
@@ -526,8 +522,7 @@ public abstract class PrimitiveSort {
   }
 
   /**
-   * Sorts the specified array of {@code long}s, according to the provided
-   * {@link LongComparator}.
+   * Sorts the specified array of {@code long}s, according to the provided {@link LongComparator}.
    *
    * @param a The array of {@code long}s.
    * @param fromIndex The index of the first element, inclusive, to be sorted.
@@ -540,8 +535,7 @@ public abstract class PrimitiveSort {
   }
 
   /**
-   * Sorts the specified array of {@code float}s, according to the provided
-   * {@link FloatComparator}.
+   * Sorts the specified array of {@code float}s, according to the provided {@link FloatComparator}.
    *
    * @param a The array of {@code float}s.
    * @param fromIndex The index of the first element, inclusive, to be sorted.
@@ -554,8 +548,7 @@ public abstract class PrimitiveSort {
   }
 
   /**
-   * Sorts the specified array of {@code double}s, according to the provided
-   * {@link DoubleComparator}.
+   * Sorts the specified array of {@code double}s, according to the provided {@link DoubleComparator}.
    *
    * @param a The array of {@code double}s.
    * @param fromIndex The index of the first element, inclusive, to be sorted.

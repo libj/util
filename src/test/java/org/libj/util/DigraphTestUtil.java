@@ -25,15 +25,13 @@ import org.libj.lang.Strings;
 
 final class DigraphTestUtil {
   /**
-   * Create a {@code Digraph<T>} of the type {@code type} with the specified
-   * number of vertices and edges in (v, w) sequential linear order.
+   * Create a {@code Digraph<T>} of the type {@code type} with the specified number of vertices and edges in (v, w) sequential
+   * linear order.
    *
    * @param <T> The type of elements in the digraph.
    * @param edges The (v, w) pairs of edges in sequential order.
-   * @throws IllegalArgumentException If the endpoints of any edge are not in
-   *           prescribed range.
-   * @throws IllegalArgumentException If edges.length is not divisible by 2, or
-   *           if the input stream is in the wrong format
+   * @throws IllegalArgumentException If the endpoints of any edge are not in prescribed range.
+   * @throws IllegalArgumentException If edges.length is not divisible by 2, or if the input stream is in the wrong format
    * @return The {@code Digraph<T>}.
    */
   @SafeVarargs
@@ -42,7 +40,7 @@ final class DigraphTestUtil {
     if (edges.length % 2 != 0)
       throw new IllegalArgumentException("edges array must be (v, w) vertex pairs");
 
-    for (int i = 0; i < edges.length;)
+    for (int i = 0; i < edges.length;) // [A]
       digraph.add(edges[i++], edges[i++]);
 
     assertNotEquals(0, digraph.size());
@@ -51,7 +49,7 @@ final class DigraphTestUtil {
 
   static Digraph<String> createRandomDigraph(final int size, final boolean withNulls) {
     final Digraph<String> digraph = new Digraph<>();
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < size; ++i) // [L]
       digraph.add(withNulls && Math.random() < .2 ? null : Strings.getRandomAlpha(1), Math.random() < .1 ? null : Strings.getRandomAlpha(1));
 
     return digraph;
@@ -84,7 +82,8 @@ final class DigraphTestUtil {
     // verify cycle
     Object first = null;
     Object last = null;
-    for (final Object v : cycle) {
+    for (int i = 0, len = cycle.size(); i < len; ++i) { // [L]
+      final Object v = cycle.get(i);
       if (first == null)
         first = v;
 

@@ -34,7 +34,7 @@ public class ZipFilesTest {
   }
 
   private static File findJar(final String name) {
-    for (final File file : ClassLoaders.getClassPath()) {
+    for (final File file : ClassLoaders.getClassPath()) { // [A]
       if (file.toString().contains("/" + name + "-") && file.toString().endsWith(".jar"))
         return file;
     }

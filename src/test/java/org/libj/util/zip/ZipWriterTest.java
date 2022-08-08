@@ -75,7 +75,7 @@ public class ZipWriterTest {
   private static boolean deleteDir(final File dir) {
     final File[] files = dir.listFiles();
     if (files != null)
-      for (final File file : files)
+      for (final File file : files) // [A]
         deleteDir(file);
 
     return dir.delete();

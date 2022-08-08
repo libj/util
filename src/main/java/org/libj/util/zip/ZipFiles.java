@@ -37,23 +37,20 @@ public final class ZipFiles {
    * @param zipFile The {@link ZipFile}.
    * @param destDir The destination directory.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is
-   *           null.
+   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is null.
    */
   public static void extract(final ZipFile zipFile, final File destDir) throws IOException {
     extract(zipFile, destDir, null);
   }
 
   /**
-   * Extract a {@code zipFile} to {@code destDir}. Only entries that pass the
-   * {@code predicate} test will be extracted.
+   * Extract a {@code zipFile} to {@code destDir}. Only entries that pass the {@code predicate} test will be extracted.
    *
    * @param zipFile The {@link ZipFile}.
    * @param destDir The destination directory.
    * @param predicate The {@link Predicate} (can be null).
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is
-   *           null.
+   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is null.
    */
   public static void extract(final ZipFile zipFile, final File destDir, final Predicate<? super ZipEntry> predicate) throws IOException {
     assertNotNull(zipFile);
@@ -72,7 +69,7 @@ public final class ZipFiles {
 
       file.getParentFile().mkdirs();
       try (final InputStream in = zipFile.getInputStream(zipEntry); final FileOutputStream out = new FileOutputStream(file);) {
-        for (int ch; (ch = in.read()) != -1; out.write(ch));
+        for (int ch; (ch = in.read()) != -1; out.write(ch)); // [X]
       }
     }
   }

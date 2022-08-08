@@ -1,4 +1,4 @@
-/* Copyright (c) 2021 OpenJAX
+/* Copyright (c) 2021 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,10 +32,8 @@ public class CRC32 implements Checksum {
    *
    * poly=0x04c11db7 init=0xffffffff refin=true refout=true xorout=0xffffffff
    *
-   * @see <a href="http://en.wikipedia.org/wiki/Cyclic_redundancy_check">Cyclic
-   *      redundancy check</a>
-   * @see <a href="http://reveng.sourceforge.net/crc-catalogue/17plus.htm">CRC
-   *      RevEng</a>
+   * @see <a href="http://en.wikipedia.org/wiki/Cyclic_redundancy_check">Cyclic redundancy check</a>
+   * @see <a href="http://reveng.sourceforge.net/crc-catalogue/17plus.htm">CRC RevEng</a>
    */
   private static final int[] CRC_TABLE = {
     0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA,
@@ -107,8 +105,7 @@ public class CRC32 implements Checksum {
   private int crc = ~0;
 
   /**
-   * Updates the CRC-32 checksum with the specified byte (the low eight bits of
-   * the argument b).
+   * Updates the CRC-32 checksum with the specified byte (the low eight bits of the argument b).
    *
    * @param b The byte to update the checksum with.
    */
@@ -120,19 +117,18 @@ public class CRC32 implements Checksum {
   /**
    * Updates the CRC-32 checksum with the specified array of bytes.
    *
-   * @throws ArrayIndexOutOfBoundsException If {@code off} is negative, or
-   *           {@code len} is negative, or {@code off+len} is greater than the
-   *           length of the array {@code b}.
+   * @throws ArrayIndexOutOfBoundsException If {@code off} is negative, or {@code len} is negative, or {@code off+len} is greater
+   *           than the length of the array {@code b}.
    */
   @Override
   public void update(final byte[] b, final int off, int len) {
-    for (int i = off; len > 0; --len)
+    for (int i = off; len > 0; --len) // [A]
       update(b[i++]);
   }
 
   public static void updateX(final byte[] bytes) {
     int crc = ~0;
-    for (int i = 0, len = bytes.length; len > 0; --len)
+    for (int i = 0, len = bytes.length; len > 0; --len) // [A]
       crc = ((crc >>> 8) ^ CRC_TABLE[(crc ^ (bytes[i++] & 0xFF)) & 0xFF]);
   }
 
@@ -141,8 +137,9 @@ public class CRC32 implements Checksum {
    *
    * @param b The array of bytes to update the checksum with.
    */
+  @Override
   public void update(final byte[] b) {
-    for (int i = 0; i < b.length; i++)
+    for (int i = 0; i < b.length; i++) // [A]
       update(b[i]);
   }
 

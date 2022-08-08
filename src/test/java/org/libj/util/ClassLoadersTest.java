@@ -26,7 +26,7 @@ public class ClassLoadersTest {
   @Test
   public void test() {
     final File[] classpath = ClassLoaders.getClassPath();
-    for (final File path : classpath)
+    for (final File path : classpath) // [A]
       if (path.getAbsolutePath().contains("junit"))
         return;
 

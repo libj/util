@@ -25,10 +25,10 @@ public class ConcurrentHashSetTest {
   @Test
   public void test() {
     final ConcurrentHashSet<String> set = new ConcurrentHashSet<>();
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       new Thread(() -> {
         try {
-          for (int j = 0; j < 1000; ++j) {
+          for (int j = 0; j < 1000; ++j) { // [N]
             Thread.sleep((int)(Math.random() * 10));
 
             set.add(Strings.getRandomAlpha(3));

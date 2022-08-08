@@ -37,7 +37,7 @@ public final class SimpleDateFormats {
     final int offsetHours = Integer.parseInt(offset.substring(0, 3));
     final int offsetMinutes = Integer.parseInt(offset.substring(3));
 
-    for (final String timeZoneID : timeZoneIDs) {
+    for (final String timeZoneID : timeZoneIDs) { // [A]
       final TimeZone timeZone = TimeZone.getTimeZone(timeZoneID);
       final long hours = TimeUnit.MILLISECONDS.toHours(timeZone.getRawOffset());
       final long minutes = Math.abs(TimeUnit.MILLISECONDS.toMinutes(timeZone.getRawOffset()) % 60);
@@ -54,7 +54,7 @@ public final class SimpleDateFormats {
 
       IsoDateFormats(final Locale locale, final String ... patterns) {
         this.formats = new IsoDateFormat[patterns.length];
-        for (int i = 0; i < patterns.length; ++i)
+        for (int i = 0; i < patterns.length; ++i) // [A]
           this.formats[i] = locale != null ? new IsoDateFormat(patterns[i], locale, i) : new IsoDateFormat(patterns[i], i);
       }
 
@@ -63,7 +63,7 @@ public final class SimpleDateFormats {
         final String tzPart = text.substring(text.lastIndexOf(' ') + 1);
         final int i = tzPart.charAt(0) != '+' && tzPart.charAt(0) != '-' ? 1 : 0;
         // FIXME: Need to finish this...
-//        for (int i = 0; i < formats.length; ++i) {
+//        for (int i = 0; i < formats.length; ++i) { // [A]
           final IsoDateFormat format = formats[i];
 
           format.setTimeZone(fetchTimeZone(tzPart));
@@ -171,13 +171,11 @@ public final class SimpleDateFormats {
   }
 
   /**
-   * Returns a new {@link Date} object representing the {@code time} with the
-   * provided {@link SimpleDateFormat} that is to be used by the
-   * {@link Date#toString()} of the returned date.
+   * Returns a new {@link Date} object representing the {@code time} with the provided {@link SimpleDateFormat} that is to be used
+   * by the {@link Date#toString()} of the returned date.
    *
    * @param time The milliseconds since January 1, 1970, 00:00:00 GMT.
-   * @param format The {@link SimpleDateFormat} that is to be used by the
-   *          {@link Date#toString()} of the returned date.
+   * @param format The {@link SimpleDateFormat} that is to be used by the {@link Date#toString()} of the returned date.
    * @return A new {@link Date} object representing the {@code time}.
    */
   public static Date newDate(final long time, final ThreadLocal<SimpleDateFormat> format) {

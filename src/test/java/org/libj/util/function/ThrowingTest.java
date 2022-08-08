@@ -92,7 +92,7 @@ public class ThrowingTest {
           throw new IOException("i=" + i);
       });
 
-      for (int i = 3; i >= 0; --i)
+      for (int i = 3; i >= 0; --i) // [N]
         consumer.accept(i, -i);
 
       fail("Expected IOException");
@@ -111,7 +111,7 @@ public class ThrowingTest {
           throw new IOException("i=" + i);
       });
 
-      for (int i = 3; i >= 0; --i)
+      for (int i = 3; i >= 0; --i) // [N]
         consumer.accept(null, i);
 
       fail("Expected IOException");
@@ -130,7 +130,7 @@ public class ThrowingTest {
           throw new IOException("i=" + i);
       });
 
-      for (int i = 3; i >= 0; --i)
+      for (int i = 3; i >= 0; --i) // [N]
         consumer.accept(i, -i, i);
 
       fail("Expected IOException");
@@ -173,7 +173,7 @@ public class ThrowingTest {
         return false;
       });
 
-      for (int i = 3; i >= 0; --i)
+      for (int i = 3; i >= 0; --i) // [N]
         predicate.test(i, -i);
 
       fail("Expected IOException");
@@ -216,7 +216,7 @@ public class ThrowingTest {
         return String.valueOf(i);
       });
 
-      for (int i = 3; i >= 0; --i)
+      for (int i = 3; i >= 0; --i) // [N]
         function.apply(i, -i);
 
       fail("Expected IOException");

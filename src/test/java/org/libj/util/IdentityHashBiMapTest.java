@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class IdentityHashBiMapTest {
   public static void test(final IdentityHashBiMap<Integer,String> map, final int offset, final boolean testClone) {
-    for (int i = offset; i < 100 + offset; ++i) {
+    for (int i = offset; i < 100 + offset; ++i) { // [N]
       final Integer index = i + offset;
       final String value = String.valueOf(index).intern();
       map.put(index, value);

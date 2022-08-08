@@ -213,7 +213,7 @@ class <X>PairedTimSort extends PrimitiveTimSort {
     if (start == lo)
       ++start;
 
-    for (; start < hi; ++start) {
+    for (; start < hi; ++start) { // [N]
       final <x> pivot = a[start];
       final Object v0 = v[start];
 

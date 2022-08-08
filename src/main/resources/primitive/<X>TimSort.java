@@ -198,7 +198,7 @@ class <X>TimSort extends PrimitiveTimSort {
     if (start == lo)
       ++start;
 
-    for (; start < hi; ++start) {
+    for (; start < hi; ++start) { // [N]
       final <x> pivot = a[start];
 
       // Set left (and right) to the index where a[start] (pivot) belongs

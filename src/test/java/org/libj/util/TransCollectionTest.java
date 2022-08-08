@@ -59,7 +59,7 @@ public class TransCollectionTest {
   @Test
   public void test() {
     final Collection<Integer> source = new ArrayList<>();
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; ++i) // [N]
       source.add(i);
 
     test(new TransCollection<>(source, String::valueOf, Integer::valueOf));

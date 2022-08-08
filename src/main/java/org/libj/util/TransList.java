@@ -72,14 +72,14 @@ public class TransList<S,T> extends DelegateList<T> {
 
     final int size = size();
     if (o != null) {
-      for (int i = 0; i < size; ++i) {
+      for (int i = 0; i < size; ++i) { // [L]
         final S e = (S)target.get(i);
         if (o.equals(sourceToTarget.apply(i, e)))
           return true;
       }
     }
     else {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size; ++i) // [L]
         if (target.get(i) == null)
           return true;
     }
@@ -122,7 +122,7 @@ public class TransList<S,T> extends DelegateList<T> {
       throw new UnsupportedOperationException();
 
     final Object[] array = new Object[size()];
-    for (int i = 0; i < size(); ++i) {
+    for (int i = 0; i < size(); ++i) { // [L]
       final S e = (S)target.get(i);
       array[i] = e == null ? null : sourceToTarget.apply(i, e);
     }
@@ -137,7 +137,7 @@ public class TransList<S,T> extends DelegateList<T> {
       throw new UnsupportedOperationException();
 
     final int size = size();
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) { // [L]
       final S e = (S)target.get(i);
       a[i] = e == null ? null : (E)sourceToTarget.apply(i, e);
     }
@@ -160,7 +160,7 @@ public class TransList<S,T> extends DelegateList<T> {
       throw new UnsupportedOperationException();
 
     final int size = size();
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) { // [L]
       final S e = (S)target.get(i);
       final T t = sourceToTarget.apply(i, e);
       if (Objects.equals(o, t)) {
@@ -177,7 +177,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (c.size() == 0)
       return true;
 
-    for (final Object e : c)
+    for (final Object e : c) // [C]
       if (contains(e))
         return true;
 
@@ -187,7 +187,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   public boolean addAll(final Collection<? extends T> c) {
     boolean changed = false;
-    for (final T e : c)
+    for (final T e : c) // [C]
       changed |= add(e);
 
     return changed;
@@ -196,7 +196,7 @@ public class TransList<S,T> extends DelegateList<T> {
   @Override
   public boolean removeAll(final Collection<?> c) {
     boolean changed = false;
-    for (final Object e : c)
+    for (final Object e : c) // [C]
       changed |= remove(e);
 
     return changed;
@@ -207,7 +207,7 @@ public class TransList<S,T> extends DelegateList<T> {
   public boolean retainAll(final Collection<?> c) {
     boolean changed = false;
     final int size = size();
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) { // [L]
       final S e = (S)target.get(i);
       if (!c.contains(e == null ? null : sourceToTarget.apply(i, e))) {
         target.remove(i);
@@ -223,7 +223,7 @@ public class TransList<S,T> extends DelegateList<T> {
     if (c.size() == 0)
       return false;
 
-    for (final T e : c)
+    for (final T e : c) // [C]
       add(index++, e);
 
     return true;

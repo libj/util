@@ -96,7 +96,7 @@ public class DigraphTest {
         forwards.add(forward);
       }
 
-      for (int i = 0, len = keys.size(); i < len; ++i) {
+      for (int i = 0, len = keys.size(); i < len; ++i) { // [L]
         final String key = keys.get(i);
         addEdges(digraph, key, forwards.get(i), true);
         addEdges(digraph, key, reverses.get(i), false);
@@ -111,7 +111,7 @@ public class DigraphTest {
       return digraph.add(key);
 
     boolean changed = false;
-    for (final String edge : edges) {
+    for (final String edge : edges) { // [S]
       if (forward)
         changed |= digraph.add(key, edge);
       else
@@ -126,7 +126,7 @@ public class DigraphTest {
     testRemoveAdd(digraph1);
     testRemoveAdd(digraph2);
     testRemoveAdd(digraph3);
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 1000; ++i) // [N]
       testRemoveAdd(createRandomDigraph((int)(Math.random() * 20), true));
   }
 
@@ -200,7 +200,7 @@ public class DigraphTest {
     final Set<Integer> keys = digraph.keySet();
     final Set<Map.Entry<Integer,Set<Integer>>> entries = digraph.entrySet();
     assertTrue(keys.remove(4));
-    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();)
+    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();) // [S]
       if (iterator.next().getKey() == 4)
         fail("Expected 4 to be removed");
 
@@ -222,7 +222,7 @@ public class DigraphTest {
     final Set<Integer> keys = digraph.keySet();
     assertTrue(keys.contains(4));
     final Set<Map.Entry<Integer,Set<Integer>>> entries = digraph.entrySet();
-    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();)
+    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();) // [S]
       if (iterator.next().getKey() == 4)
         iterator.remove();
 

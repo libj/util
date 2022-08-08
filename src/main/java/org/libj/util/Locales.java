@@ -28,12 +28,10 @@ import java.util.Locale;
  */
 public final class Locales {
   /**
-   * Returns {@code true} if the provided {@link Locale} specifies an ISO
-   * country and ISO language, otherwise {@code false}.
+   * Returns {@code true} if the provided {@link Locale} specifies an ISO country and ISO language, otherwise {@code false}.
    *
    * @param locale The {@link Locale}.
-   * @return {@code true} if the provided {@link Locale} specifies an ISO
-   *         country and ISO language, otherwise {@code false}.
+   * @return {@code true} if the provided {@link Locale} specifies an ISO country and ISO language, otherwise {@code false}.
    */
   public static boolean isIso(final Locale locale) {
     if (!isIsoCountry(locale))
@@ -46,12 +44,10 @@ public final class Locales {
   }
 
   /**
-   * Returns {@code true} if the provided {@link Locale} specifies an ISO
-   * country, otherwise {@code false}.
+   * Returns {@code true} if the provided {@link Locale} specifies an ISO country, otherwise {@code false}.
    *
    * @param locale The {@link Locale}.
-   * @return {@code true} if the provided {@link Locale} specifies an ISO
-   *         country, otherwise {@code false}.
+   * @return {@code true} if the provided {@link Locale} specifies an ISO country, otherwise {@code false}.
    */
   public static boolean isIsoCountry(final Locale locale) {
     if (locale == null)
@@ -61,7 +57,7 @@ public final class Locales {
     if (country == null)
       return false;
 
-    for (final String isoCountry : Locale.getISOCountries())
+    for (final String isoCountry : Locale.getISOCountries()) // [A]
       if (country.equals(isoCountry))
         return true;
 
@@ -69,12 +65,10 @@ public final class Locales {
   }
 
   /**
-   * Returns {@code true} if the provided {@link Locale} specifies an ISO
-   * language, otherwise {@code false}.
+   * Returns {@code true} if the provided {@link Locale} specifies an ISO language, otherwise {@code false}.
    *
    * @param locale The {@link Locale}.
-   * @return {@code true} if the provided {@link Locale} specifies an ISO
-   *         language, otherwise {@code false}.
+   * @return {@code true} if the provided {@link Locale} specifies an ISO language, otherwise {@code false}.
    */
   public static boolean isIsoLanguage(final Locale locale) {
     if (locale == null)
@@ -84,7 +78,7 @@ public final class Locales {
     if (language == null)
       return false;
 
-    for (final String isoLanguage : Locale.getISOLanguages())
+    for (final String isoLanguage : Locale.getISOLanguages()) // [A]
       if (language.equals(isoLanguage))
         return true;
 
@@ -92,15 +86,13 @@ public final class Locales {
   }
 
   /**
-   * Returns a {@link Locale} representation of a string based locale that is in
-   * the form of RFC 1766 (i.e. {@code "{language}-{country}"}), or {@code null}
-   * if the specified string is null. Examples: {@code "en"}, {@code "fr-CH"},
+   * Returns a {@link Locale} representation of a string based locale that is in the form of RFC 1766 (i.e.
+   * {@code "{language}-{country}"}), or {@code null} if the specified string is null. Examples: {@code "en"}, {@code "fr-CH"},
    * {@code "i-cherokee"}.
    *
    * @param str The string.
-   * @return A {@link Locale} representation of a string based locale that has
-   *         the form {@code "{language}_{country}_{variant}"}, or {@code null}
-   *         if the specified string is null.
+   * @return A {@link Locale} representation of a string based locale that has the form {@code "{language}_{country}_{variant}"}, or
+   *         {@code null} if the specified string is null.
    */
   public static Locale fromRFC1766(String str) {
     if (str == null)
@@ -118,15 +110,13 @@ public final class Locales {
   }
 
   /**
-   * Returns a {@link Locale} representation of a string based locale that has
-   * the form {@code "{language}_{country}_{variant}"}, or {@code null} if the
-   * specified string is null. Examples: {@code "en"}, {@code "de_DE"},
-   * {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"}, {@code "fr_MAC"}.
+   * Returns a {@link Locale} representation of a string based locale that has the form {@code "{language}_{country}_{variant}"}, or
+   * {@code null} if the specified string is null. Examples: {@code "en"}, {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"},
+   * {@code "de__POSIX"}, {@code "fr_MAC"}.
    *
    * @param str The string.
-   * @return A {@link Locale} representation of a string based locale that has
-   *         the form {@code "{language}_{country}_{variant}"}, or {@code null}
-   *         if the specified string is null.
+   * @return A {@link Locale} representation of a string based locale that has the form {@code "{language}_{country}_{variant}"}, or
+   *         {@code null} if the specified string is null.
    */
   public static Locale parse(final String str) {
     if (str == null)
@@ -163,38 +153,32 @@ public final class Locales {
   }
 
   /**
-   * Returns an array of {@link Locale} objects that represent the string based
-   * locale elements in {@code strings} that have the form
-   * {@code "{language}_{country}_{variant}"}. Examples: {@code "en"},
-   * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
-   * {@code "fr_MAC"}.
+   * Returns an array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
+   * form {@code "{language}_{country}_{variant}"}. Examples: {@code "en"}, {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"},
+   * {@code "de__POSIX"}, {@code "fr_MAC"}.
    *
    * @param strings The {@link Collection} of strings.
-   * @return An array of {@link Locale} objects that represent the string based
-   *         locale elements in {@code strings} that have the form
-   *         {@code "{language}_{country}_{variant}"}.
+   * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
+   *         form {@code "{language}_{country}_{variant}"}.
    * @throws IllegalArgumentException If {@code strings} is null.
    */
   public static Locale[] parse(final Collection<String> strings) {
     final Locale[] locales = new Locale[assertNotNull(strings).size()];
     final Iterator<String> iterator = strings.iterator();
-    for (int i = 0; iterator.hasNext(); ++i)
+    for (int i = 0; iterator.hasNext(); ++i) // [I]
       locales[i] = parse(iterator.next());
 
     return locales;
   }
 
   /**
-   * Returns an array of {@link Locale} objects that represent the string based
-   * locale elements in {@code enumeration} that have the form
-   * {@code "{language}_{country}_{variant}"}. Examples: {@code "en"},
-   * {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"}, {@code "de__POSIX"},
-   * {@code "fr_MAC"}.
+   * Returns an array of {@link Locale} objects that represent the string based locale elements in {@code enumeration} that have the
+   * form {@code "{language}_{country}_{variant}"}. Examples: {@code "en"}, {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"},
+   * {@code "de__POSIX"}, {@code "fr_MAC"}.
    *
    * @param enumeration The {@link Enumeration} of strings.
-   * @return An array of {@link Locale} objects that represent the string based
-   *         locale elements in {@code strings} that have the form
-   *         {@code "{language}_{country}_{variant}"}.
+   * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
+   *         form {@code "{language}_{country}_{variant}"}.
    * @throws IllegalArgumentException If {@code enumeration} is null.
    */
   public static Locale[] parse(final Enumeration<String> enumeration) {

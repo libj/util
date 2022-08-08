@@ -30,7 +30,7 @@ public class CircularArrayListTest {
   @Test
   public void test() {
     final List<Integer> c = new CircularArrayList<>(5);
-    for (int i = 8; i >= 0; --i) {
+    for (int i = 8; i >= 0; --i) { // [L]
       c.add(0, i);
       logger.info(c.toString());
     }
@@ -39,12 +39,12 @@ public class CircularArrayListTest {
   @Test
   public void testAddAndRemove() {
     final Integer[] array = new Integer[5];
-    for (int i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i) // [A]
       array[i] = Integer.valueOf(i);
 
     final List<Integer> list = new CircularArrayList<>();
 
-    for (Integer i = 0; i < 5; ++i) {
+    for (Integer i = 0; i < 5; ++i) { // [N]
       list.add(i);
       assertEquals(i, array[i]);
       assertTrue(list.contains(i));

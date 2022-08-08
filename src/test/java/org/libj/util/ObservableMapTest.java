@@ -92,7 +92,7 @@ public class ObservableMapTest {
     };
 
     // put()
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       map.put(expectedKey = i, expectedValue = String.valueOf(i));
       assertPut();
     }
@@ -102,7 +102,7 @@ public class ObservableMapTest {
     assertPut();
 
     // remove()
-    for (int i = 0; i < 100; i += 7) {
+    for (int i = 0; i < 100; i += 7) { // [N]
       expectedValue = String.valueOf(i);
       map.remove(expectedKey = i);
       assertRemoved();
@@ -122,7 +122,7 @@ public class ObservableMapTest {
 
     final Set<Integer> keys = map.keySet();
     // removeIf()
-    for (int i = 9; i < 100; i += 23) {
+    for (int i = 9; i < 100; i += 23) { // [N]
       final int index = i;
       expectedValue = String.valueOf(index);
       keys.removeIf(s -> (expectedKey = index).equals(s));

@@ -292,7 +292,7 @@ public interface <X>List extends <X>Collection {
   @Override
   default boolean removeAll(final <x> ... values) {
     final int beforeSize = size();
-    for (int i = 0; i < values.length; ++i)
+    for (int i = 0; i < values.length; ++i) // [A]
       while (remove(values[i]));
 
     return beforeSize != size();
@@ -311,7 +311,7 @@ public interface <X>List extends <X>Collection {
   @Override
   default boolean removeAll(final <X>Collection c) {
     final int beforeSize = size();
-    for (final <X>Iterator iterator = c.iterator(); iterator.hasNext();) {
+    for (final <X>Iterator iterator = c.iterator(); iterator.hasNext();) { // [X]
       final <x> value = iterator.next();
       while (remove(value));
     }
@@ -335,7 +335,7 @@ public interface <X>List extends <X>Collection {
   @Override
   default boolean removeAll(final Collection<<XX>> c) {
     final int beforeSize = size();
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) {
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) { // [X]
       final <x> value = i.next();
       while (remove(value));
     }
@@ -417,7 +417,7 @@ public interface <X>List extends <X>Collection {
    * @see #contains(<x>)
    */
   default boolean containsAll(final <x> ... values) {
-    for (int i = 0; i < values.length; ++i)
+    for (int i = 0; i < values.length; ++i) // [A]
       if (!contains(values[i]))
         return false;
 

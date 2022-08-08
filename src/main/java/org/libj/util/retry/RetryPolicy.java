@@ -429,7 +429,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
     Exception previousException = null;
-    for (int attemptNo = 1;; ++attemptNo) {
+    for (int attemptNo = 1;; ++attemptNo) { // [N]
       if (onRetry != null)
         onRetry.accept(attemptNo);
 

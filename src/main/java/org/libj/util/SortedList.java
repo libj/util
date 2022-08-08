@@ -93,8 +93,8 @@ public class SortedList<E> extends ObservableList<E> {
       if (o.equals(a))
         return i;
 
-      for (int sign = -1;; sign = 1) {
-        for (int offset = 1, j;; ++offset) {
+      for (int sign = -1;; sign = 1) { // [L]
+        for (int offset = 1, j;; ++offset) { // [L]
           j = i + sign * offset;
           if (sign == -1 ? j < fromIndex : toIndex <= j)
             break;
@@ -167,7 +167,7 @@ public class SortedList<E> extends ObservableList<E> {
 
     final Iterator<?> iterator = c.iterator();
     if (c instanceof SortedList) {
-      for (int i = 0; iterator.hasNext();)
+      for (int i = 0; iterator.hasNext();) // [I]
         if ((i = indexOf(iterator.next(), i, size())) < 0)
           return false;
     }
@@ -188,7 +188,7 @@ public class SortedList<E> extends ObservableList<E> {
       E elem;
       E prev = null;
       boolean removed = false;
-      for (int i = last; i >= 0; --i, prev = elem) {
+      for (int i = last; i >= 0; --i, prev = elem) { // [L]
         elem = getFast(i);
         final boolean isSameAsPrev = i != last && (Objects.equals(prev, elem));
         if (!isSameAsPrev) {

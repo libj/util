@@ -142,10 +142,10 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   }
 
   private static void assertSubListsEaual(final Array<X>List[] ... lists) {
-    for (int i = 1; i < lists.length; ++i) {
+    for (int i = 1; i < lists.length; ++i) { // [A]
       final Array<X>List[] a = lists[i - 1];
       final Array<X>List[] b = lists[i];
-      for (int j = 0; j < a.length; ++j)
+      for (int j = 0; j < a.length; ++j) // [A]
         Assert.assertEquals((char)('a' + i - 1) + "[" + j + "] != " + (char)('a' + i) + "[" + j + "]: ", a[j], b[j]);
     }
   }
@@ -267,11 +267,11 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
     assertSubListsEaual(baseline, a);
 
     a[0].clear();
-    for (int i = 1; i < a.length; ++i)
+    for (int i = 1; i < a.length; ++i) // [A]
       Assert.assertEquals("a[" + (i - 1) + "] != " + "a[" + i + "]: ", a[i - 1].size(), a[i].size());
 
     a[0].add((<x>)100);
-    for (int i = 2; i < a.length; ++i)
+    for (int i = 2; i < a.length; ++i) // [A]
       Assert.assertEquals("a[" + (i - 1) + "] != " + "a[" + i + "]: ", a[i - 1].size(), a[i].size());
 
     a[0].removeIndex(0);
@@ -483,7 +483,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   public void testIterator(final <x>[] values, final Array<X>List list) {
     assertEquals(values.length, list.size());
     <X>Iterator iterator = list.iterator();
-    for (int i = 0; i < values.length; ++i)
+    for (int i = 0; i < values.length; ++i) // [A]
       assertEquals(values[i], iterator.next());
 
     assertFalse(iterator.hasNext());
@@ -539,7 +539,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
 
   public void testListIterator(final <x>[] values, final Array<X>List list) {
     <X>ListIterator iterator = list.listIterator();
-    for (int i = 0; i < values.length; ++i) {
+    for (int i = 0; i < values.length; ++i) { // [A]
       assertEquals(i, iterator.nextIndex());
       assertEquals(values[i], iterator.next());
     }
@@ -553,7 +553,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
     }
 
     iterator = list.listIterator(values.length);
-    for (int i = values.length - 1; i >= 0; --i) {
+    for (int i = values.length - 1; i >= 0; --i) { // [A]
       assertEquals(i, iterator.previousIndex());
       assertEquals(values[i], iterator.previous());
     }
@@ -620,7 +620,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldAddAtIndex() {
     final int count = 20;
-    for (<x> i = 0; i < count; ++i)
+    for (<x> i = 0; i < count; ++i) // [L]
       list.add(i);
 
     list.add(10, (<x>)111);
@@ -634,7 +634,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   public void shouldAddValueAtIndexWithNearlyFullCapacity() {
     final int count = Array<X>List.DEFAULT_INITIAL_CAPACITY - 1;
     final <x> value = count + 1;
-    for (<x> i = 0; i < count; ++i)
+    for (<x> i = 0; i < count; ++i) // [L]
       list.add(i);
 
     list.add(0, value);
@@ -656,10 +656,10 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldContainCorrectValues() {
     final int count = 20;
-    for (<x> i = 0; i < count; ++i)
+    for (<x> i = 0; i < count; ++i) // [L]
       list.add(i);
 
-    for (<x> i = 0; i < count; ++i)
+    for (<x> i = 0; i < count; ++i) // [L]
       assertTrue(list.contains(i));
 
     assertFalse(list.contains((<x>)-1));
@@ -677,7 +677,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldRemoveAtIndex() {
     final int count = 20;
-    for (int i = 0; i < count; ++i)
+    for (int i = 0; i < count; ++i) // [L]
       list.add((<x>)i);
 
     assertEquals(10, list.removeIndex(10));
@@ -689,7 +689,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldRemoveByValue() {
     final int count = 20;
-    for (<x> i = 0; i < count; ++i)
+    for (<x> i = 0; i < count; ++i) // [L]
       list.add((<x>)(i * 10));
 
     assertTrue(list.remove((<x>)10));
@@ -701,7 +701,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
 //  @Test
 //  public void shouldForEachOrderedInt() {
 //    final List<<XX>> expected = new ArrayList<>();
-//    for (int i = 0; i < 20; ++i)
+//    for (int i = 0; i < 20; ++i) // [L]
 //      expected.add((<x>)i);
 //
 //    list.addAll(expected);
@@ -716,7 +716,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
 //  public void shouldCreateObjectRefArray() {
 //    final int count = 20;
 //    final List<<XX>> expected = new ArrayList<>();
-//    for (int i = 0; i < count; ++i)
+//    for (int i = 0; i < count; ++i) // [L]
 //      expected.add((<x>)i);
 //
 //    list.addAll(expected);
@@ -730,7 +730,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   public void shouldCreateIntArray() {
     final int count = 20;
     final <x>[] expected = new <x>[count];
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < count; ++i) { // [L]
       list.add((<x>)i);
       expected[i] = (<x>)i;
     }
@@ -748,7 +748,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   public void shouldCreate<XX>Array() {
     final int count = 20;
     final <XX>[] expected = new <XX>[count];
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < count; ++i) { // [L]
       list.add((<x>)i);
       expected[i] = (<x>)i;
     }
@@ -761,10 +761,10 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   @Test
   public void shouldPushAndThenPopInOrder() {
     final int count = 7;
-    for (<x> i = 0; i < count; ++i)
+    for (<x> i = 0; i < count; ++i) // [L]
       list.push(i);
 
-    for (int i = count - 1; i >= 0; --i)
+    for (int i = count - 1; i >= 0; --i) // [L]
       assertEquals(i, list.pop());
   }
 
@@ -778,7 +778,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
     final <x>[] testEntries = new <x>[] {(<x>)65, (<x>)68, (<x>)83, (<x>)104, (<x>)111, (<x>)75, (<x>)83, (<x>)97};
     list.addAll(testEntries);
     final ArrayList<<XX>> expected = new ArrayList<>(testEntries.length);
-    for (final <x> testEntry : testEntries)
+    for (final <x> testEntry : testEntries) // [A]
       expected.add(testEntry);
 
     Assert.assertEquals(expected.toString(), list.toString());

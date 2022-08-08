@@ -28,24 +28,19 @@ import java.util.Set;
 /**
  * A map that maintains 2 representations of its key-value entries:
  * <ol>
- * <li>For value elements of type {@code <V>}, which is the generic type of
- * {@code this} map.</li>
- * <li>For reflected elements of type {@code <R>}, which is the generic type of
- * the map returned by {@link #getMirrorMap()}</li>
+ * <li>For value elements of type {@code <V>}, which is the generic type of {@code this} map.</li>
+ * <li>For reflected elements of type {@code <R>}, which is the generic type of the map returned by {@link #getMirrorMap()}</li>
  * </ol>
- * The {@link Mirror} provides the
- * {@link Mirror#valueToReflection(Object,Object) V -> R} and
- * {@link Mirror#reflectionToValue(Object,Object) R -> V} methods, which are
- * used to reflect values from one {@link MirrorMap} to the other.
+ * The {@link Mirror} provides the {@link Mirror#valueToReflection(Object,Object) V -> R} and
+ * {@link Mirror#reflectionToValue(Object,Object) R -> V} methods, which are used to reflect values from one {@link MirrorMap} to
+ * the other.
  * <p>
- * Entries added to either sides of the {@link MirrorMap} are "lazy-reflected"
- * -- i.e. instead of reflecting entries upon their addition to the map, entries
- * are reflected upon retrieval from the map.
+ * Entries added to either sides of the {@link MirrorMap} are "lazy-reflected" -- i.e. instead of reflecting entries upon their
+ * addition to the map, entries are reflected upon retrieval from the map.
  * <p>
- * The {@link #getMirrorMap()} method returns the {@link MirrorMap} instance of
- * type {@code <K,R>} that represents the one-to-one mapping with its mirror of
- * type {@code <K,V>} (i.e. {@code this} instance). Changes to the
- * {@link MirrorMap} will be reflected in {@code this} instance, and vice-versa.
+ * The {@link #getMirrorMap()} method returns the {@link MirrorMap} instance of type {@code <K,R>} that represents the one-to-one
+ * mapping with its mirror of type {@code <K,V>} (i.e. {@code this} instance). Changes to the {@link MirrorMap} will be reflected in
+ * {@code this} instance, and vice-versa.
  *
  * @param <K> The type of keys maintained by this map.
  * @param <V> The type of value elements in this map.
@@ -53,8 +48,7 @@ import java.util.Set;
  */
 public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   /**
-   * Interface providing methods for the reflection of one type of object to
-   * another, and vice-versa.
+   * Interface providing methods for the reflection of one type of object to another, and vice-versa.
    *
    * @param <K> The type of keys maintained by this map.
    * @param <V> The type of value object of this mirror.
@@ -62,8 +56,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
    */
   public interface Mirror<K,V,R> {
     /**
-     * Reflects a value object of type {@code <V>} to a reflected value object
-     * of type {@code <R>}.
+     * Reflects a value object of type {@code <V>} to a reflected value object of type {@code <R>}.
      *
      * @param key The key.
      * @param value The value object of type {@code <V>}.
@@ -72,8 +65,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
     R valueToReflection(K key, V value);
 
     /**
-     * Reflects a reflected value object of type {@code <R>} to a value object
-     * of type {@code <V>}.
+     * Reflects a reflected value object of type {@code <R>} to a value object of type {@code <V>}.
      *
      * @param key The key.
      * @param reflection The reflected value object of type {@code <R>}.
@@ -82,9 +74,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
     V reflectionToValue(K key, R reflection);
 
     /**
-     * Returns the reverse representation of this {@link Mirror}, whereby the
-     * value object type {@code <V>} and reflected value object of type
-     * {@code <R>} are swapped.
+     * Returns the reverse representation of this {@link Mirror}, whereby the value object type {@code <V>} and reflected value
+     * object of type {@code <R>} are swapped.
      *
      * @return The reverse representation of this {@link Mirror}.
      */
@@ -104,9 +95,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Object to be used in the underlying maps to represent that a value is
-   * pending reflection via the methods in {@link #mirror} upon the invocation
-   * of {@link #beforeGet(Object)}.
+   * Object to be used in the underlying maps to represent that a value is pending reflection via the methods in {@link #mirror}
+   * upon the invocation of {@link #beforeGet(Object)}.
    */
   protected static final Object PENDING = new Object();
 
@@ -117,21 +107,16 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   protected boolean inited;
 
   /**
-   * Creates a new {@link MirrorMap} with the specified target maps and
-   * {@link Mirror}. The specified target maps are meant to be empty, as they
-   * become the underlying maps of the new {@link MirrorMap} instance. The
-   * specified {@link Mirror} provides the
-   * {@link Mirror#valueToReflection(Object,Object) V -> R} and
-   * {@link Mirror#reflectionToValue(Object,Object) R -> V} methods, which are
-   * used to reflect object values from one {@link MirrorMap} to the other.
+   * Creates a new {@link MirrorMap} with the specified target maps and {@link Mirror}. The specified target maps are meant to be
+   * empty, as they become the underlying maps of the new {@link MirrorMap} instance. The specified {@link Mirror} provides the
+   * {@link Mirror#valueToReflection(Object,Object) V -> R} and {@link Mirror#reflectionToValue(Object,Object) R -> V} methods,
+   * which are used to reflect object values from one {@link MirrorMap} to the other.
    *
    * @param values The underlying map of type {@code <K,V>}.
    * @param reflections The underlying map of type {@code <K,R>}.
-   * @param mirror The {@link Mirror} specifying the
-   *          {@link Mirror#valueToReflection(Object,Object) V -> R} and
+   * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object,Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object,Object) R -> V} methods.
-   * @throws IllegalArgumentException If any of the specified parameters is
-   *           null.
+   * @throws IllegalArgumentException If any of the specified parameters is null.
    */
   public MirrorMap(final Map<K,V> values, final Map<K,R> reflections, final Mirror<K,V,R> mirror) {
     super(values);
@@ -140,16 +125,13 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Creates a new {@link MirrorMap} with the specified maps and mirror. This
-   * method is specific for the construction of a reflected {@link MirrorMap}
-   * instance.
+   * Creates a new {@link MirrorMap} with the specified maps and mirror. This method is specific for the construction of a reflected
+   * {@link MirrorMap} instance.
    *
-   * @param mirrorMap The {@link MirrorMap} for which {@code this} map will be a
-   *          reflection. Likewise, {@code this} map will be a reflection for
-   *          {@code mirrorMap}.
+   * @param mirrorMap The {@link MirrorMap} for which {@code this} map will be a reflection. Likewise, {@code this} map will be a
+   *          reflection for {@code mirrorMap}.
    * @param values The underlying map of type {@code <K,V>}.
-   * @param mirror The {@link Mirror} specifying the
-   *          {@link Mirror#valueToReflection(Object,Object) V -> R} and
+   * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object,Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object,Object) R -> V} methods.
    */
   protected MirrorMap(final MirrorMap<K,R,V> mirrorMap, final Map<K,V> values, final Mirror<K,V,R> mirror) {
@@ -159,27 +141,23 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Factory method that returns a new instance of a {@link MirrorMap} with the
-   * specified target maps. This method is intended to be overridden by
-   * subclasses in order to provide instances of the subclass.
+   * Factory method that returns a new instance of a {@link MirrorMap} with the specified target maps. This method is intended to be
+   * overridden by subclasses in order to provide instances of the subclass.
    *
    * @param values The underlying map of type {@code <K,V>}.
    * @param reflections The underlying map of type {@code <K,R>}.
-   * @return A new instance of a {@link MirrorMap} with the specified target
-   *         maps.
+   * @return A new instance of a {@link MirrorMap} with the specified target maps.
    */
   protected MirrorMap<K,V,R> newInstance(final Map<K,V> values, final Map<K,R> reflections) {
     return new MirrorMap<>(values, reflections, mirror);
   }
 
   /**
-   * Factory method that returns a new <b>mirror</b> instance of a
-   * {@link MirrorMap} with the specified target map. This method is intended to
-   * be overridden by subclasses in order to provide instances of the subclass.
+   * Factory method that returns a new <b>mirror</b> instance of a {@link MirrorMap} with the specified target map. This method is
+   * intended to be overridden by subclasses in order to provide instances of the subclass.
    *
    * @param values The underlying map of type {@code <K,V>}.
-   * @return A new instance of a {@link MirrorMap} with the specified target
-   *         maps.
+   * @return A new instance of a {@link MirrorMap} with the specified target maps.
    */
   protected MirrorMap<K,R,V> newMirrorInstance(final Map<K,R> values) {
     return new MirrorMap<>(this, values, getReverseMirror());
@@ -210,20 +188,16 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Underlying map to be used for {@link #mirrorMap}, or {@code null} if
-   * {@link #mirrorMap} is already instantiated.
+   * Underlying map to be used for {@link #mirrorMap}, or {@code null} if {@link #mirrorMap} is already instantiated.
    */
   private Map<K,R> reflections;
 
   /**
-   * Returns the instantiated {@link #mirrorMap}. If the {@link #mirrorMap} is
-   * not instantiated, this method uses the {@link #reflections} as the
-   * underlying map to be consumed by {@link #newMirrorInstance(Map)}.
+   * Returns the instantiated {@link #mirrorMap}. If the {@link #mirrorMap} is not instantiated, this method uses the
+   * {@link #reflections} as the underlying map to be consumed by {@link #newMirrorInstance(Map)}.
    *
-   * @param require If {@code true}, the {@link #mirrorMap} will be initialized
-   *          given that {@link #reflections} is not null; if {@code false}, the
-   *          {@link #mirrorMap} will be initialized given that
-   *          {@link #reflections} is not null and not empty.
+   * @param require If {@code true}, the {@link #mirrorMap} will be initialized given that {@link #reflections} is not null; if
+   *          {@code false}, the {@link #mirrorMap} will be initialized given that {@link #reflections} is not null and not empty.
    * @return The instantiated {@link #mirrorMap}.
    */
   @SuppressWarnings("unchecked")
@@ -248,7 +222,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
       }
 
       boolean unlocked = false;
-      for (final Object key : more.keySet()) {
+      for (final Object key : more.keySet()) { // [S]
         if (!less.containsKey(key)) {
           unlocked |= unlock();
           less.put(key, PENDING);
@@ -262,14 +236,12 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Returns the {@link MirrorMap} instance of type {@code <K,R>} that
-   * represents the one-to-one mapping with its mirror of type {@code <K,V>}
-   * (i.e. {@code this} instance). Changes to the {@link MirrorMap} will be
-   * reflected in {@code this} instance, and vice-versa.
+   * Returns the {@link MirrorMap} instance of type {@code <K,R>} that represents the one-to-one mapping with its mirror of type
+   * {@code <K,V>} (i.e. {@code this} instance). Changes to the {@link MirrorMap} will be reflected in {@code this} instance, and
+   * vice-versa.
    *
-   * @return The {@link MirrorMap} instance of type {@code <K,R>} that retains
-   *         the one-to-one mapping with its mirror of type {@code <K,V>} (i.e.
-   *         {@code this} instance).
+   * @return The {@link MirrorMap} instance of type {@code <K,R>} that retains the one-to-one mapping with its mirror of type
+   *         {@code <K,V>} (i.e. {@code this} instance).
    */
   public MirrorMap<K,R,V> getMirrorMap() {
     return mirrorMap(true);
@@ -285,8 +257,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Returns the reverse {@link Mirror} for this {@link MirrorMap}, and caches
-   * it for subsequent retrieval, avoiding reinstantiation.
+   * Returns the reverse {@link Mirror} for this {@link MirrorMap}, and caches it for subsequent retrieval, avoiding
+   * reinstantiation.
    *
    * @return The reverse {@link Mirror} for this {@link MirrorMap}.
    */
@@ -295,19 +267,15 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Locks the {@link #target underlying map} to detect concurrent modification.
-   * Specifically, this method calls {@link Set#iterator()
-   * target.entrySet().iterator()} and saves its reference for examination
-   * during the next method call that is made to the {@link MirrorMap}. If the
-   * call to {@link Iterator#next()} on the {@link #targetLock saved iterator}
-   * results in a {@link ConcurrentModificationException}, it means that the
-   * {@link #target underlying map} was modified outside of the
-   * {@link MirrorMap}. Such modifications are not allowed, because they risk
-   * compromising the data integrity of the this map and its {@link #mirrorMap}.
+   * Locks the {@link #target underlying map} to detect concurrent modification. Specifically, this method calls
+   * {@link Set#iterator() target.entrySet().iterator()} and saves its reference for examination during the next method call that is
+   * made to the {@link MirrorMap}. If the call to {@link Iterator#next()} on the {@link #targetLock saved iterator} results in a
+   * {@link ConcurrentModificationException}, it means that the {@link #target underlying map} was modified outside of the
+   * {@link MirrorMap}. Such modifications are not allowed, because they risk compromising the data integrity of the this map and
+   * its {@link #mirrorMap}.
    *
-   * @param unlocked If {@code true}, this map is unlocked and will be locked;
-   *          if {@code false}, this map is already locked and will not be
-   *          relocked.
+   * @param unlocked If {@code true}, this map is unlocked and will be locked; if {@code false}, this map is already locked and will
+   *          not be relocked.
    */
   protected void lock(final boolean unlocked) {
     if (unlocked) {
@@ -318,15 +286,12 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Unlocks the {@link #target underlying map} and checks for concurrent
-   * modification. Specifically, this method calls {@link Iterator#next()} on
-   * {@link #targetLock}, which may result in a
-   * {@link ConcurrentModificationException} if the {@link #target underlying
-   * map} was modified outside of this {@link MirrorMap}.
+   * Unlocks the {@link #target underlying map} and checks for concurrent modification. Specifically, this method calls
+   * {@link Iterator#next()} on {@link #targetLock}, which may result in a {@link ConcurrentModificationException} if the
+   * {@link #target underlying map} was modified outside of this {@link MirrorMap}.
    *
    * @return Whether this map was locked prior to the execution of this method.
-   * @throws ConcurrentModificationException If the {@link #target underlying
-   *           map} was modified outside of the {@link MirrorMap}
+   * @throws ConcurrentModificationException If the {@link #target underlying map} was modified outside of the {@link MirrorMap}
    */
   protected boolean unlock() throws ConcurrentModificationException {
     if (inited && targetLock == null)
@@ -410,7 +375,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   @SuppressWarnings("unchecked")
   protected void beforeContainsValue(final Object value) {
     boolean unlocked = false;
-    for (final Map.Entry<Object,Object> entry : (Set<Map.Entry<Object,Object>>)target.entrySet()) {
+    for (final Map.Entry<Object,Object> entry : (Set<Map.Entry<Object,Object>>)target.entrySet()) { // [S]
       if (entry.getValue() == PENDING) {
         unlocked |= unlock();
         final Object reflection = mirror.reflectionToValue((K)entry.getKey(), (R)mirrorMap.target.get(entry.getKey()));

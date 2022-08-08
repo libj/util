@@ -27,40 +27,32 @@ import java.util.NoSuchElementException;
 /**
  * A list that maintains 2 representations of its elements:
  * <ol>
- * <li>For value elements of type {@code <V>}, which is the generic type of
- * {@code this} list.</li>
- * <li>For reflected elements of type {@code <R>}, which is the generic type of
- * the list returned by {@link #getMirrorList()}</li>
+ * <li>For value elements of type {@code <V>}, which is the generic type of {@code this} list.</li>
+ * <li>For reflected elements of type {@code <R>}, which is the generic type of the list returned by {@link #getMirrorList()}</li>
  * </ol>
- * The {@link Mirror} provides the {@link Mirror#valueToReflection(Object) V ->
- * R} and {@link Mirror#reflectionToValue(Object) R -> V} methods, which are
- * used to reflect values from one {@link MirrorList} to the other.
+ * The {@link Mirror} provides the {@link Mirror#valueToReflection(Object) V -> R} and {@link Mirror#reflectionToValue(Object) R ->
+ * V} methods, which are used to reflect values from one {@link MirrorList} to the other.
  * <p>
- * Elements added to either sides of the {@link MirrorList} are "lazy-reflected"
- * -- i.e. instead of reflecting elements upon their addition to the list,
- * elements are reflected upon retrieval from the list.
+ * Elements added to either sides of the {@link MirrorList} are "lazy-reflected" -- i.e. instead of reflecting elements upon their
+ * addition to the list, elements are reflected upon retrieval from the list.
  * <p>
- * The {@link #getMirrorList()} method returns the {@link MirrorList} instance
- * of type {@code <R>} that represents the one-to-one mapping with its mirror of
- * type {@code <V>} (i.e. {@code this} instance). Changes to the
- * {@link MirrorList} will be reflected in {@code this} instance, and
- * vice-versa.
+ * The {@link #getMirrorList()} method returns the {@link MirrorList} instance of type {@code <R>} that represents the one-to-one
+ * mapping with its mirror of type {@code <V>} (i.e. {@code this} instance). Changes to the {@link MirrorList} will be reflected in
+ * {@code this} instance, and vice-versa.
  *
  * @param <V> The type of value elements in this list.
  * @param <R> The type of reflected value elements in the mirror list.
  */
 public class MirrorList<V,R> extends ObservableList<V> {
   /**
-   * Interface providing methods for the reflection of one type of object to
-   * another, and vice-versa.
+   * Interface providing methods for the reflection of one type of object to another, and vice-versa.
    *
    * @param <V> The type of value object of this {@link Mirror}.
    * @param <R> The type of reflected value object of this {@link Mirror}.
    */
   public interface Mirror<V,R> {
     /**
-     * Reflects a value object of type {@code <V>} to a reflected value object
-     * of type {@code <R>}.
+     * Reflects a value object of type {@code <V>} to a reflected value object of type {@code <R>}.
      *
      * @param value The value object of type {@code <V>}.
      * @return The reflected value object of type {@code <R>}.
@@ -68,8 +60,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
     R valueToReflection(V value);
 
     /**
-     * Reflects a reflected value object of type {@code <R>} to a value object
-     * of type {@code <V>}.
+     * Reflects a reflected value object of type {@code <R>} to a value object of type {@code <V>}.
      *
      * @param reflection The reflected value object of type {@code <R>}.
      * @return The value object of type {@code <V>}.
@@ -77,9 +68,8 @@ public class MirrorList<V,R> extends ObservableList<V> {
     V reflectionToValue(R reflection);
 
     /**
-     * Returns the reverse representation of this {@link Mirror}, whereby the
-     * value object type {@code <V>} and reflected value object of type
-     * {@code <R>} are swapped.
+     * Returns the reverse representation of this {@link Mirror}, whereby the value object type {@code <V>} and reflected value
+     * object of type {@code <R>} are swapped.
      *
      * @return The reverse representation of this {@link Mirror}.
      */
@@ -99,9 +89,8 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   /**
-   * Object to be used in the underlying lists to represent that a value is
-   * pending reflection via the methods in {@link #mirror} upon the invocation
-   * of {@link #beforeGet(int,ListIterator)}.
+   * Object to be used in the underlying lists to represent that a value is pending reflection via the methods in {@link #mirror}
+   * upon the invocation of {@link #beforeGet(int,ListIterator)}.
    */
   protected static final Object PENDING = new Object();
 
@@ -113,25 +102,21 @@ public class MirrorList<V,R> extends ObservableList<V> {
   protected boolean unlocked;
 
   /**
-   * Underlying map to be used for {@link #mirrorList}, or {@code null} if
-   * {@link #mirrorList} is already instantiated.
+   * Underlying map to be used for {@link #mirrorList}, or {@code null} if {@link #mirrorList} is already instantiated.
    */
   private List<R> reflections;
 
   /**
-   * Creates a new {@link MirrorList} with the specified target lists and
-   * {@link Mirror}. The specified target lists are meant to be empty, as they
-   * become the underlying lists of the new {@link MirrorList} instance.
+   * Creates a new {@link MirrorList} with the specified target lists and {@link Mirror}. The specified target lists are meant to be
+   * empty, as they become the underlying lists of the new {@link MirrorList} instance.
    * <p>
-   * The specified {@link Mirror} provides the
-   * {@link Mirror#valueToReflection(Object) V -> R} and
-   * {@link Mirror#reflectionToValue(Object) R -> V} methods, which are used to
-   * reflect object values from one {@link MirrorList} to the other.
+   * The specified {@link Mirror} provides the {@link Mirror#valueToReflection(Object) V -> R} and
+   * {@link Mirror#reflectionToValue(Object) R -> V} methods, which are used to reflect object values from one {@link MirrorList} to
+   * the other.
    *
    * @param values The underlying list of type {@code <V>}.
    * @param reflections The underlying list of type {@code <R>}.
-   * @param mirror The {@link Mirror} specifying the
-   *          {@link Mirror#valueToReflection(Object) V -> R} and
+   * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object) R -> V} methods.
    * @throws IllegalArgumentException If any of the specified parameters is null.
    */
@@ -142,16 +127,13 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   /**
-   * Creates a new {@link MirrorList} with the specified lists and mirror. This
-   * method is specific for the construction of a reflected {@link MirrorList}
-   * instance.
+   * Creates a new {@link MirrorList} with the specified lists and mirror. This method is specific for the construction of a
+   * reflected {@link MirrorList} instance.
    *
-   * @param mirrorList The {@link MirrorList} for which {@code this} list will
-   *          be a reflection. Likewise, {@code this} list will be a reflection
-   *          for {@code mirrorList}.
+   * @param mirrorList The {@link MirrorList} for which {@code this} list will be a reflection. Likewise, {@code this} list will be
+   *          a reflection for {@code mirrorList}.
    * @param values The underlying list of type {@code <V>}.
-   * @param mirror The {@link Mirror} specifying the
-   *          {@link Mirror#valueToReflection(Object) V -> R} and
+   * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object) R -> V} methods.
    */
   protected MirrorList(final MirrorList<R,V> mirrorList, final List<V> values, final Mirror<V,R> mirror) {
@@ -161,42 +143,34 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   /**
-   * Factory method that returns a new instance of a {@link MirrorList} with the
-   * specified target lists. This method is intended to be overridden by
-   * subclasses in order to provide instances of the subclass.
+   * Factory method that returns a new instance of a {@link MirrorList} with the specified target lists. This method is intended to
+   * be overridden by subclasses in order to provide instances of the subclass.
    *
    * @param values The underlying list of type {@code <V>}.
    * @param reflections The underlying list of type {@code <R>}.
-   * @return A new instance of a {@link MirrorList} with the specified target
-   *         lists.
+   * @return A new instance of a {@link MirrorList} with the specified target lists.
    */
   protected MirrorList<V,R> newInstance(final List<V> values, final List<R> reflections) {
     return new MirrorList<>(values, reflections, mirror);
   }
 
   /**
-   * Factory method that returns a new <b>mirror</b> instance of a
-   * {@link MirrorList} with the specified target list. This method is intended
-   * to be overridden by subclasses in order to provide instances of the
-   * subclass.
+   * Factory method that returns a new <b>mirror</b> instance of a {@link MirrorList} with the specified target list. This method is
+   * intended to be overridden by subclasses in order to provide instances of the subclass.
    *
    * @param values The underlying list of type {@code <V>}.
-   * @return A new instance of a {@link MirrorList} with the specified target
-   *         lists.
+   * @return A new instance of a {@link MirrorList} with the specified target lists.
    */
   protected MirrorList<R,V> newMirrorInstance(final List<R> values) {
     return new MirrorList<>(this, values, getReverseMirror());
   }
 
   /**
-   * Returns the instantiated {@link #mirrorList}. If the {@link #mirrorList} is
-   * not instantiated, this method uses the {@link #reflections} as the
-   * underlying list to be consumed by {@link #newMirrorInstance(List)}.
+   * Returns the instantiated {@link #mirrorList}. If the {@link #mirrorList} is not instantiated, this method uses the
+   * {@link #reflections} as the underlying list to be consumed by {@link #newMirrorInstance(List)}.
    *
-   * @param require If {@code true}, the {@link #mirrorList} will be initialized
-   *          given that {@link #reflections} is not null; if {@code false}, the
-   *          {@link #mirrorList} will be initialized given that
-   *          {@link #reflections} is not null and not empty.
+   * @param require If {@code true}, the {@link #mirrorList} will be initialized given that {@link #reflections} is not null; if
+   *          {@code false}, the {@link #mirrorList} will be initialized given that {@link #reflections} is not null and not empty.
    * @return The instantiated {@link #mirrorList}.
    */
   @SuppressWarnings("unchecked")
@@ -221,7 +195,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
       }
 
       final boolean unlocked = unlock();
-      for (int i = less.size(), len = more.size(); i < len; ++i)
+      for (int i = less.size(), len = more.size(); i < len; ++i) // [L]
         less.add(PENDING);
 
       lock(unlocked);
@@ -231,27 +205,23 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   /**
-   * Returns the {@link MirrorList} instance of type {@code <R>} that represents
-   * the one-to-one mapping with its mirror of type {@code <V>} (i.e.
-   * {@code this} instance). Changes to the {@link MirrorList} will be reflected
-   * in {@code this} instance, and vice-versa.
+   * Returns the {@link MirrorList} instance of type {@code <R>} that represents the one-to-one mapping with its mirror of type
+   * {@code <V>} (i.e. {@code this} instance). Changes to the {@link MirrorList} will be reflected in {@code this} instance, and
+   * vice-versa.
    *
-   * @return The {@link MirrorList} instance of type {@code <R>} that retains
-   *         the one-to-one mapping with its mirror of type {@code <V>} (i.e.
-   *         {@code this} instance).
+   * @return The {@link MirrorList} instance of type {@code <R>} that retains the one-to-one mapping with its mirror of type
+   *         {@code <V>} (i.e. {@code this} instance).
    */
   public MirrorList<R,V> getMirrorList() {
     return mirrorList(true);
   }
 
   /**
-   * Reverses this {@link MirrorList}, effectively switching {@code <V>} to
-   * {@code <R>}, and vice-versa. This method is the in-place version of
-   * {@link #getMirrorList()}.
+   * Reverses this {@link MirrorList}, effectively switching {@code <V>} to {@code <R>}, and vice-versa. This method is the in-place
+   * version of {@link #getMirrorList()}.
    * <p>
-   * If this {@link MirrorList} has a not-null {@link #mirrorList}, the internal
-   * states of the two lists are swapped, thus reversing the {@link #mirrorList}
-   * as well.
+   * If this {@link MirrorList} has a not-null {@link #mirrorList}, the internal states of the two lists are swapped, thus reversing
+   * the {@link #mirrorList} as well.
    *
    * @return This list, with its {@code <V>} and {@code <R>} types reversed.
    */
@@ -295,8 +265,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   /**
-   * Returns the reverse {@link Mirror}, and caches it for subsequent retrieval,
-   * avoiding reinstantiation.
+   * Returns the reverse {@link Mirror}, and caches it for subsequent retrieval, avoiding reinstantiation.
    *
    * @return The reverse {@link Mirror}.
    */
@@ -305,20 +274,15 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   /**
-   * Locks the {@link #target underlying list} to detect concurrent
-   * modification. Specifically, this method calls {@link #iterator()
-   * target.iterator()} and saves its reference for examination during the next
-   * method call that is made to the {@link MirrorList}. If the call to
-   * {@link Iterator#next()} on the {@link #targetLock saved iterator} results
-   * in a {@link ConcurrentModificationException}, it means that the
-   * {@link #target underlying list} was modified outside of the
-   * {@link MirrorList}. Such modifications are not allowed, because they risk
-   * compromising the data integrity of the this list and its
-   * {@link #mirrorList}.
+   * Locks the {@link #target underlying list} to detect concurrent modification. Specifically, this method calls {@link #iterator()
+   * target.iterator()} and saves its reference for examination during the next method call that is made to the {@link MirrorList}.
+   * If the call to {@link Iterator#next()} on the {@link #targetLock saved iterator} results in a
+   * {@link ConcurrentModificationException}, it means that the {@link #target underlying list} was modified outside of the
+   * {@link MirrorList}. Such modifications are not allowed, because they risk compromising the data integrity of the this list and
+   * its {@link #mirrorList}.
    *
-   * @param unlocked If {@code true}, this list is unlocked and will be locked;
-   *          if {@code false}, this list is already locked and will not be
-   *          relocked.
+   * @param unlocked If {@code true}, this list is unlocked and will be locked; if {@code false}, this list is already locked and
+   *          will not be relocked.
    */
   protected void lock(final boolean unlocked) {
     if (unlocked) {
@@ -329,15 +293,12 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   /**
-   * Unlocks the {@link #target underlying list} and checks for concurrent
-   * modification. Specifically, this method calls {@link Iterator#next()} on
-   * {@link #targetLock}, which may result in a
-   * {@link ConcurrentModificationException} if the {@link #target underlying
-   * list} was modified outside of this {@link MirrorList}.
+   * Unlocks the {@link #target underlying list} and checks for concurrent modification. Specifically, this method calls
+   * {@link Iterator#next()} on {@link #targetLock}, which may result in a {@link ConcurrentModificationException} if the
+   * {@link #target underlying list} was modified outside of this {@link MirrorList}.
    *
    * @return Whether this list was locked prior to the execution of this method.
-   * @throws ConcurrentModificationException If the {@link #target underlying
-   *           list} was modified outside of the {@link MirrorList}
+   * @throws ConcurrentModificationException If the {@link #target underlying list} was modified outside of the {@link MirrorList}
    */
   protected boolean unlock() throws ConcurrentModificationException {
     if (inited && targetLock == null)

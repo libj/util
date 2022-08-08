@@ -117,7 +117,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   public Array<X>List(final Collection<<XX>> c) {
     fromIndex = 0;
     valueData = new <x>[c.size()];
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();)
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [C]
       valueData[size++] = i.next();
   }
 
@@ -147,7 +147,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   private void shiftRight(final int start, final int dist) {
     final int end = size + dist;
     ensureCapacity(end);
-    for (int i = end - 1; i >= start + dist; --i)
+    for (int i = end - 1; i >= start + dist; --i) // [A]
       valueData[i] = valueData[i - dist];
   }
 
@@ -160,7 +160,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
    */
   private void shiftLeft(final int start, final int dist) {
     final int end = size - dist;
-    for (int i = start; i < end; ++i)
+    for (int i = start; i < end; ++i) // [A]
       valueData[i] = valueData[i + dist];
   }
 
@@ -321,7 +321,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, len);
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
     return true;
@@ -335,7 +335,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, len);
-    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
     return true;
@@ -350,7 +350,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     index += fromIndex;
     shiftRight(index, len);
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
     return true;
@@ -365,7 +365,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     index += fromIndex;
     shiftRight(index, len);
-    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1))
+    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
     return true;
@@ -394,7 +394,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   @Override
   public boolean retainAll(final Collection<<XX>> c) {
     final int beforeSize = size;
-    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
+    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) { // [A]
       if (!c.contains(valueData[i])) {
         shiftLeft(i, 1);
         updateState(i, -1);
@@ -407,7 +407,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   @Override
   public boolean retainAll(final <X>Collection c) {
     final int beforeSize = size;
-    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) {
+    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) { // [A]
       if (!c.contains(valueData[i])) {
         shiftLeft(i, 1);
         updateState(i, -1);
@@ -420,7 +420,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   @Override
   public int indexOf(final <x> value) {
     final int len = toIndex > -1 ? toIndex : size;
-    for (int i = fromIndex; i < len; ++i)
+    for (int i = fromIndex; i < len; ++i) // [A]
       if (valueData[i] == value)
         return i - fromIndex;
 
@@ -429,7 +429,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public int lastIndexOf(final <x> value) {
-    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i)
+    for (int i = toIndex > -1 ? toIndex : size; i >= fromIndex; --i) // [A]
       if (valueData[i] == value)
         return i - fromIndex;
 
@@ -501,7 +501,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
       if (i >= valueData.length)
         throw new ConcurrentModificationException();
 
-      for (; i < (toIndex > -1 ? toIndex : size) && modCount == expectedModCount; ++i)
+      for (; i < (toIndex > -1 ? toIndex : size) && modCount == expectedModCount; ++i) // [A]
         action.accept(valueData[i]);
 
       cursor = i;
@@ -634,7 +634,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
       a = new <XX>[size()];
 
     final int len = toIndex > -1 ? toIndex : size;
-    for (int i = fromIndex; i < len; ++i)
+    for (int i = fromIndex; i < len; ++i) // [A]
       a[i - fromIndex] = valueData[i];
 
     if (a.length > size())
@@ -702,7 +702,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   public int hashCode() {
     int hashCode = 1;
     final int len = toIndex > -1 ? toIndex : size;
-    for (int i = fromIndex; i < len; ++i)
+    for (int i = fromIndex; i < len; ++i) // [A]
       hashCode = 31 * hashCode + <XX>.hashCode(valueData[i]);
 
     return hashCode;
