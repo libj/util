@@ -138,7 +138,7 @@ public class CRC32 implements Checksum {
    * @param b The array of bytes to update the checksum with.
    */
   public void update(final byte[] b) {
-    for (int i = 0; i < b.length; i++) // [A]
+    for (int i = 0; i < b.length; ++i) // [A]
       update(b[i]);
   }
 
