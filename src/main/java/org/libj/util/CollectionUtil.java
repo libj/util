@@ -184,7 +184,7 @@ public final class CollectionUtil extends PrimitiveSort {
         else
           iterator.remove();
 
-        for (int j = 0, len = inner.size(); j < len; ++j) // [L]
+        for (int j = 0, i$ = inner.size(); j < i$; ++j) // [L]
           iterator.add(inner.get(j));
 
         while (iterator.nextIndex() > i)

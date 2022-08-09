@@ -466,7 +466,7 @@ public class Diff {
     }
 
     int maxLength = 0;
-    for (int i = 0, len = mods.size(); i < len; ++i) { // [L]
+    for (int i = 0, i$ = mods.size(); i < i$; ++i) { // [L]
       final Mod mod = mods.get(i);
       if (mod.length > maxLength)
         maxLength = mod.length;
@@ -510,7 +510,7 @@ public class Diff {
   public String patch(final String string) {
     final StringBuilder builder = new StringBuilder(string);
     int position = 0;
-    for (int i = 0, len = mods.size(); i < len; ++i) // [L]
+    for (int i = 0, i$ = mods.size(); i < i$; ++i) // [L]
       position += mods.get(i).patch(builder, position);
 
     return builder.toString();
@@ -523,12 +523,12 @@ public class Diff {
    */
   public byte[] toBytes() {
     int bits = lengthSizeSize;
-    for (int i = 0, len = this.mods.size(); i < len; ++i) // [L]
+    for (int i = 0, i$ = this.mods.size(); i < i$; ++i) // [L]
       bits += this.mods.get(i).getSize();
 
     final byte[] dest = new byte[1 + (bits - 1) / 8];
     int offset = writeLengthSize(dest, lengthSize);
-    for (int i = 0, len = this.mods.size(); i < len; ++i) // [L]
+    for (int i = 0, i$ = this.mods.size(); i < i$; ++i) // [L]
       offset = this.mods.get(i).encode(dest, offset);
 
     return dest;

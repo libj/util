@@ -125,7 +125,7 @@ public class TransSet<S,T> extends DelegateSet<T> {
       throw new UnsupportedOperationException();
 
     final Iterator<S> iterator = target.iterator();
-    for (int i = 0, len = size(); i < len; ++i) { // [A]
+    for (int i = 0, i$ = size(); i < i$; ++i) { // [A]
       final S e = iterator.next();
       a[i] = e == null ? null : (E)sourceToTarget.apply(e);
     }

@@ -116,7 +116,7 @@ public class CollectionUtilTest {
           assertEquals(list.get(i * p + j), partitions[i].get(j));
 
       if (remainder != 0)
-        for (int j = 0, len = list.size(); j < len % p; ++j) // [L]
+        for (int j = 0, i$ = list.size(); j < i$ % p; ++j) // [L]
           assertEquals(list.get(p * parts + j), partitions[parts].get(j));
     }
   }

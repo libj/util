@@ -4809,7 +4809,7 @@ public final class ArrayUtil extends PrimitiveSort {
       return array;
 
     assertRangeArray(fromIndex, toIndex, array.length);
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4842,7 +4842,7 @@ public final class ArrayUtil extends PrimitiveSort {
       return array;
 
     assertRangeArray(fromIndex, toIndex, array.length);
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4875,7 +4875,7 @@ public final class ArrayUtil extends PrimitiveSort {
       return array;
 
     assertRangeArray(fromIndex, toIndex, array.length);
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4908,7 +4908,7 @@ public final class ArrayUtil extends PrimitiveSort {
       return array;
 
     assertRangeArray(fromIndex, toIndex, array.length);
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -4942,7 +4942,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
     assertRangeArray(fromIndex, toIndex, array.length);
     float tmp;
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       tmp = array[i];
       array[i] = array[j];
       array[j] = tmp;
@@ -4976,7 +4976,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
     assertRangeArray(fromIndex, toIndex, array.length);
     double tmp;
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       tmp = array[i];
       array[i] = array[j];
       array[j] = tmp;
@@ -5009,7 +5009,7 @@ public final class ArrayUtil extends PrimitiveSort {
       return array;
 
     assertRangeArray(fromIndex, toIndex, array.length);
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -5042,7 +5042,7 @@ public final class ArrayUtil extends PrimitiveSort {
       return array;
 
     assertRangeArray(fromIndex, toIndex, array.length);
-    for (int i = fromIndex, j = toIndex - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = fromIndex, j = toIndex - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       array[i] ^= array[j];
       array[j] ^= array[i];
       array[i] ^= array[j];
@@ -5077,7 +5077,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
     assertRangeArray(fromIndex, toIndex, array.length);
     T tmp;
-    for (int i = 0, j = array.length - 1, len = array.length / 2; i < len; ++i, --j) { // [A]
+    for (int i = 0, j = array.length - 1, i$ = array.length / 2; i < i$; ++i, --j) { // [A]
       tmp = array[i];
       array[i] = array[j];
       array[j] = tmp;

@@ -459,7 +459,7 @@ public final class Patterns {
 
   private static int indexOfClassClose(final CharSequence str, final int fromIndex) {
     boolean escaped = false;
-    for (int i = Math.max(fromIndex, 0), len = str.length(), and = 0, depth = 1; i < len; ++i) { // [N]
+    for (int i = Math.max(fromIndex, 0), i$ = str.length(), and = 0, depth = 1; i < i$; ++i) { // [N]
       final char c = str.charAt(i);
       if (and == 1) {
         if (c == '&') {

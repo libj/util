@@ -96,7 +96,7 @@ public class DigraphTest {
         forwards.add(forward);
       }
 
-      for (int i = 0, len = keys.size(); i < len; ++i) { // [L]
+      for (int i = 0, i$ = keys.size(); i < i$; ++i) { // [L]
         final String key = keys.get(i);
         addEdges(digraph, key, forwards.get(i), true);
         addEdges(digraph, key, reverses.get(i), false);

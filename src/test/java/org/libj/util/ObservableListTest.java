@@ -174,7 +174,7 @@ public class ObservableListTest {
     }
 
     // iterator.get()
-    for (int i = 0, len = list.size(); i < len; ++i) { // [L]
+    for (int i = 0, i$ = list.size(); i < i$; ++i) { // [L]
       assertNotNull(list.get(i));
       assertGot();
     }

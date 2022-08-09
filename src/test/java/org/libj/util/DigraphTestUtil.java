@@ -82,7 +82,7 @@ final class DigraphTestUtil {
     // verify cycle
     Object first = null;
     Object last = null;
-    for (int i = 0, len = cycle.size(); i < len; ++i) { // [L]
+    for (int i = 0, i$ = cycle.size(); i < i$; ++i) { // [L]
       final Object v = cycle.get(i);
       if (first == null)
         first = v;

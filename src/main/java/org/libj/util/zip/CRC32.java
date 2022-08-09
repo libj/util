@@ -128,7 +128,7 @@ public class CRC32 implements Checksum {
 
   public static void updateX(final byte[] bytes) {
     int crc = ~0;
-    for (int i = 0, len = bytes.length; len > 0; --len) // [A]
+    for (int i = 0, i$ = bytes.length; i$ > 0; --i$) // [A]
       crc = ((crc >>> 8) ^ CRC_TABLE[(crc ^ (bytes[i++] & 0xFF)) & 0xFF]);
   }
 

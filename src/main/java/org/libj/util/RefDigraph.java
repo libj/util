@@ -111,7 +111,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
     if (vertices.size() == 0)
       return;
 
-    for (int i = 0, len = vertices.size(); i < len; ++i) { // [L]
+    for (int i = 0, i$ = vertices.size(); i < i$; ++i) { // [L]
       final K vertex = vertices.get(i);
       final V ref = reference.apply(vertex);
       references.remove(ref);

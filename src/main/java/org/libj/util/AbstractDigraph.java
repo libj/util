@@ -764,10 +764,10 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       final AbstractDigraph<K,V> clone = (AbstractDigraph<K,V>)super.clone();
       clone.objectToIndex = objectToIndex.clone();
       clone.indexToObject = clone.objectToIndex.reverse();
-      clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
-      for (int i = 0, len = clone.adj.size(); i < len; ++i) { // [L]
-        final LinkedHashSet<Integer> set = clone.adj.get(i);
-        clone.adj.set(i, set == null ? null : (LinkedHashSet<Integer>)set.clone());
+      final ArrayList<LinkedHashSet<Integer>> cloneAdj = clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
+      for (int i = 0, i$ = cloneAdj.size(); i < i$; ++i) { // [L]
+        final LinkedHashSet<Integer> set = cloneAdj.get(i);
+        cloneAdj.set(i, set == null ? null : (LinkedHashSet<Integer>)set.clone());
       }
 
       clone.adjEdges = null;

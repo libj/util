@@ -941,7 +941,7 @@ public abstract class ObservableList<E> extends DelegateList<E> {
   }
 
   private void touchElements() {
-    for (int i = 0, len = size(); i < len; ++i) // [L]
+    for (int i = 0, i$ = size(); i < i$; ++i) // [L]
       get(i);
   }
 

@@ -195,7 +195,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
       }
 
       final boolean unlocked = unlock();
-      for (int i = less.size(), len = more.size(); i < len; ++i) // [L]
+      for (int i = less.size(), i$ = more.size(); i < i$; ++i) // [L]
         less.add(PENDING);
 
       lock(unlocked);
