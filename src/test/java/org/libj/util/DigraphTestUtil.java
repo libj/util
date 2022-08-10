@@ -49,7 +49,7 @@ final class DigraphTestUtil {
 
   static Digraph<String> createRandomDigraph(final int size, final boolean withNulls) {
     final Digraph<String> digraph = new Digraph<>();
-    for (int i = 0; i < size; ++i) // [L]
+    for (int i = 0; i < size; ++i) // [N]
       digraph.add(withNulls && Math.random() < .2 ? null : Strings.getRandomAlpha(1), Math.random() < .1 ? null : Strings.getRandomAlpha(1));
 
     return digraph;
@@ -82,8 +82,7 @@ final class DigraphTestUtil {
     // verify cycle
     Object first = null;
     Object last = null;
-    for (int i = 0, i$ = cycle.size(); i < i$; ++i) { // [L]
-      final Object v = cycle.get(i);
+    for (final Object v : cycle) { // [L]
       if (first == null)
         first = v;
 

@@ -417,7 +417,7 @@ public class Diff {
   public Diff(final String source, final String target) {
     final List<diff_match_patch.Diff> diffs = new diff_match_patch().diff_main(source, target);
     final Iterator<diff_match_patch.Diff> iterator = diffs.iterator();
-    final List<Mod> mods = new ArrayList<>();
+    final ArrayList<Mod> mods = new ArrayList<>();
     while (iterator.hasNext()) {
       final diff_match_patch.Diff diff1 = iterator.next();
       if (diff1.operation == diff_match_patch.Operation.DELETE && iterator.hasNext()) {
@@ -466,7 +466,7 @@ public class Diff {
     }
 
     int maxLength = 0;
-    for (int i = 0, i$ = mods.size(); i < i$; ++i) { // [L]
+    for (int i = 0, i$ = mods.size(); i < i$; ++i) { // [RA]
       final Mod mod = mods.get(i);
       if (mod.length > maxLength)
         maxLength = mod.length;
@@ -510,7 +510,7 @@ public class Diff {
   public String patch(final String string) {
     final StringBuilder builder = new StringBuilder(string);
     int position = 0;
-    for (int i = 0, i$ = mods.size(); i < i$; ++i) // [L]
+    for (int i = 0, i$ = mods.size(); i < i$; ++i) // [RA]
       position += mods.get(i).patch(builder, position);
 
     return builder.toString();
@@ -523,13 +523,13 @@ public class Diff {
    */
   public byte[] toBytes() {
     int bits = lengthSizeSize;
-    for (int i = 0, i$ = this.mods.size(); i < i$; ++i) // [L]
-      bits += this.mods.get(i).getSize();
+    for (int i = 0, i$ = mods.size(); i < i$; ++i) // [RA]
+      bits += mods.get(i).getSize();
 
     final byte[] dest = new byte[1 + (bits - 1) / 8];
     int offset = writeLengthSize(dest, lengthSize);
-    for (int i = 0, i$ = this.mods.size(); i < i$; ++i) // [L]
-      offset = this.mods.get(i).encode(dest, offset);
+    for (int i = 0, i$ = mods.size(); i < i$; ++i) // [RA]
+      offset = mods.get(i).encode(dest, offset);
 
     return dest;
   }
@@ -540,6 +540,6 @@ public class Diff {
    * @return The list of {@link Diff.Mod} objects in this {@link Diff}.
    */
   public List<Mod> getMods() {
-    return this.mods;
+    return mods;
   }
 }

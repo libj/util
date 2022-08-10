@@ -107,7 +107,7 @@ public class DiffTest {
     final int bits = (int)(1 + StrictMath.log(maxLength) / StrictMath.log(2));
     logger.info("LengthSize: " + bits);
     final List<Mod> mods = diff.getMods();
-    for (int i = 0, i$ = mods.size(); i < i$; ++i) // [L]
-      logger.info(mods.get(i).toString());
+    for (final Mod mod : mods) // [L]
+      logger.info(mod.toString());
   }
 }

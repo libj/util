@@ -108,10 +108,11 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
    * @throws IllegalStateException If some vertex references have not been specified before the call of this method.
    */
   private void swapRefs() {
-    if (vertices.size() == 0)
+    final int i$ = vertices.size();
+    if (i$ == 0)
       return;
 
-    for (int i = 0, i$ = vertices.size(); i < i$; ++i) { // [L]
+    for (int i = 0; i < i$; ++i) { // [RA]
       final K vertex = vertices.get(i);
       final V ref = reference.apply(vertex);
       references.remove(ref);
@@ -206,9 +207,9 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public List<K> getTopologicalOrder() {
+  public ArrayList<K> getTopologicalOrder() {
     swapRefs();
-    return (List<K>)digraph.getTopologicalOrder();
+    return (ArrayList<K>)digraph.getTopologicalOrder();
   }
 
   @Override

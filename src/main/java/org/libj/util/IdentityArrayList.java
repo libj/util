@@ -78,7 +78,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public int indexOf(final Object o) {
-    for (int i = 0, i$ = size(); i < i$; ++i) // [L]
+    for (int i = 0, i$ = size(); i < i$; ++i) // [RA]
       if (o == get(i))
         return i;
 
@@ -87,7 +87,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public int lastIndexOf(final Object o) {
-    for (int i = size() - 1; i >= 0; --i) // [L]
+    for (int i = size() - 1; i >= 0; --i) // [RA]
       if (o == get(i))
         return i;
 
@@ -127,7 +127,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     boolean modified = false;
     OUT:
-    for (int i = 0, i$ = c.size(); i < i$; ++i) { // [L]
+    for (int i = 0, i$ = c.size(); i < i$; ++i) { // [RA]
       final Object o = get(i);
       for (final Object obj : c) // [C]
         if (obj == o)
@@ -142,14 +142,16 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   /**
    * A {@link DelegateList} providing the same behavior of {@link IdentityArrayList} to the class returned by
    * {@link ArrayList#subList(int,int)}.
+   *
+   * @param <L> The type parameter of the sub-list, conforming to {@link RandomAccess} interface.
    */
-  protected class IdentitySubList extends DelegateList<E> implements RandomAccess {
+  protected class IdentitySubList<L extends List<E> & RandomAccess> extends DelegateList<E,L> implements RandomAccess {
     /**
-     * Creates a new {@link IdentitySubList} with the specified subList target.
+     * Creates a new {@link org.libj.util.IdentityArrayList.IdentitySubList} with the specified subList target.
      *
      * @param target The subList to which the method calls of this instance will be delegated.
      */
-    public IdentitySubList(final List<E> target) {
+    public IdentitySubList(final L target) {
       super(target);
     }
 
@@ -160,7 +162,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public int indexOf(final Object o) {
-      for (int i = 0, i$ = target.size(); i < i$; ++i) // [L]
+      for (int i = 0, i$ = target.size(); i < i$; ++i) // [RA]
         if (o == target.get(i))
           return i;
 
@@ -169,7 +171,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
     @Override
     public int lastIndexOf(final Object o) {
-      for (int i = target.size() - 1; i >= 0; --i) // [L]
+      for (int i = target.size() - 1; i >= 0; --i) // [RA]
         if (o == target.get(i))
           return i;
 
@@ -209,7 +211,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
       boolean modified = false;
       OUT:
-      for (int i = 0, i$ = c.size(); i < i$; ++i) { // [L]
+      for (int i = 0, i$ = c.size(); i < i$; ++i) { // [RA]
         final Object o = target.get(i);
         for (final Object obj : c) // [C]
           if (obj == o)
@@ -222,13 +224,14 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     }
 
     @Override
-    public IdentitySubList subList(final int fromIndex, final int toIndex) {
+    public IdentitySubList<L> subList(final int fromIndex, final int toIndex) {
       assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
-      return new IdentitySubList(target.subList(fromIndex, toIndex));
+      return new IdentitySubList<>((L)target.subList(fromIndex, toIndex));
     }
   }
 
   @Override
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public List<E> subList(final int fromIndex, final int toIndex) {
     assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
     return new IdentitySubList(super.subList(fromIndex, toIndex));

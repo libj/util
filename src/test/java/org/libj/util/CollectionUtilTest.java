@@ -111,12 +111,12 @@ public class CollectionUtilTest {
       final int parts = list.size() / p;
       final int remainder = list.size() % p;
       assertEquals(parts + (remainder != 0 ? 1 : 0), partitions.length);
-      for (int i = 0; i < parts; ++i) // [L]
-        for (int j = 0; j < p; ++j) // [L]
+      for (int i = 0; i < parts; ++i) // [RA]
+        for (int j = 0; j < p; ++j) // [RA]
           assertEquals(list.get(i * p + j), partitions[i].get(j));
 
       if (remainder != 0)
-        for (int j = 0, i$ = list.size(); j < i$ % p; ++j) // [L]
+        for (int j = 0, i$ = list.size(); j < i$ % p; ++j) // [RA]
           assertEquals(list.get(p * parts + j), partitions[parts].get(j));
     }
   }
@@ -132,8 +132,8 @@ public class CollectionUtilTest {
     }
     else {
       assertEquals(len, CollectionUtil.dedupe(list, c));
-      final List<Integer> expected = new ArrayList<>(len);
-      for (int i = 0; i < len;) // [L]
+      final ArrayList<Integer> expected = new ArrayList<>(len);
+      for (int i = 0; i < len;) // [RA]
         expected.add(++i);
 
       if (list.size() > len)

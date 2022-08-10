@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.RandomAccess;
 import java.util.function.Function;
 
 import org.libj.lang.Classes;
@@ -44,6 +45,18 @@ import org.libj.util.primitive.ShortComparator;
  * Utility functions for operations pertaining to {@link Collection} and {@link List}.
  */
 public final class CollectionUtil extends PrimitiveSort {
+  /**
+   * Returns {@code true} if the provided {@link List} either directly implements the {@link RandomAccess} interface, or is a
+   * {@link DelegateList} wrapping another list that implements the {@link RandomAccess} interface; otherwise {@code false}.
+   *
+   * @param l The list to test.
+   * @return {@code true} if the provided {@link List} either directly implements the {@link RandomAccess} interface, or is a
+   *         {@link DelegateList} wrapping another list that implements the {@link RandomAccess} interface; otherwise {@code false}.
+   */
+  public static boolean isRandomAccess(final List<?> l) {
+    return l instanceof RandomAccess || l instanceof DelegateList && ((DelegateList<?,?>)l).isRandomAccess();
+  }
+
   /**
    * Inserts the one-dimensional representation of the input collection into the specified output collection, whereby all nested
    * {@link Collection} members are flattened at every depth. The value of {@code member instanceof Collection} is used to determine
@@ -184,8 +197,14 @@ public final class CollectionUtil extends PrimitiveSort {
         else
           iterator.remove();
 
-        for (int j = 0, i$ = inner.size(); j < i$; ++j) // [L]
-          iterator.add(inner.get(j));
+        if (CollectionUtil.isRandomAccess(inner)) {
+          for (int j = 0, i$ = inner.size(); j < i$; ++j) // [RA]
+            iterator.add(inner.get(j));
+        }
+        else {
+          for (final T item : inner) // [L]
+            iterator.add(item);
+        }
 
         while (iterator.nextIndex() > i)
           iterator.previous();

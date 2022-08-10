@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -83,9 +82,9 @@ public class DigraphTest {
     assertCloneEquals(digraph, clone);
     final Iterator<String> iterator = new ArrayList<>(digraph.keySet()).iterator();
     while (iterator.hasNext()) {
-      final List<String> keys = new ArrayList<>();
-      final List<Set<String>> forwards = new ArrayList<>();
-      final List<Set<String>> reverses = new ArrayList<>();
+      final ArrayList<String> keys = new ArrayList<>();
+      final ArrayList<Set<String>> forwards = new ArrayList<>();
+      final ArrayList<Set<String>> reverses = new ArrayList<>();
       while (iterator.hasNext() && Math.random() < 0.5) {
         final String key = iterator.next();
         keys.add(key);
@@ -96,7 +95,7 @@ public class DigraphTest {
         forwards.add(forward);
       }
 
-      for (int i = 0, i$ = keys.size(); i < i$; ++i) { // [L]
+      for (int i = 0, i$ = keys.size(); i < i$; ++i) { // [RA]
         final String key = keys.get(i);
         addEdges(digraph, key, forwards.get(i), true);
         addEdges(digraph, key, reverses.get(i), false);

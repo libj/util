@@ -89,7 +89,7 @@ public class ObservableListTest {
 
   @Test
   public void testStory() {
-    final ObservableList<String> list = new ObservableList<String>(new ArrayList<>()) {
+    final ObservableList<String,ArrayList<String>> list = new ObservableList<String,ArrayList<String>>(new ArrayList<>()) {
       @Override
       protected void beforeGet(final int index, final ListIterator<String> iterator) {
         beforeGet = true;
@@ -174,8 +174,8 @@ public class ObservableListTest {
     }
 
     // iterator.get()
-    for (int i = 0, i$ = list.size(); i < i$; ++i) { // [L]
-      assertNotNull(list.get(i));
+    for (final String member : list) { // [L]
+      assertNotNull(member);
       assertGot();
     }
 
@@ -285,8 +285,8 @@ public class ObservableListTest {
     }
   }
 
-  private static ObservableList<String> newListForSet() {
-    return new ObservableList<String>(new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g"))) {
+  private static ObservableList<String,ArrayList<String>> newListForSet() {
+    return new ObservableList<String,ArrayList<String>>(new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g"))) {
       @Override
       protected boolean beforeSet(final int index, final String newElement) {
         target.set(index, newElement);
@@ -297,7 +297,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddStart() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator();
     assertFalse(iterator.hasPrevious());
@@ -307,7 +307,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddStart2() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(1);
     assertTrue(iterator.hasPrevious());
@@ -320,7 +320,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddEnd() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size() - 1);
     assertTrue(iterator.hasNext());
@@ -332,7 +332,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddEnd2() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size());
     assertFalse(iterator.hasNext());
@@ -343,7 +343,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetStart() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator();
     assertFalse(iterator.hasPrevious());
@@ -354,7 +354,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetStart2() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator();
     assertFalse(iterator.hasPrevious());
@@ -366,7 +366,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetEnd() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size());
     assertFalse(iterator.hasNext());
@@ -377,7 +377,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetEnd2() {
-    final ObservableList<String> list = newListForSet();
+    final ObservableList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size());
     assertFalse(iterator.hasNext());

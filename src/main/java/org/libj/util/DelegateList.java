@@ -32,17 +32,15 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
- * A {@link DelegateList} contains some other {@link List}, to which it
- * delegates its method calls, possibly transforming the data along the way or
- * providing additional functionality. The class {@link DelegateList} itself
- * simply overrides all methods of {@link AbstractList} with versions that pass
- * all requests to the target {@link List}. Subclasses of {@link DelegateList}
- * may further override some of these methods and may also provide additional
- * methods and fields.
+ * A {@link DelegateList} contains some other {@link List}, to which it delegates its method calls, possibly transforming the data
+ * along the way or providing additional functionality. The class {@link DelegateList} itself simply overrides all methods of
+ * {@link AbstractList} with versions that pass all requests to the target {@link List}. Subclasses of {@link DelegateList} may
+ * further override some of these methods and may also provide additional methods and fields.
  *
  * @param <E> The type of elements in this list.
+ * @param <L> The type of underlying list.
  */
-public abstract class DelegateList<E> extends AbstractList<E> {
+public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> {
   /** The target List. */
   @SuppressWarnings("rawtypes")
   protected volatile List target;
@@ -53,7 +51,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
    * @param target The target {@link List}.
    * @throws IllegalArgumentException If the target {@link List} is null.
    */
-  public DelegateList(final List<E> target) {
+  public DelegateList(final L target) {
     this.target = assertNotNull(target);
   }
 
@@ -61,6 +59,10 @@ public abstract class DelegateList<E> extends AbstractList<E> {
    * Creates a new {@link DelegateList} with a null target.
    */
   protected DelegateList() {
+  }
+
+  public boolean isRandomAccess() {
+    return CollectionUtil.isRandomAccess(target);
   }
 
   @Override
@@ -208,27 +210,22 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   /**
    * {@inheritDoc}
    * <p>
-   * The class {@link DelegateList} does not itself implement
-   * {@code #subList(int,int)}, so calling this method on an instance of a
-   * subclass of {@link DelegateList} that does not override this method will
-   * result in a {@link UnsupportedOperationException}.
+   * The class {@link DelegateList} does not itself implement {@code #subList(int,int)}, so calling this method on an instance of a
+   * subclass of {@link DelegateList} that does not override this method will result in a {@link UnsupportedOperationException}.
    */
   @Override
-  public DelegateList<E> subList(final int fromIndex, final int toIndex) {
+  public DelegateList<E,L> subList(final int fromIndex, final int toIndex) {
     throw new UnsupportedOperationException();
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link List#replaceAll(UnaryOperator)}.
+   * Protected method providing access to the default implementation of {@link List#replaceAll(UnaryOperator)}.
    *
    * @param operator The operator to apply to each element.
-   * @throws UnsupportedOperationException If this list is unmodifiable.
-   *           Implementations may throw this exception if an element cannot be
-   *           replaced or if, in general, modification is not supported.
-   * @throws NullPointerException If the specified operator is null or if the
-   *           operator result is a null value and this list does not permit
-   *           null elements.
+   * @throws UnsupportedOperationException If this list is unmodifiable. Implementations may throw this exception if an element
+   *           cannot be replaced or if, in general, modification is not supported.
+   * @throws NullPointerException If the specified operator is null or if the operator result is a null value and this list does not
+   *           permit null elements.
    */
   protected final void superReplaceAll(final UnaryOperator<E> operator) {
     super.replaceAll(operator);
@@ -240,18 +237,14 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link List#sort(Comparator)}.
+   * Protected method providing access to the default implementation of {@link List#sort(Comparator)}.
    *
-   * @param c The {@code Comparator} used to compare list elements. A
-   *          {@code null} value indicates that the elements'
+   * @param c The {@code Comparator} used to compare list elements. A {@code null} value indicates that the elements'
    *          {@linkplain Comparable natural ordering} should be used.
-   * @throws ClassCastException If the list contains elements that are not
-   *           <i>mutually comparable</i> using the specified comparator.
-   * @throws UnsupportedOperationException If the list's list-iterator does not
-   *           support the {@code set} operation.
-   * @throws NullPointerException If the comparator is found to violate the
-   *           {@link Comparator} contract.
+   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified
+   *           comparator.
+   * @throws UnsupportedOperationException If the list's list-iterator does not support the {@code set} operation.
+   * @throws NullPointerException If the comparator is found to violate the {@link Comparator} contract.
    */
   protected final void superSort(final Comparator<? super E> c) {
     super.sort(c);
@@ -263,8 +256,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#forEach(Consumer)}.
+   * Protected method providing access to the default implementation of {@link Collection#forEach(Consumer)}.
    *
    * @param action The action to be performed for each element.
    * @throws NullPointerException If the specified action is null.
@@ -279,17 +271,13 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#removeIf(Predicate)}.
+   * Protected method providing access to the default implementation of {@link Collection#removeIf(Predicate)}.
    *
-   * @param filter A predicate which returns {@code true} for elements to be
-   *          removed.
+   * @param filter A predicate which returns {@code true} for elements to be removed.
    * @return {@code true} if any elements were removed.
    * @throws NullPointerException If the specified filter is null.
-   * @throws UnsupportedOperationException If elements cannot be removed from
-   *           this collection. Implementations may throw this exception if a
-   *           matching element cannot be removed or if, in general, removal is
-   *           not supported.
+   * @throws UnsupportedOperationException If elements cannot be removed from this collection. Implementations may throw this
+   *           exception if a matching element cannot be removed or if, in general, removal is not supported.
    */
   protected final boolean superRemoveIf(final Predicate<? super E> filter) {
     return super.removeIf(filter);
@@ -301,8 +289,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#spliterator()}.
+   * Protected method providing access to the default implementation of {@link Collection#spliterator()}.
    *
    * @return A {@code Spliterator} over the elements in this collection.
    */
@@ -316,8 +303,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#stream()}.
+   * Protected method providing access to the default implementation of {@link Collection#stream()}.
    *
    * @return A sequential {@code Stream} over the elements in this collection.
    */
@@ -331,11 +317,9 @@ public abstract class DelegateList<E> extends AbstractList<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#parallelStream()}.
+   * Protected method providing access to the default implementation of {@link Collection#parallelStream()}.
    *
-   * @return A possibly parallel {@code Stream} over the elements in this
-   *         collection.
+   * @return A possibly parallel {@code Stream} over the elements in this collection.
    */
   protected final Stream<E> superParallelStream() {
     return super.parallelStream();
@@ -358,7 +342,7 @@ public abstract class DelegateList<E> extends AbstractList<E> {
     if (!(obj instanceof DelegateList))
       return Objects.equals(target, obj);
 
-    final DelegateList<?> that = (DelegateList<?>)obj;
+    final DelegateList<?,?> that = (DelegateList<?,?>)obj;
     return Objects.equals(target, that.target);
   }
 

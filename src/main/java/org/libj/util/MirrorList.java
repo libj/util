@@ -41,9 +41,11 @@ import java.util.NoSuchElementException;
  * {@code this} instance, and vice-versa.
  *
  * @param <V> The type of value elements in this list.
+ * @param <LV> The type of underlying value list.
  * @param <R> The type of reflected value elements in the mirror list.
+ * @param <LR> The type of reflected value mirror list.
  */
-public class MirrorList<V,R> extends ObservableList<V> {
+public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends ObservableList<V,LV> {
   /**
    * Interface providing methods for the reflection of one type of object to another, and vice-versa.
    *
@@ -96,7 +98,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
 
   private Mirror<V,R> mirror;
   private Mirror<R,V> reverse;
-  protected MirrorList<R,V> mirrorList;
+  protected MirrorList<R,LR,V,LV> mirrorList;
   protected Iterator<?> targetLock;
   protected boolean inited;
   protected boolean unlocked;
@@ -104,7 +106,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
   /**
    * Underlying map to be used for {@link #mirrorList}, or {@code null} if {@link #mirrorList} is already instantiated.
    */
-  private List<R> reflections;
+  private LR reflections;
 
   /**
    * Creates a new {@link MirrorList} with the specified target lists and {@link Mirror}. The specified target lists are meant to be
@@ -120,7 +122,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
    *          {@link Mirror#reflectionToValue(Object) R -> V} methods.
    * @throws IllegalArgumentException If any of the specified parameters is null.
    */
-  public MirrorList(final List<V> values, final List<R> reflections, final Mirror<V,R> mirror) {
+  public MirrorList(final LV values, final LR reflections, final Mirror<V,R> mirror) {
     super(values);
     this.mirror = assertNotNull(mirror);
     this.reflections = assertNotNull(reflections);
@@ -136,7 +138,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
    * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object) R -> V} methods.
    */
-  protected MirrorList(final MirrorList<R,V> mirrorList, final List<V> values, final Mirror<V,R> mirror) {
+  protected MirrorList(final MirrorList<R,LR,V,LV> mirrorList, final LV values, final Mirror<V,R> mirror) {
     super(values);
     this.mirror = mirror;
     this.mirrorList = mirrorList;
@@ -150,7 +152,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
    * @param reflections The underlying list of type {@code <R>}.
    * @return A new instance of a {@link MirrorList} with the specified target lists.
    */
-  protected MirrorList<V,R> newInstance(final List<V> values, final List<R> reflections) {
+  protected MirrorList<V,LV,R,LR> newInstance(final LV values, final LR reflections) {
     return new MirrorList<>(values, reflections, mirror);
   }
 
@@ -161,7 +163,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
    * @param values The underlying list of type {@code <V>}.
    * @return A new instance of a {@link MirrorList} with the specified target lists.
    */
-  protected MirrorList<R,V> newMirrorInstance(final List<R> values) {
+  protected MirrorList<R,LR,V,LV> newMirrorInstance(final LR values) {
     return new MirrorList<>(this, values, getReverseMirror());
   }
 
@@ -174,7 +176,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
    * @return The instantiated {@link #mirrorList}.
    */
   @SuppressWarnings("unchecked")
-  private MirrorList<R,V> mirrorList(final boolean require) {
+  private MirrorList<R,LR,V,LV> mirrorList(final boolean require) {
     if (reflections != null && (require || reflections.size() > 0)) {
       mirrorList = newMirrorInstance(reflections);
       reflections = null;
@@ -195,7 +197,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
       }
 
       final boolean unlocked = unlock();
-      for (int i = less.size(), i$ = more.size(); i < i$; ++i) // [L]
+      for (int i = less.size(), i$ = more.size(); i < i$; ++i) // [N]
         less.add(PENDING);
 
       lock(unlocked);
@@ -212,7 +214,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
    * @return The {@link MirrorList} instance of type {@code <R>} that retains the one-to-one mapping with its mirror of type
    *         {@code <V>} (i.e. {@code this} instance).
    */
-  public MirrorList<R,V> getMirrorList() {
+  public MirrorList<R,LR,V,LV> getMirrorList() {
     return mirrorList(true);
   }
 
@@ -226,9 +228,9 @@ public class MirrorList<V,R> extends ObservableList<V> {
    * @return This list, with its {@code <V>} and {@code <R>} types reversed.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
-  public MirrorList<R,V> reverse() {
+  public MirrorList<R,LR,V,LV> reverse() {
     if (this.reflections != null) {
-      final List tempList = this.target;
+      final LR tempList = (LR)this.target;
       this.target = this.reflections;
       this.reflections = tempList;
 
@@ -252,7 +254,7 @@ public class MirrorList<V,R> extends ObservableList<V> {
     }
 
     lock(true);
-    return (MirrorList<R,V>)this;
+    return (MirrorList<R,LR,V,LV>)this;
   }
 
   /**
@@ -390,9 +392,8 @@ public class MirrorList<V,R> extends ObservableList<V> {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public MirrorList<V,R> subList(final int fromIndex, final int toIndex) {
+  public MirrorList<V,LV,R,LR> subList(final int fromIndex, final int toIndex) {
     assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
-    return newInstance(target.subList(fromIndex, toIndex), (reflections != null ? reflections : mirrorList.target).subList(fromIndex, toIndex));
+    return newInstance((LV)target.subList(fromIndex, toIndex), (LR)(reflections != null ? reflections : mirrorList.target).subList(fromIndex, toIndex));
   }
 }

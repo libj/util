@@ -59,7 +59,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   protected Map<Integer,Object> indexToObject;
   protected ArrayIntList adjRemoved;
   protected ArrayList<LinkedHashSet<Integer>> adj;
-  protected TransList<LinkedHashSet<Integer>,TransSet<Integer,V>> adjEdges;
+  protected TransList<LinkedHashSet<Integer>,ArrayList<LinkedHashSet<Integer>>,TransSet<Integer,V>,ArrayList<TransSet<Integer,V>>> adjEdges;
   protected ObservableMap<K,Integer> observableObjectToIndex;
   protected ArrayIntList inDegree;
 
@@ -252,7 +252,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    *
    * @return The {@link TransList} instance that relates the edges of type {@code V} to vertex indices.
    */
-  private TransList<LinkedHashSet<Integer>,TransSet<Integer,V>> getAdjEdges() {
+  private TransList<LinkedHashSet<Integer>,ArrayList<LinkedHashSet<Integer>>,TransSet<Integer,V>,ArrayList<TransSet<Integer,V>>> getAdjEdges() {
     if (adjEdges != null)
       return adjEdges;
 
@@ -264,7 +264,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       TransSet<Integer,V> edges;
       if (v >= transEdges.size()) {
         transEdges.ensureCapacity(v);
-        for (int i = transEdges.size(); i <= v; ++i) // [L]
+        for (int i = transEdges.size(); i <= v; ++i) // [RA]
           transEdges.add(null);
 
         edges = null;
@@ -662,7 +662,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
     final BitSet marked = new BitSet(size);
     final BitSet onStack = new BitSet(size);
     final int[] edgeTo = new int[size];
-    for (int v = 0; v < size; ++v) { // [L]
+    for (int v = 0; v < size; ++v) { // [RA]
       if (indexToObject.containsKey(v) && !marked.get(v)) {
         final ArrayList<K> cycle = dfs(marked, onStack, edgeTo, reversePostOrder, v);
         if (cycle != null)
@@ -744,7 +744,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * @return The reverse post order of a depth first search analysis of the digraph, or {@code null} if no such order exists due to
    *         a cycle.
    */
-  public List<K> getTopologicalOrder() {
+  public ArrayList<K> getTopologicalOrder() {
     dfs();
     return reversePostOrder;
   }
@@ -765,7 +765,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       clone.objectToIndex = objectToIndex.clone();
       clone.indexToObject = clone.objectToIndex.reverse();
       final ArrayList<LinkedHashSet<Integer>> cloneAdj = clone.adj = (ArrayList<LinkedHashSet<Integer>>)adj.clone();
-      for (int i = 0, i$ = cloneAdj.size(); i < i$; ++i) { // [L]
+      for (int i = 0, i$ = cloneAdj.size(); i < i$; ++i) { // [RA]
         final LinkedHashSet<Integer> set = cloneAdj.get(i);
         cloneAdj.set(i, set == null ? null : (LinkedHashSet<Integer>)set.clone());
       }
@@ -854,7 +854,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   @Override
   public String toString() {
     final StringBuilder builder = new StringBuilder();
-    for (int v = 0, len = adj.size(); v < len; ++v) { // [L]
+    for (int v = 0, len = adj.size(); v < len; ++v) { // [RA]
       final Object obj = indexToObject.get(v);
       final LinkedHashSet<Integer> ws = adj.get(v);
       builder.append(obj).append(':');

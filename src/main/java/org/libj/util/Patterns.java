@@ -420,7 +420,7 @@ public final class Patterns {
   }
 
   static int lastIndexOfUnEscaped(final CharSequence str, final char ch, final int start, final int end) {
-    for (int lastIndex = -1, i = start;; lastIndex = i++) {
+    for (int lastIndex = -1, i = start;; lastIndex = i++) { // [N]
       i = indexOfUnEscaped(str, ch, i, end);
       if (i < 0)
         return lastIndex;

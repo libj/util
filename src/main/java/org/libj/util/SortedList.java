@@ -30,8 +30,9 @@ import java.util.Objects;
  * A {@link List} that guarantees sorted order of its elements.
  *
  * @param <E> The type of elements in this list.
+ * @param <L> The type of underlying list.
  */
-public class SortedList<E> extends ObservableList<E> {
+public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
   @SuppressWarnings("rawtypes")
   private static final Comparator DEFAULT_COMPARATOR = Comparator.nullsFirst(Comparator.naturalOrder());
 
@@ -41,13 +42,11 @@ public class SortedList<E> extends ObservableList<E> {
    * Creates a new {@link SortedList} with the provided {@link List list} of comparable elements as the underlying target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
-   * @param <T> The parameter requiring elements of type {@link Comparable Comparable&lt;? super E&gt;}.
    * @param list The {@link List} of comparable elements.
    * @throws IllegalArgumentException If the provided {@link List list} is null.
    */
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public <T extends Comparable<? super E>> SortedList(final List<T> list) {
-    this((List)list, DEFAULT_COMPARATOR, true);
+  public SortedList(final L list) {
+    this(list, DEFAULT_COMPARATOR, true);
   }
 
   /**
@@ -59,11 +58,11 @@ public class SortedList<E> extends ObservableList<E> {
    * @param comparator The {@link Comparator}.
    * @throws IllegalArgumentException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
-  public SortedList(final List<E> list, final Comparator<E> comparator) {
+  public SortedList(final L list, final Comparator<E> comparator) {
     this(list, assertNotNull(comparator), true);
   }
 
-  private SortedList(final List<E> list, final Comparator<E> comparator, final boolean sort) {
+  private SortedList(final L list, final Comparator<E> comparator, final boolean sort) {
     super(list);
     this.comparator = comparator;
     if (sort)
@@ -93,8 +92,8 @@ public class SortedList<E> extends ObservableList<E> {
       if (o.equals(a))
         return i;
 
-      for (int sign = -1;; sign = 1) { // [L]
-        for (int offset = 1, j;; ++offset) { // [L]
+      for (int sign = -1;; sign = 1) { // [N]
+        for (int offset = 1, j;; ++offset) { // [N]
           j = i + sign * offset;
           if (sign == -1 ? j < fromIndex : toIndex <= j)
             break;
@@ -183,25 +182,42 @@ public class SortedList<E> extends ObservableList<E> {
   @Override
   public boolean retainAll(final Collection<?> c) {
     if (c.size() > 0) {
-      final int size = size();
-      final int last = size - 1;
+      final int i$ = size();
+      final int end = i$ - 1;
       E elem;
       E prev = null;
       boolean removed = false;
-      for (int i = last; i >= 0; --i, prev = elem) { // [L]
-        elem = getFast(i);
-        final boolean isSameAsPrev = i != last && (Objects.equals(prev, elem));
-        if (!isSameAsPrev) {
-          if (removed = !c.contains(elem)) {
+      if (isRandomAccess()) {
+        for (int i = end; i >= 0; --i, prev = elem) { // [RA]
+          elem = getFast(i);
+          final boolean isSameAsPrev = i != end && Objects.equals(prev, elem);
+          if (!isSameAsPrev) {
+            if (removed = !c.contains(elem)) {
+              remove(i);
+            }
+          }
+          else if (removed) {
             remove(i);
           }
         }
-        else if (removed) {
-          remove(i);
+      }
+      else {
+        final Iterator<E> iterator = iterator();
+        for (int i = 0; i < i$; ++i, prev = elem) { // [I]
+          elem = iterator.next();
+          final boolean isSameAsPrev = i != 0 && Objects.equals(prev, elem);
+          if (!isSameAsPrev) {
+            if (removed = !c.contains(elem)) {
+              iterator.remove();
+            }
+          }
+          else if (removed) {
+            iterator.remove();
+          }
         }
       }
 
-      return size != size();
+      return i$ != size();
     }
 
     if (size() == 0)
@@ -225,8 +241,7 @@ public class SortedList<E> extends ObservableList<E> {
     if (!target.get(index).equals(o))
       return -1;
 
-    while (--index > 0 && target.get(index).equals(o))
-      ;
+    while (--index > 0 && target.get(index).equals(o));
     return index + 1;
   }
 
@@ -245,8 +260,7 @@ public class SortedList<E> extends ObservableList<E> {
       return -1;
 
     final int len = target.size();
-    while (++index < len && target.get(index).equals(o))
-      ;
+    while (++index < len && target.get(index).equals(o));
     return index - 1;
   }
 
@@ -325,8 +339,8 @@ public class SortedList<E> extends ObservableList<E> {
   }
 
   @Override
-  public SortedList<E> subList(final int fromIndex, final int toIndex) {
+  public SortedList<E,L> subList(final int fromIndex, final int toIndex) {
     assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
-    return new SortedList<E>(target.subList(fromIndex, toIndex), comparator, false);
+    return new SortedList<>((L)target.subList(fromIndex, toIndex), comparator, false);
   }
 }

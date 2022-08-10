@@ -89,8 +89,8 @@ public class PairedSortTest {
   }
 
   private static void testN(final int n) {
-    final List<Integer> list = new ArrayList<>(n);
-    for (int i = 0; i < n; ++i) // [L]
+    final ArrayList<Integer> list = new ArrayList<>(n);
+    for (int i = 0; i < n; ++i) // [RA]
       list.add(i);
 
     test(list);
