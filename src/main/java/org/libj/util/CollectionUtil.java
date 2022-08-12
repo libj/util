@@ -18,6 +18,7 @@ package org.libj.util;
 
 import static org.libj.lang.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +29,7 @@ import java.util.RandomAccess;
 import java.util.function.Function;
 
 import org.libj.lang.Classes;
+import org.libj.lang.WrappedArrayList;
 import org.libj.util.primitive.ArrayDoubleList;
 import org.libj.util.primitive.ArrayFloatList;
 import org.libj.util.primitive.ArrayIntList;
@@ -45,6 +47,14 @@ import org.libj.util.primitive.ShortComparator;
  * Utility functions for operations pertaining to {@link Collection} and {@link List}.
  */
 public final class CollectionUtil extends PrimitiveSort {
+  /**
+   * The empty {@link ArrayList} (immutable). This list is serializable.
+   *
+   * @see WrappedArrayList
+   */
+  @SuppressWarnings("rawtypes")
+  public static final ArrayList EMPTY_ARRAY_LIST = new WrappedArrayList<>();
+
   /**
    * Returns {@code true} if the provided {@link List} either directly implements the {@link RandomAccess} interface, or is a
    * {@link DelegateList} wrapping another list that implements the {@link RandomAccess} interface; otherwise {@code false}.

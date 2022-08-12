@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.RandomAccess;
 
 import org.libj.lang.ObjectUtil;
 import org.libj.util.primitive.ArrayIntList;
@@ -72,12 +73,12 @@ import org.slf4j.Logger;
  * @param <E> The type of elements in this list and internal {@link ComponentList}s.
  * @param <T> The type for separation of {@link ComponentList}s.
  */
-public abstract class CompositeList<E,T> extends ObservableList<E,ArrayList<E>> implements Cloneable {
+public abstract class CompositeList<E,T> extends ObservableList<E,ArrayList<E>> implements Cloneable, RandomAccess {
   /**
    * The component list of the {@link CompositeList} that stores instances extending type {@code <E>}, which is separated from other
    * such {@link ComponentList}s by objects of type {@code <T>}.
    */
-  public class ComponentList extends ObservableList<E,ArrayList<E>> implements Cloneable {
+  public class ComponentList extends ObservableList<E,ArrayList<E>> implements Cloneable, RandomAccess {
     protected final T type;
     protected ArrayIntList indexes;
 
