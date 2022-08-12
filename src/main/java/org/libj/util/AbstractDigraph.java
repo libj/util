@@ -162,8 +162,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * @implSpec This method is not thread safe.
    * @param from The tail vertex.
    * @param to The head vertex.
-   * @return {@code true} if this digraph has been modified, and {@code false}
-   *         if the specified edge already existed in the digraph.
+   * @return {@code true} if this digraph has been modified, and {@code false} if the specified edge already existed in the digraph.
    */
   private boolean addEdge(final Object from, final Object to) {
     final int v = getIndexCreate(from);
@@ -854,7 +853,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   @Override
   public String toString() {
     final StringBuilder builder = new StringBuilder();
-    for (int v = 0, len = adj.size(); v < len; ++v) { // [RA]
+    for (int v = 0, v$ = adj.size(); v < v$; ++v) { // [RA]
       final Object obj = indexToObject.get(v);
       final LinkedHashSet<Integer> ws = adj.get(v);
       builder.append(obj).append(':');

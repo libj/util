@@ -105,8 +105,7 @@ public final class ExecutorServices {
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException If {@code tasks} or any member of
-     *           {@code tasks} is null.
+     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
      */
     @Override
     public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
@@ -307,7 +306,7 @@ public final class ExecutorServices {
     final AtomicBoolean canceled = new AtomicBoolean(false);
     final Thread[] threads = new Thread[tasks.length];
     final CountDownLatch latch = new CountDownLatch(tasks.length);
-    for (int i = 0; i < tasks.length; ++i) { // [A]
+    for (int i = 0, i$ = tasks.length; i < i$; ++i) { // [A]
       final T task = assertNotNull(tasks[i]);
       final int index = i;
       executor.execute(() -> {
@@ -430,7 +429,7 @@ public final class ExecutorServices {
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final T ... tasks) throws InterruptedException {
     final Callable<R>[] callables = new Callable[assertNotNull(tasks).length];
-    for (int i = 0; i < tasks.length; ++i) { // [A]
+    for (int i = 0, i$ = tasks.length; i < i$; ++i) { // [A]
       final T task = assertNotNull(tasks[i]);
       callables[i] = () -> proxy.apply(task);
     }

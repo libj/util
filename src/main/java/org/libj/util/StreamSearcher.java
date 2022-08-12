@@ -43,7 +43,7 @@ public final class StreamSearcher {
     public Char(final char[] ... patterns) {
       this.patterns = patterns;
       this.borders = new int[patterns.length][patterns[0].length + 1];
-      for (int p = 0; p < patterns.length; ++p) { // [A]
+      for (int p = 0, p$ = patterns.length; p < p$; ++p) { // [A]
         int i = 0;
         int j = -1;
         borders[p][i] = j;
@@ -99,7 +99,7 @@ public final class StreamSearcher {
           buffer[offset + i] = (char)b;
 
         ++i;
-        for (int p = 0; p < patterns.length; ++p) { // [A]
+        for (int p = 0, p$ = patterns.length; p < p$; ++p) { // [A]
           while (j[p] >= 0 && (char)b != patterns[p][j[p]])
             j[p] = borders[p][j[p]];
 
@@ -134,7 +134,7 @@ public final class StreamSearcher {
     public Byte(final byte[] ... patterns) {
       this.patterns = patterns;
       this.borders = new int[patterns.length][patterns[0].length + 1];
-      for (int p = 0; p < patterns.length; ++p) { // [A]
+      for (int p = 0, p$ = patterns.length; p < p$; ++p) { // [A]
         int i = 0;
         int j = -1;
         borders[p][i] = j;
@@ -184,7 +184,7 @@ public final class StreamSearcher {
           buffer[offset + i] = (byte)b;
 
         ++i;
-        for (int p = 0; p < patterns.length; ++p) { // [A]
+        for (int p = 0, p$ = patterns.length; p < p$; ++p) { // [A]
           while (j[p] >= 0 && (byte)b != patterns[p][j[p]])
             j[p] = borders[p][j[p]];
 

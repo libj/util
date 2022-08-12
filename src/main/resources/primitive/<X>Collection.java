@@ -57,7 +57,7 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    */
   default boolean addAll(final <x> ... a) {
     boolean changed = false;
-    for (int i = 0; i < a.length; ++i) // [A]
+    for (int i = 0, i$ = a.length; i < i$; ++i) // [A]
       changed |= add(a[i]);
 
     return changed;

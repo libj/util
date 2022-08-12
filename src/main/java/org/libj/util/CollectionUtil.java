@@ -898,7 +898,7 @@ public final class CollectionUtil extends PrimitiveSort {
    */
   public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a) {
     assertNotNull(a);
-    for (int i = 0; i < a.length; ++i) // [A]
+    for (int i = 0, i$ = a.length; i < i$; ++i) // [A]
       c.add(a[i]);
 
     return c;

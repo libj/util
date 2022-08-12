@@ -106,7 +106,7 @@ public class CollectionUtilTest {
   @Test
   public void testPartitions() {
     final List<String> list = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
-    for (int p = 1; p < list.size(); ++p) { // [N]
+    for (int p = 1, p$ = list.size(); p < p$; ++p) { // [N]
       final List<String>[] partitions = CollectionUtil.partition(list, p);
       final int parts = list.size() / p;
       final int remainder = list.size() % p;

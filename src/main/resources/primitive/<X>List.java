@@ -292,7 +292,7 @@ public interface <X>List extends <X>Collection {
   @Override
   default boolean removeAll(final <x> ... values) {
     final int beforeSize = size();
-    for (int i = 0; i < values.length; ++i) // [A]
+    for (int i = 0, i$ = values.length; i < i$; ++i) // [A]
       while (remove(values[i]));
 
     return beforeSize != size();
@@ -417,7 +417,7 @@ public interface <X>List extends <X>Collection {
    * @see #contains(<x>)
    */
   default boolean containsAll(final <x> ... values) {
-    for (int i = 0; i < values.length; ++i) // [A]
+    for (int i = 0, i$ = values.length; i < i$; ++i) // [A]
       if (!contains(values[i]))
         return false;
 

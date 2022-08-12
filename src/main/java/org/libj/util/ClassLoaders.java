@@ -29,7 +29,7 @@ public final class ClassLoaders {
 
     final String[] parts = value.split(File.pathSeparator);
     final File[] urls = new File[parts.length];
-    for (int i = 0; i < parts.length; ++i) // [A]
+    for (int i = 0, i$ = parts.length; i < i$; ++i) // [A]
       urls[i] = new File(parts[i]);
 
     return urls;

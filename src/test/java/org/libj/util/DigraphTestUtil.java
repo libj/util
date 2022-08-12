@@ -40,7 +40,7 @@ final class DigraphTestUtil {
     if (edges.length % 2 != 0)
       throw new IllegalArgumentException("edges array must be (v, w) vertex pairs");
 
-    for (int i = 0; i < edges.length;) // [A]
+    for (int i = 0, i$ = edges.length; i < i$;) // [A]
       digraph.add(edges[i++], edges[i++]);
 
     assertNotEquals(0, digraph.size());

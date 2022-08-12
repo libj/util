@@ -390,7 +390,7 @@ public final class ArrayUtil extends PrimitiveSort {
   public static <T>int lengthDeep(final T[] a, final Function<? super T,T[]> resolver, final boolean countArrayReferences) {
     assertNotNull(a);
     int size = 0;
-    for (int i = 0; i < a.length; ++i) { // [A]
+    for (int i = 0, i$ = a.length; i < i$; ++i) { // [A]
       final T member = a[i];
       final T[] inner = member == null ? null : resolver != null ? resolver.apply(member) : member.getClass().isArray() ? (T[])member : null;
       if (inner != null) {
@@ -463,7 +463,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   @SuppressWarnings("unchecked")
   private static <T>int flatten0(final T[] in, final Object[] out, final Function<? super T,T[]> resolver, final boolean retainArrayReferences, int index) {
-    for (int i = 0; i < in.length; ++i) { // [A]
+    for (int i = 0, i$ = in.length; i < i$; ++i) { // [A]
       final T member = in[i];
       final T[] inner = member == null ? null : resolver != null ? resolver.apply(member) : member.getClass().isArray() ? (T[])member : null;
       if (inner != null) {
@@ -1125,7 +1125,7 @@ public final class ArrayUtil extends PrimitiveSort {
   public static <T>T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
     assertNotNull(operator);
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = operator.apply(array[i]);
 
     return array;
@@ -1166,7 +1166,7 @@ public final class ArrayUtil extends PrimitiveSort {
     assertNotNull(array2);
     assertNotNull(arrays);
     int length = array1.length + array2.length;
-    for (int i = 0; i < arrays.length; ++i) // [A]
+    for (int i = 0, i$ = arrays.length; i < i$; ++i) // [A]
       length += arrays[i].length;
 
     final T[] concat = Arrays.copyOf(array1, length);
@@ -1189,7 +1189,7 @@ public final class ArrayUtil extends PrimitiveSort {
   public static <T>T[] concat(final T[][] arrays) {
     assertNotNull(arrays);
     int length = 0;
-    for (int i = 0; i < arrays.length; ++i) // [A]
+    for (int i = 0, i$ = arrays.length; i < i$; ++i) // [A]
       length += arrays[i].length;
 
     final T[] concat = (T[])Array.newInstance(arrays[0].getClass().getComponentType(), length);
@@ -2858,7 +2858,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static byte[] fillSequence(final byte[] array, byte start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2874,7 +2874,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static Byte[] fillSequence(final Byte[] array, byte start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2890,7 +2890,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static char[] fillSequence(final char[] array, char start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2906,7 +2906,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static Character[] fillSequence(final Character[] array, char start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2922,7 +2922,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static short[] fillSequence(final short[] array, short start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2938,7 +2938,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static Short[] fillSequence(final Short[] array, short start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2954,7 +2954,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static int[] fillSequence(final int[] array, int start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2970,7 +2970,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static Integer[] fillSequence(final Integer[] array, int start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -2986,7 +2986,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static long[] fillSequence(final long[] array, long start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -3002,7 +3002,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static Long[] fillSequence(final Long[] array, long start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -3018,7 +3018,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static float[] fillSequence(final float[] array, float start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -3034,7 +3034,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static Float[] fillSequence(final Float[] array, float start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -3050,7 +3050,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static double[] fillSequence(final double[] array, double start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;
@@ -3066,7 +3066,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static Double[] fillSequence(final Double[] array, double start) {
     assertNotNull(array);
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = start++;
 
     return array;

@@ -36,7 +36,7 @@ public class IteratorsTest {
   public void testFlatArray() {
     final Object[] array = {null, new Object[] {}, new Object[] {0, new Object[] {new Object[] {new Object[] {}, new Object[] {}}, new Object[] {1, new Object[] {new Object[] {new Object[] {new Object[] {new Object[] {}, new Object[] {}}}}}, new Object[] {}, 2}, 3}, 4, null, new Object[] {5, 6, null}}, 7, new Object[] {null}, new Object[] {8, new Object[] {9, null}, 10}, 11, 12, new Object[] {null, null}};
     final Iterator<Integer> iterator = new FlatArrayIterator<>(array);
-    for (int i = 0; i < expected.length; ++i) { // [A]
+    for (int i = 0, i$ = expected.length; i < i$; ++i) { // [A]
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
@@ -48,7 +48,7 @@ public class IteratorsTest {
   public void testFlatList() {
     final List<?> list = Arrays.asList(null, Collections.EMPTY_LIST, Arrays.asList(0, Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST), Arrays.asList(1, Arrays.asList(Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST))), Collections.EMPTY_LIST, 2), 3), 4, null, Arrays.asList(5, 6, null)), 7, Arrays.asList((Integer)null), Arrays.asList(8, Arrays.asList(9, null), 10), 11, 12, Arrays.asList(null, null));
     final Iterator<Integer> iterator = new FlatListIterator<>(list);
-    for (int i = 0; i < expected.length; ++i) { // [A]
+    for (int i = 0, i$ = expected.length; i < i$; ++i) { // [A]
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();
@@ -60,7 +60,7 @@ public class IteratorsTest {
   public void testIterableList() {
     final Collection<?> list = Arrays.asList(null, Collections.EMPTY_LIST, Arrays.asList(0, Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST), Arrays.asList(1, Arrays.asList(Arrays.asList(Arrays.asList(Collections.EMPTY_LIST, Collections.EMPTY_LIST))), Collections.EMPTY_LIST, 2), 3), 4, null, Arrays.asList(5, 6, null)), 7, Arrays.asList((Integer)null), Arrays.asList(8, Arrays.asList(9, null), 10), 11, 12, Arrays.asList(null, null));
     final Iterator<Integer> iterator = new FlatCollectionIterator<>(list);
-    for (int i = 0; i < expected.length; ++i) { // [A]
+    for (int i = 0, i$ = expected.length; i < i$; ++i) { // [A]
       assertTrue(iterator.hasNext());
       assertTrue(iterator.hasNext());
       final Object next = iterator.next();

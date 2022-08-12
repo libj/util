@@ -30,7 +30,7 @@ public class PairedSortTest {
   private static final int ITERATIONS = 100;
 
   private static <T>void randomize(final List<T> a, final int[] b) {
-    for (int c = 0; c < b.length; ++c) { // [A]
+    for (int c = 0, c$ = b.length; c < c$; ++c) { // [A]
       final int i1 = (int)(Math.random() * b.length);
       final T a1 = a.get(i1);
       final int b1 = b[i1];

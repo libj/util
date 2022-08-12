@@ -142,10 +142,10 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   }
 
   private static void assertSubListsEaual(final Array<X>List[] ... lists) {
-    for (int i = 1; i < lists.length; ++i) { // [A]
+    for (int i = 1, i$ = lists.length; i < i$; ++i) { // [A]
       final Array<X>List[] a = lists[i - 1];
       final Array<X>List[] b = lists[i];
-      for (int j = 0; j < a.length; ++j) // [A]
+      for (int j = 0, j$ = a.length; j < j$; ++j) // [A]
         Assert.assertEquals((char)('a' + i - 1) + "[" + j + "] != " + (char)('a' + i) + "[" + j + "]: ", a[j], b[j]);
     }
   }
@@ -267,11 +267,11 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
     assertSubListsEaual(baseline, a);
 
     a[0].clear();
-    for (int i = 1; i < a.length; ++i) // [A]
+    for (int i = 1, i$ = a.length; i < i$; ++i) // [A]
       Assert.assertEquals("a[" + (i - 1) + "] != " + "a[" + i + "]: ", a[i - 1].size(), a[i].size());
 
     a[0].add((<x>)100);
-    for (int i = 2; i < a.length; ++i) // [A]
+    for (int i = 2, i$ = a.length; i < i$; ++i) // [A]
       Assert.assertEquals("a[" + (i - 1) + "] != " + "a[" + i + "]: ", a[i - 1].size(), a[i].size());
 
     a[0].removeIndex(0);
@@ -483,7 +483,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
   public void testIterator(final <x>[] values, final Array<X>List list) {
     assertEquals(values.length, list.size());
     <X>Iterator iterator = list.iterator();
-    for (int i = 0; i < values.length; ++i) // [A]
+    for (int i = 0, i$ = values.length; i < i$; ++i) // [A]
       assertEquals(values[i], iterator.next());
 
     assertFalse(iterator.hasNext());
@@ -539,7 +539,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
 
   public void testListIterator(final <x>[] values, final Array<X>List list) {
     <X>ListIterator iterator = list.listIterator();
-    for (int i = 0; i < values.length; ++i) { // [A]
+    for (int i = 0, i$ = values.length; i < i$; ++i) { // [A]
       assertEquals(i, iterator.nextIndex());
       assertEquals(values[i], iterator.next());
     }

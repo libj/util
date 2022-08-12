@@ -39,7 +39,7 @@ public class CircularArrayListTest {
   @Test
   public void testAddAndRemove() {
     final Integer[] array = new Integer[5];
-    for (int i = 0; i < array.length; ++i) // [A]
+    for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = Integer.valueOf(i);
 
     final List<Integer> list = new CircularArrayList<>();

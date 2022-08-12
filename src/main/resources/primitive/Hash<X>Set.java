@@ -24,14 +24,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * An {@link <X>Set} implementing
- * <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing
- * (closed hashing) with linear-probing for collision resolution</a> algorithm,
- * with allocation-free operation in steady state when expanded.
+ * An {@link <X>Set} implementing <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing (closed hashing) with
+ * linear-probing for collision resolution</a> algorithm, with allocation-free operation in steady state when expanded.
  * <p>
- * This class replicates the API of the {@link java.util.HashSet} class by
- * defining synonymous methods for a set of {@code <x>} values instead of
- * Object references.
+ * This class replicates the API of the {@link java.util.HashSet} class by defining synonymous methods for a set of {@code <x>}
+ * values instead of Object references.
  */
 public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   /**
@@ -56,8 +53,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   private transient volatile int modCount;
 
   /**
-   * Creates an empty {@link Hash<X>Set} with the default initial capacity
-   * (16) and the default load factor (0.55).
+   * Creates an empty {@link Hash<X>Set} with the default initial capacity (16) and the default load factor (0.55).
    */
   public Hash<X>Set() {
     this(16);
@@ -85,8 +81,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   /**
-   * Creates an empty {@link Hash<X>Set} with the specified initial capacity and
-   * the default load factor (0.55).
+   * Creates an empty {@link Hash<X>Set} with the specified initial capacity and the default load factor (0.55).
    *
    * @param initialCapacity The initial capacity.
    * @throws IllegalArgumentException If the initial capacity is negative.
@@ -260,7 +255,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   @Override
   public boolean removeAll(final <x> ... a) {
     boolean changed = false;
-    for (int i = 0; i < a.length; ++i) // [A]
+    for (int i = 0, i$ = a.length; i < i$; ++i) // [A]
       changed |= remove(a[i]);
 
     return changed;
@@ -530,8 +525,8 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   }
 
   /**
-   * Compact the backing arrays by rehashing with a capacity just larger than
-   * current size and giving consideration to the load factor.
+   * Compact the backing arrays by rehashing with a capacity just larger than current size and giving consideration to the load
+   * factor.
    */
   public void compact() {
     final int idealCapacity = (int)Math.round(size() * (1.0 / loadFactor));
@@ -566,7 +561,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   @Override
   public int hashCode() {
     int hashCode = containsNull ? <XX>.hashCode(NULL) : 0;
-    for (int i = 0; i < valueData.length; ++i) // [A]
+    for (int i = 0, i$ = valueData.length; i < i$; ++i) // [A]
       hashCode += <XX>.hashCode(valueData[i]);
 
     return hashCode;
@@ -576,7 +571,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   public String toString() {
     final StringBuilder builder = new StringBuilder();
     builder.append('[');
-    for (int i = 0; i < valueData.length; ++i) // [A]
+    for (int i = 0, i$ = valueData.length; i < i$; ++i) // [A]
       if (valueData[i] != NULL)
         builder.append(valueData[i]).append(", ");
 

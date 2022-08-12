@@ -54,7 +54,7 @@ public final class SimpleDateFormats {
 
       IsoDateFormats(final Locale locale, final String ... patterns) {
         this.formats = new IsoDateFormat[patterns.length];
-        for (int i = 0; i < patterns.length; ++i) // [A]
+        for (int i = 0, i$ = patterns.length; i < i$; ++i) // [A]
           this.formats[i] = locale != null ? new IsoDateFormat(patterns[i], locale, i) : new IsoDateFormat(patterns[i], i);
       }
 
@@ -63,7 +63,7 @@ public final class SimpleDateFormats {
         final String tzPart = text.substring(text.lastIndexOf(' ') + 1);
         final int i = tzPart.charAt(0) != '+' && tzPart.charAt(0) != '-' ? 1 : 0;
         // FIXME: Need to finish this...
-//        for (int i = 0; i < formats.length; ++i) { // [A]
+//        for (int i = 0, i$ = formats.length; i < i$; ++i) { // [A]
           final IsoDateFormat format = formats[i];
 
           format.setTimeZone(fetchTimeZone(tzPart));
