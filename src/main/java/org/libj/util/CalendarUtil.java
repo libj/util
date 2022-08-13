@@ -26,15 +26,11 @@ import java.util.TimeZone;
  */
 public final class CalendarUtil {
   /**
-   * Creates a new {@link Calendar} at the specified {@link TimeZone}, with its
-   * current time set to {@code time}.
+   * Creates a new {@link Calendar} at the specified {@link TimeZone}, with its current time set to {@code time}.
    *
-   * @param time The milliseconds value to which the time of the returned
-   *          {@link Calendar} should be set.
-   * @param timeZone The {@link TimeZone} to be used by the returned
-   *          {@link Calendar}.
-   * @return A new {@link Calendar} at the specified {@link TimeZone}, with its
-   *         current time set to {@code time}.
+   * @param time The milliseconds value to which the time of the returned {@link Calendar} should be set.
+   * @param timeZone The {@link TimeZone} to be used by the returned {@link Calendar}.
+   * @return A new {@link Calendar} at the specified {@link TimeZone}, with its current time set to {@code time}.
    * @throws IllegalArgumentException If {@code timeZone} is null.
    */
   public static Calendar newCalendar(final long time, final TimeZone timeZone) {
@@ -44,13 +40,10 @@ public final class CalendarUtil {
   }
 
   /**
-   * Creates a new {@link Calendar} at the default time zone, with its current
-   * time set to {@code time}.
+   * Creates a new {@link Calendar} at the default time zone, with its current time set to {@code time}.
    *
-   * @param time The milliseconds value to which the time of the returned
-   *          {@link Calendar} should be set.
-   * @return A new {@link Calendar} at the default time zone, with its current
-   *         time set to {@code time}.
+   * @param time The milliseconds value to which the time of the returned {@link Calendar} should be set.
+   * @return A new {@link Calendar} at the default time zone, with its current time set to {@code time}.
    */
   public static Calendar newCalendar(final long time) {
     final Calendar calendar = Calendar.getInstance();

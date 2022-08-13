@@ -20,27 +20,21 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 /**
- * A directed graph of an arbitrary-sized set of arbitrary-typed vertices,
- * permitting self-loops and parallel edges.
+ * A directed graph of an arbitrary-sized set of arbitrary-typed vertices, permitting self-loops and parallel edges.
  * <p>
- * Edges can be dynamically added with {@link Digraph#add(Object,Object)}. Cycle
- * can be found with {@link Digraph#hasCycle()} and {@link Digraph#getCycle()}.
- * If no cycle exists, a topological order can be found with
- * {@link Digraph#getTopologicalOrder()}.
+ * Edges can be dynamically added with {@link Digraph#add(Object,Object)}. Cycle can be found with {@link Digraph#hasCycle()} and
+ * {@link Digraph#getCycle()}. If no cycle exists, a topological order can be found with {@link Digraph#getTopologicalOrder()}.
  * <p>
- * This implementation uses {@link Integer}-based vertex indices as references
- * to the arbitrary-typed object vertices via {@link HashBiMap}.
+ * This implementation uses {@link Integer}-based vertex indices as references to the arbitrary-typed object vertices via
+ * {@link HashBiMap}.
  * <p>
- * The digraph is internally represented as a dynamically scalable
- * {@link ArrayList} list of index-&gt;{@link LinkedHashSet} set of adjacent
- * edges.
+ * The digraph is internally represented as a dynamically scalable {@link ArrayList} list of index-&gt;{@link LinkedHashSet} set of
+ * adjacent edges.
  * <p>
- * All operations take constant time (in the worst case) except iterating over
- * the vertices adjacent from a given vertex, which takes time proportional to
- * the number of such vertices.
+ * All operations take constant time (in the worst case) except iterating over the vertices adjacent from a given vertex, which
+ * takes time proportional to the number of such vertices.
  * <p>
- * The {@link Digraph} implements {@code Map<T,Set<T>>}, supporting all required
- * and optional operations.
+ * The {@link Digraph} implements {@code Map<T,Set<T>>}, supporting all required and optional operations.
  *
  * @param <T> The type of elements in this digraph.
  */

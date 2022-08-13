@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * An {@link Iterator} for N-dimensional {@link List}s of type {@code <T>} that
- * iterates through the leaf members of the {@link List} of type {@code <E>}.
+ * An {@link Iterator} for N-dimensional {@link List}s of type {@code <T>} that iterates through the leaf members of the
+ * {@link List} of type {@code <E>}.
  *
  * @param <E> The type of leaf member elements.
  * @param <T> The type of the {@link List}.

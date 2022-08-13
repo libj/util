@@ -59,7 +59,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   protected Map<Integer,Object> indexToObject;
   protected ArrayIntList adjRemoved;
   protected ArrayList<LinkedHashSet<Integer>> adj;
-  protected TransList<LinkedHashSet<Integer>,ArrayList<LinkedHashSet<Integer>>,TransSet<Integer,V>,ArrayList<TransSet<Integer,V>>> adjEdges;
+  protected TransRandomAccessList<LinkedHashSet<Integer>,ArrayList<LinkedHashSet<Integer>>,TransSet<Integer,V>,ArrayList<TransSet<Integer,V>>> adjEdges;
   protected ObservableMap<K,Integer> observableObjectToIndex;
   protected ArrayIntList inDegree;
 
@@ -246,17 +246,17 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   /**
-   * Returns the {@link TransList} instance that relates the edges of type {@code V} to vertex indices. Changes made to this digraph
-   * are reflected in this list.
+   * Returns the {@link TransRandomAccessList} instance that relates the edges of type {@code V} to vertex indices. Changes made to
+   * this digraph are reflected in this list.
    *
-   * @return The {@link TransList} instance that relates the edges of type {@code V} to vertex indices.
+   * @return The {@link TransRandomAccessList} instance that relates the edges of type {@code V} to vertex indices.
    */
-  private TransList<LinkedHashSet<Integer>,ArrayList<LinkedHashSet<Integer>>,TransSet<Integer,V>,ArrayList<TransSet<Integer,V>>> getAdjEdges() {
+  private TransRandomAccessList<LinkedHashSet<Integer>,ArrayList<LinkedHashSet<Integer>>,TransSet<Integer,V>,ArrayList<TransSet<Integer,V>>> getAdjEdges() {
     if (adjEdges != null)
       return adjEdges;
 
     final ArrayList<TransSet<Integer,V>> transEdges = new ArrayList<>(initialCapacity);
-    return adjEdges = new TransList<>(adj, (v, ws) -> {
+    return adjEdges = new TransRandomAccessList<>(adj, (v, ws) -> {
       if (ws == null)
         return null;
 

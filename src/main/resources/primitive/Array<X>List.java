@@ -31,30 +31,23 @@ import org.libj.util.ArrayUtil;
 /**
  * An unsynchronized implementation of a resizable-array of <x> values.
  * <p>
- * The {@code size}, {@code isEmpty}, {@code get}, and {@code set} operations
- * run in constant time. The {@code add} operation runs in <i>amortized constant
- * time</i>, that is, adding n elements requires O(n) time. All of the other
- * operations run in linear time (roughly speaking).
+ * The {@code size}, {@code isEmpty}, {@code get}, and {@code set} operations run in constant time. The {@code add} operation runs
+ * in <i>amortized constant time</i>, that is, adding n elements requires O(n) time. All of the other operations run in linear time
+ * (roughly speaking).
  * <p>
- * Each {@link Array<X>List} instance has a <i>capacity</i>. The capacity is
- * the size of the array used to store the elements in the list. It is always at
- * least as large as the list size. As elements are added to an Array<X>List,
- * its capacity grows automatically. The details of the growth policy are not
- * specified beyond the fact that adding an element has constant amortized time
- * cost.
+ * Each {@link Array<X>List} instance has a <i>capacity</i>. The capacity is the size of the array used to store the elements in
+ * the list. It is always at least as large as the list size. As elements are added to an Array<X>List, its capacity grows
+ * automatically. The details of the growth policy are not specified beyond the fact that adding an element has constant amortized
+ * time cost.
  * <p>
- * An application can increase the capacity of an {@link Array<X>List} instance
- * before adding a large number of elements using the {@code ensureCapacity}
- * operation. This may reduce the amount of incremental reallocation.
+ * An application can increase the capacity of an {@link Array<X>List} instance before adding a large number of elements using the
+ * {@code ensureCapacity} operation. This may reduce the amount of incremental reallocation.
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If
- * multiple threads access an {@link Array<X>List} instance concurrently, and
- * at least one of the threads modifies the list structurally, it <i>must</i> be
- * synchronized externally. (A structural modification is any operation that
- * adds or deletes one or more elements, or explicitly resizes the backing
- * array; merely setting the value of an element is not a structural
- * modification.) This is typically accomplished by synchronizing on some object
- * that naturally encapsulates the list.
+ * <strong>Note that this implementation is not synchronized.</strong> If multiple threads access an {@link Array<X>List} instance
+ * concurrently, and at least one of the threads modifies the list structurally, it <i>must</i> be synchronized externally. (A
+ * structural modification is any operation that adds or deletes one or more elements, or explicitly resizes the backing array;
+ * merely setting the value of an element is not a structural modification.) This is typically accomplished by synchronizing on some
+ * object that naturally encapsulates the list.
  */
 public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, RandomAccess {
   private static final <x>[] EMPTY_VALUEDATA = {};
@@ -71,8 +64,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
    * Creates an empty list with the specified initial capacity.
    *
    * @param initialCapacity The initial capacity of the list.
-   * @throws IllegalArgumentException If the specified initial capacity is
-   *           negative.
+   * @throws IllegalArgumentException If the specified initial capacity is negative.
    */
   public Array<X>List(final int initialCapacity) {
     if (initialCapacity < 0)
@@ -108,8 +100,8 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Creates a list containing the values of the specified collection, in the
-   * order they are returned by the collection's iterator.
+   * Creates a list containing the values of the specified collection, in the order they are returned by the collection's
+   * iterator.
    *
    * @param c The collection whose values are to be placed into this list.
    * @throws NullPointerException If the specified collection is null.
@@ -122,10 +114,8 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Creates a sub-list, and integrates it into the specified parent list's
-   * sub-list graph. A sub-list instance shares the parent list's
-   * {@link #valueData}, and modifications made to any list in the graph of
-   * sub-lists are propagated with the
+   * Creates a sub-list, and integrates it into the specified parent list's sub-list graph. A sub-list instance shares the parent
+   * list's {@link #valueData}, and modifications made to any list in the graph of sub-lists are propagated with the
    * {@link PrimitiveArrayList#updateState(int,int)} method.
    *
    * @param parent The parent list.
@@ -138,8 +128,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Shifts the values in {@code valueData} right a distance of {@code dist}
-   * starting from {@code index}.
+   * Shifts the values in {@code valueData} right a distance of {@code dist} starting from {@code index}.
    *
    * @param start Index from which to shift the values to the right.
    * @param dist Distance to shift the values by.
@@ -152,8 +141,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Shifts the values in {@code valueData} left a distance of {@code dist}
-   * starting from {@code index}.
+   * Shifts the values in {@code valueData} left a distance of {@code dist} starting from {@code index}.
    *
    * @param start Index from which to shift the values to the left.
    * @param dist Distance to shift the values by.
@@ -188,11 +176,9 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Appends all of the values in the specified list to the end of this list, in
-   * the order that they are returned by the specified list's Iterator. The
-   * behavior of this operation is undefined if the specified list is modified
-   * while the operation is in progress. (This implies that the behavior of this
-   * call is undefined if the specified list is this list, and this list is
+   * Appends all of the values in the specified list to the end of this list, in the order that they are returned by the specified
+   * list's Iterator. The behavior of this operation is undefined if the specified list is modified while the operation is in
+   * progress. (This implies that the behavior of this call is undefined if the specified list is this list, and this list is
    * nonempty.)
    *
    * @param list List containing values to be added to this list.
@@ -204,11 +190,9 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Appends all of the values in the specified list to the end of this list, in
-   * the order that they are returned by the specified list's Iterator. The
-   * behavior of this operation is undefined if the specified list is modified
-   * while the operation is in progress. (This implies that the behavior of this
-   * call is undefined if the specified list is this list, and this list is
+   * Appends all of the values in the specified list to the end of this list, in the order that they are returned by the specified
+   * list's Iterator. The behavior of this operation is undefined if the specified list is modified while the operation is in
+   * progress. (This implies that the behavior of this call is undefined if the specified list is this list, and this list is
    * nonempty.)
    *
    * @param list List containing values to be added to this list.
@@ -224,8 +208,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Appends all of the values in the specified array to the end of this list,
-   * in the order that they appear in the array.
+   * Appends all of the values in the specified array to the end of this list, in the order that they appear in the array.
    *
    * @param values Array containing values to be added to this list.
    * @param offset The index of the first value to add.
@@ -248,8 +231,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Appends all of the values in the specified array to the end of this list,
-   * in the order that they appear in the array.
+   * Appends all of the values in the specified array to the end of this list, in the order that they appear in the array.
    *
    * @param values Array containing values to be added to this list.
    * @return {@code true} if this list changed as a result of the call.
@@ -261,20 +243,16 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Inserts all of the values in the specified list into this list, starting at
-   * the specified position. Shifts the value currently at that position (if
-   * any) and any subsequent values to the right (increases their indices). The
-   * new values will appear in the list in the order that they are returned by
-   * the specified list's iterator.
+   * Inserts all of the values in the specified list into this list, starting at the specified position. Shifts the value currently
+   * at that position (if any) and any subsequent values to the right (increases their indices). The new values will appear in the
+   * list in the order that they are returned by the specified list's iterator.
    *
-   * @param index Index at which to insert the first value from the specified
-   *          list.
+   * @param index Index at which to insert the first value from the specified list.
    * @param list List containing values to be added to this list.
    * @param offset The index of the first value to add.
    * @param length The number of values to add.
    * @return {@code true} if this collection changed as a result of the call.
-   * @throws IndexOutOfBoundsException If the index is out of range.
-   *           ({@code index < 0 || size() < index}).
+   * @throws IndexOutOfBoundsException If the index is out of range. ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
   public boolean addAll(final int index, final Array<X>List list, final int offset, final int length) {
@@ -282,18 +260,14 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Inserts all of the values in the specified list into this list, starting at
-   * the specified position. Shifts the value currently at that position (if
-   * any) and any subsequent values to the right (increases their indices). The
-   * new values will appear in the list in the order that they are returned by
-   * the specified list's iterator.
+   * Inserts all of the values in the specified list into this list, starting at the specified position. Shifts the value currently
+   * at that position (if any) and any subsequent values to the right (increases their indices). The new values will appear in the
+   * list in the order that they are returned by the specified list's iterator.
    *
-   * @param index Index at which to insert the first value from the specified
-   *          list.
+   * @param index Index at which to insert the first value from the specified list.
    * @param list List containing values to be added to this list.
    * @return {@code true} if this collection changed as a result of the call.
-   * @throws IndexOutOfBoundsException If the index is out of range
-   *           ({@code index < 0 || size() < index}).
+   * @throws IndexOutOfBoundsException If the index is out of range ({@code index < 0 || size() < index}).
    * @throws NullPointerException If the specified list is null.
    */
   public boolean addAll(final int index, final Array<X>List list) {
@@ -315,12 +289,12 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public boolean addAll(final Collection<<XX>> c) {
-    final int len = c.size();
-    if (len == 0)
+    final int size = c.size();
+    if (size == 0)
       return false;
 
     int index = toIndex > -1 ? toIndex : size;
-    shiftRight(index, len);
+    shiftRight(index, size);
     for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
@@ -329,12 +303,12 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public boolean addAll(final <X>Collection c) {
-    final int len = c.size();
-    if (len == 0)
+    final int size = c.size();
+    if (size == 0)
       return false;
 
     int index = toIndex > -1 ? toIndex : size;
-    shiftRight(index, len);
+    shiftRight(index, size);
     for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
@@ -344,12 +318,12 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   @Override
   public boolean addAll(int index, final Collection<<XX>> c) {
     Assertions.assertRange("index", index, "size()", size(), true);
-    final int len = c.size();
-    if (len == 0)
+    final int size = c.size();
+    if (size == 0)
       return false;
 
     index += fromIndex;
-    shiftRight(index, len);
+    shiftRight(index, size);
     for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
@@ -359,12 +333,12 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   @Override
   public boolean addAll(int index, final <X>Collection c) {
     Assertions.assertRange("index", index, "size()", size(), true);
-    final int len = c.size();
-    if (len == 0)
+    final int size = c.size();
+    if (size == 0)
       return false;
 
     index += fromIndex;
-    shiftRight(index, len);
+    shiftRight(index, size);
     for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
       valueData[index] = i.next();
 
@@ -419,8 +393,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public int indexOf(final <x> value) {
-    final int len = toIndex > -1 ? toIndex : size;
-    for (int i = fromIndex; i < len; ++i) // [A]
+    for (int i = fromIndex, i$ = toIndex > -1 ? toIndex : size; i < i$; ++i) // [A]
       if (valueData[i] == value)
         return i - fromIndex;
 
@@ -444,10 +417,11 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public void sort(final Object[] p, final <X>Comparator c) {
-    if (p.length != size())
-      throw new IllegalArgumentException("The length of the paired array (" + p.length + ") does not match that of this list (" + size() + ")");
+    final int size = size();
+    if (p.length != size)
+      throw new IllegalArgumentException("The length of the paired array (" + p.length + ") does not match that of this list (" + size + ")");
 
-    <X>PairedTimSort.sort(valueData, p, 0, size(), c != null ? c : <XX>::compare, null, 0, 0);
+    <X>PairedTimSort.sort(valueData, p, 0, size, c != null ? c : <XX>::compare, null, 0, 0);
   }
 
   private class <X>Itr implements <X>Iterator {
@@ -618,35 +592,35 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public <x>[] toArray(<x>[] a) {
-    if (a.length < size())
-      a = new <x>[size()];
+    final int size = size();
+    if (a.length < size)
+      a = new <x>[size];
 
-    System.arraycopy(valueData, fromIndex, a, 0, size());
-    if (a.length > size())
-      a[size()] = 0;
+    System.arraycopy(valueData, fromIndex, a, 0, size);
+    if (a.length > size)
+      a[size] = 0;
 
     return a;
   }
 
   @Override
   public <XX>[] toArray(<XX>[] a) {
-    if (a.length < size())
-      a = new <XX>[size()];
+    final int size = size();
+    if (a.length < size)
+      a = new <XX>[size];
 
-    final int len = toIndex > -1 ? toIndex : size;
-    for (int i = fromIndex; i < len; ++i) // [A]
+    for (int i = fromIndex, i$ = toIndex > -1 ? toIndex : size; i < i$; ++i) // [A]
       a[i - fromIndex] = valueData[i];
 
-    if (a.length > size())
-      a[size()] = null;
+    if (a.length > size)
+      a[size] = null;
 
     return a;
   }
 
   /**
-   * Trims the capacity of this {@link Array<X>List} instance to be the list's
-   * current size. An application can use this operation to minimize the storage
-   * of an {@link Array<X>List} instance.
+   * Trims the capacity of this {@link Array<X>List} instance to be the list's current size. An application can use this operation
+   * to minimize the storage of an {@link Array<X>List} instance.
    */
   public void trimToSize() {
     if (size < valueData.length) {
@@ -656,9 +630,8 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   }
 
   /**
-   * Increases the capacity of this {@link Array<X>List} instance, if
-   * necessary, to ensure that it can hold at least the number of values
-   * specified by the minimum capacity argument.
+   * Increases the capacity of this {@link Array<X>List} instance, if necessary, to ensure that it can hold at least the number of
+   * values specified by the minimum capacity argument.
    *
    * @param minCapacity The desired minimum capacity.
    */
@@ -701,20 +674,17 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   @Override
   public int hashCode() {
     int hashCode = 1;
-    final int len = toIndex > -1 ? toIndex : size;
-    for (int i = fromIndex; i < len; ++i) // [A]
+    final int i$ = toIndex > -1 ? toIndex : size;
+    for (int i = fromIndex; i < i$; ++i) // [A]
       hashCode = 31 * hashCode + <XX>.hashCode(valueData[i]);
 
     return hashCode;
   }
 
   /**
-   * Compares the specified object with this list for equality. Returns
-   * {@code true} if and only if the specified object is also a
-   * {@link Array<X>List}, both lists have the same size, and all corresponding
-   * pairs of values in the two lists are <i>equal</i>. In other words, two
-   * lists are defined to be equal if they contain the same values in the same
-   * order.
+   * Compares the specified object with this list for equality. Returns {@code true} if and only if the specified object is also a
+   * {@link Array<X>List}, both lists have the same size, and all corresponding pairs of values in the two lists are <i>equal</i>.
+   * In other words, two lists are defined to be equal if they contain the same values in the same order.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -730,15 +700,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     final int toIndex = this.toIndex > -1 ? this.toIndex : size;
     final int thatToIndex = that.toIndex > -1 ? that.toIndex : that.size;
-    return ArrayUtil.equals(valueData, fromIndex, toIndex, that.valueData, that.fromIndex, thatToIndex);
+    return Arrays.equals(valueData, fromIndex, toIndex, that.valueData, that.fromIndex, thatToIndex);
   }
 
   /**
-   * Returns a string representation of this list. The string representation
-   * consists of a list of the list's values in the order they are stored in the
-   * underlying array, enclosed in square brackets ({@code "[]"}). Adjacent
-   * values are separated by the characters {@code ", "} (comma and space).
-   * Values are converted to strings as by {@link String#valueOf(Object)}.
+   * Returns a string representation of this list. The string representation consists of a list of the list's values in the order
+   * they are stored in the underlying array, enclosed in square brackets ({@code "[]"}). Adjacent values are separated by the
+   * characters {@code ", "} (comma and space). Values are converted to strings as by {@link String#valueOf(Object)}.
    *
    * @return A string representation of this list.
    */

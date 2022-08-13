@@ -29,13 +29,10 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A {@link DelegateSet} contains some other {@link Set}, to which it delegates
- * its method calls, possibly transforming the data along the way or providing
- * additional functionality. The class {@link DelegateSet} itself simply
- * overrides all methods of {@link AbstractSet} with versions that pass all
- * requests to the target {@link Set}. Subclasses of {@link DelegateSet} may
- * further override some of these methods and may also provide additional
- * methods and fields.
+ * A {@link DelegateSet} contains some other {@link Set}, to which it delegates its method calls, possibly transforming the data
+ * along the way or providing additional functionality. The class {@link DelegateSet} itself simply overrides all methods of
+ * {@link AbstractSet} with versions that pass all requests to the target {@link Set}. Subclasses of {@link DelegateSet} may further
+ * override some of these methods and may also provide additional methods and fields.
  *
  * @param <E> The type of elements in this set.
  */
@@ -91,7 +88,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
     return (T[])target.toArray(a);
   }
 
-//  /**
+  // /**
 //   * Protected method providing access to the default implementation of
 //   * {@link List#toArray(IntFunction)}.
 //   *
@@ -151,8 +148,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#forEach(Consumer)}.
+   * Protected method providing access to the default implementation of {@link Collection#forEach(Consumer)}.
    *
    * @param action The action to be performed for each element.
    * @throws NullPointerException If the specified action is null.
@@ -167,17 +163,13 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#removeIf(Predicate)}.
+   * Protected method providing access to the default implementation of {@link Collection#removeIf(Predicate)}.
    *
-   * @param filter A predicate which returns {@code true} for elements to be
-   *          removed.
+   * @param filter A predicate which returns {@code true} for elements to be removed.
    * @return {@code true} if any elements were removed.
    * @throws NullPointerException If the specified filter is null.
-   * @throws UnsupportedOperationException If elements cannot be removed from
-   *           this collection. Implementations may throw this exception if a
-   *           matching element cannot be removed or if, in general, removal is
-   *           not supported.
+   * @throws UnsupportedOperationException If elements cannot be removed from this collection. Implementations may throw this
+   *           exception if a matching element cannot be removed or if, in general, removal is not supported.
    */
   protected final boolean superRemoveIf(final Predicate<? super E> filter) {
     return super.removeIf(filter);
@@ -189,8 +181,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#spliterator()}.
+   * Protected method providing access to the default implementation of {@link Collection#spliterator()}.
    *
    * @return A {@code Spliterator} over the elements in this collection.
    */
@@ -204,8 +195,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#stream()}.
+   * Protected method providing access to the default implementation of {@link Collection#stream()}.
    *
    * @return A sequential {@code Stream} over the elements in this collection.
    */
@@ -219,11 +209,9 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Collection#parallelStream()}.
+   * Protected method providing access to the default implementation of {@link Collection#parallelStream()}.
    *
-   * @return A possibly parallel {@code Stream} over the elements in this
-   *         collection.
+   * @return A possibly parallel {@code Stream} over the elements in this collection.
    */
   protected final Stream<E> superParallelStream() {
     return super.parallelStream();

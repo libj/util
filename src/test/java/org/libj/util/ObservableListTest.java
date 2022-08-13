@@ -89,7 +89,7 @@ public class ObservableListTest {
 
   @Test
   public void testStory() {
-    final ObservableList<String,ArrayList<String>> list = new ObservableList<String,ArrayList<String>>(new ArrayList<>()) {
+    final ObservableRandomAccessList<String,ArrayList<String>> list = new ObservableRandomAccessList<String,ArrayList<String>>(new ArrayList<>()) {
       @Override
       protected void beforeGet(final int index, final ListIterator<String> iterator) {
         beforeGet = true;
@@ -285,8 +285,8 @@ public class ObservableListTest {
     }
   }
 
-  private static ObservableList<String,ArrayList<String>> newListForSet() {
-    return new ObservableList<String,ArrayList<String>>(new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g"))) {
+  private static ObservableRandomAccessList<String,ArrayList<String>> newListForSet() {
+    return new ObservableRandomAccessList<String,ArrayList<String>>(new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g"))) {
       @Override
       protected boolean beforeSet(final int index, final String newElement) {
         target.set(index, newElement);
@@ -297,7 +297,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddStart() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator();
     assertFalse(iterator.hasPrevious());
@@ -307,7 +307,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddStart2() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(1);
     assertTrue(iterator.hasPrevious());
@@ -320,7 +320,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddEnd() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size() - 1);
     assertTrue(iterator.hasNext());
@@ -332,7 +332,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorAddEnd2() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size());
     assertFalse(iterator.hasNext());
@@ -343,7 +343,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetStart() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator();
     assertFalse(iterator.hasPrevious());
@@ -354,7 +354,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetStart2() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator();
     assertFalse(iterator.hasPrevious());
@@ -366,7 +366,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetEnd() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size());
     assertFalse(iterator.hasNext());
@@ -377,7 +377,7 @@ public class ObservableListTest {
 
   @Test
   public void testIteratorSetEnd2() {
-    final ObservableList<String,ArrayList<String>> list = newListForSet();
+    final ObservableRandomAccessList<String,ArrayList<String>> list = newListForSet();
 
     final ListIterator<String> iterator = list.listIterator(list.size());
     assertFalse(iterator.hasNext());

@@ -29,13 +29,10 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * A {@link DelegateMap} contains some other {@link Map}, to which it delegates
- * its method calls, possibly transforming the data along the way or providing
- * additional functionality. The class {@link DelegateMap} itself simply
- * overrides all methods of {@link AbstractMap} with versions that pass all
- * requests to the target {@link Map}. Subclasses of {@link DelegateMap} may
- * further override some of these methods and may also provide additional
- * methods and fields.
+ * A {@link DelegateMap} contains some other {@link Map}, to which it delegates its method calls, possibly transforming the data
+ * along the way or providing additional functionality. The class {@link DelegateMap} itself simply overrides all methods of
+ * {@link AbstractMap} with versions that pass all requests to the target {@link Map}. Subclasses of {@link DelegateMap} may further
+ * override some of these methods and may also provide additional methods and fields.
  *
  * @param <K> The type of keys maintained by this map.
  * @param <V> The type of mapped values.
@@ -78,17 +75,13 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#getOrDefault(Object,Object)}.
+   * Protected method providing access to the default implementation of {@link Map#getOrDefault(Object,Object)}.
    *
    * @param key The key whose associated value is to be returned.
    * @param defaultValue The default mapping of the key.
-   * @return The value to which the specified key is mapped, or
-   *         {@code defaultValue} if this map contains no mapping for the key.
-   * @throws ClassCastException If the key is of an inappropriate type for this
-   *           map.
-   * @throws NullPointerException If the specified key is null and this map does
-   *           not permit null keys.
+   * @return The value to which the specified key is mapped, or {@code defaultValue} if this map contains no mapping for the key.
+   * @throws ClassCastException If the key is of an inappropriate type for this map.
+   * @throws NullPointerException If the specified key is null and this map does not permit null keys.
    */
   protected final V superGetOrDefault(final Object key, final V defaultValue) {
     return super.getOrDefault(key, defaultValue);
@@ -148,24 +141,17 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#putIfAbsent(Object,Object)}.
+   * Protected method providing access to the default implementation of {@link Map#putIfAbsent(Object,Object)}.
    *
    * @param key Key with which the specified value is to be associated.
    * @param value Value to be associated with the specified key.
-   * @return The previous value associated with the specified key, or
-   *         {@code null} if there was no mapping for the key. (A {@code null}
-   *         return can also indicate that the map previously associated
-   *         {@code null} with the key, if the implementation supports null
-   *         values.)
-   * @throws UnsupportedOperationException If the {@code put} operation is not
-   *           supported by this map.
-   * @throws ClassCastException If the key or value is of an inappropriate type
-   *           for this map.
-   * @throws NullPointerException If the specified key or value is null, and
-   *           this map does not permit null keys or values.
-   * @throws IllegalArgumentException If some property of the specified key or
-   *           value prevents it from being stored in this map.
+   * @return The previous value associated with the specified key, or {@code null} if there was no mapping for the key. (A
+   *         {@code null} return can also indicate that the map previously associated {@code null} with the key, if the
+   *         implementation supports null values.)
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the key or value is of an inappropriate type for this map.
+   * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
+   * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
   protected final V superPutIfAbsent(final K key, final V value) {
     return super.putIfAbsent(key, value);
@@ -178,18 +164,14 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#remove(Object,Object)}.
+   * Protected method providing access to the default implementation of {@link Map#remove(Object,Object)}.
    *
    * @param key Key with which the specified value is associated.
    * @param value Value expected to be associated with the specified key.
    * @return {@code true} if the value was removed.
-   * @throws UnsupportedOperationException If the {@code remove} operation is
-   *           not supported by this map.
-   * @throws ClassCastException If the key or value is of an inappropriate type
-   *           for this map.
-   * @throws NullPointerException If the specified key or value is null, and
-   *           this map does not permit null keys or values.
+   * @throws UnsupportedOperationException If the {@code remove} operation is not supported by this map.
+   * @throws ClassCastException If the key or value is of an inappropriate type for this map.
+   * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
    */
   protected final boolean superRemove(final Object key, final Object value) {
     return super.remove(key, value);
@@ -201,23 +183,17 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#replace(Object,Object,Object)}.
+   * Protected method providing access to the default implementation of {@link Map#replace(Object,Object,Object)}.
    *
    * @param key Key with which the specified value is associated.
    * @param oldValue Value expected to be associated with the specified key.
    * @param newValue Value to be associated with the specified key.
    * @return {@code true} if the value was replaced.
-   * @throws UnsupportedOperationException If the {@code put} operation is not
-   *           supported by this map.
-   * @throws ClassCastException If the class of a specified key or value
-   *           prevents it from being stored in this map.
-   * @throws NullPointerException If a specified key or newValue is null, and
-   *           this map does not permit null keys or values.
-   * @throws NullPointerException If oldValue is null and this map does not
-   *           permit null values.
-   * @throws IllegalArgumentException If some property of a specified key or
-   *           value prevents it from being stored in this map.
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the class of a specified key or value prevents it from being stored in this map.
+   * @throws NullPointerException If a specified key or newValue is null, and this map does not permit null keys or values.
+   * @throws NullPointerException If oldValue is null and this map does not permit null values.
+   * @throws IllegalArgumentException If some property of a specified key or value prevents it from being stored in this map.
    */
   protected final boolean superReplace(final K key, final V oldValue, final V newValue) {
     return super.replace(key, oldValue, newValue);
@@ -229,24 +205,17 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#replace(Object,Object)}.
+   * Protected method providing access to the default implementation of {@link Map#replace(Object,Object)}.
    *
    * @param key Key with which the specified value is associated.
    * @param value Value to be associated with the specified key.
-   * @return The previous value associated with the specified key, or
-   *         {@code null} if there was no mapping for the key. (A {@code null}
-   *         return can also indicate that the map previously associated
-   *         {@code null} with the key, if the implementation supports null
-   *         values).
-   * @throws UnsupportedOperationException If the {@code put} operation is not
-   *           supported by this map.
-   * @throws ClassCastException If the class of the specified key or value
-   *           prevents it from being stored in this map.
-   * @throws NullPointerException If the specified key or value is null, and
-   *           this map does not permit null keys or values.
-   * @throws IllegalArgumentException If some property of the specified key or
-   *           value prevents it from being stored in this map.
+   * @return The previous value associated with the specified key, or {@code null} if there was no mapping for the key. (A
+   *         {@code null} return can also indicate that the map previously associated {@code null} with the key, if the
+   *         implementation supports null values).
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
+   * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
+   * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
   protected final V superReplace(final K key, final V value) {
     return super.replace(key, value);
@@ -259,21 +228,16 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#computeIfAbsent(Object,Function)}.
+   * Protected method providing access to the default implementation of {@link Map#computeIfAbsent(Object,Function)}.
    *
    * @param key Key with which the specified value is to be associated.
    * @param mappingFunction The mapping function to compute a value.
-   * @return The current (existing or computed) value associated with the
-   *         specified key, or null if the computed value is null.
-   * @throws NullPointerException If the specified key is null and this map does
-   *           not support null keys, or the mappingFunction is null
-   * @throws UnsupportedOperationException If the {@code put} operation is not
-   *           supported by this map.
-   * @throws ClassCastException If the class of the specified key or value
-   *           prevents it from being stored in this map.
-   * @throws IllegalArgumentException If some property of the specified key or
-   *           value prevents it from being stored in this map.
+   * @return The current (existing or computed) value associated with the specified key, or null if the computed value is null.
+   * @throws NullPointerException If the specified key is null and this map does not support null keys, or the mappingFunction is
+   *           null
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
+   * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
   protected final V superComputeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
     return super.computeIfAbsent(key, mappingFunction);
@@ -286,20 +250,16 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#computeIfPresent(Object,BiFunction)}.
+   * Protected method providing access to the default implementation of {@link Map#computeIfPresent(Object,BiFunction)}.
    *
    * @param key Key with which the specified value is to be associated.
    * @param remappingFunction The remapping function to compute a value.
    * @return The new value associated with the specified key, or null if none.
-   * @throws NullPointerException If the specified key is null and this map does
-   *           not support null keys, or the remappingFunction is null.
-   * @throws UnsupportedOperationException If the {@code put} operation is not
-   *           supported by this map.
-   * @throws ClassCastException If the class of the specified key or value
-   *           prevents it from being stored in this map.
-   * @throws IllegalArgumentException If some property of the specified key or
-   *           value prevents it from being stored in this map.
+   * @throws NullPointerException If the specified key is null and this map does not support null keys, or the remappingFunction is
+   *           null.
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
+   * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
   protected final V superComputeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
     return super.computeIfPresent(key, remappingFunction);
@@ -312,20 +272,16 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#compute(Object,BiFunction)}.
+   * Protected method providing access to the default implementation of {@link Map#compute(Object,BiFunction)}.
    *
    * @param key Key with which the specified value is to be associated.
    * @param remappingFunction The remapping function to compute a value.
    * @return The new value associated with the specified key, or null if none.
-   * @throws NullPointerException If the specified key is null and this map does
-   *           not support null keys, or the remappingFunction is null.
-   * @throws UnsupportedOperationException If the {@code put} operation is not
-   *           supported by this map.
-   * @throws ClassCastException If the class of the specified key or value
-   *           prevents it from being stored in this map.
-   * @throws IllegalArgumentException If some property of the specified key or
-   *           value prevents it from being stored in this map.
+   * @throws NullPointerException If the specified key is null and this map does not support null keys, or the remappingFunction is
+   *           null.
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
+   * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
   protected final V superCompute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
     return super.compute(key, remappingFunction);
@@ -338,26 +294,18 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#merge(Object,Object,BiFunction)}.
+   * Protected method providing access to the default implementation of {@link Map#merge(Object,Object,BiFunction)}.
    *
    * @param key Key with which the resulting value is to be associated.
-   * @param value The non-null value to be merged with the existing value
-   *          associated with the key or, if no existing value or a null value
-   *          is associated with the key, to be associated with the key.
-   * @param remappingFunction The remapping function to recompute a value if
-   *          present.
-   * @return The new value associated with the specified key, or null if no
-   *         value is associated with the key.
-   * @throws UnsupportedOperationException If the {@code put} operation is not
-   *           supported by this map.
-   * @throws ClassCastException If the class of the specified key or value
-   *           prevents it from being stored in this map.
-   * @throws NullPointerException If some property of the specified key or value
-   *           prevents it from being stored in this map.
-   * @throws IllegalArgumentException If the specified key is null and this map
-   *           does not support null keys or the value or remappingFunction is
-   *           null.
+   * @param value The non-null value to be merged with the existing value associated with the key or, if no existing value or a null
+   *          value is associated with the key, to be associated with the key.
+   * @param remappingFunction The remapping function to recompute a value if present.
+   * @return The new value associated with the specified key, or null if no value is associated with the key.
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
+   * @throws NullPointerException If some property of the specified key or value prevents it from being stored in this map.
+   * @throws IllegalArgumentException If the specified key is null and this map does not support null keys or the value or
+   *           remappingFunction is null.
    */
   protected final V superMerge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
     return super.merge(key, value, remappingFunction);
@@ -387,25 +335,17 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#replaceAll(BiFunction)}.
+   * Protected method providing access to the default implementation of {@link Map#replaceAll(BiFunction)}.
    *
    * @param function The function to apply to each entry.
-   * @throws UnsupportedOperationException If the {@code set} operation is not
-   *           supported by this map's entry set iterator.
-   * @throws ClassCastException If the class of a replacement value prevents it
-   *           from being stored in this map.
-   * @throws NullPointerException If the specified function is null, or the
-   *           specified replacement value is null, and this map does not permit
-   *           null values.
-   * @throws ClassCastException If a replacement value is of an inappropriate
-   *           type for this map.
-   * @throws NullPointerException If function or a replacement value is
-   *           null, and this map does not permit null keys or values.
-   * @throws IllegalArgumentException If some property of a replacement value
-   *           prevents it from being stored in this map.
-   * @throws ConcurrentModificationException If an entry is found to be removed
-   *           during iteration.
+   * @throws UnsupportedOperationException If the {@code set} operation is not supported by this map's entry set iterator.
+   * @throws ClassCastException If the class of a replacement value prevents it from being stored in this map.
+   * @throws NullPointerException If the specified function is null, or the specified replacement value is null, and this map does
+   *           not permit null values.
+   * @throws ClassCastException If a replacement value is of an inappropriate type for this map.
+   * @throws NullPointerException If function or a replacement value is null, and this map does not permit null keys or values.
+   * @throws IllegalArgumentException If some property of a replacement value prevents it from being stored in this map.
+   * @throws ConcurrentModificationException If an entry is found to be removed during iteration.
    */
   protected final void superReplaceAll(final BiFunction<? super K,? super V,? extends V> function) {
     super.replaceAll(function);

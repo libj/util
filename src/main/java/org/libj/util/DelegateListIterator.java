@@ -24,14 +24,10 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A {@link DelegateListIterator} contains some other {@link ListIterator}, to
- * which it delegates its method calls, possibly transforming the data along the
- * way or providing additional functionality. The class
- * {@link DelegateListIterator} itself simply overrides all methods of
- * {@link ListIterator} with versions that pass all requests to the target
- * {@link ListIterator}. Subclasses of {@link DelegateListIterator} may further
- * override some of these methods and may also provide additional methods and
- * fields.
+ * A {@link DelegateListIterator} contains some other {@link ListIterator}, to which it delegates its method calls, possibly
+ * transforming the data along the way or providing additional functionality. The class {@link DelegateListIterator} itself simply
+ * overrides all methods of {@link ListIterator} with versions that pass all requests to the target {@link ListIterator}. Subclasses
+ * of {@link DelegateListIterator} may further override some of these methods and may also provide additional methods and fields.
  *
  * @param <E> The type of elements returned by this iterator.
  */
@@ -41,12 +37,10 @@ public abstract class DelegateListIterator<E> extends AbstractIterator<E> implem
   protected volatile ListIterator target;
 
   /**
-   * Creates a new {@link DelegateListIterator} with the specified target
-   * {@link ListIterator}.
+   * Creates a new {@link DelegateListIterator} with the specified target {@link ListIterator}.
    *
    * @param target The target {@link ListIterator}.
-   * @throws IllegalArgumentException If the target {@link ListIterator} is
-   *           null.
+   * @throws IllegalArgumentException If the target {@link ListIterator} is null.
    */
   public DelegateListIterator(final ListIterator<? extends E> target) {
     this.target = assertNotNull(target);
@@ -106,8 +100,7 @@ public abstract class DelegateListIterator<E> extends AbstractIterator<E> implem
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Iterator#forEachRemaining(Consumer)}.
+   * Protected method providing access to the default implementation of {@link Iterator#forEachRemaining(Consumer)}.
    *
    * @param action The action to be performed for each element.
    * @throws NullPointerException If the specified action is null.

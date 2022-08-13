@@ -22,7 +22,6 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -45,297 +44,6 @@ public final class ArrayUtil extends PrimitiveSort {
    * The empty {@code Object[]} array.
    */
   public static final Object[] EMPTY_ARRAY = {};
-
-  /**
-   * Returns true if the two specified arrays of bytes, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final byte[] a, int aFromIndex, final int aToIndex, final byte[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) // [A]
-      if (a[aFromIndex++] != b[bFromIndex++])
-        return false;
-
-    return true;
-  }
-
-  /**
-   * Returns true if the two specified arrays of {@code char}s, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final char[] a, int aFromIndex, final int aToIndex, final char[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) // [A]
-      if (a[aFromIndex++] != b[bFromIndex++])
-        return false;
-
-    return true;
-  }
-
-  /**
-   * Returns true if the two specified arrays of {@code short}s, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final short[] a, int aFromIndex, final int aToIndex, final short[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) // [A]
-      if (a[aFromIndex++] != b[bFromIndex++])
-        return false;
-
-    return true;
-  }
-
-  /**
-   * Returns true if the two specified arrays of {@code int}s, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final int[] a, int aFromIndex, final int aToIndex, final int[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) // [A]
-      if (a[aFromIndex++] != b[bFromIndex++])
-        return false;
-
-    return true;
-  }
-
-  /**
-   * Returns true if the two specified arrays of {@code long}s, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final long[] a, int aFromIndex, final int aToIndex, final long[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) // [A]
-      if (a[aFromIndex++] != b[bFromIndex++])
-        return false;
-
-    return true;
-  }
-
-  /**
-   * Returns true if the two specified arrays of {@code float}s, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final float[] a, int aFromIndex, final int aToIndex, final float[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) // [A]
-      if (a[aFromIndex++] != b[bFromIndex++])
-        return false;
-
-    return true;
-  }
-
-  /**
-   * Returns true if the two specified arrays of {@code double}s, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final double[] a, int aFromIndex, final int aToIndex, final double[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) // [A]
-      if (a[aFromIndex++] != b[bFromIndex++])
-        return false;
-
-    return true;
-  }
-
-  /**
-   * Returns true if the two specified arrays of objects, over the provided ranges, are <i>equal</i> to one another.
-   * <p>
-   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
-   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
-   * provided ranges, the same elements in the same order.
-   *
-   * @param a The first array to be tested for equality.
-   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
-   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
-   * @param b The second array to be tested from equality.
-   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
-   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
-   * @return {@code true} If the two arrays, over the provided ranges, are equal.
-   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
-   *           {@code bFromIndex < 0 or bToIndex > b.length}.
-   * @throws IllegalArgumentException If either array is null, or if {@code bFromIndex > bToIndex}.
-   */
-  public static boolean equals(final Object[] a, int aFromIndex, final int aToIndex, final Object[] b, int bFromIndex, final int bToIndex) {
-    assertNotNull(a);
-    assertNotNull(b);
-    assertRangeArray(aFromIndex, aToIndex, a.length);
-    assertRangeArray(bFromIndex, bToIndex, b.length);
-
-    final int aLength = aToIndex - aFromIndex;
-    final int bLength = bToIndex - bFromIndex;
-    if (aLength != bLength)
-      return false;
-
-    for (int i = 0; i < aLength; ++i) { // [A]
-      final Object oa = a[aFromIndex++];
-      final Object ob = b[bFromIndex++];
-      if (!Objects.equals(oa, ob))
-        return false;
-    }
-
-    return true;
-  }
 
   /**
    * Returns the length of the specified array, summed with the lengths of all nested arrays at every depth. The value of
@@ -5508,7 +5216,6 @@ public final class ArrayUtil extends PrimitiveSort {
   /**
    * Circularly shifts the members in the provided array by the specified {@code offset}
    *
-   * @param <T> The component type of the array.
    * @param array The array of members to circularly shift.
    * @param fromIndex The index of the first element, inclusive, to be reversed.
    * @param toIndex The index of the last element, exclusive, to be reversed.
@@ -5517,7 +5224,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
    *           {@code array.length}.
    */
-  public static <T>void shift(final T[] array, final int fromIndex, final int toIndex, final int offset) {
+  public static void shift(final Object[] array, final int fromIndex, final int toIndex, final int offset) {
     assertNotNull(array);
     if (offset < 0)
       throw new IllegalArgumentException("offset (" + offset + ") must be non-negative");
@@ -5533,18 +5240,17 @@ public final class ArrayUtil extends PrimitiveSort {
   /**
    * Circularly shifts the members in the provided array by the specified {@code offset}
    *
-   * @param <T> The component type of the array.
    * @param array The array of members to circularly shift.
    * @param offset The offset.
    * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
    *           {@code array.length}.
    */
-  public static <T>void shift(final T[] array, final int offset) {
+  public static void shift(final Object[] array, final int offset) {
     assertNotNull(array);
     shift(array, 0, array.length, offset);
   }
 
-  private static <T>void shift(final T[] array, final int from, final int to, final int len, final int off) {
+  private static void shift(final Object[] array, final int from, final int to, final int len, final int off) {
     if (from == to) {
       if (to != off)
         shift(array, 0, off, len, off);
@@ -5552,13 +5258,13 @@ public final class ArrayUtil extends PrimitiveSort {
       return;
     }
 
-    final T value = array[from];
+    final Object value = array[from];
     shift(array, from + 1, to, len, off);
     final int i = from - off;
     array[i < 0 ? len + i : i] = value;
   }
 
-  private static final int dedupe(final byte[] tables, final int len, final int index, final int depth) {
+  private static int dedupe(final byte[] tables, final int len, final int index, final int depth) {
     if (index == len)
       return depth;
 
@@ -5578,11 +5284,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The number of unique values after having reordering the unique values in ascending order.
    * @throws IllegalArgumentException If the provided array is null.
    */
-  public static final int dedupe(final byte[] a) {
+  public static int dedupe(final byte[] a) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static final int dedupe(final char[] tables, final int len, final int index, final int depth) {
+  private static int dedupe(final char[] tables, final int len, final int index, final int depth) {
     if (index == len)
       return depth;
 
@@ -5602,11 +5308,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The number of unique values after having reordering the unique values in ascending order.
    * @throws IllegalArgumentException If the provided array is null.
    */
-  public static final int dedupe(final char[] a) {
+  public static int dedupe(final char[] a) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static final int dedupe(final short[] tables, final int len, final int index, final int depth) {
+  private static int dedupe(final short[] tables, final int len, final int index, final int depth) {
     if (index == len)
       return depth;
 
@@ -5626,11 +5332,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The number of unique values after having reordering the unique values in ascending order.
    * @throws IllegalArgumentException If the provided array is null.
    */
-  public static final int dedupe(final short[] a) {
+  public static int dedupe(final short[] a) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static final int dedupe(final int[] tables, final int len, final int index, final int depth) {
+  private static int dedupe(final int[] tables, final int len, final int index, final int depth) {
     if (index == len)
       return depth;
 
@@ -5650,11 +5356,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The number of unique values after having reordering the unique values in ascending order.
    * @throws IllegalArgumentException If the provided array is null.
    */
-  public static final int dedupe(final int[] a) {
+  public static int dedupe(final int[] a) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static final int dedupe(final long[] tables, final int len, final int index, final int depth) {
+  private static int dedupe(final long[] tables, final int len, final int index, final int depth) {
     if (index == len)
       return depth;
 
@@ -5674,11 +5380,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The number of unique values after having reordering the unique values in ascending order.
    * @throws IllegalArgumentException If the provided array is null.
    */
-  public static final int dedupe(final long[] a) {
+  public static int dedupe(final long[] a) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static final int dedupe(final float[] tables, final int len, final int index, final int depth) {
+  private static int dedupe(final float[] tables, final int len, final int index, final int depth) {
     if (index == len)
       return depth;
 
@@ -5698,11 +5404,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The number of unique values after having reordering the unique values in ascending order.
    * @throws IllegalArgumentException If the provided array is null.
    */
-  public static final int dedupe(final float[] a) {
+  public static int dedupe(final float[] a) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static final int dedupe(final double[] tables, final int len, final int index, final int depth) {
+  private static int dedupe(final double[] tables, final int len, final int index, final int depth) {
     if (index == len)
       return depth;
 
@@ -5722,11 +5428,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The number of unique values after having reordering the unique values in ascending order.
    * @throws IllegalArgumentException If the provided array is null.
    */
-  public static final int dedupe(final double[] a) {
+  public static int dedupe(final double[] a) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static final <T>int dedupe(final T[] a, final int len, final int index, final int depth, final Comparator<? super T> c) {
+  private static <T>int dedupe(final T[] a, final int len, final int index, final int depth, final Comparator<? super T> c) {
     if (index == len)
       return depth;
 
@@ -5750,7 +5456,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         {@link Comparator}.
    * @throws IllegalArgumentException If the provided array or {@link Comparator} is null.
    */
-  public static final <T>int dedupe(final T[] a, final Comparator<? super T> c) {
+  public static <T>int dedupe(final T[] a, final Comparator<? super T> c) {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1, assertNotNull(c));
   }
 

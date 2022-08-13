@@ -32,21 +32,18 @@ import java.util.Map;
  */
 public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializable {
   /**
-   * Constructs an empty {@link HashBiMap} with the specified initial capacity
-   * and load factor.
+   * Constructs an empty {@link HashBiMap} with the specified initial capacity and load factor.
    *
    * @param initialCapacity The initial capacity.
    * @param loadFactor The load factor.
-   * @throws IllegalArgumentException If the initial capacity is negative or the
-   *           load factor is nonpositive.
+   * @throws IllegalArgumentException If the initial capacity is negative or the load factor is nonpositive.
    */
   public HashBiMap(final int initialCapacity, final float loadFactor) {
     super(new HashMap<>(initialCapacity, loadFactor), new HashMap<>(initialCapacity, loadFactor));
   }
 
   /**
-   * Constructs an empty {@link HashBiMap} with the specified initial capacity
-   * and the default load factor (0.75).
+   * Constructs an empty {@link HashBiMap} with the specified initial capacity and the default load factor (0.75).
    *
    * @param initialCapacity The initial capacity.
    * @throws IllegalArgumentException If the initial capacity is negative.
@@ -56,10 +53,8 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   }
 
   /**
-   * Constructs a new {@link HashBiMap} with the same mappings as the specified
-   * {@link Map}. The {@link HashBiMap} is created with default load factor
-   * (0.75) and an initial capacity sufficient to hold the mappings in the
-   * specified {@link Map}.
+   * Constructs a new {@link HashBiMap} with the same mappings as the specified {@link Map}. The {@link HashBiMap} is created with
+   * default load factor (0.75) and an initial capacity sufficient to hold the mappings in the specified {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
    * @throws IllegalArgumentException If the specified map is null.
@@ -70,8 +65,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   }
 
   /**
-   * Constructs an empty {@link HashBiMap} with the default initial capacity
-   * (16) and the default load factor (0.75).
+   * Constructs an empty {@link HashBiMap} with the default initial capacity (16) and the default load factor (0.75).
    */
   public HashBiMap() {
     super(new HashMap<>(), new HashMap<>());

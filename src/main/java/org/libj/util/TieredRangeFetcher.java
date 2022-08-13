@@ -22,19 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A "data fetcher" that facilitates the retrieval of data representing
- * information pertaining to a dimension that can be denoted as a "range" (such
- * as time or distance). The {@link TieredRangeFetcher} abstracts the concept of
- * tiered data sources. When data is fetched (via the
- * {@link #fetch(Comparable,Comparable)} method), the {@link TieredRangeFetcher}
- * attempts to retrieve the requested range from the "top" tier of the stack. If
- * all or a part of the range is not present in the tier, the
- * {@link TieredRangeFetcher} attempts to fetch the missing portion of the range
- * from the next tier. Upon successfully fetching the data, the
- * {@link TieredRangeFetcher} thereafter inserts the fetched data into the top
- * tier, thus resembling a caching mechanism. The {@link TieredRangeFetcher} is
- * intended to provide an abstraction for the caching of range data belonging to
- * a data source that is expensive to call, such as a remote database.
+ * A "data fetcher" that facilitates the retrieval of data representing information pertaining to a dimension that can be denoted as
+ * a "range" (such as time or distance). The {@link TieredRangeFetcher} abstracts the concept of tiered data sources. When data is
+ * fetched (via the {@link #fetch(Comparable,Comparable)} method), the {@link TieredRangeFetcher} attempts to retrieve the requested
+ * range from the "top" tier of the stack. If all or a part of the range is not present in the tier, the {@link TieredRangeFetcher}
+ * attempts to fetch the missing portion of the range from the next tier. Upon successfully fetching the data, the
+ * {@link TieredRangeFetcher} thereafter inserts the fetched data into the top tier, thus resembling a caching mechanism. The
+ * {@link TieredRangeFetcher} is intended to provide an abstraction for the caching of range data belonging to a data source that is
+ * expensive to call, such as a remote database.
  *
  * @param <A> Type parameter of the "range" data.
  * @param <B> Type parameter of the data.
@@ -45,8 +40,7 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   private final TieredRangeFetcher<A,B> next;
 
   /**
-   * Creates a {@link TieredRangeFetcher} with the specified next
-   * {@link TieredRangeFetcher} that represents the next tier.
+   * Creates a {@link TieredRangeFetcher} with the specified next {@link TieredRangeFetcher} that represents the next tier.
    *
    * @param next The {@link TieredRangeFetcher} that represents the next tier.
    */
@@ -55,27 +49,23 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   }
 
   /**
-   * Returns a {@link SortedMap} of data from {@code from} (inclusive) to
-   * {@code to} (exclusive).
+   * Returns a {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
    *
    * @param from The lower bound of the range, inclusive.
    * @param to The upper bound of the range, exclusive.
-   * @return A {@link SortedMap} of data from {@code from} (inclusive) to
-   *         {@code to} (exclusive).
+   * @return A {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
    */
   public SortedMap<A,B> fetch(final A from, final A to) {
     return fetch(from, to, null);
   }
 
   /**
-   * Returns a {@link SortedMap} of data from {@code from} (inclusive) to
-   * {@code to} (exclusive).
+   * Returns a {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
    *
    * @param from The lower bound of the range, inclusive.
    * @param to The upper bound of the range, exclusive.
    * @param last The {@link TieredRangeFetcher} representing the previous tier.
-   * @return A {@link SortedMap} of data from {@code from} (inclusive) to
-   *         {@code to} (exclusive).
+   * @return A {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
    */
   public SortedMap<A,B> fetch(final A from, final A to, final TieredRangeFetcher<A,B> last) {
     final A[] range = range();
@@ -114,28 +104,24 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   }
 
   /**
-   * Returns the range of the keys present in this TieredFetcher, as an array of
-   * length 2. Must not be null, and must be of length 2.
+   * Returns the range of the keys present in this TieredFetcher, as an array of length 2. Must not be null, and must be of length
+   * 2.
    *
-   * @return The not-null range of the keys present in this TieredFetcher, as an
-   *         array of length 2.
+   * @return The not-null range of the keys present in this TieredFetcher, as an array of length 2.
    */
   protected abstract A[] range();
 
   /**
-   * Returns a {@link SortedMap} of data in this {@link TieredRangeFetcher} for
-   * the range between {@code from} and {@code to}.
+   * Returns a {@link SortedMap} of data in this {@link TieredRangeFetcher} for the range between {@code from} and {@code to}.
    *
    * @param from The start of the range, inclusive.
    * @param to The end of the range, exclusive.
-   * @return A {@link SortedMap} of data in this {@link TieredRangeFetcher} for
-   *         the range between {@code from} and {@code to}.
+   * @return A {@link SortedMap} of data in this {@link TieredRangeFetcher} for the range between {@code from} and {@code to}.
    */
   protected abstract SortedMap<A,B> select(A from, A to);
 
   /**
-   * Inserts a {@link SortedMap} of {@code data} into this
-   * {@link TieredRangeFetcher} for the range between {@code from} and
+   * Inserts a {@link SortedMap} of {@code data} into this {@link TieredRangeFetcher} for the range between {@code from} and
    * {@code to}.
    *
    * @param from The start of the range, inclusive.

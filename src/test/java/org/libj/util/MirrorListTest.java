@@ -26,8 +26,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class MirrorListTest {
-  private static MirrorList<String,ArrayList<String>,Integer,ArrayList<Integer>> newList(final ArrayList<String> values, final ArrayList<Integer> reflections) {
-    return new MirrorList<>(values, reflections, new MirrorList.Mirror<String,Integer>() {
+  private static MirrorRandomAccessList<String,ArrayList<String>,Integer,ArrayList<Integer>> newList(final ArrayList<String> values, final ArrayList<Integer> reflections) {
+    return new MirrorRandomAccessList<>(values, reflections, new MirrorList.Mirror<String,Integer>() {
       @Override
       public Integer valueToReflection(final String value) {
         return Integer.valueOf(value);
@@ -42,7 +42,7 @@ public class MirrorListTest {
 
   @Test
   public void test() {
-    final MirrorList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(new ArrayList<>(), new ArrayList<>());
+    final MirrorRandomAccessList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(new ArrayList<>(), new ArrayList<>());
 
     list.add("1");
     assertTrue(list.getMirrorList().contains(1));
@@ -75,7 +75,7 @@ public class MirrorListTest {
   public void testConcurrentPut() {
     final ArrayList<String> values = new ArrayList<>();
     final ArrayList<Integer> reflections = new ArrayList<>();
-    final MirrorList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(values, reflections);
+    final MirrorRandomAccessList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(values, reflections);
 
     list.add("1");
     values.add("0");
@@ -91,7 +91,7 @@ public class MirrorListTest {
   public void testConcurrentRemove() {
     final ArrayList<String> values = new ArrayList<>();
     final ArrayList<Integer> reflections = new ArrayList<>();
-    final MirrorList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(values, reflections);
+    final MirrorRandomAccessList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(values, reflections);
     list.add("1");
     list.getMirrorList();
     assertNotNull(reflections.remove(0));
@@ -108,7 +108,7 @@ public class MirrorListTest {
   public void testConcurrentReplace() {
     final ArrayList<String> values = new ArrayList<>();
     final ArrayList<Integer> reflections = new ArrayList<>();
-    final MirrorList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(values, reflections);
+    final MirrorRandomAccessList<String,ArrayList<String>,Integer,ArrayList<Integer>> list = newList(values, reflections);
     list.add("1");
     values.set(0, "2");
     try {

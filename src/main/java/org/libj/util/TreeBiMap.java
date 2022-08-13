@@ -36,23 +36,19 @@ import java.util.TreeMap;
  */
 public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMap<K,V>, Serializable {
   /**
-   * Constructs an empty {@link TreeBiMap} ordered according to the given
-   * comparator.
+   * Constructs an empty {@link TreeBiMap} ordered according to the given comparator.
    *
-   * @param keyComparator The comparator that will be used to order the forward
-   *          map. If {@code null}, the {@linkplain Comparable natural ordering}
-   *          of the keys will be used.
-   * @param valueComparator The comparator that will be used to order the
-   *          reverse map. If {@code null}, the {@linkplain Comparable natural
-   *          ordering} of the keys will be used.
+   * @param keyComparator The comparator that will be used to order the forward map. If {@code null}, the {@linkplain Comparable
+   *          natural ordering} of the keys will be used.
+   * @param valueComparator The comparator that will be used to order the reverse map. If {@code null}, the {@linkplain Comparable
+   *          natural ordering} of the keys will be used.
    */
   public TreeBiMap(final Comparator<? super K> keyComparator, final Comparator<? super V> valueComparator) {
     super(new TreeMap<>(keyComparator), new TreeMap<>(valueComparator));
   }
 
   /**
-   * Constructs a new {@link TreeBiMap} with the same mappings as the specified
-   * {@link Map}.
+   * Constructs a new {@link TreeBiMap} with the same mappings as the specified {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
    * @throws IllegalArgumentException If the specified map is null.
@@ -63,13 +59,11 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   /**
-   * Constructs a new {@link TreeBiMap} with the same mappings as the specified
-   * {@link SortedMap}.
+   * Constructs a new {@link TreeBiMap} with the same mappings as the specified {@link SortedMap}.
    *
    * @param m The map whose mappings are to be placed in this map.
-   * @param valueComparator The comparator that will be used to order the
-   *          reverse map. If {@code null}, the {@linkplain Comparable natural
-   *          ordering} of the keys will be used.
+   * @param valueComparator The comparator that will be used to order the reverse map. If {@code null}, the {@linkplain Comparable
+   *          natural ordering} of the keys will be used.
    * @throws IllegalArgumentException If the specified map is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
@@ -79,8 +73,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   /**
-   * Constructs an empty {@link TreeBiMap}, using the natural ordering of its
-   * keys.
+   * Constructs an empty {@link TreeBiMap}, using the natural ordering of its keys.
    */
   public TreeBiMap() {
     super(new TreeMap<>(), new TreeMap<>());

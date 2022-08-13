@@ -19,8 +19,8 @@ package org.libj.util;
 import java.util.Iterator;
 
 /**
- * An {@link Iterator} for N-dimensional arrays of type {@code <T>} that
- * iterates through the leaf members of the array of type {@code <E>}.
+ * An {@link Iterator} for N-dimensional arrays of type {@code <T>} that iterates through the leaf members of the array of type
+ * {@code <E>}.
  *
  * @param <E> The type of leaf member elements.
  * @param <T> The type of the array.

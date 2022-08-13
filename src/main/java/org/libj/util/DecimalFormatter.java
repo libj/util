@@ -23,13 +23,11 @@ import java.text.DecimalFormat;
  */
 public final class DecimalFormatter {
   /**
-   * Returns a {@link ThreadLocal} of a {@link DecimalFormat} object using the
-   * given {@code pattern} and the symbols for the default
+   * Returns a {@link ThreadLocal} of a {@link DecimalFormat} object using the given {@code pattern} and the symbols for the default
    * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
    *
    * @param pattern A non-localized pattern string.
-   * @return A {@link ThreadLocal} of a {@link DecimalFormat} object using the
-   *         given {@code pattern}.
+   * @return A {@link ThreadLocal} of a {@link DecimalFormat} object using the given {@code pattern}.
    * @throws IllegalArgumentException If the given pattern is invalid.
    */
   public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {

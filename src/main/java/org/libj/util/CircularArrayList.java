@@ -107,7 +107,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
    * @throws NegativeArraySizeException If the specified initial capacity is negative.
    */
   public CircularArrayList(final int initialCapacity) {
-    elementData = new Object[initialCapacity];
+    this.elementData = new Object[initialCapacity];
   }
 
   /**
@@ -118,9 +118,8 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
    * @throws IllegalArgumentException If the specified collection is null.
    */
   public CircularArrayList(final Collection<? extends E> c) {
-    tail = c.size();
-    elementData = new Object[tail];
-    c.toArray(elementData);
+    this.tail = c.size();
+    c.toArray(this.elementData = new Object[tail]);
   }
 
   /**
@@ -150,6 +149,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   }
 
   private void writeObject(final ObjectOutputStream s) throws IOException {
+    final Object[] elementData = this.elementData;
     s.writeInt(size);
     for (int i = 0; i != size; ++i) // [A]
       s.writeObject(elementData[deref(i)]);
@@ -159,9 +159,8 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     // Read in size of list and allocate array
     head = 0;
     size = tail = s.readInt();
-    elementData = tail < DEFAULT_CAPACITY ? new Object[DEFAULT_CAPACITY] : new Object[tail];
 
-    // Read in all elements in the proper order
+    final Object[] elementData = this.elementData = tail < DEFAULT_CAPACITY ? new Object[DEFAULT_CAPACITY] : new Object[tail];
     for (int i = 0; i < tail; ++i) // [A]
       elementData[i] = s.readObject();
   }
@@ -173,6 +172,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   public int indexOf(final Object o) {
+    final Object[] elementData = this.elementData;
     if (o == null) {
       for (int i = 0; i < size; ++i) // [A]
         if (elementData[deref(i)] == null)
@@ -189,6 +189,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   public int lastIndexOf(final Object o) {
+    final Object[] elementData = this.elementData;
     if (o == null) {
       for (int i = size - 1; i >= 0; --i) // [A]
         if (elementData[deref(i)] == null)
@@ -227,6 +228,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
       return;
     }
 
+    final Object[] elementData = this.elementData;
     ++modCount;
     assertRange("index", index, "size", size);
     ensureCapacity(size + 1 + 1);
@@ -261,6 +263,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     if (addedSize == 0)
       return false;
 
+    final Object[] elementData = this.elementData;
     ++modCount;
     ensureCapacity(size + addedSize + 1);
     final Iterator<? extends E> it = c.iterator();
@@ -293,6 +296,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     ++modCount;
     assertRange("index", index, "size", size);
     final int realIndex = deref(index);
+    final Object[] elementData = this.elementData;
     final E oldValue = (E)elementData[realIndex];
     elementData[realIndex] = element;
     return oldValue;
@@ -307,6 +311,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     assertRange("index", index, "size", size);
     final int pos = deref(index);
 
+    final Object[] elementData = this.elementData;
     final E e = (E)elementData[pos];
 
     elementData[pos] = null;
@@ -514,6 +519,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   public void clear() {
+    final Object[] elementData = this.elementData;
     ++modCount;
     for (int i = 0; i != size; ++i) // [A]
       elementData[deref(i)] = null;
@@ -535,6 +541,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     if (a.length < size)
       a = (T[])Array.newInstance(a.getClass().getComponentType(), size);
 
+    final Object[] elementData = this.elementData;
     if (head < tail) {
       System.arraycopy(elementData, head, a, 0, tail - head);
     }

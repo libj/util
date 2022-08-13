@@ -24,14 +24,10 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 
 /**
- * A {@link DelegateSpliterator} contains some other {@link Spliterator}, to
- * which it delegates its method calls, possibly transforming the data along the
- * way or providing additional functionality. The class
- * {@link DelegateSpliterator} itself simply overrides all methods of
- * {@link Spliterator} with versions that pass all requests to the target
- * {@link Spliterator}. Subclasses of {@link DelegateSpliterator} may further
- * override some of these methods and may also provide additional methods and
- * fields.
+ * A {@link DelegateSpliterator} contains some other {@link Spliterator}, to which it delegates its method calls, possibly
+ * transforming the data along the way or providing additional functionality. The class {@link DelegateSpliterator} itself simply
+ * overrides all methods of {@link Spliterator} with versions that pass all requests to the target {@link Spliterator}. Subclasses
+ * of {@link DelegateSpliterator} may further override some of these methods and may also provide additional methods and fields.
  *
  * @param <T> The type of elements returned by this {@link Spliterator}.
  */
@@ -41,8 +37,7 @@ public abstract class DelegateSpliterator<T> implements Spliterator<T> {
   protected volatile Spliterator target;
 
   /**
-   * Creates a new {@link DelegateSpliterator} with the specified target
-   * {@link Spliterator}.
+   * Creates a new {@link DelegateSpliterator} with the specified target {@link Spliterator}.
    *
    * @param target The target {@link Spliterator}.
    * @throws IllegalArgumentException If the target {@link Spliterator} is null.

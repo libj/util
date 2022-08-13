@@ -19,9 +19,8 @@ package org.libj.util;
 import java.util.ListIterator;
 
 /**
- * A {@link DelegateListIterator} that keeps track of and provides cursor index
- * information to subclasses. The cursor computation algorithm in this class
- * complies to the specification defined in {@link ListIterator}.
+ * A {@link DelegateListIterator} that keeps track of and provides cursor index information to subclasses. The cursor computation
+ * algorithm in this class complies to the specification defined in {@link ListIterator}.
  *
  * @param <E> The type of elements returned by this iterator.
  * @see ListIterator#next()
@@ -36,45 +35,38 @@ public class CursorListIterator<E> extends DelegateListIterator<E> {
   private int lastRet;
 
   /**
-   * Creates a new {@link CursorListIterator} for the specified
-   * {@link ListIterator}.
+   * Creates a new {@link CursorListIterator} for the specified {@link ListIterator}.
    *
    * @param iterator The {@link ListIterator}.
-   * @throws IllegalArgumentException If the specified {@link ListIterator} is
-   *           null.
+   * @throws IllegalArgumentException If the specified {@link ListIterator} is null.
    */
   protected CursorListIterator(final ListIterator<? extends E> iterator) {
     super(iterator);
   }
 
   /**
-   * Returns the index of the element last returned by either {@link #next()} or
-   * {@link #previous()}.
+   * Returns the index of the element last returned by either {@link #next()} or {@link #previous()}.
    *
-   * @return The index of the element last returned by either {@link #next()} or
-   *         {@link #previous()}.
+   * @return The index of the element last returned by either {@link #next()} or {@link #previous()}.
    */
   protected int indexOfLast() {
     return lastRet;
   }
 
   /**
-   * Returns the index an element would have if a subsequent call to
-   * {@link #add(Object)} would be made.
+   * Returns the index an element would have if a subsequent call to {@link #add(Object)} would be made.
    *
-   * @return The index an element would have if a subsequent call to
-   *         {@link #add(Object)} would be made.
+   * @return The index an element would have if a subsequent call to {@link #add(Object)} would be made.
    */
   protected int indexForNext() {
     return lastRet < 0 ? lastRet : nextIndex();
   }
 
   /**
-   * Asserts that a call to a modifying operation can be made, for which only
-   * one is allowed after each call to {@link #next()} or {@link #previous()}.
+   * Asserts that a call to a modifying operation can be made, for which only one is allowed after each call to {@link #next()} or
+   * {@link #previous()}.
    *
-   * @throws IllegalStateException If a modifying operation cannot be made,
-   *           because one has already occurred after the last call to
+   * @throws IllegalStateException If a modifying operation cannot be made, because one has already occurred after the last call to
    *           {@link #next()} or {@link #previous()}.
    * @see #add(Object)
    * @see #set(Object)
