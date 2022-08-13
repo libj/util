@@ -700,7 +700,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     final int toIndex = this.toIndex > -1 ? this.toIndex : size;
     final int thatToIndex = that.toIndex > -1 ? that.toIndex : that.size;
-    return Arrays.equals(valueData, fromIndex, toIndex, that.valueData, that.fromIndex, thatToIndex);
+    return ArrayUtil.equals(valueData, fromIndex, toIndex, that.valueData, that.fromIndex, thatToIndex);
   }
 
   /**
