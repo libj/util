@@ -28,20 +28,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An {@link ExecutorService} that allows its threads to be synchronized. When
- * {@link #synchronize()} is called, the method disallows the executor service
- * from executing any new threads, and blocks until all running threads have
- * finished, signifying a synchronized state.
+ * An {@link ExecutorService} that allows its threads to be synchronized. When {@link #synchronize()} is called, the method
+ * disallows the executor service from executing any new threads, and blocks until all running threads have finished, signifying a
+ * synchronized state.
  * <p>
- * If the {@link SynchronizingExecutorService} is in a {@link #synchronizing}
- * state, newly submitted tasks wait until {@link #synchronize()} returns,
- * either successfully, or due to {@link InterruptedException}. Once
- * synchronized, the {@link #onSynchronize()} method is called.
+ * If the {@link SynchronizingExecutorService} is in a {@link #synchronizing} state, newly submitted tasks wait until
+ * {@link #synchronize()} returns, either successfully, or due to {@link InterruptedException}. Once synchronized, the
+ * {@link #onSynchronize()} method is called.
  * <p>
- * If the thread of the {@link #synchronize()} method call is interrupted while
- * the method is waiting for this instance's threads to finish, the command to
- * synchronize is aborted, and {@link #synchronize()} throws an
- * {@link InterruptedException}.
+ * If the thread of the {@link #synchronize()} method call is interrupted while the method is waiting for this instance's threads to
+ * finish, the command to synchronize is aborted, and {@link #synchronize()} throws an {@link InterruptedException}.
  */
 public abstract class SynchronizingExecutorService extends AbstractExecutorService {
   private static final Logger logger = LoggerFactory.getLogger(SynchronizingExecutorService.class);
@@ -55,8 +51,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   private final ExecutorService executorService;
 
   /**
-   * Construct a new {@link SynchronizingExecutorService} with the specified
-   * source {@link ExecutorService}.
+   * Construct a new {@link SynchronizingExecutorService} with the specified source {@link ExecutorService}.
    *
    * @param executorService The source {@link ExecutorService}.
    */
@@ -65,8 +60,8 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Called when this service synchronizes all executing threads to finish. When
-   * this method is called, no threads in this service are pending completion.
+   * Called when this service synchronizes all executing threads to finish. When this method is called, no threads in this service
+   * are pending completion.
    */
   public abstract void onSynchronize();
 
@@ -80,14 +75,11 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Stop execution of new threads, and wait for all running threads to finish.
-   * Once all threads have finished, {@link #onSynchronize()} is called. If this
-   * method's thread is interrupted waiting for this instance's threads to
-   * finish, the command to synchronize is aborted, and this method throws an
-   * {@link InterruptedException}.
+   * Stop execution of new threads, and wait for all running threads to finish. Once all threads have finished,
+   * {@link #onSynchronize()} is called. If this method's thread is interrupted waiting for this instance's threads to finish, the
+   * command to synchronize is aborted, and this method throws an {@link InterruptedException}.
    *
-   * @throws InterruptedException If this method's thread is interrupted waiting
-   *           for this instance's threads to finish.
+   * @throws InterruptedException If this method's thread is interrupted waiting for this instance's threads to finish.
    */
   public void synchronize() throws InterruptedException {
     if (synchronizing)
@@ -145,13 +137,11 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Executes the provided {@code runnable} at some time in the future. If the
-   * {@link SynchronizingExecutorService} is synchronizing, the provided
-   * {@code runnable} will wait until {@link #onSynchronize()} returns.
+   * Executes the provided {@code runnable} at some time in the future. If the {@link SynchronizingExecutorService} is
+   * synchronizing, the provided {@code runnable} will wait until {@link #onSynchronize()} returns.
    *
    * @param runnable The runnable task.
-   * @throws RejectedExecutionException If this task cannot be accepted for
-   *           execution.
+   * @throws RejectedExecutionException If this task cannot be accepted for execution.
    * @throws IllegalArgumentException If {@code command} is null.
    */
   @Override

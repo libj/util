@@ -20,9 +20,8 @@ import java.io.Serializable;
 
 /**
  * An abstract class providing static methods for concrete implementations of
- * <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing
- * (closed hashing) with linear-probing for collision resolution</a> algorithm,
- * with allocation-free operation in steady state when expanded.
+ * <a href="https://en.wikipedia.org/wiki/Open_addressing">open-addressing (closed hashing) with linear-probing for collision
+ * resolution</a> algorithm, with allocation-free operation in steady state when expanded.
  *
  * @see HashIntSet
  * @see HashLongSet
@@ -52,16 +51,13 @@ public abstract class HashPrimitiveSet implements Serializable {
   }
 
   /**
-   * Returns the next power of 2 for the value that is greater than or equal to
-   * the specified value.
+   * Returns the next power of 2 for the value that is greater than or equal to the specified value.
    * <p>
    * If {@code value <= 0}, this method returns {@code 1}.
    *
-   * @implSpec This method is not suitable for {@link Integer#MIN_VALUE} or
-   *           numbers greater than {@code 2^30}.
+   * @implSpec This method is not suitable for {@link Integer#MIN_VALUE} or numbers greater than {@code 2^30}.
    * @param value Value from which to return the next power of 2.
-   * @return The next power of 2 from the specified value, or the value itself
-   *         if it is a power of 2.
+   * @return The next power of 2 from the specified value, or the value itself if it is a power of 2.
    */
   protected static int findNextPositivePowerOfTwo(final int value) {
     return 1 << (32 - Integer.numberOfLeadingZeros(value - 1));

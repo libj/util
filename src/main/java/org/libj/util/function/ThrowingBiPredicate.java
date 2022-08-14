@@ -21,10 +21,9 @@ import java.util.function.BiPredicate;
 /**
  * Represents a predicate (boolean-valued function) that accepts two arguments.
  * <p>
- * The {@link ThrowingBiPredicate} distinguishes itself from {@link BiPredicate}
- * by allowing the functional interface to throw an {@link Exception}. This can
- * be used to allow lambda expressions to propagate checked exceptions up the
- * expression's call stack. An example of this pattern:
+ * The {@link ThrowingBiPredicate} distinguishes itself from {@link BiPredicate} by allowing the functional interface to throw an
+ * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * An example of this pattern:
  *
  * <pre>
  * {@code
@@ -50,8 +49,7 @@ public interface ThrowingBiPredicate<T,U,E extends Exception> extends BiPredicat
    *
    * @param t The first input argument.
    * @param u The second input argument.
-   * @return {@code true} if the input argument matches the predicate, otherwise
-   *         {@code false}.
+   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}.
    */
   @Override
   default boolean test(final T t, final U u) {
@@ -65,8 +63,7 @@ public interface ThrowingBiPredicate<T,U,E extends Exception> extends BiPredicat
   }
 
   /**
-   * Evaluates this predicate on the given arguments, allowing an exception to
-   * be thrown.
+   * Evaluates this predicate on the given arguments, allowing an exception to be thrown.
    *
    * @param t The first input argument.
    * @param u The second input argument.

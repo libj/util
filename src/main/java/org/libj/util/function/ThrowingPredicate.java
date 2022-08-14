@@ -21,22 +21,17 @@ import java.util.function.Predicate;
 /**
  * Represents a predicate (boolean-valued function) of one argument.
  * <p>
- * The {@link ThrowingPredicate} distinguishes itself from {@link Predicate} by
- * allowing the functional interface to throw an {@link Exception}. This can be
- * used to allow lambda expressions to propagate checked exceptions up the
- * expression's call stack. An example of this pattern:
+ * The {@link ThrowingPredicate} distinguishes itself from {@link Predicate} by allowing the functional interface to throw an
+ * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * An example of this pattern:
  *
  * <pre>
  * {@code
- * Arrays
- *   .asList(2, 1, 0)
- *   .stream()
- *   .filter(Throwing.<Integer>rethrow(i -> {
- *     if (i == 0)
- *       throw new IOException("i=" + i);
- *     return false;
- *   }))
- *   .collect(Collectors.toList());
+ * Arrays.asList(2, 1, 0).stream().filter(Throwing.<Integer>rethrow(i -> {
+ *   if (i == 0)
+ *     throw new IOException("i=" + i);
+ *   return false;
+ * })).collect(Collectors.toList());
  * }
  * </pre>
  *
@@ -50,8 +45,7 @@ public interface ThrowingPredicate<T,E extends Exception> extends Predicate<T> {
    * Evaluates this predicate on the given argument.
    *
    * @param t The input argument.
-   * @return {@code true} if the input argument matches the predicate, otherwise
-   *         {@code false}.
+   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}.
    */
   @Override
   default boolean test(final T t) {
@@ -65,8 +59,7 @@ public interface ThrowingPredicate<T,E extends Exception> extends Predicate<T> {
   }
 
   /**
-   * Evaluates this predicate on the given argument, allowing an exception to be
-   * thrown.
+   * Evaluates this predicate on the given argument, allowing an exception to be thrown.
    *
    * @param t The input argument.
    * @return The function result.

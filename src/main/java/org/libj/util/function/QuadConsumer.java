@@ -19,13 +19,12 @@ package org.libj.util.function;
 import static org.libj.lang.Assertions.*;
 
 /**
- * Represents an operation that accepts four input arguments and returns no
- * result. This is the four-arity specialization of
- * {@link java.util.function.Consumer}. Unlike most other functional interfaces,
- * {@link QuadConsumer} is expected to operate via side-effects.
+ * Represents an operation that accepts four input arguments and returns no result. This is the four-arity specialization of
+ * {@link java.util.function.Consumer}. Unlike most other functional interfaces, {@link QuadConsumer} is expected to operate via
+ * side-effects.
  * <p>
- * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #accept(Object,Object,Object,Object)}.
+ * This is a <a href="package-summary.html">functional interface</a> whose functional method is
+ * {@link #accept(Object,Object,Object,Object)}.
  *
  * @param <T> The type of the first argument to the operation.
  * @param <U> The type of the second argument to the operation.
@@ -46,15 +45,12 @@ public interface QuadConsumer<T,U,V,W> {
   void accept(T t, U u, V v, W w);
 
   /**
-   * Returns a composed {@link QuadConsumer} that performs, in sequence, this
-   * operation followed by the {@code after} operation. If performing either
-   * operation throws an exception, it is relayed to the caller of the composed
-   * operation. If performing this operation throws an exception, the
-   * {@code after} operation will not be performed.
+   * Returns a composed {@link QuadConsumer} that performs, in sequence, this operation followed by the {@code after} operation. If
+   * performing either operation throws an exception, it is relayed to the caller of the composed operation. If performing this
+   * operation throws an exception, the {@code after} operation will not be performed.
    *
    * @param after The operation to perform after this operation.
-   * @return A composed {@link QuadConsumer} that performs in sequence this
-   *         operation followed by the {@code after} operation.
+   * @return A composed {@link QuadConsumer} that performs in sequence this operation followed by the {@code after} operation.
    * @throws IllegalArgumentException if {@code after} is null.
    */
   default QuadConsumer<T,U,V,W> andThen(final QuadConsumer<? super T,? super U,? super V,? super W> after) {

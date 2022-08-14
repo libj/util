@@ -21,22 +21,18 @@ import java.util.function.Function;
 /**
  * Represents a function that accepts one argument and produces a result.
  * <p>
- * The {@link ThrowingFunction} distinguishes itself from {@link Function} by
- * allowing the functional interface to throw an {@link Exception}. This can be
- * used to allow lambda expressions to propagate checked exceptions up the
- * expression's call stack. An example of this pattern:
+ * The {@link ThrowingFunction} distinguishes itself from {@link Function} by allowing the functional interface to throw an
+ * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * An example of this pattern:
  *
  * <pre>
  * {@code
- * Arrays
- *   .asList(2, 1, 0)
- *   .stream()
- *   .map(Throwing.rethrow((Integer i) -> {
- *     if (i == 0)
- *       throw new IOException("i=" + i);
- *     return String.valueOf(i);
- *   }))
- *   .forEach(f -> {});
+ * Arrays.asList(2, 1, 0).stream().map(Throwing.rethrow((Integer i) -> {
+ *   if (i == 0)
+ *     throw new IOException("i=" + i);
+ *   return String.valueOf(i);
+ * })).forEach(f -> {
+ * });
  * }
  * </pre>
  *
@@ -59,8 +55,7 @@ public interface ThrowingFunction<T,R,E extends Exception> extends Function<T,R>
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be
-   * thrown.
+   * Performs this operation on the given argument, allowing an exception to be thrown.
    *
    * @param t The input argument.
    * @return The function result.

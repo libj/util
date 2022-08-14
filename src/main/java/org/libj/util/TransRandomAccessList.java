@@ -32,8 +32,8 @@ import java.util.function.BiFunction;
  */
 public class TransRandomAccessList<S,LS extends List<S> & RandomAccess,T,LT extends List<T> & RandomAccess> extends TransList<S,LS,T,LT> implements RandomAccess {
   /**
-   * Creates a new {@link TransRandomAccessList} with the specified source List, and functions defining the translation of objects types
-   * {@code S -> T} and {@code T -> S}.
+   * Creates a new {@link TransRandomAccessList} with the specified source List, and functions defining the translation of objects
+   * types {@code S -> T} and {@code T -> S}.
    * <p>
    * If {@code sourceToTarget} is null, all methods that require a translation of {@code S -> T} will throw a
    * {@link UnsupportedOperationException}.

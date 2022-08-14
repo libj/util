@@ -26,8 +26,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * Utility that allows lambda expressions to propagate checked exceptions up the
- * expression's call stack.
+ * Utility that allows lambda expressions to propagate checked exceptions up the expression's call stack.
  */
 public final class Throwing {
   /**
@@ -100,8 +99,7 @@ public final class Throwing {
   }
 
   /**
-   * Rethrows the checked exception from the specified
-   * {@link ThrowingBiConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingBiConsumer}.
    * <p>
    * An example of this pattern:
    *
@@ -151,8 +149,7 @@ public final class Throwing {
   }
 
   /**
-   * Rethrows the checked exception from the specified
-   * {@link ThrowingTriConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingTriConsumer}.
    * <p>
    * An example of this pattern:
    *
@@ -184,15 +181,11 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * Arrays
-   *   .asList(2, 1, 0)
-   *   .stream()
-   *   .filter(Throwing.<Integer>rethrow(i -> {
-   *     if (i == 0)
-   *       throw new IOException("i=" + i);
-   *     return false;
-   *   }))
-   *   .collect(Collectors.toList());
+   * Arrays.asList(2, 1, 0).stream().filter(Throwing.<Integer>rethrow(i -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   *   return false;
+   * })).collect(Collectors.toList());
    * }
    * </pre>
    *
@@ -238,15 +231,12 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * Arrays
-   *   .asList(2, 1, 0)
-   *   .stream()
-   *   .map(Throwing.rethrow((Integer i) -> {
-   *     if (i == 0)
-   *       throw new IOException("i=" + i);
-   *     return String.valueOf(i);
-   *   }))
-   *   .forEach(f -> {});
+   * Arrays.asList(2, 1, 0).stream().map(Throwing.rethrow((Integer i) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   *   return String.valueOf(i);
+   * })).forEach(f -> {
+   * });
    * }
    * </pre>
    *
@@ -260,8 +250,7 @@ public final class Throwing {
   }
 
   /**
-   * Rethrows the checked exception from the specified
-   * {@link ThrowingBiFunction}.
+   * Rethrows the checked exception from the specified {@link ThrowingBiFunction}.
    * <p>
    * An example of this pattern:
    *
@@ -288,8 +277,8 @@ public final class Throwing {
   }
 
   /**
-   * Rethrows the specified throwable. This method tricks the compiler to
-   * allow checked exceptions to be thrown from lambda expressions.
+   * Rethrows the specified throwable. This method tricks the compiler to allow checked exceptions to be thrown from lambda
+   * expressions.
    *
    * @param <T> The type of the {@link Throwable}.
    * @param t The {@link Throwable} instance to rethrow.

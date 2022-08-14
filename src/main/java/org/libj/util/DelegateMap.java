@@ -318,8 +318,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Map#forEach(BiConsumer)}.
+   * Protected method providing access to the default implementation of {@link Map#forEach(BiConsumer)}.
    *
    * @param action The action to be performed for each entry.
    * @throws NullPointerException If the specified action is null.

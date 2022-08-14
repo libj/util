@@ -17,21 +17,18 @@
 package org.libj.util.retry;
 
 /**
- * Thrown to indicate the ultimate failure of retried invocation(s) by a
- * {@link RetryPolicy}.
+ * Thrown to indicate the ultimate failure of retried invocation(s) by a {@link RetryPolicy}.
  */
 public class RetryFailureException extends Exception {
   private final int attemptNo;
   private final long delayMs;
 
   /**
-   * Constructs a {@link RetryFailureException} with the specified exception
-   * that was the cause of this exception.
+   * Constructs a {@link RetryFailureException} with the specified exception that was the cause of this exception.
    *
    * @param cause The exception that was the cause of this exception.
    * @param attemptNo The attempt number on which the exception was thrown.
-   * @param delayMs The delay (in milliseconds) from the previous invocation
-   *          attempt.
+   * @param delayMs The delay (in milliseconds) from the previous invocation attempt.
    */
   public RetryFailureException(final Throwable cause, final int attemptNo, final long delayMs) {
     super("attemptNo = " + attemptNo + ", delayMs = " + delayMs, cause);
@@ -40,12 +37,10 @@ public class RetryFailureException extends Exception {
   }
 
   /**
-   * Constructs a {@link RetryFailureException} without a specified exception
-   * cause.
+   * Constructs a {@link RetryFailureException} without a specified exception cause.
    *
    * @param attemptNo The attempt number on which the exception was thrown.
-   * @param delayMs The delay (in milliseconds) from the previous invocation
-   *          attempt.
+   * @param delayMs The delay (in milliseconds) from the previous invocation attempt.
    */
   public RetryFailureException(final int attemptNo, final long delayMs) {
     this(null, attemptNo, delayMs);

@@ -19,13 +19,12 @@ package org.libj.util.function;
 import static org.libj.lang.Assertions.*;
 
 /**
- * Represents an operation that accepts five input arguments and returns no
- * result. This is the five-arity specialization of
- * {@link java.util.function.Consumer}. Unlike most other functional interfaces,
- * {@link PentaConsumer} is expected to operate via side-effects.
+ * Represents an operation that accepts five input arguments and returns no result. This is the five-arity specialization of
+ * {@link java.util.function.Consumer}. Unlike most other functional interfaces, {@link PentaConsumer} is expected to operate via
+ * side-effects.
  * <p>
- * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #accept(Object,Object,Object,Object,Object)}.
+ * This is a <a href="package-summary.html">functional interface</a> whose functional method is
+ * {@link #accept(Object,Object,Object,Object,Object)}.
  *
  * @param <T> The type of the first argument to the operation.
  * @param <U> The type of the second argument to the operation.
@@ -48,15 +47,12 @@ public interface PentaConsumer<T,U,V,W,X> {
   void accept(T t, U u, V v, W w, X x);
 
   /**
-   * Returns a composed {@link PentaConsumer} that performs, in sequence, this
-   * operation followed by the {@code after} operation. If performing either
-   * operation throws an exception, it is relayed to the caller of the composed
-   * operation. If performing this operation throws an exception, the
-   * {@code after} operation will not be performed.
+   * Returns a composed {@link PentaConsumer} that performs, in sequence, this operation followed by the {@code after} operation. If
+   * performing either operation throws an exception, it is relayed to the caller of the composed operation. If performing this
+   * operation throws an exception, the {@code after} operation will not be performed.
    *
    * @param after The operation to perform after this operation.
-   * @return A composed {@link PentaConsumer} that performs in sequence this
-   *         operation followed by the {@code after} operation.
+   * @return A composed {@link PentaConsumer} that performs in sequence this operation followed by the {@code after} operation.
    * @throws IllegalArgumentException if {@code after} is null.
    */
   default PentaConsumer<T,U,V,W,X> andThen(final PentaConsumer<? super T,? super U,? super V,? super W,? super X> after) {

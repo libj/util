@@ -17,21 +17,18 @@
 package org.libj.util.retry;
 
 /**
- * Interface that provides retry ability for a class when executed via the
- * {@code RetryPolicy.run} functions.
+ * Interface that provides retry ability for a class when executed via the {@code RetryPolicy.run} functions.
  * <p>
- * This is a functional interface whose functional method is
- * {@link #retry(RetryPolicy,int)}.
+ * This is a functional interface whose functional method is {@link #retry(RetryPolicy,int)}.
  *
  * @param <T> The type of the result of this {@link Retryable}.
- * @param <E> The type parameter of the {@link Exception} instance signifying
- *          terminal failure of the {@link RetryPolicy} execution.
+ * @param <E> The type parameter of the {@link Exception} instance signifying terminal failure of the {@link RetryPolicy} execution.
  */
 @FunctionalInterface
 public interface Retryable<T,E extends Exception> {
   /**
-   * Main run method of the {@link Retryable} that is invoked by a
-   * {@link RetryPolicy}, which defines the rules of retry invocations.
+   * Main run method of the {@link Retryable} that is invoked by a {@link RetryPolicy}, which defines the rules of retry
+   * invocations.
    *
    * @param retryPolicy The invoking {@link RetryPolicy}.
    * @param attemptNo The incremental sequence number of the retry attempt.

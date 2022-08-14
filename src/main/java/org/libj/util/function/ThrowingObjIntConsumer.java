@@ -19,25 +19,21 @@ package org.libj.util.function;
 import java.util.function.ObjIntConsumer;
 
 /**
- * Represents an operation that accepts an object-valued and a
- * {@code int}-valued argument, and returns no result. Unlike most other
- * functional interfaces, {@link ObjIntConsumer} is expected to operate via
- * side-effects.
+ * Represents an operation that accepts an object-valued and a {@code int}-valued argument, and returns no result. Unlike most other
+ * functional interfaces, {@link ObjIntConsumer} is expected to operate via side-effects.
  * <p>
- * The {@link ThrowingObjIntConsumer} distinguishes itself from
- * {@link ObjIntConsumer} by allowing the functional interface to throw an
- * {@link Exception}. This can be used to allow lambda expressions to propagate
- * checked exceptions up the expression's call stack. An example of this
- * pattern:
+ * The {@link ThrowingObjIntConsumer} distinguishes itself from {@link ObjIntConsumer} by allowing the functional interface to throw
+ * an {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call
+ * stack. An example of this pattern:
  *
  * <pre>
  * {@code
- *   ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s, i) -> {
- *     if (i == 0)
- *       throw new IllegalArgumentException("i=" + i);
- *   });
- *   for (int i = 3; i >= 0; --i)
- *     consumer.accept(i, -i);
+ * ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s, i) -> {
+ *   if (i == 0)
+ *     throw new IllegalArgumentException("i=" + i);
+ * });
+ * for (int i = 3; i >= 0; --i)
+ *   consumer.accept(i, -i);
  * }
  * </pre>
  *
@@ -58,8 +54,7 @@ public interface ThrowingObjIntConsumer<T,E extends Exception> extends ObjIntCon
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be
-   * thrown.
+   * Performs this operation on the given argument, allowing an exception to be thrown.
    *
    * @param t The first input argument.
    * @param value The second input argument.

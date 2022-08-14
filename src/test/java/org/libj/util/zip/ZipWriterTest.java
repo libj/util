@@ -69,8 +69,7 @@ public class ZipWriterTest {
    * Recursively delete a directory and its contents.
    *
    * @param dir The directory to delete.
-   * @return {@code true} if {@code dir} was successfully deleted, {@code false}
-   *         otherwise.
+   * @return {@code true} if {@code dir} was successfully deleted, {@code false} otherwise.
    */
   private static boolean deleteDir(final File dir) {
     final File[] files = dir.listFiles();

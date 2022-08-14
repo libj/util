@@ -19,14 +19,12 @@ package org.libj.util.function;
 import java.util.function.BiConsumer;
 
 /**
- * Represents an operation that accepts two input arguments and returns no
- * result. Unlike most other functional interfaces, {@link BiConsumer} is
- * expected to operate via side-effects.
+ * Represents an operation that accepts two input arguments and returns no result. Unlike most other functional interfaces,
+ * {@link BiConsumer} is expected to operate via side-effects.
  * <p>
- * The {@link ThrowingBiConsumer} distinguishes itself from {@link BiConsumer}
- * by allowing the functional interface to throw an {@link Exception}. This can
- * be used to allow lambda expressions to propagate checked exceptions up the
- * expression's call stack. An example of this pattern:
+ * The {@link ThrowingBiConsumer} distinguishes itself from {@link BiConsumer} by allowing the functional interface to throw an
+ * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * An example of this pattern:
  *
  * <pre>
  * {@code
@@ -57,8 +55,7 @@ public interface ThrowingBiConsumer<T,U,E extends Exception> extends BiConsumer<
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be
-   * thrown.
+   * Performs this operation on the given argument, allowing an exception to be thrown.
    *
    * @param t The first input argument.
    * @param u The second input argument.

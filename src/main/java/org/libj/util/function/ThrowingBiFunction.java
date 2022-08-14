@@ -21,10 +21,9 @@ import java.util.function.BiFunction;
 /**
  * Represents a function that accepts two arguments and produces a result.
  * <p>
- * The {@link ThrowingBiFunction} distinguishes itself from {@link BiFunction}
- * by allowing the functional interface to throw an {@link Exception}. This can
- * be used to allow lambda expressions to propagate checked exceptions up the
- * expression's call stack. An example of this pattern:
+ * The {@link ThrowingBiFunction} distinguishes itself from {@link BiFunction} by allowing the functional interface to throw an
+ * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * An example of this pattern:
  *
  * <pre>
  * {@code
@@ -58,8 +57,7 @@ public interface ThrowingBiFunction<T,U,R,E extends Exception> extends BiFunctio
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be
-   * thrown.
+   * Performs this operation on the given argument, allowing an exception to be thrown.
    *
    * @param t The first input argument.
    * @param u The second function argument.

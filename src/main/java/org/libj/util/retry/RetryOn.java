@@ -17,17 +17,14 @@
 package org.libj.util.retry;
 
 /**
- * Function that specifies the conditions under which a retry should occur given
- * the provided {@link Exception}.
+ * Function that specifies the conditions under which a retry should occur given the provided {@link Exception}.
  */
 @FunctionalInterface
 public interface RetryOn {
   /**
-   * Specifies the conditions under which a retry should occur given the
-   * provided {@link Exception}.
+   * Specifies the conditions under which a retry should occur given the provided {@link Exception}.
    *
-   * @param e The non-null exception that occurred during execution of a
-   *          {@link Retryable} object.
+   * @param e The non-null exception that occurred during execution of a {@link Retryable} object.
    * @return {@code true} if a retry should occur, otherwise {@code false}.
    */
   boolean retryOn(Exception e);

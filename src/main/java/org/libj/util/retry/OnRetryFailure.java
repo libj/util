@@ -21,25 +21,18 @@ import java.util.List;
 @FunctionalInterface
 public interface OnRetryFailure<E extends Exception> {
   /**
-   * Callback to return the non-null {@link Exception} instance of type
-   * {@code <E>} to be thrown in the event of terminal failure of the
-   * {@link RetryPolicy} execution.
+   * Callback to return the non-null {@link Exception} instance of type {@code <E>} to be thrown in the event of terminal failure of
+   * the {@link RetryPolicy} execution.
    * <p>
-   * A {@link IllegalArgumentException} will be thrown after the execution of
-   * this method if the returned value is {@code null}.
+   * A {@link IllegalArgumentException} will be thrown after the execution of this method if the returned value is {@code null}.
    *
-   * @param lastException The most recent exception that occurred during
-   *          execution of a {@link Retryable} object.
-   * @param suppressedExceptions The rest of the exceptions that occurred during
-   *          execution of a {@link Retryable} object in the order of their
-   *          occurrence. {@link Exception#addSuppressed(Throwable)} will be
-   *          called for each member of this list immediately after the return
-   *          of this method.
+   * @param lastException The most recent exception that occurred during execution of a {@link Retryable} object.
+   * @param suppressedExceptions The rest of the exceptions that occurred during execution of a {@link Retryable} object in the
+   *          order of their occurrence. {@link Exception#addSuppressed(Throwable)} will be called for each member of this list
+   *          immediately after the return of this method.
    * @param attemptNo The attempt number on which the exception was thrown.
-   * @param delayMs The delay (in milliseconds) from the previous invocation
-   *          attempt.
-   * @return The non-null {@link Exception} instance of type {@code <E>}
-   *         signifying the terminal failure of the {@link RetryPolicy}
+   * @param delayMs The delay (in milliseconds) from the previous invocation attempt.
+   * @return The non-null {@link Exception} instance of type {@code <E>} signifying the terminal failure of the {@link RetryPolicy}
    *         execution.
    */
   E onRetryFailure(Exception lastException, List<Exception> suppressedExceptions, int attemptNo, long delayMs);

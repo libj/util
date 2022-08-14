@@ -19,23 +19,19 @@ package org.libj.util.function;
 import java.util.function.Consumer;
 
 /**
- * Represents an operation that accepts a single input argument and returns no
- * result. Unlike most other functional interfaces, {@link Consumer} is expected
- * to operate via side-effects.
+ * Represents an operation that accepts a single input argument and returns no result. Unlike most other functional interfaces,
+ * {@link Consumer} is expected to operate via side-effects.
  * <p>
- * The {@link ThrowingConsumer} distinguishes itself from {@link Consumer} by
- * allowing the functional interface to throw an {@link Exception}. This can be
- * used to allow lambda expressions to propagate checked exceptions up the
- * expression's call stack. An example of this pattern:
+ * The {@link ThrowingConsumer} distinguishes itself from {@link Consumer} by allowing the functional interface to throw an
+ * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * An example of this pattern:
  *
  * <pre>
  * {@code
- * Arrays
- *   .asList(2, 1, 0)
- *   .forEach(Throwing.rethrow(i -> {
- *     if (i == 0)
- *       throw new IllegalArgumentException("i=" + i);
- *   }));
+ * Arrays.asList(2, 1, 0).forEach(Throwing.rethrow(i -> {
+ *   if (i == 0)
+ *     throw new IllegalArgumentException("i=" + i);
+ * }));
  * }
  * </pre>
  *
@@ -56,8 +52,7 @@ public interface ThrowingConsumer<T,E extends Exception> extends Consumer<T> {
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be
-   * thrown.
+   * Performs this operation on the given argument, allowing an exception to be thrown.
    *
    * @param t The input argument.
    * @throws E If an exception has occurred.

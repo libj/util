@@ -23,13 +23,10 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A {@link DelegateIterator} contains some other {@link Iterator}, to which it
- * delegates its method calls, possibly transforming the data along the way or
- * providing additional functionality. The class {@link DelegateIterator} itself
- * simply overrides all methods of {@link Iterator} with versions that pass all
- * requests to the source {@link Iterator}. Subclasses of
- * {@link DelegateIterator} may further override some of these methods and may
- * also provide additional methods and fields.
+ * A {@link DelegateIterator} contains some other {@link Iterator}, to which it delegates its method calls, possibly transforming
+ * the data along the way or providing additional functionality. The class {@link DelegateIterator} itself simply overrides all
+ * methods of {@link Iterator} with versions that pass all requests to the source {@link Iterator}. Subclasses of
+ * {@link DelegateIterator} may further override some of these methods and may also provide additional methods and fields.
  *
  * @param <E> The type of elements returned by this iterator.
  */
@@ -39,8 +36,7 @@ public abstract class DelegateIterator<E> extends AbstractIterator<E> {
   protected volatile Iterator target;
 
   /**
-   * Creates a new {@link DelegateIterator} with the specified target
-   * {@link Iterator}.
+   * Creates a new {@link DelegateIterator} with the specified target {@link Iterator}.
    *
    * @param target The target {@link Iterator}.
    * @throws IllegalArgumentException If the target {@link Iterator} is null.
@@ -72,8 +68,7 @@ public abstract class DelegateIterator<E> extends AbstractIterator<E> {
   }
 
   /**
-   * Protected method providing access to the default implementation of
-   * {@link Iterator#forEachRemaining(Consumer)}.
+   * Protected method providing access to the default implementation of {@link Iterator#forEachRemaining(Consumer)}.
    *
    * @param action The action to be performed for each element.
    * @throws NullPointerException If the specified action is null.
