@@ -36,6 +36,7 @@ import java.util.RandomAccess;
  * @see #afterRemove(Object,RuntimeException)
  * @see #beforeSet(int,Object)
  * @see #afterSet(int,Object,RuntimeException)
+ * @see RandomAccess
  */
 public abstract class ObservableRandomAccessList<E,L extends List<E> & RandomAccess> extends ObservableList<E,L> implements RandomAccess {
   /**

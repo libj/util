@@ -29,6 +29,7 @@ import java.util.RandomAccess;
  *
  * @param <E> The type of elements in this list.
  * @param <L> The type of underlying list.
+ * @see RandomAccess
  */
 public abstract class DelegateRandomAccessList<E,L extends List<E> & RandomAccess> extends DelegateList<E,List<E>> implements RandomAccess {
   /**

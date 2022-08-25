@@ -121,6 +121,9 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
 
   @Override
   public Object[] toArray() {
+    if (sourceToTarget == null)
+      throw new UnsupportedOperationException();
+
     final int i$ = size();
     final Object[] a = new Object[i$];
     toArray(a, i$);
@@ -204,60 +207,43 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
 
   @Override
   public boolean containsAll(final Collection<?> c) {
-    if (c.size() == 0)
-      return true;
-
-    for (final Object e : c) // [C]
-      if (contains(e))
-        return true;
-
-    return false;
+    return CollectionUtil.containsAll(this, c);
   }
 
   @Override
   public boolean addAll(final Collection<? extends T> c) {
-    boolean changed = false;
-    for (final T e : c) // [C]
-      changed |= add(e);
-
-    return changed;
+    return CollectionUtil.addAll(this, c);
   }
 
   @Override
   public boolean removeAll(final Collection<?> c) {
-    boolean changed = false;
-    for (final Object e : c) // [C]
-      changed |= remove(e);
-
-    return changed;
+    return CollectionUtil.removeAll(this, c);
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public boolean retainAll(final Collection<?> c) {
-    boolean changed = false;
-    final int i$ = size();
-    if (isRandomAccess()) {
-      for (int i = 0; i < i$; ++i) { // [RA]
-        final S e = (S)target.get(i);
-        if (!c.contains(sourceToTarget.apply(i, e))) {
-          target.remove(i);
-          changed = true;
-        }
+    final int size = size();
+    if (c.size() > 0) {
+      if (isRandomAccess()) {
+        for (int i = size - 1; i >= 0; --i) // [RA]
+          if (!c.contains(target.get(i)))
+            remove(i);
       }
-    }
-    else {
-      final Iterator<S> iterator = target.iterator();
-      for (int i = 0; i < i$; ++i) { // [I]
-        final S e = iterator.next();
-        if (!c.contains(sourceToTarget.apply(i, e))) {
-          iterator.remove();
-          changed = true;
-        }
+      else {
+        final Iterator<S> iterator = target.iterator();
+        for (int i = 0; i < size; ++i) // [I]
+          if (!c.contains(sourceToTarget.apply(i, iterator.next())))
+            iterator.remove();
       }
+
+      return size != size();
     }
 
-    return changed;
+    if (size == 0)
+      return false;
+
+    clear();
+    return true;
   }
 
   @Override

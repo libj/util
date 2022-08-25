@@ -181,9 +181,9 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
 
   @Override
   public boolean retainAll(final Collection<?> c) {
+    final int size = size();
     if (c.size() > 0) {
-      final int i$ = size();
-      final int end = i$ - 1;
+      final int end = size - 1;
       E elem;
       E prev = null;
       boolean removed = false;
@@ -203,7 +203,7 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
       }
       else {
         final Iterator<E> iterator = iterator();
-        for (int i = 0; i < i$; ++i, prev = elem) { // [I]
+        for (int i = 0; i < size; ++i, prev = elem) { // [I]
           elem = iterator.next();
           final boolean isSameAsPrev = i != 0 && Objects.equals(prev, elem);
           if (!isSameAsPrev) {
@@ -217,10 +217,10 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
         }
       }
 
-      return i$ != size();
+      return size != size();
     }
 
-    if (size() == 0)
+    if (size == 0)
       return false;
 
     clear();

@@ -18,8 +18,10 @@ package org.libj.util;
 
 import static org.libj.lang.Assertions.*;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -55,22 +57,28 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
     this.targetToSource = targetToSource;
   }
 
+  /**
+   * Delegate method that is invoked for all {@link Object#equals(Object)} operations. This method is intended to be overridden to
+   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
+   * determination of object equality by this {@link ObservableSet}.
+   *
+   * @param o1 An object.
+   * @param o2 An object to be compared with a for equality.
+   * @return {@code true} if {@code o1} is equal to {@code o2}; {@code false} otherwise.
+   */
+  protected boolean equals(final Object o1, final Object o2) {
+    return Objects.equals(o1, o2);
+  }
+
   @Override
   public boolean contains(final Object o) {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
     final Iterator<S> iterator = target.iterator();
-    if (o != null) {
-      while (iterator.hasNext())
-        if (o.equals(sourceToTarget.apply(iterator.next())))
-          return true;
-    }
-    else {
-      while (iterator.hasNext())
-        if (iterator.next() == null)
-          return true;
-    }
+    while (iterator.hasNext())
+      if (equals(o, sourceToTarget.apply(iterator.next())))
+        return true;
 
     return false;
   }
@@ -104,26 +112,34 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final int len = size();
-    final Object[] array = new Object[len];
-    final Iterator<S> iterator = target.iterator();
-    for (int i = 0; i < len; ++i) // [A]
-      array[i] = sourceToTarget.apply(iterator.next());
-
-    return array;
+    final int i$ = size();
+    final Object[] a = new Object[i$];
+    toArray(a, i$);
+    return a;
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public <E>E[] toArray(final E[] a) {
+  public <E>E[] toArray(E[] a) {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final Iterator<S> iterator = target.iterator();
-    for (int i = 0, i$ = size(); i < i$; ++i) // [I]
-      a[i] = (E)sourceToTarget.apply(iterator.next());
+    final int i$ = size();
+    if (a.length < i$)
+      a = (E[])Array.newInstance(a.getClass().getComponentType(), i$);
+
+    toArray(a, i$);
+
+    if (a.length > i$)
+      a[i$] = null;
 
     return a;
+  }
+
+  private void toArray(final Object[] a, final int i$) {
+    final Iterator<S> iterator = target.iterator();
+    for (int i = 0; i < i$; ++i) // [I]
+      a[i] = sourceToTarget.apply(iterator.next());
   }
 
   @Override
@@ -142,7 +158,7 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
     final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
       final S e = iterator.next();
-      if (o != null ? o.equals(sourceToTarget.apply(e)) : sourceToTarget.apply(e) == null) {
+      if (equals(o, sourceToTarget.apply(e))) {
         iterator.remove();
         return true;
       }
@@ -153,46 +169,35 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
 
   @Override
   public boolean containsAll(final Collection<?> c) {
-    if (c.size() == 0)
-      return true;
-
-    for (final Object e : c) // [C]
-      if (contains(e))
-        return true;
-
-    return false;
+    return CollectionUtil.containsAll(this, c);
   }
 
   @Override
   public boolean addAll(final Collection<? extends T> c) {
-    boolean changed = false;
-    for (final T e : c) // [C]
-      changed |= add(e);
-
-    return changed;
+    return CollectionUtil.addAll(this, c);
   }
 
   @Override
   public boolean removeAll(final Collection<?> c) {
-    boolean changed = false;
-    for (final Object e : c) // [C]
-      changed |= remove(e);
-
-    return changed;
+    return CollectionUtil.removeAll(this, c);
   }
 
   @Override
   public boolean retainAll(final Collection<?> c) {
-    boolean changed = false;
-    final Iterator<S> iterator = target.iterator();
-    while (iterator.hasNext()) {
-      final S e = iterator.next();
-      if (!c.contains(e == null ? null : sourceToTarget.apply(e))) {
-        iterator.remove();
-        changed = true;
-      }
+    final int size = size();
+    if (c.size() > 0) {
+      final Iterator<?> iterator = iterator();
+      while (iterator.hasNext()) // [I]
+        if (!c.contains(iterator.next()))
+          iterator.remove();
+
+      return size != size();
     }
 
-    return changed;
+    if (size == 0)
+      return false;
+
+    clear();
+    return true;
   }
 }

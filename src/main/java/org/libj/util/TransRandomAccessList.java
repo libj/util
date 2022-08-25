@@ -29,6 +29,7 @@ import java.util.function.BiFunction;
  * @param <T> The type of the elements in the target List.
  * @param <LT> The type of target list.
  * @see List
+ * @see RandomAccess
  */
 public class TransRandomAccessList<S,LS extends List<S> & RandomAccess,T,LT extends List<T> & RandomAccess> extends TransList<S,LS,T,LT> implements RandomAccess {
   /**

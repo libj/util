@@ -56,6 +56,134 @@ public final class CollectionUtil extends PrimitiveSort {
   public static final ArrayList EMPTY_ARRAY_LIST = new WrappedArrayList<>();
 
   /**
+   * Adds all of the elements in the {@code subset} collection to the {@code set} collection. The behavior of this operation is
+   * undefined if the specified collection is modified while the operation is in progress.
+   *
+   * @param <E> The type of elements in {@code set}.
+   * @param set Collection to which elements from {@code subset} are to be added.
+   * @param subset Collection containing elements to be added to {@code set}.
+   * @return {@code true} if {@code set} changed as a result of the call.
+   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   */
+  public static <E>boolean addAll(final Collection<E> set, final Collection<? extends E> subset) {
+    assertNotNull(set);
+    assertNotNull(subset);
+
+    if (subset.size() == 0)
+      return false;
+
+    boolean changed = false;
+    final List<? extends E> sublist;
+    if (subset instanceof List && isRandomAccess(sublist = (List<? extends E>)subset)) {
+      for (int i = 0, i$ = sublist.size(); i < i$; ++i) // [RA]
+        changed |= set.add(sublist.get(i));
+    }
+    else {
+      for (final E e : subset) // [C]
+        changed |= set.add(e);
+    }
+
+    return changed;
+  }
+
+  /**
+   * Returns {@code true} if {@code set} contains all the elements specified in {@code subset}; otherwise {@code false}.
+   *
+   * @param set Collection to check for containment of {@code subset}.
+   * @param subset Collection to be checked for containment in {@code set}.
+   * @return {@code true} if {@code set} contains all the elements specified in {@code subset}; otherwise {@code false}.
+   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   */
+  public static boolean containsAll(final Collection<?> set, final Collection<?> subset) {
+    assertNotNull(set);
+    assertNotNull(subset);
+
+    if (subset.size() == 0)
+      return true;
+
+    final List<?> sublist;
+    if (subset instanceof List && isRandomAccess(sublist = (List<?>)subset)) {
+      for (int i = 0, i$ = sublist.size(); i < i$; ++i) // [RA]
+        if (!set.contains(sublist.get(i)))
+          return false;
+
+      return true;
+    }
+
+    for (final Object o : subset) // [C]
+      if (!set.contains(o))
+        return false;
+
+    return true;
+  }
+
+  /**
+   * Removes all of elements in {@code set} that are also contained in {@code subset}. After this call returns, {@code set} will
+   * contain no elements in common with {@code subset}.
+   *
+   * @param set Collection from which elements in {@code subset} are to be removed.
+   * @param subset Collection containing elements to be removed from {@code set}.
+   * @return {@code true} if {@code set} changed as a result of the call.
+   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   */
+  public static boolean removeAll(final Collection<?> set, final Collection<?> subset) {
+    assertNotNull(set);
+    assertNotNull(subset);
+
+    if (subset.size() == 0)
+      return false;
+
+    final int size = set.size();
+    final List<?> sublist;
+    if (subset instanceof List && isRandomAccess(sublist = (List<?>)subset))
+      for (int i = 0, i$ = sublist.size(); i < i$; ++i) // [RA]
+        set.remove(sublist.get(i));
+    else
+      for (final Object e : subset) // [C]
+        set.remove(e);
+
+    return size != set.size();
+  }
+
+  /**
+   * Retains only the elements in {@code set} that are contained in {@code subset}. In other words, removes from {@code set} all of
+   * its elements that are not contained in {@code subset}.
+   *
+   * @param set Collection in which elements from {@code subset} are to be retained.
+   * @param subset Collection containing elements to be retained in this {@code set}.
+   * @return {@code true} if {@code set} changed as a result of the call.
+   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   */
+  public static boolean retainAll(final Collection<?> set, final Collection<?> subset) {
+    assertNotNull(set);
+    assertNotNull(subset);
+
+    final int size = set.size();
+    final int subSize = subset.size();
+    if (subSize == 0) {
+      if (size == 0)
+        return false;
+
+      set.clear();
+      return true;
+    }
+
+    final List<?> list;
+    if (set instanceof List && isRandomAccess(list = (List<?>)set)) {
+      for (int i = 0; i < subSize; ++i) // [RA]
+        if (!subset.contains(list.get(i)))
+          list.remove(i);
+    }
+    else {
+      for (final Iterator<?> i = set.iterator(); i.hasNext();) // [X]
+        if (!subset.contains(i.next()))
+          i.remove();
+    }
+
+    return size != set.size();
+  }
+
+  /**
    * Returns {@code true} if the provided {@link List} either directly implements the {@link RandomAccess} interface, or is a
    * {@link DelegateList} wrapping another list that implements the {@link RandomAccess} interface; otherwise {@code false}.
    *

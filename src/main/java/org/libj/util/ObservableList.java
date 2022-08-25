@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -177,13 +178,12 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
    * determination of object equality by this {@link ObservableList}.
    *
-   * @implNote This method is guaranteed to be invoked with a non-null {@code o1}.
    * @param o1 An object.
    * @param o2 An object to be compared with a for equality.
-   * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
+   * @return {@code true} if {@code o1} is equal to {@code o2}; {@code false} otherwise.
    */
   protected boolean equals(final Object o1, final Object o2) {
-    return o1.equals(o2);
+    return Objects.equals(o1, o2);
   }
 
   @SuppressWarnings("unchecked")
@@ -245,11 +245,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
-    boolean changed = false;
-    for (final E e : c) // [C]
-      changed |= add(e);
-
-    return changed;
+    return CollectionUtil.addAll(this, c);
   }
 
   /**
@@ -299,29 +295,15 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   @Override
   public boolean contains(final Object o) {
     final int i$ = size();
-    if (o == null) {
-      if (isRandomAccess()) {
-        for (int i = 0; i < i$; ++i) // [RA]
-          if (get(i) == null)
-            return true;
-      }
-      else {
-        for (final Object member : this) // [L]
-          if (member == null)
-            return true;
-      }
+    if (isRandomAccess()) {
+      for (int i = 0; i < i$; ++i) // [RA]
+        if (equals(o, get(i)))
+          return true;
     }
     else {
-      if (isRandomAccess()) {
-        for (int i = 0; i < i$; ++i) // [RA]
-          if (equals(o, get(i)))
-            return true;
-      }
-      else {
-        for (final Object member : this) // [L]
-          if (equals(o, member))
-            return true;
-      }
+      for (final Object member : this) // [L]
+        if (equals(o, member))
+          return true;
     }
 
     return false;
@@ -335,14 +317,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public boolean containsAll(final Collection<?> c) {
-    if (c.size() == 0)
-      return true;
-
-    for (final Object o : c) // [C]
-      if (!contains(o))
-        return false;
-
-    return true;
+    return CollectionUtil.containsAll(this, c);
   }
 
   protected E getFast(final int index) {
@@ -384,31 +359,16 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   @Override
   public int indexOf(final Object o) {
     final int i$ = size();
-    if (o == null) {
-      if (isRandomAccess()) {
-        for (int i = 0; i < i$; ++i) // [RA]
-          if (get(i) == null)
-            return i;
-      }
-      else {
-        final Iterator<?> iterator = iterator();
-        for (int i = 0; i < i$; ++i) // [RA]
-          if (iterator.next() == null)
-            return i;
-      }
+    if (isRandomAccess()) {
+      for (int i = 0; i < i$; ++i) // [RA]
+        if (equals(o, get(i)))
+          return i;
     }
     else {
-      if (isRandomAccess()) {
-        for (int i = 0; i < i$; ++i) // [RA]
-          if (equals(o, get(i)))
-            return i;
-      }
-      else {
-        final Iterator<?> iterator = iterator();
-        for (int i = 0; i < i$; ++i) // [RA]
-          if (equals(o, iterator.next()))
-            return i;
-      }
+      final Iterator<?> iterator = iterator();
+      for (int i = 0; i < i$; ++i) // [RA]
+        if (equals(o, iterator.next()))
+          return i;
     }
 
     return -1;
@@ -423,31 +383,16 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   @Override
   public int lastIndexOf(final Object o) {
     final int i$ = size();
-    if (o == null) {
-      if (isRandomAccess()) {
-        for (int i = i$ - 1; i >= 0; --i) // [RA]
-          if (get(i) == null)
-            return i;
-      }
-      else {
-        final ListIterator<?> iterator = listIterator(i$);
-        for (int i = i$ - 1; i >= 0; --i) // [RA]
-          if (iterator.previous() == null)
-            return i;
-      }
+    if (isRandomAccess()) {
+      for (int i = i$ - 1; i >= 0; --i) // [RA]
+        if (equals(o, get(i)))
+          return i;
     }
     else {
-      if (isRandomAccess()) {
-        for (int i = i$ - 1; i >= 0; --i) // [RA]
-          if (equals(o, get(i)))
-            return i;
-      }
-      else {
-        final ListIterator<?> iterator = listIterator(i$);
-        for (int i = i$ - 1; i >= 0; --i) // [RA]
-          if (equals(o, iterator.previous()))
-            return i;
-      }
+      final ListIterator<?> iterator = listIterator(i$);
+      for (int i = i$ - 1; i >= 0; --i) // [RA]
+        if (equals(o, iterator.previous()))
+          return i;
     }
 
     return -1;
@@ -747,11 +692,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
-    boolean changed = false;
-    for (final Object e : c) // [C]
-      changed |= remove(e);
-
-    return changed;
+    return CollectionUtil.removeAll(this, c);
   }
 
   /**
@@ -788,10 +729,10 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public boolean retainAll(final Collection<?> c) {
+    final int size = size();
     if (c.size() > 0) {
-      final int i$ = size();
       if (isRandomAccess()) {
-        for (int i = i$ - 1; i >= 0; --i) // [RA]
+        for (int i = size - 1; i >= 0; --i) // [RA]
           if (!c.contains(getFast(i)))
             remove(i);
       }
@@ -802,10 +743,10 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
             iterator.remove();
       }
 
-      return i$ != size();
+      return size != size();
     }
 
-    if (size() == 0)
+    if (size == 0)
       return false;
 
     clear();
@@ -1059,7 +1000,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
         for (int i = 0; i < i$; ++i) { // [RA]
           final Object e1 = get(i);
           final Object e2 = that.get(i);
-          if (e1 == null ? e2 != null : !equals(e1, e2))
+          if (!equals(e1, e2))
             return false;
         }
       }
@@ -1068,7 +1009,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
         for (int i = 0; i < i$; ++i) { // [RA]
           final Object e1 = get(i);
           final Object e2 = thatIterator.next();
-          if (e1 == null ? e2 != null : !equals(e1, e2))
+          if (!equals(e1, e2))
             return false;
         }
       }
@@ -1078,7 +1019,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       for (int i = 0; i < i$; ++i) { // [RA]
         final Object e1 = thisIterator.next();
         final Object e2 = that.get(i);
-        if (e1 == null ? e2 != null : !equals(e1, e2))
+        if (!equals(e1, e2))
           return false;
       }
     }
@@ -1088,7 +1029,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       for (int i = 0; i < i$; ++i) { // [RA]
         final Object e1 = thisIterator.next();
         final Object e2 = thatIterator.next();
-        if (e1 == null ? e2 != null : !equals(e1, e2))
+        if (!equals(e1, e2))
           return false;
       }
     }

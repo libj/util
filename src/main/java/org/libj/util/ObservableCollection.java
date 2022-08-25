@@ -19,6 +19,7 @@ package org.libj.util;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -99,13 +100,12 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
    * determination of object equality by this {@link ObservableCollection}.
    *
-   * @implNote This method is guaranteed to be invoked with a non-null {@code o1}.
    * @param o1 An object.
    * @param o2 An object to be compared with a for equality.
-   * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
+   * @return {@code true} if {@code o1} is equal to {@code o2}; {@code false} otherwise.
    */
   protected boolean equals(final Object o1, final Object o2) {
-    return o1.equals(o2);
+    return Objects.equals(o1, o2);
   }
 
   /**
@@ -185,16 +185,9 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   @Override
   public boolean contains(final Object o) {
     final Iterator<E> iterator = iterator();
-    if (o == null) {
-      while (iterator.hasNext())
-        if (iterator.next() == null)
-          return true;
-    }
-    else {
-      while (iterator.hasNext())
-        if (equals(o, iterator.next()))
-          return true;
-    }
+    while (iterator.hasNext())
+      if (equals(o, iterator.next()))
+        return true;
 
     return false;
   }
@@ -207,14 +200,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public boolean containsAll(final Collection<?> c) {
-    if (c.size() == 0)
-      return true;
-
-    for (final Object o : c) // [C]
-      if (!contains(o))
-        return false;
-
-    return true;
+    return CollectionUtil.containsAll(this, c);
   }
 
   /**
@@ -257,11 +243,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
-    boolean changed = false;
-    for (final E e : c) // [C]
-      changed |= add(e);
-
-    return changed;
+    return CollectionUtil.addAll(this, c);
   }
 
   /**
@@ -301,11 +283,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
-    boolean changed = false;
-    for (final Object e : c) // [C]
-      changed |= remove(e);
-
-    return changed;
+    return CollectionUtil.removeAll(this, c);
   }
 
   /**

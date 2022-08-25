@@ -105,38 +105,31 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public boolean removeAll(final Collection<?> c) {
-    if (c == null)
-      return false;
-
-    final int size = size();
-    for (final Object o : c) // [C]
-      remove(o);
-
-    return size != size();
+    return CollectionUtil.removeAll(this, c);
   }
 
   @Override
   public boolean retainAll(final Collection<?> c) {
-    if (c == null)
+    if (c.size() > 0) {
+      final int size = size();
+      OUT:
+      for (int i = 0; i < size; ++i) { // [RA]
+        final Object o = get(i);
+        for (final Object obj : c) // [C]
+          if (obj == o)
+            continue OUT;
+
+        remove(i);
+      }
+
+      return size != size();
+    }
+
+    if (size() == 0)
       return false;
 
-    if (c.size() == 0 && size() != 0) {
-      clear();
-      return true;
-    }
-
-    boolean modified = false;
-    OUT:
-    for (int i = 0, i$ = c.size(); i < i$; ++i) { // [RA]
-      final Object o = get(i);
-      for (final Object obj : c) // [C]
-        if (obj == o)
-          continue OUT;
-
-      modified |= remove(i) != null;
-    }
-
-    return modified;
+    clear();
+    return true;
   }
 
   /**
@@ -181,22 +174,12 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     @Override
     public boolean remove(final Object o) {
       final int index = indexOf(o);
-      if (index < 0)
-        return false;
-
-      return target.remove(index) != null;
+      return index > -1 && target.remove(index) != null;
     }
 
     @Override
     public boolean removeAll(final Collection<?> c) {
-      if (c == null)
-        return false;
-
-      final int size = target.size();
-      for (final Object o : c) // [C]
-        remove(o);
-
-      return size != target.size();
+      return CollectionUtil.removeAll(this, c);
     }
 
     @Override
