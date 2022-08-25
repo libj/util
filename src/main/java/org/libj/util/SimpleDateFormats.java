@@ -183,7 +183,7 @@ public final class SimpleDateFormats {
   }
 
   public static final ThreadLocal<SimpleDateFormat> ISO_8601 = SimpleDateFormats.newSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-  public static final ThreadLocal<SimpleDateFormat> ISO_1123 = SimpleDateFormats.newSimpleDateFormat(Locale.US, "EEE, dd MMM yyyy HH:mm:ss Z", "EEE, dd MMM yyyy HH:mm:ss zz");
+  public static final ThreadLocal<SimpleDateFormat> RFC_1123 = SimpleDateFormats.newSimpleDateFormat(Locale.US, "EEE, dd MMM yyyy HH:mm:ss Z", "EEE, dd MMM yyyy HH:mm:ss zz");
 
   public static ThreadLocal<SimpleDateFormat> newSimpleDateFormat(final Locale locale, final String ... patterns) {
     return new IsoDateFormatLocal(locale, patterns);
