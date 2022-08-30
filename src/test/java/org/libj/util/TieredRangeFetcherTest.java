@@ -37,7 +37,7 @@ public class TieredRangeFetcherTest {
     for (int i = 20; i < 30; ++i) // [N]
       db.put(i, i);
 
-    final TieredRangeFetcher<Integer,Object> webLoader = new TieredRangeFetcher<Integer,Object>(null) {
+    final TieredRangeFetcher<Integer,Object> webFetcher = new TieredRangeFetcher<Integer,Object>(null) {
       private final Integer[] range = {Integer.MIN_VALUE, Integer.MAX_VALUE};
 
       @Override
@@ -60,7 +60,7 @@ public class TieredRangeFetcherTest {
       }
     };
 
-    final TieredRangeFetcher<Integer,Object> dbLoader = new TieredRangeFetcher<Integer,Object>(webLoader) {
+    final TieredRangeFetcher<Integer,Object> dbFetcher = new TieredRangeFetcher<Integer,Object>(webFetcher) {
       private Integer[] range = {dbFrom, dbTo};
 
       @Override
@@ -93,7 +93,7 @@ public class TieredRangeFetcherTest {
       }
     };
 
-    final TieredRangeFetcher<Integer,Object> cacheLoader = new TieredRangeFetcher<Integer,Object>(dbLoader) {
+    final TieredRangeFetcher<Integer,Object> cacheFetcher = new TieredRangeFetcher<Integer,Object>(dbFetcher) {
       private final SortedMap<Integer,Object> cache = new TreeMap<>();
       private Integer[] range;
 
@@ -126,37 +126,37 @@ public class TieredRangeFetcherTest {
 //  WEB -> (10, 20]
 //  DB <- (10, 20]
 //  CACHE <- (10, 20]
-    assertEquals(10, cacheLoader.fetch(10, 20).size());
+    assertEquals(10, cacheFetcher.fetch(10, 20).size());
 
 //  WEB -> (8, 10]
 //  DB <- (8, 10]
 //  DB -> (8, 10]
 //  CACHE <- (8, 10]
 //  CACHE -> (8, 12]
-    assertEquals(4, cacheLoader.fetch(8, 12).size());
+    assertEquals(4, cacheFetcher.fetch(8, 12).size());
 
 //  WEB -> (20, 24]
 //  DB <- (20, 24]
 //  DB -> (20, 24]
 //  CACHE <- (20, 24]
 //  CACHE -> (18, 24]
-    assertEquals(6, cacheLoader.fetch(18, 24).size());
+    assertEquals(6, cacheFetcher.fetch(18, 24).size());
 
 //  WEB -> (24, 28]
 //  DB <- (24, 28]
 //  DB -> (24, 28]
 //  CACHE <- (24, 28]
 //  CACHE -> (28, 30]
-    assertEquals(2, cacheLoader.fetch(28, 30).size());
+    assertEquals(2, cacheFetcher.fetch(28, 30).size());
 
 //  WEB -> (4, 8]
 //  DB <- (4, 8]
 //  DB -> (4, 8]
 //  CACHE <- (4, 8]
 //  CACHE -> (4, 6]
-    assertEquals(2, cacheLoader.fetch(4, 6).size());
+    assertEquals(2, cacheFetcher.fetch(4, 6).size());
 
 //  CACHE -> (8, 26]
-    assertEquals(18, cacheLoader.fetch(8, 26).size());
+    assertEquals(18, cacheFetcher.fetch(8, 26).size());
   }
 }

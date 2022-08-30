@@ -64,38 +64,46 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
    *
    * @param from The lower bound of the range, inclusive.
    * @param to The upper bound of the range, exclusive.
-   * @param last The {@link TieredRangeFetcher} representing the previous tier.
+   * @param prev The {@link TieredRangeFetcher} representing the previous tier.
    * @return A {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
    */
-  public SortedMap<A,B> fetch(final A from, final A to, final TieredRangeFetcher<A,B> last) {
+  public SortedMap<A,B> fetch(final A from, final A to, final TieredRangeFetcher<A,B> prev) {
     final A[] range = range();
     if (range == null || range[0] == range[1]) {
       if (next == null)
         return null;
 
-      final SortedMap<A,B> data = next.fetch(from, to, last);
+      final SortedMap<A,B> data = next.fetch(from, to, prev);
       insert(from, to, data);
       return data;
     }
 
-    if (this != last) {
+    if (this != prev) {
       if (to.compareTo(range[0]) <= 0) {
-        logger.trace(toString() + "{1} (" + from + ", " + range[0] + "]");
-        insert(from, range[0], next.fetch(from, range[0], last));
+        if (logger.isTraceEnabled())
+          logger.trace(toString() + "{1} (" + from + ", " + range[0] + "]");
+
+        insert(from, range[0], next.fetch(from, range[0], prev));
       }
       else if (range[1].compareTo(from) <= 0) {
-        logger.trace(toString() + " {2} (" + range[1] + ", " + to + "]");
-        insert(range[1], to, next.fetch(range[1], to, last));
+        if (logger.isTraceEnabled())
+          logger.trace(toString() + " {2} (" + range[1] + ", " + to + "]");
+
+        insert(range[1], to, next.fetch(range[1], to, prev));
       }
       else {
         if (from.compareTo(range[0]) < 0) {
-          logger.trace(toString() + " {3} (" + from + ", " + range[0] + "]");
-          insert(from, range[0], next.fetch(from, range[0], last));
+          if (logger.isTraceEnabled())
+            logger.trace(toString() + " {3} (" + from + ", " + range[0] + "]");
+
+          insert(from, range[0], next.fetch(from, range[0], prev));
         }
 
         if (range[1].compareTo(to) < 0) {
-          logger.trace(toString() + " {3} (" + range[1] + ", " + to + "]");
-          insert(range[1], to, next.fetch(range[1], to, last));
+          if (logger.isTraceEnabled())
+            logger.trace(toString() + " {3} (" + range[1] + ", " + to + "]");
+
+          insert(range[1], to, next.fetch(range[1], to, prev));
         }
       }
     }
@@ -104,10 +112,10 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   }
 
   /**
-   * Returns the range of the keys present in this TieredFetcher, as an array of length 2. Must not be null, and must be of length
-   * 2.
+   * Returns the range of the keys present in this {@link TieredRangeFetcher}, as an array of length 2. Must not be null, and must
+   * be of length 2.
    *
-   * @return The not-null range of the keys present in this TieredFetcher, as an array of length 2.
+   * @return The not-null range of the keys present in this {@link TieredRangeFetcher}, as an array of length 2.
    */
   protected abstract A[] range();
 
