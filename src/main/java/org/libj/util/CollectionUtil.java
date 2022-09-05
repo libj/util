@@ -415,19 +415,33 @@ public final class CollectionUtil extends PrimitiveSort {
    *         each element.
    */
   public static String toString(final Collection<?> c, final char del) {
-    if (c == null)
-      return "null";
+    return c == null ? "null" : c.size() == 0 ? "" : c instanceof List ? toStringTryRandomAccess((List<?>)c, del) : toStringIterator(c, del);
+  }
 
-    if (c.size() == 0)
-      return "";
+  static String toStringIterator(final Collection<?> c, final char del) {
+    final StringBuilder b = new StringBuilder();
+    final Iterator<?> i = c.iterator();
+    b.append(i.next());
+    while (i.hasNext()) {
+      final Object e = i.next();
+      b.append(del).append(e == c ? "(this Collection)" : e);
+    }
 
-    final StringBuilder builder = new StringBuilder();
-    final Iterator<?> iterator = c.iterator();
-    builder.append(iterator.next());
-    while (iterator.hasNext())
-      builder.append(del).append(iterator.next());
+    return b.toString();
+  }
 
-    return builder.toString();
+  static String toStringTryRandomAccess(final List<?> c, final char del) {
+    if (!isRandomAccess(c))
+      return toStringIterator(c, del);
+
+    final StringBuilder b = new StringBuilder();
+    b.append(c.get(0));
+    for (int i = 1, i$ = c.size(); i < i$; ++i) { // [RA]
+      final Object e = c.get(i);
+      b.append(del).append(e == c ? "(this Collection)" : e);
+    }
+
+    return b.toString();
   }
 
   /**
@@ -441,19 +455,33 @@ public final class CollectionUtil extends PrimitiveSort {
    *         each element.
    */
   public static String toString(final Collection<?> c, final String del) {
-    if (c == null)
-      return "null";
+    return c == null ? "null" : c.size() == 0 ? "" : c instanceof List ? toStringTryRandomAccess((List<?>)c, del) : toStringIterator(c, del);
+  }
 
-    if (c.size() == 0)
-      return "";
+  static String toStringIterator(final Collection<?> c, final String del) {
+    final StringBuilder b = new StringBuilder();
+    final Iterator<?> i = c.iterator();
+    b.append(i.next());
+    while (i.hasNext()) {
+      final Object e = i.next();
+      b.append(del).append(e == c ? "(this Collection)" : e);
+    }
 
-    final StringBuilder builder = new StringBuilder();
-    final Iterator<?> iterator = c.iterator();
-    builder.append(iterator.next());
-    while (iterator.hasNext())
-      builder.append(del).append(iterator.next());
+    return b.toString();
+  }
 
-    return builder.toString();
+  static String toStringTryRandomAccess(final List<?> c, final String del) {
+    if (!isRandomAccess(c))
+      return toStringIterator(c, del);
+
+    final StringBuilder b = new StringBuilder();
+    b.append(c.get(0));
+    for (int i = 1, i$ = c.size(); i < i$; ++i) { // [RA]
+      final Object e = c.get(i);
+      b.append(del).append(e == c ? "(this Collection)" : e);
+    }
+
+    return b.toString();
   }
 
   /**

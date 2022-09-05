@@ -133,13 +133,33 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   @Override
+  public boolean containsAll(final Collection<?> c) {
+    return CollectionUtil.containsAll(this, c);
+  }
+
+  @Override
   public boolean add(final E e) {
     return map.put(e, PRESENT) == null;
   }
 
   @Override
+  public boolean addAll(final Collection<? extends E> c) {
+    return CollectionUtil.addAll(this, c);
+  }
+
+  @Override
   public boolean remove(final Object o) {
     return map.remove(o) == PRESENT;
+  }
+
+  @Override
+  public boolean removeAll(final Collection<?> c) {
+    return CollectionUtil.removeAll(this, c);
+  }
+
+  @Override
+  public boolean retainAll(final Collection<?> c) {
+    return CollectionUtil.retainAll(this, c);
   }
 
   @Override
@@ -163,6 +183,21 @@ public class IdentityHashSet<E> extends HashSet<E> {
     final IdentityHashSet<E> newSet = (IdentityHashSet<E>)super.clone();
     newSet.map = (IdentityHashMap<E,Object>)map.clone();
     return newSet;
+  }
+
+  @Override
+  public Object[] toArray() {
+    return map.keySet().toArray();
+  }
+
+  @Override
+  public <T>T[] toArray(final T[] a) {
+    return map.keySet().toArray(a);
+  }
+
+  @Override
+  public String toString() {
+    return "[" + CollectionUtil.toStringIterator(this, ", ") + "]";
   }
 
   /**
