@@ -175,7 +175,7 @@ public final class CollectionUtil extends PrimitiveSort {
           list.remove(i);
     }
     else {
-      for (final Iterator<?> i = set.iterator(); i.hasNext();) // [X]
+      for (final Iterator<?> i = set.iterator(); i.hasNext();) // [I]
         if (!subset.contains(i.next()))
           i.remove();
     }

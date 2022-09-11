@@ -167,7 +167,9 @@ public final class Patterns {
    * <li>Be able to match no more than 1 string (i.e. "abc" is technically a regular expression, however it can only match a single
    * string: "abc"). If this is not satisfied, this method will return {@code null}.</li>
    * </ol>
-   * If the provided regex string contains definitions for special groups constructs, these constructs will be removed.<blockquote>
+   * If the provided regex string contains definitions for special groups constructs, these constructs will be removed.
+   * <p>
+   * <blockquote>
    * <table>
    * <caption>Examples</caption>
    * <tr><td><b>Input</b></td><td><b>Output</b></td></tr>
