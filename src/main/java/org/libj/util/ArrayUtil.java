@@ -5752,6 +5752,49 @@ public final class ArrayUtil extends PrimitiveSort {
     return assertNotNull(a).length <= 1 ? a.length : dedupe(a, a.length, 1, 1, assertNotNull(c));
   }
 
+  /**
+   * Compares two {@code Object} arrays lexicographically using a specified comparator.
+   * <p>
+   * If the two arrays share a common prefix then the lexicographic comparison is the result of comparing with the specified
+   * comparator two elements at an index within the respective arrays that is the prefix length. Otherwise, one array is a proper
+   * prefix of the other and, lexicographic comparison is the result of comparing the two array lengths.
+   * <p>
+   * A {@code null} array reference is considered lexicographically less than a non-{@code null} array reference. Two {@code null}
+   * array references are considered equal.
+   *
+   * @param a The first array to compare.
+   * @param b The second array to compare.
+   * @param cmp The comparator to compare array elements.
+   * @param <T> The type of array elements.
+   * @return The value {@code 0} if the first and second array are equal and contain the same elements in the same order; a value
+   *         less than {@code 0} if the first array is lexicographically less than the second array; and a value greater than
+   *         {@code 0} if the first array is lexicographically greater than the second array.
+   * @throws IllegalArgumentException If the comparator is {@code null}.
+   */
+  public static <T>int compare(final T[] a, final T[] b, final Comparator<? super T> cmp) {
+    assertNotNull(cmp);
+    if (a == b)
+      return 0;
+
+    if (a == null)
+      return -1;
+
+    if (b == null)
+      return 1;
+
+    for (int i = 0, i$ = Math.min(a.length, b.length); i < i$; ++i) {
+      final T oa = a[i];
+      final T ob = b[i];
+      if (oa != ob) {
+        final int v = cmp.compare(oa, ob);
+        if (v != 0)
+          return v;
+      }
+    }
+
+    return a.length - b.length;
+  }
+
   private ArrayUtil() {
   }
 }
