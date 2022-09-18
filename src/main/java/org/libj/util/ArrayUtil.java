@@ -5782,7 +5782,7 @@ public final class ArrayUtil extends PrimitiveSort {
     if (b == null)
       return 1;
 
-    for (int i = 0, i$ = Math.min(a.length, b.length); i < i$; ++i) {
+    for (int i = 0, i$ = Math.min(a.length, b.length); i < i$; ++i) { // [A]
       final T oa = a[i];
       final T ob = b[i];
       if (oa != ob) {
