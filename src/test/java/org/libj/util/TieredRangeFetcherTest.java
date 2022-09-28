@@ -85,11 +85,14 @@ public class TieredRangeFetcherTest {
           range[1] = range[1] < to ? to : range[1];
         }
 
-        for (final Map.Entry<Integer,Object> entry : data.entrySet()) // [S]
-          if (db.containsKey(entry.getKey()))
-            fail("Attempted to insert a key that already exists: " + entry.getKey());
-          else
-            db.put(entry.getKey(), entry.getValue());
+        if (data.size() > 0) {
+          for (final Map.Entry<Integer,Object> entry : data.entrySet()) { // [S]
+            if (db.containsKey(entry.getKey()))
+              fail("Attempted to insert a key that already exists: " + entry.getKey());
+            else
+              db.put(entry.getKey(), entry.getValue());
+          }
+        }
       }
     };
 

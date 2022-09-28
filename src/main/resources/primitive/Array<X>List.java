@@ -21,12 +21,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.RandomAccess;
 
 import org.libj.lang.Assertions;
 import org.libj.util.ArrayUtil;
+import org.libj.util.CollectionUtil;
 
 /**
  * An unsynchronized implementation of a resizable-array of <x> values.
@@ -108,9 +110,20 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
    */
   public Array<X>List(final Collection<<XX>> c) {
     fromIndex = 0;
-    valueData = new <x>[c.size()];
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [C]
-      valueData[size++] = i.next();
+    final int i$ = c.size();
+    if (i$ == 0) {
+      valueData = EMPTY_VALUEDATA;
+    }
+    else {
+      valueData = new <x>[i$];
+      final List<<XX>> l;
+      if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
+        for (int i = 0; i < i$; ++i) // [RA]
+          valueData[size++] = l.get(i);
+      else
+        for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [C]
+          valueData[size++] = i.next();
+    }
   }
 
   /**
@@ -295,8 +308,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, size);
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-      valueData[index] = i.next();
+    final List<<XX>> l;
+    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
+      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
+        valueData[index] = l.get(i);
+    else
+      for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
+        valueData[index] = i.next();
 
     return true;
   }
@@ -309,8 +327,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     int index = toIndex > -1 ? toIndex : size;
     shiftRight(index, size);
-    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-      valueData[index] = i.next();
+    final <X>List l;
+    if (c instanceof <X>List && (l = (<X>List)c) instanceof RandomAccess)
+      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
+        valueData[index] = l.get(i);
+    else
+      for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
+        valueData[index] = i.next();
 
     return true;
   }
@@ -324,8 +347,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     index += fromIndex;
     shiftRight(index, size);
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-      valueData[index] = i.next();
+    final List<<XX>> l;
+    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
+      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
+        valueData[index] = l.get(i);
+    else
+      for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
+        valueData[index] = i.next();
 
     return true;
   }
@@ -339,8 +367,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
     index += fromIndex;
     shiftRight(index, size);
-    for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-      valueData[index] = i.next();
+    final <X>List l;
+    if (c instanceof <X>List && (l = (<X>List)c) instanceof RandomAccess)
+      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
+        valueData[index] = l.get(i);
+    else
+      for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
+        valueData[index] = i.next();
 
     return true;
   }

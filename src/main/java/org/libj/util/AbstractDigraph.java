@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -226,8 +228,9 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   @Override
   public Set<V> put(final K vertex, final Set<V> edges) {
     final Set<V> previous = remove(vertex);
-    for (final V edge : edges) // [S]
-      add(vertex, edge);
+    if (edges.size() > 0)
+      for (final V edge : edges) // [S]
+        add(vertex, edge);
 
     return previous;
   }
@@ -238,11 +241,13 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * map. The behavior of this operation is undefined if the specified map is modified while the operation is in progress.
    *
    * @implSpec This method is not thread safe.
+   * @throws IllegalArgumentException If {@code m} is null.
    */
   @Override
   public void putAll(final Map<? extends K,? extends Set<V>> m) {
-    for (final Map.Entry<? extends K,? extends Set<V>> entry : m.entrySet()) // [S]
-      put(entry.getKey(), entry.getValue());
+    if (assertNotNull(m).size() > 0)
+      for (final Map.Entry<? extends K,? extends Set<V>> entry : m.entrySet()) // [S]
+        put(entry.getKey(), entry.getValue());
   }
 
   /**
@@ -328,10 +333,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
 
     if (withObserver == null) {
       final LinkedHashSet<Integer> indices = adj.get(v);
-      if (indices == null)
+      final int size;
+      if (indices == null || (size = indices.size()) == 0)
         return Collections.EMPTY_SET;
 
-      final LinkedHashSet<V> edges = new LinkedHashSet<>(indices.size());
+      final LinkedHashSet<V> edges = new LinkedHashSet<>(size);
       for (final int index : indices) // [S]
         edges.add(indexToValue(index));
 
@@ -417,10 +423,12 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
     if (edges == null)
       return false;
 
-    for (final int i : indexToObject.keySet()) { // [S]
-      final Set<V> set = getEdgesAtIndex(i, false);
-      if (edges.equals(set))
-        return true;
+    if (indexToObject.size() > 0) {
+      for (final int i : indexToObject.keySet()) { // [S]
+        final Set<V> set = getEdgesAtIndex(i, false);
+        if (edges.equals(set))
+          return true;
+      }
     }
 
     return false;
@@ -506,7 +514,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       return false;
 
     final LinkedHashSet<Integer> ws = adj.set(v, null);
-    if (ws != null)
+    if (ws != null && ws.size() > 0)
       for (final int w : ws) // [S]
         inDegree.set(w, inDegree.get(w) - 1);
 
@@ -560,11 +568,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
 
     final Set<V> transEdges = transverse.get(vertex, false);
 
-    if (edges != null)
+    if (edges != null && edges.size() > 0)
       for (final V edge : edges) // [S]
         transverse.removeEdge(edge, vertex);
 
-    if (transEdges != null)
+    if (transEdges != null && transEdges.size() > 0)
       for (final V edge : transEdges) // [S]
         removeEdge(edge, vertex);
 
@@ -691,7 +699,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
     onStack.set(v);
     marked.set(v);
     final LinkedHashSet<Integer> ws = adj.get(v);
-    if (ws != null) {
+    if (ws != null && ws.size() > 0) {
       for (final int w : ws) { // [S]
         if (!marked.get(w)) {
           edgeTo[w] = v;
@@ -810,13 +818,18 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       return false;
 
     final AbstractDigraph<K,V> that = (AbstractDigraph<K,V>)obj;
-    if (size() != that.size())
+    final int size = size();
+    if (size != that.size())
       return false;
 
-    if (!objectToIndex.keySet().equals(that.objectToIndex.keySet()))
+    if (size == 0)
+      return true;
+
+    final Set<Object> keys = objectToIndex.keySet();
+    if (!keys.equals(that.objectToIndex.keySet()))
       return false;
 
-    for (final Object key : objectToIndex.keySet()) { // [S]
+    for (final Object key : keys) { // [S]
       final Set<V> edges = get(key, null);
       final Set<V> thatEdges = that.get(key, null);
       if (edges != null ? thatEdges == null || edges.size() != thatEdges.size() || !edges.containsAll(thatEdges) : thatEdges != null)
@@ -837,8 +850,9 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   public int hashCode() {
     final Set<Object> keys = objectToIndex.keySet();
     int hashCode = keys.hashCode();
-    for (final Object key : keys) // [S]
-      hashCode = 31 * hashCode + Objects.hashCode(get(key, null));
+    if (keys.size() > 0)
+      for (final Object key : keys) // [S]
+        hashCode = 31 * hashCode + Objects.hashCode(get(key, null));
 
     return hashCode;
   }
@@ -857,7 +871,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       final Object obj = indexToObject.get(v);
       final LinkedHashSet<Integer> ws = adj.get(v);
       builder.append(obj).append(':');
-      if (ws != null)
+      if (ws != null && ws.size() > 0)
         for (final int w : ws) // [S]
           builder.append(' ').append(indexToObject.get(w));
 

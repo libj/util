@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.libj.lang.Strings;
 import org.libj.util.CollectionUtil;
 
 @SuppressWarnings("all")
@@ -626,7 +627,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
       testSet.add(testEntry);
 
     final String string = testSet.toString();
-    final String[] parts = string.substring(1, string.length() - 1).replace(" ", "").split(",");
+    final String[] parts = Strings.split(string.substring(1, string.length() - 1).replace(" ", ""), ',');
     final HashSet<String> strings = CollectionUtil.asCollection(new HashSet<>(testSet.size()), parts);
     for (final <x> testEntry : testEntries) // [A]
       assertTrue(Arrays.toString(parts), strings.contains(String.valueOf(testEntry)));

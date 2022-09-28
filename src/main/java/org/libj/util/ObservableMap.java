@@ -504,8 +504,9 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
-    for (final Map.Entry<? extends K,? extends V> entry : m.entrySet()) // [S]
-      put(entry.getKey(), entry.getValue());
+    if (assertNotNull(m).size() > 0)
+      for (final Map.Entry<? extends K,? extends V> entry : m.entrySet()) // [S]
+        put(entry.getKey(), entry.getValue());
   }
 
   /**
@@ -687,23 +688,25 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @SuppressWarnings("unchecked")
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
     assertNotNull(function);
-    for (final Map.Entry<K,V> entry : entrySet()) { // [S]
-      final K key = entry.getKey();
-      final V oldValue = entry.getValue();
-      final Object beforePut = beforePut(key, oldValue, function.apply(key, oldValue), preventDefault);
-      if (beforePut == preventDefault)
-        continue;
+    if (size() > 0) {
+      for (final Map.Entry<K,V> entry : entrySet()) { // [S]
+        final K key = entry.getKey();
+        final V oldValue = entry.getValue();
+        final Object beforePut = beforePut(key, oldValue, function.apply(key, oldValue), preventDefault);
+        if (beforePut == preventDefault)
+          continue;
 
-      final V newValue = (V)beforePut;
-      RuntimeException exception = null;
-      try {
-        entry.setValue(newValue);
-      }
-      catch (final RuntimeException re) {
-        exception = re;
-      }
+        final V newValue = (V)beforePut;
+        RuntimeException exception = null;
+        try {
+          entry.setValue(newValue);
+        }
+        catch (final RuntimeException re) {
+          exception = re;
+        }
 
-      afterPut(key, oldValue, newValue, exception);
+        afterPut(key, oldValue, newValue, exception);
+      }
     }
   }
 

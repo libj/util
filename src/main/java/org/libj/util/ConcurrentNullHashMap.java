@@ -100,8 +100,9 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
     // tryPresize(m.size()); // FIXME: How to call this in the super method?
-    for (final Map.Entry<? extends K,? extends V> e : m.entrySet()) // [S]
-      put(e.getKey(), e.getValue());
+    if (m.size() > 0)
+      for (final Map.Entry<? extends K,? extends V> e : m.entrySet()) // [S]
+        put(e.getKey(), e.getValue());
   }
 
   @Override

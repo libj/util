@@ -222,10 +222,12 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
       }
 
       boolean unlocked = false;
-      for (final Object key : more.keySet()) { // [S]
-        if (!less.containsKey(key)) {
-          unlocked |= unlock();
-          less.put(key, PENDING);
+      if (more.size() > 0) {
+        for (final Object key : more.keySet()) { // [S]
+          if (!less.containsKey(key)) {
+            unlocked |= unlock();
+            less.put(key, PENDING);
+          }
         }
       }
 
@@ -375,13 +377,15 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   @SuppressWarnings("unchecked")
   protected void beforeContainsValue(final Object value) {
     boolean unlocked = false;
-    for (final Map.Entry<Object,Object> entry : (Set<Map.Entry<Object,Object>>)target.entrySet()) { // [S]
-      if (entry.getValue() == PENDING) {
-        unlocked |= unlock();
-        final Object reflection = mirror.reflectionToValue((K)entry.getKey(), (R)mirrorMap.target.get(entry.getKey()));
-        entry.setValue(reflection);
-        if (Objects.equals(value, reflection))
-          break;
+    if (target.size() > 0) {
+      for (final Map.Entry<Object,Object> entry : (Set<Map.Entry<Object,Object>>)target.entrySet()) { // [S]
+        if (entry.getValue() == PENDING) {
+          unlocked |= unlock();
+          final Object reflection = mirror.reflectionToValue((K)entry.getKey(), (R)mirrorMap.target.get(entry.getKey()));
+          entry.setValue(reflection);
+          if (Objects.equals(value, reflection))
+            break;
+        }
       }
     }
 

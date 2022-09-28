@@ -168,8 +168,9 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
     s.writeInt(map.size());
 
     // Write out all elements in the proper order.
-    for (final E e : map.keySet()) // [S]
-      s.writeObject(e);
+    if (map.size() > 0)
+      for (final E e : map.keySet()) // [S]
+        s.writeObject(e);
   }
 
   /**

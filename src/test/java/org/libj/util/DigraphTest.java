@@ -199,9 +199,10 @@ public class DigraphTest {
     final Set<Integer> keys = digraph.keySet();
     final Set<Map.Entry<Integer,Set<Integer>>> entries = digraph.entrySet();
     assertTrue(keys.remove(4));
-    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();) // [S]
-      if (iterator.next().getKey() == 4)
-        fail("Expected 4 to be removed");
+    if (entries.size() > 0)
+      for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();) // [S]
+        if (iterator.next().getKey() == 4)
+          fail("Expected 4 to be removed");
 
     assertFalse(keys.contains(4));
     assertFalse(values.contains(w6));
@@ -221,9 +222,10 @@ public class DigraphTest {
     final Set<Integer> keys = digraph.keySet();
     assertTrue(keys.contains(4));
     final Set<Map.Entry<Integer,Set<Integer>>> entries = digraph.entrySet();
-    for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();) // [S]
-      if (iterator.next().getKey() == 4)
-        iterator.remove();
+    if (entries.size() > 0)
+      for (final Iterator<Map.Entry<Integer,Set<Integer>>> iterator = entries.iterator(); iterator.hasNext();) // [S]
+        if (iterator.next().getKey() == 4)
+          iterator.remove();
 
     assertFalse(keys.contains(4));
     assertFalse(values.contains(w6));

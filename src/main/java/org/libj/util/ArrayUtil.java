@@ -47,6 +47,46 @@ public final class ArrayUtil extends PrimitiveSort {
   public static final Object[] EMPTY_ARRAY = {};
 
   /**
+   * The empty {@code byte[]} array.
+   */
+  public static final byte[] EMPTY_ARRAY_BYTE = {};
+
+  /**
+   * The empty {@code char[]} array.
+   */
+  public static final char[] EMPTY_ARRAY_CHAR = {};
+
+  /**
+   * The empty {@code short[]} array.
+   */
+  public static final short[] EMPTY_ARRAY_SHORT = {};
+
+  /**
+   * The empty {@code int[]} array.
+   */
+  public static final int[] EMPTY_ARRAY_INT = {};
+
+  /**
+   * The empty {@code long[]} array.
+   */
+  public static final long[] EMPTY_ARRAY_LONG = {};
+
+  /**
+   * The empty {@code float[]} array.
+   */
+  public static final float[] EMPTY_ARRAY_FLOAT = {};
+
+  /**
+   * The empty {@code double[]} array.
+   */
+  public static final double[] EMPTY_ARRAY_DOUBLE = {};
+
+  /**
+   * The empty {@code boolean[]} array.
+   */
+  public static final boolean[] EMPTY_ARRAY_BOOLEAN = {};
+
+  /**
    * Returns true if the two specified arrays of bytes, over the provided ranges, are <i>equal</i> to one another.
    * <p>
    * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of

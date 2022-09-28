@@ -18,7 +18,6 @@ package org.libj.util;
 
 import static org.libj.lang.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,7 +28,6 @@ import java.util.RandomAccess;
 import java.util.function.Function;
 
 import org.libj.lang.Classes;
-import org.libj.lang.WrappedArrayList;
 import org.libj.util.primitive.ArrayDoubleList;
 import org.libj.util.primitive.ArrayFloatList;
 import org.libj.util.primitive.ArrayIntList;
@@ -47,14 +45,6 @@ import org.libj.util.primitive.ShortComparator;
  * Utility functions for operations pertaining to {@link Collection} and {@link List}.
  */
 public final class CollectionUtil extends PrimitiveSort {
-  /**
-   * The empty {@link ArrayList} (immutable). This list is serializable.
-   *
-   * @see WrappedArrayList
-   */
-  @SuppressWarnings("rawtypes")
-  public static final ArrayList EMPTY_ARRAY_LIST = new WrappedArrayList<>();
-
   /**
    * Adds all of the elements in the {@code subset} collection to the {@code set} collection. The behavior of this operation is
    * undefined if the specified collection is modified while the operation is in progress.
@@ -253,16 +243,18 @@ public final class CollectionUtil extends PrimitiveSort {
   public static <C extends Collection<T>,T>C flatten(final Collection<? extends T> in, final C out, final Function<T,? extends Collection<T>> resolver, final boolean retainCollectionReferences) {
     assertNotNull(in);
     assertNotNull(out);
-    for (final T member : in) { // [C]
-      final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
-      if (inner != null) {
-        if (retainCollectionReferences)
-          out.add(member);
+    if (in.size() > 0) {
+      for (final T member : in) { // [C]
+        final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
+        if (inner != null) {
+          if (retainCollectionReferences)
+            out.add(member);
 
-        flatten(inner, out, resolver, retainCollectionReferences);
-      }
-      else {
-        out.add(member);
+          flatten(inner, out, resolver, retainCollectionReferences);
+        }
+        else {
+          out.add(member);
+        }
       }
     }
 
@@ -325,8 +317,7 @@ public final class CollectionUtil extends PrimitiveSort {
   @SuppressWarnings("unchecked")
   public static <L extends List<T>,T>L flatten(final L list, final Function<T,? extends List<T>> resolver, final boolean retainListReferences) {
     final ListIterator<T> iterator = assertNotNull(list).listIterator();
-    int i = 0;
-    while (iterator.hasNext()) {
+    for (int i = 0; iterator.hasNext();) {
       final T member = iterator.next();
       final List<T> inner = resolver != null ? resolver.apply(member) : member instanceof List ? (List<T>)member : null;
       if (inner != null) {
@@ -335,13 +326,14 @@ public final class CollectionUtil extends PrimitiveSort {
         else
           iterator.remove();
 
-        if (CollectionUtil.isRandomAccess(inner)) {
-          for (int j = 0, i$ = inner.size(); j < i$; ++j) // [RA]
-            iterator.add(inner.get(j));
-        }
-        else {
-          for (final T item : inner) // [L]
-            iterator.add(item);
+        final int j$ = inner.size();
+        if (j$ > 0) {
+          if (CollectionUtil.isRandomAccess(inner))
+            for (int j = 0; j < j$; ++j) // [RA]
+              iterator.add(inner.get(j));
+          else
+            for (final T item : inner) // [L]
+              iterator.add(item);
         }
 
         while (iterator.nextIndex() > i)
@@ -397,9 +389,10 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code c} or {@code type} is null.
    */
   public static boolean isComponentType(final Collection<?> c, final Class<?> type) {
-    for (final Object member : assertNotNull(c)) // [C]
-      if (member != null && !type.isInstance(member))
-        return false;
+    if (assertNotNull(c).size() > 0)
+      for (final Object member : c) // [C]
+        if (member != null && !type.isInstance(member))
+          return false;
 
     return true;
   }

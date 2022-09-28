@@ -116,8 +116,9 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   default C addAll(final K key, final Collection<V> newValues) {
     assertNotNull(newValues, "Supplied array of values must not be null");
     final C values = getOrNew(key);
-    for (final V value : newValues) // [C]
-      values.add(value);
+    if (newValues.size() > 0)
+      for (final V value : newValues) // [C]
+        values.add(value);
 
     return values;
   }
@@ -207,14 +208,19 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
     if (!keySet().equals(otherMap.keySet()))
       return false;
 
-    for (final Entry<K,C> e : entrySet()) { // [S]
-      final C olist = otherMap.get(e.getKey());
-      if (e.getValue().size() != olist.size())
-        return false;
-
-      for (final V v : e.getValue()) // [C]
-        if (!olist.contains(v))
+    if (size() > 0) {
+      for (final Entry<K,C> entry : entrySet()) { // [S]
+        final C olist = otherMap.get(entry.getKey());
+        final C value = entry.getValue();
+        final int size = value.size();
+        if (size != olist.size())
           return false;
+
+        if (size > 0)
+          for (final V v : value) // [C]
+            if (!olist.contains(v))
+              return false;
+      }
     }
 
     return true;
