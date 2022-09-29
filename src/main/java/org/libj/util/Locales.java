@@ -21,6 +21,7 @@ import static org.libj.lang.Assertions.*;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -152,6 +153,7 @@ public final class Locales {
     return new Locale(language, string.substring(languageIndex + 1, countryIndex), string.substring(countryIndex + 1));
   }
 
+  private static final Locale[] EMPTY_LOCALES = {};
   /**
    * Returns an array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
    * form {@code "{language}_{country}_{variant}"}. Examples: {@code "en"}, {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"},
@@ -163,10 +165,21 @@ public final class Locales {
    * @throws IllegalArgumentException If {@code strings} is null.
    */
   public static Locale[] parse(final Collection<String> strings) {
-    final Locale[] locales = new Locale[assertNotNull(strings).size()];
-    final Iterator<String> iterator = strings.iterator();
-    for (int i = 0; iterator.hasNext(); ++i) // [I]
-      locales[i] = parse(iterator.next());
+    final int size = assertNotNull(strings).size();
+    if (size == 0)
+      return EMPTY_LOCALES;
+
+    final Locale[] locales = new Locale[size];
+    final List<String> list;
+    if (strings instanceof List && CollectionUtil.isRandomAccess(list = (List<String>)strings)) {
+      for (int i = 0, i$ = list.size(); i < i$; ++i) // [RA]
+        locales[i] = parse(list.get(i));
+    }
+    else {
+      final Iterator<String> iterator = strings.iterator();
+      for (int i = 0; iterator.hasNext(); ++i) // [I]
+        locales[i] = parse(iterator.next());
+    }
 
     return locales;
   }

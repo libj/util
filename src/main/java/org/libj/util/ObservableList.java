@@ -711,8 +711,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
           removeFast(i);
     }
     else {
-      final Iterator<E> iterator = iterator();
-      while (iterator.hasNext()) // [I]
+      for (final Iterator<E> iterator = iterator(); iterator.hasNext();) // [I]
         if (filter.test(iterator.next()))
           iterator.remove();
     }
@@ -737,8 +736,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
             remove(i);
       }
       else {
-        final Iterator<E> iterator = iterator();
-        while (iterator.hasNext()) // [I]
+        for (final Iterator<E> iterator = iterator(); iterator.hasNext();) // [I]
           if (!c.contains(iterator.next()))
             iterator.remove();
       }
@@ -970,8 +968,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
         get(i);
     }
     else {
-      final Iterator<E> iterator = iterator();
-      while (iterator.hasNext()) // [I]
+      for (final Iterator<E> iterator = iterator(); iterator.hasNext();) // [I]
         iterator.next();
     }
   }

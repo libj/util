@@ -315,8 +315,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   public boolean retainAll(final Collection<?> c) {
     final int size = size();
     if (c.size() > 0) {
-      final Iterator<E> iterator = iterator();
-      while (iterator.hasNext()) // [I]
+      for (final Iterator<E> iterator = iterator(); iterator.hasNext();) // [I]
         if (!c.contains(iterator.next()))
           iterator.remove();
 
@@ -339,9 +338,11 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    */
   @Override
   public void clear() {
-    for (final Iterator<E> i = iterator(); i.hasNext();) { // [X]
-      i.next();
-      i.remove();
+    if (size() > 0) {
+      for (final Iterator<E> i = iterator(); i.hasNext();) { // [I]
+        i.next();
+        i.remove();
+      }
     }
   }
 
@@ -373,12 +374,14 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   @Override
   @SuppressWarnings("unchecked")
   public <T>T[] toArray(T[] a) {
-    if (a.length < size())
-      a = (T[])Array.newInstance(a.getClass().getComponentType(), size());
+    final int size = size();
+    if (a.length < size)
+      a = (T[])Array.newInstance(a.getClass().getComponentType(), size);
 
     int i = 0;
-    for (final Iterator<E> iterator = iterator(); iterator.hasNext(); ++i) // [X]
-      a[i] = (T)iterator.next();
+    if (size > 0)
+      for (final Iterator<E> iterator = iterator(); iterator.hasNext(); ++i) // [I]
+        a[i] = (T)iterator.next();
 
     if (++i < a.length)
       a[i] = null;
@@ -442,7 +445,8 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   }
 
   private void touchElements() {
-    for (final Iterator<E> i = iterator(); i.hasNext(); i.next()); // [X]
+    if (size() > 0)
+      for (final Iterator<E> i = iterator(); i.hasNext(); i.next()); // [I]
   }
 
   /**

@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
@@ -259,17 +260,26 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   public boolean addAll(final Collection<? extends E> c) {
-    final int addedSize = c.size();
-    if (addedSize == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
     final Object[] elementData = this.elementData;
     ++modCount;
-    ensureCapacity(size + addedSize + 1);
-    final Iterator<? extends E> it = c.iterator();
-    for (int i = 0; i < addedSize; ++i, ++size) { // [I]
-      elementData[tail] = it.next();
-      tail = (tail + 1) % elementData.length;
+    ensureCapacity(size + i$ + 1);
+    final List<? extends E> l;
+    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<? extends E>)c)) {
+      for (int i = 0; i < i$; ++i, ++size) { // [RA]
+        elementData[tail] = l.get(i);
+        tail = (tail + 1) % elementData.length;
+      }
+    }
+    else {
+      final Iterator<? extends E> it = c.iterator();
+      for (int i = 0; i < i$; ++i, ++size) { // [I]
+        elementData[tail] = it.next();
+        tail = (tail + 1) % elementData.length;
+      }
     }
 
     return true;
@@ -277,15 +287,23 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   public boolean addAll(final int index, final Collection<? extends E> c) {
-    final int addedSize = c.size();
-    if (addedSize == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
     ++modCount;
-    ensureCapacity(size + addedSize + 1);
+    ensureCapacity(size + i$ + 1);
     // FIXME: This is a very inefficient algorithm!
-    for (final E e : c) // [C]
-      add(index, e);
+    final List<? extends E> l;
+    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<? extends E>)c)) {
+      for (int i = 0; i < i$; ++i, ++size) { // [RA]
+        add(index, l.get(i));
+      }
+    }
+    else {
+      for (final E e : c) // [C]
+        add(index, e);
+    }
 
     return true;
   }

@@ -146,13 +146,16 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @see #contains(<x>)
    */
   default boolean removeAll(final Collection<<XX>> c) {
-    final int beforeSize = size();
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) { // [X]
+    final int size = size();
+    if (size == 0 || c.size() == 0)
+      return false;
+
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) { // [I]
       final <x> value = i.next();
       while (remove(value));
     }
 
-    return beforeSize != size();
+    return size != size();
   }
 
   /**
@@ -239,7 +242,14 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @see #contains(<x>)
    */
   default boolean containsAll(final <X>Collection c) {
-    for (final <X>Iterator i = c.iterator(); i.hasNext();) // [X]
+    final boolean isEmpty = size() == 0;
+    if (c.size() == 0)
+      return isEmpty;
+
+    if (isEmpty)
+      return false;
+
+    for (final <X>Iterator i = c.iterator(); i.hasNext();) // [I]
       if (!contains(i.next()))
         return false;
 
@@ -260,7 +270,14 @@ public interface <X>Collection extends <X>Iterable, PrimitiveCollection {
    * @see #contains(<x>)
    */
   default boolean containsAll(final Collection<<XX>> c) {
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [X]
+    final boolean isEmpty = size() == 0;
+    if (c.size() == 0)
+      return isEmpty;
+
+    if (isEmpty)
+      return false;
+
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [I]
       if (!contains(i.next()))
         return false;
 

@@ -186,8 +186,7 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
   public boolean retainAll(final Collection<?> c) {
     final int size = size();
     if (c.size() > 0) {
-      final Iterator<?> iterator = iterator();
-      while (iterator.hasNext()) // [I]
+      for (final Iterator<?> iterator = iterator(); iterator.hasNext();) // [I]
         if (!c.contains(iterator.next()))
           iterator.remove();
 

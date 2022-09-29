@@ -171,7 +171,7 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
           return false;
     }
     else {
-      while (iterator.hasNext())
+      while (iterator.hasNext()) // [I]
         if (!contains(iterator.next()))
           return false;
     }

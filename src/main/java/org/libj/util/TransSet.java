@@ -187,8 +187,7 @@ public class TransSet<S,T> extends DelegateSet<T> {
   public boolean retainAll(final Collection<?> c) {
     final int size = size();
     if (c.size() > 0) {
-      final Iterator<S> iterator = target.iterator();
-      while (iterator.hasNext()) // [I]
+      for (final Iterator<S> iterator = target.iterator(); iterator.hasNext();) // [I]
         if (!c.contains(sourceToTarget.apply(iterator.next())))
           iterator.remove();
 

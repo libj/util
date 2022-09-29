@@ -68,8 +68,11 @@ public final class ZipFiles {
       }
 
       file.getParentFile().mkdirs();
-      try (final InputStream in = zipFile.getInputStream(zipEntry); final FileOutputStream out = new FileOutputStream(file);) {
-        for (int ch; (ch = in.read()) != -1; out.write(ch)); // [X]
+      try (
+        final InputStream in = zipFile.getInputStream(zipEntry);
+        final FileOutputStream out = new FileOutputStream(file);
+      ) {
+        for (int ch; (ch = in.read()) != -1; out.write(ch)); // [ST]
       }
     }
   }

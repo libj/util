@@ -94,7 +94,7 @@ public final class StreamSearcher {
 
       final int[] j = new int[patterns.length];
       int i = 0;
-      for (int b; (b = in.read()) != -1;) { // [X]
+      for (int b; (b = in.read()) != -1;) { // [ST]
         if (buffer != null)
           buffer[offset + i] = (char)b;
 
@@ -179,7 +179,7 @@ public final class StreamSearcher {
 
       final int[] j = new int[patterns.length];
       int i = 0;
-      for (int b; (b = in.read()) != -1;) { // [X]
+      for (int b; (b = in.read()) != -1;) { // [ST]
         if (buffer != null)
           buffer[offset + i] = (byte)b;
 

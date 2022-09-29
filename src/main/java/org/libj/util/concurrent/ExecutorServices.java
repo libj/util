@@ -38,6 +38,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.libj.lang.Threads;
+import org.libj.util.CollectionUtil;
 
 /**
  * Utility functions for operations pertaining to {@link ExecutorService}.
@@ -457,11 +458,21 @@ public final class ExecutorServices {
    */
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
-    final Callable<R>[] callables = new Callable[assertNotNull(tasks).size()];
-    final Iterator<T> iterator = tasks.iterator();
-    for (int i = 0; iterator.hasNext(); ++i) { // [I]
-      final T task = assertNotNull(iterator.next());
-      callables[i] = () -> proxy.apply(task);
+    final int size = assertNotNull(tasks).size();
+    final Callable<R>[] callables = new Callable[size];
+    final List<T> list;
+    if (tasks instanceof List && CollectionUtil.isRandomAccess(list = (List<T>)tasks)) {
+      for (int i = 0, i$ = list.size(); i < i$; ++i) { // [RA]
+        final T task = assertNotNull(list.get(i));
+        callables[i] = () -> proxy.apply(task);
+      }
+    }
+    else {
+      final Iterator<T> iterator = tasks.iterator();
+      for (int i = 0; iterator.hasNext(); ++i) { // [I]
+        final T task = assertNotNull(iterator.next());
+        callables[i] = () -> proxy.apply(task);
+      }
     }
 
     return executor.invokeAll(Arrays.asList(callables));

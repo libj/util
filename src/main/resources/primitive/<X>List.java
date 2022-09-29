@@ -291,11 +291,11 @@ public interface <X>List extends <X>Collection {
    */
   @Override
   default boolean removeAll(final <x> ... values) {
-    final int beforeSize = size();
+    final int size = size();
     for (int i = 0, i$ = values.length; i < i$; ++i) // [A]
       while (remove(values[i]));
 
-    return beforeSize != size();
+    return size != size();
   }
 
   /**
@@ -310,13 +310,16 @@ public interface <X>List extends <X>Collection {
    */
   @Override
   default boolean removeAll(final <X>Collection c) {
-    final int beforeSize = size();
-    for (final <X>Iterator iterator = c.iterator(); iterator.hasNext();) { // [X]
+    final int size = size();
+    if (size == 0 || c.size() == 0)
+      return false;
+
+    for (final <X>Iterator iterator = c.iterator(); iterator.hasNext();) { // [I]
       final <x> value = iterator.next();
       while (remove(value));
     }
 
-    return beforeSize != size();
+    return size != size();
   }
 
   /**
@@ -334,13 +337,16 @@ public interface <X>List extends <X>Collection {
    */
   @Override
   default boolean removeAll(final Collection<<XX>> c) {
-    final int beforeSize = size();
-    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) { // [X]
+    final int size = size();
+    if (size == 0 || c.size() == 0)
+      return false;
+
+    for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) { // [I]
       final <x> value = i.next();
       while (remove(value));
     }
 
-    return beforeSize != size();
+    return size != size();
   }
 
   /**

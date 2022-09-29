@@ -591,9 +591,11 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public void clear() {
-    for (final Iterator<K> i = keySet().iterator(); i.hasNext();) { // [X]
-      i.next();
-      i.remove();
+    if (size() > 0) {
+      for (final Iterator<K> i = keySet().iterator(); i.hasNext();) { // [I]
+        i.next();
+        i.remove();
+      }
     }
   }
 
@@ -732,7 +734,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   }
 
   private void touchEntries() {
-    for (final Iterator<?> i = entrySet().iterator(); i.hasNext(); i.next()); // [X]
+    if (size() > 0)
+      for (final Iterator<?> i = entrySet().iterator(); i.hasNext(); i.next()); // [I]
   }
 
   /**
