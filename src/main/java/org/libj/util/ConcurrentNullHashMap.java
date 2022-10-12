@@ -105,14 +105,48 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
         put(e.getKey(), e.getValue());
   }
 
+  /**
+   * Maps the specified key to the specified value in this table. The key and/or the value can be null.
+   * <p>
+   * The value can be retrieved by calling the {@code get} method with a key that is equal to the original key.
+   *
+   * @param key Key with which the specified value is to be associated.
+   * @param value Value to be associated with the specified key.
+   * @return The previous value associated with {@code key}.
+   */
   @Override
   public V put(final K key, final V value) {
-    return super.put(notNull(key), notNull(value));
+    final V oldValue = super.put(notNull(key), notNull(value));
+    return oldValue == NULL ? null : oldValue;
   }
 
+  /**
+   * If the specified key is not already associated with a value, associates it with the given value. This is equivalent to, for
+   * this {@code map}:
+   *
+   * <pre> {@code
+   * if (!map.containsKey(key))
+   *   return map.put(key, value);
+   * else
+   *   return map.get(key);
+   * }</pre>
+   *
+   * except that the action is performed atomically.
+   *
+   * @implNote This implementation intentionally re-abstracts the inappropriate default provided in {@code Map}.
+   * @param key Key with which the specified value is to be associated.
+   * @param value Value to be associated with the specified key.
+   * @return The previous value associated with the specified key, or {@code null} if there was no mapping for the key. (A
+   *         {@code null} return can also indicate that the map previously associated {@code null} with the key.)
+   * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
+   * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
+   * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
+   * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
+   */
   @Override
   public V putIfAbsent(final K key, final V value) {
-    return super.putIfAbsent(notNull(key), notNull(value));
+    final V oldValue = super.putIfAbsent(notNull(key), notNull(value));
+    return oldValue == NULL ? null : oldValue;
   }
 
   @Override
