@@ -46,131 +46,131 @@ import org.libj.util.primitive.ShortComparator;
  */
 public final class CollectionUtil extends PrimitiveSort {
   /**
-   * Adds all of the elements in the {@code subset} collection to the {@code set} collection. The behavior of this operation is
-   * undefined if the specified collection is modified while the operation is in progress.
+   * Adds all of the elements in the {@code b} collection to the {@code a} collection. The behavior of this operation is undefined
+   * if the specified collection is modified while the operation is in progress.
    *
-   * @param <E> The type of elements in {@code set}.
-   * @param set Collection to which elements from {@code subset} are to be added.
-   * @param subset Collection containing elements to be added to {@code set}.
-   * @return {@code true} if {@code set} changed as a result of the call.
-   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   * @param <E> The type of elements in {@code a}.
+   * @param a Collection to which elements from {@code b} are to be added.
+   * @param b Collection containing elements to be added to {@code a}.
+   * @return {@code true} if {@code a} changed as a result of the call.
+   * @throws IllegalArgumentException If {@code a} or {@code b} is null.
    */
-  public static <E>boolean addAll(final Collection<E> set, final Collection<? extends E> subset) {
-    assertNotNull(set);
-    assertNotNull(subset);
+  public static <E> boolean addAll(final Collection<E> a, final Collection<? extends E> b) {
+    assertNotNull(a);
+    assertNotNull(b);
 
-    if (subset.size() == 0)
+    if (b.size() == 0)
       return false;
 
     boolean changed = false;
-    final List<? extends E> sublist;
-    if (subset instanceof List && isRandomAccess(sublist = (List<? extends E>)subset)) {
-      for (int i = 0, i$ = sublist.size(); i < i$; ++i) // [RA]
-        changed |= set.add(sublist.get(i));
+    final List<? extends E> l;
+    if (b instanceof List && isRandomAccess(l = (List<? extends E>)b)) {
+      for (int i = 0, i$ = l.size(); i < i$; ++i) // [RA]
+        changed |= a.add(l.get(i));
     }
     else {
-      for (final E e : subset) // [C]
-        changed |= set.add(e);
+      for (final E e : b) // [C]
+        changed |= a.add(e);
     }
 
     return changed;
   }
 
   /**
-   * Returns {@code true} if {@code set} contains all the elements specified in {@code subset}; otherwise {@code false}.
+   * Returns {@code true} if {@code a} contains all the elements specified in {@code b}; otherwise {@code false}.
    *
-   * @param set Collection to check for containment of {@code subset}.
-   * @param subset Collection to be checked for containment in {@code set}.
-   * @return {@code true} if {@code set} contains all the elements specified in {@code subset}; otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   * @param a Collection to check for containment of {@code b}.
+   * @param b Collection to be checked for containment in {@code a}.
+   * @return {@code true} if {@code a} contains all the elements specified in {@code b}; otherwise {@code false}.
+   * @throws IllegalArgumentException If {@code a} or {@code b} is null.
    */
-  public static boolean containsAll(final Collection<?> set, final Collection<?> subset) {
-    assertNotNull(set);
-    assertNotNull(subset);
+  public static boolean containsAll(final Collection<?> a, final Collection<?> b) {
+    assertNotNull(a);
+    assertNotNull(b);
 
-    if (subset.size() == 0)
+    final int size = b.size();
+    if (size == 0)
       return true;
 
-    final List<?> sublist;
-    if (subset instanceof List && isRandomAccess(sublist = (List<?>)subset)) {
-      for (int i = 0, i$ = sublist.size(); i < i$; ++i) // [RA]
-        if (!set.contains(sublist.get(i)))
+    final List<?> l;
+    if (b instanceof List && isRandomAccess(l = (List<?>)b)) {
+      for (int i = 0; i < size; ++i) // [RA]
+        if (!a.contains(l.get(i)))
           return false;
-
-      return true;
     }
-
-    for (final Object o : subset) // [C]
-      if (!set.contains(o))
-        return false;
+    else {
+      for (final Object o : b) // [C]
+        if (!a.contains(o))
+          return false;
+    }
 
     return true;
   }
 
   /**
-   * Removes all of elements in {@code set} that are also contained in {@code subset}. After this call returns, {@code set} will
-   * contain no elements in common with {@code subset}.
+   * Removes all of elements in {@code a} that are also contained in {@code b}. After this call returns, {@code a} will contain no
+   * elements in common with {@code b}.
    *
-   * @param set Collection from which elements in {@code subset} are to be removed.
-   * @param subset Collection containing elements to be removed from {@code set}.
-   * @return {@code true} if {@code set} changed as a result of the call.
-   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   * @param a Collection from which elements in {@code b} are to be removed.
+   * @param b Collection containing elements to be removed from {@code a}.
+   * @return {@code true} if {@code a} changed as a result of the call.
+   * @throws IllegalArgumentException If {@code a} or {@code b} is null.
    */
-  public static boolean removeAll(final Collection<?> set, final Collection<?> subset) {
-    assertNotNull(set);
-    assertNotNull(subset);
+  public static boolean removeAll(final Collection<?> a, final Collection<?> b) {
+    assertNotNull(a);
+    assertNotNull(b);
 
-    if (subset.size() == 0)
+    if (b.size() == 0)
       return false;
 
-    final int size = set.size();
-    final List<?> sublist;
-    if (subset instanceof List && isRandomAccess(sublist = (List<?>)subset))
-      for (int i = 0, i$ = sublist.size(); i < i$; ++i) // [RA]
-        set.remove(sublist.get(i));
+    final int size = a.size();
+    final List<?> l;
+    if (b instanceof List && isRandomAccess(l = (List<?>)b))
+      for (int i = 0, i$ = l.size(); i < i$; ++i) // [RA]
+        a.remove(l.get(i));
     else
-      for (final Object e : subset) // [C]
-        set.remove(e);
+      for (final Object e : b) // [C]
+        a.remove(e);
 
-    return size != set.size();
+    return size != a.size();
   }
 
   /**
-   * Retains only the elements in {@code set} that are contained in {@code subset}. In other words, removes from {@code set} all of
-   * its elements that are not contained in {@code subset}.
+   * Retains only the elements in {@code a} that are contained in {@code b}. In other words, removes from {@code a} all of its
+   * elements that are not contained in {@code b}.
    *
-   * @param set Collection in which elements from {@code subset} are to be retained.
-   * @param subset Collection containing elements to be retained in this {@code set}.
-   * @return {@code true} if {@code set} changed as a result of the call.
-   * @throws IllegalArgumentException If {@code set} or {@code subset} is null.
+   * @param a Collection in which elements from {@code b} are to be retained.
+   * @param b Collection containing elements to be retained in this {@code a}.
+   * @return {@code true} if {@code a} changed as a result of the call.
+   * @throws IllegalArgumentException If {@code a} or {@code b} is null.
    */
-  public static boolean retainAll(final Collection<?> set, final Collection<?> subset) {
-    assertNotNull(set);
-    assertNotNull(subset);
+  public static boolean retainAll(final Collection<?> a, final Collection<?> b) {
+    assertNotNull(a);
+    assertNotNull(b);
 
-    final int size = set.size();
-    final int subSize = subset.size();
+    final int size = a.size();
+    final int subSize = b.size();
     if (subSize == 0) {
       if (size == 0)
         return false;
 
-      set.clear();
+      a.clear();
       return true;
     }
 
     final List<?> list;
-    if (set instanceof List && isRandomAccess(list = (List<?>)set)) {
+    if (a instanceof List && isRandomAccess(list = (List<?>)a)) {
       for (int i = 0; i < subSize; ++i) // [RA]
-        if (!subset.contains(list.get(i)))
+        if (!b.contains(list.get(i)))
           list.remove(i);
     }
     else {
-      for (final Iterator<?> i = set.iterator(); i.hasNext();) // [I]
-        if (!subset.contains(i.next()))
+      for (final Iterator<?> i = a.iterator(); i.hasNext();) // [I]
+        if (!b.contains(i.next()))
           i.remove();
     }
 
-    return size != set.size();
+    return size != a.size();
   }
 
   /**

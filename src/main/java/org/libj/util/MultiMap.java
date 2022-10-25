@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.RandomAccess;
 import java.util.function.Predicate;
 
 /**
@@ -116,10 +117,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   default C addAll(final K key, final Collection<V> newValues) {
     assertNotNull(newValues, "Supplied array of values must not be null");
     final C values = getOrNew(key);
-    if (newValues.size() > 0)
-      for (final V value : newValues) // [C]
-        values.add(value);
-
+    CollectionUtil.addAll(values, newValues);
     return values;
   }
 
@@ -182,12 +180,23 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
     if (values == null)
       return false;
 
-    final Iterator<V> i = values.iterator();
-    while (i.hasNext()) {
-      final V v = i.next();
-      if (test.test(v)) {
-        i.remove();
-        return true;
+    if (values instanceof List && values instanceof RandomAccess) {
+      @SuppressWarnings("unchecked")
+      final List<V> l = (List<V>)values;
+      for (int i = 0, i$ = values.size(); i < i$; ++i) { // [RA]
+        if (test.test(l.get(i))) {
+          values.remove(i);
+          return true;
+        }
+      }
+    }
+    else {
+      for (final Iterator<V> i = values.iterator(); i.hasNext();) { // [I]
+        final V v = i.next();
+        if (test.test(v)) {
+          i.remove();
+          return true;
+        }
       }
     }
 
@@ -213,13 +222,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
         final C olist = otherMap.get(entry.getKey());
         final C value = entry.getValue();
         final int size = value.size();
-        if (size != olist.size())
+        if (size != olist.size() || size > 0 && !CollectionUtil.containsAll(olist, value))
           return false;
-
-        if (size > 0)
-          for (final V v : value) // [C]
-            if (!olist.contains(v))
-              return false;
       }
     }
 
