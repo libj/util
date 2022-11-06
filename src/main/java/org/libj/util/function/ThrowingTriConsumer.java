@@ -22,15 +22,15 @@ import java.util.function.BiConsumer;
  * Represents an operation that accepts two input arguments and returns no result. Unlike most other functional interfaces,
  * {@link TriConsumer} is expected to operate via side-effects.
  * <p>
- * The {@link ThrowingTriConsumer} distinguishes itself from {@link BiConsumer} by allowing the functional interface to throw an
- * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * The {@link ThrowingTriConsumer} distinguishes itself from {@link BiConsumer} by allowing the functional interface to throw any
+ * {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
  * An example of this pattern:
  *
  * <pre>
  * {@code
- * TriConsumer<Integer,Integer,Integer> consumer = Throwing.<Integer,Integer,Integer>rethrow((i, j, k) -> {
+ * TriConsumer<Integer,Integer,Integer> consumer = Throwing.rethrow((Integer i, Integer j, Integer k) -> {
  *   if (i == 0)
- *     throw new IllegalArgumentException("i=" + i);
+ *     throw new IOException("i=" + i);
  * });
  * for (int i = 3; i >= 0; --i)
  *   consumer.accept(i, -i, i);
@@ -40,23 +40,23 @@ import java.util.function.BiConsumer;
  * @param <T> The type of the first input to the operation.
  * @param <U> The type of the second input to the operation.
  * @param <V> The type of the third input to the operation.
- * @param <E> The type of the exception that can be thrown.
+ * @param <E> The type of the {@link Throwable} that can be thrown.
  * @see Throwing#rethrow(ThrowingTriConsumer)
  */
 @FunctionalInterface
-public interface ThrowingTriConsumer<T,U,V,E extends Exception> extends TriConsumer<T,U,V> {
+public interface ThrowingTriConsumer<T,U,V,E extends Throwable> extends TriConsumer<T,U,V> {
   @Override
   default void accept(final T t, final U u, final V v) {
     try {
       acceptThrows(t, u, v);
     }
-    catch (final Exception e) {
+    catch (final Throwable e) {
       Throwing.rethrow(e);
     }
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be thrown.
+   * Performs this operation on the given argument, allowing a checked exception to be thrown.
    *
    * @param t The first input argument.
    * @param u The second input argument.

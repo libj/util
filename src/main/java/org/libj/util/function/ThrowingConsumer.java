@@ -22,37 +22,37 @@ import java.util.function.Consumer;
  * Represents an operation that accepts a single input argument and returns no result. Unlike most other functional interfaces,
  * {@link Consumer} is expected to operate via side-effects.
  * <p>
- * The {@link ThrowingConsumer} distinguishes itself from {@link Consumer} by allowing the functional interface to throw an
- * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * The {@link ThrowingConsumer} distinguishes itself from {@link Consumer} by allowing the functional interface to throw any
+ * {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
  * An example of this pattern:
  *
  * <pre>
  * {@code
- * Arrays.asList(2, 1, 0).forEach(Throwing.rethrow(i -> {
+ * Arrays.asList(2, 1, 0).forEach(Throwing.rethrow((Integer i) -> {
  *   if (i == 0)
- *     throw new IllegalArgumentException("i=" + i);
+ *     throw new IOException("i=" + i);
  * }));
  * }
  * </pre>
  *
  * @param <T> The type of the input to the operation.
- * @param <E> The type of the exception that can be thrown.
+ * @param <E> The type of {@link Throwable} that can be thrown.
  * @see Throwing#rethrow(ThrowingConsumer)
  */
 @FunctionalInterface
-public interface ThrowingConsumer<T,E extends Exception> extends Consumer<T> {
+public interface ThrowingConsumer<T,E extends Throwable> extends Consumer<T> {
   @Override
   default void accept(final T t) {
     try {
       acceptThrows(t);
     }
-    catch (final Exception e) {
+    catch (final Throwable e) {
       Throwing.rethrow(e);
     }
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be thrown.
+   * Performs this operation on the given argument, allowing a checked exception to be thrown.
    *
    * @param t The input argument.
    * @throws E If an exception has occurred.

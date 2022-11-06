@@ -64,8 +64,8 @@ public final class Throwing {
    *
    *   return "hello world";
    * });
-   * }
    * supplier.get();
+   * }
    * </pre>
    *
    * @param <T> The type of results supplied by this supplier.
@@ -83,9 +83,9 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * Arrays.asList(2, 1, 0).forEach(Throwing.rethrow(i -> {
+   * Arrays.asList(2, 1, 0).forEach(Throwing.rethrow((Integer i) -> {
    *   if (i == 0)
-   *     throw new IllegalArgumentException("i=" + i);
+   *     throw new IOException("i=" + i);
    * }));
    * }
    * </pre>
@@ -105,9 +105,9 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * BiConsumer<Integer,Integer> consumer = Throwing.<Integer,Integer>rethrow((i, j) -> {
+   * BiConsumer<Integer,Integer> consumer = Throwing.rethrow((Integer i, Integer j) -> {
    *   if (i == 0)
-   *     throw new IllegalArgumentException("i=" + i);
+   *     throw new IOException("i=" + i);
    * });
    * for (int i = 3; i >= 0; --i)
    *   consumer.accept(i, -i);
@@ -124,16 +124,15 @@ public final class Throwing {
   }
 
   /**
-   * Rethrows the checked exception from the specified
-   * {@link ThrowingBiConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingBiConsumer}.
    * <p>
    * An example of this pattern:
    *
    * <pre>
    * {@code
-   * ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s, i) -> {
+   * ObjIntConsumer<Integer> consumer = Throwing.rethrow((Integer s, int i) -> {
    *   if (i == 0)
-   *     throw new IllegalArgumentException("i=" + i);
+   *     throw new IOException("i=" + i);
    * });
    * for (int i = 3; i >= 0; --i)
    *   consumer.accept(i, -i);
@@ -149,15 +148,63 @@ public final class Throwing {
   }
 
   /**
+   * Rethrows the checked exception from the specified {@link ThrowingBiConsumer}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * ObjBiIntConsumer<Integer> consumer = Throwing.rethrow((Integer s, int i, int j) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   consumer.accept(i, -i, i * 2);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the consumer's operation.
+   * @param consumer The {@link ThrowingBiConsumer}.
+   * @return The specified {@link BiConsumer} instance.
+   */
+  public static <T>ObjBiIntConsumer<T> rethrow(final ThrowingObjBiIntConsumer<T,?> consumer) {
+    return consumer;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified {@link ThrowingBiConsumer}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * ObjIntConsumer<Integer> consumer = Throwing.rethrow((Integer s, int i, int j) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   consumer.accept(i, -i, i * j);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the consumer's operation.
+   * @param consumer The {@link ThrowingBiConsumer}.
+   * @return The specified {@link BiConsumer} instance.
+   */
+  public static <T>ObjBiIntPredicate<T> rethrow(final ThrowingObjBiIntPredicate<T,?> consumer) {
+    return consumer;
+  }
+
+  /**
    * Rethrows the checked exception from the specified {@link ThrowingTriConsumer}.
    * <p>
    * An example of this pattern:
    *
    * <pre>
    * {@code
-   * TriConsumer<Integer,Integer,Integer> consumer = Throwing.<Integer,Integer,Integer>rethrow((i, j, k) -> {
+   * TriConsumer<Integer,Integer,Integer> consumer = Throwing.rethrow((Integer i, Integer j, Integer k) -> {
    *   if (i == 0)
-   *     throw new IllegalArgumentException("i=" + i);
+   *     throw new IOException("i=" + i);
    * });
    * for (int i = 3; i >= 0; --i)
    *   consumer.accept(i, -i, i);
@@ -181,7 +228,7 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * Arrays.asList(2, 1, 0).stream().filter(Throwing.<Integer>rethrow(i -> {
+   * Arrays.asList(2, 1, 0).stream().filter(Throwing.rethrow((Integer i) -> {
    *   if (i == 0)
    *     throw new IOException("i=" + i);
    *   return false;
@@ -198,16 +245,15 @@ public final class Throwing {
   }
 
   /**
-   * Rethrows the checked exception from the specified
-   * {@link ThrowingBiPredicate}.
+   * Rethrows the checked exception from the specified {@link ThrowingBiPredicate}.
    * <p>
    * An example of this pattern:
    *
    * <pre>
    * {@code
-   * BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((i, j) -> {
+   * BiPredicate<Integer,Integer> predicate = Throwing.rethrow((Integer i, Integer j) -> {
    *   if (i == 0)
-   *     throw new IllegalArgumentException("i=" + i);
+   *     throw new IOException("i=" + i);
    *   return false;
    * });
    * for (int i = 3; i >= 0; --i)
@@ -256,9 +302,9 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * BiFunction<Integer,Integer,String> function = Throwing.<Integer,Integer,String>rethrow((i, j) -> {
+   * BiFunction<Integer,Integer,String> function = Throwing.rethrow((Integer i, Integer j) -> {
    *   if (i == 0)
-   *     throw new IllegalArgumentException("i=" + i);
+   *     throw new IOException("i=" + i);
    *   return String.valueOf(i);
    * });
    * for (int i = 3; i >= 0; --i)
@@ -285,7 +331,7 @@ public final class Throwing {
    * @throws T The {@link Throwable} instance.
    */
   @SuppressWarnings("unchecked")
-  public static <T extends Throwable>void rethrow(final Throwable t) throws T {
+  public static <T extends Throwable> void rethrow(final Throwable t) throws T {
     throw (T)t;
   }
 

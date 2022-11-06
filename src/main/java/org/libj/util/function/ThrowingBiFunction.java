@@ -21,15 +21,15 @@ import java.util.function.BiFunction;
 /**
  * Represents a function that accepts two arguments and produces a result.
  * <p>
- * The {@link ThrowingBiFunction} distinguishes itself from {@link BiFunction} by allowing the functional interface to throw an
- * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * The {@link ThrowingBiFunction} distinguishes itself from {@link BiFunction} by allowing the functional interface to throw any
+ * {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
  * An example of this pattern:
  *
  * <pre>
  * {@code
- * BiFunction<Integer,Integer,String> function = Throwing.<Integer,Integer,String>rethrow((i, j) -> {
+ * BiFunction<Integer,Integer,String> function = Throwing.rethrow((Integer i, Integer j) -> {
  *   if (i == 0)
- *     throw new IllegalArgumentException("i=" + i);
+ *     throw new IOException("i=" + i);
  *   return String.valueOf(i);
  * });
  * for (int i = 3; i >= 0; --i)
@@ -40,24 +40,24 @@ import java.util.function.BiFunction;
  * @param <T> The type of the first input to the operation.
  * @param <U> The type of the second input to the operation.
  * @param <R> The type of the result of the function.
- * @param <E> The type of the exception that can be thrown.
+ * @param <E> The type of {@link Throwable} that can be thrown.
  * @see Throwing#rethrow(ThrowingBiFunction)
  */
 @FunctionalInterface
-public interface ThrowingBiFunction<T,U,R,E extends Exception> extends BiFunction<T,U,R> {
+public interface ThrowingBiFunction<T,U,R,E extends Throwable> extends BiFunction<T,U,R> {
   @Override
   default R apply(final T t, final U u) {
     try {
       return applyThrows(t, u);
     }
-    catch (final Exception e) {
+    catch (final Throwable e) {
       Throwing.rethrow(e);
       return null;
     }
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be thrown.
+   * Performs this operation on the given argument, allowing a checked exception to be thrown.
    *
    * @param t The first input argument.
    * @param u The second function argument.

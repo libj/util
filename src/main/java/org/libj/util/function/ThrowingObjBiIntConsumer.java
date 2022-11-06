@@ -1,4 +1,4 @@
-/* Copyright (c) 2019 LibJ
+/* Copyright (c) 2022 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -16,38 +16,35 @@
 
 package org.libj.util.function;
 
-import java.util.function.BiConsumer;
-
 /**
- * Represents an operation that accepts two input arguments and returns no result. Unlike most other functional interfaces,
- * {@link BiConsumer} is expected to operate via side-effects.
+ * Represents an operation that accepts an object-valued and two {@code int}-valued arguments, and returns no result. Unlike most
+ * other functional interfaces, {@link ObjBiIntConsumer} is expected to operate via side-effects.
  * <p>
- * The {@link ThrowingBiConsumer} distinguishes itself from {@link BiConsumer} by allowing the functional interface to throw any
- * {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
- * An example of this pattern:
+ * The {@link ThrowingObjBiIntConsumer} distinguishes itself from {@link ObjBiIntConsumer} by allowing the functional interface to
+ * throw any {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's
+ * call stack. An example of this pattern:
  *
  * <pre>
  * {@code
- * BiConsumer<Integer,Integer> consumer = Throwing.rethrow((Integer i, Integer j) -> {
+ * ObjBiIntConsumer<String> consumer = Throwing.rethrow((String s, int i, int j) -> {
  *   if (i == 0)
  *     throw new IOException("i=" + i);
  * });
  * for (int i = 3; i >= 0; --i)
- *   consumer.accept(i, -i);
+ *   consumer.accept(i, -i, i * 2);
  * }
  * </pre>
  *
- * @param <T> The type of the first input to the operation.
- * @param <U> The type of the second input to the operation.
+ * @param <T> The type of the object argument to the operation.
  * @param <E> The type of {@link Throwable} that can be thrown.
- * @see Throwing#rethrow(ThrowingBiConsumer)
+ * @see Throwing#rethrow(ThrowingObjBiIntConsumer)
  */
 @FunctionalInterface
-public interface ThrowingBiConsumer<T,U,E extends Throwable> extends BiConsumer<T,U> {
+public interface ThrowingObjBiIntConsumer<T,E extends Throwable> extends ObjBiIntConsumer<T> {
   @Override
-  default void accept(final T t, final U u) {
+  default void accept(final T t, final int v1, final int v2) {
     try {
-      acceptThrows(t, u);
+      acceptThrows(t, v1, v2);
     }
     catch (final Throwable e) {
       Throwing.rethrow(e);
@@ -58,9 +55,10 @@ public interface ThrowingBiConsumer<T,U,E extends Throwable> extends BiConsumer<
    * Performs this operation on the given argument, allowing a checked exception to be thrown.
    *
    * @param t The first input argument.
-   * @param u The second input argument.
+   * @param v1 The second input argument.
+   * @param v2 The third input argument.
    * @throws E If an exception has occurred.
-   * @see BiConsumer#accept(Object,Object)
+   * @see ObjBiIntConsumer#accept(Object,int,int)
    */
-  void acceptThrows(T t, U u) throws E;
+  void acceptThrows(T t, int v1, int v2) throws E;
 }

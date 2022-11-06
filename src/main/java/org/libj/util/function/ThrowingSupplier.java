@@ -21,8 +21,8 @@ import java.util.function.Supplier;
 /**
  * Represents a supplier of results.
  * <p>
- * The {@link ThrowingSupplier} distinguishes itself from {@link Supplier} by allowing the functional interface to throw an
- * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * The {@link ThrowingSupplier} distinguishes itself from {@link Supplier} by allowing the functional interface to throw any
+ * {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
  * An example of this pattern:
  *
  * <pre>
@@ -37,24 +37,24 @@ import java.util.function.Supplier;
  * </pre>
  *
  * @param <T> The type of results supplied by this supplier.
- * @param <E> The type of the exception that can be thrown.
+ * @param <E> The type of {@link Throwable} that can be thrown.
  * @see Throwing#rethrow(ThrowingSupplier)
  */
 @FunctionalInterface
-public interface ThrowingSupplier<T,E extends Exception> extends Supplier<T> {
+public interface ThrowingSupplier<T,E extends Throwable> extends Supplier<T> {
   @Override
   default T get() {
     try {
       return getThrows();
     }
-    catch (final Exception e) {
+    catch (final Throwable e) {
       Throwing.rethrow(e);
       return null;
     }
   }
 
   /**
-   * Gets a result, allowing an exception to be thrown.
+   * Gets a result, allowing a checked exception to be thrown.
    *
    * @return A result.
    * @throws E If an exception has occurred.

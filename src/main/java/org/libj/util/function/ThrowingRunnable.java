@@ -19,8 +19,8 @@ package org.libj.util.function;
 /**
  * Represents an operation that accepts no input arguments and returns no result.
  * <p>
- * The {@link ThrowingRunnable} distinguishes itself from {@link Runnable} by allowing the functional interface to throw an
- * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * The {@link ThrowingRunnable} distinguishes itself from {@link Runnable} by allowing the functional interface to throw any
+ * {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
  * An example of this pattern:
  *
  * <pre>
@@ -33,23 +33,23 @@ package org.libj.util.function;
  * }
  * </pre>
  *
- * @param <E> The type of the exception that can be thrown.
+ * @param <E> The type of {@link Throwable} that can be thrown.
  * @see Throwing#rethrow(ThrowingRunnable)
  */
 @FunctionalInterface
-public interface ThrowingRunnable<E extends Exception> extends Runnable {
+public interface ThrowingRunnable<E extends Throwable> extends Runnable {
   @Override
   default void run() {
     try {
       runThrows();
     }
-    catch (final Exception e) {
+    catch (final Throwable e) {
       Throwing.rethrow(e);
     }
   }
 
   /**
-   * Performs this operation, allowing an exception to be thrown.
+   * Performs this operation, allowing a checked exception to be thrown.
    *
    * @throws E If an exception has occurred.
    * @see Runnable#run()

@@ -28,7 +28,7 @@ public class RetryPolicyTest {
   @Test
   public void testNonNullOnRetryFailure() throws RetryFailureRuntimeException, Exception {
     try {
-      new RetryPolicy<>(e -> true, null, (e, se, a, d) -> null, 100, 100).run((retryPolicy, attemptNo) -> null);
+      new RetryPolicy<>(e -> true, null, (e, se, a, d) -> null, 100, 100).run((p, a) -> null);
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
@@ -50,13 +50,13 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i) // [N]
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RuntimeException(), attempts, delayMs).run((retryPolicy, attemptNo) -> {
+    assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RuntimeException(), attempts, delayMs).run((p, a) -> {
       if (index[0] < attempts) {
-        final long delayMs1 = retryPolicy.getDelayMs(attemptNo);
+        final long delayMs1 = p.getDelayMs(a);
         assertEquals(delays[index[0]++], delayMs1);
-        assertTrue(0 < attemptNo && attemptNo <= attempts);
-        assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
-        logger.info("Attempt: " + attemptNo + ", delay: " + delayMs1 + ", t: " + IllegalStateException.class.getSimpleName());
+        assertTrue(0 < a && a <= attempts);
+        assertEquals(timings[a - 1], System.currentTimeMillis(), 5);
+        logger.info("Attempt: " + a + ", delay: " + delayMs1 + ", t: " + IllegalStateException.class.getSimpleName());
         throw new IllegalStateException();
       }
 
@@ -83,13 +83,13 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i) // [N]
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RetryFailureException(a, d), attempts, startDelay, 0, false, factor, maxDelay).run((retryPolicy, attemptNo) -> {
+    assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RetryFailureException(a, d), attempts, startDelay, 0, false, factor, maxDelay).run((p, a) -> {
       if (index[0] < attempts) {
-        final long delayMs = retryPolicy.getDelayMs(attemptNo);
+        final long delayMs = p.getDelayMs(a);
         assertEquals(delays[index[0]++], delayMs);
-        assertTrue(0 < attemptNo && attemptNo <= attempts);
-        assertEquals(timings[attemptNo - 1], System.currentTimeMillis(), 5);
-        logger.info("Attempt: " + attemptNo + ", delay: " + delayMs + ", t: " + IllegalStateException.class.getSimpleName());
+        assertTrue(0 < a && a <= attempts);
+        assertEquals(timings[a - 1], System.currentTimeMillis(), 5);
+        logger.info("Attempt: " + a + ", delay: " + delayMs + ", t: " + IllegalStateException.class.getSimpleName());
         throw new IllegalStateException();
       }
 

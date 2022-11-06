@@ -23,14 +23,14 @@ import java.util.function.ObjIntConsumer;
  * functional interfaces, {@link ObjIntConsumer} is expected to operate via side-effects.
  * <p>
  * The {@link ThrowingObjIntConsumer} distinguishes itself from {@link ObjIntConsumer} by allowing the functional interface to throw
- * an {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call
+ * any {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call
  * stack. An example of this pattern:
  *
  * <pre>
  * {@code
- * ObjIntConsumer<String> consumer = Throwing.<Integer,Integer>rethrow((s, i) -> {
+ * ObjIntConsumer<String> consumer = Throwing.rethrow((String s, int i) -> {
  *   if (i == 0)
- *     throw new IllegalArgumentException("i=" + i);
+ *     throw new IOException("i=" + i);
  * });
  * for (int i = 3; i >= 0; --i)
  *   consumer.accept(i, -i);
@@ -38,23 +38,23 @@ import java.util.function.ObjIntConsumer;
  * </pre>
  *
  * @param <T> The type of the object argument to the operation.
- * @param <E> The type of the exception that can be thrown.
+ * @param <E> The type of {@link Throwable} that can be thrown.
  * @see Throwing#rethrow(ThrowingObjIntConsumer)
  */
 @FunctionalInterface
-public interface ThrowingObjIntConsumer<T,E extends Exception> extends ObjIntConsumer<T> {
+public interface ThrowingObjIntConsumer<T,E extends Throwable> extends ObjIntConsumer<T> {
   @Override
   default void accept(final T t, final int value) {
     try {
       acceptThrows(t, value);
     }
-    catch (final Exception e) {
+    catch (final Throwable e) {
       Throwing.rethrow(e);
     }
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be thrown.
+   * Performs this operation on the given argument, allowing a checked exception to be thrown.
    *
    * @param t The first input argument.
    * @param value The second input argument.

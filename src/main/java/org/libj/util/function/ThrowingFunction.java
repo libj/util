@@ -21,8 +21,8 @@ import java.util.function.Function;
 /**
  * Represents a function that accepts one argument and produces a result.
  * <p>
- * The {@link ThrowingFunction} distinguishes itself from {@link Function} by allowing the functional interface to throw an
- * {@link Exception}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
+ * The {@link ThrowingFunction} distinguishes itself from {@link Function} by allowing the functional interface to throw any
+ * {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's call stack.
  * An example of this pattern:
  *
  * <pre>
@@ -38,24 +38,24 @@ import java.util.function.Function;
  *
  * @param <T> The type of the input to the operation.
  * @param <R> The type of the result of the function.
- * @param <E> The type of the exception that can be thrown.
+ * @param <E> The type of {@link Throwable} that can be thrown.
  * @see Throwing#rethrow(ThrowingFunction)
  */
 @FunctionalInterface
-public interface ThrowingFunction<T,R,E extends Exception> extends Function<T,R> {
+public interface ThrowingFunction<T,R,E extends Throwable> extends Function<T,R> {
   @Override
   default R apply(final T t) {
     try {
       return applyThrows(t);
     }
-    catch (final Exception e) {
+    catch (final Throwable e) {
       Throwing.rethrow(e);
       return null;
     }
   }
 
   /**
-   * Performs this operation on the given argument, allowing an exception to be thrown.
+   * Performs this operation on the given argument, allowing a checked exception to be thrown.
    *
    * @param t The input argument.
    * @return The function result.

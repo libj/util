@@ -32,9 +32,9 @@ public interface ObjBi<X>Function<T,R> {
    * Performs this operation on the given arguments.
    *
    * @param t The first input argument.
-   * @param i The second input argument.
-   * @param j The third input argument.
+   * @param v1 The second input argument.
+   * @param v2 The third input argument.
    * @return The function result.
    */
-  R apply(T t, <x> i, <x> j);
+  R apply(T t, <x> v1, <x> v2);
 }
