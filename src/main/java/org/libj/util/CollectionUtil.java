@@ -317,7 +317,7 @@ public final class CollectionUtil extends PrimitiveSort {
   @SuppressWarnings("unchecked")
   public static <L extends List<T>,T>L flatten(final L list, final Function<T,? extends List<T>> resolver, final boolean retainListReferences) {
     final ListIterator<T> iterator = assertNotNull(list).listIterator();
-    for (int i = 0; iterator.hasNext();) {
+    for (int i = 0; iterator.hasNext();) { // [I]
       final T member = iterator.next();
       final List<T> inner = resolver != null ? resolver.apply(member) : member instanceof List ? (List<T>)member : null;
       if (inner != null) {

@@ -35,11 +35,11 @@ public class DirectByteArrayOutputStreamTest {
 
     final int size = 12345;
     final DirectByteArrayOutputStream out = new DirectByteArrayOutputStream(size);
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < size; ++i) // [N]
       out.write(i);
 
     final byte[] b = out.toByteArray();
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < size; ++i) // [A]
       assertEquals((byte)i, b[i]);
 
     try {
