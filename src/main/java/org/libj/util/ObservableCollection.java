@@ -39,8 +39,14 @@ import java.util.stream.Stream;
 public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   protected static final Object preventDefault = new Object();
 
-  public ObservableCollection(final Collection<E> collection) {
-    super(collection);
+  /**
+   * Creates a new {@link ObservableCollection} with the specified target {@link Collection}.
+   *
+   * @param target The target {@link Collection}.
+   * @throws IllegalArgumentException If the target {@link Collection} is null.
+   */
+  public ObservableCollection(final Collection<E> target) {
+    super(target);
   }
 
   /**
@@ -58,7 +64,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * Callback method that is invoked immediately before an element is added to the enclosed {@link Collection}.
    *
    * @param element The element to be added to the enclosed {@link Collection}.
-   * @param preventDefault The object to return if the subsequent {@code add} operation is to be prevented.
+   * @param preventDefault The object to return if the subsequent {@code add} operation should be prevented.
    * @return The element to be added to the enclosed {@link Collection}.
    */
   protected Object beforeAdd(final E element, final Object preventDefault) {

@@ -58,7 +58,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   }
 
   /**
-   * Set the value for the key to be a one item {@link Collection} consisting of the supplied value. Any existing values will be
+   * Set the value for the key to be a one item {@link Collection} consisting of the provided value. Any existing values will be
    * replaced.
    *
    * @param key The key.
@@ -73,7 +73,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   }
 
   /**
-   * Add a value to the current {@link Collection} of values for the supplied key.
+   * Add a value to the current {@link Collection} of values for the provided key.
    *
    * @param key The key.
    * @param value The value to be added.
@@ -86,17 +86,17 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   }
 
   /**
-   * Add multiple values to the current list of values for the supplied key. If the supplied array of new values is empty, method
-   * returns immediately. Method throws a {@link IllegalArgumentException} if the supplied array of values is null.
+   * Add multiple values to the current list of values for the provided key. If the provided array of new values is empty, method
+   * returns immediately. Method throws a {@link IllegalArgumentException} if the provided array of values is null.
    *
    * @param key The key.
    * @param newValues The values to be added.
    * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
-   * @throws IllegalArgumentException If the supplied array of new values is null.
+   * @throws IllegalArgumentException If the provided array of new values is null.
    */
   @SuppressWarnings("unchecked")
   default C addAll(final K key, final V ... newValues) {
-    assertNotNull(newValues, "Supplied array of values must not be null");
+    assertNotNull(newValues, "Provided array of values must be not null");
     final C values = getOrNew(key);
     for (final V value : newValues) // [A]
       values.add(value);
@@ -105,17 +105,17 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   }
 
   /**
-   * Add all values from the supplied value {@link Collection} to the current {@link Collection} of values for the supplied key. If
-   * the supplied value list is empty, method returns immediately. Method throws a {@link IllegalArgumentException} if the supplied
+   * Add all values from the provided value {@link Collection} to the current {@link Collection} of values for the provided key. If
+   * the provided value list is empty, method returns immediately. Method throws a {@link IllegalArgumentException} if the provided
    * array of values is null.
    *
    * @param key The key.
    * @param newValues The list of values to be added.
    * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
-   * @throws IllegalArgumentException If the supplied value list is null.
+   * @throws IllegalArgumentException If the provided value list is null.
    */
   default C addAll(final K key, final Collection<V> newValues) {
-    assertNotNull(newValues, "Supplied array of values must not be null");
+    assertNotNull(newValues, "Provided array of values must be not null");
     final C values = getOrNew(key);
     CollectionUtil.addAll(values, newValues);
     return values;
@@ -137,7 +137,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   }
 
   /**
-   * Add a value to the first position in the current list of values for the supplied key. If the type of the value
+   * Add a value to the first position in the current list of values for the provided key. If the type of the value
    * {@link Collection} does not extend {@link List}, a {@link UnsupportedOperationException} is thrown.
    *
    * @param key The key

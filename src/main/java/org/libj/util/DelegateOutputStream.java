@@ -69,8 +69,6 @@ public class DelegateOutputStream extends OutputStream {
 
   @Override
   public void close() throws IOException {
-    if (target == null)
-      System.out.println();
     target.close();
   }
 }
