@@ -192,8 +192,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
     }
     else {
       for (final Iterator<V> i = values.iterator(); i.hasNext();) { // [I]
-        final V v = i.next();
-        if (test.test(v)) {
+        if (test.test(i.next())) {
           i.remove();
           return true;
         }

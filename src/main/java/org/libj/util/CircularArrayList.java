@@ -320,8 +320,6 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     return oldValue;
   }
 
-  // This method is the main reason we re-wrote the class. It is optimized for removing first and last elements
-  // but also allows you to remove in the middle of the list.
   @Override
   @SuppressWarnings("unchecked")
   public E remove(final int index) {
