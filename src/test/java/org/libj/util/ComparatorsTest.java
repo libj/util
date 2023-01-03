@@ -18,20 +18,80 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Comparator;
+import java.util.function.Function;
+
 import org.junit.Test;
 
-public class FixedOrderComparatorTest {
+public class ComparatorsTest {
   @Test
-  @SuppressWarnings("unused")
-  public void test() {
+  public void testFixedOrderComparatorExceptions() {
     try {
-      new FixedOrderComparator<>((String[])null);
+      Comparators.newFixedOrderComparator((String[])null);
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    final FixedOrderComparator<String> comparator = new FixedOrderComparator<>("z", "a", "t", "r", "q", "b");
+    try {
+      Comparators.newFixedOrderComparator((Comparator<Integer>)null, 1, 2, 3);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    try {
+      Comparators.newFixedOrderComparator(Comparator.comparingInt(i -> i), (Integer[])null);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    try {
+      Comparators.newFixedOrderComparator((Function<Integer,Integer>)null, 1, 2, 3);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    try {
+      Comparators.newFixedOrderComparator((Function<Integer,Integer>)null, Comparator.comparingInt((Integer i) -> i), 1, 2, 3);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+  }
+
+  @Test
+  public void testFixedOrderComparatorComparable() {
+    testFixedOrderComparator(null, null);
+  }
+
+  @Test
+  public void testFixedOrderComparatorComparator() {
+    testFixedOrderComparator((o1, o2) -> o1.compareTo(o2), null);
+  }
+
+  @Test
+  public void testFixedOrderComparatorComparableToCompare() {
+    testFixedOrderComparator(null, s -> s);
+  }
+
+  @Test
+  public void testFixedOrderComparatorComparatorToCompare() {
+    testFixedOrderComparator((o1, o2) -> o1.compareTo(o2), s -> s);
+  }
+
+  private static void testFixedOrderComparator(final Comparator<String> c, final Function<String,String> toCompare) {
+    try {
+      Comparators.newFixedOrderComparator((String[])null);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    final String[] order = {"z", "a", "t", "r", "q", "b"};
+    final Comparator<String> comparator = c != null ? (toCompare != null ? Comparators.newFixedOrderComparator(toCompare, c, order) : Comparators.newFixedOrderComparator(c, order)) : (toCompare != null ? Comparators.newFixedOrderComparator(toCompare, order) : Comparators.newFixedOrderComparator(order));
     assertEquals(-1, comparator.compare("z", "a"));
     assertEquals(-1, comparator.compare("z", "t"));
     assertEquals(-1, comparator.compare("z", "r"));

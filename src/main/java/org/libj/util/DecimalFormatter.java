@@ -16,6 +16,8 @@
 
 package org.libj.util;
 
+import static org.libj.lang.Assertions.*;
+
 import java.text.DecimalFormat;
 
 /**
@@ -28,10 +30,10 @@ public final class DecimalFormatter {
    *
    * @param pattern A non-localized pattern string.
    * @return A {@link ThreadLocal} of a {@link DecimalFormat} object using the given {@code pattern}.
-   * @throws IllegalArgumentException If the given pattern is invalid.
+   * @throws IllegalArgumentException If the given pattern is null or invalid.
    */
   public static ThreadLocal<DecimalFormat> createDecimalFormat(final String pattern) {
-    final DecimalFormat format = new DecimalFormat(pattern);
+    final DecimalFormat format = new DecimalFormat(assertNotNull(pattern));
     return ThreadLocal.withInitial(() -> format);
   }
 
