@@ -35,6 +35,31 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
   private final Supplier<C> multiSupplier;
 
   /**
+   * Creates a new map with the same mappings as the given map, and the provided {@code multiSupplier} for the underlying map
+   * instance.
+   *
+   * @param m The map.
+   * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
+   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   */
+  public MultiConcurrentHashMap(final Map<? extends K,? extends C> m, final Supplier<C> multiSupplier) {
+    super(m);
+    this.multiSupplier = assertNotNull(multiSupplier);
+  }
+
+  /**
+   * Creates a new, empty map with the default initial table size (16), and the provided {@code multiSupplier} for the underlying
+   * map instance.
+   *
+   * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
+   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   */
+  public MultiConcurrentHashMap(final Supplier<C> multiSupplier) {
+    super();
+    this.multiSupplier = assertNotNull(multiSupplier);
+  }
+
+  /**
    * Creates a new, empty map with an initial table size accommodating the specified number of elements without the need to
    * dynamically resize, and the provided {@code multiSupplier} for the underlying map instance.
    *
@@ -45,19 +70,6 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
    */
   public MultiConcurrentHashMap(final int initialCapacity, final Supplier<C> multiSupplier) {
     super(initialCapacity);
-    this.multiSupplier = assertNotNull(multiSupplier);
-  }
-
-  /**
-   * Creates a new map with the same mappings as the given map, and the provided {@code multiSupplier} for the underlying map
-   * instance.
-   *
-   * @param m The map.
-   * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
-   */
-  public MultiConcurrentHashMap(final Map<? extends K,? extends C> m, final Supplier<C> multiSupplier) {
-    super(m);
     this.multiSupplier = assertNotNull(multiSupplier);
   }
 
@@ -92,18 +104,6 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
    */
   public MultiConcurrentHashMap(final int initialCapacity, final float loadFactor, final int concurrencyLevel, final Supplier<C> multiSupplier) {
     super(initialCapacity, loadFactor, concurrencyLevel);
-    this.multiSupplier = assertNotNull(multiSupplier);
-  }
-
-  /**
-   * Creates a new, empty map with the default initial table size (16), and the provided {@code multiSupplier} for the underlying
-   * map instance.
-   *
-   * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
-   */
-  public MultiConcurrentHashMap(final Supplier<C> multiSupplier) {
-    super();
     this.multiSupplier = assertNotNull(multiSupplier);
   }
 

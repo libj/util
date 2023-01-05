@@ -52,6 +52,7 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
    * Creates a new map with the same mappings as the given map.
    *
    * @param m The map.
+   * @throws NullPointerException If the specified map is null.
    */
   public ConcurrentNullHashMap(final Map<? extends K,? extends V> m) {
     super(m);

@@ -40,8 +40,7 @@ public class MultiConcurrentNullHashMap<K,V,C extends Collection<V>> extends Con
    *
    * @param initialCapacity The implementation performs internal sizing to accommodate this many elements.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity of elements is negative.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative or {@code multiSupplier} is null.
    */
   public MultiConcurrentNullHashMap(final int initialCapacity, final Supplier<C> multiSupplier) {
     super(initialCapacity);
@@ -53,6 +52,7 @@ public class MultiConcurrentNullHashMap<K,V,C extends Collection<V>> extends Con
    *
    * @param m The map.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
+   * @throws NullPointerException If the specified map is null.
    * @throws IllegalArgumentException If {@code multiSupplier} is null.
    */
   public MultiConcurrentNullHashMap(final Map<? extends K,? extends C> m, final Supplier<C> multiSupplier) {
@@ -68,8 +68,8 @@ public class MultiConcurrentNullHashMap<K,V,C extends Collection<V>> extends Con
    *          given the specified load factor.
    * @param loadFactor The load factor (table density) for establishing the initial table size.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative, the load factor is nonpositive, or
+   *           {@code multiSupplier} is null.
    */
   public MultiConcurrentNullHashMap(final int initialCapacity, final float loadFactor, final Supplier<C> multiSupplier) {
     this(initialCapacity, loadFactor, 1, multiSupplier);
@@ -86,8 +86,8 @@ public class MultiConcurrentNullHashMap<K,V,C extends Collection<V>> extends Con
    * @param concurrencyLevel The estimated number of concurrently updating threads. The implementation may use this value as a
    *          sizing hint.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity is negative or the load factor or concurrencyLevel are nonpositive.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity is negative, the load factor or concurrencyLevel are nonpositive, or
+   *           {@code multiSupplier} is null.
    */
   public MultiConcurrentNullHashMap(final int initialCapacity, final float loadFactor, final int concurrencyLevel, final Supplier<C> multiSupplier) {
     super(initialCapacity, loadFactor, concurrencyLevel);
