@@ -95,7 +95,7 @@ public class DiffTest {
     final String target = "http://org.safris.xml/schema/binding/test/unit/complexTypes.xsd";
     final Diff diff = new Diff(source, target);
     final String patch = diff.patch(source);
-    logger.info(patch);
+    if (logger.isInfoEnabled()) logger.info(patch);
   }
 
   @Test
@@ -105,9 +105,8 @@ public class DiffTest {
     final Diff diff = new Diff(source, target);
     final int maxLength = Math.max(source.length(), target.length());
     final int bits = (int)(1 + StrictMath.log(maxLength) / StrictMath.log(2));
-    logger.info("LengthSize: " + bits);
+    if (logger.isInfoEnabled()) logger.info("LengthSize: " + bits);
     final List<Mod> mods = diff.getMods();
-    for (final Mod mod : mods) // [L]
-      logger.info(mod.toString());
+    if (logger.isInfoEnabled()) for (final Mod mod : mods) logger.info(mod.toString());
   }
 }

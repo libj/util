@@ -72,7 +72,7 @@ public class SynchronizingExecutorServiceRegressionTest {
             return;
           }
 
-          logger.debug("Syncing with " + consumerCount + " running consumers...");
+          if (logger.isDebugEnabled()) logger.debug("Syncing with " + consumerCount + " running consumers...");
           Thread.sleep(10);
         }
         catch (final InterruptedException e) {
@@ -92,7 +92,7 @@ public class SynchronizingExecutorServiceRegressionTest {
       if (lastSync + syncPeriod <= System.currentTimeMillis()) {
         lastSync = System.currentTimeMillis();
         new Thread(() -> {
-          logger.debug("Starting sync with " + consumerCount + " running consumers");
+          if (logger.isDebugEnabled()) logger.debug("Starting sync with " + consumerCount + " running consumers");
           try {
             syncTs = System.currentTimeMillis();
             executorService.synchronize();
@@ -120,7 +120,7 @@ public class SynchronizingExecutorServiceRegressionTest {
     public void run() {
       consumerCount.incrementAndGet();
       consumerTs = System.currentTimeMillis();
-      logger.debug("    Starting new Consumer(" + id + ")");
+      if (logger.isDebugEnabled()) logger.debug("    Starting new Consumer(" + id + ")");
       try {
         // Check whether this thread should have been executed
         if (testLastConsumerCountAllowed != null && testLastConsumerCountAllowed < id) {
@@ -138,7 +138,7 @@ public class SynchronizingExecutorServiceRegressionTest {
           throw new IllegalStateException(e);
         }
 
-        logger.debug("    Finished " + id);
+        if (logger.isDebugEnabled()) logger.debug("    Finished " + id);
       }
       finally {
         consumerCount.decrementAndGet();

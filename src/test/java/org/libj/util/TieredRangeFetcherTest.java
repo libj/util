@@ -47,7 +47,7 @@ public class TieredRangeFetcherTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        logger.info("WEB -> (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) logger.info("WEB -> (" + from + ", " + to + "]");
         final SortedMap<Integer,Object> results = new TreeMap<>();
         for (int i = from; i < to; ++i) // [N]
           results.put(i, i);
@@ -70,13 +70,13 @@ public class TieredRangeFetcherTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        logger.info("DB -> (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) logger.info("DB -> (" + from + ", " + to + "]");
         return db.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
-        logger.info("DB <- (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) logger.info("DB <- (" + from + ", " + to + "]");
         if (range == null) {
           range = new Integer[] {from, to};
         }
@@ -107,13 +107,13 @@ public class TieredRangeFetcherTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        logger.info("CACHE -> (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) logger.info("CACHE -> (" + from + ", " + to + "]");
         return cache.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
-        logger.info("CACHE <- (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) logger.info("CACHE <- (" + from + ", " + to + "]");
         if (range == null) {
           range = new Integer[] {from, to};
         }

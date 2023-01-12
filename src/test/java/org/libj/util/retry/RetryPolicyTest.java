@@ -56,7 +56,7 @@ public class RetryPolicyTest {
         assertEquals(delays[index[0]++], delayMs1);
         assertTrue(0 < a && a <= attempts);
         assertEquals(timings[a - 1], System.currentTimeMillis(), 5);
-        logger.info("Attempt: " + a + ", delay: " + delayMs1 + ", t: " + IllegalStateException.class.getSimpleName());
+        if (logger.isInfoEnabled()) logger.info("Attempt: " + a + ", delay: " + delayMs1 + ", t: " + IllegalStateException.class.getSimpleName());
         throw new IllegalStateException();
       }
 
@@ -89,7 +89,7 @@ public class RetryPolicyTest {
         assertEquals(delays[index[0]++], delayMs);
         assertTrue(0 < a && a <= attempts);
         assertEquals(timings[a - 1], System.currentTimeMillis(), 5);
-        logger.info("Attempt: " + a + ", delay: " + delayMs + ", t: " + IllegalStateException.class.getSimpleName());
+        if (logger.isInfoEnabled()) logger.info("Attempt: " + a + ", delay: " + delayMs + ", t: " + IllegalStateException.class.getSimpleName());
         throw new IllegalStateException();
       }
 

@@ -90,15 +90,12 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         return;
 
       try {
-        if (logger.isDebugEnabled())
-          logger.debug("Starting sync....");
+        if (logger.isDebugEnabled()) logger.debug("Starting sync....");
 
         if (runningThreadCount.get() > 0) {
           synchronized (finishLock) {
             synchronizing = true;
-            if (logger.isDebugEnabled())
-              logger.debug("wait() [1] for threads to finish...");
-
+            if (logger.isDebugEnabled()) logger.debug("wait() [1] for threads to finish...");
             finishLock.wait();
           }
         }
@@ -106,9 +103,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
           synchronizing = true;
           if (runningThreadCount.get() > 0) {
             synchronized (finishLock) {
-              if (logger.isDebugEnabled())
-                logger.debug("wait() [2] for threads to finish...");
-
+              if (logger.isDebugEnabled()) logger.debug("wait() [2] for threads to finish...");
               finishLock.wait();
             }
           }
@@ -120,8 +115,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         synchronizing = false;
       }
 
-      if (logger.isDebugEnabled())
-        logger.debug("Sync done!");
+      if (logger.isDebugEnabled()) logger.debug("Sync done!");
     }
   }
 
@@ -152,14 +146,11 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         runnable.run();
       }
       finally {
-        if (logger.isDebugEnabled())
-          logger.debug("Remaining threads: " + (runningThreadCount.get() - 1));
+        if (logger.isDebugEnabled()) logger.debug("Remaining threads: " + (runningThreadCount.get() - 1));
 
         if (runningThreadCount.decrementAndGet() == 0 && synchronizing) {
           synchronized (finishLock) {
-            if (logger.isDebugEnabled())
-              logger.debug("notify() synchronize to continue...");
-
+            if (logger.isDebugEnabled()) logger.debug("notify() synchronize to continue...");
             finishLock.notify();
           }
         }
@@ -171,8 +162,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
       return;
     }
 
-    if (logger.isDebugEnabled())
-      logger.debug("Waiting for unlock to exec new threads...");
+    if (logger.isDebugEnabled()) logger.debug("Waiting for unlock to exec new threads...");
 
     synchronized (startLock) {
       doExecute(wrapper);

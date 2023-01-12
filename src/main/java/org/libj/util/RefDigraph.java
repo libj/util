@@ -119,8 +119,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
       final Integer index = digraph.objectToIndex.remove(ref);
       if (index != null) {
         final Integer oldIndex = digraph.objectToIndex.put(vertex, index);
-        if (oldIndex != null && logger.isDebugEnabled())
-          logger.debug("Remapped object at index " + oldIndex + " to " + index + ": " + vertex);
+        if (oldIndex != null && logger.isDebugEnabled()) logger.debug("Remapped object at index " + oldIndex + " to " + index + ": " + vertex);
       }
     }
 

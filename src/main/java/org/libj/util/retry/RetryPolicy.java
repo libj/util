@@ -466,8 +466,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
         }
       }
 
-      if (logger.isDebugEnabled())
-        logger.debug("Retrying attemptNo = " + attemptNo + ", runTime = " + runTime);
+      if (logger.isDebugEnabled()) logger.debug("Retrying attemptNo = " + attemptNo + ", runTime = " + runTime);
     }
   }
 

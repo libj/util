@@ -32,7 +32,7 @@ public class CircularArrayListTest {
     final List<Integer> c = new CircularArrayList<>(5);
     for (int i = 8; i >= 0; --i) { // [RA]
       c.add(0, i);
-      logger.info(c.toString());
+      if (logger.isInfoEnabled()) logger.info(c.toString());
     }
   }
 
