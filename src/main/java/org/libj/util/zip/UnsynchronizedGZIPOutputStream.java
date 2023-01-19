@@ -128,8 +128,8 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
   @Override
   public void write(final byte[] buf, final int off, final int len) throws IOException {
     if (!hasHeader) {
-      writeHeader();
       hasHeader = true;
+      writeHeader();
     }
 
     super.write(buf, off, len);
@@ -140,7 +140,7 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
    * Finishes writing compressed data to the output stream without closing the underlying stream. Use this method when applying
    * multiple filters in succession to the same output stream.
    *
-   * @throws IOException if an I/O error has occurred
+   * @throws IOException If an I/O error has occurred.
    */
   @Override
   public void finish() throws IOException {
