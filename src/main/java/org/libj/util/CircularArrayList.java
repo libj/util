@@ -229,11 +229,11 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
       return;
     }
 
-    final Object[] elementData = this.elementData;
-    ++modCount;
     assertRange("index", index, "size", size);
+    ++modCount;
     ensureCapacity(size + 1 + 1);
     final int pos = deref(index);
+    final Object[] elementData = this.elementData;
     if (pos == head) {
       head = (head - 1 + elementData.length) % elementData.length;
       elementData[head] = element;
