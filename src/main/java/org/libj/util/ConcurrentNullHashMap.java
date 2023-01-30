@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A {@link ConcurrentHashMap} supporting {@code null} keys.
+ * A {@link ConcurrentHashMap} supporting null keys.
  *
  * @implNote This class does not properly handle {@link ConcurrentHashMap#keySet()} and {@link ConcurrentHashMap#keySet(Object)}.
  * @param <K> The type of keys maintained by this map.

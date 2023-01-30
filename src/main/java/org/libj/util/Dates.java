@@ -774,7 +774,7 @@ public final class Dates {
     final long minutes = duration / MILLISECONDS_IN_MINUTE;
     if (minutes != 0) {
       duration -= minutes * MILLISECONDS_IN_MINUTE;
-      s.append(minutes).append("m");
+      s.append(minutes).append('m');
     }
 
     final long seconds = duration / MILLISECONDS_IN_SECOND;
