@@ -94,6 +94,7 @@
                 <template>src/main/resources/function/ObjBi&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/ObjBi&lt;X&gt;Function.java</template>
                 <template>src/main/resources/function/ObjBi&lt;X&gt;Predicate.java</template>
+                <template>src/main/resources/function/BiObjBi&lt;X&gt;Predicate.java</template>
                 <template>src/main/resources/function/Tri&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/TriObj&lt;X&gt;Consumer.java</template>
                 <template>src/main/resources/function/TriObj&lt;X&gt;Function.java</template>

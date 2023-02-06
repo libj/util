@@ -1,4 +1,4 @@
-/* Copyright (c) 2022 LibJ
+/* Copyright (c) 2023 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,26 +19,28 @@ package org.libj.util.function;
 import java.util.Objects;
 
 /**
- * Represents a predicate (boolean-valued function) that accepts an object-valued
- * argument and two {@code <x>}-valued arguments. This is the {@code <x>}-consuming
+ * Represents a predicate (boolean-valued function) that accepts two object-valued
+ * arguments and two {@code <x>}-valued arguments. This is the {@code <x>}-consuming
  * primitive type specialization of {@link java.util.function.Predicate}.
  *
- * @param <T> The type of the argument to the predicate.
+ * @param <T> The type of the first argument to the predicate.
+ * @param <U> The type of the second argument to the predicate.
  * 
  * @see java.util.function.Predicate
  */
 @FunctionalInterface
-public interface ObjBi<X>Predicate<T> {
+public interface BiObjBi<X>Predicate<T,U> {
   /**
    * Evaluates this predicate on the given argument.
    *
    * @param t The first input argument.
-   * @param v1 The second input argument.
-   * @param v2 The third input argument.
+   * @param u The second input argument.
+   * @param v1 The third input argument.
+   * @param v2 The fourth input argument.
    * @return {@code true} if the input argument matches the predicate, otherwise
    *         {@code false}.
    */
-  boolean test(T t, <x> v1, <x> v2);
+  boolean test(T t, U u, <x> v1, <x> v2);
 
   /**
    * Returns a composed predicate that represents a short-circuiting logical AND
@@ -55,9 +57,9 @@ public interface ObjBi<X>Predicate<T> {
    *         AND of this predicate and the {@code other} predicate.
    * @throws NullPointerException If {@code other} is null.
    */
-  default ObjBi<X>Predicate<T> and(final ObjBi<X>Predicate<T> other) {
+  default BiObjBi<X>Predicate<T,U> and(final BiObjBi<X>Predicate<T,U> other) {
     Objects.requireNonNull(other);
-    return (t, v1, v2) -> test(t, v1, v2) && other.test(t, v1, v2);
+    return (t, u, v1, v2) -> test(t, u, v1, v2) && other.test(t, u, v1, v2);
   }
 
   /**
@@ -65,8 +67,8 @@ public interface ObjBi<X>Predicate<T> {
    *
    * @return A predicate that represents the logical negation of this predicate.
    */
-  default ObjBi<X>Predicate<T> negate() {
-    return (t, v1, v2) -> !test(t, v1, v2);
+  default BiObjBi<X>Predicate<T,U> negate() {
+    return (t, u, v1, v2) -> !test(t, u, v1, v2);
   }
 
   /**
@@ -84,8 +86,8 @@ public interface ObjBi<X>Predicate<T> {
    *         OR of this predicate and the {@code other} predicate.
    * @throws NullPointerException if {@code other} is null.
    */
-  default ObjBi<X>Predicate<T> or(final ObjBi<X>Predicate<T> other) {
+  default BiObjBi<X>Predicate<T,U> or(final BiObjBi<X>Predicate<T,U> other) {
     Objects.requireNonNull(other);
-    return (t, v1, v2) -> test(t, v1, v2) || other.test(t, v1, v2);
+    return (t, u, v1, v2) -> test(t, u, v1, v2) || other.test(t, u, v1, v2);
   }
 }

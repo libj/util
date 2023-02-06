@@ -124,7 +124,7 @@ public final class Throwing {
   }
 
   /**
-   * Rethrows the checked exception from the specified {@link ThrowingBiConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingObjIntConsumer}.
    * <p>
    * An example of this pattern:
    *
@@ -140,15 +140,15 @@ public final class Throwing {
    * </pre>
    *
    * @param <T> The type of the first input to the consumer's operation.
-   * @param consumer The {@link ThrowingBiConsumer}.
-   * @return The specified {@link BiConsumer} instance.
+   * @param consumer The {@link ThrowingObjIntConsumer}.
+   * @return The specified {@link ObjIntConsumer} instance.
    */
   public static <T>ObjIntConsumer<T> rethrow(final ThrowingObjIntConsumer<T,?> consumer) {
     return consumer;
   }
 
   /**
-   * Rethrows the checked exception from the specified {@link ThrowingBiConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingObjBiIntConsumer}.
    * <p>
    * An example of this pattern:
    *
@@ -164,35 +164,60 @@ public final class Throwing {
    * </pre>
    *
    * @param <T> The type of the first input to the consumer's operation.
-   * @param consumer The {@link ThrowingBiConsumer}.
-   * @return The specified {@link BiConsumer} instance.
+   * @param consumer The {@link ThrowingObjBiIntConsumer}.
+   * @return The specified {@link ObjBiIntConsumer} instance.
    */
   public static <T>ObjBiIntConsumer<T> rethrow(final ThrowingObjBiIntConsumer<T,?> consumer) {
     return consumer;
   }
 
   /**
-   * Rethrows the checked exception from the specified {@link ThrowingBiConsumer}.
+   * Rethrows the checked exception from the specified {@link ThrowingObjBiIntPredicate}.
    * <p>
    * An example of this pattern:
    *
    * <pre>
    * {@code
-   * ObjIntConsumer<Integer> consumer = Throwing.rethrow((Integer s, int i, int j) -> {
+   * ObjIntConsumer<Integer> predicate = Throwing.rethrow((Integer s, int i, int j) -> {
    *   if (i == 0)
    *     throw new IOException("i=" + i);
    * });
    * for (int i = 3; i >= 0; --i)
-   *   consumer.accept(i, -i, i * j);
+   *   predicate.accept(i, -i, i * j);
    * }
    * </pre>
    *
-   * @param <T> The type of the first input to the consumer's operation.
-   * @param consumer The {@link ThrowingBiConsumer}.
-   * @return The specified {@link BiConsumer} instance.
+   * @param <T> The type of the input to the predicate's operation.
+   * @param predicate The {@link ThrowingObjBiIntPredicate}.
+   * @return The specified {@link ObjBiIntPredicate} instance.
    */
-  public static <T>ObjBiIntPredicate<T> rethrow(final ThrowingObjBiIntPredicate<T,?> consumer) {
-    return consumer;
+  public static <T>ObjBiIntPredicate<T> rethrow(final ThrowingObjBiIntPredicate<T,?> predicate) {
+    return predicate;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified {@link ThrowingBiObjBiIntPredicate}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * BiObjIntConsumer<Integer> predicate = Throwing.rethrow((Integer s, Integer t, int i, int j) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   predicate.accept(i, -i, i / 2, i * 2);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the predicate's operation.
+   * @param <U> The type of the second input to the predicate's operation.
+   * @param predicate The {@link ThrowingBiObjBiIntPredicate}.
+   * @return The specified {@link BiObjBiIntPredicate} instance.
+   */
+  public static <T,U>BiObjBiIntPredicate<T,U> rethrow(final ThrowingBiObjBiIntPredicate<T,U,?> predicate) {
+    return predicate;
   }
 
   /**
