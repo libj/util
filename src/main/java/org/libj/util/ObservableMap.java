@@ -297,7 +297,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   protected class ObservableKeySet extends ObservableSet<K> {
     /**
-     * Creates a new {@link ObservableEntrySet} for the specified {@link Set Set&lt;K&gt;}.
+     * Creates a new {@link ObservableKeySet} for the specified {@link Set Set&lt;K&gt;}.
      *
      * @param set The {@link Iterator}.
      * @throws IllegalArgumentException If the specified {@link Set Set&lt;K&gt;}} is null.

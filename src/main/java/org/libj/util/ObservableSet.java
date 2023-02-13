@@ -42,7 +42,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   protected static final Object preventDefault = ObservableCollection.preventDefault;
 
   /**
-   * Creates a new {@link ObservableList} with the specified target {@code set}.
+   * Creates a new {@link ObservableSet} with the specified target {@code set}.
    *
    * @param set The target {@link Set}.
    * @throws IllegalArgumentException If {@code set} is null.

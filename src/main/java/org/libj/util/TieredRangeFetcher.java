@@ -80,21 +80,21 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
 
     if (this != prev) {
       if (to.compareTo(range[0]) <= 0) {
-        if (logger.isTraceEnabled()) logger.trace(toString() + "{1} (" + from + ", " + range[0] + "]");
+        if (logger.isTraceEnabled()) logger.trace(this + "{1} (" + from + ", " + range[0] + "]");
         insert(from, range[0], next.fetch(from, range[0], prev));
       }
       else if (range[1].compareTo(from) <= 0) {
-        if (logger.isTraceEnabled()) logger.trace(toString() + " {2} (" + range[1] + ", " + to + "]");
+        if (logger.isTraceEnabled()) logger.trace(this + " {2} (" + range[1] + ", " + to + "]");
         insert(range[1], to, next.fetch(range[1], to, prev));
       }
       else {
         if (from.compareTo(range[0]) < 0) {
-          if (logger.isTraceEnabled()) logger.trace(toString() + " {3} (" + from + ", " + range[0] + "]");
+          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + from + ", " + range[0] + "]");
           insert(from, range[0], next.fetch(from, range[0], prev));
         }
 
         if (range[1].compareTo(to) < 0) {
-          if (logger.isTraceEnabled()) logger.trace(toString() + " {3} (" + range[1] + ", " + to + "]");
+          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + range[1] + ", " + to + "]");
           insert(range[1], to, next.fetch(range[1], to, prev));
         }
       }

@@ -101,9 +101,9 @@ public class FunctionsTest {
 
   @Test
   public void testAndOrThen() {
-    final Function<Integer,StringBuilder> p0 = i -> new StringBuilder(String.valueOf(Math.abs(i)) + "9").reverse();
-    final Function<Integer,CharSequence> p1 = i -> "9" + new StringBuilder(String.valueOf(Math.abs(i))).reverse().toString();
-    final Function<Integer,Comparable<String>> p2 = i -> new StringBuilder(String.valueOf(Math.abs(i)) + "9").reverse().toString();
+    final Function<Integer,StringBuilder> p0 = i -> new StringBuilder(String.valueOf(Math.abs(i))).append('9').reverse();
+    final Function<Integer,CharSequence> p1 = i -> new StringBuilder("9").append(String.valueOf(Math.abs(i))).reverse().toString();
+    final Function<Integer,Comparable<String>> p2 = i -> new StringBuilder(String.valueOf(Math.abs(i))).append('9').reverse().toString();
 
     final Function<Object,Number> p3 = s -> Long.parseLong(s.toString());
     final Function<Object,String> p4 = s -> "%%%";
@@ -113,7 +113,7 @@ public class FunctionsTest {
     for (int i = 0; i < numTests; ++i) { // [N]
       final int input = random.nextInt();
       final String result = and(p0, p1, p2).andThen(s -> s.map(or(p3, p4).andThen(finish))).apply(input).findAny().get();
-      assertEquals(String.valueOf(Math.abs(input)) + "9", result);
+      assertEquals(Math.abs(input) + "9", result);
     }
   }
 }
