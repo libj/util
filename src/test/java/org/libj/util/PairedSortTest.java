@@ -76,10 +76,10 @@ public class PairedSortTest {
   @Test
   public void testExceptions() {
     try {
-      test(Arrays.asList("a"), null);
-      fail("Expected IllegalArgumentException");
+      test(Arrays.asList("a", "b", "c"), null);
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
   }
 

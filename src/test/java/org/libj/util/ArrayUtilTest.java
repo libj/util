@@ -56,6 +56,13 @@ public class ArrayUtilTest {
 
   @Test
   public void testBinaryClosestSearch() {
+    try {
+      ArrayUtil.binaryClosestSearch((int[])null, 4, 3, -10);
+      fail("Expected NullPointerException");
+    }
+    catch (final NullPointerException e) {
+    }
+
     final int[] sorted = {1, 3, 5, 9, 19};
     try {
       ArrayUtil.binaryClosestSearch(sorted, 4, 3, -10);
@@ -365,9 +372,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {
@@ -394,9 +401,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {
@@ -423,9 +430,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {
@@ -452,9 +459,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {
@@ -481,9 +488,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {
@@ -510,9 +517,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {
@@ -539,9 +546,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {
@@ -568,9 +575,9 @@ public class ArrayUtilTest {
     if (array == null) {
       try {
         ArrayUtil.dedupe(array, c);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {

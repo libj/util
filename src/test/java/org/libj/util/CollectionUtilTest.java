@@ -125,9 +125,9 @@ public class CollectionUtilTest {
     if (list == null) {
       try {
         CollectionUtil.dedupe(list, c);
-        fail("Expected IllegalArgumentException");
+        fail("Expected NullPointerException");
       }
-      catch (final IllegalArgumentException e) {
+      catch (final NullPointerException e) {
       }
     }
     else {

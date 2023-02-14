@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -92,11 +90,10 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    * @param key The key.
    * @param newValues The values to be added.
    * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
-   * @throws IllegalArgumentException If the provided array of new values is null.
+   * @throws NullPointerException If the provided array of new values is null.
    */
   @SuppressWarnings("unchecked")
   default C addAll(final K key, final V ... newValues) {
-    assertNotNull(newValues, "Provided array of values must be not null");
     final C values = getOrNew(key);
     for (final V value : newValues) // [A]
       values.add(value);
@@ -112,10 +109,9 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    * @param key The key.
    * @param newValues The list of values to be added.
    * @return The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
-   * @throws IllegalArgumentException If the provided value list is null.
+   * @throws NullPointerException If the provided value list is null.
    */
   default C addAll(final K key, final Collection<V> newValues) {
-    assertNotNull(newValues, "Provided array of values must be not null");
     final C values = getOrNew(key);
     CollectionUtil.addAll(values, newValues);
     return values;
@@ -138,7 +134,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
 
   /**
    * Add a value to the first position in the current list of values for the provided key. If the type of the value
-   * {@link Collection} does not extend {@link List}, a {@link UnsupportedOperationException} is thrown.
+   * {@link Collection} does not extend {@link List}, an {@link UnsupportedOperationException} is thrown.
    *
    * @param key The key
    * @param value The value to be added.
@@ -161,9 +157,11 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    * @param key The key.
    * @param value The value in the value {@link Collection} to remove.
    * @return {@code true} if the method resulted in a change to the map.
+   * @throws UnsupportedOperationException If the value {@link Collection} for the given key does not support the {@code remove}
+   *           operation.
    */
   default boolean removeValue(final K key, final V value) {
-    final C values = getOrNew(key);
+    final C values = get(key);
     return values != null && values.remove(value);
   }
 
@@ -174,9 +172,12 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    * @param key The key.
    * @param test The {@link Predicate} to test whether a value is to be removed.
    * @return {@code true} if the method resulted in a change to the map.
+   * @throws NullPointerException If {@code test} is null.
+   * @throws UnsupportedOperationException If the value {@link Collection} for the given key does not support the {@code remove}
+   *           operation.
    */
   default boolean removeIf(final K key, final Predicate<? super V> test) {
-    final C values = getOrNew(key);
+    final C values = get(key);
     if (values == null)
       return false;
 
@@ -200,6 +201,44 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
     }
 
     return false;
+  }
+
+  /**
+   * Removes the all values in the value {@link Collection} for the given key for which the provided {@link Predicate} returns
+   * {@code true}.
+   *
+   * @param key The key.
+   * @param test The {@link Predicate} to test whether a value is to be removed.
+   * @return {@code true} if the method resulted in a change to the map.
+   * @throws NullPointerException If {@code test} is null.
+   * @throws UnsupportedOperationException If the value {@link Collection} for the given key does not support the {@code remove}
+   *           operation.
+   */
+  default boolean removeAllIf(final K key, final Predicate<? super V> test) {
+    final C values = get(key);
+    if (values == null)
+      return false;
+
+    boolean changed = false;
+    if (values instanceof List && values instanceof RandomAccess) {
+      @SuppressWarnings("unchecked")
+      final List<V> l = (List<V>)values;
+      for (int i = 0, i$ = values.size(); i < i$; ++i) { // [RA]
+        if (test.test(l.get(i))) {
+          changed |= values.remove(i);
+        }
+      }
+    }
+    else {
+      for (final Iterator<V> i = values.iterator(); i.hasNext();) { // [I]
+        if (test.test(i.next())) {
+          i.remove();
+          changed = true;
+        }
+      }
+    }
+
+    return changed;
   }
 
   /**
