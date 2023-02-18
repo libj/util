@@ -178,26 +178,29 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    */
   default boolean removeIf(final K key, final Predicate<? super V> test) {
     final C values = get(key);
-    if (values == null)
+    final int i$;
+    if (values == null || (i$ = values.size()) == 0)
       return false;
 
     if (values instanceof List && values instanceof RandomAccess) {
       @SuppressWarnings("unchecked")
       final List<V> l = (List<V>)values;
-      for (int i = 0, i$ = values.size(); i < i$; ++i) { // [RA]
+      int i = 0; do { // [RA]
         if (test.test(l.get(i))) {
           values.remove(i);
           return true;
         }
       }
+      while (++i < i$);
     }
     else {
-      for (final Iterator<V> i = values.iterator(); i.hasNext();) { // [I]
+      final Iterator<V> i = values.iterator(); do { // [I]
         if (test.test(i.next())) {
           i.remove();
           return true;
         }
       }
+      while (i.hasNext());
     }
 
     return false;
@@ -216,26 +219,29 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
    */
   default boolean removeAllIf(final K key, final Predicate<? super V> test) {
     final C values = get(key);
-    if (values == null)
+    final int i$;
+    if (values == null || (i$ = values.size()) == 0)
       return false;
 
     boolean changed = false;
     if (values instanceof List && values instanceof RandomAccess) {
       @SuppressWarnings("unchecked")
       final List<V> l = (List<V>)values;
-      for (int i = 0, i$ = values.size(); i < i$; ++i) { // [RA]
+      int i = 0; do { // [RA]
         if (test.test(l.get(i))) {
           changed |= values.remove(i);
         }
       }
+      while (++i < i$);
     }
     else {
-      for (final Iterator<V> i = values.iterator(); i.hasNext();) { // [I]
+      final Iterator<V> i = values.iterator(); do { // [I]
         if (test.test(i.next())) {
           i.remove();
           changed = true;
         }
       }
+      while (i.hasNext());
     }
 
     return changed;

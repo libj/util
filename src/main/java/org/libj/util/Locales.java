@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -162,23 +160,24 @@ public final class Locales {
    * @param strings The {@link Collection} of strings.
    * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
    *         form {@code "{language}_{country}_{variant}"}.
-   * @throws IllegalArgumentException If {@code strings} is null.
+   * @throws NullPointerException If {@code strings} is null.
    */
   public static Locale[] parse(final Collection<String> strings) {
-    final int size = assertNotNull(strings).size();
-    if (size == 0)
+    final int i$ = strings.size();
+    if (i$ == 0)
       return EMPTY_LOCALES;
 
-    final Locale[] locales = new Locale[size];
+    final Locale[] locales = new Locale[i$];
     final List<String> list;
     if (strings instanceof List && CollectionUtil.isRandomAccess(list = (List<String>)strings)) {
-      for (int i = 0, i$ = list.size(); i < i$; ++i) // [RA]
+      int i = 0; do // [RA]
         locales[i] = parse(list.get(i));
+      while (++i < i$);
     }
     else {
-      final Iterator<String> iterator = strings.iterator();
-      for (int i = 0; iterator.hasNext(); ++i) // [I]
-        locales[i] = parse(iterator.next());
+      int i = -1; final Iterator<String> it = strings.iterator(); do // [I]
+        locales[++i] = parse(it.next());
+      while (it.hasNext());
     }
 
     return locales;
@@ -192,14 +191,14 @@ public final class Locales {
    * @param enumeration The {@link Enumeration} of strings.
    * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
    *         form {@code "{language}_{country}_{variant}"}.
-   * @throws IllegalArgumentException If {@code enumeration} is null.
+   * @throws NullPointerException If {@code enumeration} is null.
    */
   public static Locale[] parse(final Enumeration<String> enumeration) {
     return parse(enumeration, 0);
   }
 
   private static Locale[] parse(final Enumeration<String> enumeration, final int depth) {
-    if (!assertNotNull(enumeration).hasMoreElements())
+    if (!enumeration.hasMoreElements())
       return new Locale[depth];
 
     final Locale locale = parse(enumeration.nextElement());

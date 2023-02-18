@@ -21,8 +21,10 @@ import static org.libj.lang.Assertions.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -95,10 +97,10 @@ public final class ExecutorServices {
     }
 
     private <T>List<Callable<T>> interruptAfterTimeout(final Collection<? extends Callable<T>> tasks) {
-      final List<Callable<T>> interruptableTasks = new ArrayList<>(assertNotNull(tasks).size());
+      final ArrayList<Callable<T>> interruptableTasks = new ArrayList<>(tasks.size());
       final Iterator<? extends Callable<T>> iterator = tasks.iterator();
       while (iterator.hasNext())
-        interruptableTasks.add(Threads.interruptAfterTimeout(assertNotNull(iterator.next()), timeout, unit));
+        interruptableTasks.add(Threads.interruptAfterTimeout(iterator.next(), timeout, unit));
 
       return interruptableTasks;
     }
@@ -453,26 +455,30 @@ public final class ExecutorServices {
    * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the
    *         given task list, each of which has completed.
    * @throws InterruptedException If interrupted while waiting, in which case unfinished tasks are cancelled.
-   * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
+   * @throws NullPointerException If {@code tasks} or any member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
-    final int size = assertNotNull(tasks).size();
-    final Callable<R>[] callables = new Callable[size];
+    final int i$ = tasks.size();
+    if (i$ == 0)
+      return Collections.EMPTY_LIST;
+
+    final Callable<R>[] callables = new Callable[i$];
     final List<T> list;
     if (tasks instanceof List && CollectionUtil.isRandomAccess(list = (List<T>)tasks)) {
-      for (int i = 0, i$ = list.size(); i < i$; ++i) { // [RA]
-        final T task = assertNotNull(list.get(i));
+      int i = 0; do { // [RA]
+        final T task = Objects.requireNonNull(list.get(i));
         callables[i] = () -> proxy.apply(task);
       }
+      while (++i < i$);
     }
     else {
-      final Iterator<T> iterator = tasks.iterator();
-      for (int i = 0; iterator.hasNext(); ++i) { // [I]
-        final T task = assertNotNull(iterator.next());
-        callables[i] = () -> proxy.apply(task);
+      int i = -1; final Iterator<T> it = tasks.iterator(); do { // [I]
+        final T task = Objects.requireNonNull(it.next());
+        callables[++i] = () -> proxy.apply(task);
       }
+      while (it.hasNext());
     }
 
     return executor.invokeAll(Arrays.asList(callables));

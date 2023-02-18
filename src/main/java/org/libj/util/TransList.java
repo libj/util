@@ -74,18 +74,22 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
       throw new UnsupportedOperationException();
 
     final int i$ = size();
+    if (i$ == 0)
+      return false;
+
     if (isRandomAccess()) {
-      for (int i = 0; i < i$; ++i) { // [RA]
+      int i = 0; do { // [RA]
         final S e = (S)target.get(i);
         if (o.equals(sourceToTarget.apply(i, e)))
           return true;
       }
+      while (++i < i$);
     }
     else {
-      final Iterator<S> iterator = target.iterator();
-      for (int i = 0; i < i$; ++i) // [I]
-        if (o.equals(sourceToTarget.apply(i, iterator.next())))
+      int i = -1; final Iterator<S> it = target.iterator(); do // [I]
+        if (o.equals(sourceToTarget.apply(++i, it.next())))
           return true;
+      while (it.hasNext());
     }
 
     return false;
@@ -137,6 +141,9 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
       throw new UnsupportedOperationException();
 
     final int i$ = size();
+    if (i$ == 0)
+      return a;
+
     if (a.length < i$)
       a = (E[])Array.newInstance(a.getClass().getComponentType(), i$);
 
@@ -151,17 +158,14 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
   @SuppressWarnings("unchecked")
   private void toArray(final Object[] a, final int i$) {
     if (isRandomAccess()) {
-      for (int i = 0; i < i$; ++i) { // [RA]
-        final S e = (S)target.get(i);
-        a[i] = sourceToTarget.apply(i, e);
-      }
+      int i = 0; do // [RA]
+        a[i] = sourceToTarget.apply(i, (S)target.get(i));
+      while (++i < i$);
     }
     else {
-      final Iterator<S> iterator = target.iterator();
-      for (int i = 0; i < i$; ++i) { // [I]
-        final S e = iterator.next();
-        a[i] = sourceToTarget.apply(i, e);
-      }
+      int i = -1; final Iterator<S> it = target.iterator(); do // [I]
+        a[++i] = sourceToTarget.apply(i, it.next());
+      while (it.hasNext());
     }
   }
 
@@ -180,26 +184,26 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
       throw new UnsupportedOperationException();
 
     final int i$ = size();
+    if (i$ == 0)
+      return false;
+
     if (isRandomAccess()) {
-      for (int i = 0; i < i$; ++i) { // [RA]
-        final S e = (S)target.get(i);
-        final T t = sourceToTarget.apply(i, e);
-        if (Objects.equals(o, t)) {
+      int i = 0; do { // [RA]
+        if (Objects.equals(o, sourceToTarget.apply(i, (S)target.get(i)))) {
           target.remove(i);
           return true;
         }
       }
+      while (++i < i$);
     }
     else {
-      final Iterator<S> iterator = target.iterator();
-      for (int i = 0; i < i$; ++i) { // [I]
-        final S e = iterator.next();
-        final T t = sourceToTarget.apply(i, e);
-        if (Objects.equals(o, t)) {
-          iterator.remove();
+      int i = -1; final Iterator<S> it = target.iterator(); do { // [I]
+        if (Objects.equals(o, sourceToTarget.apply(++i, it.next()))) {
+          it.remove();
           return true;
         }
       }
+      while (it.hasNext());
     }
 
     return false;
@@ -222,39 +226,34 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
 
   @Override
   public boolean retainAll(final Collection<?> c) {
-    final int size = size();
+    final int i$ = size();
+    if (i$ == 0)
+      return false;
+
     if (c.size() > 0) {
       if (isRandomAccess()) {
-        for (int i = size - 1; i >= 0; --i) // [RA]
-          if (!c.contains(target.get(i)))
+        int i = i$; do // [RA]
+          if (!c.contains(target.get(--i)))
             remove(i);
+        while (i > 0);
       }
       else {
-        final Iterator<S> iterator = target.iterator();
-        for (int i = 0; i < size; ++i) // [I]
-          if (!c.contains(sourceToTarget.apply(i, iterator.next())))
-            iterator.remove();
+        int i = -1; final Iterator<S> it = target.iterator(); do // [I]
+          if (!c.contains(sourceToTarget.apply(++i, it.next())))
+            it.remove();
+        while (it.hasNext());
       }
 
-      return size != size();
+      return i$ != size();
     }
-
-    if (size == 0)
-      return false;
 
     clear();
     return true;
   }
 
   @Override
-  public boolean addAll(int index, final Collection<? extends T> c) {
-    if (c.size() == 0)
-      return false;
-
-    for (final T e : c) // [C]
-      add(index++, e);
-
-    return true;
+  public boolean addAll(final int index, final Collection<? extends T> c) {
+    return CollectionUtil.addAll(index, this, c) != index;
   }
 
   @Override

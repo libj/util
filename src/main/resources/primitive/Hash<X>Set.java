@@ -148,32 +148,44 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public boolean addAll(final <X>Collection c) {
-    final int size = c.size();
-    if (size == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
     boolean changed = false;
-    final <X>List l;
-    if (c instanceof <X>List && (l = (<X>List)c) instanceof RandomAccess)
-      for (int i = 0; i < size; changed |= add(l.get(i)), ++i); // [RA]
-    else
-      for (final <X>Iterator i = c.iterator(); i.hasNext(); changed |= add(i.next())); // [C]
+    if (c instanceof <X>List && c instanceof RandomAccess) {
+      final <X>List l = (<X>List)c;
+      int i = 0; do // [RA]
+        changed |= add(l.get(i));
+      while (++i < i$);
+    }
+    else {
+      final <X>Iterator i = c.iterator(); do // [I]
+        changed |= add(i.next());
+      while (i.hasNext());
+    }
 
     return changed;
   }
 
   @Override
   public boolean addAll(final Collection<<XX>> c) {
-    final int size = c.size();
-    if (size == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
     boolean changed = false;
     final List<<XX>> l;
-    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
-      for (int i = 0; i < size; changed |= add(l.get(i)), ++i); // [RA]
-    else
-      for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); changed |= add(i.next())); // [C]
+    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c)) {
+      int i = 0; do // [RA]
+        changed |= add(l.get(i));
+      while (++i < i$);
+    }
+    else {
+      final Iterator<<XX>> it = c.iterator(); do // [I]
+        changed |= add(it.next());
+      while (it.hasNext());
+    }
 
     return changed;
   }
@@ -221,20 +233,22 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public boolean containsAll(final <X>Collection c) {
-    final int size = c.size();
-    if (size == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return true;
 
-    final <X>List l;
-    if (c instanceof <X>List && (l = (<X>List)c) instanceof RandomAccess) {
-      for (int i = 0; i < size; ++i) // [RA]
+    if (c instanceof <X>List && c instanceof RandomAccess) {
+      final <X>List l = (<X>List)c;
+      int i = 0; do // [RA]
         if (!contains(l.get(i)))
           return false;
+      while (++i < i$);
     }
     else {
-      for (final <X>Iterator i = c.iterator(); i.hasNext();) // [C]
+      final <X>Iterator i = c.iterator(); do // [I]
         if (!contains(i.next()))
           return false;
+      while(i.hasNext());
     }
 
     return true;
@@ -242,20 +256,22 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public boolean containsAll(final Collection<<XX>> c) {
-    final int size = c.size();
-    if (size == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return true;
 
     final List<<XX>> l;
     if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c)) {
-      for (int i = 0; i < size; ++i) // [RA]
+      int i = 0; do // [RA]
         if (!contains(l.get(i)))
           return false;
+      while (++i < i$);
     }
     else {
-      for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [C]
-        if (!contains(i.next()))
+      final Iterator<<XX>> it = c.iterator(); do // [I]
+        if (!contains(it.next()))
           return false;
+      while (it.hasNext());
     }
 
     return true;
@@ -297,32 +313,44 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public boolean removeAll(final <X>Collection c) {
-    final int size = c.size();
-    if (size == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
     boolean changed = false;
-    final <X>List l;
-    if (c instanceof <X>List && (l = (<X>List)c) instanceof RandomAccess)
-      for (int i = 0; i < size; changed |= remove(l.get(i)), ++i); // [RA]
-    else
-      for (final <X>Iterator i = c.iterator(); i.hasNext(); changed |= remove(i.next())); // [C]
+    if (c instanceof <X>List && c instanceof RandomAccess) {
+      final <X>List l = (<X>List)c;
+      int i = 0; do // [RA]
+        changed |= remove(l.get(i));
+      while (++i < i$);
+    }
+    else {
+      final <X>Iterator i = c.iterator(); do // [I]
+        changed |= remove(i.next());
+      while (i.hasNext());
+    }
 
     return changed;
   }
 
   @Override
   public boolean removeAll(final Collection<<XX>> c) {
-    final int size = c.size();
-    if (size == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
     boolean changed = false;
     final List<<XX>> l;
-    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
-      for (int i = 0; i < size; changed |= remove(l.get(i)), ++i); // [RA]
-    else
-      for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); changed |= remove(i.next())); // [C]
+    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c)) {
+      int i = 0; do // [RA]
+        changed |= remove(l.get(i));
+      while (++i < i$);
+    }
+    else {
+      final Iterator<<XX>> it = c.iterator(); do // [I]
+        changed |= remove(it.next());
+      while (it.hasNext());
+    }
 
     return changed;
   }
@@ -416,8 +444,9 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public <XX>[] toArray(<XX>[] a) {
-    if (a.length < size())
-      a = new <XX>[size()];
+    final int i$ = size();
+    if (a.length < i$)
+      a = new <XX>[i$];
 
     int i = 0;
     final <x>[] values = this.valueData;

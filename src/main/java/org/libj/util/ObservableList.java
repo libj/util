@@ -295,15 +295,20 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   @Override
   public boolean contains(final Object o) {
     final int i$ = size();
+    if (i$ == 0)
+      return false;
+
     if (isRandomAccess()) {
-      for (int i = 0; i < i$; ++i) // [RA]
+      int i = 0; do // [RA]
         if (equals(o, get(i)))
           return true;
+      while (++i < i$);
     }
     else {
-      for (final Object member : this) // [L]
-        if (equals(o, member))
-          return true;
+      final Iterator<?> it = iterator(); // [I]
+      if (equals(o, it.next()))
+        return true;
+      while (it.hasNext());
     }
 
     return false;
@@ -359,16 +364,22 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   @Override
   public int indexOf(final Object o) {
     final int i$ = size();
+    if (i$ == 0)
+      return -1;
+
     if (isRandomAccess()) {
-      for (int i = 0; i < i$; ++i) // [RA]
+      int i = 0; do // [RA]
         if (equals(o, get(i)))
           return i;
+      while (++i < i$);
     }
     else {
-      final Iterator<?> iterator = iterator();
-      for (int i = 0; i < i$; ++i) // [RA]
-        if (equals(o, iterator.next()))
+      int i = -1; final Iterator<?> it = iterator(); do { // [I]
+        ++i;
+        if (equals(o, it.next()))
           return i;
+      }
+      while (it.hasNext());
     }
 
     return -1;
@@ -383,16 +394,22 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   @Override
   public int lastIndexOf(final Object o) {
     final int i$ = size();
+    if (i$ == 0)
+      return -1;
+
     if (isRandomAccess()) {
-      for (int i = i$ - 1; i >= 0; --i) // [RA]
-        if (equals(o, get(i)))
+      int i = i$; do // [RA]
+        if (equals(o, get(--i)))
           return i;
+      while (i > 0);
     }
     else {
-      final ListIterator<?> iterator = listIterator(i$);
-      for (int i = i$ - 1; i >= 0; --i) // [RA]
-        if (equals(o, iterator.previous()))
+      int i = i$; final ListIterator<?> it = listIterator(i$); do { // [I]
+        --i;
+        if (equals(o, it.previous()))
           return i;
+      }
+      while (it.hasPrevious());
     }
 
     return -1;
@@ -705,15 +722,20 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
     final int i$ = size();
+    if (i$ == 0)
+      return false;
+
     if (isRandomAccess()) {
-      for (int i = i$ - 1; i >= 0; --i) // [RA]
-        if (filter.test(getFast(i)))
+      int i = i$; do // [RA]
+        if (filter.test(getFast(--i)))
           removeFast(i);
+      while (i > 0);
     }
     else {
-      for (final Iterator<E> iterator = iterator(); iterator.hasNext();) // [I]
-        if (filter.test(iterator.next()))
-          iterator.remove();
+      final Iterator<E> it = iterator(); do // [I]
+        if (filter.test(it.next()))
+          it.remove();
+      while (it.hasNext());
     }
 
     return i$ != size();
@@ -728,24 +750,26 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public boolean retainAll(final Collection<?> c) {
-    final int size = size();
+    final int i$ = size();
+    if (i$ == 0)
+      return false;
+
     if (c.size() > 0) {
       if (isRandomAccess()) {
-        for (int i = size - 1; i >= 0; --i) // [RA]
-          if (!c.contains(getFast(i)))
+        int i = i$; do // [RA]
+          if (!c.contains(getFast(--i)))
             remove(i);
+        while (i > 0);
       }
       else {
-        for (final Iterator<E> iterator = iterator(); iterator.hasNext();) // [I]
-          if (!c.contains(iterator.next()))
-            iterator.remove();
+        final Iterator<E> it = iterator(); do // [I]
+          if (!c.contains(it.next()))
+            it.remove();
+        while (it.hasNext());
       }
 
-      return size != size();
+      return i$ != size();
     }
-
-    if (size == 0)
-      return false;
 
     clear();
     return true;
@@ -894,14 +918,18 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   }
 
   private void toArray(final Object[] a, final int i$) {
+    if (i$ == 0)
+      return;
+
     if (isRandomAccess()) {
-      for (int i = 0; i < i$; ++i) // [RA]
+      int i = 0; do // [RA]
         a[i] = get(i);
+      while (++i < i$);
     }
     else {
-      final Iterator<E> iterator = iterator();
-      for (int i = 0; i < i$; ++i) // [A]
-        a[i] = iterator.next();
+      int i = -1; final Iterator<E> it = iterator(); do // [I]
+        a[++i] = it.next();
+      while (it.hasNext());
     }
   }
 
@@ -963,13 +991,19 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   }
 
   private void touchElements() {
+    final int i$ = size();
+    if (i$ == 0)
+      return;
+
     if (isRandomAccess()) {
-      for (int i = 0, i$ = size(); i < i$; ++i) // [RA]
+      int i = 0; do // [RA]
         get(i);
+      while (++i < i$);
     }
     else {
-      for (final Iterator<E> iterator = iterator(); iterator.hasNext();) // [I]
-        iterator.next();
+      final Iterator<E> it = iterator(); do // [I]
+        it.next();
+      while (it.hasNext());
     }
   }
 
@@ -992,43 +1026,50 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
     if (i$ != that.size())
       return false;
 
+    if (i$ == 0)
+      return true;
+
     if (isRandomAccess()) {
       if (CollectionUtil.isRandomAccess(that)) {
-        for (int i = 0; i < i$; ++i) { // [RA]
+        int i = 0; do { // [RA]
           final Object e1 = get(i);
           final Object e2 = that.get(i);
           if (!equals(e1, e2))
             return false;
         }
+        while (++i < i$);
       }
       else {
-        final Iterator<?> thatIterator = that.iterator();
-        for (int i = 0; i < i$; ++i) { // [RA]
+        final Iterator<?> thatIt = that.iterator();
+        int i = 0; do { // [I]
           final Object e1 = get(i);
-          final Object e2 = thatIterator.next();
+          final Object e2 = thatIt.next();
           if (!equals(e1, e2))
             return false;
         }
+        while (++i < i$);
       }
     }
     else if (CollectionUtil.isRandomAccess(that)) {
-      final Iterator<?> thisIterator = that.iterator();
-      for (int i = 0; i < i$; ++i) { // [RA]
-        final Object e1 = thisIterator.next();
+      final Iterator<?> thisIt = that.iterator();
+      int i = 0; do { // [RA]
+        final Object e1 = thisIt.next();
         final Object e2 = that.get(i);
         if (!equals(e1, e2))
           return false;
       }
+      while (++i < i$);
     }
     else {
-      final Iterator<?> thisIterator = that.iterator();
-      final Iterator<?> thatIterator = that.iterator();
-      for (int i = 0; i < i$; ++i) { // [RA]
-        final Object e1 = thisIterator.next();
-        final Object e2 = thatIterator.next();
+      final Iterator<?> thisIt = that.iterator();
+      final Iterator<?> thatIt = that.iterator();
+      int i = 0; do { // [I]
+        final Object e1 = thisIt.next();
+        final Object e2 = thatIt.next();
         if (!equals(e1, e2))
           return false;
       }
+      while (++i < i$);
     }
 
     return true;

@@ -57,7 +57,7 @@ public final class Shutdownables {
     assertNotNull(unit);
     assertNotEmpty(shutdownables);
     final List<Callable<Boolean>> callables = new ArrayList<>(shutdownables.length);
-    final AtomicReference<InterruptedException> ie = new AtomicReference<>();
+    final AtomicReference<InterruptedException> exception = new AtomicReference<>();
     for (final Shutdownable<?> shutdownable : shutdownables) { // [A]
       assertNotNull(shutdownable);
       callables.add(() -> {
@@ -65,11 +65,13 @@ public final class Shutdownables {
           return shutdownable.awaitTermination(timeout, unit);
         }
         catch (final InterruptedException e) {
-          if (ie.get() == null)
-            ie.set(e);
-          else
-            ie.get().addSuppressed(e);
+          exception.getAndUpdate(ie -> {
+            if (ie == null)
+              return e;
 
+            ie.addSuppressed(e);
+            return ie;
+          });
           return false;
         }
       });
@@ -84,10 +86,10 @@ public final class Shutdownables {
         return f.get();
       }
       catch (final InterruptedException e) {
-        if (ie.get() == null)
-          ie.set(e);
+        if (exception.get() == null)
+          exception.set(e);
         else
-          ie.get().addSuppressed(e);
+          exception.get().addSuppressed(e);
       }
       catch (final ExecutionException e) {
         if (ee.get() == null)
@@ -102,8 +104,8 @@ public final class Shutdownables {
     if (ee.get() != null)
       throw new RuntimeException(ee.get());
 
-    if (ie.get() != null)
-      throw ie.get();
+    if (exception.get() != null)
+      throw exception.get();
 
     return success;
   }

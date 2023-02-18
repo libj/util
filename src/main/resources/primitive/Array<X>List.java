@@ -117,12 +117,16 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
     else {
       valueData = new <x>[i$];
       final List<<XX>> l;
-      if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
-        for (int i = 0; i < i$; ++i) // [RA]
+      if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c)) {
+        int i = 0; do // [RA]
           valueData[size++] = l.get(i);
-      else
-        for (final Iterator<<XX>> i = c.iterator(); i.hasNext();) // [C]
-          valueData[size++] = i.next();
+        while (++i < i$);
+      }
+      else {
+        final Iterator<<XX>> it = c.iterator(); do // [I]
+          valueData[size++] = it.next();
+        while (it.hasNext());
+      }
     }
   }
 
@@ -302,78 +306,76 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public boolean addAll(final Collection<<XX>> c) {
-    final int size = c.size();
-    if (size == 0)
+    return addAll(c, size());
+  }
+
+  @Override
+  public boolean addAll(final int index, final Collection<<XX>> c) {
+    Assertions.assertRange("index", index, "size()", size(), true);
+    return addAll(c, index);
+  }
+
+  protected boolean addAll(final Collection<<XX>> c, int index) {
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
-    int index = toIndex > -1 ? toIndex : size;
-    shiftRight(index, size);
+    index += fromIndex;
+    shiftRight(index, i$);
     final List<<XX>> l;
-    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
-      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
+    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c)) {
+      int i = 0; do { // [RA]
         valueData[index] = l.get(i);
-    else
-      for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-        valueData[index] = i.next();
+        updateState(index++, 1);
+      }
+      while (++i < i$);
+    }
+    else {
+      final Iterator<<XX>> it = c.iterator(); do { // [I]
+        valueData[index] = it.next();
+        updateState(index++, 1);
+      }
+      while (it.hasNext());
+    }
 
     return true;
   }
 
   @Override
   public boolean addAll(final <X>Collection c) {
-    final int size = c.size();
-    if (size == 0)
-      return false;
-
-    int index = toIndex > -1 ? toIndex : size;
-    shiftRight(index, size);
-    final <X>List l;
-    if (c instanceof <X>List && (l = (<X>List)c) instanceof RandomAccess)
-      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
-        valueData[index] = l.get(i);
-    else
-      for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-        valueData[index] = i.next();
-
-    return true;
+    return addAll(c, size());
   }
 
   @Override
-  public boolean addAll(int index, final Collection<<XX>> c) {
+  public boolean addAll(final int index, final <X>Collection c) {
     Assertions.assertRange("index", index, "size()", size(), true);
-    final int size = c.size();
-    if (size == 0)
-      return false;
-
-    index += fromIndex;
-    shiftRight(index, size);
-    final List<<XX>> l;
-    if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<<XX>>)c))
-      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
-        valueData[index] = l.get(i);
-    else
-      for (final Iterator<<XX>> i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-        valueData[index] = i.next();
-
-    return true;
+    return addAll(c, index);
   }
 
-  @Override
-  public boolean addAll(int index, final <X>Collection c) {
+  protected boolean addAll(final <X>Collection c, int index) {
     Assertions.assertRange("index", index, "size()", size(), true);
-    final int size = c.size();
-    if (size == 0)
+    final int i$ = c.size();
+    if (i$ == 0)
       return false;
 
     index += fromIndex;
-    shiftRight(index, size);
-    final <X>List l;
-    if (c instanceof <X>List && (l = (<X>List)c) instanceof RandomAccess)
-      for (int i = 0; i < size; updateState(index++, 1), ++i) // [RA]
+    shiftRight(index, i$);
+    if (c instanceof <X>List && c instanceof RandomAccess) {
+      final <X>List l = (<X>List)c;
+      int i = 0;
+      do { // [RA]
         valueData[index] = l.get(i);
-    else
-      for (final <X>Iterator i = c.iterator(); i.hasNext(); updateState(index++, 1)) // [C]
-        valueData[index] = i.next();
+        updateState(index++, 1);
+      } 
+      while (++i < i$);
+    }
+    else {
+      final <X>Iterator it = c.iterator(); do {
+        valueData[index] = it.next();
+        updateState(index++, 1);
+      }
+      while (it.hasNext());
+    }
 
     return true;
   }
@@ -450,11 +452,11 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public void sort(final Object[] p, final <X>Comparator c) {
-    final int size = size();
-    if (p.length != size)
-      throw new IllegalArgumentException("The length of the paired array (" + p.length + ") does not match that of this list (" + size + ")");
+    final int i$ = size();
+    if (p.length != i$)
+      throw new IllegalArgumentException("The length of the paired array (" + p.length + ") does not match that of this list (" + i$ + ")");
 
-    <X>PairedTimSort.sort(valueData, p, 0, size, c != null ? c : <XX>::compare, null, 0, 0);
+    <X>PairedTimSort.sort(valueData, p, 0, i$, c != null ? c : <XX>::compare, null, 0, 0);
   }
 
   private class <X>Itr implements <X>Iterator {
@@ -625,13 +627,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public <x>[] toArray(<x>[] a) {
-    final int size = size();
-    if (a.length < size)
-      a = new <x>[size];
+    final int i$ = size();
+    if (a.length < i$)
+      a = new <x>[i$];
 
-    System.arraycopy(valueData, fromIndex, a, 0, size);
-    if (a.length > size)
-      a[size] = 0;
+    System.arraycopy(valueData, fromIndex, a, 0, i$);
+    if (a.length > i$)
+      a[i$] = 0;
 
     return a;
   }

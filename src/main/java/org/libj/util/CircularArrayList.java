@@ -217,7 +217,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     ++modCount;
     ensureCapacity(size + 1 + 1);
     elementData[tail] = o;
-    tail = (tail + 1) % elementData.length;
+    tail = ++tail % elementData.length;
     ++size;
     return true;
   }
@@ -240,7 +240,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     }
     else if (pos == tail) {
       elementData[tail] = element;
-      tail = (tail + 1) % elementData.length;
+      tail = ++tail % elementData.length;
     }
     else {
       if (pos > head && pos > tail) { // tail/head/pos
@@ -249,7 +249,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
       }
       else { // head/pos/tail
         System.arraycopy(elementData, pos, elementData, pos + 1, tail - pos);
-        tail = (tail + 1) % elementData.length;
+        tail = ++tail % elementData.length;
       }
 
       elementData[pos] = element;
@@ -269,24 +269,27 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     ensureCapacity(size + i$ + 1);
     final List<? extends E> l;
     if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<? extends E>)c)) {
-      for (int i = 0; i < i$; ++i, ++size) { // [RA]
+      int i = 0; do { // [RA]
         elementData[tail] = l.get(i);
-        tail = (tail + 1) % elementData.length;
+        tail = ++tail % elementData.length;
+        ++size;
       }
+      while (++i < i$);
     }
     else {
-      final Iterator<? extends E> it = c.iterator();
-      for (int i = 0; i < i$; ++i, ++size) { // [I]
+      final Iterator<? extends E> it = c.iterator(); do { // [RA]
         elementData[tail] = it.next();
-        tail = (tail + 1) % elementData.length;
+        tail = ++tail % elementData.length;
+        ++size;
       }
+      while (it.hasNext());
     }
 
     return true;
   }
 
   @Override
-  public boolean addAll(final int index, final Collection<? extends E> c) {
+  public boolean addAll(int index, final Collection<? extends E> c) {
     final int i$ = c.size();
     if (i$ == 0)
       return false;
@@ -296,13 +299,14 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     // FIXME: This is a very inefficient algorithm!
     final List<? extends E> l;
     if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<? extends E>)c)) {
-      for (int i = 0; i < i$; ++i, ++size) { // [RA]
-        add(index, l.get(i));
-      }
+      int i = 0; do // [RA]
+        add(index++, l.get(i));
+      while (++i < i$);
     }
     else {
-      for (final E e : c) // [C]
-        add(index, e);
+      final Iterator<? extends E> i = c.iterator(); do // [I]
+        add(index++, i.next());
+      while (i.hasNext());
     }
 
     return true;

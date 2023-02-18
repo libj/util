@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Set;
 
 import org.junit.ComparisonFailure;
 import org.junit.Test;
@@ -268,7 +267,7 @@ public class ObservableListTest {
     assertRemoved();
 
     // retainAll()
-    final Set<String> set = new HashSet<>(list);
+    final HashSet<String> set = new HashSet<>(list);
     assertTrue(set.remove(expectedString = String.valueOf(37)));
     list.retainAll(set);
     assertRemoved();

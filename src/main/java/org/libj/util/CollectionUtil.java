@@ -56,21 +56,55 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code a} or {@code b} is null.
    */
   public static <E>boolean addAll(final Collection<E> a, final Collection<? extends E> b) {
-    if (b.size() == 0)
+    final int i$ = b.size();
+    if (i$ == 0)
       return false;
 
     boolean changed = false;
     final List<? extends E> l;
     if (b instanceof List && isRandomAccess(l = (List<? extends E>)b)) {
-      for (int i = 0, i$ = l.size(); i < i$; ++i) // [RA]
+      int i = 0; do // [RA]
         changed |= a.add(l.get(i));
+      while (++i < i$);
     }
     else {
-      for (final E e : b) // [C]
-        changed |= a.add(e);
+      final Iterator<? extends E> it = b.iterator(); do // [I]
+        changed |= a.add(it.next());
+      while (it.hasNext());
     }
 
     return changed;
+  }
+
+  /**
+   * Adds all of the elements in the {@code b} collection at the specified position to the {@code a} collection. The behavior of
+   * this operation is undefined if the specified collection is modified while the operation is in progress.
+   *
+   * @param <E> The type of elements in {@code a}.
+   * @param index Index in {@code a} at which to insert the first element of {@code b}.
+   * @param a Collection to which elements from {@code b} are to be added.
+   * @param b Collection containing elements to be added to {@code a}.
+   * @return The position of {@code index} after having added all of the elements in the {@code b} collection.
+   * @throws NullPointerException If {@code a} or {@code b} is null.
+   */
+  public static <E>int addAll(int index, final List<E> a, final Collection<? extends E> b) {
+    final int i$ = b.size();
+    if (i$ == 0)
+      return index;
+
+    final List<? extends E> l;
+    if (b instanceof List && isRandomAccess(l = (List<? extends E>)b)) {
+      int i = 0; do // [RA]
+        a.add(index++, l.get(i));
+      while (++i < i$);
+    }
+    else {
+      final Iterator<? extends E> it = b.iterator(); do // [I]
+        a.add(index++, it.next());
+      while (it.hasNext());
+    }
+
+    return index;
   }
 
   /**
@@ -88,14 +122,16 @@ public final class CollectionUtil extends PrimitiveSort {
 
     final List<?> l;
     if (b instanceof List && isRandomAccess(l = (List<?>)b)) {
-      for (int i = 0; i < size; ++i) // [RA]
+      int i = 0; do // [RA]
         if (!a.contains(l.get(i)))
           return false;
+      while (++i < size);
     }
     else {
-      for (final Object o : b) // [C]
-        if (!a.contains(o))
+      final Iterator<?> it = b.iterator(); do // [I]
+        if (!a.contains(it.next()))
           return false;
+      while (it.hasNext());
     }
 
     return true;
@@ -111,17 +147,22 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code a} or {@code b} is null.
    */
   public static boolean removeAll(final Collection<?> a, final Collection<?> b) {
-    if (b.size() == 0)
+    final int i$ = b.size();
+    if (i$ == 0)
       return false;
 
     final int size = a.size();
     final List<?> l;
-    if (b instanceof List && isRandomAccess(l = (List<?>)b))
-      for (int i = 0, i$ = l.size(); i < i$; ++i) // [RA]
+    if (b instanceof List && isRandomAccess(l = (List<?>)b)) {
+      int i = 0; do // [RA]
         a.remove(l.get(i));
-    else
-      for (final Object e : b) // [C]
-        a.remove(e);
+      while (++i < i$);
+    }
+    else {
+      final Iterator<?> it = b.iterator(); do // [I]
+        a.remove(it.next());
+      while (it.hasNext());
+    }
 
     return size != a.size();
   }
@@ -146,16 +187,18 @@ public final class CollectionUtil extends PrimitiveSort {
       return true;
     }
 
-    final List<?> list;
-    if (a instanceof List && isRandomAccess(list = (List<?>)a)) {
-      for (int i = 0; i < subSize; ++i) // [RA]
-        if (!b.contains(list.get(i)))
-          list.remove(i);
+    final List<?> l;
+    if (a instanceof List && isRandomAccess(l = (List<?>)a)) {
+      int i = 0; do // [RA]
+        if (!b.contains(l.get(i)))
+          l.remove(i);
+      while (++i < subSize);
     }
     else {
-      for (final Iterator<?> i = a.iterator(); i.hasNext();) // [I]
-        if (!b.contains(i.next()))
-          i.remove();
+      final Iterator<?> it = a.iterator(); do // [I]
+        if (!b.contains(it.next()))
+          it.remove();
+      while (it.hasNext());
     }
 
     return size != a.size();
@@ -314,12 +357,16 @@ public final class CollectionUtil extends PrimitiveSort {
 
         final int j$ = inner.size();
         if (j$ > 0) {
-          if (CollectionUtil.isRandomAccess(inner))
-            for (int j = 0; j < j$; ++j) // [RA]
+          if (CollectionUtil.isRandomAccess(inner)) {
+            int j = 0; do // [RA]
               iterator.add(inner.get(j));
-          else
-            for (final T item : inner) // [L]
-              iterator.add(item);
+            while (++j < j$);
+          }
+          else {
+            final Iterator<T> it = inner.iterator(); do // [I]
+              iterator.add(it.next());
+            while (it.hasNext());
+          }
         }
 
         while (iterator.nextIndex() > i)
@@ -439,10 +486,10 @@ public final class CollectionUtil extends PrimitiveSort {
 
   static String toStringIterator(final Collection<?> c, final String del) {
     final StringBuilder b = new StringBuilder();
-    final Iterator<?> i = c.iterator();
-    b.append(i.next());
-    while (i.hasNext()) {
-      final Object e = i.next();
+    final Iterator<?> it = c.iterator();
+    b.append(it.next());
+    while (it.hasNext()) {
+      final Object e = it.next();
       b.append(del).append(e == c ? "(this Collection)" : e);
     }
 

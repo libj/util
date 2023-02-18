@@ -181,14 +181,17 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
 
   @Override
   public boolean retainAll(final Collection<?> c) {
-    final int size = size();
+    final int i$ = size();
+    if (i$ == 0)
+      return false;
+
     if (c.size() > 0) {
-      final int end = size - 1;
       E elem;
       E prev = null;
       boolean removed = false;
       if (isRandomAccess()) {
-        for (int i = end; i >= 0; --i, prev = elem) { // [RA]
+        final int end = i$ - 1;
+        int i = end; do { // [RA]
           elem = getFast(i);
           final boolean isSameAsPrev = i != end && Objects.equals(prev, elem);
           if (!isSameAsPrev) {
@@ -199,29 +202,31 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
           else if (removed) {
             remove(i);
           }
+
+          prev = elem;
         }
+        while (--i >= 0);
       }
       else {
-        final Iterator<E> iterator = iterator();
-        for (int i = 0; i < size; ++i, prev = elem) { // [I]
-          elem = iterator.next();
-          final boolean isSameAsPrev = i != 0 && Objects.equals(prev, elem);
+        int i = -1; final Iterator<E> it = iterator(); do { // [I]
+          elem = it.next();
+          final boolean isSameAsPrev = ++i > 0 && Objects.equals(prev, elem);
           if (!isSameAsPrev) {
             if (removed = !c.contains(elem)) {
-              iterator.remove();
+              it.remove();
             }
           }
           else if (removed) {
-            iterator.remove();
+            it.remove();
           }
+
+          prev = elem;
         }
+        while (it.hasNext());
       }
 
-      return size != size();
+      return i$ != size();
     }
-
-    if (size == 0)
-      return false;
 
     clear();
     return true;

@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.libj.lang.ObjectUtil;
 import org.libj.util.primitive.ArrayIntList;
@@ -398,7 +399,7 @@ public abstract class CompositeList<E,T> extends ObservableRandomAccessList<E,Ar
 
   @Override
   protected void afterAdd(final int index, final E element, final RuntimeException e) {
-    final ComponentList componentList = assertNotNull(getOrCreateComponentList(element), "Object of type " + element.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
+    final ComponentList componentList = Objects.requireNonNull(getOrCreateComponentList(element), "Object of type " + element.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
     componentLists.add(index, componentList);
     if (index == size() - 1) {
       indexes.add(componentList.size());
@@ -434,7 +435,7 @@ public abstract class CompositeList<E,T> extends ObservableRandomAccessList<E,Ar
       componentList.setUnsafe(componentIndex, newElement);
     }
     else {
-      final ComponentList newComponentList = assertNotNull(getOrCreateComponentList(newElement), "Object of type " + newElement.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
+      final ComponentList newComponentList = Objects.requireNonNull(getOrCreateComponentList(newElement), "Object of type " + newElement.getClass() + " is not allowed to appear in " + CompositeList.class.getName());
       componentList.removeUnsafe(componentIndex);
       for (int i = index + 1, i$ = componentLists.size(); i < i$; ++i) { // [RA]
         final ComponentList nextComponentList = componentLists.get(i);
