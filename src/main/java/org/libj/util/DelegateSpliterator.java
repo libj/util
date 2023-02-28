@@ -34,7 +34,7 @@ import java.util.function.Consumer;
 public abstract class DelegateSpliterator<T> implements Spliterator<T> {
   /** The target {@link Spliterator}. */
   @SuppressWarnings("rawtypes")
-  protected volatile Spliterator target;
+  protected Spliterator target;
 
   /**
    * Creates a new {@link DelegateSpliterator} with the specified target {@link Spliterator}.

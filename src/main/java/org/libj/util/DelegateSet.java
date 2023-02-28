@@ -39,7 +39,7 @@ import java.util.stream.Stream;
 public abstract class DelegateSet<E> extends AbstractSet<E> {
   /** The target {@link Set}. */
   @SuppressWarnings("rawtypes")
-  protected volatile Set target;
+  protected Set target;
 
   /**
    * Creates a new {@link DelegateSet} with the specified target {@link Set}.

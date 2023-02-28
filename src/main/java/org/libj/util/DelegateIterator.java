@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 public abstract class DelegateIterator<E> extends AbstractIterator<E> {
   /** The target {@link Iterator}. */
   @SuppressWarnings("rawtypes")
-  protected volatile Iterator target;
+  protected Iterator target;
 
   /**
    * Creates a new {@link DelegateIterator} with the specified target {@link Iterator}.

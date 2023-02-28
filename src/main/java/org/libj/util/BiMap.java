@@ -32,7 +32,7 @@ import java.util.Set;
  * @see DelegateMap
  */
 public abstract class BiMap<K,V> extends DelegateMap<K,V> {
-  protected volatile BiMap<V,K> reverse;
+  protected BiMap<V,K> reverse;
 
   /**
    * Construct a new bidirectional map with the provided source maps.
@@ -100,7 +100,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
     return reverse.containsKey(value);
   }
 
-  protected volatile ObservableSet<K> keySet;
+  protected ObservableSet<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -129,7 +129,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
     } : keySet;
   }
 
-  protected volatile ObservableCollection<V> values;
+  protected ObservableCollection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -146,7 +146,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
     } : values;
   }
 
-  protected volatile ObservableSet<Map.Entry<K,V>> entrySet;
+  protected ObservableSet<Map.Entry<K,V>> entrySet;
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {

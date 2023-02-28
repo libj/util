@@ -35,7 +35,7 @@ public final class Iterables {
       @Override
       public Iterator<T> iterator() {
         return new Iterator<T>() {
-          private volatile boolean hasNext = true;
+          private boolean hasNext = true;
 
           @Override
           public boolean hasNext() {

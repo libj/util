@@ -28,7 +28,7 @@ import java.util.Iterator;
  */
 public abstract class FlatIterator<E,T> implements Iterator<E> {
   protected final ArrayList<T> stack = new ArrayList<>();
-  protected volatile boolean hasNext;
+  protected boolean hasNext;
 
   /**
    * Specifies whether the provided object is an iterable collection.

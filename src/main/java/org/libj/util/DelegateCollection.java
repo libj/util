@@ -39,7 +39,7 @@ import java.util.stream.Stream;
 public abstract class DelegateCollection<E> extends AbstractCollection<E> {
   /** The target {@link Collection}. */
   @SuppressWarnings("rawtypes")
-  protected volatile Collection target;
+  protected Collection target;
 
   /**
    * Creates a new {@link DelegateCollection} with the specified target {@link Collection}.

@@ -53,8 +53,8 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
    */
   private boolean containsNull;
   private <x>[] valueData;
-  private volatile int size;
-  private transient volatile int modCount;
+  private int size;
+  private transient int modCount;
 
   /**
    * Creates an empty {@link Hash<X>Set} with the default initial capacity (16) and the default load factor (0.55).

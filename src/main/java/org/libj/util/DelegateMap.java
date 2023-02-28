@@ -40,7 +40,7 @@ import java.util.function.Function;
 public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
   /** The target {@link Map}. */
   @SuppressWarnings("rawtypes")
-  protected volatile Map target;
+  protected Map target;
 
   /**
    * Creates a new {@link DelegateMap} with the specified target {@link Map}.

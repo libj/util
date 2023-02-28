@@ -34,7 +34,7 @@ import java.util.function.Consumer;
 public abstract class DelegateListIterator<E> extends AbstractIterator<E> implements ListIterator<E> {
   /** The target {@link ListIterator}. */
   @SuppressWarnings("rawtypes")
-  protected volatile ListIterator target;
+  protected ListIterator target;
 
   /**
    * Creates a new {@link DelegateListIterator} with the specified target {@link ListIterator}.

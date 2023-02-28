@@ -712,21 +712,21 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
     }
   }
 
-  protected volatile ObservableSet<Map.Entry<K,V>> entrySet;
+  protected ObservableSet<Map.Entry<K,V>> entrySet;
 
   @Override
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = newEntrySet() : entrySet;
   }
 
-  protected volatile ObservableSet<K> keySet;
+  protected ObservableSet<K> keySet;
 
   @Override
   public Set<K> keySet() {
     return keySet == null ? keySet = newKeySet() : keySet;
   }
 
-  protected volatile TransCollection<Map.Entry<K,V>,V> values;
+  protected TransCollection<Map.Entry<K,V>,V> values;
 
   @Override
   public Collection<V> values() {

@@ -43,7 +43,7 @@ import java.util.stream.Stream;
 public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> {
   /** The target List. */
   @SuppressWarnings("rawtypes")
-  protected volatile List target;
+  protected List target;
 
   /**
    * Creates a new {@link DelegateList} with the specified target {@link List}.
