@@ -16,10 +16,9 @@
 
 package org.libj.util.concurrent;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -50,16 +49,17 @@ public final class Shutdownables {
    *           returned. If multiple {@link InterruptedException}s occur, they are added as
    *           {@linkplain Throwable#addSuppressed(Throwable) suppressed} exceptions on the {@link InterruptedException} to be
    *           thrown.
-   * @throws IllegalArgumentException If {@code unit} or {@code shutdownables} is null, or if any member of {@code shutdownables} is
+   * @throws NullPointerException If {@code unit} or {@code shutdownables} is null, or if any member of {@code shutdownables} is
    *           null.
    */
   public static boolean awaitTermination(final long timeout, final TimeUnit unit, final Shutdownable<?> ... shutdownables) throws InterruptedException {
-    assertNotNull(unit);
-    assertNotEmpty(shutdownables);
+    if (shutdownables.length == 0)
+      return true;
+
     final List<Callable<Boolean>> callables = new ArrayList<>(shutdownables.length);
     final AtomicReference<InterruptedException> exception = new AtomicReference<>();
     for (final Shutdownable<?> shutdownable : shutdownables) { // [A]
-      assertNotNull(shutdownable);
+      Objects.requireNonNull(shutdownable);
       callables.add(() -> {
         try {
           return shutdownable.awaitTermination(timeout, unit);

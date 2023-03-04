@@ -38,7 +38,7 @@ public class CursorListIterator<E> extends DelegateListIterator<E> {
    * Creates a new {@link CursorListIterator} for the specified {@link ListIterator}.
    *
    * @param iterator The {@link ListIterator}.
-   * @throws IllegalArgumentException If the specified {@link ListIterator} is null.
+   * @throws NullPointerException If the specified {@link ListIterator} is null.
    */
   protected CursorListIterator(final ListIterator<? extends E> iterator) {
     super(iterator);

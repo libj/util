@@ -53,7 +53,6 @@ public class ConfigurableThreadFactory implements ThreadFactory {
    * @throws IllegalArgumentException If {@code stackSize} is negative, or if {@code priority} is outside the range of
    *           {@link Thread#MIN_PRIORITY} and {@link Thread#MAX_PRIORITY}.
    */
-  @SuppressWarnings({"deprecation", "removal"})
   public ConfigurableThreadFactory(final ThreadGroup group, final String namePrefix, final long stackSize, final boolean daemon, final int priority, final UncaughtExceptionHandler handler, final TriObjLongFunction<ThreadGroup,Runnable,String,Thread> newThreadFunction) {
     final SecurityManager s;
     this.group = group != null ? group : (s = System.getSecurityManager()) != null ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();

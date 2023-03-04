@@ -16,9 +16,8 @@
 
 package org.libj.util.zip;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.IOException;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
@@ -33,10 +32,10 @@ public class ZipWriter implements AutoCloseable {
    * Creates a new {@link ZipWriter} with the specified {@link ZipOutputStream}.
    *
    * @param out The {@link ZipOutputStream}.
-   * @throws IllegalArgumentException If {@code out} is null.
+   * @throws NullPointerException If {@code out} is null.
    */
   public ZipWriter(final ZipOutputStream out) {
-    this.out = assertNotNull(out);
+    this.out = Objects.requireNonNull(out);
   }
 
   /**
@@ -46,13 +45,13 @@ public class ZipWriter implements AutoCloseable {
    * @param bytes The content {@code byte} array.
    * @throws IOException If an I/O error has occurred.
    * @throws ZipException If a ZIP error has occurred.
-   * @throws IllegalArgumentException If {@code name} or {@code bytes} is null.
+   * @throws NullPointerException If {@code name} or {@code bytes} is null.
    */
   public void write(final String name, final byte[] bytes) throws IOException, ZipException {
-    final ZipEntry entry = new ZipEntry(assertNotNull(name));
+    final ZipEntry entry = new ZipEntry(name);
     entry.setTime(System.currentTimeMillis());
     out.putNextEntry(entry);
-    out.write(assertNotNull(bytes));
+    out.write(bytes);
   }
 
   /**

@@ -39,7 +39,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
    *
    * @param forward The forward source map.
    * @param reverse The reverse source map.
-   * @throws IllegalArgumentException If {@code forward} or {@code reverse} is null.
+   * @throws NullPointerException If {@code forward} or {@code reverse} is null.
    */
   protected BiMap(final Map<K,V> forward, final Map<V,K> reverse) {
     setTarget(forward);
@@ -58,7 +58,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
    * Sets the specified map as the underlying target map of this {@link BiMap}.
    *
    * @param map The map to set at the underlying target of this {@link BiMap}.
-   * @throws IllegalArgumentException If {@code map} is null.
+   * @throws NullPointerException If {@code map} is null.
    */
   protected void setTarget(final Map<K,V> map) {
     super.target = new ObservableMap<K,V>(map) {

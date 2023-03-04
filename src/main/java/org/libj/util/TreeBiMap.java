@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
@@ -51,11 +49,11 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
    * Constructs a new {@link TreeBiMap} with the same mappings as the specified {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
-   * @throws IllegalArgumentException If the specified map is null.
+   * @throws NullPointerException If the specified map is null.
    */
   public TreeBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(assertNotNull(m));
+    putAll(m);
   }
 
   /**
@@ -64,7 +62,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
    * @param m The map whose mappings are to be placed in this map.
    * @param valueComparator The comparator that will be used to order the reverse map. If {@code null}, the {@linkplain Comparable
    *          natural ordering} of the keys will be used.
-   * @throws IllegalArgumentException If the specified map is null.
+   * @throws NullPointerException If the specified map is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public TreeBiMap(final SortedMap<? extends K,? extends V> m, final Comparator<? super V> valueComparator) {

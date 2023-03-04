@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,10 +53,10 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
    * Creates a new {@link UnmodifiableMap} with the specified target {@link Map}.
    *
    * @param target The target {@link Map}.
-   * @throws IllegalArgumentException If the target {@link Map} is null.
+   * @throws NullPointerException If the target {@link Map} is null.
    */
   public UnmodifiableMap(final Map<? extends K,? extends V> target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
@@ -232,12 +230,12 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
     }
 
     protected static <K,V>Consumer<Map.Entry<K,V>> entryConsumer(final Consumer<? super Map.Entry<K,V>> action) {
+      Objects.requireNonNull(action);
       return e -> action.accept(new UnmodifiableEntry<>(e));
     }
 
     @Override
     public void forEach(final Consumer<? super Map.Entry<K,V>> action) {
-      assertNotNull(action);
       getTarget().forEach(entryConsumer(action));
     }
 
@@ -264,13 +262,11 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
 
       @Override
       public boolean tryAdvance(final Consumer<? super Map.Entry<K,V>> action) {
-        assertNotNull(action);
         return getTarget().tryAdvance(entryConsumer(action));
       }
 
       @Override
       public void forEachRemaining(final Consumer<? super Map.Entry<K,V>> action) {
-        assertNotNull(action);
         getTarget().forEachRemaining(entryConsumer(action));
       }
 

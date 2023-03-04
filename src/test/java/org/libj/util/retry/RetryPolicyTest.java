@@ -29,9 +29,9 @@ public class RetryPolicyTest {
   public void testNonNullOnRetryFailure() throws RetryFailureRuntimeException, Exception {
     try {
       new RetryPolicy<>(e -> true, null, (e, se, a, d) -> null, 100, 100).run((p, a) -> null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
   }
 

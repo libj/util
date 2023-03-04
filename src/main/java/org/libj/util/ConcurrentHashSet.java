@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -78,11 +76,11 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
    * load factor (0.75) and an initial capacity sufficient to contain the elements in the specified collection.
    *
    * @param c The collection whose elements are to be placed into this set.
-   * @throws IllegalArgumentException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is null.
    */
   public ConcurrentHashSet(final Collection<? extends E> c) {
     map = new CloneableConcurrentHashMap<>(DEFAULT_CAPACITY);
-    addAll(assertNotNull(c));
+    addAll(c);
   }
 
   /**

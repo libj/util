@@ -36,7 +36,7 @@ public abstract class DelegateRandomAccessList<E,L extends List<E> & RandomAcces
    * Creates a new {@link DelegateRandomAccessList} with the specified target {@link List}.
    *
    * @param target The target {@link List}.
-   * @throws IllegalArgumentException If the target {@link List} is null.
+   * @throws NullPointerException If the target {@link List} is null.
    */
   public DelegateRandomAccessList(final L target) {
     super(target);

@@ -16,11 +16,10 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -40,11 +39,12 @@ public class MultiIdentityHashMap<K,V,C extends Collection<V>> extends IdentityH
    *
    * @param initialCapacity The implementation performs internal sizing to accommodate this many elements.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity of elements is negative or {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiIdentityHashMap(final int initialCapacity, final Supplier<C> multiSupplier) {
     super(initialCapacity);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -54,11 +54,11 @@ public class MultiIdentityHashMap<K,V,C extends Collection<V>> extends IdentityH
    * @param m The map.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws NullPointerException If the specified map is null.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiIdentityHashMap(final Map<? extends K,? extends C> m, final Supplier<C> multiSupplier) {
     super(m);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -66,11 +66,11 @@ public class MultiIdentityHashMap<K,V,C extends Collection<V>> extends IdentityH
    * map instance.
    *
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiIdentityHashMap(final Supplier<C> multiSupplier) {
     super();
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**

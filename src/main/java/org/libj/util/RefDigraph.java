@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -66,21 +64,21 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
    * @param keyToValue The function to obtain the referenced value of type {@code V} from a key of type {@code K}.
    * @param initialCapacity The initial capacity of the digraph.
    * @throws IllegalArgumentException If the specified initial capacity is negative.
-   * @throws IllegalArgumentException If {@code keyToValue} is null.
+   * @throws NullPointerException If {@code keyToValue} is null.
    */
   public RefDigraph(final int initialCapacity, final Function<K,V> keyToValue) {
     super(0, true);
     digraph = new Digraph<>(initialCapacity);
     vertices = new ArrayList<>(initialCapacity);
     references = new HashSet<>(initialCapacity);
-    reference = assertNotNull(keyToValue);
+    reference = Objects.requireNonNull(keyToValue);
   }
 
   /**
    * Creates an empty digraph with an initial capacity of ten.
    *
    * @param keyToValue The function to obtain the referenced value of type {@code V} from a key of type {@code K}.
-   * @throws IllegalArgumentException If {@code keyToValue} is null.
+   * @throws NullPointerException If {@code keyToValue} is null.
    */
   public RefDigraph(final Function<K,V> keyToValue) {
     this(10, keyToValue);
@@ -130,7 +128,7 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
 
   @Override
   public boolean add(final K vertex) {
-    vertices.add(assertNotNull(vertex));
+    vertices.add(vertex);
     return digraph.add(reference.apply(vertex));
   }
 

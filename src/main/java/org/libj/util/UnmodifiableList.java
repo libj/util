@@ -41,7 +41,7 @@ public class UnmodifiableList<E> extends UnmodifiableCollection<E> implements Li
    * Creates a new {@link UnmodifiableList} with the specified target {@link List}.
    *
    * @param target The target {@link List}.
-   * @throws IllegalArgumentException If the target {@link List} is null.
+   * @throws NullPointerException If the target {@link List} is null.
    */
   public UnmodifiableList(final List<? extends E> target) {
     super(target);

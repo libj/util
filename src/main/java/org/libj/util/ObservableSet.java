@@ -45,7 +45,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * Creates a new {@link ObservableSet} with the specified target {@code set}.
    *
    * @param set The target {@link Set}.
-   * @throws IllegalArgumentException If {@code set} is null.
+   * @throws NullPointerException If {@code set} is null.
    */
   public ObservableSet(final Set<E> set) {
     super(set);
@@ -127,7 +127,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
      * Creates a new {@link ObservableIterator} for the specified {@link Iterator}.
      *
      * @param iterator The {@link Iterator}.
-     * @throws IllegalArgumentException If the specified {@link Iterator} is null.
+     * @throws NullPointerException If the specified {@link Iterator} is null.
      */
     protected ObservableIterator(final Iterator<E> iterator) {
       super(iterator);

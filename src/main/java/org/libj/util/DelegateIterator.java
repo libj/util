@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -39,10 +37,10 @@ public abstract class DelegateIterator<E> extends AbstractIterator<E> {
    * Creates a new {@link DelegateIterator} with the specified target {@link Iterator}.
    *
    * @param target The target {@link Iterator}.
-   * @throws IllegalArgumentException If the target {@link Iterator} is null.
+   * @throws NullPointerException If the target {@link Iterator} is null.
    */
   public DelegateIterator(final Iterator<E> target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

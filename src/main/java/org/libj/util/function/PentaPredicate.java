@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import static org.libj.lang.Assertions.*;
+import java.util.Objects;
 
 /**
  * Represents a predicate (boolean-valued function) of five arguments. This is the five-arity specialization of
@@ -53,10 +53,10 @@ public interface PentaPredicate<T,U,V,W,X> {
    * @param other A predicate that will be logically-ANDed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical AND of this predicate and the {@code other}
    *         predicate.
-   * @throws IllegalArgumentException If {@code other} is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default PentaPredicate<T,U,V,W,X> and(final PentaPredicate<? super T,? super U,? super V,? super W,? super X> other) {
-    assertNotNull(other);
+    Objects.requireNonNull(other);
     return (T t, U u, V v, W w, X x) -> test(t, u, v, w, x) && other.test(t, u, v, w, x);
   }
 
@@ -78,10 +78,10 @@ public interface PentaPredicate<T,U,V,W,X> {
    *
    * @param other A predicate that will be logically-ORed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical OR of this predicate and the {@code other} predicate.
-   * @throws IllegalArgumentException If other is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default PentaPredicate<T,U,V,W,X> or(final PentaPredicate<? super T,? super U,? super V,? super W,? super X> other) {
-    assertNotNull(other);
+    Objects.requireNonNull(other);
     return (T t, U u, V v, W w, X x) -> test(t, u, v, w, x) || other.test(t, u, v, w, x);
   }
 }

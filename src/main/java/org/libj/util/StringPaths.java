@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.File;
 import java.util.regex.Pattern;
 
@@ -74,7 +72,7 @@ public final class StringPaths {
    *
    * @param path The path to test.
    * @return {@code true} if the specified string is an URL that represents an absolute local file path, otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalURL(final String path) {
     if (!isLocalProtocol(path, "file:/") && (!isLocalProtocol(path, "jar:file:/") || !path.contains("!/")))
@@ -94,10 +92,10 @@ public final class StringPaths {
    *
    * @param path The path to test.
    * @return {@code true} if the specified string represents an absolute UNIX file path, otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalUnix(final String path) {
-    return unixPath.matcher(assertNotNull(path)).matches();
+    return unixPath.matcher(path).matches();
   }
 
   /**
@@ -130,10 +128,10 @@ public final class StringPaths {
    *
    * @param path The path to test.
    * @return {@code true} if the specified string represents an absolute Windows file path, otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsoluteLocalWindows(final String path) {
-    return windowsPath.matcher(assertNotNull(path)).matches();
+    return windowsPath.matcher(path).matches();
   }
 
   /**
@@ -148,7 +146,7 @@ public final class StringPaths {
    *
    * @param path The path to test.
    * @return {@code true} if the specified string represents an absolute local file path, otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsoluteLocal(final String path) {
     return isAbsoluteLocalURL(path) || isAbsoluteLocalUnix(path) || isAbsoluteLocalWindows(path);
@@ -167,7 +165,7 @@ public final class StringPaths {
    *
    * @param path The string to test.
    * @return {@code true} if the specified string represents an absolute system identifier, otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsoluteSystemId(final String path) {
     return isAbsoluteLocalUnix(path) || isAbsoluteLocalWindows(path);
@@ -186,10 +184,10 @@ public final class StringPaths {
    *
    * @param path The string to test.
    * @return {@code true} if the specified string represents an absolute public identifier, otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsolutePublicId(final String path) {
-    return absolute.matcher(assertNotNull(path)).matches();
+    return absolute.matcher(path).matches();
   }
 
   /**
@@ -199,7 +197,7 @@ public final class StringPaths {
    *
    * @param path The string to test.
    * @return {@code true} if the specified string represents an absolute path, either system or public, otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static boolean isAbsolute(final String path) {
     return isAbsoluteSystemId(path) || isAbsolutePublicId(path);
@@ -210,10 +208,10 @@ public final class StringPaths {
    *
    * @param path The path from which to get the protocol section.
    * @return The protocol section of the specified path, or {@code null} if a protocol does not exist.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static String getProtocol(final String path) {
-    final int index = assertNotNull(path).indexOf(":/");
+    final int index = path.indexOf(":/");
     return index < 0 ? null : path.substring(0, index);
   }
 
@@ -237,16 +235,14 @@ public final class StringPaths {
    * @param parent The parent pathname string.
    * @param child The child pathname string.
    * @return A path string from a parent pathname string and a child pathname string.
-   * @throws IllegalArgumentException If {@code parent} or {@code child} is null.
+   * @throws NullPointerException If {@code parent} or {@code child} is null.
    * @see StringPaths#isAbsoluteLocalWindows(String)
    */
   public static String newPath(final String parent, final String child) {
-    assertNotNull(parent);
-    assertNotNull(child);
     if (child.length() == 0)
       return parent;
 
-    if (parent == null || parent.length() == 0)
+    if (parent.length() == 0)
       return child;
 
     final char sep = isAbsoluteLocalWindows(parent) ? '\\' : '/';
@@ -268,10 +264,10 @@ public final class StringPaths {
    * @param path The path to canonicalize.
    * @return The canonical form of the specified path, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
    *         {@code '/'} (or {@code '\'} for Windows) path separators are removed.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static String canonicalize(final String path) {
-    return canonicalize(new StringBuilder(assertNotNull(path)), isAbsoluteLocalWindows(path)).toString();
+    return canonicalize(new StringBuilder(path), isAbsoluteLocalWindows(path)).toString();
   }
 
   /**
@@ -285,10 +281,10 @@ public final class StringPaths {
    * @param path The path to canonicalize.
    * @return The canonicalized {@code path} instance, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
    *         {@code '/'} path separators are removed.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static StringBuilder canonicalize(final StringBuilder path) {
-    return canonicalize(assertNotNull(path), isAbsoluteLocalWindows(path.toString()));
+    return canonicalize(path, isAbsoluteLocalWindows(path.toString()));
   }
 
   private static StringBuilder canonicalize(final StringBuilder path, final boolean isWindows) {
@@ -390,10 +386,10 @@ public final class StringPaths {
    *
    * @param path The path string.
    * @return The pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static String getParent(final String path) {
-    final int offset = assertNotNull(path).length() - 1;
+    final int offset = path.length() - 1;
     final int index = path.charAt(offset) == '/' ? path.lastIndexOf('/', offset - 1) : path.lastIndexOf('/', offset);
     return index < 0 || path.charAt(index) == ':' || index >= 2 && path.regionMatches(index - 2, "://", 0, 3) ? null : path.substring(0, index + 1);
   }
@@ -405,10 +401,10 @@ public final class StringPaths {
    *
    * @param path The path string.
    * @return The canonical pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.
-   * @throws IllegalArgumentException If {@code path} is null.
+   * @throws NullPointerException If {@code path} is null.
    */
   public static String getCanonicalParent(final String path) {
-    final StringBuilder builder = canonicalize(new StringBuilder(assertNotNull(path)));
+    final StringBuilder builder = canonicalize(new StringBuilder(path));
     final int index = builder.lastIndexOf("/");
     return index < 0 ? null : builder.substring(0, index + 1);
   }
@@ -427,10 +423,11 @@ public final class StringPaths {
    * @param path The path string.
    * @return The name of the file or directory denoted by the specified pathname, or the empty string if the name sequence of
    *         {@code path} is empty.
-   * @throws IllegalArgumentException If {@code path} is null or empty.
+   * @throws NullPointerException If {@code path} is null or empty.
+   * @throws IllegalArgumentException If {@code path} is an empty string.
    */
   public static String getName(final String path) {
-    if (assertNotNull(path).length() == 0)
+    if (path.length() == 0)
       throw new IllegalArgumentException("Empty path");
 
     return getName0(path);
@@ -444,10 +441,11 @@ public final class StringPaths {
    * @param path The path string.
    * @return The simple name of the file or directory denoted by the specified pathname, or the empty string if the name sequence of
    *         {@code path} is empty.
-   * @throws IllegalArgumentException If {@code path} is null or empty.
+   * @throws NullPointerException If {@code path} is null or empty.
+   * @throws IllegalArgumentException If {@code path} is an empty string.
    */
   public static String getSimpleName(String path) {
-    if (assertNotNull(path).length() == 0)
+    if (path.length() == 0)
       throw new IllegalArgumentException("Empty path");
 
     path = getName0(path);

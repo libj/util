@@ -31,7 +31,7 @@ public class FlatListIterator<E,T> extends FlatSequentialIterator<E,List<T>> {
    * Creates a new {@link FlatListIterator} for {@link List} to be iterated.
    *
    * @param l The {@link List} to be iterated.
-   * @throws IllegalArgumentException If the specified {@link List} is null.
+   * @throws NullPointerException If the specified {@link List} is null.
    */
   public FlatListIterator(final List<T> l) {
     super(l);

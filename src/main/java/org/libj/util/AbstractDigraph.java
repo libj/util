@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -209,6 +207,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * @param vertex The vertex.
    * @return {@code true} if this digraph has been modified, and {@code false} if the specified vertex already existed in the
    *         digraph.
+   *
    */
   public boolean add(final K vertex) {
     return getIndexCreate(vertex) >= size();
@@ -241,11 +240,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    * map. The behavior of this operation is undefined if the specified map is modified while the operation is in progress.
    *
    * @implSpec This method is not thread safe.
-   * @throws IllegalArgumentException If {@code m} is null.
+   * @throws NullPointerException If {@code m} is null.
    */
   @Override
   public void putAll(final Map<? extends K,? extends Set<V>> m) {
-    if (assertNotNull(m).size() > 0)
+    if (m.size() > 0)
       for (final Map.Entry<? extends K,? extends Set<V>> entry : m.entrySet()) // [S]
         put(entry.getKey(), entry.getValue());
   }

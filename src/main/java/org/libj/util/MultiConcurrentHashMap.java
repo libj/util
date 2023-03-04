@@ -16,10 +16,9 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
@@ -40,11 +39,11 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
    *
    * @param m The map.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiConcurrentHashMap(final Map<? extends K,? extends C> m, final Supplier<C> multiSupplier) {
     super(m);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -52,11 +51,11 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
    * map instance.
    *
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiConcurrentHashMap(final Supplier<C> multiSupplier) {
     super();
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -66,11 +65,11 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
    * @param initialCapacity The implementation performs internal sizing to accommodate this many elements.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws IllegalArgumentException If the initial capacity of elements is negative.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiConcurrentHashMap(final int initialCapacity, final Supplier<C> multiSupplier) {
     super(initialCapacity);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -82,7 +81,7 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
    * @param loadFactor The load factor (table density) for establishing the initial table size.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiConcurrentHashMap(final int initialCapacity, final float loadFactor, final Supplier<C> multiSupplier) {
     this(initialCapacity, loadFactor, 1, multiSupplier);
@@ -100,11 +99,11 @@ public class MultiConcurrentHashMap<K,V,C extends Collection<V>> extends Concurr
    *          sizing hint.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws IllegalArgumentException If the initial capacity is negative or the load factor or concurrencyLevel are nonpositive.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiConcurrentHashMap(final int initialCapacity, final float loadFactor, final int concurrencyLevel, final Supplier<C> multiSupplier) {
     super(initialCapacity, loadFactor, concurrencyLevel);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**

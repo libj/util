@@ -36,7 +36,7 @@ public class UnmodifiableSet<E> extends UnmodifiableCollection<E> implements Set
    * Creates a new {@link UnmodifiableSet} with the specified target {@link Set}.
    *
    * @param target The target {@link Set}.
-   * @throws IllegalArgumentException If the target {@link Set} is null.
+   * @throws NullPointerException If the target {@link Set} is null.
    */
   public UnmodifiableSet(final Set<? extends E> target) {
     super(target);

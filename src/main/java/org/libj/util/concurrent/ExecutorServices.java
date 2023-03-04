@@ -53,44 +53,24 @@ public final class ExecutorServices {
     InterruptExecutorService(final ExecutorService target, final long timeout, final TimeUnit unit) {
       super(target);
       this.timeout = timeout;
-      this.unit = unit;
+      this.unit = Objects.requireNonNull(unit);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code task} is null.
-     */
     @Override
     public void execute(final Runnable command) {
       super.execute(Threads.interruptAfterTimeout(command, timeout, unit));
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code task} is null.
-     */
     @Override
     public <T>Future<T> submit(final Callable<T> task) {
       return super.submit(Threads.interruptAfterTimeout(task, timeout, unit));
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code task} is null.
-     */
     @Override
     public <T>Future<T> submit(final Runnable task, final T result) {
       return super.submit(Threads.interruptAfterTimeout(task, timeout, unit), result);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code task} is null.
-     */
     @Override
     public Future<?> submit(final Runnable task) {
       return super.submit(Threads.interruptAfterTimeout(task, timeout, unit));
@@ -105,41 +85,21 @@ public final class ExecutorServices {
       return interruptableTasks;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
-     */
     @Override
     public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
       return super.invokeAll(interruptAfterTimeout(tasks));
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
-     */
     @Override
     public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
       return super.invokeAll(interruptAfterTimeout(tasks), timeout, unit);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
-     */
     @Override
     public <T>T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
       return super.invokeAny(interruptAfterTimeout(tasks));
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
-     */
     @Override
     public <T>T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
       return super.invokeAny(interruptAfterTimeout(tasks), timeout, unit);
@@ -154,41 +114,21 @@ public final class ExecutorServices {
       this.target = target;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code command} is null.
-     */
     @Override
     public ScheduledFuture<?> schedule(final Runnable command, final long delay, final TimeUnit unit) {
       return target.schedule(Threads.interruptAfterTimeout(command, this.timeout, this.unit), delay, unit);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code callable} is null.
-     */
     @Override
     public <V>ScheduledFuture<V> schedule(final Callable<V> callable, final long delay, final TimeUnit unit) {
       return target.schedule(Threads.interruptAfterTimeout(callable, this.timeout, this.unit), delay, unit);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code command} is null.
-     */
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(final Runnable command, final long initialDelay, final long period, final TimeUnit unit) {
       return target.scheduleAtFixedRate(Threads.interruptAfterTimeout(command, this.timeout, this.unit), initialDelay, period, unit);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws IllegalArgumentException If {@code command} is null.
-     */
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(final Runnable command, final long initialDelay, final long delay, final TimeUnit unit) {
       return target.scheduleWithFixedDelay(Threads.interruptAfterTimeout(command, this.timeout, this.unit), initialDelay, delay, unit);
@@ -206,10 +146,11 @@ public final class ExecutorServices {
    * @return A new {@link ExecutorService} instance that wraps the provided {@code executor}, and is configured to schedule all
    *         executed or submitted {@link Runnable} or {@link Callable} tasks to be {@linkplain Thread#interrupt() interrupted} once
    *         the provided {@code timeout} of {@link TimeUnit unit} expires.
-   * @throws IllegalArgumentException If {@code executor} or {@code unit} is null, or if {@code timeout} is negative.
+   * @throws IllegalArgumentException If {@code timeout} is negative.
+   * @throws NullPointerException If {@code executor} or {@code unit} is null.
    */
   public static ExecutorService interruptAfterTimeout(final ExecutorService executor, final long timeout, final TimeUnit unit) {
-    return new InterruptExecutorService(assertNotNull(executor), assertNotNegative(timeout), assertNotNull(unit));
+    return new InterruptExecutorService(executor, assertNotNegative(timeout), unit);
   }
 
   /**
@@ -223,10 +164,11 @@ public final class ExecutorServices {
    * @return A new {@link ScheduledExecutorService} instance that wraps the provided {@code executor}, and is configured to schedule
    *         all executed or submitted {@link Runnable} or {@link Callable} tasks to be {@linkplain Thread#interrupt() interrupted}
    *         once the provided {@code timeout} of {@link TimeUnit unit} expires.
-   * @throws IllegalArgumentException If {@code executor} or {@code unit} is null, or if {@code timeout} is negative.
+   * @throws IllegalArgumentException If {@code timeout} is negative.
+   * @throws NullPointerException If {@code executor} or {@code unit} is null.
    */
   public static ScheduledExecutorService interruptAfterTimeout(final ScheduledExecutorService executor, final long timeout, final TimeUnit unit) {
-    return new InterruptScheduledExecutorService(assertNotNull(executor), assertNotNegative(timeout), assertNotNull(unit));
+    return new InterruptScheduledExecutorService(executor, assertNotNegative(timeout), unit);
   }
 
   /**
@@ -239,11 +181,11 @@ public final class ExecutorServices {
    * @param tasks The collection of {@link Runnable} tasks.
    * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws NullPointerException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Collection<? extends Runnable> tasks) {
-    return invokeAll(executor, Runnable::run, assertNotNull(tasks).toArray(new Runnable[tasks.size()]));
+    return invokeAll(executor, Runnable::run, tasks.toArray(new Runnable[tasks.size()]));
   }
 
   /**
@@ -256,11 +198,11 @@ public final class ExecutorServices {
    * @param tasks The array of {@link Runnable} tasks.
    * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws NullPointerException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   public static Future<Boolean> invokeAll(final ExecutorService executor, final Runnable ... tasks) {
-    return invokeAll(executor, Runnable::run, assertNotNull(tasks));
+    return invokeAll(executor, Runnable::run, tasks);
   }
 
   /**
@@ -276,12 +218,12 @@ public final class ExecutorServices {
    * @param tasks The array of generic tasks.
    * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws NullPointerException If {@code executor}, {@code tasks}, or any of member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final Collection<? extends T> tasks) {
-    return invokeAll(executor, (Consumer)proxy, assertNotNull(tasks).toArray());
+    return invokeAll(executor, (Consumer)proxy, tasks.toArray());
   }
 
   /**
@@ -297,20 +239,17 @@ public final class ExecutorServices {
    * @param tasks The array of generic tasks.
    * @return A {@link Future} representing the aggregate status of the completion of all tasks, whereby {@link Future#isDone} is
    *         {@code true} when all {@code tasks} are completed.
-   * @throws IllegalArgumentException If {@code executor}, {@code proxy}, {@code tasks}, or any of member of {@code tasks} is null.
+   * @throws NullPointerException If {@code executor}, {@code proxy}, {@code tasks}, or any of member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SafeVarargs
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final T ... tasks) {
-    assertNotNull(executor);
-    assertNotNull(proxy);
-    assertNotNull(tasks);
     final AtomicBoolean started = new AtomicBoolean(false);
     final AtomicBoolean canceled = new AtomicBoolean(false);
     final Thread[] threads = new Thread[tasks.length];
     final CountDownLatch latch = new CountDownLatch(tasks.length);
     for (int i = 0, i$ = tasks.length; i < i$; ++i) { // [A]
-      final T task = assertNotNull(tasks[i]);
+      final T task = Objects.requireNonNull(tasks[i]);
       final int index = i;
       executor.execute(() -> {
         if (!started.getAndSet(true)) {
@@ -379,7 +318,7 @@ public final class ExecutorServices {
 
       @Override
       public Boolean get(final long timeout, final TimeUnit unit) throws InterruptedException, TimeoutException {
-        return await(timeout, assertNotNull(unit));
+        return await(timeout, unit);
       }
 
       private Boolean await(final long timeout, final TimeUnit unit) throws InterruptedException, TimeoutException {
@@ -425,15 +364,15 @@ public final class ExecutorServices {
    * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the
    *         given task list, each of which has completed.
    * @throws InterruptedException If interrupted while waiting, in which case unfinished tasks are cancelled.
-   * @throws IllegalArgumentException If {@code tasks} or any member of {@code tasks} is null.
+   * @throws NullPointerException If {@code tasks} or any member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SafeVarargs
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final T ... tasks) throws InterruptedException {
-    final Callable<R>[] callables = new Callable[assertNotNull(tasks).length];
+    final Callable<R>[] callables = new Callable[tasks.length];
     for (int i = 0, i$ = tasks.length; i < i$; ++i) { // [A]
-      final T task = assertNotNull(tasks[i]);
+      final T task = Objects.requireNonNull(tasks[i]);
       callables[i] = () -> proxy.apply(task);
     }
 

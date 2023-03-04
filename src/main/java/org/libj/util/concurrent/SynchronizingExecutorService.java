@@ -15,9 +15,9 @@
  */
 
 package org.libj.util.concurrent;
-import static org.libj.lang.Assertions.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionException;
@@ -136,11 +136,11 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
    *
    * @param runnable The runnable task.
    * @throws RejectedExecutionException If this task cannot be accepted for execution.
-   * @throws IllegalArgumentException If {@code command} is null.
+   * @throws NullPointerException If {@code command} is null.
    */
   @Override
   public void execute(final Runnable runnable) {
-    assertNotNull(runnable);
+    Objects.requireNonNull(runnable);
     final Runnable wrapper = () -> {
       try {
         runnable.run();

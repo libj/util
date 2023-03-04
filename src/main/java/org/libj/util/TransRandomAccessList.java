@@ -45,7 +45,7 @@ public class TransRandomAccessList<S,LS extends List<S> & RandomAccess,T,LT exte
    * @param source The source List of type {@code <S>}.
    * @param sourceToTarget The {@link BiFunction} defining the translation from {@code S -> T}.
    * @param targetToSource The {@link BiFunction} defining the translation from {@code T -> S}.
-   * @throws IllegalArgumentException If {@code source} is null.
+   * @throws NullPointerException If {@code source} is null.
    */
   public TransRandomAccessList(final LS source, final BiFunction<Integer,S,T> sourceToTarget, final BiFunction<Integer,T,S> targetToSource) {
     super(source, sourceToTarget, targetToSource);

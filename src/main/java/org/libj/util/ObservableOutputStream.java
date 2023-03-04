@@ -63,7 +63,7 @@ public abstract class ObservableOutputStream extends DelegateOutputStream {
    * Creates a new {@link ObservableOutputStream} with the specified {@code target} as the delegate {@link OutputStream}.
    *
    * @param target The delegate {@link OutputStream}.
-   * @throws IllegalArgumentException If {@code target} is null.
+   * @throws NullPointerException If {@code target} is null.
    */
   public ObservableOutputStream(final OutputStream target) {
     super(target);

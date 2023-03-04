@@ -16,11 +16,10 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Supplier;
@@ -44,11 +43,11 @@ public class MultiTreeMap<K,V,C extends Collection<V>> extends TreeMap<K,C> impl
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws NullPointerException If the specified map is null or the specified map contains a null key and this map does not permit
    *           null keys.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiTreeMap(final Map<? extends K,? extends C> m, final Supplier<C> multiSupplier) {
     super(m);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -59,11 +58,11 @@ public class MultiTreeMap<K,V,C extends Collection<V>> extends TreeMap<K,C> impl
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws NullPointerException If the specified map is null or the specified map contains a null key and this map does not permit
    *           null keys.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiTreeMap(final SortedMap<K,? extends C> m, final Supplier<C> multiSupplier) {
     super(m);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -71,11 +70,11 @@ public class MultiTreeMap<K,V,C extends Collection<V>> extends TreeMap<K,C> impl
    * map instance.
    *
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiTreeMap(final Supplier<C> multiSupplier) {
     super();
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -85,11 +84,12 @@ public class MultiTreeMap<K,V,C extends Collection<V>> extends TreeMap<K,C> impl
    * @param comparator the comparator that will be used to order this map. If {@code null}, the {@linkplain Comparable natural
    *          ordering} of the keys will be used.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity of elements is negative or {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiTreeMap(final Comparator<? super K> comparator, final Supplier<C> multiSupplier) {
     super(comparator);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**

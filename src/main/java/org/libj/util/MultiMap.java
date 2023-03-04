@@ -265,9 +265,17 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
       for (final Entry<K,C> entry : entrySet()) { // [S]
         final C olist = otherMap.get(entry.getKey());
         final C value = entry.getValue();
-        final int size = value.size();
-        if (size != olist.size() || size > 0 && !CollectionUtil.containsAll(olist, value))
+        if (value != null) {
+          if (olist == null)
+            return false;
+
+          final int size = value.size();
+          if (size != olist.size() || size > 0 && !CollectionUtil.containsAll(olist, value))
+            return false;
+        }
+        else if (olist != null) {
           return false;
+        }
       }
     }
 

@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Spliterator;
@@ -40,10 +38,10 @@ public abstract class DelegateSpliterator<T> implements Spliterator<T> {
    * Creates a new {@link DelegateSpliterator} with the specified target {@link Spliterator}.
    *
    * @param target The target {@link Spliterator}.
-   * @throws IllegalArgumentException If the target {@link Spliterator} is null.
+   * @throws NullPointerException If the target {@link Spliterator} is null.
    */
   public DelegateSpliterator(final Spliterator<T> target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

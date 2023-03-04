@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import static org.libj.lang.Assertions.*;
+import java.util.Objects;
 
 /**
  * Represents a predicate (boolean-valued function) of four arguments. This is the four-arity specialization of
@@ -51,10 +51,10 @@ public interface QuadPredicate<T,U,V,W> {
    * @param other A predicate that will be logically-ANDed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical AND of this predicate and the {@code other}
    *         predicate.
-   * @throws IllegalArgumentException If {@code other} is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default QuadPredicate<T,U,V,W> and(final QuadPredicate<? super T,? super U,? super V,? super W> other) {
-    assertNotNull(other);
+    Objects.requireNonNull(other);
     return (T t, U u, V v, W w) -> test(t, u, v, w) && other.test(t, u, v, w);
   }
 
@@ -76,10 +76,10 @@ public interface QuadPredicate<T,U,V,W> {
    *
    * @param other A predicate that will be logically-ORed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical OR of this predicate and the {@code other} predicate.
-   * @throws IllegalArgumentException If other is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default QuadPredicate<T,U,V,W> or(final QuadPredicate<? super T,? super U,? super V,? super W> other) {
-    assertNotNull(other);
+    Objects.requireNonNull(other);
     return (T t, U u, V v, W w) -> test(t, u, v, w) || other.test(t, u, v, w);
   }
 }

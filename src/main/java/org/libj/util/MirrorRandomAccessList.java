@@ -54,7 +54,7 @@ public class MirrorRandomAccessList<V,LV extends List<V> & RandomAccess,R,LR ext
    * @param reflections The underlying list of type {@code <R>}.
    * @param mirror The {@link MirrorList.Mirror} specifying the {@link MirrorList.Mirror#valueToReflection(Object) V -> R} and
    *          {@link MirrorList.Mirror#reflectionToValue(Object) R -> V} methods.
-   * @throws IllegalArgumentException If any of the specified parameters is null.
+   * @throws NullPointerException If any of the specified parameters is null.
    */
   public MirrorRandomAccessList(final LV values, final LR reflections, final Mirror<V,R> mirror) {
     super(values, reflections, mirror);

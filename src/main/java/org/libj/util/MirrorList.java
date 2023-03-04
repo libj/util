@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * A list that maintains 2 representations of its elements:
@@ -120,12 +121,12 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
    * @param reflections The underlying list of type {@code <R>}.
    * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object) R -> V} methods.
-   * @throws IllegalArgumentException If any of the specified parameters is null.
+   * @throws NullPointerException If any of the specified parameters is null.
    */
   public MirrorList(final LV values, final LR reflections, final Mirror<V,R> mirror) {
     super(values);
-    this.mirror = assertNotNull(mirror);
-    this.reflections = assertNotNull(reflections);
+    this.mirror = Objects.requireNonNull(mirror);
+    this.reflections = Objects.requireNonNull(reflections);
   }
 
   /**
@@ -175,13 +176,14 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
    *          {@code false}, the {@link #mirrorList} will be initialized given that {@link #reflections} is not null and not empty.
    * @return The instantiated {@link #mirrorList}.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"rawtypes", "unchecked"})
   private MirrorList<R,LR,V,LV> mirrorList(final boolean require) {
     if (reflections != null && (require || reflections.size() > 0)) {
       mirrorList = newMirrorInstance(reflections);
       reflections = null;
 
-      final int comparison = Integer.compare(target.size(), mirrorList.target.size());
+      final List mirrorTarget = mirrorList.target;
+      final int comparison = Integer.compare(target.size(), mirrorTarget.size());
       if (comparison == 0)
         return mirrorList;
 
@@ -189,10 +191,10 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
       final List<Object> more;
       if (comparison < 1) {
         less = target;
-        more = mirrorList.target;
+        more = mirrorTarget;
       }
       else {
-        less = mirrorList.target;
+        less = mirrorTarget;
         more = target;
       }
 
@@ -309,8 +311,9 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
     if (targetLock != null) {
       try {
         targetLock.next();
-        if (mirrorList != null && getMirrorList().targetLock != null)
-          getMirrorList().targetLock.next();
+        final Iterator<?> targetLock;
+        if (mirrorList != null && (targetLock = getMirrorList().targetLock) != null)
+          targetLock.next();
       }
       catch (final NoSuchElementException ignored) {
       }
@@ -326,7 +329,8 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
 
   @Override
   public int size() {
-    return reflections != null && reflections.size() > 0 ? reflections.size() : super.size();
+    final int size;
+    return reflections != null && (size = reflections.size()) > 0 ? size : super.size();
   }
 
   @Override

@@ -15,38 +15,34 @@
  */
 
 package org.libj.util.concurrent;
-import static org.libj.lang.Assertions.*;
 
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A {@link DelegateScheduledExecutorService} contains some other
- * {@link ScheduledExecutorService}, to which it delegates its method calls, possibly
- * transforming the data along the way or providing additional functionality.
- * The class {@link DelegateScheduledExecutorService} itself simply overrides all methods
- * of {@link ScheduledExecutorService} with versions that pass all requests to the target
- * {@link ScheduledExecutorService}. Subclasses of {@link DelegateScheduledExecutorService} may
- * further override some of these methods and may also provide additional
- * methods and fields.
+ * A {@link DelegateScheduledExecutorService} contains some other {@link ScheduledExecutorService}, to which it delegates its method
+ * calls, possibly transforming the data along the way or providing additional functionality. The class
+ * {@link DelegateScheduledExecutorService} itself simply overrides all methods of {@link ScheduledExecutorService} with versions
+ * that pass all requests to the target {@link ScheduledExecutorService}. Subclasses of {@link DelegateScheduledExecutorService} may
+ * further override some of these methods and may also provide additional methods and fields.
  */
 public class DelegateScheduledExecutorService extends DelegateExecutorService implements ScheduledExecutorService {
   /** The target {@link ScheduledExecutorService}. */
   protected final ScheduledExecutorService target;
 
   /**
-   * Creates a new {@link DelegateScheduledExecutorService} with the specified target
-   * {@link ScheduledExecutorService}.
+   * Creates a new {@link DelegateScheduledExecutorService} with the specified target {@link ScheduledExecutorService}.
    *
    * @param target The target {@link ScheduledExecutorService}.
-   * @throws IllegalArgumentException If the target {@link ScheduledExecutorService} is
-   *           null.
+   * @throws NullPointerException If the target {@link ScheduledExecutorService} is null.
    */
   public DelegateScheduledExecutorService(final ScheduledExecutorService target) {
-    super(assertNotNull(target));
-    this.target = assertNotNull(target);
+    // FIXME: Double null check.
+    super(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

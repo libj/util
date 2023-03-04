@@ -30,7 +30,7 @@ public class FlatArrayIterator<E,T> extends FlatSequentialIterator<E,T[]> {
    * Creates a new {@link FlatArrayIterator} for array to be iterated.
    *
    * @param a The array to be iterated.
-   * @throws IllegalArgumentException If the specified array is null.
+   * @throws NullPointerException If the specified array is null.
    */
   public FlatArrayIterator(final T[] a) {
     super(a);

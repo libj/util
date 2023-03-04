@@ -84,7 +84,7 @@ public enum Zip {
    * @param decompressed The bytes to compress.
    * @return The decompressed bytes from the provided {@code decompressed} bytes.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code decompressed} is null.
+   * @throws NullPointerException If {@code decompressed} is null.
    */
   public abstract byte[] compress(byte[] decompressed) throws IOException;
 
@@ -94,7 +94,7 @@ public enum Zip {
    * @param compressed The bytes to decompress.
    * @return The decompressed bytes from the provided {@code compressed} bytes.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code compressed} is null.
+   * @throws NullPointerException If {@code compressed} is null.
    */
   public abstract byte[] decompress(byte[] compressed) throws IOException;
 }

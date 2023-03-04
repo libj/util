@@ -38,7 +38,7 @@ public class UnmodifiableSortedSet<E> extends UnmodifiableSet<E> implements Sort
    * Creates a new {@link UnmodifiableSortedSet} with the specified target {@link SortedSet}.
    *
    * @param target The target {@link SortedSet}.
-   * @throws IllegalArgumentException If the target {@link SortedSet} is null.
+   * @throws NullPointerException If the target {@link SortedSet} is null.
    */
   public UnmodifiableSortedSet(final SortedSet<E> target) {
     super(target);

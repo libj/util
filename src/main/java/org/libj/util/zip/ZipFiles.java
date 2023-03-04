@@ -16,13 +16,12 @@
 
 package org.libj.util.zip;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -37,7 +36,7 @@ public final class ZipFiles {
    * @param zipFile The {@link ZipFile}.
    * @param destDir The destination directory.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is null.
+   * @throws NullPointerException If {@code zipFile} or {@code destDir} is null.
    */
   public static void extract(final ZipFile zipFile, final File destDir) throws IOException {
     extract(zipFile, destDir, null);
@@ -50,18 +49,16 @@ public final class ZipFiles {
    * @param destDir The destination directory.
    * @param predicate The {@link Predicate} (can be null).
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code zipFile} or {@code destDir} is null.
+   * @throws NullPointerException If {@code zipFile} or {@code destDir} is null.
    */
   public static void extract(final ZipFile zipFile, final File destDir, final Predicate<? super ZipEntry> predicate) throws IOException {
-    assertNotNull(zipFile);
-    assertNotNull(destDir);
     final Enumeration<? extends ZipEntry> entries = zipFile.entries();
     while (entries.hasMoreElements()) {
       final ZipEntry zipEntry = entries.nextElement();
       if (predicate != null && !predicate.test(zipEntry))
         continue;
 
-      final File file = new File(destDir, zipEntry.getName());
+      final File file = new File(Objects.requireNonNull(destDir), zipEntry.getName());
       if (zipEntry.isDirectory()) {
         file.mkdirs();
         continue;

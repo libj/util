@@ -4507,7 +4507,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code byte}s.
    * @param c The {@link ByteComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final byte[] a, final ByteComparator c) {
     sort(a, 0, a.length, c);
@@ -4520,7 +4520,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link ByteComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final byte[] a, final int fromIndex, final int toIndex, final ByteComparator c) {
     if (c != null)
@@ -4534,7 +4534,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code char}s.
    * @param c The {@link CharComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final char[] a, final CharComparator c) {
     sort(a, 0, a.length, c);
@@ -4547,7 +4547,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link CharComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final char[] a, final int fromIndex, final int toIndex, final CharComparator c) {
     if (c != null)
@@ -4561,7 +4561,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code short}s.
    * @param c The {@link ShortComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final short[] a, final ShortComparator c) {
     sort(a, 0, a.length, c);
@@ -4574,7 +4574,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link ShortComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final short[] a, final int fromIndex, final int toIndex, final ShortComparator c) {
     if (c != null)
@@ -4588,7 +4588,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code int}s.
    * @param c The {@link IntComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final int[] a, final IntComparator c) {
     sort(a, 0, a.length, c);
@@ -4601,7 +4601,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link IntComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final int[] a, final int fromIndex, final int toIndex, final IntComparator c) {
     if (c != null)
@@ -4628,7 +4628,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link LongComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final long[] a, final int fromIndex, final int toIndex, final LongComparator c) {
     if (c != null)
@@ -4642,7 +4642,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code float}s.
    * @param c The {@link FloatComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final float[] a, final FloatComparator c) {
     sort(a, 0, a.length, c);
@@ -4655,7 +4655,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link FloatComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final float[] a, final int fromIndex, final int toIndex, final FloatComparator c) {
     if (c != null)
@@ -4669,7 +4669,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array of {@code double}s.
    * @param c The {@link DoubleComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final double[] a, final DoubleComparator c) {
     sort(a, 0, a.length, c);
@@ -4682,7 +4682,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param fromIndex The index of the first element, inclusive, to be sorted.
    * @param toIndex The index of the last element, exclusive, to be sorted.
    * @param c The {@link DoubleComparator}.
-   * @throws IllegalArgumentException If {@code a} is null.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static void sort(final double[] a, final int fromIndex, final int toIndex, final DoubleComparator c) {
     if (c != null)
@@ -5001,8 +5001,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final byte[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5021,8 +5021,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final byte[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5050,8 +5050,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final short[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5070,8 +5070,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final short[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5099,8 +5099,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final int[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5119,8 +5119,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final int[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5148,8 +5148,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final long[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5168,8 +5168,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final long[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5197,8 +5197,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final float[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5217,8 +5217,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final float[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5246,8 +5246,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final double[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5266,8 +5266,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final double[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5295,8 +5295,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final boolean[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5315,8 +5315,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final boolean[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5344,8 +5344,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final char[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5364,8 +5364,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final char[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5393,8 +5393,8 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The index of the last element, exclusive, to be reversed.
    * @param offset The offset.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final Object[] array, final int fromIndex, final int toIndex, final int offset) {
     if (offset < 0)
@@ -5413,8 +5413,8 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param array The array of members to circularly shift.
    * @param offset The offset.
-   * @throws IllegalArgumentException If {@code array} is null, or if {@code offset} is negative or greater than
-   *           {@code array.length}.
+   * @throws IllegalArgumentException If {@code offset} is negative or greater than {@code array.length}.
+   * @throws NullPointerException If {@code array} is null.
    */
   public static void shift(final Object[] array, final int offset) {
     shift(array, 0, array.length, offset);
@@ -5452,7 +5452,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array to dedupe.
    * @return The number of unique values after having reordering the unique values in ascending order.
-   * @throws IllegalArgumentException If the provided array is null.
+   * @throws NullPointerException If the provided array is null.
    */
   public static int dedupe(final byte[] a) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
@@ -5476,7 +5476,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array to dedupe.
    * @return The number of unique values after having reordering the unique values in ascending order.
-   * @throws IllegalArgumentException If the provided array is null.
+   * @throws NullPointerException If the provided array is null.
    */
   public static int dedupe(final char[] a) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
@@ -5500,7 +5500,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array to dedupe.
    * @return The number of unique values after having reordering the unique values in ascending order.
-   * @throws IllegalArgumentException If the provided array is null.
+   * @throws NullPointerException If the provided array is null.
    */
   public static int dedupe(final short[] a) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
@@ -5524,7 +5524,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array to dedupe.
    * @return The number of unique values after having reordering the unique values in ascending order.
-   * @throws IllegalArgumentException If the provided array is null.
+   * @throws NullPointerException If the provided array is null.
    */
   public static int dedupe(final int[] a) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
@@ -5548,7 +5548,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array to dedupe.
    * @return The number of unique values after having reordering the unique values in ascending order.
-   * @throws IllegalArgumentException If the provided array is null.
+   * @throws NullPointerException If the provided array is null.
    */
   public static int dedupe(final long[] a) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
@@ -5572,7 +5572,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array to dedupe.
    * @return The number of unique values after having reordering the unique values in ascending order.
-   * @throws IllegalArgumentException If the provided array is null.
+   * @throws NullPointerException If the provided array is null.
    */
   public static int dedupe(final float[] a) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
@@ -5596,7 +5596,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The array to dedupe.
    * @return The number of unique values after having reordering the unique values in ascending order.
-   * @throws IllegalArgumentException If the provided array is null.
+   * @throws NullPointerException If the provided array is null.
    */
   public static int dedupe(final double[] a) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
@@ -5624,7 +5624,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param c The {@link Comparator}.
    * @return The number of unique elements after having reordering the unique elements in ascending order specified by the given
    *         {@link Comparator}.
-   * @throws IllegalArgumentException If the provided array or {@link Comparator} is null.
+   * @throws NullPointerException If the provided array or {@link Comparator} is null.
    */
   public static <T>int dedupe(final T[] a, final Comparator<? super T> c) {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1, c);
@@ -5647,7 +5647,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The value {@code 0} if the first and second array are equal and contain the same elements in the same order; a value
    *         less than {@code 0} if the first array is lexicographically less than the second array; and a value greater than
    *         {@code 0} if the first array is lexicographically greater than the second array.
-   * @throws IllegalArgumentException If the comparator is null.
+   * @throws NullPointerException If the comparator is null.
    */
   public static <T>int compare(final T[] a, final T[] b, final Comparator<? super T> cmp) {
     if (a == b)

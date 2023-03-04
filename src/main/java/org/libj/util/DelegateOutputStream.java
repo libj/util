@@ -16,10 +16,9 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  * A {@link DelegateOutputStream} contains some other {@link OutputStream}, to which it delegates its method calls, possibly
@@ -35,10 +34,10 @@ public class DelegateOutputStream extends OutputStream {
    * Creates a new {@link DelegateOutputStream} with the specified {@code target} as the delegate {@link OutputStream}.
    *
    * @param target The delegate {@link OutputStream}.
-   * @throws IllegalArgumentException If {@code target} is null.
+   * @throws NullPointerException If {@code target} is null.
    */
   public DelegateOutputStream(final OutputStream target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

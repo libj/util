@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,11 +55,11 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
    * default load factor (0.75) and an initial capacity sufficient to hold the mappings in the specified {@link Map}.
    *
    * @param m The map whose mappings are to be placed in this map.
-   * @throws IllegalArgumentException If the specified map is null.
+   * @throws NullPointerException If the specified map is null.
    */
   public HashBiMap(final Map<? extends K,? extends V> m) {
     this();
-    putAll(assertNotNull(m));
+    putAll(m);
   }
 
   /**

@@ -40,7 +40,7 @@ public class UnmodifiableNavigableMap<K,V> extends UnmodifiableSortedMap<K,V> im
    * Creates a new {@link UnmodifiableNavigableMap} with the specified target {@link NavigableMap}.
    *
    * @param target The target {@link NavigableMap}.
-   * @throws IllegalArgumentException If the target {@link NavigableMap} is null.
+   * @throws NullPointerException If the target {@link NavigableMap} is null.
    */
   public UnmodifiableNavigableMap(final NavigableMap<K,? extends V> target) {
     super(target);

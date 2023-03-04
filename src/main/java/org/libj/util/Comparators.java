@@ -16,9 +16,8 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -37,11 +36,11 @@ public final class Comparators {
    * @param <T> The type of the {@link Comparable} order arguments.
    * @param order The terms that defined the order.
    * @return A new {@link Comparators} with the specified order of terms.
-   * @throws IllegalArgumentException If {@code order} is null.
+   * @throws NullPointerException If {@code order} is null.
    */
   @SafeVarargs
   public static <T extends Comparable<? super T>>Comparator<T> newFixedOrderComparator(final T ... order) {
-    assertNotNull(order);
+    Objects.requireNonNull(order);
     return new Comparator<T>() {
       @Override
       public int compare(final T o1, final T o2) {
@@ -83,12 +82,12 @@ public final class Comparators {
    * @param toComparable The {@link Function} to convert a {@code <T>} object to a {@link Comparable} {@code <C>}.
    * @param order The terms that defined the order.
    * @return A new {@link Comparators} with the specified order of terms.
-   * @throws IllegalArgumentException If {@code toComparable} or {@code order} is null.
+   * @throws NullPointerException If {@code toComparable} or {@code order} is null.
    */
   @SafeVarargs
   public static <T,C extends Comparable<? super C>>Comparator<T> newFixedOrderComparator(final Function<T,C> toComparable, final C ... order) {
-    assertNotNull(toComparable);
-    assertNotNull(order);
+    Objects.requireNonNull(toComparable);
+    Objects.requireNonNull(order);
     return new Comparator<T>() {
       @Override
       public int compare(final T o1, final T o2) {
@@ -131,12 +130,12 @@ public final class Comparators {
    * @param comparator The {@link Comparator}.
    * @param order The terms that defined the order.
    * @return A new {@link Comparators} with the specified order of terms.
-   * @throws IllegalArgumentException If {@code comparator} or {@code order} is null.
+   * @throws NullPointerException If {@code comparator} or {@code order} is null.
    */
   @SafeVarargs
   public static <T>Comparator<T> newFixedOrderComparator(final Comparator<T> comparator, final T ... order) {
-    assertNotNull(comparator);
-    assertNotNull(order);
+    Objects.requireNonNull(comparator);
+    Objects.requireNonNull(order);
     return new Comparator<T>() {
       @Override
       public int compare(final T o1, final T o2) {
@@ -179,13 +178,13 @@ public final class Comparators {
    * @param comparator The {@link Comparator}.
    * @param order The terms that defined the order.
    * @return A new {@link Comparators} with the specified order of terms.
-   * @throws IllegalArgumentException If {@code toComparable}, {@code comparator} or {@code order} is null.
+   * @throws NullPointerException If {@code toComparable}, {@code comparator} or {@code order} is null.
    */
   @SafeVarargs
   public static <T,C extends Comparable<? super C>>Comparator<T> newFixedOrderComparator(final Function<T,C> toComparable, final Comparator<C> comparator, final C ... order) {
-    assertNotNull(comparator);
-    assertNotNull(toComparable);
-    assertNotNull(order);
+    Objects.requireNonNull(comparator);
+    Objects.requireNonNull(toComparable);
+    Objects.requireNonNull(order);
     return new Comparator<T>() {
       @Override
       public int compare(final T o1, final T o2) {

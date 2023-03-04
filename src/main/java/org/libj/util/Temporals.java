@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -194,7 +192,7 @@ public final class Temporals {
    * @param dateTime The {@link LocalDateTime} object.
    * @return A new {@link Date} object representing the instant time of the specified {@link LocalDateTime} object in the default
    *         time-zone.
-   * @throws IllegalArgumentException If {@code dataTime} is null.
+   * @throws NullPointerException If {@code dataTime} is null.
    */
   public static Date toDate(final LocalDateTime dateTime) {
     return SimpleDateFormats.newDate(toEpochMilli(dateTime), SimpleDateFormats.ISO_8601);
@@ -207,10 +205,10 @@ public final class Temporals {
    * @param dateTime The {@link LocalDateTime} object.
    * @return The number of milliseconds since the epoch of the instant value of the specified {@link LocalDateTime} object in the
    *         default time-zone.
-   * @throws IllegalArgumentException If {@code dataTime} is null.
+   * @throws NullPointerException If {@code dataTime} is null.
    */
   public static long toEpochMilli(final LocalDateTime dateTime) {
-    return assertNotNull(dateTime).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
   }
 
   /**
@@ -220,10 +218,10 @@ public final class Temporals {
    * @param date The {@link Date} object.
    * @return A new {@link LocalDateTime} representing the instant value of the specified {@link Date} object in the default
    *         time-zone.
-   * @throws IllegalArgumentException If {@code date} is null.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static LocalDateTime toLocalDateTime(final Date date) {
-    return assertNotNull(date).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
   }
 
   /**
@@ -247,10 +245,10 @@ public final class Temporals {
    * @param t1 The first argument.
    * @param t2 The second argument.
    * @return A new {@link LocalTime} instance representing the value of the first argument {@link LocalTime} minus the second.
-   * @throws IllegalArgumentException If {@code t1} or {@code t2} is null.
+   * @throws NullPointerException If {@code t1} or {@code t2} is null.
    */
   public static LocalTime subtract(final LocalTime t1, final LocalTime t2) {
-    final long between = ChronoUnit.NANOS.between(assertNotNull(t1), assertNotNull(t2));
+    final long between = ChronoUnit.NANOS.between(t1, t2);
     return LocalTime.ofNanoOfDay(between == 0 ? 0 : NANOS_IN_DAY - between);
   }
 

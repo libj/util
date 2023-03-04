@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -48,7 +46,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * Creates a new {@link ObservableMap} with the specified target {@link Map}.
    *
    * @param map The target {@link Map}.
-   * @throws IllegalArgumentException If {@code map} is null.
+   * @throws NullPointerException If {@code map} is null.
    */
   public ObservableMap(final Map<K,V> map) {
     super(map);
@@ -223,7 +221,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
      * Creates a new {@link ObservableEntrySet} for the specified {@link Set Set&lt;Map.Entry&lt;K,V&gt;&gt;}.
      *
      * @param set The {@link Iterator}.
-     * @throws IllegalArgumentException If the specified {@link Set Set&lt;Map.Entry&lt;K,V&gt;&gt;}} is null.
+     * @throws NullPointerException If the specified {@link Set Set&lt;Map.Entry&lt;K,V&gt;&gt;} is null.
      */
     protected ObservableEntrySet(final Set<Map.Entry<K,V>> set) {
       super(set);
@@ -300,7 +298,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
      * Creates a new {@link ObservableKeySet} for the specified {@link Set Set&lt;K&gt;}.
      *
      * @param set The {@link Iterator}.
-     * @throws IllegalArgumentException If the specified {@link Set Set&lt;K&gt;}} is null.
+     * @throws NullPointerException If the specified {@link Set Set&lt;K&gt;} is null.
      */
     protected ObservableKeySet(final Set<K> set) {
       super(set);
@@ -504,7 +502,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
-    if (assertNotNull(m).size() > 0)
+    if (m.size() > 0)
       for (final Map.Entry<? extends K,? extends V> entry : m.entrySet()) // [S]
         put(entry.getKey(), entry.getValue());
   }
@@ -689,7 +687,6 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   @Override
   @SuppressWarnings("unchecked")
   public void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
-    assertNotNull(function);
     if (size() > 0) {
       for (final Map.Entry<K,V> entry : entrySet()) { // [S]
         final K key = entry.getKey();

@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -93,10 +91,9 @@ public class IdentityHashSet<E> extends HashSet<E> {
    * load factor (0.75) and an initial capacity sufficient to contain the elements in the specified collection.
    *
    * @param c The collection whose elements are to be placed into this set.
-   * @throws IllegalArgumentException If the specified collection is null.
+   * @throws NullPointerException If the specified collection is null.
    */
   public IdentityHashSet(final Collection<? extends E> c) {
-    assertNotNull(c);
     map = new IdentityHashMap<>(Math.max((int)(c.size() / .75f) + 1, 16));
     addAll(c);
   }

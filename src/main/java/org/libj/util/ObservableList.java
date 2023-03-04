@@ -58,7 +58,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * Creates a new {@link ObservableList} with the specified target {@link List}.
    *
    * @param list The target {@link List}.
-   * @throws IllegalArgumentException If {@code list} is null.
+   * @throws NullPointerException If {@code list} is null.
    */
   public ObservableList(final L list) {
     this(list, 0, -1);
@@ -71,7 +71,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * @param list The target {@link List} object.
    * @param fromIndex The starting index as the lower limit of the elements in the target list, inclusive.
    * @param toIndex The starting index as the upper limit of the elements in the target list, exclusive.
-   * @throws IllegalArgumentException If {@code list} is null.
+   * @throws NullPointerException If {@code list} is null.
    */
   protected ObservableList(final L list, final int fromIndex, final int toIndex) {
     super(list);
@@ -455,7 +455,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
      * Creates a new {@link CursorListIterator} for the specified {@link ListIterator}.
      *
      * @param iterator The {@link ListIterator}.
-     * @throws IllegalArgumentException If the specified {@link ListIterator} is null.
+     * @throws NullPointerException If the specified {@link ListIterator} is null.
      */
     protected ObservableListIterator(final ListIterator<? extends E> iterator) {
       super(iterator);
@@ -806,7 +806,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
      * @param list The {@link List List&lt;E&gt;}.
      * @param fromIndex The starting index as the lower limit of the elements in the target list, inclusive.
      * @param toIndex The starting index as the upper limit of the elements in the target list, exclusive.
-     * @throws IllegalArgumentException If the specified {@link List List&lt;E&gt;} is null.
+     * @throws NullPointerException If the specified {@link List List&lt;E&gt;} is null.
      */
     protected ObservableSubList(final L list, final int fromIndex, final int toIndex) {
       super(list, fromIndex, toIndex);

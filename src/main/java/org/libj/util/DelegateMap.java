@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -46,10 +44,10 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * Creates a new {@link DelegateMap} with the specified target {@link Map}.
    *
    * @param target The target {@link Map}.
-   * @throws IllegalArgumentException If the target {@link Map} is null.
+   * @throws NullPointerException If the target {@link Map} is null.
    */
   public DelegateMap(final Map<K,V> target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import static org.libj.lang.Assertions.*;
+import java.util.Objects;
 
 /**
  * Represents a predicate (boolean-valued function) of three arguments. This is the three-arity specialization of
@@ -49,10 +49,10 @@ public interface TriPredicate<T,U,V> {
    * @param other A predicate that will be logically-ANDed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical AND of this predicate and the {@code other}
    *         predicate.
-   * @throws IllegalArgumentException If {@code other} is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default TriPredicate<T,U,V> and(final TriPredicate<? super T,? super U,? super V> other) {
-    assertNotNull(other);
+    Objects.requireNonNull(other);
     return (T t, U u, V v) -> test(t, u, v) && other.test(t, u, v);
   }
 
@@ -74,10 +74,10 @@ public interface TriPredicate<T,U,V> {
    *
    * @param other A predicate that will be logically-ORed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical OR of this predicate and the {@code other} predicate.
-   * @throws IllegalArgumentException If other is null.
+   * @throws NullPointerException If {@code other} is null.
    */
   default TriPredicate<T,U,V> or(final TriPredicate<? super T,? super U,? super V> other) {
-    assertNotNull(other);
+    Objects.requireNonNull(other);
     return (T t, U u, V v) -> test(t, u, v) || other.test(t, u, v);
   }
 }

@@ -16,7 +16,7 @@
 
 package org.libj.util.function;
 
-import static org.libj.lang.Assertions.*;
+import java.util.Objects;
 
 /**
  * Represents an operation that accepts three input arguments and returns no result. This is the three-arity specialization of
@@ -49,10 +49,10 @@ public interface TriConsumer<T,U,V> {
    *
    * @param after The operation to perform after this operation.
    * @return A composed {@link TriConsumer} that performs in sequence this operation followed by the {@code after} operation.
-   * @throws IllegalArgumentException if {@code after} is null.
+   * @throws NullPointerException if {@code after} is null.
    */
   default TriConsumer<T,U,V> andThen(final TriConsumer<? super T,? super U,? super V> after) {
-    assertNotNull(after);
+    Objects.requireNonNull(after);
     return (t, u, v) -> {
       accept(t, u, v);
       after.accept(t, u, v);

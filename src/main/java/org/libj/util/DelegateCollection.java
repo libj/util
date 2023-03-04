@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
@@ -45,10 +43,10 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    * Creates a new {@link DelegateCollection} with the specified target {@link Collection}.
    *
    * @param target The target {@link Collection}.
-   * @throws IllegalArgumentException If the target {@link Collection} is null.
+   * @throws NullPointerException If the target {@link Collection} is null.
    */
   public DelegateCollection(final Collection<E> target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

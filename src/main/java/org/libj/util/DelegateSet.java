@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
@@ -45,10 +43,10 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
    * Creates a new {@link DelegateSet} with the specified target {@link Set}.
    *
    * @param target The target {@link Set}.
-   * @throws IllegalArgumentException If the target {@link Set} is null.
+   * @throws NullPointerException If the target {@link Set} is null.
    */
   public DelegateSet(final Set<E> target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
@@ -100,7 +98,7 @@ public abstract class DelegateSet<E> extends AbstractSet<E> {
 //   *           collection is not assignable to the
 //   *           {@linkplain Class#getComponentType runtime component type} of the
 //   *           generated array.
-//   * @throws IllegalArgumentException If the generator function is null.
+//   * @throws NullPointerException If the generator function is null.
 //   */
 //  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
 //    return super.toArray(generator);

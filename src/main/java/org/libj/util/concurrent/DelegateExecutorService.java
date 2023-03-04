@@ -16,10 +16,9 @@
 
 package org.libj.util.concurrent;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -42,10 +41,10 @@ public class DelegateExecutorService implements ExecutorService, Shutdownable<Li
    * Creates a new {@link DelegateExecutorService} with the specified target {@link ExecutorService}.
    *
    * @param target The target {@link ExecutorService}.
-   * @throws IllegalArgumentException If the target {@link ExecutorService} is null.
+   * @throws NullPointerException If the target {@link ExecutorService} is null.
    */
   public DelegateExecutorService(final ExecutorService target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

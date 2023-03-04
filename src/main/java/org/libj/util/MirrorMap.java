@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
@@ -116,12 +114,12 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
    * @param reflections The underlying map of type {@code <K,R>}.
    * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object,Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object,Object) R -> V} methods.
-   * @throws IllegalArgumentException If any of the specified parameters is null.
+   * @throws NullPointerException If any of the specified parameters is null.
    */
   public MirrorMap(final Map<K,V> values, final Map<K,R> reflections, final Mirror<K,V,R> mirror) {
     super(values);
-    this.mirror = assertNotNull(mirror);
-    this.reflections = assertNotNull(reflections);
+    this.mirror = Objects.requireNonNull(mirror);
+    this.reflections = Objects.requireNonNull(reflections);
   }
 
   /**

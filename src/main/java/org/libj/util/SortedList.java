@@ -43,7 +43,7 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List} of comparable elements.
-   * @throws IllegalArgumentException If the provided {@link List list} is null.
+   * @throws NullPointerException If the provided {@link List list} is null.
    */
   public SortedList(final L list) {
     this(list, DEFAULT_COMPARATOR, true);
@@ -56,10 +56,10 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List}.
    * @param comparator The {@link Comparator}.
-   * @throws IllegalArgumentException If the provided {@link List list} or {@link Comparator comparator} is null.
+   * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
   public SortedList(final L list, final Comparator<E> comparator) {
-    this(list, assertNotNull(comparator), true);
+    this(list, Objects.requireNonNull(comparator), true);
   }
 
   private SortedList(final L list, final Comparator<E> comparator, final boolean sort) {

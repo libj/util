@@ -43,7 +43,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * Creates a new {@link ObservableCollection} with the specified target {@link Collection}.
    *
    * @param target The target {@link Collection}.
-   * @throws IllegalArgumentException If the target {@link Collection} is null.
+   * @throws NullPointerException If the target {@link Collection} is null.
    */
   public ObservableCollection(final Collection<E> target) {
     super(target);
@@ -125,7 +125,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
      * Creates a new {@link ObservableIterator} for the specified {@link Iterator}.
      *
      * @param iterator The {@link Iterator}.
-     * @throws IllegalArgumentException If the specified {@link Iterator} is null.
+     * @throws NullPointerException If the specified {@link Iterator} is null.
      */
     protected ObservableIterator(final Iterator<E> iterator) {
       super(iterator);

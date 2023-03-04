@@ -33,7 +33,7 @@ public class SortedRandomAccessList<E,L extends List<E> & RandomAccess> extends 
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List} of comparable elements.
-   * @throws IllegalArgumentException If the provided {@link List list} is null.
+   * @throws NullPointerException If the provided {@link List list} is null.
    */
   public SortedRandomAccessList(final L list) {
     super(list);
@@ -46,7 +46,7 @@ public class SortedRandomAccessList<E,L extends List<E> & RandomAccess> extends 
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List}.
    * @param comparator The {@link Comparator}.
-   * @throws IllegalArgumentException If the provided {@link List list} or {@link Comparator comparator} is null.
+   * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
   public SortedRandomAccessList(final L list, final Comparator<E> comparator) {
     super(list, comparator);

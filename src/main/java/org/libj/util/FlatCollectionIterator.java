@@ -31,7 +31,7 @@ public class FlatCollectionIterator<T,E> extends FlatIterableIterator<Collection
    * Creates a new {@link FlatCollectionIterator} for {@link Collection} to be iterated.
    *
    * @param c The {@link Collection} to be iterated.
-   * @throws IllegalArgumentException If the specified {@link Collection} is null.
+   * @throws NullPointerException If the specified {@link Collection} is null.
    */
   public FlatCollectionIterator(final Collection<T> c) {
     super(c);

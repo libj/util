@@ -35,7 +35,7 @@ public class UnmodifiableNavigableSet<E> extends UnmodifiableSortedSet<E> implem
    * Creates a new {@link UnmodifiableNavigableSet} with the specified target {@link NavigableSet}.
    *
    * @param target The target {@link NavigableSet}.
-   * @throws IllegalArgumentException If the target {@link NavigableSet} is null.
+   * @throws NullPointerException If the target {@link NavigableSet} is null.
    */
   public UnmodifiableNavigableSet(final NavigableSet<E> target) {
     super(target);

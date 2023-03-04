@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
@@ -49,10 +47,10 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
    * @param source The source Collection of type {@code <S>}.
    * @param sourceToTarget The {@link Function} defining the translation from {@code S -> T}.
    * @param targetToSource The {@link Function} defining the translation from {@code T -> S}.
-   * @throws IllegalArgumentException If {@code source} is null.
+   * @throws NullPointerException If {@code source} is null.
    */
   public TransCollection(final Collection<S> source, final Function<S,T> sourceToTarget, final Function<T,S> targetToSource) {
-    super.target = assertNotNull(source);
+    super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
   }

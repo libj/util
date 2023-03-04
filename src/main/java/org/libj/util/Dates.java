@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -409,11 +407,11 @@ public final class Dates {
    * @param iso8601 The <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time string to convert.
    * @return The millis representation of the <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time
    *         string.
-   * @throws IllegalArgumentException If {@code iso8601} is null.
+   * @throws NullPointerException If {@code iso8601} is null.
    * @throws ParseException If a parsing error has occurred.
    */
   public static long iso8601ToEpochMilli(final String iso8601) throws ParseException {
-    final int len = assertNotNull(iso8601).length();
+    final int len = iso8601.length();
     // The minimum length of a iso8601 dateTime is 14
     if (len < 14)
       throw new ParseException("Unparseable date: \"" + iso8601 + "\"", 0);
@@ -639,11 +637,11 @@ public final class Dates {
    * @implSpec The second unit duration supports 3 fractional decimal digits.
    * @param str The duration string.
    * @return The milliseconds duration representation of the specified string duration.
-   * @throws IllegalArgumentException If {@code str} is null, or if {@code str} does not match the regular expression format.
+   * @throws NullPointerException If {@code str} is null.
+   * @throws IllegalArgumentException If {@code str} does not match the regular expression format.
    * @see #durationToString(long)
    */
   public static long stringToDuration(final String str) {
-    assertNotNull(str);
     long dur = 0;
 
     long v = 0;

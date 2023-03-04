@@ -59,10 +59,10 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
    * @param source The source List of type {@code <S>}.
    * @param sourceToTarget The {@link BiFunction} defining the translation from {@code S -> T}.
    * @param targetToSource The {@link BiFunction} defining the translation from {@code T -> S}.
-   * @throws IllegalArgumentException If {@code source} is null.
+   * @throws NullPointerException If {@code source} is null.
    */
   public TransList(final LS source, final BiFunction<Integer,S,T> sourceToTarget, final BiFunction<Integer,T,S> targetToSource) {
-    super.target = assertNotNull(source);
+    super.target = Objects.requireNonNull(source);
     this.sourceToTarget = sourceToTarget;
     this.targetToSource = targetToSource;
   }

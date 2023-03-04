@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -112,10 +110,10 @@ public class Diff {
    *
    * @param bytes The {@code byte[]} array.
    * @return The {@link Diff} object decoded from the byte array.
-   * @throws IllegalArgumentException If {@code bytes} is null.
+   * @throws NullPointerException If {@code bytes} is null.
    */
   public static Diff decode(final byte[] bytes) {
-    final byte lengthSize = getLengthSize(assertNotNull(bytes)[0]);
+    final byte lengthSize = getLengthSize(bytes[0]);
     final int limit = bytes.length * 8 - lengthSize - 2;
 
     final List<Mod> mods = new ArrayList<>();

@@ -16,12 +16,11 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -51,10 +50,10 @@ public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
    * Creates a new {@link UnmodifiableCollection} with the specified target {@link Collection}.
    *
    * @param target The target {@link Collection}.
-   * @throws IllegalArgumentException If the target {@link Collection} is null.
+   * @throws NullPointerException If the target {@link Collection} is null.
    */
   public UnmodifiableCollection(final Collection<? extends E> target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

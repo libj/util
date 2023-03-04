@@ -39,7 +39,7 @@ public class UnmodifiableSortedMap<K,V> extends UnmodifiableMap<K,V> implements 
    * Creates a new {@link UnmodifiableSortedMap} with the specified target {@link SortedMap}.
    *
    * @param target The target {@link SortedMap}.
-   * @throws IllegalArgumentException If the target {@link SortedMap} is null.
+   * @throws NullPointerException If the target {@link SortedMap} is null.
    */
   public UnmodifiableSortedMap(final SortedMap<K,? extends V> target) {
     super(target);

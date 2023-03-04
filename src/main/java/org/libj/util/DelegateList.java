@@ -16,8 +16,6 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -49,10 +47,10 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    * Creates a new {@link DelegateList} with the specified target {@link List}.
    *
    * @param target The target {@link List}.
-   * @throws IllegalArgumentException If the target {@link List} is null.
+   * @throws NullPointerException If the target {@link List} is null.
    */
   public DelegateList(final L target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
@@ -108,7 +106,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
 //   *           collection is not assignable to the
 //   *           {@linkplain Class#getComponentType runtime component type} of the
 //   *           generated array.
-//   * @throws IllegalArgumentException If the generator function is null.
+//   * @throws NullPointerException If the generator function is null.
 //   */
 //  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
 //    return super.toArray(generator);
@@ -285,7 +283,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
 
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
-    return target.removeIf(assertNotNull(filter));
+    return target.removeIf(filter);
   }
 
   /**

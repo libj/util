@@ -28,37 +28,37 @@ public class ComparatorsTest {
   public void testFixedOrderComparatorExceptions() {
     try {
       Comparators.newFixedOrderComparator((String[])null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     try {
       Comparators.newFixedOrderComparator((Comparator<Integer>)null, 1, 2, 3);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     try {
       Comparators.newFixedOrderComparator(Comparator.comparingInt(i -> i), (Integer[])null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     try {
       Comparators.newFixedOrderComparator((Function<Integer,Integer>)null, 1, 2, 3);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     try {
       Comparators.newFixedOrderComparator((Function<Integer,Integer>)null, Comparator.comparingInt((Integer i) -> i), 1, 2, 3);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
   }
 
@@ -85,9 +85,9 @@ public class ComparatorsTest {
   private static void testFixedOrderComparator(final Comparator<String> c, final Function<String,String> toCompare) {
     try {
       Comparators.newFixedOrderComparator((String[])null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     final String[] order = {"z", "a", "t", "r", "q", "b"};

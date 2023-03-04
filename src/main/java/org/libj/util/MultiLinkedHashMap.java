@@ -16,11 +16,10 @@
 
 package org.libj.util;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -41,11 +40,11 @@ public class MultiLinkedHashMap<K,V,C extends Collection<V>> extends LinkedHashM
    * @param m The map.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws NullPointerException If the specified map is null.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiLinkedHashMap(final Map<? extends K,? extends C> m, final Supplier<C> multiSupplier) {
     super(m);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -53,11 +52,11 @@ public class MultiLinkedHashMap<K,V,C extends Collection<V>> extends LinkedHashM
    * map instance.
    *
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If {@code multiSupplier} is null.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiLinkedHashMap(final Supplier<C> multiSupplier) {
     super();
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -66,11 +65,12 @@ public class MultiLinkedHashMap<K,V,C extends Collection<V>> extends LinkedHashM
    *
    * @param initialCapacity The implementation performs internal sizing to accommodate this many elements.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity of elements is negative or {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiLinkedHashMap(final int initialCapacity, final Supplier<C> multiSupplier) {
     super(initialCapacity);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -81,12 +81,12 @@ public class MultiLinkedHashMap<K,V,C extends Collection<V>> extends LinkedHashM
    *          given the specified load factor.
    * @param loadFactor The load factor (table density) for establishing the initial table size.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive or
-   *           {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiLinkedHashMap(final int initialCapacity, final float loadFactor, final Supplier<C> multiSupplier) {
     super(initialCapacity, loadFactor);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**
@@ -98,12 +98,12 @@ public class MultiLinkedHashMap<K,V,C extends Collection<V>> extends LinkedHashM
    * @param loadFactor The load factor (table density) for establishing the initial table size.
    * @param accessOrder The ordering mode - {@code true} for access-order, {@code false} for insertion-order.
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
-   * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive or
-   *           {@code multiSupplier} is null.
+   * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive.
+   * @throws NullPointerException If {@code multiSupplier} is null.
    */
   public MultiLinkedHashMap(final int initialCapacity, final float loadFactor, final boolean accessOrder, final Supplier<C> multiSupplier) {
     super(initialCapacity, loadFactor, accessOrder);
-    this.multiSupplier = assertNotNull(multiSupplier);
+    this.multiSupplier = Objects.requireNonNull(multiSupplier);
   }
 
   /**

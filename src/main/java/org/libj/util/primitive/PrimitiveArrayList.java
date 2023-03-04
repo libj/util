@@ -15,7 +15,6 @@
  */
 
 package org.libj.util.primitive;
-import static org.libj.lang.Assertions.*;
 
 import java.lang.reflect.Array;
 
@@ -53,10 +52,10 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
    * @param parent The parent list.
    * @param fromIndex Low endpoint (inclusive) of the subList.
    * @param toIndex High endpoint (exclusive) of the subList.
-   * @throws IllegalArgumentException If {@code parent} is null.
+   * @throws NullPointerException If {@code parent} is null.
    */
   protected PrimitiveArrayList(final PrimitiveArrayList<T> parent, final int fromIndex, final int toIndex) {
-    this.parent = assertNotNull(parent);
+    this.parent = parent;
     if (parent.child == null) {
       this.sibling = this;
       parent.child = this;

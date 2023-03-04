@@ -43,7 +43,7 @@ public abstract class ObservableRandomAccessList<E,L extends List<E> & RandomAcc
    * Creates a new {@link ObservableRandomAccessList} with the specified target {@link List}.
    *
    * @param list The target {@link List}.
-   * @throws IllegalArgumentException If {@code list} is null.
+   * @throws NullPointerException If {@code list} is null.
    */
   public ObservableRandomAccessList(final L list) {
     super(list);
@@ -56,7 +56,7 @@ public abstract class ObservableRandomAccessList<E,L extends List<E> & RandomAcc
    * @param list The target {@link List} object.
    * @param fromIndex The starting index as the lower limit of the elements in the target list, inclusive.
    * @param toIndex The starting index as the upper limit of the elements in the target list, exclusive.
-   * @throws IllegalArgumentException If {@code list} is null.
+   * @throws NullPointerException If {@code list} is null.
    */
   protected ObservableRandomAccessList(final L list, final int fromIndex, final int toIndex) {
     super(list, fromIndex, toIndex);
