@@ -154,7 +154,7 @@ public class UnsynchronizedByteArrayOutputStream extends OutputStream {
    * @param b The data.
    * @param off The start offset in the data.
    * @param len The number of bytes to write.
-   * @throws NullPointerException If {@code b} is {@code null}.
+   * @throws NullPointerException If {@code b} is null.
    * @throws IndexOutOfBoundsException If {@code off} is negative, {@code len} is negative, or {@code len} is greater than
    *           {@code b.length - off}.
    */
@@ -173,7 +173,7 @@ public class UnsynchronizedByteArrayOutputStream extends OutputStream {
    * stream's write method using {@link #write(byte[],int,int) out.write(buf, 0, count)}.
    *
    * @param out The output stream to which to write the data.
-   * @throws NullPointerException If {@code out} is {@code null}.
+   * @throws NullPointerException If {@code out} is null.
    * @throws IOException If an I/O error occurs.
    */
   public void writeTo(final OutputStream out) throws IOException {

@@ -23,42 +23,32 @@ import org.libj.util.function.<X>Consumer;
 import org.libj.util.function.<X>Supplier;
 
 /**
- * A container object which may or may not contain a {@code <x>} value. If a
- * value is present, {@code isPresent()} returns {@code true}. If no value is
- * present, the object is considered <i>empty</i> and {@code isPresent()}
- * returns {@code false}.
+ * A container object which may or may not contain a {@code <x>} value. If a value is present, {@code isPresent()} returns
+ * {@code true}. If no value is present, the object is considered <i>empty</i> and {@code isPresent()} returns {@code false}.
  * <p>
- * Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(<x>) orElse()} (returns a default
- * value if no value is present) and {@link #ifPresent(<X>Consumer) ifPresent()}
- * (performs an action if a value is present).
+ * Additional methods that depend on the presence or absence of a contained value are provided, such as {@link #orElse(<x>)
+ * orElse()} (returns a default value if no value is present) and {@link #ifPresent(<X>Consumer) ifPresent()} (performs an action if
+ * a value is present).
  * <p>
- * This is a value-based class; use of identity-sensitive operations (including
- * reference equality ({@code ==}), identity hash code, or synchronization) on
- * instances of {@code Optional<X>} may have unpredictable results and should be
- * avoided.
+ * This is a value-based class; use of identity-sensitive operations (including reference equality ({@code ==}), identity hash code,
+ * or synchronization) on instances of {@code Optional<X>} may have unpredictable results and should be avoided.
  *
- * @implNote {@code Optional<X>} is primarily intended for use as a
- *           method return type where there is a clear need to represent "no
- *           result." A variable whose type is {@code Optional<X>} should never
- *           itself be {@code null}; it should always point to an
+ * @implNote {@code Optional<X>} is primarily intended for use as a method return type where there is a clear need to represent "no
+ *           result." A variable whose type is {@code Optional<X>} should never itself be {@code null}; it should always point to an
  *           {@code Optional<X>} instance.
  */
 public final class Optional<X> {
   /** Common instance for {@code empty()}. */
   private static final Optional<X> EMPTY = new Optional<X>();
 
-  /**
-   * If true then the value is present, otherwise indicates no value is present.
-   */
+  /** If true then the value is present, otherwise indicates no value is present. */
   private final boolean isPresent;
   private final <x> value;
 
   /**
    * Construct an empty instance.
    *
-   * @implNote Generally only one empty instance, {@link Optional<X>#EMPTY},
-   *           should exist per VM.
+   * @implNote Generally only one empty instance, {@link Optional<X>#EMPTY}, should exist per VM.
    */
   private Optional<X>() {
     this.isPresent = false;
@@ -66,13 +56,11 @@ public final class Optional<X> {
   }
 
   /**
-   * Returns an empty {@code Optional<X>} instance. No value is present for this
-   * {@code Optional<X>}.
+   * Returns an empty {@link Optional<X>} instance. No value is present for this {@code Optional<X>}.
    *
-   * @implNote Though it may be tempting to do so, avoid testing if an object is
-   *           empty by comparing with {@code ==} against instances returned by
-   *           {@code Optional<X>.empty()}. There is no guarantee that it is a
-   *           singleton. Instead, use {@link #isPresent()}.
+   * @implNote Though it may be tempting to do so, avoid testing if an object is empty by comparing with {@code ==} against
+   *           instances returned by {@code Optional<X>.empty()}. There is no guarantee that it is a singleton. Instead, use
+   *           {@link #isPresent()}.
    * @return An empty {@code Optional<X>}.
    */
   public static Optional<X> empty() {
@@ -90,22 +78,20 @@ public final class Optional<X> {
   }
 
   /**
-   * Returns an {@code Optional<X>} describing the given value.
+   * Returns an {@link Optional<X>} describing the given value.
    *
    * @param value The value to describe.
-   * @return An {@code Optional<X>} with the value present.
+   * @return An {@link Optional<X>} with the value present.
    */
   public static Optional<X> of(final <x> value) {
     return new Optional<X>(value);
   }
 
   /**
-   * If a value is present, returns the value, otherwise throws
-   * {@code NoSuchElementException}.
+   * If a value is present, returns the value, otherwise throws {@link NoSuchElementException}.
    *
-   * @implNote The preferred alternative to this method is
-   *           {@link #orElseThrow()}.
-   * @return The value described by this {@code Optional<X>}.
+   * @implNote The preferred alternative to this method is {@link #orElseThrow()}.
+   * @return The value described by this {@link Optional<X>}.
    * @throws NoSuchElementException If no value is present.
    */
   public <x> getAs<X>() {
@@ -134,12 +120,10 @@ public final class Optional<X> {
   }
 
   /**
-   * If a value is present, performs the given action with the value, otherwise
-   * does nothing.
+   * If a value is present, performs the given action with the value, otherwise does nothing.
    *
    * @param action The action to be performed, if a value is present.
-   * @throws NullPointerException If value is present and the given action is
-   *           {@code null}.
+   * @throws NullPointerException If value is present and the given action is null.
    */
   public void ifPresent(final <X>Consumer action) {
     if (isPresent)
@@ -147,15 +131,12 @@ public final class Optional<X> {
   }
 
   /**
-   * If a value is present, performs the given action with the value, otherwise
-   * performs the given empty-based action.
+   * If a value is present, performs the given action with the value, otherwise performs the given empty-based action.
    *
    * @param action The action to be performed, if a value is present.
-   * @param emptyAction The empty-based action to be performed, if no value is
-   *          present.
-   * @throws NullPointerException If a value is present and the given action is
-   *           {@code null}, or no value is present and the given empty-based
-   *           action is {@code null}.
+   * @param emptyAction The empty-based action to be performed, if no value is present.
+   * @throws NullPointerException If a value is present and the given action is null, or no value is present and the given
+   *           empty-based action is null.
    */
   public void ifPresentOrElse(final <X>Consumer action, final Runnable emptyAction) {
     if (isPresent)
@@ -165,11 +146,11 @@ public final class Optional<X> {
   }
 
 //  /**
-//   * If a value is present, returns a sequential {@link <X>Stream} containing
-//   * only that value, otherwise returns an empty {@code <X>Stream}.
+//   * If a value is present, returns a sequential {@link <X>Stream} containing only that value, otherwise returns an empty
+//   * {@code <X>Stream}.
 //   * <p>
-//   * <b>Note:</b> This method can be used to transform a {@code Stream} of
-//   * optional <x>s to an {@code <X>Stream} of present <x>s:
+//   * <b>Note:</b> This method can be used to transform a {@code Stream} of optional <x>s to an {@code <X>Stream} of present
+//   * <x>s:
 //   *
 //   * <pre>
 //   * {@code
@@ -195,22 +176,18 @@ public final class Optional<X> {
   }
 
   /**
-   * If a value is present, returns the value, otherwise returns the result
-   * produced by the supplying function.
+   * If a value is present, returns the value, otherwise returns the result produced by the supplying function.
    *
    * @param supplier The supplying function that produces a value to be returned.
-   * @return The value, if present, otherwise the result produced by the
-   *         supplying function.
-   * @throws NullPointerException If no value is present and the supplying
-   *           function is {@code null}.
+   * @return The value, if present, otherwise the result produced by the supplying function.
+   * @throws NullPointerException If no value is present and the supplying function is null.
    */
   public <x> orElseGet(final <X>Supplier supplier) {
     return isPresent ? value : supplier.getAs<X>();
   }
 
   /**
-   * If a value is present, returns the value, otherwise throws
-   * {@code NoSuchElementException}.
+   * If a value is present, returns the value, otherwise throws {@link NoSuchElementException}.
    *
    * @return The value described by this {@code Optional<X>}.
    * @throws NoSuchElementException If no value is present.
@@ -223,19 +200,15 @@ public final class Optional<X> {
   }
 
   /**
-   * If a value is present, returns the value, otherwise throws an exception
-   * produced by the exception supplying function.
+   * If a value is present, returns the value, otherwise throws an exception produced by the exception supplying function.
    *
-   * @implNote A method reference to the exception constructor with an empty
-   *           argument list can be used as the supplier. For example,
-   *           {@code IllegalStateException::new}.
+   * @implNote A method reference to the exception constructor with an empty argument list can be used as the supplier. For example,
+   *           {@link IllegalStateException::new}.
    * @param <T> Type of the exception to be thrown
-   * @param exceptionSupplier The supplying function that produces an exception
-   *          to be thrown.
+   * @param exceptionSupplier The supplying function that produces an exception to be thrown.
    * @return The value, if present
    * @throws T If no value is present.
-   * @throws NullPointerException If no value is present and the exception
-   *           supplying function is {@code null}.
+   * @throws NullPointerException If no value is present and the exception supplying function is null.
    */
   public <T extends Throwable> <x> orElseThrow(final Supplier<? extends T> exceptionSupplier) throws T {
     if (isPresent)
@@ -245,8 +218,7 @@ public final class Optional<X> {
   }
 
   /**
-   * Indicates whether some other object is "equal to" this
-   * {@code Optional<X>}. The other object is considered equal if:
+   * Indicates whether some other object is "equal to" this {@link Optional<X>}. The other object is considered equal if:
    * <ul>
    * <li>it is also an {@code Optional<X>} and;
    * <li>both instances have no value present or;
@@ -254,8 +226,7 @@ public final class Optional<X> {
    * </ul>
    *
    * @param obj An object to be tested for equality.
-   * @return {@code true} if the other object is "equal to" this object
-   *         otherwise {@code false}.
+   * @return {@code true} if the other object is "equal to" this object otherwise {@code false}.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -270,11 +241,9 @@ public final class Optional<X> {
   }
 
   /**
-   * Returns the hash code of the value, if present, otherwise {@code 0} (zero)
-   * if no value is present.
+   * Returns the hash code of the value, if present, otherwise {@code 0} (zero) if no value is present.
    *
-   * @return Hash code value of the present value or {@code 0} if no value is
-   *         present.
+   * @return Hash code value of the present value or {@code 0} if no value is present.
    */
   @Override
   public int hashCode() {
@@ -282,12 +251,10 @@ public final class Optional<X> {
   }
 
   /**
-   * Returns a non-empty string representation of this {@code Optional<X>}
-   * suitable for debugging. The exact presentation format is unspecified and
-   * may vary between implementations and versions.
+   * Returns a non-empty string representation of this {@code Optional<X>} suitable for debugging. The exact presentation format is
+   * unspecified and may vary between implementations and versions.
    *
-   * @implNote If a value is present the result must include its string
-   *           representation in the result. Empty and present
+   * @implNote If a value is present the result must include its string representation in the result. Empty and present
    *           {@code Optional<X>}s must be unambiguously differentiable.
    * @return The string representation of this instance.
    */
