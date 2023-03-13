@@ -41,49 +41,31 @@ import org.libj.util.primitive.ShortComparator;
  * Utility functions for operations pertaining to arrays.
  */
 public final class ArrayUtil extends PrimitiveSort {
-  /**
-   * The empty {@code Object[]} array.
-   */
+  /** The empty {@code Object[]} array. */
   public static final Object[] EMPTY_ARRAY = {};
 
-  /**
-   * The empty {@code byte[]} array.
-   */
+  /** The empty {@code byte[]} array. */
   public static final byte[] EMPTY_ARRAY_BYTE = {};
 
-  /**
-   * The empty {@code char[]} array.
-   */
+  /** The empty {@code char[]} array. */
   public static final char[] EMPTY_ARRAY_CHAR = {};
 
-  /**
-   * The empty {@code short[]} array.
-   */
+  /** The empty {@code short[]} array. */
   public static final short[] EMPTY_ARRAY_SHORT = {};
 
-  /**
-   * The empty {@code int[]} array.
-   */
+  /** The empty {@code int[]} array. */
   public static final int[] EMPTY_ARRAY_INT = {};
 
-  /**
-   * The empty {@code long[]} array.
-   */
+  /** The empty {@code long[]} array. */
   public static final long[] EMPTY_ARRAY_LONG = {};
 
-  /**
-   * The empty {@code float[]} array.
-   */
+  /** The empty {@code float[]} array. */
   public static final float[] EMPTY_ARRAY_FLOAT = {};
 
-  /**
-   * The empty {@code double[]} array.
-   */
+  /** The empty {@code double[]} array. */
   public static final double[] EMPTY_ARRAY_DOUBLE = {};
 
-  /**
-   * The empty {@code boolean[]} array.
-   */
+  /** The empty {@code boolean[]} array. */
   public static final boolean[] EMPTY_ARRAY_BOOLEAN = {};
 
   /**
@@ -1142,24 +1124,23 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SafeVarargs
   public static <T>T[] filter(final Predicate<? super T> predicate, final T ... array) {
-    return filter0(predicate, 0, 0, array);
+    return filter0(predicate, array, array.length, 0, 0);
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>T[] filter0(final Predicate<? super T> predicate, final int index, final int depth, final T ... array) {
-    if (index == array.length)
+  private static <T>T[] filter0(final Predicate<? super T> predicate, final T[] array, final int len, final int index, final int depth) {
+    if (index == len)
       return (T[])Array.newInstance(array.getClass().getComponentType(), depth);
 
     final boolean accept = predicate.test(array[index]);
-    final T[] filtered = filter0(predicate, index + 1, accept ? depth + 1 : depth, array);
+    final T[] filtered = filter0(predicate, array, len, index + 1, accept ? depth + 1 : depth);
     if (accept)
       filtered[depth] = array[index];
 
     return filtered;
   }
 
-  @SafeVarargs
-  private static <T>T[] concat0(final T[] array1, final T[] array2, final T[] ... arrays) {
+  private static <T>T[] concat0(final T[] array1, final T[] array2, final T[][] arrays) {
     int length = array1.length + array2.length;
     for (int i = 0, i$ = arrays.length; i < i$; ++i) // [A]
       length += arrays[i].length;
@@ -1270,6 +1251,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array containing the members of the given {@code element} and provided {@code array}.
    * @throws NullPointerException If {@code elements} is null.
    */
+  @SafeVarargs
   @SuppressWarnings("unchecked")
   public static <T>T[] concat(final T element1, final T element2, final T ... elements) {
     final T[] concat = (T[])Array.newInstance(elements.getClass().getComponentType(), elements.length + 2);
@@ -1339,6 +1321,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array with elements removed from the provided array.
    * @throws NullPointerException If {@code array} or {@code items} is null.
    */
+  @SafeVarargs
   @SuppressWarnings("unchecked")
   public static <T>T[] splice(final T[] array, int start, final int deleteCount, final T ... items) {
     if (items.length == 0)
