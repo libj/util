@@ -16,86 +16,89 @@
 
 package org.libj.util;
 
-import java.util.SortedMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A "data fetcher" that facilitates the retrieval of data representing information pertaining to a dimension that can be denoted as
- * a "range" (such as time or distance). The {@link TieredRangeFetcher} abstracts the concept of tiered data sources. When data is
- * fetched (via the {@link #fetch(Comparable,Comparable)} method), the {@link TieredRangeFetcher} attempts to retrieve the requested
- * range from the "top" tier of the stack. If all or a part of the range is not present in the tier, the {@link TieredRangeFetcher}
- * attempts to fetch the missing portion of the range from the next tier. Upon successfully fetching the data, the
- * {@link TieredRangeFetcher} thereafter inserts the fetched data into the top tier, thus resembling a caching mechanism. The
- * {@link TieredRangeFetcher} is intended to provide an abstraction for the caching of range data belonging to a data source that is
+ * An abstract "API proxy" that facilitates the selection and insertion of data that is sorted by a dimension that can be denoted as
+ * a "range" (such as time or distance). A developer can chain separate implementations of {@link RangeFilter}, allowing
+ * higher-level patterns to manage selected or inserted data in a memory cache (fastest), vs database calls (slower), vs API calls
+ * (slowest). When data is fetched (via the {@link #fetch(Comparable,Comparable)} method), the {@link RangeFilter} attempts to
+ * retrieve the requested range from the "top" tier of the stack. If all or a part of the range is not present in the tier, the
+ * {@link RangeFilter} attempts to fetch the missing portion of the range from the next tier. Upon successfully fetching the data,
+ * the {@link RangeFilter} thereafter inserts the fetched data into the top tier, thus resembling a caching mechanism. The
+ * {@link RangeFilter} is intended to provide an abstraction for the caching of range data belonging to a data source that is
  * expensive to call, such as a remote database.
  *
  * @param <A> Type parameter of the "range" data.
  * @param <B> Type parameter of the data.
  */
-public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
-  private static final Logger logger = LoggerFactory.getLogger(TieredRangeFetcher.class);
+public abstract class RangeFilter<A extends Comparable<A>,B> {
+  private static final Logger logger = LoggerFactory.getLogger(RangeFilter.class);
 
-  private final TieredRangeFetcher<A,B> next;
+  private final RangeFilter<A,B> next;
 
   /**
-   * Creates a {@link TieredRangeFetcher} with the specified next {@link TieredRangeFetcher} that represents the next tier.
+   * Creates a {@link RangeFilter} with the specified next {@link RangeFilter} that represents the next tier.
    *
-   * @param next The {@link TieredRangeFetcher} that represents the next tier.
+   * @param next The {@link RangeFilter} that represents the next tier.
    */
-  public TieredRangeFetcher(final TieredRangeFetcher<A,B> next) {
+  public RangeFilter(final RangeFilter<A,B> next) {
     this.next = next;
   }
 
   /**
-   * Returns a {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
+   * Returns a {@link Map} of data from {@code from} (inclusive) to {@code to} (exclusive).
    *
    * @param from The lower bound of the range, inclusive.
    * @param to The upper bound of the range, exclusive.
-   * @return A {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
+   * @return A {@link Map} of data from {@code from} (inclusive) to {@code to} (exclusive).
    */
-  public SortedMap<A,B> fetch(final A from, final A to) {
+  public Map<A,B> fetch(final A from, final A to) {
     return fetch(from, to, null);
   }
 
   /**
-   * Returns a {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
+   * Returns a {@link Map} of data from {@code from} (inclusive) to {@code to} (exclusive).
    *
    * @param from The lower bound of the range, inclusive.
    * @param to The upper bound of the range, exclusive.
-   * @param prev The {@link TieredRangeFetcher} representing the previous tier.
-   * @return A {@link SortedMap} of data from {@code from} (inclusive) to {@code to} (exclusive).
+   * @param prev The {@link RangeFilter} representing the previous tier.
+   * @return A {@link Map} of data from {@code from} (inclusive) to {@code to} (exclusive).
    */
-  public SortedMap<A,B> fetch(final A from, final A to, final TieredRangeFetcher<A,B> prev) {
+  public Map<A,B> fetch(final A from, final A to, final RangeFilter<A,B> prev) {
     final A[] range = range();
-    if (range == null || range[0] == range[1]) {
+    final A r0;
+    final A r1;
+    if (range == null || (r0 = range[0]) == (r1 = range[1])) {
       if (next == null)
         return null;
 
-      final SortedMap<A,B> data = next.fetch(from, to, prev);
+      final Map<A,B> data = next.fetch(from, to, prev);
       insert(from, to, data);
       return data;
     }
 
     if (this != prev) {
-      if (to.compareTo(range[0]) <= 0) {
-        if (logger.isTraceEnabled()) logger.trace(this + "{1} (" + from + ", " + range[0] + "]");
-        insert(from, range[0], next.fetch(from, range[0], prev));
+      if (to.compareTo(r0) <= 0) {
+        if (logger.isTraceEnabled()) logger.trace(this + "{1} (" + from + ", " + r0 + "]");
+        insert(from, r0, next.fetch(from, r0, prev));
       }
-      else if (range[1].compareTo(from) <= 0) {
-        if (logger.isTraceEnabled()) logger.trace(this + " {2} (" + range[1] + ", " + to + "]");
-        insert(range[1], to, next.fetch(range[1], to, prev));
+      else if (r1.compareTo(from) <= 0) {
+        if (logger.isTraceEnabled()) logger.trace(this + " {2} (" + r1 + ", " + to + "]");
+        insert(r1, to, next.fetch(r1, to, prev));
       }
       else {
-        if (from.compareTo(range[0]) < 0) {
-          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + from + ", " + range[0] + "]");
-          insert(from, range[0], next.fetch(from, range[0], prev));
+        if (from.compareTo(r0) < 0) {
+          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + from + ", " + r0 + "]");
+          insert(from, r0, next.fetch(from, r0, prev));
         }
 
-        if (range[1].compareTo(to) < 0) {
-          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + range[1] + ", " + to + "]");
-          insert(range[1], to, next.fetch(range[1], to, prev));
+        if (r1.compareTo(to) < 0) {
+          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + r1 + ", " + to + "]");
+          insert(r1, to, next.fetch(r1, to, prev));
         }
       }
     }
@@ -104,29 +107,28 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
   }
 
   /**
-   * Returns the range of the keys present in this {@link TieredRangeFetcher}, as an array of length 2. Must not be null, and must
-   * be of length 2.
+   * Returns the range of the keys present in this {@link RangeFilter}, as an array of length 2. Must not be null, and must be of
+   * length 2.
    *
-   * @return The not-null range of the keys present in this {@link TieredRangeFetcher}, as an array of length 2.
+   * @return The not-null range of the keys present in this {@link RangeFilter}, as an array of length 2.
    */
   protected abstract A[] range();
 
   /**
-   * Returns a {@link SortedMap} of data in this {@link TieredRangeFetcher} for the range between {@code from} and {@code to}.
+   * Returns a {@link Map} of data in this {@link RangeFilter} for the range between {@code from} and {@code to}.
    *
    * @param from The start of the range, inclusive.
    * @param to The end of the range, exclusive.
-   * @return A {@link SortedMap} of data in this {@link TieredRangeFetcher} for the range between {@code from} and {@code to}.
+   * @return A {@link Map} of data in this {@link RangeFilter} for the range between {@code from} and {@code to}.
    */
-  protected abstract SortedMap<A,B> select(A from, A to);
+  protected abstract Map<A,B> select(A from, A to);
 
   /**
-   * Inserts a {@link SortedMap} of {@code data} into this {@link TieredRangeFetcher} for the range between {@code from} and
-   * {@code to}.
+   * Inserts a {@link Map} of {@code data} into this {@link RangeFilter} for the range between {@code from} and {@code to}.
    *
    * @param from The start of the range, inclusive.
    * @param to The end of the range, exclusive.
-   * @param data The {@link SortedMap}.
+   * @param data The {@link Map}.
    */
-  protected abstract void insert(A from, A to, SortedMap<A,B> data);
+  protected abstract void insert(A from, A to, Map<A,B> data);
 }
