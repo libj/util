@@ -26,18 +26,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TieredRangeFetcherTest {
-  private static final Logger logger = LoggerFactory.getLogger(TieredRangeFetcherTest.class);
+public class RangeFilterTest {
+  private static final Logger logger = LoggerFactory.getLogger(RangeFilterTest.class);
 
   @Test
   public void testTieredFetcher() {
-    final int dbFrom = 20;
-    final int dbTo = 30;
-    final SortedMap<Integer,Object> db = new TreeMap<>();
-    for (int i = 20; i < 30; ++i) // [N]
-      db.put(i, i);
-
-    final TieredRangeFetcher<Integer,Object> webFetcher = new TieredRangeFetcher<Integer,Object>(null) {
+    final RangeFilter<Integer,Object> webFetcher = new RangeFilter<Integer,Object>(null) {
       private final Integer[] range = {Integer.MIN_VALUE, Integer.MAX_VALUE};
 
       @Override
@@ -46,7 +40,7 @@ public class TieredRangeFetcherTest {
       }
 
       @Override
-      protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
+      protected Map<Integer,Object> select(final Integer from, final Integer to) {
         if (logger.isInfoEnabled()) logger.info("WEB -> (" + from + ", " + to + "]");
         final SortedMap<Integer,Object> results = new TreeMap<>();
         for (int i = from; i < to; ++i) // [N]
@@ -56,11 +50,20 @@ public class TieredRangeFetcherTest {
       }
 
       @Override
-      protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
+      protected void insert(final Integer from, final Integer to, final Map<Integer,Object> data) {
       }
     };
 
-    final TieredRangeFetcher<Integer,Object> dbFetcher = new TieredRangeFetcher<Integer,Object>(webFetcher) {
+    final RangeFilter<Integer,Object> dbFetcher = new RangeFilter<Integer,Object>(webFetcher) {
+      final SortedMap<Integer,Object> db = new TreeMap<>();
+      final int dbFrom = 20;
+      final int dbTo = 30;
+
+      {
+        for (int i = dbFrom; i < dbTo; ++i) // [N]
+          db.put(i, i);
+      }
+
       private Integer[] range = {dbFrom, dbTo};
 
       @Override
@@ -75,15 +78,10 @@ public class TieredRangeFetcherTest {
       }
 
       @Override
-      protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
+      protected void insert(final Integer from, final Integer to, final Map<Integer,Object> data) {
         if (logger.isInfoEnabled()) logger.info("DB <- (" + from + ", " + to + "]");
-        if (range == null) {
-          range = new Integer[] {from, to};
-        }
-        else {
-          range[0] = from < range[0] ? from : range[0];
-          range[1] = range[1] < to ? to : range[1];
-        }
+        range[0] = from < range[0] ? from : range[0];
+        range[1] = range[1] < to ? to : range[1];
 
         if (data.size() > 0) {
           for (final Map.Entry<Integer,Object> entry : data.entrySet()) { // [S]
@@ -96,7 +94,7 @@ public class TieredRangeFetcherTest {
       }
     };
 
-    final TieredRangeFetcher<Integer,Object> cacheFetcher = new TieredRangeFetcher<Integer,Object>(dbFetcher) {
+    final RangeFilter<Integer,Object> cacheFetcher = new RangeFilter<Integer,Object>(dbFetcher) {
       private final SortedMap<Integer,Object> cache = new TreeMap<>();
       private Integer[] range;
 
@@ -112,7 +110,7 @@ public class TieredRangeFetcherTest {
       }
 
       @Override
-      protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
+      protected void insert(final Integer from, final Integer to, final Map<Integer,Object> data) {
         if (logger.isInfoEnabled()) logger.info("CACHE <- (" + from + ", " + to + "]");
         if (range == null) {
           range = new Integer[] {from, to};
