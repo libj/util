@@ -97,8 +97,8 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<S> iterator = target.iterator();
     return new Iterator<T>() {
+      private final Iterator<S> iterator = target.iterator();
       private int index = -1;
 
       @Override
@@ -111,8 +111,7 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
         if (sourceToTarget == null)
           throw new UnsupportedOperationException();
 
-        final S e = iterator.next();
-        return sourceToTarget.apply(++index, e);
+        return sourceToTarget.apply(++index, iterator.next());
       }
 
       @Override

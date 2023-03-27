@@ -529,8 +529,8 @@ public final class CollectionUtil extends PrimitiveSort {
    *         elements in the range are less than the specified key. Note that this guarantees that the return value will be
    *         {@code >= 0} if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the elements of the list within the specified range.
-   * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
-   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0} or {@code toIndex > a.length}
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
@@ -580,8 +580,9 @@ public final class CollectionUtil extends PrimitiveSort {
    *         {@code >= 0} if and only if the key is found.
    * @throws ClassCastException If the range contains elements that are not <i>mutually comparable</i> using the specified
    *           comparator, or the search key is not comparable to the elements in the range using this comparator.
-   * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0} or {@code toIndex > a.length}
-   * @throws IllegalArgumentException If {@code fromIndex > toIndex}.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} or {@code c} is null.
    */
   public static <T>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -649,7 +650,8 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
    *
    * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted {@link List}.
@@ -662,7 +664,8 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
    *
    * @param <T> The type parameter of the Comparable key object.
    * @param a The sorted {@link List}.
@@ -670,6 +673,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired value.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
   public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
@@ -678,7 +683,8 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
    *
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
@@ -692,7 +698,8 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link List} whose value most closely matches the value provided.
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
    *
    * @param <T> The type parameter of the key object.
    * @param a The sorted {@link List}.
@@ -701,7 +708,9 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired value.
-   * @throws NullPointerException If {@code a} or {@code c} is null.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <T>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -739,13 +748,13 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayIntList}.
    * @param key The value to match.
-   * @return The closest index of the sorted {@link ArrayIntList} matching the desired value. The returned index will be less than
-   *         or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayIntList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayIntList} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int key) {
@@ -753,14 +762,14 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayIntList}.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayIntList} matching the desired value. The returned index will be less than
-   *         or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayIntList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayIntList} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int key, final IntComparator c) {
@@ -768,16 +777,18 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayIntList}.
    * @param fromIndex The starting index of the {@link ArrayIntList} to search from.
    * @param toIndex The ending index of the {@link ArrayIntList} to search to.
    * @param key The value to match.
-   * @return The closest index of the {@link ArrayIntList} matching the desired value. The returned index will be less than or equal
-   *         to an exact match.
-   * @throws NullPointerException If the specified {@link ArrayIntList} is null.
+   * @return The closest index of the {@link ArrayIntList} matching the desired value. The value at the returned index will be less
+   *         than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int fromIndex, final int toIndex, final int key) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -785,17 +796,19 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayIntList}.
    * @param fromIndex The starting index of the {@link ArrayIntList} to search from.
    * @param toIndex The ending index of the {@link ArrayIntList} to search to.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayIntList} matching the desired value. The returned index will be less than or equal
-   *         to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @return The closest index of the {@link ArrayIntList} matching the desired value. The value at the returned index will be less
+   *         than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int fromIndex, final int toIndex, final int key, final IntComparator c) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -818,13 +831,13 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayLongList}.
    * @param key The value to match.
-   * @return The closest index of the sorted {@link ArrayLongList} matching the desired value. The returned index will be less than
-   *         or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayLongList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayLongList} is null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final long key) {
@@ -832,14 +845,14 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayLongList}.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayLongList} matching the desired value. The returned index will be less than
-   *         or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayLongList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayLongList} is null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final long key, final LongComparator c) {
@@ -847,16 +860,19 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match. The returned index will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match. The value at the returned index will be less than or equal to an
+   * exact match.
    *
    * @param a The sorted {@link ArrayLongList}.
    * @param fromIndex The starting index of the {@link ArrayLongList} to search from.
    * @param toIndex The ending index of the {@link ArrayLongList} to search to.
    * @param key The value to match.
-   * @return The closest index of the {@link ArrayLongList} matching the desired value. The returned index will be less than or
-   *         equal to an exact match.
-   * @throws NullPointerException If the specified {@link ArrayLongList} is null.
+   * @return The closest index of the {@link ArrayLongList} matching the desired value. The value at the returned index will be less
+   *         than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final int fromIndex, final int toIndex, final long key) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -864,17 +880,19 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The returned index will
-   * be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayLongList}.
    * @param fromIndex The starting index of the {@link ArrayLongList} to search from.
    * @param toIndex The ending index of the {@link ArrayLongList} to search to.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayLongList} matching the desired value. The returned index will be less than or
-   *         equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @return The closest index of the {@link ArrayLongList} matching the desired value. The value at the returned index will be less
+   *         than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final int fromIndex, final int toIndex, final long key, final LongComparator c) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -897,13 +915,13 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param key The value to match.
-   * @return The closest index of the sorted {@link ArrayFloatList} matching the desired value. The returned index will be less than
-   *         or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayFloatList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayFloatList} is null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final float key) {
@@ -911,14 +929,14 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayFloatList} matching the desired value. The returned index will be less than
-   *         or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayFloatList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayFloatList} is null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final float key, final FloatComparator c) {
@@ -926,16 +944,18 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param fromIndex The starting index of the {@link ArrayFloatList} to search from.
    * @param toIndex The ending index of the {@link ArrayFloatList} to search to.
    * @param key The value to match.
-   * @return The closest index of the {@link ArrayFloatList} matching the desired value. The returned index will be less than or
-   *         equal to an exact match.
-   * @throws NullPointerException If the specified {@link ArrayFloatList} is null.
+   * @return The closest index of the {@link ArrayFloatList} matching the desired value. The value at the returned index will be
+   *         less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final int fromIndex, final int toIndex, final float key) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -943,17 +963,19 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param fromIndex The starting index of the {@link ArrayFloatList} to search from.
    * @param toIndex The ending index of the {@link ArrayFloatList} to search to.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayFloatList} matching the desired value. The returned index will be less than or
-   *         equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @return The closest index of the {@link ArrayFloatList} matching the desired value. The value at the returned index will be
+   *         less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final int fromIndex, final int toIndex, final float key, final FloatComparator c) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -976,13 +998,13 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayDoubleList}.
    * @param key The value to match.
-   * @return The closest index of the sorted {@link ArrayDoubleList} matching the desired value. The returned index will be less
-   *         than or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayDoubleList} matching the desired value. The value at the returned index
+   *         will be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayDoubleList} is null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final double key) {
@@ -990,14 +1012,14 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayDoubleList}.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayDoubleList} matching the desired value. The returned index will be less
-   *         than or equal to an exact match.
+   * @return The closest index of the sorted {@link ArrayDoubleList} matching the desired value. The value at the returned index
+   *         will be less than or equal to an exact match.
    * @throws NullPointerException If the specified {@link ArrayDoubleList} is null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final double key, final DoubleComparator c) {
@@ -1005,16 +1027,18 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayDoubleList}.
    * @param fromIndex The starting index of the {@link ArrayDoubleList} to search from.
    * @param toIndex The ending index of the {@link ArrayDoubleList} to search to.
    * @param key The value to match.
-   * @return The closest index of the {@link ArrayDoubleList} matching the desired value. The returned index will be less than or
-   *         equal to an exact match.
-   * @throws NullPointerException If the specified {@link ArrayDoubleList} is null.
+   * @return The closest index of the {@link ArrayDoubleList} matching the desired value. The value at the returned index will be
+   *         less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final int fromIndex, final int toIndex, final double key) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -1022,17 +1046,19 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The returned index
-   * will be less than or equal to an exact match.
+   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
    *
    * @param a The sorted {@link ArrayDoubleList}.
    * @param fromIndex The starting index of the {@link ArrayDoubleList} to search from.
    * @param toIndex The ending index of the {@link ArrayDoubleList} to search to.
    * @param key The value to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayDoubleList} matching the desired value. The returned index will be less than or
-   *         equal to an exact match.
-   * @throws NullPointerException If the specified array is null.
+   * @return The closest index of the {@link ArrayDoubleList} matching the desired value. The value at the returned index will be
+   *         less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final int fromIndex, final int toIndex, final double key, final DoubleComparator c) {
     assertRangeArray(fromIndex, toIndex, a.size());
@@ -1101,8 +1127,9 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified collection with the specified vararg parameters added as members to the collection.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex} is less than 0, or if {@code toIndex} is greater than the length of
    *           the specified array.
-   * @throws NullPointerException If {@code c} or {@code a} is null.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
    */
   public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a, final int fromIndex, final int toIndex) {
     assertRangeArray(fromIndex, toIndex, a.length);

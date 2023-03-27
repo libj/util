@@ -85,8 +85,9 @@ public class TransSet<S,T> extends DelegateSet<T> {
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<S> iterator = target.iterator();
     return new Iterator<T>() {
+      private final Iterator<S> iterator = target.iterator();
+
       @Override
       public boolean hasNext() {
         return iterator.hasNext();

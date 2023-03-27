@@ -83,8 +83,9 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<S> iterator = target.iterator();
     return new Iterator<T>() {
+      private final Iterator<S> iterator = target.iterator();
+
       @Override
       public boolean hasNext() {
         return iterator.hasNext();
@@ -155,8 +156,7 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
 
     final Iterator<S> iterator = target.iterator();
     while (iterator.hasNext()) {
-      final S e = iterator.next();
-      if (equals(o, sourceToTarget.apply(e))) {
+      if (equals(o, sourceToTarget.apply(iterator.next()))) {
         iterator.remove();
         return true;
       }

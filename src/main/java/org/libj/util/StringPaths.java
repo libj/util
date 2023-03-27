@@ -423,7 +423,7 @@ public final class StringPaths {
    * @param path The path string.
    * @return The name of the file or directory denoted by the specified pathname, or the empty string if the name sequence of
    *         {@code path} is empty.
-   * @throws NullPointerException If {@code path} is null or empty.
+   * @throws NullPointerException If {@code path} is null.
    * @throws IllegalArgumentException If {@code path} is an empty string.
    */
   public static String getName(final String path) {
@@ -441,7 +441,7 @@ public final class StringPaths {
    * @param path The path string.
    * @return The simple name of the file or directory denoted by the specified pathname, or the empty string if the name sequence of
    *         {@code path} is empty.
-   * @throws NullPointerException If {@code path} is null or empty.
+   * @throws NullPointerException If {@code path} is null.
    * @throws IllegalArgumentException If {@code path} is an empty string.
    */
   public static String getSimpleName(String path) {
