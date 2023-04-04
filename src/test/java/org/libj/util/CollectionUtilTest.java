@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.junit.Test;
@@ -152,5 +153,53 @@ public class CollectionUtilTest {
     assertDedupe(Arrays.asList(1, 2), 2, c);
     assertDedupe(Arrays.asList(1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9), 9, c);
     assertDedupe(Arrays.asList(1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 9), 9, c);
+  }
+
+  @Test
+  public void testEqualsRandomAccessRandomAccess() {
+    final ArrayList<Integer> al = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 4, 5);
+    final ArrayList<Integer> bl = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 4, 5);
+    final ArrayList<Integer> cl = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 4, 5, 6);
+    final ArrayList<Integer> dl = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 5, 4);
+    assertTrue(CollectionUtil.equals(new ArrayList<>(), new ArrayList<>()));
+    assertTrue(CollectionUtil.equals(al, bl));
+    assertFalse(CollectionUtil.equals(al, cl));
+    assertFalse(CollectionUtil.equals(al, dl));
+  }
+
+  @Test
+  public void testEqualsRandomAccessIterator() {
+    final ArrayList<Integer> al = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 4, 5);
+    final LinkedHashSet<Integer> bl = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 4, 5);
+    final LinkedHashSet<Integer> cl = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 4, 5, 6);
+    final LinkedHashSet<Integer> dl = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 5, 4);
+    assertTrue(CollectionUtil.equals(new ArrayList<>(), new LinkedHashSet<>()));
+    assertTrue(CollectionUtil.equals(al, bl));
+    assertFalse(CollectionUtil.equals(al, cl));
+    assertFalse(CollectionUtil.equals(al, dl));
+  }
+
+  @Test
+  public void testEqualsIteratorRandomAccess() {
+    final LinkedHashSet<Integer> al = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 4, 5);
+    final ArrayList<Integer> bl = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 4, 5);
+    final ArrayList<Integer> cl = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 4, 5, 6);
+    final ArrayList<Integer> dl = CollectionUtil.asCollection(new ArrayList<>(), 1, 2, 3, 5, 4);
+    assertTrue(CollectionUtil.equals(new LinkedHashSet<>(), new ArrayList<>()));
+    assertTrue(CollectionUtil.equals(al, bl));
+    assertFalse(CollectionUtil.equals(al, cl));
+    assertFalse(CollectionUtil.equals(al, dl));
+  }
+
+  @Test
+  public void testEqualsIteratorIterator() {
+    final LinkedHashSet<Integer> al = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 4, 5);
+    final LinkedHashSet<Integer> bl = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 4, 5);
+    final LinkedHashSet<Integer> cl = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 4, 5, 6);
+    final LinkedHashSet<Integer> dl = CollectionUtil.asCollection(new LinkedHashSet<>(), 1, 2, 3, 5, 4);
+    assertTrue(CollectionUtil.equals(new LinkedHashSet<>(), new LinkedHashSet<>()));
+    assertTrue(CollectionUtil.equals(al, bl));
+    assertFalse(CollectionUtil.equals(al, cl));
+    assertFalse(CollectionUtil.equals(al, dl));
   }
 }

@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.function.Function;
 
@@ -105,6 +106,63 @@ public final class CollectionUtil extends PrimitiveSort {
     }
 
     return index;
+  }
+
+  /**
+   * Returns {@code true} if {@code a} and {@code b} have the same elements in the same order; otherwise {@code false}.
+   *
+   * @param a Collection to check for equality with {@code b}.
+   * @param b Collection to check for equality with {@code a}.
+   * @return {@code true} if {@code a} and {@code b} have the same elements in the same order; otherwise {@code false}.
+   * @throws NullPointerException If {@code a} or {@code b} is null.
+   * @see #containsAll(Collection,Collection)
+   */
+  public static boolean equals(final Collection<?> a, final Collection<?> b) {
+    final int size = b.size();
+    if (size == 0)
+      return a.size() == 0;
+
+    if (size != a.size())
+      return false;
+
+    final List<?> la, lb;
+    if (a instanceof List && isRandomAccess(la = (List<?>)a)) {
+      if (b instanceof List && isRandomAccess(lb = (List<?>)b)) {
+        int i = 0; do { // [RA]
+          if (!Objects.equals(la.get(i), lb.get(i)))
+            return false;
+        }
+        while (++i < size);
+      }
+      else {
+        final Iterator<?> ib = b.iterator();
+        int i = 0; do { // [RA]
+          if (!Objects.equals(la.get(i), ib.next()))
+            return false;
+        }
+        while (++i < size);
+      }
+    }
+    else {
+      final Iterator<?> ia = a.iterator();
+      if (b instanceof List && isRandomAccess(lb = (List<?>)b)) {
+        int i = 0; do { // [RA]
+          if (!Objects.equals(ia.next(), lb.get(i)))
+            return false;
+        }
+        while (++i < size);
+      }
+      else {
+        final Iterator<?> ib = b.iterator();
+        int i = 0; do { // [I]
+          if (!Objects.equals(ia.next(), ib.next()))
+            return false;
+        }
+        while (++i < size);
+      }
+    }
+
+    return true;
   }
 
   /**
