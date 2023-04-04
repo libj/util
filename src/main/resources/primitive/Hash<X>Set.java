@@ -427,16 +427,20 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public <x>[] toArray(<x>[] a) {
-    if (a.length < size())
-      a = new <x>[size()];
+    final int size = size();
+    if (a.length < size)
+      a = new <x>[size];
 
     int i = 0;
     final <x>[] values = this.valueData;
     for (final <x> value : values) // [A]
-      if (NULL != value)
+      if (value != NULL)
         a[i++] = value;
 
     if (containsNull)
+      a[size - 1] = NULL;
+
+    if (a.length > size)
       a[size] = NULL;
 
     return a;
@@ -444,18 +448,21 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
 
   @Override
   public <XX>[] toArray(<XX>[] a) {
-    final int i$ = size();
-    if (a.length < i$)
-      a = new <XX>[i$];
+    final int size = size();
+    if (a.length < size)
+      a = new <XX>[size];
 
     int i = 0;
     final <x>[] values = this.valueData;
     for (final <x> value : values) // [A]
-      if (NULL != value)
+      if (value != NULL)
         a[i++] = value;
 
     if (containsNull)
-      a[size] = NULL;
+      a[size - 1] = NULL;
+
+    if (a.length > size)
+      a[size] = null;
 
     return a;
   }

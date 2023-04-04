@@ -265,7 +265,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   }
 
   @Test
-  public void toArrayCopiesElements<XX>oSufficientlySizedArray() {
+  public void toArrayCopiesElements<XX>ToSufficientlySizedArray() {
     addTwoElements(testSet);
     final <XX>[] result = testSet.toArray(new <XX>[testSet.size()]);
 
@@ -273,7 +273,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   }
 
   @Test
-  public void toArrayCopiesElements<XX>oNewArray() {
+  public void toArrayCopiesElements<XX>ToNewArray() {
     addTwoElements(testSet);
     final <XX>[] result = testSet.toArray(new <XX>[testSet.size()]);
 
@@ -531,7 +531,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   }
 
   @Test
-  public void toArrayCopiesElements<XX>oNewArrayIncludingMissingValue() {
+  public void toArrayCopiesElements<XX>ToNewArrayIncludingMissingValue() {
     addTwoElements(testSet);
     testSet.add(Hash<X>Set.NULL);
 
@@ -540,7 +540,7 @@ public class Hash<X>SetTest extends PrimitiveCollectionTest {
   }
 
   @Test
-  public void toObjectArrayCopiesElements<XX>oNewArrayIncludingMissingValue() {
+  public void toObjectArrayCopiesElements<XX>ToNewArrayIncludingMissingValue() {
     addTwoElements(testSet);
     testSet.add(Hash<X>Set.NULL);
 
