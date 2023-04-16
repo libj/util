@@ -140,6 +140,7 @@ public class UnsynchronizedByteArrayOutputStream extends OutputStream {
    * Writes the specified byte to {@code this} output stream.
    *
    * @param b The byte to be written.
+   * @throws IOException Is declared, but is never thrown.
    */
   @Override
   public void write(final int b) throws IOException {
@@ -157,6 +158,7 @@ public class UnsynchronizedByteArrayOutputStream extends OutputStream {
    * @throws NullPointerException If {@code b} is null.
    * @throws IndexOutOfBoundsException If {@code off} is negative, {@code len} is negative, or {@code len} is greater than
    *           {@code b.length - off}.
+   * @throws IOException Is declared, but is never thrown.
    */
   @Override
   public void write(final byte[] b, final int off, final int len) throws IOException {
@@ -271,6 +273,8 @@ public class UnsynchronizedByteArrayOutputStream extends OutputStream {
   /**
    * Closing an output stream has no effect. The methods in this class can be called after the stream has been closed without
    * generating an {@link IOException}.
+   *
+   * @throws IOException Is declared, but is never thrown.
    */
   @Override
   public void close() throws IOException {

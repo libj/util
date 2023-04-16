@@ -541,33 +541,35 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
   public void clear() {
     final Object[] elementData = this.elementData;
     ++modCount;
+    final int size = size();
     for (int i = 0; i != size; ++i) // [A]
       elementData[deref(i)] = null;
 
-    head = tail = size = 0;
+    head = tail = this.size = 0;
   }
 
   @Override
   public Object[] toArray() {
-    return toArray(new Object[size]);
+    final int size = size();
+    return size == 0 ? ArrayUtil.EMPTY_ARRAY : toArray(new Object[size]);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <T>T[] toArray(T[] a) {
-    if (size == 0)
-      return a;
+    final int size = size();
+    if (size > 0) {
+      if (a.length < size)
+        a = (T[])Array.newInstance(a.getClass().getComponentType(), size);
 
-    if (a.length < size)
-      a = (T[])Array.newInstance(a.getClass().getComponentType(), size);
-
-    final Object[] elementData = this.elementData;
-    if (head < tail) {
-      System.arraycopy(elementData, head, a, 0, tail - head);
-    }
-    else {
-      System.arraycopy(elementData, head, a, 0, elementData.length - head);
-      System.arraycopy(elementData, 0, a, elementData.length - head, tail);
+      final Object[] elementData = this.elementData;
+      if (head < tail) {
+        System.arraycopy(elementData, head, a, 0, tail - head);
+      }
+      else {
+        System.arraycopy(elementData, head, a, 0, elementData.length - head);
+        System.arraycopy(elementData, 0, a, elementData.length - head, tail);
+      }
     }
 
     if (a.length > size)

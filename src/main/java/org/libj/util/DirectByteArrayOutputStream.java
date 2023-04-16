@@ -18,6 +18,7 @@ package org.libj.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * <b>An {@link UnsynchronizedByteArrayOutputStream} that does not automatically grow the underlying buffer.</b>
@@ -33,7 +34,7 @@ import java.io.IOException;
  */
 public class DirectByteArrayOutputStream extends UnsynchronizedByteArrayOutputStream {
   /**
-   * Creates a new {@link DirectByteArrayOutputStream}, with a byte array capacity of the specified size.
+   * Creates a new {@link DirectByteArrayOutputStream} with a byte array capacity of the specified size.
    *
    * @param size The size of the buffer.
    * @throws NegativeArraySizeException If {@code size} is negative.
@@ -43,20 +44,40 @@ public class DirectByteArrayOutputStream extends UnsynchronizedByteArrayOutputSt
   }
 
   /**
-   * Creates a new {@link DirectByteArrayOutputStream}, with the provided underlying byte array.
+   * Creates a new {@link DirectByteArrayOutputStream} with the provided underlying byte array.
    *
    * @param buf The buffer.
+   * @throws NullPointerException If {@code buf} is null.
    */
   public DirectByteArrayOutputStream(final byte[] buf) {
-    this.buf = buf;
+    this.buf = Objects.requireNonNull(buf);
   }
 
+  /**
+   * Creates a new {@link DirectByteArrayOutputStream} with a null underlying byte array.
+   */
+  protected DirectByteArrayOutputStream() {
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @throws IOException Is declared, but is never thrown.
+   * @throws ArrayIndexOutOfBoundsException If an attempt is made to write beyond the length of the underlying byte array.
+   */
   @Override
   public void write(final int b) throws IOException {
     buf[count] = (byte)b;
     ++count;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @throws IOException Is declared, but is never thrown.
+   * @throws NullPointerException If {@code b} or the underlying byte array is null.
+   * @throws IndexOutOfBoundsException If the specified {@code off} and {@code len} are out of bounds for {@code b}.
+   */
   @Override
   public void write(final byte[] b, final int off, final int len) throws IOException {
     System.arraycopy(b, off, buf, count, len);

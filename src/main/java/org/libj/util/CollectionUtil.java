@@ -357,13 +357,13 @@ public final class CollectionUtil extends PrimitiveSort {
    * {@code flatten(List,false)}.
    *
    * @param <L> The type of the list.
-   * @param <T> The type of list elements.
+   * @param <E> The type of list elements.
    * @param list The list.
    * @return The specified list.
    * @throws NullPointerException If {@code list} is null.
    */
-  public static <L extends List<T>,T>L flatten(final L list) {
-    flatten(list, (Function<T,List<T>>)null, false);
+  public static <L extends List<E>,E>L flatten(final L list) {
+    flatten(list, (Function<E,List<E>>)null, false);
     return list;
   }
 
@@ -372,15 +372,15 @@ public final class CollectionUtil extends PrimitiveSort {
    * their expanded form, at every depth.
    *
    * @param <L> The type of the list.
-   * @param <T> The type of list elements.
+   * @param <E> The type of list elements.
    * @param list The list.
    * @param retainListReferences If {@code true}, members that reference a {@link List} are retained; if {@code false}, they are
    *          removed.
    * @return The specified list.
    * @throws NullPointerException If {@code list} is null.
    */
-  public static <L extends List<T>,T>L flatten(final L list, final boolean retainListReferences) {
-    flatten(list, (Function<T,List<T>>)null, retainListReferences);
+  public static <L extends List<E>,E>L flatten(final L list, final boolean retainListReferences) {
+    flatten(list, (Function<E,List<E>>)null, retainListReferences);
     return list;
   }
 
@@ -391,7 +391,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * {@code resolver} parameter is provided to dereference such a symbolic references.
    *
    * @param <L> The type of the list.
-   * @param <T> The type of list elements.
+   * @param <E> The type of list elements.
    * @param list The list.
    * @param retainListReferences If {@code true}, members that reference a {@link List} are retained; if {@code false}, they are
    *          removed.
@@ -402,11 +402,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code list} is null.
    */
   @SuppressWarnings("unchecked")
-  public static <L extends List<T>,T>L flatten(final L list, final Function<T,? extends List<T>> resolver, final boolean retainListReferences) {
-    final ListIterator<T> iterator = list.listIterator();
+  public static <L extends List<E>,E>L flatten(final L list, final Function<E,? extends List<E>> resolver, final boolean retainListReferences) {
+    final ListIterator<E> iterator = list.listIterator();
     for (int i = 0; iterator.hasNext();) { // [I]
-      final T member = iterator.next();
-      final List<T> inner = resolver != null ? resolver.apply(member) : member instanceof List ? (List<T>)member : null;
+      final E member = iterator.next();
+      final List<E> inner = resolver != null ? resolver.apply(member) : member instanceof List ? (List<E>)member : null;
       if (inner != null) {
         if (retainListReferences)
           ++i;
@@ -421,7 +421,7 @@ public final class CollectionUtil extends PrimitiveSort {
             while (++j < j$);
           }
           else {
-            final Iterator<T> it = inner.iterator(); do // [I]
+            final Iterator<E> it = inner.iterator(); do // [I]
               iterator.add(it.next());
             while (it.hasNext());
           }
@@ -576,7 +576,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * the natural ordering of its elements, hence results are undefined.) If the range contains multiple elements equal to the
    * specified object, there is no guarantee which one will be found.
    *
-   * @param <T> Type parameter of Comparable key object.
+   * @param <E> Type parameter of Comparable key object.
    * @param a The list to be searched.
    * @param fromIndex The index of the first element (inclusive) to be searched.
    * @param toIndex The index of the last element (exclusive) to be searched.
@@ -591,9 +591,39 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
+  public static <E extends Comparable<? super E>>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key);
+  }
+
+  /**
+   * Searches a range of the specified list for the specified object using the binary search algorithm. The range must be sorted in
+   * ascending order according to the {@linkplain Comparable natural ordering} of its elements (as by the
+   * {@link List#sort(Comparator)} method) prior to making this call. If it is not sorted, the results are undefined. (If the range
+   * contains elements that are not mutually comparable (for example, strings and integers), it <i>cannot</i> be sorted according to
+   * the natural ordering of its elements, hence results are undefined.) If the range contains multiple elements equal to the
+   * specified object, there is no guarantee which one will be found.
+   *
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of Comparable key object.
+   * @param a The list to be searched.
+   * @param fromIndex The index of the first element (inclusive) to be searched.
+   * @param toIndex The index of the last element (exclusive) to be searched.
+   * @param key The value to be searched for.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @return Index of the search key if it is contained in the list within the specified range, otherwise
+   *         {@code (-(<i>insertion point</i>) - 1)}. The <i>insertion point</i> is defined as the point at which the key would be
+   *         inserted into the list: the index of the first element in the range greater than the key, or {@code toIndex} if all
+   *         elements in the range are less than the specified key. Note that this guarantees that the return value will be
+   *         {@code >= 0} if and only if the key is found.
+   * @throws ClassCastException If the search key is not comparable to the elements of the list within the specified range.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static <E,K extends Comparable<? super K>>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binarySearch0(a, fromIndex, toIndex, key, elementToKey);
   }
 
   /**
@@ -604,7 +634,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * elements, hence results are undefined.) If the list contains multiple elements equal to the specified object, there is no
    * guarantee which one will be found.
    *
-   * @param <T> Type parameter of Comparable key object.
+   * @param <E> Type parameter of Comparable key object.
    * @param a The list to be searched.
    * @param key The value to be searched for.
    * @return Index of the search key if it is contained in the list, otherwise {@code (-(<i>insertion point</i>) - 1)}. The
@@ -614,8 +644,32 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws ClassCastException If the search key is not comparable to the elements of the array.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binarySearch(final List<? extends T> a, final T key) {
+  public static <E extends Comparable<? super E>>int binarySearch(final List<? extends E> a, final E key) {
     return binarySearch0(a, 0, a.size(), key);
+  }
+
+  /**
+   * Searches the specified list for the specified object using the binary search algorithm. The list must be sorted in ascending
+   * order according to the {@linkplain Comparable natural ordering} of its elements (as by the {@link List#sort(Comparator)}
+   * method) prior to making this call. If it is not sorted, the results are undefined. (If the list contains elements that are not
+   * mutually comparable (for example, strings and integers), it <i>cannot</i> be sorted according to the natural ordering of its
+   * elements, hence results are undefined.) If the list contains multiple elements equal to the specified object, there is no
+   * guarantee which one will be found.
+   *
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of Comparable key object.
+   * @param a The list to be searched.
+   * @param key The value to be searched for.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @return Index of the search key if it is contained in the list, otherwise {@code (-(<i>insertion point</i>) - 1)}. The
+   *         <i>insertion point</i> is defined as the point at which the key would be inserted into the list: the index of the first
+   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note
+   *         that this guarantees that the return value will be {@code >= 0} if and only if the key is found.
+   * @throws ClassCastException If the search key is not comparable to the elements of the array.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static <E,K extends Comparable<? super K>>int binarySearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey) {
+    return binarySearch0(a, 0, a.size(), key, elementToKey);
   }
 
   /**
@@ -624,7 +678,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * call. If it is not sorted, the results are undefined. If the range contains multiple elements equal to the specified object,
    * there is no guarantee which one will be found.
    *
-   * @param <T> The type parameter of the Comparable key object.
+   * @param <E> The type parameter of the list element and key object.
    * @param a The list to be searched.
    * @param fromIndex The index of the first element (inclusive) to be searched.
    * @param toIndex The index of the last element (exclusive) to be searched.
@@ -642,9 +696,40 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binarySearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+  public static <E>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  /**
+   * Searches a range of the specified list for the specified object using the binary search algorithm. The range must be sorted in
+   * ascending order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this
+   * call. If it is not sorted, the results are undefined. If the range contains multiple elements equal to the specified object,
+   * there is no guarantee which one will be found.
+   *
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of the key object.
+   * @param a The list to be searched.
+   * @param fromIndex The index of the first element (inclusive) to be searched.
+   * @param toIndex The index of the last element (exclusive) to be searched.
+   * @param key The value to be searched for.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @param c The comparator by which the list is ordered. A {@code null} value indicates that the elements' {@linkplain Comparable
+   *          natural ordering} should be used.
+   * @return Index of the search key if it is contained in the list within the specified range, otherwise
+   *         {@code (-(<i>insertion point</i>) - 1)}. The <i>insertion point</i> is defined as the point at which the key would be
+   *         inserted into the list: the index of the first element in the range greater than the key, or {@code toIndex} if all
+   *         elements in the range are less than the specified key. Note that this guarantees that the return value will be
+   *         {@code >= 0} if and only if the key is found.
+   * @throws ClassCastException If the range contains elements that are not <i>mutually comparable</i> using the specified
+   *           comparator, or the search key is not comparable to the elements in the range using this comparator.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
+   */
+  public static <E,K>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binarySearch0(a, fromIndex, toIndex, key, elementToKey, c);
   }
 
   /**
@@ -653,7 +738,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * is not sorted, the results are undefined. If the list contains multiple elements equal to the specified object, there is no
    * guarantee which one will be found.
    *
-   * @param <T> The type parameter of the Comparable key object.
+   * @param <E> The type parameter of the list element and key object.
    * @param a The list to be searched.
    * @param key The value to be searched for.
    * @param c The comparator by which the list is ordered. A {@code null} value indicates that the elements' {@linkplain Comparable
@@ -666,17 +751,41 @@ public final class CollectionUtil extends PrimitiveSort {
    *           comparator, or the search key is not comparable to the elements of the list using this comparator.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binarySearch(final List<? extends T> a, final T key, final Comparator<? super T> c) {
+  public static <E>int binarySearch(final List<? extends E> a, final E key, final Comparator<? super E> c) {
     return binarySearch0(a, 0, a.size(), key, c);
   }
 
-  private static <T extends Comparable<? super T>>int binarySearch0(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
+  /**
+   * Searches the specified list for the specified object using the binary search algorithm. The list must be sorted in ascending
+   * order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this call. If it
+   * is not sorted, the results are undefined. If the list contains multiple elements equal to the specified object, there is no
+   * guarantee which one will be found.
+   *
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of the key object.
+   * @param a The list to be searched.
+   * @param key The value to be searched for.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @param c The comparator by which the list is ordered. A {@code null} value indicates that the elements' {@linkplain Comparable
+   *          natural ordering} should be used.
+   * @return Index of the search key if it is contained in the list, otherwise {@code (-(<i>insertion point</i>) - 1)}. The
+   *         <i>insertion point</i> is defined as the point at which the key would be inserted into the list: the index of the first
+   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note
+   *         that this guarantees that the return value will be {@code >= 0} if and only if the key is found.
+   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified
+   *           comparator, or the search key is not comparable to the elements of the list using this comparator.
+   * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
+   */
+  public static <E,K>int binarySearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+    return binarySearch0(a, 0, a.size(), key, elementToKey, c);
+  }
+
+  private static <E extends Comparable<? super E>>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
       final int mid = (low + high) >>> 1;
-      final Comparable<? super T> midVal = a.get(mid);
-      final int cmp = midVal.compareTo(key);
+      final int cmp = a.get(mid).compareTo(key);
 
       if (cmp < 0)
         low = mid + 1;
@@ -689,12 +798,30 @@ public final class CollectionUtil extends PrimitiveSort {
     return -(low + 1);
   }
 
-  private static <T>int binarySearch0(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+  private static <E,K extends Comparable<? super K>>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
       final int mid = (low + high) >>> 1;
-      final T midVal = a.get(mid);
+      final int cmp = elementToKey.apply(a.get(mid)).compareTo(key);
+
+      if (cmp < 0)
+        low = mid + 1;
+      else if (cmp > 0)
+        high = mid - 1;
+      else
+        return mid;
+    }
+
+    return -(low + 1);
+  }
+
+  private static <E>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
+    int low = fromIndex;
+    int high = toIndex - 1;
+    while (low <= high) {
+      final int mid = (low + high) >>> 1;
+      final E midVal = a.get(mid);
       final int cmp = c.compare(midVal, key);
       if (cmp < 0)
         low = mid + 1;
@@ -707,17 +834,35 @@ public final class CollectionUtil extends PrimitiveSort {
     return -(low + 1);
   }
 
+  private static <E,K>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+    int low = fromIndex;
+    int high = toIndex - 1;
+    while (low <= high) {
+      final int mid = (low + high) >>> 1;
+      final E midVal = a.get(mid);
+      final int cmp = c.compare(elementToKey.apply(midVal), key);
+      if (cmp < 0)
+        low = mid + 1;
+      else if (cmp > 0)
+        high = mid - 1;
+      else
+        return mid;
+    }
+
+    return -(low + 1);
+  }
+
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
    * will be less than or equal to an exact match.
    *
-   * @param <T> The type parameter of the Comparable key object.
+   * @param <E> The type parameter of the list element and key object.
    * @param a The sorted {@link List}.
    * @param key The value to match.
    * @return The closest index of the sorted {@link List} matching the desired value.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<? extends T> a, final T key) {
+  public static <E extends Comparable<? super E>>int binaryClosestSearch(final List<? extends E> a, final E key) {
     return binaryClosestSearch0(a, 0, a.size(), key);
   }
 
@@ -725,7 +870,23 @@ public final class CollectionUtil extends PrimitiveSort {
    * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
    * will be less than or equal to an exact match.
    *
-   * @param <T> The type parameter of the Comparable key object.
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of Comparable key object.
+   * @param a The sorted {@link List}.
+   * @param key The value to match.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static <E,K extends Comparable<? super K>>int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey) {
+    return binaryClosestSearch0(a, 0, a.size(), key, elementToKey);
+  }
+
+  /**
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
+   *
+   * @param <E> The type parameter of the list element and key object.
    * @param a The sorted {@link List}.
    * @param fromIndex The starting index of the sorted {@link List} to search from.
    * @param toIndex The ending index of the sorted {@link List} to search to.
@@ -735,7 +896,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <T extends Comparable<? super T>>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key) {
+  public static <E extends Comparable<? super E>>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
@@ -744,14 +905,35 @@ public final class CollectionUtil extends PrimitiveSort {
    * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
    * will be less than or equal to an exact match.
    *
-   * @param <T> The type parameter of the key object.
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of Comparable key object.
+   * @param a The sorted {@link List}.
+   * @param fromIndex The starting index of the sorted {@link List} to search from.
+   * @param toIndex The ending index of the sorted {@link List} to search to.
+   * @param key The value to match.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static <E,K extends Comparable<? super K>>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, elementToKey);
+  }
+
+  /**
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
+   *
+   * @param <E> The type parameter of the list elements and key object.
    * @param a The sorted {@link List}.
    * @param key The value to match.
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
    * @return The closest index of the sorted {@link List} matching the desired value.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binaryClosestSearch(final List<? extends T> a, final T key, final Comparator<? super T> c) {
+  public static <E>int binaryClosestSearch(final List<? extends E> a, final E key, final Comparator<? super E> c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -759,7 +941,24 @@ public final class CollectionUtil extends PrimitiveSort {
    * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
    * will be less than or equal to an exact match.
    *
-   * @param <T> The type parameter of the key object.
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of the key object.
+   * @param a The sorted {@link List}.
+   * @param key The value to match.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
+   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
+   */
+  public static <E,K>int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+    return binaryClosestSearch0(a, 0, a.size(), key, elementToKey, c);
+  }
+
+  /**
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
+   *
+   * @param <E> The type parameter of the list elements and key object.
    * @param a The sorted {@link List}.
    * @param fromIndex The starting index of the sorted {@link List} to search from.
    * @param toIndex The ending index of the sorted {@link List} to search to.
@@ -768,14 +967,36 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link List} matching the desired value.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
-   * @throws NullPointerException If {@code a} is null.
+   * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <T>int binaryClosestSearch(final List<? extends T> a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+  public static <E>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
-  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final List<? extends T> a, int from, int to, final T key) {
+  /**
+   * Find the index of the sorted {@link List} whose value most closely matches the value provided. The value at the returned index
+   * will be less than or equal to an exact match.
+   *
+   * @param <E> The type parameter of the list elements.
+   * @param <K> The type parameter of the key object.
+   * @param a The sorted {@link List}.
+   * @param fromIndex The starting index of the sorted {@link List} to search from.
+   * @param toIndex The ending index of the sorted {@link List} to search to.
+   * @param key The value to match.
+   * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
+   * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
+   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
+   */
+  public static <E,K>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, elementToKey, c);
+  }
+
+  private static <E extends Comparable<? super E>>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final E key) {
     for (int mid; from < to;) { // [N]
       mid = (from + to) / 2;
       final int c = key.compareTo(a.get(mid));
@@ -790,10 +1011,40 @@ public final class CollectionUtil extends PrimitiveSort {
     return (from + to) / 2;
   }
 
-  private static <T>int binaryClosestSearch0(final List<? extends T> a, int from, int to, final T key, final Comparator<? super T> comparator) {
+  private static <E,K extends Comparable<? super K>>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final K key, final Function<E,K> elementToKey) {
+    for (int mid; from < to;) { // [N]
+      mid = (from + to) / 2;
+      final int c = key.compareTo(elementToKey.apply(a.get(mid)));
+      if (c < 0)
+        to = mid;
+      else if (c > 0)
+        from = mid + 1;
+      else
+        return mid;
+    }
+
+    return (from + to) / 2;
+  }
+
+  private static <E>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final E key, final Comparator<? super E> comparator) {
     for (int mid; from < to;) { // [N]
       mid = (from + to) / 2;
       final int c = comparator.compare(key, a.get(mid));
+      if (c < 0)
+        to = mid;
+      else if (c > 0)
+        from = mid + 1;
+      else
+        return mid;
+    }
+
+    return (from + to) / 2;
+  }
+
+  private static <E,K>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final K key, final Function<E,K> elementToKey, final Comparator<? super K> comparator) {
+    for (int mid; from < to;) { // [N]
+      mid = (from + to) / 2;
+      final int c = comparator.compare(key, elementToKey.apply(a.get(mid)));
       if (c < 0)
         to = mid;
       else if (c > 0)
@@ -1221,7 +1472,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * Returns an array of sublists of the specified list partitioned to the specified size. The last sublist member of the resulting
    * array will contain the divisor remainder of elements ranging from size of {@code 1} to {@code size}.
    *
-   * @param <T> The type of list elements.
+   * @param <E> The type of list elements.
    * @param list The list to partition.
    * @param size The size of each partition.
    * @return An array of sublists of the specified list partitioned to the specified size.
@@ -1229,13 +1480,13 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code size} is less than or equal to 0.
    */
   @SuppressWarnings("unchecked")
-  public static <T>List<T>[] partition(final List<T> list, final int size) {
+  public static <E>List<E>[] partition(final List<E> list, final int size) {
     if (size <= 0)
       throw new IllegalArgumentException("Size must be positive: " + size);
 
     final int parts = list.size() / size;
     final int remainder = list.size() % size;
-    final List<T>[] partitions = new List[remainder != 0 ? parts + 1 : parts];
+    final List<E>[] partitions = new List[remainder != 0 ? parts + 1 : parts];
     for (int i = 0; i < parts; ++i) // [A]
       partitions[i] = list.subList(i * size, (i + 1) * size);
 
@@ -1721,13 +1972,13 @@ public final class CollectionUtil extends PrimitiveSort {
    * order: 0 1 2 3 4 5 6 7 8 9
    * </pre>
    *
-   * @param <T> The type parameter for the {@link Comparable} objects of {@code order}.
+   * @param <E> The type parameter for the {@link Comparable} objects of {@code order}.
    * @param data The {@link List} providing the data.
    * @param order The {@link List} of {@link Comparable} objects providing the order of indices to sort {@code data}.
    * @throws NullPointerException If {@code data}, {@code order} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.size()}.
    */
-  public static <T extends Comparable<? super T>>void sort(final List<?> data, final List<T> order) {
+  public static <E extends Comparable<? super E>>void sort(final List<?> data, final List<E> order) {
     sort(data, order, (o1, o2) -> o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2));
   }
 
@@ -1762,16 +2013,16 @@ public final class CollectionUtil extends PrimitiveSort {
     sortIndexed(data, order, buildIndex(order.size()), (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
   }
 
-  private static final <T>int dedupe(final List<T> a, final int len, final int index, final int depth, final Comparator<? super T> c) {
+  private static final <E>int dedupe(final List<E> l, final int len, final int index, final int depth, final Comparator<? super E> c) {
     if (index == len)
       return depth;
 
-    final T element = a.get(index);
-    if (c.compare(a.get(index - 1), element) == 0)
-      return dedupe(a, len, index + 1, depth, c);
+    final E element = l.get(index);
+    if (c.compare(l.get(index - 1), element) == 0)
+      return dedupe(l, len, index + 1, depth, c);
 
-    final int length = dedupe(a, len, index + 1, depth + 1, c);
-    a.set(depth, element);
+    final int length = dedupe(l, len, index + 1, depth + 1, c);
+    l.set(depth, element);
     return length;
   }
 
@@ -1779,14 +2030,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * Deduplicates the provided {@link List} by reordering the unique elements in ascending order specified by the given
    * {@link Comparator}, returning the number of unique elements.
    *
-   * @param <T> The type parameter of the provided {@link List}.
+   * @param <E> The type parameter of the provided {@link List}.
    * @param l The list to dedupe.
    * @param c The {@link Comparator}.
    * @return The number of unique elements after having reordering the unique elements in ascending order specified by the given
    *         {@link Comparator}.
    * @throws NullPointerException If the provided {@link List} or {@link Comparator} is null.
    */
-  public static final <T>int dedupe(final List<T> l, final Comparator<? super T> c) {
+  public static final <E>int dedupe(final List<E> l, final Comparator<? super E> c) {
     return l.size() <= 1 ? l.size() : dedupe(l, l.size(), 1, 1, c);
   }
 

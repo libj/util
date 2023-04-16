@@ -24,7 +24,7 @@ import java.util.Objects;
  * primitive type specialization of {@link java.util.function.Predicate}.
  *
  * @param <T> The type of the argument to the predicate.
- * 
+ *
  * @see java.util.function.Predicate
  */
 @FunctionalInterface

@@ -127,9 +127,12 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final int i$ = size();
-    final Object[] a = new Object[i$];
-    toArray(a, i$);
+    final int size = size();
+    if (size == 0)
+      return ArrayUtil.EMPTY_ARRAY;
+
+    final Object[] a = new Object[size];
+    toArray(a, size);
     return a;
   }
 
@@ -139,17 +142,16 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final int i$ = size();
-    if (i$ == 0)
-      return a;
+    final int size = size();
+    if (size > 0) {
+      if (a.length < size)
+        a = (E[])Array.newInstance(a.getClass().getComponentType(), size);
 
-    if (a.length < i$)
-      a = (E[])Array.newInstance(a.getClass().getComponentType(), i$);
+      toArray(a, size);
+    }
 
-    toArray(a, i$);
-
-    if (a.length > i$)
-      a[i$] = null;
+    if (a.length > size)
+      a[size] = null;
 
     return a;
   }

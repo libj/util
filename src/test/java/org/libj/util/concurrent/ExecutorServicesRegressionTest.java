@@ -58,9 +58,9 @@ public class ExecutorServicesRegressionTest {
   public void testExecutorNotNull() {
     try {
       ExecutorServices.invokeAll(null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
   }
 
@@ -68,9 +68,9 @@ public class ExecutorServicesRegressionTest {
   public void testTasksNotNull() {
     try {
       ExecutorServices.invokeAll(Executors.newCachedThreadPool(), (Runnable[])null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
   }
 
@@ -78,9 +78,9 @@ public class ExecutorServicesRegressionTest {
   public void testTaskNotNull() {
     try {
       ExecutorServices.invokeAll(Executors.newCachedThreadPool(), new Task(500), null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
   }
 

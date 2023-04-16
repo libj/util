@@ -25,7 +25,7 @@ import java.util.Objects;
  *
  * @param <T> The type of the first argument to the predicate.
  * @param <U> The type of the second argument to the predicate.
- * 
+ *
  * @see java.util.function.Predicate
  */
 @FunctionalInterface

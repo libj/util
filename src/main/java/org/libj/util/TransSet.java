@@ -113,9 +113,12 @@ public class TransSet<S,T> extends DelegateSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final int i$ = size();
-    final Object[] a = new Object[i$];
-    toArray(a, i$);
+    final int size = size();
+    if (size == 0)
+      return ArrayUtil.EMPTY_ARRAY;
+
+    final Object[] a = new Object[size];
+    toArray(a, size);
     return a;
   }
 
@@ -125,14 +128,16 @@ public class TransSet<S,T> extends DelegateSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    final int i$ = size();
-    if (a.length < i$)
-      a = (E[])Array.newInstance(a.getClass().getComponentType(), i$);
+    final int size = size();
+    if (size > 0) {
+      if (a.length < size)
+        a = (E[])Array.newInstance(a.getClass().getComponentType(), size);
 
-    toArray(a, i$);
+      toArray(a, size);
+    }
 
-    if (a.length > i$)
-      a[i$] = null;
+    if (a.length > size)
+      a[size] = null;
 
     return a;
   }

@@ -366,7 +366,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
       do { // [RA]
         valueData[index] = l.get(i);
         updateState(index++, 1);
-      } 
+      }
       while (++i < i$);
     }
     else {
@@ -627,13 +627,16 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
 
   @Override
   public <x>[] toArray(<x>[] a) {
-    final int i$ = size();
-    if (a.length < i$)
-      a = new <x>[i$];
+    final int size = size();
+    if (size > 0) {
+      if (a.length < size)
+        a = new <x>[size];
 
-    System.arraycopy(valueData, fromIndex, a, 0, i$);
-    if (a.length > i$)
-      a[i$] = 0;
+      System.arraycopy(valueData, fromIndex, a, 0, size);
+    }
+
+    if (a.length > size)
+      a[size] = 0;
 
     return a;
   }
@@ -641,11 +644,13 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
   @Override
   public <XX>[] toArray(<XX>[] a) {
     final int size = size();
-    if (a.length < size)
-      a = new <XX>[size];
+    if (size > 0) {
+      if (a.length < size)
+        a = new <XX>[size];
 
-    for (int i = fromIndex, i$ = toIndex > -1 ? toIndex : size; i < i$; ++i) // [A]
-      a[i - fromIndex] = valueData[i];
+      for (int i = fromIndex, i$ = toIndex > -1 ? toIndex : size; i < i$; ++i) // [A]
+        a[i - fromIndex] = valueData[i];
+    }
 
     if (a.length > size)
       a[size] = null;

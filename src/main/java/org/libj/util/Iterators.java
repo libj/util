@@ -183,6 +183,31 @@ public final class Iterators {
     };
   }
 
+  /**
+   * Returns a new empty {@link Iterator} (i.e. with no values to iterate).
+   *
+   * @param <T> The type parameter of the {@link Iterator}.
+   * @return A new empty {@link Iterator} (i.e. with no values to iterate).
+   */
+  public static <T>Iterator<T> empty() {
+    return new Iterator<T>() {
+      @Override
+      public boolean hasNext() {
+        return false;
+      }
+
+      @Override
+      public T next() {
+        throw new NoSuchElementException();
+      }
+
+      @Override
+      public void remove() {
+        throw new IllegalStateException();
+      }
+    };
+  }
+
   private Iterators() {
   }
 }

@@ -350,10 +350,11 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public Object[] toArray() {
-    if (size() == 0)
+    final int size = size();
+    if (size == 0)
       return ArrayUtil.EMPTY_ARRAY;
 
-    final Object[] a = new Object[size()];
+    final Object[] a = new Object[size];
     final Iterator<E> iterator = iterator();
     for (int i = 0; iterator.hasNext(); ++i) // [I]
       a[i] = iterator.next();
@@ -371,13 +372,14 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   @SuppressWarnings("unchecked")
   public <T>T[] toArray(T[] a) {
     final int size = size();
-    if (a.length < size)
-      a = (T[])Array.newInstance(a.getClass().getComponentType(), size);
-
     int i = 0;
-    if (size > 0)
+    if (size > 0) {
+      if (a.length < size)
+        a = (T[])Array.newInstance(a.getClass().getComponentType(), size);
+
       for (final Iterator<E> iterator = iterator(); iterator.hasNext(); ++i) // [I]
         a[i] = (T)iterator.next();
+    }
 
     if (++i < a.length)
       a[i] = null;

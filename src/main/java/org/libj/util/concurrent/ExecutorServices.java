@@ -244,6 +244,7 @@ public final class ExecutorServices {
    */
   @SafeVarargs
   public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final T ... tasks) {
+    Objects.requireNonNull(executor);
     final AtomicBoolean started = new AtomicBoolean(false);
     final AtomicBoolean canceled = new AtomicBoolean(false);
     final Thread[] threads = new Thread[tasks.length];
