@@ -199,8 +199,8 @@ public class CombinationIteratorTest {
 
   @Test
   public void test2S() {
-    final SequenceGenerator as = new SequenceGenerator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
-    final SequenceGenerator bs = new SequenceGenerator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
+    final SequenceIterator as = new SequenceIterator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
+    final SequenceIterator bs = new SequenceIterator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
     final ArrayList<BigDecimal[]> expecteds = new ArrayList<>(3 * 3);
     for (final BigDecimal a : as) // [I]
       for (final BigDecimal b : bs) // [I]
@@ -218,9 +218,9 @@ public class CombinationIteratorTest {
 
   @Test
   public void test3S() {
-    final SequenceGenerator as = new SequenceGenerator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
-    final SequenceGenerator bs = new SequenceGenerator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
-    final SequenceGenerator cs = new SequenceGenerator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
+    final SequenceIterator as = new SequenceIterator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
+    final SequenceIterator bs = new SequenceIterator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
+    final SequenceIterator cs = new SequenceIterator(BigDecimal.valueOf(0), BigDecimal.valueOf(2), BigDecimal.valueOf(1));
     final ArrayList<BigDecimal[]> expecteds = new ArrayList<>(3 * 3 * 3);
     for (final BigDecimal a : as) // [I]
       for (final BigDecimal b : bs) // [I]
