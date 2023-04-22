@@ -23,7 +23,7 @@ import org.junit.Test;
 public class IntervalTest {
   @Test
   @SuppressWarnings("unused")
-  public void testOverlapsWith() {
+  public void testInvalid() {
     try {
       new Interval<Integer>(null, 0);
       fail("Expected NullPointerException");
@@ -38,21 +38,52 @@ public class IntervalTest {
     catch (final NullPointerException e) {
     }
 
+    try {
+      new Interval<Integer>(1, 0);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    try {
+      new Interval<Integer>(0, 0);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+  }
+
+  @Test
+  public void testContains() {
+    final Interval<Integer> a = new Interval<Integer>(2, 8);
+    for (int i$ = a.getMin(), i = i$ - 10; i < i$; ++i)
+      assertFalse(a.contains(i));
+
+    for (int i = a.getMin(), i$ = a.getMax(); i < i$; ++i)
+      assertTrue(a.contains(i));
+
+    for (int i = a.getMax(), i$ = i + 0; i < i$; ++i)
+      assertFalse(a.contains(i));
+  }
+
+  @Test
+  public void testIntersects() {
     final Interval<Integer> a = new Interval<Integer>(0, 2);
     final Interval<Integer> b = new Interval<Integer>(2, 4);
-    assertTrue(a.intersects(b));
-    assertTrue(b.intersects(a));
     final Interval<Integer> c = new Interval<Integer>(4, 6);
-    assertTrue(b.intersects(c));
-    assertTrue(c.intersects(b));
+    final Interval<Integer> d = new Interval<Integer>(1, 2);
+    final Interval<Integer> e = new Interval<Integer>(3, 5);
+
+    assertFalse(a.intersects(b));
+    assertFalse(b.intersects(a));
+    assertFalse(b.intersects(c));
+    assertFalse(c.intersects(b));
     assertFalse(a.intersects(c));
     assertFalse(c.intersects(a));
 
-    final Interval<Integer> d = new Interval<Integer>(1, 2);
     assertTrue(a.intersects(d));
     assertTrue(d.intersects(a));
 
-    final Interval<Integer> e = new Interval<Integer>(3, 5);
     assertTrue(b.intersects(e));
     assertTrue(e.intersects(b));
     assertTrue(c.intersects(e));
@@ -63,22 +94,7 @@ public class IntervalTest {
   }
 
   @Test
-  @SuppressWarnings("unused")
-  public void testTouches() {
-    try {
-      new Interval<Integer>(null, 0);
-      fail("Expected NullPointerException");
-    }
-    catch (final NullPointerException e) {
-    }
-
-    try {
-      new Interval<Integer>(0, null);
-      fail("Expected NullPointerException");
-    }
-    catch (final NullPointerException e) {
-    }
-
+  public void testCompareTo() {
     final Interval<Integer> a = new Interval<Integer>(0, 2);
     final Interval<Integer> b = new Interval<Integer>(2, 4);
     assertEquals(-1, a.compareTo(b));
