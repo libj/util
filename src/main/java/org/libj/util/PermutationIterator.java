@@ -82,7 +82,7 @@ public class PermutationIterator<E> implements Iterable<ArrayList<E>>, Iterator<
   public PermutationIterator(final E[] a, final int fromIndex, final int toIndex) {
     this(CollectionUtil.asCollection(new ArrayList<>(toIndex - fromIndex), a, fromIndex, toIndex));
     Integer k = 0;
-    for (int i = fromIndex; i < toIndex; ++i)
+    for (int i = fromIndex; i < toIndex; ++i) // [N]
       objectMap.put(keys[k] = ++k, a[i]);
   }
 
@@ -95,7 +95,7 @@ public class PermutationIterator<E> implements Iterable<ArrayList<E>>, Iterator<
   public PermutationIterator(final Collection<? extends E> c) {
     this(new ArrayList<>(c));
     Integer k = 0;
-    for (final E e : c)
+    for (final E e : c) // [C]
       objectMap.put(keys[k] = ++k, e);
   }
 
@@ -133,7 +133,7 @@ public class PermutationIterator<E> implements Iterable<ArrayList<E>>, Iterator<
     // find the largest mobile integer k
     int indexOfLargestMobileInteger = -1;
     int largestKey = -1;
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) { // [A]
       final int key = keys[i];
       final int direction = directions[i];
       if (direction == 1 ? i < size1 && key > keys[i + 1] : i > 0 && key > keys[i - 1]) {
@@ -162,7 +162,7 @@ public class PermutationIterator<E> implements Iterable<ArrayList<E>>, Iterator<
 
     // reverse the direction of all integers larger than k and build the result
     final ArrayList<E> premutation = new ArrayList<>();
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) { // [A]
       if (keys[i] > largestKey)
         directions[i] = -directions[i];
 

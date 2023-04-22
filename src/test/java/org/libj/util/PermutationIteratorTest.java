@@ -42,13 +42,13 @@ public class PermutationIteratorTest {
   @Test
   public void testPermutationResultSize() {
     int factorial = 1;
-    for (int i = 0; i < 8; ++i, factorial *= i) {
+    for (int i = 0; i < 8; ++i, factorial *= i) { // [N]
       final ArrayList<Integer> list = new ArrayList<>();
-      for (int j = 0; j < i; ++j)
+      for (int j = 0; j < i; ++j) // [N]
         list.add(j);
 
       int count = 0;
-      for (final Iterator<ArrayList<Integer>> it = new PermutationIterator<>(list); it.hasNext(); ++count)
+      for (final Iterator<ArrayList<Integer>> it = new PermutationIterator<>(list); it.hasNext(); ++count) // [I]
         it.next();
 
       assertEquals(factorial, count);
@@ -89,7 +89,7 @@ public class PermutationIteratorTest {
     perm6.add('A');
 
     final ArrayList<List<Character>> results = new ArrayList<>();
-    for (final PermutationIterator<Character> it = makeObject(); it.hasNext(); results.add(it.next()));
+    for (final PermutationIterator<Character> it = makeObject(); it.hasNext(); results.add(it.next())); // [I]
 
     // 3! permutation for 3 elements
     assertEquals(6, results.size());
@@ -109,7 +109,7 @@ public class PermutationIteratorTest {
     final ArrayList<List<Character>> resultsList = new ArrayList<>();
     final Set<List<Character>> resultsSet = new HashSet<>();
 
-    for (final PermutationIterator<Character> it = makeObject(); it.hasNext();) {
+    for (final PermutationIterator<Character> it = makeObject(); it.hasNext();) { // [I]
       final ArrayList<Character> permutation = it.next();
       resultsList.add(permutation);
       resultsSet.add(permutation);
@@ -140,7 +140,7 @@ public class PermutationIteratorTest {
   @Test
   public void testPermutatorHasMore() {
     final PermutationIterator<Character> it = makeObject();
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 6; ++i) { // [N]
       assertTrue(it.hasNext());
       it.next();
     }
