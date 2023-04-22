@@ -29,6 +29,12 @@ import org.libj.lang.ParseException;
 public final class Dates {
   public static final TimeZone UTC_TIME_ZONE = TimeZone.getTimeZone("UTC");
 
+  /** Minimum allowable value for {@link Date} */
+  public static final Date MIN_VALUE = new Date(Long.MIN_VALUE);
+
+  /** Maximum allowable value for {@link Date} */
+  public static final Date MAX_VALUE = new Date(Long.MAX_VALUE);
+
   /** Number of days in a week. */
   public static final byte DAYS_IN_WEEK = 7;
   /** Number of hours in a day. */
