@@ -29,10 +29,12 @@ import java.util.RandomAccess;
 import java.util.function.Function;
 
 import org.libj.lang.Classes;
+import org.libj.util.primitive.ArrayByteList;
 import org.libj.util.primitive.ArrayDoubleList;
 import org.libj.util.primitive.ArrayFloatList;
 import org.libj.util.primitive.ArrayIntList;
 import org.libj.util.primitive.ArrayLongList;
+import org.libj.util.primitive.ArrayShortList;
 import org.libj.util.primitive.ByteComparator;
 import org.libj.util.primitive.CharComparator;
 import org.libj.util.primitive.DoubleComparator;
@@ -1054,6 +1056,172 @@ public final class CollectionUtil extends PrimitiveSort {
     }
 
     return (from + to) / 2;
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayByteList}.
+   * @param key The value to match.
+   * @return The closest index of the sorted {@link ArrayByteList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
+   * @throws NullPointerException If the specified {@link ArrayByteList} is null.
+   */
+  public static int binaryClosestSearch(final ArrayByteList a, final byte key) {
+    return binaryClosestSearch0(a, 0, a.size(), key, Byte::compare);
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayByteList}.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted {@link ArrayByteList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
+   * @throws NullPointerException If the specified {@link ArrayByteList} is null.
+   */
+  public static int binaryClosestSearch(final ArrayByteList a, final byte key, final ByteComparator c) {
+    return binaryClosestSearch0(a, 0, a.size(), key, c);
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayByteList}.
+   * @param fromIndex The starting index of the {@link ArrayByteList} to search from.
+   * @param toIndex The ending index of the {@link ArrayByteList} to search to.
+   * @param key The value to match.
+   * @return The closest index of the {@link ArrayByteList} matching the desired value. The value at the returned index will be less
+   *         than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static int binaryClosestSearch(final ArrayByteList a, final int fromIndex, final int toIndex, final byte key) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Byte::compare);
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayByteList}.
+   * @param fromIndex The starting index of the {@link ArrayByteList} to search from.
+   * @param toIndex The ending index of the {@link ArrayByteList} to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the {@link ArrayByteList} matching the desired value. The value at the returned index will be less
+   *         than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static int binaryClosestSearch(final ArrayByteList a, final int fromIndex, final int toIndex, final byte key, final ByteComparator c) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final ArrayByteList a, int fromIndex, int toIndex, final byte key, final ByteComparator c) {
+    for (int mid, com; fromIndex < toIndex;) { // [N]
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a.get(mid));
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
+      else
+        return mid;
+    }
+
+    return (fromIndex + toIndex) / 2;
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayShortList}.
+   * @param key The value to match.
+   * @return The closest index of the sorted {@link ArrayShortList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
+   * @throws NullPointerException If the specified {@link ArrayShortList} is null.
+   */
+  public static int binaryClosestSearch(final ArrayShortList a, final short key) {
+    return binaryClosestSearch0(a, 0, a.size(), key, Short::compare);
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayShortList}.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the sorted {@link ArrayShortList} matching the desired value. The value at the returned index will
+   *         be less than or equal to an exact match.
+   * @throws NullPointerException If the specified {@link ArrayShortList} is null.
+   */
+  public static int binaryClosestSearch(final ArrayShortList a, final short key, final ShortComparator c) {
+    return binaryClosestSearch0(a, 0, a.size(), key, c);
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayShortList}.
+   * @param fromIndex The starting index of the {@link ArrayShortList} to search from.
+   * @param toIndex The ending index of the {@link ArrayShortList} to search to.
+   * @param key The value to match.
+   * @return The closest index of the {@link ArrayShortList} matching the desired value. The value at the returned index will be
+   *         less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static int binaryClosestSearch(final ArrayShortList a, final int fromIndex, final int toIndex, final short key) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, Short::compare);
+  }
+
+  /**
+   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the value provided. The value at the
+   * returned index will be less than or equal to an exact match.
+   *
+   * @param a The sorted {@link ArrayShortList}.
+   * @param fromIndex The starting index of the {@link ArrayShortList} to search from.
+   * @param toIndex The ending index of the {@link ArrayShortList} to search to.
+   * @param key The value to match.
+   * @param c The comparator to use.
+   * @return The closest index of the {@link ArrayShortList} matching the desired value. The value at the returned index will be
+   *         less than or equal to an exact match.
+   * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
+   * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static int binaryClosestSearch(final ArrayShortList a, final int fromIndex, final int toIndex, final short key, final ShortComparator c) {
+    assertRangeArray(fromIndex, toIndex, a.size());
+    return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
+  }
+
+  private static int binaryClosestSearch0(final ArrayShortList a, int fromIndex, int toIndex, final short key, final ShortComparator c) {
+    for (int mid, com; fromIndex < toIndex;) { // [N]
+      mid = (fromIndex + toIndex) / 2;
+      com = c.compare(key, a.get(mid));
+      if (com < 0)
+        toIndex = mid;
+      else if (com > 0)
+        fromIndex = mid + 1;
+      else
+        return mid;
+    }
+
+    return (fromIndex + toIndex) / 2;
   }
 
   /**
