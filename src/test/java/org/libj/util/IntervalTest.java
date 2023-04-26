@@ -21,32 +21,38 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class IntervalTest {
+  private static <T extends Comparable<? super T>>void assertCompareTo(final int expected, final T a, final T b) {
+    assertEquals(expected, a.compareTo(b));
+    assertEquals(-expected, b.compareTo(a));
+  }
+
+  private static <T extends Comparable<? super T>>void assertIntersects(final boolean expected, final Interval<T> a, final Interval<T> b) {
+    assertEquals(expected, a.intersects(b));
+    assertEquals(expected, b.intersects(a));
+  }
+
+  private static <T extends Comparable<? super T>>void assertEqual(final Interval<T> a, final Interval<T> b) {
+    assertEquals(a, b);
+    assertEquals(b, a);
+  }
+
+  private static <T extends Comparable<? super T>>void assertNotEqual(final Interval<T> a, final Interval<T> b) {
+    assertNotEquals(a, b);
+    assertNotEquals(b, a);
+  }
+
   @Test
   @SuppressWarnings("unused")
   public void testInvalid() {
     try {
-      new Interval<Integer>(null, 0);
-      fail("Expected NullPointerException");
-    }
-    catch (final NullPointerException e) {
-    }
-
-    try {
-      new Interval<Integer>(0, null);
-      fail("Expected NullPointerException");
-    }
-    catch (final NullPointerException e) {
-    }
-
-    try {
-      new Interval<Integer>(1, 0);
+      new Interval<>(1, 0);
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
     try {
-      new Interval<Integer>(0, 0);
+      new Interval<>(0, 0);
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
@@ -54,73 +60,280 @@ public class IntervalTest {
   }
 
   @Test
-  public void testContains() {
-    final Interval<Integer> a = new Interval<Integer>(2, 8);
+  public void testContainsValueBounded() {
+    final Interval<Integer> a = new Interval<>(2, 8);
     for (int i$ = a.getMin(), i = i$ - 10; i < i$; ++i)
       assertFalse(a.contains(i));
 
     for (int i = a.getMin(), i$ = a.getMax(); i < i$; ++i)
       assertTrue(a.contains(i));
 
-    for (int i = a.getMax(), i$ = i + 0; i < i$; ++i)
+    for (int i = a.getMax(), i$ = i + 10; i < i$; ++i)
       assertFalse(a.contains(i));
   }
 
   @Test
-  public void testIntersects() {
-    final Interval<Integer> a = new Interval<Integer>(0, 2);
-    final Interval<Integer> b = new Interval<Integer>(2, 4);
-    final Interval<Integer> c = new Interval<Integer>(4, 6);
-    final Interval<Integer> d = new Interval<Integer>(1, 2);
-    final Interval<Integer> e = new Interval<Integer>(3, 5);
+  public void testContainsValueUnbounded() {
+    final Interval<Integer> inf = new Interval<>(null, null);
+    for (int i = -100; i < 100; ++i)
+      assertTrue(inf.contains(i));
 
-    assertFalse(a.intersects(b));
-    assertFalse(b.intersects(a));
-    assertFalse(b.intersects(c));
-    assertFalse(c.intersects(b));
-    assertFalse(a.intersects(c));
-    assertFalse(c.intersects(a));
+    final Interval<Integer> neg = new Interval<>(null, 0);
+    final Interval<Integer> neg1 = new Interval<>(null, 1);
 
-    assertTrue(a.intersects(d));
-    assertTrue(d.intersects(a));
+    assertTrue(inf.contains(neg));
+    assertTrue(inf.contains(neg1));
+    assertFalse(neg.contains(inf));
+    assertFalse(neg1.contains(inf));
+    assertFalse(neg.contains(neg1));
+    assertTrue(neg1.contains(neg));
 
-    assertTrue(b.intersects(e));
-    assertTrue(e.intersects(b));
-    assertTrue(c.intersects(e));
-    assertTrue(e.intersects(c));
+    for (int i = -100; i < neg.getMax(); ++i)
+      assertTrue(neg.contains(i));
 
-    assertFalse(d.intersects(e));
-    assertFalse(e.intersects(d));
+    for (int i = neg.getMax(); i < 100; ++i)
+      assertFalse(neg.contains(i));
+
+    final Interval<Integer> pos = new Interval<>(0, null);
+    final Interval<Integer> pos1 = new Interval<>(1, null);
+
+    assertTrue(inf.contains(pos));
+    assertTrue(inf.contains(pos1));
+    assertFalse(pos.contains(inf));
+    assertFalse(pos1.contains(inf));
+    assertTrue(pos.contains(pos1));
+    assertFalse(pos1.contains(pos));
+
+    for (int i = -100; i < pos.getMin(); ++i)
+      assertFalse(pos.contains(i));
+
+    for (int i = pos.getMin(); i < 100; ++i)
+      assertTrue(pos.contains(i));
   }
 
   @Test
-  public void testCompareTo() {
-    final Interval<Integer> a = new Interval<Integer>(0, 2);
-    final Interval<Integer> b = new Interval<Integer>(2, 4);
-    assertEquals(-1, a.compareTo(b));
-    assertEquals(1, b.compareTo(a));
+  public void testContainsIntervalBounded() {
+    final int x = 2;
+    final Interval<Integer> a = new Interval<>(2, 8);
+    for (int i$ = a.getMin(), i = i$ - 10; i < i$; ++i)
+      assertFalse(a.contains(new Interval<>(i - x, i)));
 
-    final Interval<Integer> c = new Interval<Integer>(4, 6);
-    assertEquals(-1, b.compareTo(c));
-    assertEquals(1, c.compareTo(b));
-    assertEquals(-2, a.compareTo(c));
-    assertEquals(2, c.compareTo(a));
+    for (int i = a.getMin(), i$ = a.getMax() - x; i < i$; ++i)
+      assertTrue("" + i, a.contains(new Interval<>(i, i + x)));
 
-    final Interval<Integer> d = new Interval<Integer>(1, 2);
-    assertEquals(-1, a.compareTo(d));
-    assertEquals(1, d.compareTo(a));
+    for (int i = a.getMax(), i$ = i + 10; i < i$; ++i)
+      assertFalse(a.contains(new Interval<>(i, i + x)));
+  }
 
-    final Interval<Integer> e = new Interval<Integer>(3, 5);
-    assertEquals(-1, b.compareTo(e));
-    assertEquals(1, e.compareTo(b));
-    assertEquals(1, c.compareTo(e));
-    assertEquals(-1, e.compareTo(c));
+  @Test
+  public void testContainsIntervalUnbounded() {
+    final int x = 2;
+    final Interval<Integer> inf = new Interval<>(null, null);
+    for (int i = -100; i < 100; ++i)
+      assertTrue(inf.contains(new Interval<>(i, i + 2)));
 
-    assertEquals(-2, d.compareTo(e));
-    assertEquals(2, e.compareTo(d));
+    final Interval<Integer> neg = new Interval<>(null, 0);
+    for (int i = -100; i < neg.getMax(); ++i)
+      assertTrue(neg.contains(new Interval<>(i - x, i)));
 
-    final Interval<Integer> f = new Interval<Integer>(3, 4);
-    assertEquals(0, e.compareTo(f));
-    assertEquals(0, f.compareTo(e));
+    for (int i = neg.getMax(); i < 100; ++i)
+      assertFalse(neg.contains(new Interval<>(i, i + x)));
+
+    final Interval<Integer> pos = new Interval<>(0, null);
+    for (int i = -100; i < pos.getMin(); ++i)
+      assertFalse(pos.contains(new Interval<>(i - x, i)));
+
+    for (int i = pos.getMin(); i < 100; ++i)
+      assertTrue(pos.contains(new Interval<>(i, i + x)));
+  }
+
+  @Test
+  public void testIntersectsBounded() {
+    final Interval<Integer> a = new Interval<>(0, 2);
+    final Interval<Integer> b = new Interval<>(2, 4);
+    final Interval<Integer> c = new Interval<>(4, 6);
+    final Interval<Integer> d = new Interval<>(1, 2);
+    final Interval<Integer> e = new Interval<>(3, 5);
+
+    assertIntersects(false, a, b);
+    assertIntersects(false, b, c);
+    assertIntersects(false, a, c);
+
+    assertIntersects(true, a, d);
+    assertIntersects(false, a, e);
+    assertIntersects(false, b, c);
+
+    assertIntersects(true, b, e);
+    assertIntersects(true, c, e);
+    assertIntersects(false, d, e);
+  }
+
+  @Test
+  public void testIntersectsUnBounded() {
+    final Interval<Integer> inf = new Interval<>(null, null);
+    assertIntersects(true, inf, inf);
+
+    final Interval<Integer> neg = new Interval<>(null, 0);
+    assertIntersects(true, neg, neg);
+
+    final Interval<Integer> pos = new Interval<>(0, null);
+    assertIntersects(true, pos, pos);
+
+    assertIntersects(true, inf, neg);
+    assertIntersects(true, inf, pos);
+    assertIntersects(false, neg, pos);
+
+    final Interval<Integer> neg1 = new Interval<>(null, -1);
+
+    assertIntersects(true, neg, neg1);
+    assertIntersects(false, neg1, pos);
+
+    final Interval<Integer> pos1 = new Interval<>(1, null);
+
+    assertIntersects(true, pos, pos1);
+    assertIntersects(false, pos1, neg);
+
+    final Interval<Integer> a = new Interval<>(-10, 0);
+
+    assertIntersects(true, inf, a);
+    assertIntersects(true, neg, a);
+    assertIntersects(false, pos, a);
+
+    final Interval<Integer> b = new Interval<>(-5, 5);
+
+    assertIntersects(true, inf, b);
+    assertIntersects(true, neg, b);
+    assertIntersects(true, pos, b);
+
+    final Interval<Integer> c = new Interval<>(0, 10);
+
+    assertIntersects(true, inf, c);
+    assertIntersects(false, neg, c);
+    assertIntersects(true, pos, c);
+  }
+
+  @Test
+  public void testCompareToBounded() {
+    final Interval<Integer> a = new Interval<>(0, 2);
+    final Interval<Integer> b = new Interval<>(2, 4);
+    assertCompareTo(-1, a, b);
+
+    final Interval<Integer> c = new Interval<>(4, 6);
+    assertCompareTo(-1, b, c);
+    assertCompareTo(-2, a, c);
+
+    final Interval<Integer> d = new Interval<>(1, 2);
+    assertCompareTo(-1, a, d);
+
+    final Interval<Integer> e = new Interval<>(3, 5);
+    assertCompareTo(-1, b, e);
+    assertCompareTo(1, c, e);
+
+    assertCompareTo(-2, d, e);
+
+    final Interval<Integer> f = new Interval<>(3, 4);
+    assertCompareTo(0, e, f);
+  }
+
+  @Test
+  public void testCompareToUnbounded() {
+    final Interval<Integer> inf = new Interval<>(null, null);
+    assertCompareTo(0, inf, inf);
+
+    final Interval<Integer> neg = new Interval<>(null, 0);
+    assertCompareTo(0, neg, neg);
+
+    final Interval<Integer> pos = new Interval<>(0, null);
+    assertCompareTo(0, pos, pos);
+
+    assertCompareTo(0, inf, neg);
+    assertCompareTo(-1, inf, pos);
+
+    assertCompareTo(-2, neg, pos);
+
+    for (int i = -5; i < 5; ++i) {
+      final Interval<Integer> a = new Interval<>(i - 10, i);
+      assertCompareTo(-1, inf, a);
+      assertCompareTo(-1, neg, a);
+      assertCompareTo(i <= 0 ? 2 : 1, pos, a);
+    }
+
+    for (int i = 0; i < 10; ++i) {
+      final Interval<Integer> a = new Interval<>(i, i + 10);
+      assertCompareTo(-1, inf, a);
+      assertCompareTo(-2, neg, a);
+      assertCompareTo(i == 0 ? 0 : -1, pos, a);
+    }
+
+    for (int i = -10; i < 0; ++i) {
+      final Interval<Integer> a = new Interval<>(i - 10, i);
+      assertCompareTo(-1, inf, a);
+      assertCompareTo(-1, neg, a);
+      assertCompareTo(2, pos, a);
+    }
+
+    for (int i = 1; i < 10; ++i) {
+      final Interval<Integer> a = new Interval<>(i, i + 10);
+      assertCompareTo(-1, inf, a);
+      assertCompareTo(-2, neg, a);
+      assertCompareTo(-1, pos, a);
+
+      final Interval<Integer> b = new Interval<>(0, i);
+      assertCompareTo(-1, inf, b);
+      assertCompareTo(-2, neg, b);
+      assertCompareTo(0, pos, b);
+    }
+  }
+
+  @Test
+  public void testEquals() {
+    final Interval<Integer> inf = new Interval<>(null, null);
+    assertNotEqual(inf, null);
+
+    assertEqual(inf, inf);
+    assertEqual(inf, new Interval<>(null, null));
+
+    final Interval<Integer> neg = new Interval<>(null, 0);
+    assertEqual(neg, neg);
+    assertEqual(neg, new Interval<>(null, 0));
+
+    final Interval<Integer> pos = new Interval<>(0, null);
+    assertEqual(pos, pos);
+    assertEqual(pos, new Interval<>(0, null));
+
+    assertNotEqual(inf, neg);
+    assertNotEqual(inf, pos);
+    assertNotEqual(neg, pos);
+
+    final Interval<Integer> a = new Interval<>(0, 2);
+    assertEqual(a, a);
+    assertEqual(a, new Interval<>(0, 2));
+
+    final Interval<Integer> b = new Interval<>(2, 4);
+    assertEqual(b, b);
+    assertEqual(b, new Interval<>(2, 4));
+
+    final Interval<Integer> c = new Interval<>(4, 6);
+    assertEqual(c, c);
+    assertEqual(c, new Interval<>(4, 6));
+
+    final Interval<Integer> d = new Interval<>(1, 2);
+    assertEqual(d, d);
+    assertEqual(d, new Interval<>(1, 2));
+
+    final Interval<Integer> e = new Interval<>(3, 5);
+    assertEqual(e, e);
+    assertEqual(e, new Interval<>(3, 5));
+
+    assertNotEqual(a, b);
+    assertNotEqual(a, c);
+    assertNotEqual(a, d);
+    assertNotEqual(a, e);
+    assertNotEqual(b, c);
+    assertNotEqual(b, d);
+    assertNotEqual(b, e);
+    assertNotEqual(c, d);
+    assertNotEqual(c, e);
+    assertNotEqual(d, e);
   }
 }
