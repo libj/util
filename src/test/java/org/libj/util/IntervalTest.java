@@ -29,6 +29,8 @@ public class IntervalTest {
   private static <T extends Comparable<? super T>>void assertIntersects(final boolean expected, final Interval<T> a, final Interval<T> b) {
     assertEquals(expected, a.intersects(b));
     assertEquals(expected, b.intersects(a));
+    assertEquals(expected, a.intersects(b.getMin(), b.getMax()));
+    assertEquals(expected, b.intersects(a.getMin(), a.getMax()));
   }
 
   private static <T extends Comparable<? super T>>void assertEqual(final Interval<T> a, final Interval<T> b) {

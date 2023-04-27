@@ -79,6 +79,19 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
     return intersectLeft(i.min, max) && intersectRight(min, i.max);
   }
 
+  /**
+   * Returns {@code true} if an {@link Interval} with the provided {@code min} and {@code max} values intersects this
+   * {@link Interval}, otherwise {@code false}.
+   *
+   * @param min The min value to intersect with.
+   * @param max The max value to intersect with.
+   * @return {@code true} if an {@link Interval} with the provided {@code min} and {@code max} values intersects this
+   *         {@link Interval}, otherwise {@code false}.
+   */
+  public boolean intersects(final T min, final T max) {
+    return intersectLeft(min, this.max) && intersectRight(this.min, max);
+  }
+
   private boolean intersectLeft(final T min1, final T max0) {
     return min1 == null || max0 == null || max0.compareTo(min1) > 0;
   }
