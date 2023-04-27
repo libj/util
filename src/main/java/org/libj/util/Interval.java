@@ -76,7 +76,7 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    * @throws NullPointerException If the provided {@link Interval} is null.
    */
   public boolean intersects(final Interval<T> i) {
-    return intersectLeft(i.min, max) && intersectRight(min, i.max);
+    return intersect(i.min, max) && intersect(min, i.max);
   }
 
   /**
@@ -89,15 +89,11 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    *         {@link Interval}, otherwise {@code false}.
    */
   public boolean intersects(final T min, final T max) {
-    return intersectLeft(min, this.max) && intersectRight(this.min, max);
+    return intersect(min, this.max) && intersect(this.min, max);
   }
 
-  private boolean intersectLeft(final T min1, final T max0) {
-    return min1 == null || max0 == null || max0.compareTo(min1) > 0;
-  }
-
-  private boolean intersectRight(final T min0, final T max1) {
-    return min0 == null || max1 == null || max1.compareTo(min0) > 0;
+  private boolean intersect(final T min, final T max) {
+    return min == null || max == null || max.compareTo(min) > 0;
   }
 
   /**
