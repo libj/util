@@ -215,13 +215,13 @@ public class CollectionUtilTest {
   @Test
   public void testBinaryClosestSearchArrayList() {
     final int step = 10000000;
-    for (int r = 0; r < 1000; ++r) {
+    for (int r = 0; r < 1000; ++r) { // [N]
       final ArrayList<Integer> l = new ArrayList<>();
-      for (long i = Integer.MIN_VALUE + 10; i <= Integer.MAX_VALUE - 10; i += step + random.nextInt(step))
+      for (long i = Integer.MIN_VALUE + 10; i <= Integer.MAX_VALUE - 10; i += step + random.nextInt(step)) // [N]
         l.add((int)i);
 
       final int len = l.size();
-      for (int i = l.get(0) - 10, max = l.get(len - 1); i < max + 10; i += step) {
+      for (int i = l.get(0) - 10, max = l.get(len - 1); i < max + 10; i += step) { // [RA]
         final int x = CollectionUtil.binaryClosestSearch(l, i);
         if (i <= max) {
           assertTrue(x < len);
@@ -238,13 +238,13 @@ public class CollectionUtilTest {
 
   @Test
   public void testBinaryClosestSearchArrayByteList() {
-    for (int r = 0; r < 100; ++r) {
+    for (int r = 0; r < 100; ++r) { // [N]
       final ArrayByteList l = new ArrayByteList();
-      for (short i = Byte.MIN_VALUE + 10; i <= Byte.MAX_VALUE - 10; i += random.nextInt(10))
+      for (short i = Byte.MIN_VALUE + 10; i <= Byte.MAX_VALUE - 10; i += random.nextInt(10)) // [N]
         l.add((byte)i);
 
       final int len = l.size();
-      for (byte i = (byte)(l.get(0) - 10), max = l.get(len - 1); i < max + 10; ++i) {
+      for (byte i = (byte)(l.get(0) - 10), max = l.get(len - 1); i < max + 10; ++i) { // [RA]
         final int x = CollectionUtil.binaryClosestSearch(l, i);
         if (i <= max) {
           assertTrue(x < len);
@@ -261,13 +261,13 @@ public class CollectionUtilTest {
 
   @Test
   public void testBinaryClosestSearchArrayShortList() {
-    for (int r = 0; r < 100; ++r) {
+    for (int r = 0; r < 100; ++r) { // [N]
       final ArrayShortList l = new ArrayShortList();
-      for (int i = Short.MIN_VALUE + 10; i <= Short.MAX_VALUE - 10; i += random.nextInt(1000))
+      for (int i = Short.MIN_VALUE + 10; i <= Short.MAX_VALUE - 10; i += random.nextInt(1000)) // [N]
         l.add((short)i);
 
       final int len = l.size();
-      for (short i = (short)(l.get(0) - 10), max = l.get(len - 1); i < max + 10; ++i) {
+      for (short i = (short)(l.get(0) - 10), max = l.get(len - 1); i < max + 10; ++i) { // [RA]
         final int x = CollectionUtil.binaryClosestSearch(l, i);
         if (i <= max) {
           assertTrue(x < len);
@@ -285,13 +285,13 @@ public class CollectionUtilTest {
   @Test
   public void testBinaryClosestSearchArrayIntList() {
     final int step = 10000000;
-    for (int r = 0; r < 1000; ++r) {
+    for (int r = 0; r < 1000; ++r) { // [N]
       final ArrayIntList l = new ArrayIntList();
-      for (long i = Integer.MIN_VALUE + 10; i <= Integer.MAX_VALUE - 10; i += step + random.nextInt(step))
+      for (long i = Integer.MIN_VALUE + 10; i <= Integer.MAX_VALUE - 10; i += step + random.nextInt(step)) // [N]
         l.add((int)i);
 
       final int len = l.size();
-      for (int i = l.get(0) - 10, max = l.get(len - 1); i < max + 10; i += step) {
+      for (int i = l.get(0) - 10, max = l.get(len - 1); i < max + 10; i += step) { // [RA]
         final int x = CollectionUtil.binaryClosestSearch(l, i);
         if (i <= max) {
           assertTrue(x < len);
@@ -308,13 +308,13 @@ public class CollectionUtilTest {
 
   @Test
   public void testBinaryClosestSearchArrayLongList() {
-    for (int r = 0; r < 100; ++r) {
+    for (int r = 0; r < 100; ++r) { // [N]
       final ArrayLongList l = new ArrayLongList();
-      for (long i = 0; i < random.nextInt(1000000); i += random.nextInt(100))
+      for (long i = 0; i < random.nextInt(1000000); i += random.nextInt(100)) // [N]
         l.add(i);
 
       final int len = l.size();
-      for (long i = -100, max = l.get(len - 1); i <= max + 100; ++i) {
+      for (long i = -100, max = l.get(len - 1); i <= max + 100; ++i) { // [RA]
         final int x = CollectionUtil.binaryClosestSearch(l, i);
         if (i <= max) {
           assertTrue(x < len);
@@ -331,13 +331,13 @@ public class CollectionUtilTest {
 
   @Test
   public void testBinaryClosestSearchArrayDoubleList() {
-    for (int r = 0; r < 100; ++r) {
+    for (int r = 0; r < 100; ++r) { // [N]
       final ArrayDoubleList l = new ArrayDoubleList();
-      for (double i = 0; i < random.nextInt(1000000); i += random.nextInt(100))
+      for (double i = 0; i < random.nextInt(1000000); i += random.nextInt(100)) // [N]
         l.add(i);
 
       final int len = l.size();
-      for (double i = -100, max = l.get(len - 1); i <= max + 100; ++i) {
+      for (double i = -100, max = l.get(len - 1); i <= max + 100; ++i) { // [RA]
         final int x = CollectionUtil.binaryClosestSearch(l, i);
         if (i <= max) {
           assertTrue(x < len);
@@ -354,13 +354,13 @@ public class CollectionUtilTest {
 
   @Test
   public void testBinaryClosestSearchArrayFloatList() {
-    for (int r = 0; r < 100; ++r) {
+    for (int r = 0; r < 100; ++r) { // [N]
       final ArrayFloatList l = new ArrayFloatList();
-      for (float i = 0; i < random.nextInt(1000000); i += random.nextInt(100))
+      for (float i = 0; i < random.nextInt(1000000); i += random.nextInt(100)) // [N]
         l.add(i);
 
       final int len = l.size();
-      for (float i = -100, max = l.get(len - 1); i <= max + 100; ++i) {
+      for (float i = -100, max = l.get(len - 1); i <= max + 100; ++i) { // [RA]
         final int x = CollectionUtil.binaryClosestSearch(l, i);
         if (i <= max) {
           assertTrue(x < len);

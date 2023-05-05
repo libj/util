@@ -64,20 +64,20 @@ public class IntervalTest {
   @Test
   public void testContainsValueBounded() {
     final Interval<Integer> a = new Interval<>(2, 8);
-    for (int i$ = a.getMin(), i = i$ - 10; i < i$; ++i)
+    for (int i$ = a.getMin(), i = i$ - 10; i < i$; ++i) // [N]
       assertFalse(a.contains(i));
 
-    for (int i = a.getMin(), i$ = a.getMax(); i < i$; ++i)
+    for (int i = a.getMin(), i$ = a.getMax(); i < i$; ++i) // [N]
       assertTrue(a.contains(i));
 
-    for (int i = a.getMax(), i$ = i + 10; i < i$; ++i)
+    for (int i = a.getMax(), i$ = i + 10; i < i$; ++i) // [N]
       assertFalse(a.contains(i));
   }
 
   @Test
   public void testContainsValueUnbounded() {
     final Interval<Integer> inf = new Interval<>(null, null);
-    for (int i = -100; i < 100; ++i)
+    for (int i = -100; i < 100; ++i) // [N]
       assertTrue(inf.contains(i));
 
     final Interval<Integer> neg = new Interval<>(null, 0);
@@ -90,10 +90,10 @@ public class IntervalTest {
     assertFalse(neg.contains(neg1));
     assertTrue(neg1.contains(neg));
 
-    for (int i = -100; i < neg.getMax(); ++i)
+    for (int i = -100; i < neg.getMax(); ++i) // [N]
       assertTrue(neg.contains(i));
 
-    for (int i = neg.getMax(); i < 100; ++i)
+    for (int i = neg.getMax(); i < 100; ++i) // [N]
       assertFalse(neg.contains(i));
 
     final Interval<Integer> pos = new Interval<>(0, null);
@@ -106,10 +106,10 @@ public class IntervalTest {
     assertTrue(pos.contains(pos1));
     assertFalse(pos1.contains(pos));
 
-    for (int i = -100; i < pos.getMin(); ++i)
+    for (int i = -100; i < pos.getMin(); ++i) // [N]
       assertFalse(pos.contains(i));
 
-    for (int i = pos.getMin(); i < 100; ++i)
+    for (int i = pos.getMin(); i < 100; ++i) // [N]
       assertTrue(pos.contains(i));
   }
 
@@ -117,13 +117,13 @@ public class IntervalTest {
   public void testContainsIntervalBounded() {
     final int x = 2;
     final Interval<Integer> a = new Interval<>(2, 8);
-    for (int i$ = a.getMin(), i = i$ - 10; i < i$; ++i)
+    for (int i$ = a.getMin(), i = i$ - 10; i < i$; ++i) // [N]
       assertFalse(a.contains(new Interval<>(i - x, i)));
 
-    for (int i = a.getMin(), i$ = a.getMax() - x; i < i$; ++i)
+    for (int i = a.getMin(), i$ = a.getMax() - x; i < i$; ++i) // [N]
       assertTrue("" + i, a.contains(new Interval<>(i, i + x)));
 
-    for (int i = a.getMax(), i$ = i + 10; i < i$; ++i)
+    for (int i = a.getMax(), i$ = i + 10; i < i$; ++i) // [N]
       assertFalse(a.contains(new Interval<>(i, i + x)));
   }
 
@@ -131,21 +131,21 @@ public class IntervalTest {
   public void testContainsIntervalUnbounded() {
     final int x = 2;
     final Interval<Integer> inf = new Interval<>(null, null);
-    for (int i = -100; i < 100; ++i)
+    for (int i = -100; i < 100; ++i) // [N]
       assertTrue(inf.contains(new Interval<>(i, i + 2)));
 
     final Interval<Integer> neg = new Interval<>(null, 0);
-    for (int i = -100; i < neg.getMax(); ++i)
+    for (int i = -100; i < neg.getMax(); ++i) // [N]
       assertTrue(neg.contains(new Interval<>(i - x, i)));
 
-    for (int i = neg.getMax(); i < 100; ++i)
+    for (int i = neg.getMax(); i < 100; ++i) // [N]
       assertFalse(neg.contains(new Interval<>(i, i + x)));
 
     final Interval<Integer> pos = new Interval<>(0, null);
-    for (int i = -100; i < pos.getMin(); ++i)
+    for (int i = -100; i < pos.getMin(); ++i) // [N]
       assertFalse(pos.contains(new Interval<>(i - x, i)));
 
-    for (int i = pos.getMin(); i < 100; ++i)
+    for (int i = pos.getMin(); i < 100; ++i) // [N]
       assertTrue(pos.contains(new Interval<>(i, i + x)));
   }
 
@@ -253,28 +253,28 @@ public class IntervalTest {
 
     assertCompareTo(-2, neg, pos);
 
-    for (int i = -5; i < 5; ++i) {
+    for (int i = -5; i < 5; ++i) { // [N]
       final Interval<Integer> a = new Interval<>(i - 10, i);
       assertCompareTo(-1, inf, a);
       assertCompareTo(-1, neg, a);
       assertCompareTo(i <= 0 ? 2 : 1, pos, a);
     }
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 10; ++i) { // [N]
       final Interval<Integer> a = new Interval<>(i, i + 10);
       assertCompareTo(-1, inf, a);
       assertCompareTo(-2, neg, a);
       assertCompareTo(i == 0 ? 0 : -1, pos, a);
     }
 
-    for (int i = -10; i < 0; ++i) {
+    for (int i = -10; i < 0; ++i) { // [N]
       final Interval<Integer> a = new Interval<>(i - 10, i);
       assertCompareTo(-1, inf, a);
       assertCompareTo(-1, neg, a);
       assertCompareTo(2, pos, a);
     }
 
-    for (int i = 1; i < 10; ++i) {
+    for (int i = 1; i < 10; ++i) { // [N]
       final Interval<Integer> a = new Interval<>(i, i + 10);
       assertCompareTo(-1, inf, a);
       assertCompareTo(-2, neg, a);
