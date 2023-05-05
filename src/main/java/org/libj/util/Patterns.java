@@ -21,6 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.libj.lang.Strings;
+
 /**
  * Utility functions for operations pertaining to {@link Pattern}.
  */
@@ -140,12 +142,10 @@ public final class Patterns {
     return getGroupNames(pattern, 0, 0);
   }
 
-  private static String[] empty = {};
-
   private static String[] getGroupNames(final String regex, final int index, final int depth) {
     final int start = regex.indexOf("(?<", index);
     if (start < 0)
-      return depth == 0 ? empty : new String[depth];
+      return depth == 0 ? Strings.EMPTY_ARRAY : new String[depth];
 
     final int end = regex.indexOf('>', start + 3);
     if (end < 0)
@@ -490,20 +490,21 @@ public final class Patterns {
     return -1;
   }
 
-  static char[] unescapeClass(final String str, final char last, final int index, final int depth) {
-    if (str.length() == index)
+  static char[] unescapeClass(final String str, final char last) {
+    return unescapeClass(str, last, str.length(), 0, 0);
+  }
+
+  private static char[] unescapeClass(final String str, final char last, final int length, final int index, final int depth) {
+    if (index == length)
       return depth == 0 ? null : new char[depth];
 
     final char ch = str.charAt(index);
     final char[] ret;
-    if (!isEscape(ch) || isEscape(last)) {
-      ret = unescapeClass(str, ch != '\\' ? ch : '\0', index + 1, depth + 1);
-      ret[depth] = ch;
-    }
-    else {
-      ret = unescapeClass(str, ch, index + 1, depth);
-    }
+    if (isEscape(ch) && !isEscape(last))
+      return unescapeClass(str, ch, length, index + 1, depth);
 
+    ret = unescapeClass(str, ch != '\\' ? ch : '\0', length, index + 1, depth + 1);
+    ret[depth] = ch;
     return ret;
   }
 

@@ -78,17 +78,17 @@ public class PatternsTest {
 
   @Test
   public void testUnescapeClass() {
-    assertNull(Patterns.unescapeClass("", '\0', 0, 0));
-    assertNull(Patterns.unescapeClass("\\", '\0', 0, 0));
-    assertEquals("\\", new String(Patterns.unescapeClass("\\\\", '\0', 0, 0)));
-    assertEquals("\\", new String(Patterns.unescapeClass("\\\\", '\0', 0, 0)));
-    assertEquals("\\", new String(Patterns.unescapeClass("\\\\\\", '\0', 0, 0)));
-    assertEquals("abc", new String(Patterns.unescapeClass("abc", '\0', 0, 0)));
-    assertEquals("abc", new String(Patterns.unescapeClass("\\abc", '\0', 0, 0)));
-    assertEquals("abc", new String(Patterns.unescapeClass("a\\bc", '\0', 0, 0)));
-    assertEquals("abc", new String(Patterns.unescapeClass("ab\\c", '\0', 0, 0)));
-    assertEquals("abc", new String(Patterns.unescapeClass("abc\\", '\0', 0, 0)));
-    assertEquals("abc\\", new String(Patterns.unescapeClass("abc\\\\", '\0', 0, 0)));
+    assertNull(Patterns.unescapeClass("", '\0'));
+    assertNull(Patterns.unescapeClass("\\", '\0'));
+    assertEquals("\\", new String(Patterns.unescapeClass("\\\\", '\0')));
+    assertEquals("\\", new String(Patterns.unescapeClass("\\\\", '\0')));
+    assertEquals("\\", new String(Patterns.unescapeClass("\\\\\\", '\0')));
+    assertEquals("abc", new String(Patterns.unescapeClass("abc", '\0')));
+    assertEquals("abc", new String(Patterns.unescapeClass("\\abc", '\0')));
+    assertEquals("abc", new String(Patterns.unescapeClass("a\\bc", '\0')));
+    assertEquals("abc", new String(Patterns.unescapeClass("ab\\c", '\0')));
+    assertEquals("abc", new String(Patterns.unescapeClass("abc\\", '\0')));
+    assertEquals("abc\\", new String(Patterns.unescapeClass("abc\\\\", '\0')));
   }
 
   @Test
