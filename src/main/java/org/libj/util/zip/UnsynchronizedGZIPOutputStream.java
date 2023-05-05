@@ -35,10 +35,10 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
   protected CRC32 crc = new CRC32();
 
   /* GZIP header magic number. */
-  private final static int GZIP_MAGIC = 0x8b1f;
+  private static final int GZIP_MAGIC = 0x8b1f;
 
   /* Trailer size in bytes. */
-  private final static int TRAILER_SIZE = 8;
+  private static final int TRAILER_SIZE = 8;
 
   // Represents the default "unknown" value for OS header, per RFC-1952
   private static final byte OS_UNKNOWN = System.getProperty("java.version").charAt(1) >= 7 ? (byte)0 : (byte)255;
@@ -76,7 +76,6 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
   public UnsynchronizedGZIPOutputStream(final OutputStream out, final int size, final boolean syncFlush) {
     super(out, out != null ? new Deflater(Deflater.DEFAULT_COMPRESSION, true) : null, size, syncFlush);
     usesDefaultDeflater = true;
-    crc.reset();
   }
 
   /**
@@ -105,7 +104,6 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
   }
 
   private final byte[] buf = new byte[1];
-  private final byte[] trailer = new byte[TRAILER_SIZE];
 
   /**
    * Writes a byte to the compressed output stream. <s>This method will block until all the bytes are written.</s>
@@ -132,6 +130,7 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
     if (!hasHeader) {
       hasHeader = true;
       writeHeader();
+      crc.reset();
     }
 
     super.write(buf, off, len);
@@ -146,7 +145,9 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
    */
   @Override
   public void finish() throws IOException {
+    final Deflater def = this.def;
     if (!def.finished()) {
+      final OutputStream out = this.out;
       try {
         def.finish();
         final byte[] buf = this.buf;
@@ -166,7 +167,7 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
 
         // if we can't fit the trailer at the end of the last
         // deflater buffer, we write it separately
-        final byte[] trailer = this.trailer;
+        final byte[] trailer = new byte[TRAILER_SIZE];
         writeTrailer(trailer, 0);
         out.write(trailer);
       }
