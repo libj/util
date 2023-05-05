@@ -68,9 +68,6 @@
                 <template>src/main/resources/primitive/Hash&lt;X&gt;Set.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
-              <skips>
-                <skip>boolean</skip>
-              </skips>
             </configuration>
           </execution>
           <execution>
@@ -176,9 +173,6 @@
                 <template>src/main/resources/primitive/&lt;X&gt;TimSort.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
-              <skips>
-                <skip>boolean</skip>
-              </skips>
             </configuration>
           </execution>
           <execution>
@@ -192,9 +186,6 @@
                 <template>src/main/resources/primitive/&lt;X&gt;PairedTimSort.java</template>
               </templates>
               <destDir>${project.build.directory}/generated-sources/codegen/org/libj/util/primitive</destDir>
-              <skips>
-                <skip>boolean</skip>
-              </skips>
               <parameters>
                 <object>
                   <types>
@@ -241,12 +232,14 @@
                 <x>boolean</x>
                 <XX>Boolean</XX>
                 <d>false</d>
+                <M>TRUE</M>
                 <_>//</_>
               </types>
               <imports>
                 <import>org.libj.util.function.BooleanConsumer</import>
                 <import>org.libj.util.function.BooleanPredicate</import>
                 <import>org.libj.util.primitive.BooleanComparator</import>
+                <import>org.libj.util.function.BooleanUnaryOperator</import>
               </imports>
             </boolean>
             <byte>
@@ -255,6 +248,7 @@
                 <x>byte</x>
                 <XX>Byte</XX>
                 <d>0</d>
+                <M>MAX_VALUE</M>
                 <_>//</_>
               </types>
               <imports>
@@ -271,6 +265,7 @@
                 <x>char</x>
                 <XX>Character</XX>
                 <d>0</d>
+                <M>MAX_VALUE</M>
                 <_>//</_>
               </types>
               <imports>
@@ -287,6 +282,7 @@
                 <x>short</x>
                 <XX>Short</XX>
                 <d>0</d>
+                <M>MAX_VALUE</M>
                 <_>//</_>
               </types>
               <imports>
@@ -303,6 +299,7 @@
                 <x>int</x>
                 <XX>Integer</XX>
                 <d>0</d>
+                <M>MAX_VALUE</M>
                 <_></_>
               </types>
               <imports>
@@ -322,6 +319,7 @@
                 <x>long</x>
                 <XX>Long</XX>
                 <d>0</d>
+                <M>MAX_VALUE</M>
                 <_></_>
               </types>
               <imports>
@@ -341,6 +339,7 @@
                 <x>float</x>
                 <XX>Float</XX>
                 <d>0</d>
+                <M>MAX_VALUE</M>
                 <_>//</_>
               </types>
               <imports>
@@ -357,6 +356,7 @@
                 <x>double</x>
                 <XX>Double</XX>
                 <d>0</d>
+                <M>MAX_VALUE</M>
                 <_></_>
               </types>
               <imports>

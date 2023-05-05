@@ -492,7 +492,7 @@ public interface <X>List extends <X>Collection {
 
   /**
    * Returns the number of values in this list. If this list contains more than
-   * {@link <XX>#MAX_VALUE} values, returns {@link <XX>#MAX_VALUE}.
+   * {@link <XX>#<M>} values, returns {@link <XX>#<M>}.
    *
    * @return The number of values in this list.
    */

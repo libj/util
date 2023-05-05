@@ -28,6 +28,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
+import org.libj.util.primitive.BooleanComparator;
 import org.libj.util.primitive.ByteComparator;
 import org.libj.util.primitive.CharComparator;
 import org.libj.util.primitive.DoubleComparator;
@@ -67,6 +68,41 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /** The empty {@code boolean[]} array. */
   public static final boolean[] EMPTY_ARRAY_BOOLEAN = {};
+
+  /**
+   * Returns true if the two specified arrays of booleans, over the provided ranges, are <i>equal</i> to one another.
+   * <p>
+   * Two arrays are considered equal if the number of elements covered by each range is the same, and all corresponding pairs of
+   * elements over the provided ranges in the two arrays are equal. In other words, two arrays are equal if they contain, over the
+   * provided ranges, the same elements in the same order.
+   *
+   * @param a The first array to be tested for equality.
+   * @param aFromIndex The index (inclusive) of the first element in the first array to be tested.
+   * @param aToIndex The index (exclusive) of the last element in the first array to be tested.
+   * @param b The second array to be tested from equality.
+   * @param bFromIndex The index (inclusive) of the first element in the second array to be tested.
+   * @param bToIndex The index (exclusive) of the last element in the second array to be tested.
+   * @return {@code true} If the two arrays, over the provided ranges, are equal.
+   * @throws ArrayIndexOutOfBoundsException If {@code aFromIndex < 0 or aToIndex > a.length} or if
+   *           {@code bFromIndex < 0 or bToIndex > b.length}.
+   * @throws NullPointerException If either array is null.
+   * @throws IllegalArgumentException If {@code bFromIndex > bToIndex}.
+   */
+  public static boolean equals(final boolean[] a, int aFromIndex, final int aToIndex, final boolean[] b, int bFromIndex, final int bToIndex) {
+    assertRangeArray(aFromIndex, aToIndex, a.length);
+    assertRangeArray(bFromIndex, bToIndex, b.length);
+
+    final int aLength = aToIndex - aFromIndex;
+    final int bLength = bToIndex - bFromIndex;
+    if (aLength != bLength)
+      return false;
+
+    for (int i = 0; i < aLength; ++i) // [A]
+      if (a[aFromIndex++] != b[bFromIndex++])
+        return false;
+
+    return true;
+  }
 
   /**
    * Returns true if the two specified arrays of bytes, over the provided ranges, are <i>equal</i> to one another.
@@ -1128,15 +1164,16 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>T[] filter0(final Predicate<? super T> predicate, final T[] array, final int len, final int index, final int depth) {
-    if (index == len)
+  private static <T>T[] filter0(final Predicate<? super T> predicate, final T[] array, final int length, final int index, final int depth) {
+    if (index == length)
       return (T[])Array.newInstance(array.getClass().getComponentType(), depth);
 
     final boolean accept = predicate.test(array[index]);
-    final T[] filtered = filter0(predicate, array, len, index + 1, accept ? depth + 1 : depth);
-    if (accept)
-      filtered[depth] = array[index];
+    if (!accept)
+      return filter0(predicate, array, length, index + 1, depth);
 
+    final T[] filtered = filter0(predicate, array, length, index + 1, depth + 1);
+    filtered[depth] = array[index];
     return filtered;
   }
 
@@ -1823,6 +1860,112 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   public static <T>boolean contains(final T[] array, final int off, final int len, final T value) {
     return indexOf(array, off, len, value) >= 0;
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each member's {@link #toString()} method, delimited by the
+   * provided delimiter {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
+   */
+  public static String toString(final boolean[] array, final char delimiter) {
+    return array == null ? null : toString(array, delimiter, 0, array.length);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each member's {@link #toString()} method, delimited by the
+   * provided delimiter {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
+   */
+  public static String toString(final boolean[] array, final char delimiter, final int offset) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each member's {@link #toString()} method, delimited by the
+   * provided delimiter {@code char}.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
+   */
+  public static String toString(final boolean[] array, final char delimiter, final int offset, int length) {
+    if (array == null)
+      return "null";
+
+    if (length == 0 || array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return String.valueOf(array[offset]);
+
+    length += offset;
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
+    for (int i = offset + 1; i < length; ++i) // [A]
+      builder.append(delimiter).append(array[i]);
+
+    return builder.toString();
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each member's {@link #toString()} method, delimited by the
+   * provided delimiter string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
+   */
+  public static String toString(final boolean[] array, final String delimiter) {
+    return array == null ? null : toString(array, delimiter, 0, array.length);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each member's {@link #toString()} method, delimited by the
+   * provided delimiter string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
+   */
+  public static String toString(final boolean[] array, final String delimiter, final int offset) {
+    return array == null ? null : toString(array, delimiter, offset, array.length - offset);
+  }
+
+  /**
+   * Create a string representation of the specified array by calling each member's {@link #toString()} method, delimited by the
+   * provided delimiter string.
+   *
+   * @param array The array.
+   * @param delimiter The delimiter.
+   * @param offset The starting offset in the array.
+   * @param length The number of array elements to be included.
+   * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
+   */
+  public static String toString(final boolean[] array, final String delimiter, final int offset, int length) {
+    if (array == null)
+      return "null";
+
+    if (length == 0 || array.length <= offset)
+      return "";
+
+    if (array.length == offset + 1)
+      return String.valueOf(array[offset]);
+
+    length += offset;
+    final StringBuilder builder = new StringBuilder(String.valueOf(array[offset]));
+    for (int i = offset + 1; i < length; ++i) // [A]
+      builder.append(delimiter).append(array[i]);
+
+    return builder.toString();
   }
 
   /**
@@ -4486,6 +4629,33 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
+   * Sorts the specified array of {@code boolean}s, according to the specified {@link BooleanComparator}.
+   *
+   * @param a The array of {@code boolean}s.
+   * @param c The {@link BooleanComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final boolean[] a, final BooleanComparator c) {
+    sort(a, 0, a.length, c);
+  }
+
+  /**
+   * Sorts the specified array of {@code boolean}s, according to the specified {@link BooleanComparator}.
+   *
+   * @param a The array of {@code boolean}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The {@link BooleanComparator}.
+   * @throws NullPointerException If {@code a} is null.
+   */
+  public static void sort(final boolean[] a, final int fromIndex, final int toIndex, final BooleanComparator c) {
+    if (c != null)
+      PrimitiveSort.sort(a, fromIndex, toIndex, c);
+    else
+      DualPivotQuicksortBoolean.sort(a, fromIndex, toIndex);
+  }
+
+  /**
    * Sorts the specified array of {@code byte}s, according to the specified {@link ByteComparator}.
    *
    * @param a The array of {@code byte}s.
@@ -5417,17 +5587,17 @@ public final class ArrayUtil extends PrimitiveSort {
     array[i < 0 ? len + i : i] = value;
   }
 
-  private static int dedupe(final byte[] tables, final int len, final int index, final int depth) {
-    if (index == len)
+  private static int dedupe(final byte[] tables, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final byte element = tables[index];
     if (tables[index - 1] == element)
-      return dedupe(tables, len, index + 1, depth);
+      return dedupe(tables, length, index + 1, depth);
 
-    final int length = dedupe(tables, len, index + 1, depth + 1);
+    final int count = dedupe(tables, length, index + 1, depth + 1);
     tables[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5441,17 +5611,17 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static int dedupe(final char[] tables, final int len, final int index, final int depth) {
-    if (index == len)
+  private static int dedupe(final char[] tables, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final char element = tables[index];
     if (tables[index - 1] == element)
-      return dedupe(tables, len, index + 1, depth);
+      return dedupe(tables, length, index + 1, depth);
 
-    final int length = dedupe(tables, len, index + 1, depth + 1);
+    final int count = dedupe(tables, length, index + 1, depth + 1);
     tables[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5465,17 +5635,17 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static int dedupe(final short[] tables, final int len, final int index, final int depth) {
-    if (index == len)
+  private static int dedupe(final short[] tables, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final short element = tables[index];
     if (tables[index - 1] == element)
-      return dedupe(tables, len, index + 1, depth);
+      return dedupe(tables, length, index + 1, depth);
 
-    final int length = dedupe(tables, len, index + 1, depth + 1);
+    final int count = dedupe(tables, length, index + 1, depth + 1);
     tables[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5489,17 +5659,17 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static int dedupe(final int[] tables, final int len, final int index, final int depth) {
-    if (index == len)
+  private static int dedupe(final int[] tables, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final int element = tables[index];
     if (tables[index - 1] == element)
-      return dedupe(tables, len, index + 1, depth);
+      return dedupe(tables, length, index + 1, depth);
 
-    final int length = dedupe(tables, len, index + 1, depth + 1);
+    final int count = dedupe(tables, length, index + 1, depth + 1);
     tables[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5513,17 +5683,17 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static int dedupe(final long[] tables, final int len, final int index, final int depth) {
-    if (index == len)
+  private static int dedupe(final long[] tables, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final long element = tables[index];
     if (tables[index - 1] == element)
-      return dedupe(tables, len, index + 1, depth);
+      return dedupe(tables, length, index + 1, depth);
 
-    final int length = dedupe(tables, len, index + 1, depth + 1);
+    final int count = dedupe(tables, length, index + 1, depth + 1);
     tables[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5537,17 +5707,17 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static int dedupe(final float[] tables, final int len, final int index, final int depth) {
-    if (index == len)
+  private static int dedupe(final float[] tables, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final float element = tables[index];
     if (tables[index - 1] == element)
-      return dedupe(tables, len, index + 1, depth);
+      return dedupe(tables, length, index + 1, depth);
 
-    final int length = dedupe(tables, len, index + 1, depth + 1);
+    final int count = dedupe(tables, length, index + 1, depth + 1);
     tables[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5561,17 +5731,17 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static int dedupe(final double[] tables, final int len, final int index, final int depth) {
-    if (index == len)
+  private static int dedupe(final double[] tables, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final double element = tables[index];
     if (tables[index - 1] == element)
-      return dedupe(tables, len, index + 1, depth);
+      return dedupe(tables, length, index + 1, depth);
 
-    final int length = dedupe(tables, len, index + 1, depth + 1);
+    final int count = dedupe(tables, length, index + 1, depth + 1);
     tables[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5585,17 +5755,17 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static <T>int dedupe(final T[] a, final int len, final int index, final int depth, final Comparator<? super T> c) {
-    if (index == len)
+  private static <T>int dedupe(final T[] a, final Comparator<? super T> c, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final T element = a[index];
     if (c.compare(a[index - 1], element) == 0)
-      return dedupe(a, len, index + 1, depth, c);
+      return dedupe(a, c, length, index + 1, depth);
 
-    final int length = dedupe(a, len, index + 1, depth + 1, c);
+    final int count = dedupe(a, c, length, index + 1, depth + 1);
     a[depth] = element;
-    return length;
+    return count;
   }
 
   /**
@@ -5610,7 +5780,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If the provided array or {@link Comparator} is null.
    */
   public static <T>int dedupe(final T[] a, final Comparator<? super T> c) {
-    return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1, c);
+    return a.length <= 1 ? a.length : dedupe(a, c, a.length, 1, 1);
   }
 
   /**

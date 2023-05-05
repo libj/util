@@ -221,8 +221,8 @@ public interface <X>Set extends <X>Collection {
 
   /**
    * Returns the number of values in this set (its cardinality). If this set
-   * contains more than {@link <XX>#MAX_VALUE} values, returns
-   * {@link <XX>#MAX_VALUE}.
+   * contains more than {@link <XX>#<M>} values, returns
+   * {@link <XX>#<M>}.
    *
    * @return The number of values in this set (its cardinality).
    */

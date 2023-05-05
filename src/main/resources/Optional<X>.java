@@ -203,7 +203,7 @@ public final class Optional<X> {
    * If a value is present, returns the value, otherwise throws an exception produced by the exception supplying function.
    *
    * @implNote A method reference to the exception constructor with an empty argument list can be used as the supplier. For example,
-   *           {@link IllegalStateException::new}.
+   *           {@link IllegalStateException#IllegalStateException() IllegalStateException::new}.
    * @param <T> Type of the exception to be thrown
    * @param exceptionSupplier The supplying function that produces an exception to be thrown.
    * @return The value, if present

@@ -636,7 +636,7 @@ public class Array<X>List extends PrimitiveArrayList<<x>[]> implements <X>List, 
     }
 
     if (a.length > size)
-      a[size] = 0;
+      a[size] = <d>;
 
     return a;
   }

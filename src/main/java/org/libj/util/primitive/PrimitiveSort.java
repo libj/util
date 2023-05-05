@@ -33,6 +33,33 @@ public abstract class PrimitiveSort {
     return idx;
   }
 
+  private static <T>void recurse(final boolean[] data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final boolean obj = data[idx[i]];
+    recurse(data, idx, i + 1);
+    data[i] = obj;
+  }
+
+  private static <T>void swap(final boolean[] data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final boolean[] tmp = new boolean[len];
+      for (int i = 0; i < len; ++i) { // [A]
+        tmp[i] = data[idx[i]];
+      }
+
+      for (int i = 0; i < len; ++i) { // [A]
+        data[i] = tmp[i];
+        tmp[i] = false;
+      }
+    }
+  }
+
   private static <T>void recurse(final byte[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
@@ -412,6 +439,33 @@ public abstract class PrimitiveSort {
     }
   }
 
+  private static <T>void recurse(final BooleanList data, final int[] idx, final int i) {
+    if (i == idx.length)
+      return;
+
+    final boolean obj = data.get(idx[i]);
+    recurse(data, idx, i + 1);
+    data.set(i, obj);
+  }
+
+  private static <T>void swap(final BooleanList data, final int[] idx) {
+    final int len = idx.length;
+    if (len < MAX_RECURSIONS) {
+      recurse(data, idx, 0);
+    }
+    else {
+      final boolean[] tmp = new boolean[len];
+      for (int i = 0; i < len; ++i) { // [A]
+        tmp[i] = data.get(idx[i]);
+      }
+
+      for (int i = 0; i < len; ++i) { // [A]
+        data.set(i, tmp[i]);
+        tmp[i] = false;
+      }
+    }
+  }
+
   private static <T>void recurse(final ByteList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
@@ -465,6 +519,19 @@ public abstract class PrimitiveSort {
         tmp[i] = null;
       }
     }
+  }
+
+  /**
+   * Sorts the specified array of {@code boolean}s, according to the provided {@link BooleanComparator}.
+   *
+   * @param a The array of {@code boolean}s.
+   * @param fromIndex The index of the first element, inclusive, to be sorted.
+   * @param toIndex The index of the last element, exclusive, to be sorted.
+   * @param c The comparator to use.
+   * @throws NullPointerException If {@code a} or {@code c} is null.
+   */
+  protected static void sort(final boolean[] a, final int fromIndex, final int toIndex, final BooleanComparator c) {
+    BooleanTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
   }
 
   /**
@@ -558,6 +625,12 @@ public abstract class PrimitiveSort {
     DoubleTimSort.sort(a, fromIndex, toIndex, c, null, 0, 0);
   }
 
+  protected static void sortIndexed(final Object[] data, final BooleanList order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
   protected static void sortIndexed(final Object[] data, final ByteList order, final int[] idx, final IntComparator c) {
     IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
     swap(data, idx);
@@ -612,6 +685,12 @@ public abstract class PrimitiveSort {
     swap(order, idx);
   }
 
+  protected static void sortIndexed(final List<?> data, final boolean[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
   protected static void sortIndexed(final List<?> data, final byte[] order, final int[] idx, final IntComparator c) {
     IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
     swap(data, idx);
@@ -649,6 +728,12 @@ public abstract class PrimitiveSort {
   }
 
   protected static void sortIndexed(final List<?> data, final double[] order, final int[] idx, final IntComparator c) {
+    IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
+    swap(data, idx);
+    swap(order, idx);
+  }
+
+  protected static void sortIndexed(final List<?> data, final BooleanList order, final int[] idx, final IntComparator c) {
     IntTimSort.sort(idx, 0, idx.length, c, null, 0, 0);
     swap(data, idx);
     swap(order, idx);

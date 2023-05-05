@@ -2316,17 +2316,18 @@ public final class CollectionUtil extends PrimitiveSort {
     sortIndexed(data, order, buildIndex(order.size()), (o1, o2) -> comparator.compare(order.get(o1), order.get(o2)));
   }
 
-  private static final <E>int dedupe(final List<E> l, final int len, final int index, final int depth, final Comparator<? super E> c) {
-    if (index == len)
+  // FIXME: This is not good if not RandomAccess
+  private static final <E>int dedupeRandomAccess(final List<E> l, final Comparator<? super E> c, final int length, final int index, final int depth) {
+    if (index == length)
       return depth;
 
     final E element = l.get(index);
     if (c.compare(l.get(index - 1), element) == 0)
-      return dedupe(l, len, index + 1, depth, c);
+      return dedupeRandomAccess(l, c, length, index + 1, depth);
 
-    final int length = dedupe(l, len, index + 1, depth + 1, c);
+    final int count = dedupeRandomAccess(l, c, length, index + 1, depth + 1);
     l.set(depth, element);
-    return length;
+    return count;
   }
 
   /**
@@ -2341,7 +2342,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If the provided {@link List} or {@link Comparator} is null.
    */
   public static final <E>int dedupe(final List<E> l, final Comparator<? super E> c) {
-    return l.size() <= 1 ? l.size() : dedupe(l, l.size(), 1, 1, c);
+    return l.size() <= 1 ? l.size() : dedupeRandomAccess(l, c, l.size(), 1, 1);
   }
 
   private CollectionUtil() {

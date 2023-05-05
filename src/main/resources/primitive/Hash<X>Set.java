@@ -43,7 +43,7 @@ public class Hash<X>Set extends HashPrimitiveSet implements <X>Set {
   /**
    * Value that represents null in {@link #valueData}.
    */
-  static final <x> NULL = 0;
+  static final <x> NULL = <d>;
 
   private final float loadFactor;
   private int resizeThreshold;
