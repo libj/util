@@ -16,38 +16,69 @@
 
 package org.libj.util;
 
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * A {@link Comparable} and {@link Serializable} two-dimensional semi-closed interval defined by the {@link #getMin() min}
- * (inclusive) and {@link #getMax() max} (exclusive) values. The implementations of {@link #compareTo(Interval)} and
- * {@link #compareTo(Comparable,Comparable)} {@link #getMin() min} as belonging to the interval (i.e. closed), and {@link #getMax()
- * max} as absent from the interval (i.e. open).
+ * A {@link Comparable} two-dimensional semi-closed interval defined by the {@link #getMin() min} (inclusive) and {@link #getMax()
+ * max} (exclusive) values. The implementations of {@link #compareTo(Interval)} and {@link #compareTo(Object,Object)}
+ * {@link #getMin() min} as belonging to the interval (i.e. closed), and {@link #getMax() max} as absent from the interval (i.e.
+ * open).
  *
- * @param <T> The {@link Comparable} and {@link Serializable} type parameter of the {@link #getMin() min} and {@link #getMax() max}
- *          values.
+ * @param <T> The type parameter of the {@link #getMin() min} and {@link #getMax() max} values.
  */
-public class Interval<T extends Comparable<? super T>> implements Comparable<Interval<T>>, Serializable {
+public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static final Comparator<? super Interval> COMPARATOR = (final Interval o1, final Interval o2) -> o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2);
 
-  protected final T min;
-  protected final T max;
+  protected T min;
+  protected T max;
+  protected Comparator<T> c;
 
   /**
-   * Creates a new {@link Interval} with the provided {@code min} and {@code max} parameters.
+   * Creates a new {@link Interval} with the provided {@code min}, {@code max}, and {@code c} parameters.
+   *
+   * @param min The min value, or {@code null} to represent negative infinity.
+   * @param max The max value, or {@code null} to represent positive infinity.
+   * @param c The {@link Comparator} for the argument type, or {@code null} if the argument type extends {@link Comparable}.
+   * @throws IllegalArgumentException If a non-null {@code min} is greater than or equal to a non-null {@code max}.
+   * @throws ClassCastException If the provided {@link Comparator} is null, and the provided values do not extend
+   *           {@link Comparable}.
+   */
+  public Interval(final T min, final T max, final Comparator<T> c) {
+    this.min = min;
+    this.max = max;
+    this.c = c;
+    if (min != null && max != null && compare(min, max) >= 0)
+      throw new IllegalArgumentException("Illegal interval: " + toString(min, max));
+  }
+
+  /**
+   * Creates a new {@link Interval} with the provided {@code min} and {@code max} parameters that extend {@link Comparable}.
    *
    * @param min The min value, or {@code null} to represent negative infinity.
    * @param max The max value, or {@code null} to represent positive infinity.
    * @throws IllegalArgumentException If a non-null {@code min} is greater than or equal to a non-null {@code max}.
+   * @throws ClassCastException If the provided values do not extend {@link Comparable}.
    */
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public Interval(final T min, final T max) {
-    this.min = min;
-    this.max = max;
-    if (min != null && max != null && min.compareTo(max) >= 0)
-      throw new IllegalArgumentException("Illegal interval: " + toString(min, max));
+    this(min, max, (o1, o2) -> ((Comparable)o1).compareTo(o2));
+  }
+
+  /**
+   * Creates a new {@link Interval} without initializing parameters.
+   */
+  protected Interval() {
+  }
+
+  public Comparator<T> comparator() {
+    return this;
+  }
+
+  @Override
+  public int compare(final T min, final T max) {
+    return c.compare(min, max);
   }
 
   /**
@@ -76,7 +107,7 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    * @throws NullPointerException If the provided {@link Interval} is null.
    */
   public boolean intersects(final Interval<T> i) {
-    return intersect(i.min, max) && intersect(min, i.max);
+    return intersect(i.getMin(), getMax()) && intersect(getMin(), i.getMax());
   }
 
   /**
@@ -89,11 +120,11 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    *         {@link Interval}, otherwise {@code false}.
    */
   public boolean intersects(final T min, final T max) {
-    return intersect(min, this.max) && intersect(this.min, max);
+    return intersect(min, this.getMax()) && intersect(this.getMin(), max);
   }
 
   private boolean intersect(final T min, final T max) {
-    return min == null || max == null || max.compareTo(min) > 0;
+    return min == null || max == null || compare(max, min) > 0;
   }
 
   /**
@@ -104,19 +135,19 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    * @throws NullPointerException If the provided {@link Interval} is null.
    */
   public boolean contains(final Interval<T> i) {
-    final T min0 = min;
-    final T max0 = max;
+    final T min0 = getMin();
+    final T max0 = getMax();
 
     if (min0 == null) {
       final T max1;
-      return max0 == null || (max1 = i.max) != null && max1.compareTo(max0) <= 0;
+      return max0 == null || (max1 = i.getMax()) != null && compare(max1, max0) <= 0;
     }
 
-    final T min1 = i.min;
+    final T min1 = i.getMin();
     if (max0 == null)
-      return min1 != null && min1.compareTo(min0) >= 0;
+      return min1 != null && compare(min1, min0) >= 0;
 
-    return min1.compareTo(min0) >= 0 && i.max.compareTo(max0) <= 0;
+    return compare(min1, min0) >= 0 && compare(i.getMax(), max0) <= 0;
   }
 
   /**
@@ -127,9 +158,9 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    * @throws NullPointerException If the provided {@code value} is null.
    */
   public boolean contains(final T value) {
-    final T min = this.min;
-    final T max = this.max;
-    return (min == null || value.compareTo(min) >= 0) && (max == null || value.compareTo(max) < 0);
+    final T min = this.getMin();
+    final T max = this.getMax();
+    return (min == null || compare(value, min) >= 0) && (max == null || compare(value, max) < 0);
   }
 
   /**
@@ -211,7 +242,7 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    */
   @Override
   public int compareTo(final Interval<T> o) {
-    return compareTo(o.min, o.max);
+    return compareTo(o.getMin(), o.getMax());
   }
 
   /**
@@ -291,36 +322,36 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    * @return The value as described above.
    */
   public int compareTo(final T min, final T max) {
-    final T min0 = this.min;
-    final T max0 = this.max;
+    final T min0 = this.getMin();
+    final T max0 = this.getMax();
 
     if (min0 == null) {
       if (min == null)
         return 0;
 
-      return max0 == null || max0.compareTo(min) > 0 ? -1 : -2;
+      return max0 == null || compare(max0, min) > 0 ? -1 : -2;
     }
 
     if (min == null)
-      return max == null || max.compareTo(min0) > 0 ? 1 : 2;
+      return max == null || compare(max, min0) > 0 ? 1 : 2;
 
     if (max0 == null) {
-      if (max == null || min0.compareTo(max) < 0)
-        return min0.compareTo(min);
+      if (max == null || compare(min0, max) < 0)
+        return compare(min0, min);
 
       return 2;
     }
 
     if (max == null)
-      return min.compareTo(max0) >= 0 ? -2 : min0.compareTo(min);
+      return compare(min, max0) >= 0 ? -2 : compare(min0, min);
 
-    if (min0.compareTo(max) > 0)
+    if (compare(min0, max) > 0)
       return 2;
 
-    if (max0.compareTo(min) < 0)
+    if (compare(max0, min) < 0)
       return -2;
 
-    return min0.compareTo(min);
+    return compare(min0, min);
   }
 
   /**
@@ -333,12 +364,12 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
    *         value equals the {@link #getMax() max} value of this {@link Interval}, otherwise {@code false}.
    */
   public boolean equals(final T min, final T max) {
-    return Objects.equals(this.min, min) && Objects.equals(this.max, max);
+    return Objects.equals(this.getMin(), min) && Objects.equals(this.getMax(), max);
   }
 
   @Override
   public int hashCode() {
-    return min.hashCode() ^ max.hashCode();
+    return getMin().hashCode() ^ getMax().hashCode();
   }
 
   @Override
@@ -350,7 +381,7 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
       return false;
 
     final Interval<?> that = (Interval<?>)obj;
-    return Objects.equals(min, that.min) && Objects.equals(max, that.max);
+    return Objects.equals(getMin(), that.getMin()) && Objects.equals(getMax(), that.getMax());
   }
 
   /**
@@ -367,6 +398,6 @@ public class Interval<T extends Comparable<? super T>> implements Comparable<Int
 
   @Override
   public String toString() {
-    return toString(min, max);
+    return toString(getMin(), getMax());
   }
 }

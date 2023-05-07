@@ -121,7 +121,7 @@ public class IntervalTest {
       assertFalse(a.contains(new Interval<>(i - x, i)));
 
     for (int i = a.getMin(), i$ = a.getMax() - x; i < i$; ++i) // [N]
-      assertTrue("" + i, a.contains(new Interval<>(i, i + x)));
+      assertTrue(a.contains(new Interval<>(i, i + x)));
 
     for (int i = a.getMax(), i$ = i + 10; i < i$; ++i) // [N]
       assertFalse(a.contains(new Interval<>(i, i + x)));
