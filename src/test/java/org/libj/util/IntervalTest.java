@@ -44,6 +44,17 @@ public class IntervalTest {
   }
 
   @Test
+  public void testUnbounded() {
+    final Interval<Integer> a = new Interval<>(null, null);
+    final Interval<Integer> b = new Interval<>(null, 0);
+    final Interval<Integer> c = new Interval<>(0, null);
+    final Interval<Integer> d = new Interval<>(0, 1);
+    assertEquals(0, a.compareTo(b));
+    assertEquals(-1, a.compareTo(c));
+    assertEquals(-1, a.compareTo(d));
+  }
+
+  @Test
   @SuppressWarnings("unused")
   public void testInvalid() {
     try {

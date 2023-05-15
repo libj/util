@@ -72,8 +72,18 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
   protected Interval() {
   }
 
-  public Comparator<T> comparator() {
-    return this;
+  /**
+   * Returns a new {@link Interval} with the provided {@code min} and {@code max} parameters.
+   *
+   * @param min The min value, or {@code null} to represent negative infinity.
+   * @param max The max value, or {@code null} to represent positive infinity.
+   * @return A new {@link Interval} with the provided {@code min} and {@code max} parameters.
+   * @throws IllegalArgumentException If a non-null {@code min} is greater than or equal to a non-null {@code max}.
+   * @throws ClassCastException If this instance's {@link #c Comparator} is null, and the provided values do not extend
+   *           {@link Comparable}.
+   */
+  public Interval<T> newInstance(final T min, final T max) {
+    return new Interval<>(min, max, c);
   }
 
   @Override
