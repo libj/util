@@ -162,13 +162,13 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   protected class ObservableMirrorEntrySet extends ObservableMap<K,V>.ObservableEntrySet {
-    protected ObservableMirrorEntrySet(final Set<Entry<K,V>> set) {
+    protected ObservableMirrorEntrySet(final Set<Map.Entry<K,V>> set) {
       super(set);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected Entry<K,V> afterGet(final Entry<K,V> value, final RuntimeException e) {
+    protected Map.Entry<K,V> afterGet(final Map.Entry<K,V> value, final RuntimeException e) {
       if (value.getValue() == PENDING) {
         unlocked = unlock();
         final K key = value.getKey();

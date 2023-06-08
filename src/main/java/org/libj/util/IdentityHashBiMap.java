@@ -79,7 +79,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
       final ThreadLocal<V> value = new ThreadLocal<>();
 
       @Override
-      protected Object beforeAdd(final Entry<K,V> element, final Object preventDefault) {
+      protected Object beforeAdd(final Map.Entry<K,V> element, final Object preventDefault) {
         throw new UnsupportedOperationException();
       }
 

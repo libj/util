@@ -111,7 +111,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   @Override
-  public Entry<K,V> lowerEntry(final K key) {
+  public Map.Entry<K,V> lowerEntry(final K key) {
     return target().lowerEntry(key);
   }
 
@@ -121,7 +121,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   @Override
-  public Entry<K,V> floorEntry(final K key) {
+  public Map.Entry<K,V> floorEntry(final K key) {
     return target().floorEntry(key);
   }
 
@@ -131,7 +131,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   @Override
-  public Entry<K,V> ceilingEntry(final K key) {
+  public Map.Entry<K,V> ceilingEntry(final K key) {
     return target().ceilingEntry(key);
   }
 
@@ -141,7 +141,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   @Override
-  public Entry<K,V> higherEntry(final K key) {
+  public Map.Entry<K,V> higherEntry(final K key) {
     return target().higherEntry(key);
   }
 
@@ -151,22 +151,22 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   @Override
-  public Entry<K,V> firstEntry() {
+  public Map.Entry<K,V> firstEntry() {
     return target().firstEntry();
   }
 
   @Override
-  public Entry<K,V> lastEntry() {
+  public Map.Entry<K,V> lastEntry() {
     return target().lastEntry();
   }
 
   @Override
-  public Entry<K,V> pollFirstEntry() {
+  public Map.Entry<K,V> pollFirstEntry() {
     return target().pollFirstEntry();
   }
 
   @Override
-  public Entry<K,V> pollLastEntry() {
+  public Map.Entry<K,V> pollLastEntry() {
     return target().pollLastEntry();
   }
 

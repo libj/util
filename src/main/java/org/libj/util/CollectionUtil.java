@@ -238,8 +238,8 @@ public final class CollectionUtil extends PrimitiveSort {
    */
   public static boolean retainAll(final Collection<?> a, final Collection<?> b) {
     final int size = a.size();
-    final int subSize = b.size();
-    if (subSize == 0) {
+    final int i$ = b.size();
+    if (i$ == 0) {
       if (size == 0)
         return false;
 
@@ -252,7 +252,7 @@ public final class CollectionUtil extends PrimitiveSort {
       int i = 0; do // [RA]
         if (!b.contains(l.get(i)))
           l.remove(i);
-      while (++i < subSize);
+      while (++i < i$);
     }
     else {
       final Iterator<?> it = a.iterator(); do // [I]

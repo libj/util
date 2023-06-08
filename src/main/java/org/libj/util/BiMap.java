@@ -152,7 +152,7 @@ public abstract class BiMap<K,V> extends DelegateMap<K,V> {
   public Set<Map.Entry<K,V>> entrySet() {
     return entrySet == null ? entrySet = new ObservableSet<Map.Entry<K,V>>(target.entrySet()) {
       @Override
-      protected Object beforeAdd(final Entry<K,V> element, final Object preventDefault) {
+      protected Object beforeAdd(final Map.Entry<K,V> element, final Object preventDefault) {
         throw new UnsupportedOperationException();
       }
 

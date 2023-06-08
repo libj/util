@@ -171,7 +171,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
     private class ObservableEntry implements Map.Entry<K,V> {
       private final Map.Entry<K,V> target;
 
-      private ObservableEntry(final Entry<K,V> target) {
+      private ObservableEntry(final Map.Entry<K,V> target) {
         this.target = target;
       }
 
@@ -255,7 +255,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
     }
 
     @Override
-    protected void afterAdd(final Entry<K,V> element, final RuntimeException e) {
+    protected void afterAdd(final Map.Entry<K,V> element, final RuntimeException e) {
       ObservableMap.this.afterPut(localKey.get(), localOldValue.get(), localNewValue.get(), e);
     }
 

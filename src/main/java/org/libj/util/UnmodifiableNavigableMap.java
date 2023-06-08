@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
@@ -79,53 +80,53 @@ public class UnmodifiableNavigableMap<K,V> extends UnmodifiableSortedMap<K,V> im
 
   @Override
   @SuppressWarnings("unchecked")
-  public Entry<K,V> lowerEntry(final K key) {
-    final Entry<K,V> lower = (Entry<K,V>)getTarget().lowerEntry(key);
+  public Map.Entry<K,V> lowerEntry(final K key) {
+    final Map.Entry<K,V> lower = (Entry<K,V>)getTarget().lowerEntry(key);
     return lower != null ? new UnmodifiableEntrySet.UnmodifiableEntry<>(lower) : null;
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public Entry<K,V> floorEntry(final K key) {
-    final Entry<K,V> floor = (Entry<K,V>)getTarget().floorEntry(key);
+  public Map.Entry<K,V> floorEntry(final K key) {
+    final Map.Entry<K,V> floor = (Entry<K,V>)getTarget().floorEntry(key);
     return floor != null ? new UnmodifiableEntrySet.UnmodifiableEntry<>(floor) : null;
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public Entry<K,V> ceilingEntry(final K key) {
-    final Entry<K,V> ceiling = (Entry<K,V>)getTarget().ceilingEntry(key);
+  public Map.Entry<K,V> ceilingEntry(final K key) {
+    final Map.Entry<K,V> ceiling = (Entry<K,V>)getTarget().ceilingEntry(key);
     return ceiling != null ? new UnmodifiableEntrySet.UnmodifiableEntry<>(ceiling) : null;
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public Entry<K,V> higherEntry(final K key) {
-    final Entry<K,V> higher = (Entry<K,V>)getTarget().higherEntry(key);
+  public Map.Entry<K,V> higherEntry(final K key) {
+    final Map.Entry<K,V> higher = (Entry<K,V>)getTarget().higherEntry(key);
     return higher != null ? new UnmodifiableEntrySet.UnmodifiableEntry<>(higher) : null;
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public Entry<K,V> firstEntry() {
-    final Entry<K,V> first = (Entry<K,V>)getTarget().firstEntry();
+  public Map.Entry<K,V> firstEntry() {
+    final Map.Entry<K,V> first = (Entry<K,V>)getTarget().firstEntry();
     return first != null ? new UnmodifiableEntrySet.UnmodifiableEntry<>(first) : null;
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public Entry<K,V> lastEntry() {
-    final Entry<K,V> last = (Entry<K,V>)getTarget().lastEntry();
+  public Map.Entry<K,V> lastEntry() {
+    final Map.Entry<K,V> last = (Entry<K,V>)getTarget().lastEntry();
     return last != null ? new UnmodifiableEntrySet.UnmodifiableEntry<>(last) : null;
   }
 
   @Override
-  public Entry<K,V> pollFirstEntry() {
+  public Map.Entry<K,V> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Entry<K,V> pollLastEntry() {
+  public Map.Entry<K,V> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 

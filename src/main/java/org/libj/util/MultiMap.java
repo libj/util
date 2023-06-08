@@ -262,7 +262,7 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
       return false;
 
     if (size() > 0) {
-      for (final Entry<K,C> entry : entrySet()) { // [S]
+      for (final Map.Entry<K,C> entry : entrySet()) { // [S]
         final C olist = otherMap.get(entry.getKey());
         final C value = entry.getValue();
         if (value != null) {
