@@ -71,7 +71,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @throws IllegalArgumentException If {@code startDelayMs} is negative.
      */
     public Builder<E> withStartDelay(final int startDelayMs) {
-      this.startDelayMs = assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
+      this.startDelayMs = assertNotNegative(startDelayMs, () -> "startDelayMs (" + startDelayMs + ") must be a non-negative value");
       return this;
     }
 
@@ -83,7 +83,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @throws IllegalArgumentException If {@code maxRetries} is negative.
      */
     public Builder<E> withMaxRetries(final int maxRetries) {
-      this.maxRetries = assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
+      this.maxRetries = assertNotNegative(maxRetries, () -> "maxRetries (" + maxRetries + ") must be a positive value");
       return this;
     }
 
@@ -96,7 +96,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
      */
     public Builder<E> withJitter(final double jitter) {
-      this.jitter = assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
+      this.jitter = assertNotNegative(jitter, () -> "jitter " + jitter + ") must be a positive value");
       return this;
     }
 
@@ -137,7 +137,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
      */
     public Builder<E> withMaxDelayMs(final long maxDelayMs) {
-      this.maxDelayMs = assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
+      this.maxDelayMs = assertNotNegative(maxDelayMs, () -> "maxDelayMs (" + maxDelayMs + ") must be a non-negative value");
       return this;
     }
 
@@ -222,15 +222,15 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     this.retryOn = Objects.requireNonNull(retryOn);
     this.onRetry = onRetry;
     this.onRetryFailure = Objects.requireNonNull(onRetryFailure);
-    this.maxRetries = assertNotNegative(maxRetries, "maxRetries (%d) must be a positive value", maxRetries);
-    this.startDelayMs = assertNotNegative(startDelayMs, "startDelayMs (%d) must be a non-negative value", startDelayMs);
-    this.jitter = assertNotNegative(jitter, "jitter (%f) must be a positive value", jitter);
+    this.maxRetries = assertNotNegative(maxRetries, () -> "maxRetries (" + maxRetries + ") must be a positive value");
+    this.startDelayMs = assertNotNegative(startDelayMs, () -> "startDelayMs (" + startDelayMs + ") must be a non-negative value");
+    this.jitter = assertNotNegative(jitter, () -> "jitter (" + jitter + ") must be a positive value");
     this.delayOnFirstRetry = delayOnFirstRetry;
     this.backoffFactor = backoffFactor;
     if (backoffFactor < 1.0)
       throw new IllegalArgumentException("backoffFactor (" + backoffFactor + ") must be >= 1.0");
 
-    this.maxDelayMs = assertNotNegative(maxDelayMs, "maxDelayMs (%d) must be a non-negative value", maxDelayMs);
+    this.maxDelayMs = assertNotNegative(maxDelayMs, () -> "maxDelayMs (" + maxDelayMs + ") must be a non-negative value");
 
     Objects.requireNonNull(onRetryFailure.onRetryFailure(testExceptions.get(0), testExceptions, 0, 0), "onRetryFailure must return a non-null instance of type <E>");
   }
@@ -419,7 +419,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *           failure, or if the retry attempts have met {@link #maxRetries}, or {@link #retryOn} returns {@code false}.
    */
   public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureRuntimeException {
-    assertPositive(timeout, "timeout value (%d) must be a positive value", timeout);
+    assertPositive(timeout, () -> "timeout value (" + timeout + ") must be a positive value");
     return run0(retryable, TimeUnit.MILLISECONDS.convert(timeout, unit));
   }
 
