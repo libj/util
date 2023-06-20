@@ -109,16 +109,16 @@ class DualPivotQuicksortBoolean {
     int count = 0; run[0] = left;
 
     // Check if the array is nearly sorted
-    for (int k = left; k < right; run[count] = k) {
+    for (int k = left; k < right; run[count] = k) { // [A]
       if (!a[k] && a[k + 1]) { // ascending
         while (++k <= right && (!a[k - 1] || a[k]));
       } else if (a[k] && !a[k + 1]) { // descending
         while (++k <= right && (a[k - 1] || !a[k]));
-        for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) {
+        for (int lo = run[count] - 1, hi = k; ++lo < --hi; ) { // [A]
           boolean t = a[lo]; a[lo] = a[hi]; a[hi] = t;
         }
       } else { // equal
-        for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) {
+        for (int m = MAX_RUN_LENGTH; ++k <= right && a[k - 1] == a[k]; ) { // [A]
           if (--m == 0) {
             sort(a, left, right, true);
             return;
@@ -146,7 +146,7 @@ class DualPivotQuicksortBoolean {
 
     // Determine alternation base for merge
     byte odd = 0;
-    for (int n = 1; (n <<= 1) < count; odd ^= 1);
+    for (int n = 1; (n <<= 1) < count; odd ^= 1); // [X]
 
     // Use or create temporary array b for merging
     boolean[] b;         // temp array; alternates with a
@@ -169,10 +169,10 @@ class DualPivotQuicksortBoolean {
     }
 
     // Merging
-    for (int last; count > 1; count = last) {
-      for (int k = (last = 0) + 2; k <= count; k += 2) {
+    for (int last; count > 1; count = last) { // [N]
+      for (int k = (last = 0) + 2; k <= count; k += 2) { // [A]
         int hi = run[k], mi = run[k - 1];
-        for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
+        for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) { // [X]
           if (q >= hi || p < mi && (!a[p + ao] || a[q + ao])) {
             b[i + bo] = a[p++ + ao];
           } else {
@@ -182,9 +182,7 @@ class DualPivotQuicksortBoolean {
         run[++last] = hi;
       }
       if ((count & 1) != 0) {
-        for (int i = right, lo = run[count - 1]; --i >= lo;
-          b[i + bo] = a[i + ao]
-        );
+        for (int i = right, lo = run[count - 1]; --i >= lo; b[i + bo] = a[i + ao]); // [A]
         run[++last] = right;
       }
       boolean[] t = a; a = b; b = t;
@@ -211,7 +209,7 @@ class DualPivotQuicksortBoolean {
          * optimized for server VM, is used in case of
          * the leftmost part.
          */
-        for (int i = left, j = i; i < right; j = ++i) {
+        for (int i = left, j = i; i < right; j = ++i) { // [A]
           boolean ai = a[i + 1];
           while (!ai && a[j]) {
             a[j + 1] = a[j];
@@ -239,7 +237,7 @@ class DualPivotQuicksortBoolean {
          * sort, which is faster (in the context of Quicksort)
          * than traditional implementation of insertion sort.
          */
-        for (int k = left; ++left <= right; k = ++left) {
+        for (int k = left; ++left <= right; k = ++left) { // [A]
           boolean a1 = a[k], a2 = a[left];
 
           if (!a1 && a2) {
@@ -348,7 +346,7 @@ class DualPivotQuicksortBoolean {
        * Pointer k is the first index of ?-part.
        */
       outer:
-      for (int k = less - 1; ++k <= great; ) {
+      for (int k = less - 1; ++k <= great; ) { // [A]
         boolean ak = a[k];
         if (!ak && pivot1) { // Move a[k] to left part
           a[k] = a[less];
@@ -424,7 +422,7 @@ class DualPivotQuicksortBoolean {
          * Pointer k is the first index of ?-part.
          */
         outer:
-        for (int k = less - 1; ++k <= great; ) {
+        for (int k = less - 1; ++k <= great; ) { // [A]
           boolean ak = a[k];
           if (ak == pivot1) { // Move a[k] to left part
             a[k] = a[less];
@@ -487,7 +485,7 @@ class DualPivotQuicksortBoolean {
        *
        * Pointer k is the first index of ?-part.
        */
-      for (int k = less; k <= great; ++k) {
+      for (int k = less; k <= great; ++k) { // [A]
         if (a[k] == pivot) {
           continue;
         }

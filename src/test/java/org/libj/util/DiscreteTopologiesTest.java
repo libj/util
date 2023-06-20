@@ -32,8 +32,6 @@ public class DiscreteTopologiesTest {
   static void assertEq(final Object expected, final Object actual) {
     final Class<?> cls = expected.getClass();
     if (cls == String.class) {
-      if (!expected.equals(actual))
-        System.out.println();
       assertArrayEquals(((String)expected).toCharArray(), ((String)actual).toCharArray());
       return;
     }

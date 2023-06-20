@@ -188,7 +188,7 @@ public final class DiscreteTopologies {
     public boolean[] prevValue(final boolean[] v) {
       final boolean[] p = v.clone();
       int i = v.length - 1;
-      for (boolean a; i >= 0; --i) {
+      for (boolean a; i >= 0; --i) { // [A]
         a = p[i];
         if (false != a) {
           p[i] = false;
@@ -203,7 +203,7 @@ public final class DiscreteTopologies {
     public boolean[] nextValue(final boolean[] v) {
       final boolean[] n = v.clone();
       int i = v.length - 1;
-      for (boolean a; i >= 0; --i) {
+      for (boolean a; i >= 0; --i) { // [A]
         a = n[i];
         if (true != a) {
           n[i] = true;
@@ -223,7 +223,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Boolean.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -256,7 +256,7 @@ public final class DiscreteTopologies {
     public Boolean[] prevValue(final Boolean[] v) {
       final Boolean[] p = v.clone();
       int i = v.length - 1;
-      for (Boolean a; i >= 0; --i) {
+      for (Boolean a; i >= 0; --i) { // [A]
         a = p[i];
         if (false != a) {
           p[i] = false;
@@ -271,7 +271,7 @@ public final class DiscreteTopologies {
     public Boolean[] nextValue(final Boolean[] v) {
       final Boolean[] n = v.clone();
       int i = v.length - 1;
-      for (boolean a; i >= 0; --i) {
+      for (boolean a; i >= 0; --i) { // [A]
         a = n[i];
         if (true != a) {
           n[i] = true;
@@ -291,7 +291,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -351,7 +351,7 @@ public final class DiscreteTopologies {
     public byte[] prevValue(final byte[] v) {
       final byte[] p = v.clone();
       int i = v.length - 1;
-      for (byte a; i >= 0; --i) {
+      for (byte a; i >= 0; --i) { // [A]
         a = p[i];
         if (Byte.MIN_VALUE != a) {
           p[i] = --a;
@@ -366,7 +366,7 @@ public final class DiscreteTopologies {
     public byte[] nextValue(final byte[] v) {
       final byte[] n = v.clone();
       int i = v.length - 1;
-      for (byte a; i >= 0; --i) {
+      for (byte a; i >= 0; --i) { // [A]
         a = n[i];
         if (Byte.MAX_VALUE != a) {
           n[i] = ++a;
@@ -386,7 +386,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Byte.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -419,7 +419,7 @@ public final class DiscreteTopologies {
     public Byte[] prevValue(final Byte[] v) {
       final Byte[] p = v.clone();
       int i = v.length - 1;
-      for (Byte a; i >= 0; --i) {
+      for (Byte a; i >= 0; --i) { // [A]
         a = p[i];
         if (Byte.MIN_VALUE != a) {
           p[i] = --a;
@@ -434,7 +434,7 @@ public final class DiscreteTopologies {
     public Byte[] nextValue(final Byte[] v) {
       final Byte[] n = v.clone();
       int i = v.length - 1;
-      for (Byte a; i >= 0; --i) {
+      for (Byte a; i >= 0; --i) { // [A]
         a = n[i];
         if (Byte.MAX_VALUE != a) {
           n[i] = ++a;
@@ -454,7 +454,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -514,7 +514,7 @@ public final class DiscreteTopologies {
     public short[] prevValue(final short[] v) {
       final short[] p = v.clone();
       int i = v.length - 1;
-      for (short a; i >= 0; --i) {
+      for (short a; i >= 0; --i) { // [A]
         a = p[i];
         if (Short.MIN_VALUE != a) {
           p[i] = --a;
@@ -529,7 +529,7 @@ public final class DiscreteTopologies {
     public short[] nextValue(final short[] v) {
       final short[] n = v.clone();
       int i = v.length - 1;
-      for (short a; i >= 0; --i) {
+      for (short a; i >= 0; --i) { // [A]
         a = n[i];
         if (Short.MAX_VALUE != a) {
           n[i] = ++a;
@@ -549,7 +549,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Short.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -582,7 +582,7 @@ public final class DiscreteTopologies {
     public Short[] prevValue(final Short[] v) {
       final Short[] p = v.clone();
       int i = v.length - 1;
-      for (Short a; i >= 0; --i) {
+      for (Short a; i >= 0; --i) { // [A]
         a = p[i];
         if (Short.MIN_VALUE != a) {
           p[i] = --a;
@@ -597,7 +597,7 @@ public final class DiscreteTopologies {
     public Short[] nextValue(final Short[] v) {
       final Short[] n = v.clone();
       int i = v.length - 1;
-      for (Short a; i >= 0; --i) {
+      for (Short a; i >= 0; --i) { // [A]
         a = n[i];
         if (Short.MAX_VALUE != a) {
           n[i] = ++a;
@@ -617,7 +617,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -677,7 +677,7 @@ public final class DiscreteTopologies {
     public int[] prevValue(final int[] v) {
       final int[] p = v.clone();
       int i = v.length - 1;
-      for (int a; i >= 0; --i) {
+      for (int a; i >= 0; --i) { // [A]
         a = p[i];
         if (Integer.MIN_VALUE != a) {
           p[i] = --a;
@@ -692,7 +692,7 @@ public final class DiscreteTopologies {
     public int[] nextValue(final int[] v) {
       final int[] n = v.clone();
       int i = v.length - 1;
-      for (int a; i >= 0; --i) {
+      for (int a; i >= 0; --i) { // [A]
         a = n[i];
         if (Integer.MAX_VALUE != a) {
           n[i] = ++a;
@@ -712,7 +712,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Integer.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -745,7 +745,7 @@ public final class DiscreteTopologies {
     public Integer[] prevValue(final Integer[] v) {
       final Integer[] p = v.clone();
       int i = v.length - 1;
-      for (Integer a; i >= 0; --i) {
+      for (Integer a; i >= 0; --i) { // [A]
         a = p[i];
         if (Integer.MIN_VALUE != a) {
           p[i] = --a;
@@ -760,7 +760,7 @@ public final class DiscreteTopologies {
     public Integer[] nextValue(final Integer[] v) {
       final Integer[] n = v.clone();
       int i = v.length - 1;
-      for (Integer a; i >= 0; --i) {
+      for (Integer a; i >= 0; --i) { // [A]
         a = n[i];
         if (Integer.MAX_VALUE != a) {
           n[i] = ++a;
@@ -780,7 +780,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -840,7 +840,7 @@ public final class DiscreteTopologies {
     public long[] prevValue(final long[] v) {
       final long[] p = v.clone();
       int i = v.length - 1;
-      for (long a; i >= 0; --i) {
+      for (long a; i >= 0; --i) { // [A]
         a = p[i];
         if (Long.MIN_VALUE != a) {
           p[i] = --a;
@@ -855,7 +855,7 @@ public final class DiscreteTopologies {
     public long[] nextValue(final long[] v) {
       final long[] n = v.clone();
       int i = v.length - 1;
-      for (long a; i >= 0; --i) {
+      for (long a; i >= 0; --i) { // [A]
         a = n[i];
         if (Long.MAX_VALUE != a) {
           n[i] = ++a;
@@ -875,7 +875,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Long.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -908,7 +908,7 @@ public final class DiscreteTopologies {
     public Long[] prevValue(final Long[] v) {
       final Long[] p = v.clone();
       int i = v.length - 1;
-      for (Long a; i >= 0; --i) {
+      for (Long a; i >= 0; --i) { // [A]
         a = p[i];
         if (Long.MIN_VALUE != a) {
           p[i] = --a;
@@ -923,7 +923,7 @@ public final class DiscreteTopologies {
     public Long[] nextValue(final Long[] v) {
       final Long[] n = v.clone();
       int i = v.length - 1;
-      for (Long a; i >= 0; --i) {
+      for (Long a; i >= 0; --i) { // [A]
         a = n[i];
         if (Long.MAX_VALUE != a) {
           n[i] = ++a;
@@ -943,7 +943,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -1003,7 +1003,7 @@ public final class DiscreteTopologies {
     public float[] prevValue(final float[] v) {
       final float[] p = v.clone();
       int i = v.length - 1;
-      for (float a; i >= 0; --i) {
+      for (float a; i >= 0; --i) { // [A]
         a = p[i];
         if (Float.MIN_VALUE != a) {
           p[i] = Math.nextDown(a);
@@ -1018,7 +1018,7 @@ public final class DiscreteTopologies {
     public float[] nextValue(final float[] v) {
       final float[] n = v.clone();
       int i = v.length - 1;
-      for (float a; i >= 0; --i) {
+      for (float a; i >= 0; --i) { // [A]
         a = n[i];
         if (Float.MAX_VALUE != a) {
           n[i] = Math.nextUp(a);
@@ -1038,7 +1038,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Float.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -1071,7 +1071,7 @@ public final class DiscreteTopologies {
     public Float[] prevValue(final Float[] v) {
       final Float[] p = v.clone();
       int i = v.length - 1;
-      for (Float a; i >= 0; --i) {
+      for (Float a; i >= 0; --i) { // [A]
         a = p[i];
         if (Float.MIN_VALUE != a) {
           p[i] = Math.nextDown(a);
@@ -1086,7 +1086,7 @@ public final class DiscreteTopologies {
     public Float[] nextValue(final Float[] v) {
       final Float[] n = v.clone();
       int i = v.length - 1;
-      for (Float a; i >= 0; --i) {
+      for (Float a; i >= 0; --i) { // [A]
         a = n[i];
         if (Float.MAX_VALUE != a) {
           n[i] = Math.nextUp(a);
@@ -1106,7 +1106,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -1166,7 +1166,7 @@ public final class DiscreteTopologies {
     public double[] prevValue(final double[] v) {
       final double[] p = v.clone();
       int i = v.length - 1;
-      for (double a; i >= 0; --i) {
+      for (double a; i >= 0; --i) { // [A]
         a = p[i];
         if (Double.MIN_VALUE != a) {
           p[i] = Math.nextDown(a);
@@ -1181,7 +1181,7 @@ public final class DiscreteTopologies {
     public double[] nextValue(final double[] v) {
       final double[] n = v.clone();
       int i = v.length - 1;
-      for (double a; i >= 0; --i) {
+      for (double a; i >= 0; --i) { // [A]
         a = n[i];
         if (Double.MAX_VALUE != a) {
           n[i] = Math.nextUp(a);
@@ -1201,7 +1201,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Double.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -1234,7 +1234,7 @@ public final class DiscreteTopologies {
     public Double[] prevValue(final Double[] v) {
       final Double[] p = v.clone();
       int i = v.length - 1;
-      for (Double a; i >= 0; --i) {
+      for (Double a; i >= 0; --i) { // [A]
         a = p[i];
         if (Double.MIN_VALUE != a) {
           p[i] = Math.nextDown(a);
@@ -1249,7 +1249,7 @@ public final class DiscreteTopologies {
     public Double[] nextValue(final Double[] v) {
       final Double[] n = v.clone();
       int i = v.length - 1;
-      for (Double a; i >= 0; --i) {
+      for (Double a; i >= 0; --i) { // [A]
         a = n[i];
         if (Double.MAX_VALUE != a) {
           n[i] = Math.nextUp(a);
@@ -1269,7 +1269,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -1329,7 +1329,7 @@ public final class DiscreteTopologies {
     public char[] prevValue(final char[] v) {
       final char[] p = v.clone();
       int i = v.length - 1;
-      for (char a; i >= 0; --i) {
+      for (char a; i >= 0; --i) { // [A]
         a = p[i];
         if (Character.MIN_VALUE != a) {
           p[i] = --a;
@@ -1344,7 +1344,7 @@ public final class DiscreteTopologies {
     public char[] nextValue(final char[] v) {
       final char[] n = v.clone();
       int i = v.length - 1;
-      for (char a; i >= 0; --i) {
+      for (char a; i >= 0; --i) { // [A]
         a = n[i];
         if (Character.MAX_VALUE != a) {
           n[i] = ++a;
@@ -1364,7 +1364,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = Character.compare(o1[i], o2[i]);
         if (c != 0)
           return c;
@@ -1397,7 +1397,7 @@ public final class DiscreteTopologies {
     public Character[] prevValue(final Character[] v) {
       final Character[] p = v.clone();
       int i = v.length - 1;
-      for (Character a; i >= 0; --i) {
+      for (Character a; i >= 0; --i) { // [A]
         a = p[i];
         if (Character.MIN_VALUE != a) {
           p[i] = --a;
@@ -1412,7 +1412,7 @@ public final class DiscreteTopologies {
     public Character[] nextValue(final Character[] v) {
       final Character[] n = v.clone();
       int i = v.length - 1;
-      for (Character a; i >= 0; --i) {
+      for (Character a; i >= 0; --i) { // [A]
         a = n[i];
         if (Character.MAX_VALUE != a) {
           n[i] = ++a;
@@ -1432,7 +1432,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -1551,7 +1551,7 @@ public final class DiscreteTopologies {
     public LocalDate[] prevValue(final LocalDate[] v) {
       final LocalDate[] p = v.clone();
       int i = v.length - 1;
-      for (LocalDate a; i >= 0; --i) {
+      for (LocalDate a; i >= 0; --i) { // [A]
         a = p[i];
         if (!LocalDate.MIN.equals(a)) {
           p[i] = a.minusDays(1);
@@ -1566,7 +1566,7 @@ public final class DiscreteTopologies {
     public LocalDate[] nextValue(final LocalDate[] v) {
       final LocalDate[] n = v.clone();
       int i = v.length - 1;
-      for (LocalDate a; i >= 0; --i) {
+      for (LocalDate a; i >= 0; --i) { // [A]
         a = n[i];
         if (!LocalDate.MAX.equals(a)) {
           n[i] = a.plusDays(1);
@@ -1586,7 +1586,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;
@@ -1681,7 +1681,7 @@ public final class DiscreteTopologies {
       if (len > o2.length)
         return 1;
 
-      for (int i = 0, c; i < len; ++i) { // [RA]
+      for (int i = 0, c; i < len; ++i) { // [A]
         c = o1[i].compareTo(o2[i]);
         if (c != 0)
           return c;

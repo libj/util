@@ -775,7 +775,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
 
   @Test
   public void shouldGenerateStringRepresentation() {
-    final <x>[] testEntries = new <x>[] {(<x>)65, (<x>)68, (<x>)83, (<x>)104, (<x>)111, (<x>)75, (<x>)83, (<x>)97};
+    final <x>[] testEntries = {(<x>)65, (<x>)68, (<x>)83, (<x>)104, (<x>)111, (<x>)75, (<x>)83, (<x>)97};
     list.addAll(testEntries);
     final ArrayList<<XX>> expected = new ArrayList<>(testEntries.length);
     for (final <x> testEntry : testEntries) // [A]
