@@ -216,7 +216,7 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   }
 
   @SuppressWarnings("unchecked")
-  private TreeBiMap<K,V> superClone() {
+  private TreeBiMap<K,V> clone$() {
     try {
       return (TreeBiMap<K,V>)super.clone();
     }
@@ -228,8 +228,8 @@ public class TreeBiMap<K,V> extends BiMap<K,V> implements Cloneable, NavigableMa
   @Override
   @SuppressWarnings("unchecked")
   public TreeBiMap<K,V> clone() {
-    final TreeBiMap<K,V> clone = superClone();
-    clone.reverse = ((TreeBiMap<V,K>)reverse).superClone();
+    final TreeBiMap<K,V> clone = clone$();
+    clone.reverse = ((TreeBiMap<V,K>)reverse).clone$();
     clone.setTarget((Map<K,V>)(((TreeMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
     clone.reverse.setTarget((Map<V,K>)(((TreeMap<K,V>)((ObservableMap<K,V>)reverse.target).target).clone()));
     clone.reverse.reverse = clone;

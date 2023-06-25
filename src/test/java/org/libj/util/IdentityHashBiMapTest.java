@@ -22,12 +22,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.Test;
+import org.libj.lang.Strings;
 
 public class IdentityHashBiMapTest {
   public static void test(final IdentityHashBiMap<Integer,String> map, final int offset, final boolean testClone) {
     for (int i = offset; i < 100 + offset; ++i) { // [N]
       final Integer index = i + offset;
-      final String value = String.valueOf(index).intern();
+      final String value = Strings.intern(String.valueOf(index));
       map.put(index, value);
       assertSame(value + " != " + map.get(index), value, map.get(index));
       assertSame(index + " != " + map.reverse().get(value), index, map.reverse().get(value));
@@ -36,7 +37,7 @@ public class IdentityHashBiMapTest {
     map.remove(7 + offset);
     assertFalse(map.containsKey(7 + offset));
 
-    map.reverse().remove(String.valueOf(8 + offset).intern());
+    map.reverse().remove(Strings.intern(String.valueOf(8 + offset)));
     assertFalse(map.containsKey(8 + offset));
 
     final Iterator<Map.Entry<Integer,String>> entryIterator = map.entrySet().iterator();
@@ -44,11 +45,11 @@ public class IdentityHashBiMapTest {
       final Map.Entry<Integer,String> entry = entryIterator.next();
       if (entry.getKey() == 15 + offset) {
         entryIterator.remove();
-        assertFalse(map.containsValue(String.valueOf(15 + offset).intern()));
+        assertFalse(map.containsValue(Strings.intern(String.valueOf(15 + offset))));
       }
       else if (entry.getKey() == 77 + offset) {
         entryIterator.remove();
-        assertFalse(map.containsValue(String.valueOf(77 + offset).intern()));
+        assertFalse(map.containsValue(Strings.intern(String.valueOf(77 + offset))));
       }
     }
 

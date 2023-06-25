@@ -301,7 +301,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public boolean removeIf(final Predicate<? super E> filter) {
-    return superRemoveIf(filter);
+    return removeIf$(filter);
   }
 
   /**
@@ -395,7 +395,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   // */
   // @Override
   // public <T>T[] toArray(final IntFunction<T[]> generator) {
-  // return superToArray(generator);
+  // return toArray$(generator);
   // }
 
   /**
@@ -406,7 +406,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public void forEach(final Consumer<? super E> action) {
-    superForEach(action);
+    forEach$(action);
   }
 
   /**
@@ -417,7 +417,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public Spliterator<E> spliterator() {
-    return superSpliterator();
+    return spliterator$();
   }
 
   /**
@@ -428,7 +428,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public Stream<E> stream() {
-    return superStream();
+    return stream$();
   }
 
   /**
@@ -439,7 +439,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   public Stream<E> parallelStream() {
-    return superParallelStream();
+    return parallelStream$();
   }
 
   private void touchElements() {

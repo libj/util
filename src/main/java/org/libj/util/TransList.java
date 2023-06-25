@@ -393,51 +393,51 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
 
   @Override
   public void replaceAll(final UnaryOperator<T> operator) {
-    superReplaceAll(operator);
+    replaceAll$(operator);
   }
 
   @Override
   public void sort(final Comparator<? super T> c) {
-    superSort(c);
+    sort$(c);
   }
 
   @Override
   public void forEach(final Consumer<? super T> action) {
-    superForEach(action);
+    forEach$(action);
   }
 
   @Override
   public boolean removeIf(final Predicate<? super T> filter) {
-    return superRemoveIf(filter);
+    return removeIf$(filter);
   }
 
   @Override
   public Spliterator<T> spliterator() {
-    return superSpliterator();
+    return spliterator$();
   }
 
   @Override
   public Stream<T> stream() {
-    return superStream();
+    return stream$();
   }
 
   @Override
   public Stream<T> parallelStream() {
-    return superParallelStream();
+    return parallelStream$();
   }
 
   @Override
   public boolean equals(final Object obj) {
-    return superEquals(obj);
+    return equals$(obj);
   }
 
   @Override
   public int hashCode() {
-    return superHashCode();
+    return hashCode$();
   }
 
   @Override
   public String toString() {
-    return superToString();
+    return toString$();
   }
 }

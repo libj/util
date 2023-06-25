@@ -765,7 +765,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   @SuppressWarnings("unchecked")
-  private AbstractDigraph<K,V> superClone() {
+  private AbstractDigraph<K,V> clone$() {
     try {
       final AbstractDigraph<K,V> clone = (AbstractDigraph<K,V>)super.clone();
       clone.objectToIndex = objectToIndex.clone();
@@ -795,8 +795,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    */
   @Override
   public AbstractDigraph<K,V> clone() {
-    final AbstractDigraph<K,V> clone = superClone();
-    clone.transverse = transverse.superClone();
+    final AbstractDigraph<K,V> clone = clone$();
+    clone.transverse = transverse.clone$();
     clone.transverse.transverse = clone;
     return clone;
   }

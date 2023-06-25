@@ -131,6 +131,7 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    */
   public boolean intersects(final T min, final T max) {
     return intersect(min, this.getMax()) && intersect(this.getMin(), max);
+    // FIXME:... min == null ||
   }
 
   private boolean intersect(final T min, final T max) {

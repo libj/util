@@ -98,7 +98,7 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
   }
 
   @SuppressWarnings("unchecked")
-  private IdentityHashBiMap<K,V> superClone() {
+  private IdentityHashBiMap<K,V> clone$() {
     try {
       return (IdentityHashBiMap<K,V>)super.clone();
     }
@@ -110,11 +110,11 @@ public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Ser
   @Override
   @SuppressWarnings("unchecked")
   public IdentityHashBiMap<K,V> clone() {
-    final IdentityHashBiMap<K,V> clone = superClone();
+    final IdentityHashBiMap<K,V> clone = clone$();
     clone.entrySet = null;
     clone.keySet = null;
     clone.values = null;
-    clone.reverse = ((IdentityHashBiMap<V,K>)reverse).superClone();
+    clone.reverse = ((IdentityHashBiMap<V,K>)reverse).clone$();
     clone.setTarget((Map<K,V>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
     clone.reverse.setTarget((Map<V,K>)(((IdentityHashMap<K,V>)((ObservableMap<K,V>)reverse.target).target).clone()));
     clone.reverse.reverse = clone;

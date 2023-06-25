@@ -423,7 +423,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public V getOrDefault(final Object key, final V defaultValue) {
-    return superGetOrDefault(key, defaultValue);
+    return getOrDefault$(key, defaultValue);
   }
 
   /**
@@ -490,7 +490,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public V putIfAbsent(final K key, final V value) {
-    return superPutIfAbsent(key, value);
+    return putIfAbsent$(key, value);
   }
 
   /**
@@ -548,7 +548,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public boolean remove(final Object key, final Object value) {
-    return superRemove(key, value);
+    return remove$(key, value);
   }
 
   /**
@@ -563,7 +563,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public boolean replace(final K key, final V oldValue, final V newValue) {
-    return superReplace(key, oldValue, newValue);
+    return replace$(key, oldValue, newValue);
   }
 
   /**
@@ -578,7 +578,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public V replace(final K key, final V value) {
-    return superReplace(key, value);
+    return replace$(key, value);
   }
 
   /**
@@ -605,7 +605,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public void forEach(final BiConsumer<? super K,? super V> action) {
-    superForEach(action);
+    forEach$(action);
   }
 
   /**
@@ -623,7 +623,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public V compute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return superCompute(key, remappingFunction);
+    return compute$(key, remappingFunction);
   }
 
   /**
@@ -638,7 +638,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public V computeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
-    return superComputeIfAbsent(key, mappingFunction);
+    return computeIfAbsent$(key, mappingFunction);
   }
 
   /**
@@ -656,7 +656,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public V computeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    return superComputeIfPresent(key, remappingFunction);
+    return computeIfPresent$(key, remappingFunction);
   }
 
   /**
@@ -674,7 +674,7 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    */
   @Override
   public V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
-    return superMerge(key, value, remappingFunction);
+    return merge$(key, value, remappingFunction);
   }
 
   /**

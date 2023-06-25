@@ -84,7 +84,7 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   }
 
   @SuppressWarnings("unchecked")
-  private HashBiMap<K,V> superClone() {
+  private HashBiMap<K,V> clone$() {
     try {
       return (HashBiMap<K,V>)super.clone();
     }
@@ -96,8 +96,8 @@ public class HashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializabl
   @Override
   @SuppressWarnings("unchecked")
   public HashBiMap<K,V> clone() {
-    final HashBiMap<K,V> clone = superClone();
-    clone.reverse = ((HashBiMap<V,K>)reverse).superClone();
+    final HashBiMap<K,V> clone = clone$();
+    clone.reverse = ((HashBiMap<V,K>)reverse).clone$();
     clone.setTarget((Map<K,V>)(((HashMap<K,V>)((ObservableMap<K,V>)target).target).clone()));
     clone.reverse.setTarget((Map<V,K>)(((HashMap<K,V>)((ObservableMap<K,V>)reverse.target).target).clone()));
     clone.reverse.reverse = clone;

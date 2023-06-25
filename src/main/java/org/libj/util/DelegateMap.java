@@ -81,7 +81,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws ClassCastException If the key is of an inappropriate type for this map.
    * @throws NullPointerException If the specified key is null and this map does not permit null keys.
    */
-  protected final V superGetOrDefault(final Object key, final V defaultValue) {
+  protected final V getOrDefault$(final Object key, final V defaultValue) {
     return super.getOrDefault(key, defaultValue);
   }
 
@@ -151,7 +151,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
    * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
-  protected final V superPutIfAbsent(final K key, final V value) {
+  protected final V putIfAbsent$(final K key, final V value) {
     return super.putIfAbsent(key, value);
   }
 
@@ -171,7 +171,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws ClassCastException If the key or value is of an inappropriate type for this map.
    * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
    */
-  protected final boolean superRemove(final Object key, final Object value) {
+  protected final boolean remove$(final Object key, final Object value) {
     return super.remove(key, value);
   }
 
@@ -193,7 +193,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws NullPointerException If oldValue is null and this map does not permit null values.
    * @throws IllegalArgumentException If some property of a specified key or value prevents it from being stored in this map.
    */
-  protected final boolean superReplace(final K key, final V oldValue, final V newValue) {
+  protected final boolean replace$(final K key, final V oldValue, final V newValue) {
     return super.replace(key, oldValue, newValue);
   }
 
@@ -215,7 +215,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
    * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
-  protected final V superReplace(final K key, final V value) {
+  protected final V replace$(final K key, final V value) {
     return super.replace(key, value);
   }
 
@@ -237,7 +237,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
    * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
-  protected final V superComputeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
+  protected final V computeIfAbsent$(final K key, final Function<? super K,? extends V> mappingFunction) {
     return super.computeIfAbsent(key, mappingFunction);
   }
 
@@ -259,7 +259,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
    * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
-  protected final V superComputeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
+  protected final V computeIfPresent$(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
     return super.computeIfPresent(key, remappingFunction);
   }
 
@@ -281,7 +281,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
    * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
    */
-  protected final V superCompute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
+  protected final V compute$(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
     return super.compute(key, remappingFunction);
   }
 
@@ -305,7 +305,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws IllegalArgumentException If the specified key is null and this map does not support null keys or the value or
    *           remappingFunction is null.
    */
-  protected final V superMerge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
+  protected final V merge$(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
     return super.merge(key, value, remappingFunction);
   }
 
@@ -322,7 +322,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws NullPointerException If the specified action is null.
    * @throws ConcurrentModificationException If an entry is found to be.
    */
-  protected final void superForEach(final BiConsumer<? super K,? super V> action) {
+  protected final void forEach$(final BiConsumer<? super K,? super V> action) {
     super.forEach(action);
   }
 
@@ -344,7 +344,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @throws IllegalArgumentException If some property of a replacement value prevents it from being stored in this map.
    * @throws ConcurrentModificationException If an entry is found to be removed during iteration.
    */
-  protected final void superReplaceAll(final BiFunction<? super K,? super V,? extends V> function) {
+  protected final void replaceAll$(final BiFunction<? super K,? super V,? extends V> function) {
     super.replaceAll(function);
   }
 

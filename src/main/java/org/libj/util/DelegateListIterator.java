@@ -103,7 +103,7 @@ public abstract class DelegateListIterator<E> extends AbstractIterator<E> implem
    * @param action The action to be performed for each element.
    * @throws NullPointerException If the specified action is null.
    */
-  protected final void superForEachRemaining(final Consumer<? super E> action) {
+  protected final void forEachRemaining$(final Consumer<? super E> action) {
     super.forEachRemaining(action);
   }
 

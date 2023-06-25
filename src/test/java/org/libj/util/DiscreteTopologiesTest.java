@@ -135,11 +135,11 @@ public class DiscreteTopologiesTest {
       for (int j = 0; j < 100; j = j * 2 + 1) { // [A]
         final DiscreteTopology t = ts[i];
 
-        final Object min = Array.newInstance(Classes.toPrimitiveClass(mins[i].getClass()), j);
+        final Object min = Array.newInstance(Classes.unbox(mins[i].getClass()), j);
         for (int k = 0; k < j; ++k) // [A]
           Array.set(min, k, mins[i]);
 
-        final Object max = Array.newInstance(Classes.toPrimitiveClass(maxs[i].getClass()), j);
+        final Object max = Array.newInstance(Classes.unbox(maxs[i].getClass()), j);
         for (int k = 0; k < j; ++k) // [A]
           Array.set(max, k, maxs[i]);
 

@@ -787,7 +787,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public void replaceAll(final UnaryOperator<E> operator) {
-    superReplaceAll(operator);
+    replaceAll$(operator);
   }
 
   @Override
@@ -879,7 +879,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public void sort(final Comparator<? super E> c) {
-    superSort(c);
+    sort$(c);
   }
 
   /**
@@ -948,7 +948,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   // */
   // @Override
   // public <T>T[] toArray(final IntFunction<T[]> generator) {
-  // return superToArray(generator);
+  // return toArray$(generator);
   // }
 
   /**
@@ -959,7 +959,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public void forEach(final Consumer<? super E> action) {
-    superForEach(action);
+    forEach$(action);
   }
 
   /**
@@ -970,7 +970,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public Spliterator<E> spliterator() {
-    return superSpliterator();
+    return spliterator$();
   }
 
   /**
@@ -981,7 +981,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public Stream<E> stream() {
-    return superStream();
+    return stream$();
   }
 
   /**
@@ -992,7 +992,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   public Stream<E> parallelStream() {
-    return superParallelStream();
+    return parallelStream$();
   }
 
   private void touchElements() {

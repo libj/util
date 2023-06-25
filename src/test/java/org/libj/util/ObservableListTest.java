@@ -27,6 +27,7 @@ import java.util.ListIterator;
 
 import org.junit.ComparisonFailure;
 import org.junit.Test;
+import org.libj.lang.Strings;
 
 public class ObservableListTest {
   @SafeVarargs
@@ -99,9 +100,9 @@ public class ObservableListTest {
         afterGet = true;
         if (testingGetReplace) {
           if (iterator != null)
-            iterator.set(element.intern());
+            iterator.set(Strings.intern(element));
           else
-            set(index, element.intern());
+            set(index, Strings.intern(element));
         }
       }
 

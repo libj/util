@@ -108,7 +108,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
 //   *           generated array.
 //   * @throws NullPointerException If the generator function is null.
 //   */
-//  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
+//  protected final <T>T[] toArray$(final IntFunction<T[]> generator) {
 //    return super.toArray(generator);
 //  }
 
@@ -196,7 +196,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
     return target.listIterator(index);
   }
 
-  protected final void superClear() {
+  protected final void clear$() {
     super.clear();
   }
 
@@ -225,7 +225,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    * @throws NullPointerException If the specified operator is null or if the operator result is a null value and this list does not
    *           permit null elements.
    */
-  protected final void superReplaceAll(final UnaryOperator<E> operator) {
+  protected final void replaceAll$(final UnaryOperator<E> operator) {
     super.replaceAll(operator);
   }
 
@@ -244,7 +244,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    * @throws UnsupportedOperationException If the list's list-iterator does not support the {@code set} operation.
    * @throws NullPointerException If the comparator is found to violate the {@link Comparator} contract.
    */
-  protected final void superSort(final Comparator<? super E> c) {
+  protected final void sort$(final Comparator<? super E> c) {
     super.sort(c);
   }
 
@@ -259,7 +259,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    * @param action The action to be performed for each element.
    * @throws NullPointerException If the specified action is null.
    */
-  protected final void superForEach(final Consumer<? super E> action) {
+  protected final void forEach$(final Consumer<? super E> action) {
     super.forEach(action);
   }
 
@@ -277,7 +277,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    * @throws UnsupportedOperationException If elements cannot be removed from this collection. Implementations may throw this
    *           exception if a matching element cannot be removed or if, in general, removal is not supported.
    */
-  protected final boolean superRemoveIf(final Predicate<? super E> filter) {
+  protected final boolean removeIf$(final Predicate<? super E> filter) {
     return super.removeIf(filter);
   }
 
@@ -291,7 +291,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    *
    * @return A {@code Spliterator} over the elements in this collection.
    */
-  protected final Spliterator<E> superSpliterator() {
+  protected final Spliterator<E> spliterator$() {
     return super.spliterator();
   }
 
@@ -305,7 +305,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    *
    * @return A sequential {@code Stream} over the elements in this collection.
    */
-  protected final Stream<E> superStream() {
+  protected final Stream<E> stream$() {
     return super.stream();
   }
 
@@ -319,7 +319,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    *
    * @return A possibly parallel {@code Stream} over the elements in this collection.
    */
-  protected final Stream<E> superParallelStream() {
+  protected final Stream<E> parallelStream$() {
     return super.parallelStream();
   }
 
@@ -328,7 +328,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
     return target.parallelStream();
   }
 
-  public final boolean superEquals(final Object obj) {
+  public final boolean equals$(final Object obj) {
     return super.equals(obj);
   }
 
@@ -344,7 +344,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
     return Objects.equals(target, that.target);
   }
 
-  protected final int superHashCode() {
+  protected final int hashCode$() {
     return super.hashCode();
   }
 
@@ -357,7 +357,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
     return hashCode;
   }
 
-  protected final String superToString() {
+  protected final String toString$() {
     return super.toString();
   }
 

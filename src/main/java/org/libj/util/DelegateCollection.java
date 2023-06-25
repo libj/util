@@ -100,7 +100,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
 //   *           generated array.
 //   * @throws NullPointerException If the generator function is null.
 //   */
-//  protected final <T>T[] superToArray(final IntFunction<T[]> generator) {
+//  protected final <T>T[] toArray$(final IntFunction<T[]> generator) {
 //    return super.toArray(generator);
 //  }
 
@@ -151,7 +151,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    * @param action The action to be performed for each element.
    * @throws NullPointerException If the specified action is null.
    */
-  protected final void superForEach(final Consumer<? super E> action) {
+  protected final void forEach$(final Consumer<? super E> action) {
     super.forEach(action);
   }
 
@@ -169,7 +169,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    * @throws UnsupportedOperationException If elements cannot be removed from this collection. Implementations may throw this
    *           exception if a matching element cannot be removed or if, in general, removal is not supported.
    */
-  protected final boolean superRemoveIf(final Predicate<? super E> filter) {
+  protected final boolean removeIf$(final Predicate<? super E> filter) {
     return super.removeIf(filter);
   }
 
@@ -183,7 +183,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    *
    * @return A {@code Spliterator} over the elements in this collection.
    */
-  protected final Spliterator<E> superSpliterator() {
+  protected final Spliterator<E> spliterator$() {
     return super.spliterator();
   }
 
@@ -197,7 +197,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    *
    * @return A sequential {@code Stream} over the elements in this collection.
    */
-  protected final Stream<E> superStream() {
+  protected final Stream<E> stream$() {
     return super.stream();
   }
 
@@ -211,7 +211,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
    *
    * @return A possibly parallel {@code Stream} over the elements in this collection.
    */
-  protected final Stream<E> superParallelStream() {
+  protected final Stream<E> parallelStream$() {
     return super.parallelStream();
   }
 
