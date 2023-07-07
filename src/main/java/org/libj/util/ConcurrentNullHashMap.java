@@ -244,6 +244,7 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
 
   @Override
   @SuppressWarnings("unchecked")
+  // FIXME: Implement a more performant alternative!
   public boolean equals(final Object o) {
     if (!(o instanceof Map))
       return false;

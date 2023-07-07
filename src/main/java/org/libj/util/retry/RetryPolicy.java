@@ -213,8 +213,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          {@code 2^a}, where {@code a} is the attempt number.
    * @param maxDelayMs The maximum delay, in milliseconds, which takes effect if the delay computed by the backoff function is a
    *          greater value.
-   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, {@code jitter} or {@code maxDelayMs} is negative,
-   *           or if {@code backoffFactor} is less than {@code 1}.
+   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, {@code jitter}, or {@code maxDelayMs} is
+   *           negative, or if {@code backoffFactor} is less than {@code 1}.
    * @throws NullPointerException If {@code retryOn} or {@code onRetryFailure} is null, or if {@code onRetryFailure} returns a null
    *           value.
    */
@@ -254,7 +254,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          for the first retry to be attempted immediately.
    * @param backoffFactor The base of the backoff exponential function, i.e. a value of {@code 2} represents a backoff function of
    *          {@code 2^a}, where {@code a} is the attempt number.
-   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs} or {@code jitter} is negative, or if
+   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, or {@code jitter} is negative, or if
    *           {@code backoffFactor} is less than {@code 1}.
    * @throws NullPointerException If {@code retryOn} or {@code onRetryFailure} is null, or if {@code onRetryFailure} returns a null
    *           value.
@@ -280,7 +280,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          for the first retry to be attempted immediately.
    * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
    *          delay for each retry.
-   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs} or {@code jitter} is negative.
+   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, or {@code jitter} is negative.
    * @throws NullPointerException If {@code retryOn} or {@code onRetryFailure} is null, or if {@code onRetryFailure} returns a null
    *           value.
    */
@@ -303,7 +303,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    *          multiplicative factor for subsequent backed-off delays.
    * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
    *          delay for each retry.
-   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs} or {@code jitter} is negative.
+   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, or {@code jitter} is negative.
    * @throws NullPointerException If {@code retryOn} or {@code onRetryFailure} is null, or if {@code onRetryFailure} returns a null
    *           value.
    */

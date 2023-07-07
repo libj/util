@@ -4146,7 +4146,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final byte[] order, final ByteComparator comparator) {
@@ -4202,7 +4202,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final char[] order, final CharComparator comparator) {
@@ -4258,7 +4258,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final short[] order, final ShortComparator comparator) {
@@ -4314,7 +4314,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final int[] order, final IntComparator comparator) {
@@ -4370,7 +4370,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final long[] order, final LongComparator comparator) {
@@ -4426,7 +4426,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final float[] order, final FloatComparator comparator) {
@@ -4482,7 +4482,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The array providing the order of indices to sort {@code data}.
    * @param comparator The comparator to use.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static void sort(final Object[] data, final double[] order, final DoubleComparator comparator) {
@@ -4549,7 +4549,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The {@link List} providing the order of indices to sort {@code data}.
    * @param comparator The {@link Comparator} for members of {@code order}.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
   public static <T>void sort(final Object[] data, final T[] order, final Comparator<? super T> comparator) {
@@ -4617,7 +4617,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param data The array providing the data.
    * @param order The {@link List} providing the order of indices to sort {@code data}.
    * @param comparator The {@link Comparator} for members of {@code order}.
-   * @throws NullPointerException If {@code data}, {@code order} or {@code comparator} is null.
+   * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.size()}.
    */
   public static <T>void sort(final Object[] data, final List<? extends T> order, final Comparator<? super T> comparator) {

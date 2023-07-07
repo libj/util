@@ -176,7 +176,7 @@ public class UnsynchronizedByteArrayOutputStream extends OutputStream {
    *
    * @param out The output stream to which to write the data.
    * @throws NullPointerException If {@code out} is null.
-   * @throws IOException If an I/O error occurs.
+   * @throws IOException If an I/O error has occurred.
    */
   public void writeTo(final OutputStream out) throws IOException {
     out.write(buf, 0, count);
@@ -186,7 +186,7 @@ public class UnsynchronizedByteArrayOutputStream extends OutputStream {
    * Resets the {@code count} field of {@code this} output stream to zero, so that all currently accumulated output in the output
    * stream is discarded. The output stream can be used again, reusing the already allocated buffer space.
    *
-   * @throws IOException If an I/O error occurs.
+   * @throws IOException If an I/O error has occurred.
    * @see UnsynchronizedByteArrayOutputStream#count
    */
   public void reset() throws IOException {

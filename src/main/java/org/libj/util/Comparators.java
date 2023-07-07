@@ -178,7 +178,7 @@ public final class Comparators {
    * @param comparator The {@link Comparator}.
    * @param order The terms that defined the order.
    * @return A new {@link Comparators} with the specified order of terms.
-   * @throws NullPointerException If {@code toComparable}, {@code comparator} or {@code order} is null.
+   * @throws NullPointerException If {@code toComparable}, {@code comparator}, or {@code order} is null.
    */
   @SafeVarargs
   public static <T,C extends Comparable<? super C>>Comparator<T> newFixedOrderComparator(final Function<T,C> toComparable, final Comparator<C> comparator, final C ... order) {
