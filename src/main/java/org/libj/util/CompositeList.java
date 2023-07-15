@@ -200,13 +200,20 @@ public abstract class CompositeList<E,T> extends ObservableRandomAccessList<E,Ar
      * @throws NullPointerException If {@code logger} is null.
      */
     protected void print(final Logger logger) {
-      final StringBuilder builder = new StringBuilder();
-      builder.append("    ComponentList<").append(type).append("> ").append(ObjectUtil.simpleIdentityString(this)).append('\n');
-      builder.append("    I:");
-      indexes.stream().forEach(i -> builder.append(' ').append(i));
-      builder.append("\n    E:");
-      forEach(e -> builder.append(' ').append(ObjectUtil.simpleIdentityString(e)));
-      logger.info(builder.append('\n').toString());
+      if (!logger.isInfoEnabled())
+        return;
+
+      final StringBuilder b = new StringBuilder();
+      b.append("    ComponentList<").append(type).append("> ").append(ObjectUtil.simpleIdentityString(this)).append('\n');
+      b.append("    I:");
+      for (int i = 0, i$ = indexes.size(); i < i$; ++i)
+        b.append(' ').append(indexes.get(i));
+
+      b.append("\n    E:");
+      for (int i = 0, i$ = size(); i < i$; ++i)
+        b.append(' ').append(ObjectUtil.simpleIdentityString(get(i)));
+
+      logger.info(b.append('\n').toString());
     }
 
     @Override

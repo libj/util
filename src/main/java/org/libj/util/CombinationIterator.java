@@ -99,7 +99,7 @@ public class CombinationIterator<T> implements Iterable<T[]>, Iterator<T[]> {
       next = (T[])Array.newInstance(obj.getClass(), len);
 
     next[i] = obj;
-    while (--i >= index) // [A]
+    while (--i >= index)
       next[i] = iterators[i].next();
 
     index = end;
