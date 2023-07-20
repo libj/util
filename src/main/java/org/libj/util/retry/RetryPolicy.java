@@ -67,6 +67,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     /**
      * @param startDelayMs A positive value representing the delay for the first retry, in milliseconds, which is also used as the
      *          multiplicative factor for subsequent backed-off delays.
+     *          <p>
+     *          Default: 0.
      * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code startDelayMs} is negative.
      */
@@ -80,6 +82,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     /**
      * @param maxRetries A positive value representing the number of retry attempts allowed by the {@link RetryPolicy}.
      * @return {@code this} builder.
+     *          <p>
+     *          Default: 2147483647.
      * @throws IllegalArgumentException If {@code maxRetries} is negative.
      */
     public Builder<E> withMaxRetries(final int maxRetries) {
@@ -92,6 +96,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     /**
      * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
      *          delay for each retry.
+     *          <p>
+     *          Default: 0.
      * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
      */
@@ -100,11 +106,13 @@ public class RetryPolicy<E extends Exception> implements Serializable {
       return this;
     }
 
-    private boolean delayOnFirstRetry = false;
+    private boolean delayOnFirstRetry = true;
 
     /**
      * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false}
      *          for the first retry to be attempted immediately.
+     *          <p>
+     *          Default: true.
      * @return {@code this} builder.
      */
     public Builder<E> withDelayOnFirstRetry(final boolean delayOnFirstRetry) {
@@ -117,6 +125,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     /**
      * @param backoffFactor The base of the backoff exponential function, i.e. a value of {@code 2} represents a backoff function of
      *          {@code 2^a}, where {@code a} is the attempt number.
+     *          <p>
+     *          Default: 1.
      * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code backoffFactor} is less than {@code 1}.
      */
@@ -133,6 +143,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     /**
      * @param maxDelayMs The maximum delay, in milliseconds, which takes effect if the delay computed by the backoff function is a
      *          greater value.
+     *          <p>
+     *          Default: 9223372036854775807.
      * @return {@code this} builder.
      * @throws IllegalArgumentException If {@code maxDelayMs} is negative.
      */
