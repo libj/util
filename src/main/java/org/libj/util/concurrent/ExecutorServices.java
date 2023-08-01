@@ -76,33 +76,42 @@ public final class ExecutorServices {
       return super.submit(Threads.interruptAfterTimeout(task, timeout, unit));
     }
 
-    private <T>List<Callable<T>> interruptAfterTimeout(final Collection<? extends Callable<T>> tasks) {
-      final ArrayList<Callable<T>> interruptableTasks = new ArrayList<>(tasks.size());
-      final Iterator<? extends Callable<T>> iterator = tasks.iterator();
-      while (iterator.hasNext())
+    private <T>List<Callable<T>> interruptAfterTimeout(final Collection<? extends Callable<T>> tasks, final int size) {
+      final ArrayList<Callable<T>> interruptableTasks = new ArrayList<>(size);
+      final Iterator<? extends Callable<T>> iterator = tasks.iterator(); do
         interruptableTasks.add(Threads.interruptAfterTimeout(iterator.next(), timeout, unit));
-
+      while (iterator.hasNext());
       return interruptableTasks;
     }
 
     @Override
     public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
-      return super.invokeAll(interruptAfterTimeout(tasks));
+      final int size = tasks.size();
+      return size == 0 ? Collections.EMPTY_LIST : super.invokeAll(interruptAfterTimeout(tasks, size));
     }
 
     @Override
     public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
-      return super.invokeAll(interruptAfterTimeout(tasks), timeout, unit);
+      final int size = tasks.size();
+      return size == 0 ? Collections.EMPTY_LIST : super.invokeAll(interruptAfterTimeout(tasks, size), timeout, unit);
     }
 
     @Override
     public <T>T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
-      return super.invokeAny(interruptAfterTimeout(tasks));
+      final int size = tasks.size();
+      if (size == 0)
+        throw new IllegalArgumentException("tasks is empty");
+
+      return super.invokeAny(interruptAfterTimeout(tasks, size));
     }
 
     @Override
     public <T>T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-      return super.invokeAny(interruptAfterTimeout(tasks), timeout, unit);
+      final int size = tasks.size();
+      if (size == 0)
+        throw new IllegalArgumentException("tasks is empty");
+
+      return super.invokeAny(interruptAfterTimeout(tasks, size), timeout, unit);
     }
   }
 
@@ -400,18 +409,18 @@ public final class ExecutorServices {
    */
   @SuppressWarnings("unchecked")
   public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
-    final int i$ = tasks.size();
-    if (i$ == 0)
+    final int size = tasks.size();
+    if (size == 0)
       return Collections.EMPTY_LIST;
 
-    final Callable<R>[] callables = new Callable[i$];
+    final Callable<R>[] callables = new Callable[size];
     final List<T> list;
     if (tasks instanceof List && CollectionUtil.isRandomAccess(list = (List<T>)tasks)) {
       int i = 0; do { // [RA]
         final T task = Objects.requireNonNull(list.get(i));
         callables[i] = () -> proxy.apply(task);
       }
-      while (++i < i$);
+      while (++i < size);
     }
     else {
       int i = -1; final Iterator<T> it = tasks.iterator(); do { // [I]
