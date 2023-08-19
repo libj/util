@@ -192,7 +192,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     }
   }
 
-  private static List<Exception> testExceptions = Arrays.asList(new Exception());
+  private static final List<Exception> testExceptions = Arrays.asList(new Exception());
 
   private final int maxRetries;
   private final long maxDelayMs;

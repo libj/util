@@ -92,7 +92,7 @@ class LocalDateTimeTopology implements DiscreteTopology<LocalDateTime> {
 };
 
 class BigDecimalTopology implements DiscreteTopology<BigDecimal> {
-  private static HashMap<Integer,BigDecimalTopology> scaleToTopology = new HashMap<>();
+  private static final HashMap<Integer,BigDecimalTopology> scaleToTopology = new HashMap<>();
 
   static BigDecimalTopology forScale(final int scale) {
     BigDecimalTopology instance = scaleToTopology.get(scale);

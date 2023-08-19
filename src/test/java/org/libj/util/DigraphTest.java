@@ -105,17 +105,13 @@ public class DigraphTest {
     }
   }
 
-  private static boolean addEdges(final Digraph<? super String> digraph, final String key, final Set<String> edges, final boolean forward) {
+  private static boolean addEdges(final Digraph<String> digraph, final String key, final Set<String> edges, final boolean forward) {
     if (edges == null || edges.size() == 0)
       return digraph.add(key);
 
     boolean changed = false;
-    for (final String edge : edges) { // [S]
-      if (forward)
-        changed |= digraph.add(key, edge);
-      else
-        changed |= digraph.add(edge, key);
-    }
+    for (final String edge : edges) // [S]
+      changed |= forward ? digraph.add(key, edge) : digraph.add(edge, key);
 
     return changed;
   }
