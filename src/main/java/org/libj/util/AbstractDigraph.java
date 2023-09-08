@@ -176,8 +176,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
     edges.add(w);
     inDegree.set(w, inDegree.get(w) + 1);
 
-    // Invalidate the previous dfs() and getFlatAdj() operations, as the
-    // digraph has changed
+    // Invalidate the previous dfs() and getFlatAdj() operations, as the digraph has changed
     reversePostOrder = null;
     flatAdj = null;
     cycle = null;
@@ -485,7 +484,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   @Override
   @SuppressWarnings({"rawtypes", "unchecked"})
   public Set<Map.Entry<K,Set<V>>> entrySet() {
-    return new ObservableSet<Map.Entry<K,Set<V>>>(new TransSet<Integer,Map.Entry<K,Set<V>>>(indexToObject.keySet(), i -> new AbstractMap.SimpleEntry(indexToObject.get(i), getEdgesAtIndex(i, true)), null)) {
+    return new ObservableSet<Map.Entry<K,Set<V>>>(new TransSet<>(indexToObject.keySet(), i -> new AbstractMap.SimpleEntry(indexToObject.get(i), getEdgesAtIndex(i, true)), null)) {
       @Override
       protected Object beforeAdd(final Map.Entry<K,Set<V>> element, final Object preventDefault) {
         throw new UnsupportedOperationException();
@@ -874,7 +873,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
         for (final int w : ws) // [S]
           builder.append(' ').append(indexToObject.get(w));
 
-      if (v < adj.size() - 1)
+      if (v < v$ - 1)
         builder.append('\n');
     }
 

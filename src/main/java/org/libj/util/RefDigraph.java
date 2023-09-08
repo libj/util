@@ -68,10 +68,10 @@ public class RefDigraph<K,V> extends AbstractDigraph<K,V> {
    */
   public RefDigraph(final int initialCapacity, final Function<K,V> keyToValue) {
     super(0, true);
-    digraph = new Digraph<>(initialCapacity);
-    vertices = new ArrayList<>(initialCapacity);
-    references = new HashSet<>(initialCapacity);
-    reference = Objects.requireNonNull(keyToValue);
+    this.digraph = new Digraph<>(initialCapacity);
+    this.vertices = new ArrayList<>(initialCapacity);
+    this.references = new HashSet<>(initialCapacity);
+    this.reference = Objects.requireNonNull(keyToValue);
   }
 
   /**

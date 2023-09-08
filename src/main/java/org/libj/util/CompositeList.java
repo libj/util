@@ -206,11 +206,11 @@ public abstract class CompositeList<E,T> extends ObservableRandomAccessList<E,Ar
       final StringBuilder b = new StringBuilder();
       b.append("    ComponentList<").append(type).append("> ").append(ObjectUtil.simpleIdentityString(this)).append('\n');
       b.append("    I:");
-      for (int i = 0, i$ = indexes.size(); i < i$; ++i)
+      for (int i = 0, i$ = indexes.size(); i < i$; ++i) // [RA]
         b.append(' ').append(indexes.get(i));
 
       b.append("\n    E:");
-      for (int i = 0, i$ = size(); i < i$; ++i)
+      for (int i = 0, i$ = size(); i < i$; ++i) // [RA]
         b.append(' ').append(ObjectUtil.simpleIdentityString(get(i)));
 
       logger.info(b.append('\n').toString());

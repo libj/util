@@ -32,7 +32,7 @@ import java.util.zip.DeflaterOutputStream;
  */
 public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
   /** RC-32 of uncompressed data. */
-  protected CRC32 crc = new CRC32();
+  protected final CRC32 crc = new CRC32();
 
   /* GZIP header magic number. */
   private static final int GZIP_MAGIC = 0x8b1f;
@@ -103,6 +103,7 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
     this(out, 512, syncFlush);
   }
 
+  // FIXME: Rewrite this without the use of an array.
   private final byte[] buf = new byte[1];
 
   /**
