@@ -43,8 +43,8 @@ public interface Shutdownable<T> {
    * Initiates an orderly shutdown in which all active and pending completable dependencies are completed, but no new completable
    * dependencies will be accepted. Invocation has no additional effect if already shut down.
    * <p>
-   * This method does not wait for completable dependencies to complete execution. Use {@link #awaitTermination(long,TimeUnit)} to
-   * do that.
+   * This method does not wait for completable dependencies to complete execution. Use {@link #awaitTermination(long,TimeUnit)} to do
+   * that.
    */
   void shutdown();
 

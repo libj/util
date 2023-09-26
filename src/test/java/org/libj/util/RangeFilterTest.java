@@ -41,7 +41,7 @@ public class RangeFilterTest {
 
       @Override
       protected Map<Integer,Object> select(final Integer from, final Integer to) {
-        if (logger.isInfoEnabled()) logger.info("WEB -> (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) { logger.info("WEB -> (" + from + ", " + to + "]"); }
         final SortedMap<Integer,Object> results = new TreeMap<>();
         for (int i = from; i < to; ++i) // [N]
           results.put(i, i);
@@ -73,13 +73,13 @@ public class RangeFilterTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        if (logger.isInfoEnabled()) logger.info("DB -> (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) { logger.info("DB -> (" + from + ", " + to + "]"); }
         return db.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final Map<Integer,Object> data) {
-        if (logger.isInfoEnabled()) logger.info("DB <- (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) { logger.info("DB <- (" + from + ", " + to + "]"); }
         range[0] = from < range[0] ? from : range[0];
         range[1] = range[1] < to ? to : range[1];
 
@@ -105,13 +105,13 @@ public class RangeFilterTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        if (logger.isInfoEnabled()) logger.info("CACHE -> (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) { logger.info("CACHE -> (" + from + ", " + to + "]"); }
         return cache.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final Map<Integer,Object> data) {
-        if (logger.isInfoEnabled()) logger.info("CACHE <- (" + from + ", " + to + "]");
+        if (logger.isInfoEnabled()) { logger.info("CACHE <- (" + from + ", " + to + "]"); }
         if (range == null) {
           range = new Integer[] {from, to};
         }
@@ -124,40 +124,40 @@ public class RangeFilterTest {
       }
     };
 
-//  WEB -> (10, 20]
-//  DB <- (10, 20]
-//  CACHE <- (10, 20]
+    // WEB -> (10, 20]
+    // DB <- (10, 20]
+    // CACHE <- (10, 20]
     assertEquals(10, cacheFetcher.fetch(10, 20).size());
 
-//  WEB -> (8, 10]
-//  DB <- (8, 10]
-//  DB -> (8, 10]
-//  CACHE <- (8, 10]
-//  CACHE -> (8, 12]
+    // WEB -> (8, 10]
+    // DB <- (8, 10]
+    // DB -> (8, 10]
+    // CACHE <- (8, 10]
+    // CACHE -> (8, 12]
     assertEquals(4, cacheFetcher.fetch(8, 12).size());
 
-//  WEB -> (20, 24]
-//  DB <- (20, 24]
-//  DB -> (20, 24]
-//  CACHE <- (20, 24]
-//  CACHE -> (18, 24]
+    // WEB -> (20, 24]
+    // DB <- (20, 24]
+    // DB -> (20, 24]
+    // CACHE <- (20, 24]
+    // CACHE -> (18, 24]
     assertEquals(6, cacheFetcher.fetch(18, 24).size());
 
-//  WEB -> (24, 28]
-//  DB <- (24, 28]
-//  DB -> (24, 28]
-//  CACHE <- (24, 28]
-//  CACHE -> (28, 30]
+    // WEB -> (24, 28]
+    // DB <- (24, 28]
+    // DB -> (24, 28]
+    // CACHE <- (24, 28]
+    // CACHE -> (28, 30]
     assertEquals(2, cacheFetcher.fetch(28, 30).size());
 
-//  WEB -> (4, 8]
-//  DB <- (4, 8]
-//  DB -> (4, 8]
-//  CACHE <- (4, 8]
-//  CACHE -> (4, 6]
+    // WEB -> (4, 8]
+    // DB <- (4, 8]
+    // DB -> (4, 8]
+    // CACHE <- (4, 8]
+    // CACHE -> (4, 6]
     assertEquals(2, cacheFetcher.fetch(4, 6).size());
 
-//  CACHE -> (8, 26]
+    // CACHE -> (8, 26]
     assertEquals(18, cacheFetcher.fetch(8, 26).size());
   }
 }

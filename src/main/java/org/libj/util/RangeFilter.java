@@ -83,21 +83,21 @@ public abstract class RangeFilter<A extends Comparable<A>,B> {
 
     if (this != prev) {
       if (to.compareTo(r0) <= 0) {
-        if (logger.isTraceEnabled()) logger.trace(this + "{1} (" + from + ", " + r0 + "]");
+        if (logger.isTraceEnabled()) { logger.trace(this + "{1} (" + from + ", " + r0 + "]"); }
         insert(from, r0, next.fetch(from, r0, prev));
       }
       else if (r1.compareTo(from) <= 0) {
-        if (logger.isTraceEnabled()) logger.trace(this + " {2} (" + r1 + ", " + to + "]");
+        if (logger.isTraceEnabled()) { logger.trace(this + " {2} (" + r1 + ", " + to + "]"); }
         insert(r1, to, next.fetch(r1, to, prev));
       }
       else {
         if (from.compareTo(r0) < 0) {
-          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + from + ", " + r0 + "]");
+          if (logger.isTraceEnabled()) { logger.trace(this + " {3} (" + from + ", " + r0 + "]"); }
           insert(from, r0, next.fetch(from, r0, prev));
         }
 
         if (r1.compareTo(to) < 0) {
-          if (logger.isTraceEnabled()) logger.trace(this + " {3} (" + r1 + ", " + to + "]");
+          if (logger.isTraceEnabled()) { logger.trace(this + " {3} (" + r1 + ", " + to + "]"); }
           insert(r1, to, next.fetch(r1, to, prev));
         }
       }

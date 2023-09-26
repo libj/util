@@ -208,10 +208,11 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
   public String toString() {
     return getTarget().toString();
   }
+
   /**
-   * We need this class in addition to {@link UnmodifiableSet} as the {@link java.util.Map.Entry Map.Entry} itself permit
-   * modification of the backing {@link Map} via the {@link java.util.Map.Entry#setValue setValue()} operation. This class is
-   * subtle: there are many possible attacks that must be thwarted.
+   * We need this class in addition to {@link UnmodifiableSet} as the {@link java.util.Map.Entry Map.Entry} itself permit modification
+   * of the backing {@link Map} via the {@link java.util.Map.Entry#setValue setValue()} operation. This class is subtle: there are
+   * many possible attacks that must be thwarted.
    *
    * @param <K> The type of keys maintained by this entry set.
    * @param <V> The type of mapped values.
@@ -229,7 +230,7 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
       super((Set)target);
     }
 
-    protected static <K,V>Consumer<Map.Entry<K,V>> entryConsumer(final Consumer<? super Map.Entry<K,V>> action) {
+    protected static <K,V> Consumer<Map.Entry<K,V>> entryConsumer(final Consumer<? super Map.Entry<K,V>> action) {
       Objects.requireNonNull(action);
       return e -> action.accept(new UnmodifiableEntry<>(e));
     }
@@ -352,7 +353,7 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T>T[] toArray(final T[] a) {
+    public <T> T[] toArray(final T[] a) {
       final Object[] array = getTarget().toArray(a.length == 0 ? a : Arrays.copyOf(a, 0));
       for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
         array[i] = new UnmodifiableEntry<>((Map.Entry<? extends K,? extends V>)array[i]);
@@ -369,8 +370,7 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
 
     /**
      * This method is overridden to protect the backing set against an object with a nefarious equals function that senses that the
-     * equality-candidate is {@link java.util.Map.Entry Map.Entry} and calls its {@link java.util.Map.Entry#setValue setValue()}
-     * method.
+     * equality-candidate is {@link java.util.Map.Entry Map.Entry} and calls its {@link java.util.Map.Entry#setValue setValue()} method.
      */
     @Override
     public boolean contains(final Object o) {
@@ -378,8 +378,8 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
     }
 
     /**
-     * The next two methods are overridden to protect against an unscrupulous List whose {@link #contains(Object)} method senses
-     * when o is a {@link java.util.Map.Entry Map.Entry}, and calls {@link java.util.Map.Entry#setValue o.setValue()}.
+     * The next two methods are overridden to protect against an unscrupulous List whose {@link #contains(Object)} method senses when o
+     * is a {@link java.util.Map.Entry Map.Entry}, and calls {@link java.util.Map.Entry#setValue o.setValue()}.
      */
     @Override
     public boolean containsAll(final Collection<?> c) {
@@ -404,10 +404,10 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
     }
 
     /**
-     * This "wrapper class" serves two purposes: it prevents the client from modifying the backing {@link Map}, by short-circuiting
-     * the {@link java.util.Map.Entry#setValue setValue()} method, and it protects the backing Map against an ill-behaved
-     * {@link java.util.Map.Entry Map.Entry} that attempts to modify another {@link java.util.Map.Entry Map.Entry} when asked to
-     * perform an equality check.
+     * This "wrapper class" serves two purposes: it prevents the client from modifying the backing {@link Map}, by short-circuiting the
+     * {@link java.util.Map.Entry#setValue setValue()} method, and it protects the backing Map against an ill-behaved
+     * {@link java.util.Map.Entry Map.Entry} that attempts to modify another {@link java.util.Map.Entry Map.Entry} when asked to perform
+     * an equality check.
      *
      * @param <K> The type of key of the entry.
      * @param <V> The type of values of the entry.

@@ -62,12 +62,12 @@ public final class ExecutorServices {
     }
 
     @Override
-    public <T>Future<T> submit(final Callable<T> task) {
+    public <T> Future<T> submit(final Callable<T> task) {
       return super.submit(Threads.interruptAfterTimeout(task, timeout, unit));
     }
 
     @Override
-    public <T>Future<T> submit(final Runnable task, final T result) {
+    public <T> Future<T> submit(final Runnable task, final T result) {
       return super.submit(Threads.interruptAfterTimeout(task, timeout, unit), result);
     }
 
@@ -76,28 +76,29 @@ public final class ExecutorServices {
       return super.submit(Threads.interruptAfterTimeout(task, timeout, unit));
     }
 
-    private <T>List<Callable<T>> interruptAfterTimeout(final Collection<? extends Callable<T>> tasks, final int size) {
+    private <T> List<Callable<T>> interruptAfterTimeout(final Collection<? extends Callable<T>> tasks, final int size) {
       final ArrayList<Callable<T>> interruptableTasks = new ArrayList<>(size);
-      final Iterator<? extends Callable<T>> iterator = tasks.iterator(); do
+      final Iterator<? extends Callable<T>> iterator = tasks.iterator();
+      do
         interruptableTasks.add(Threads.interruptAfterTimeout(iterator.next(), timeout, unit));
       while (iterator.hasNext());
       return interruptableTasks;
     }
 
     @Override
-    public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
+    public <T> List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
       final int size = tasks.size();
       return size == 0 ? Collections.EMPTY_LIST : super.invokeAll(interruptAfterTimeout(tasks, size));
     }
 
     @Override
-    public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
+    public <T> List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
       final int size = tasks.size();
       return size == 0 ? Collections.EMPTY_LIST : super.invokeAll(interruptAfterTimeout(tasks, size), timeout, unit);
     }
 
     @Override
-    public <T>T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
+    public <T> T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
       final int size = tasks.size();
       if (size == 0)
         throw new IllegalArgumentException("tasks is empty");
@@ -106,7 +107,7 @@ public final class ExecutorServices {
     }
 
     @Override
-    public <T>T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+    public <T> T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
       final int size = tasks.size();
       if (size == 0)
         throw new IllegalArgumentException("tasks is empty");
@@ -129,7 +130,7 @@ public final class ExecutorServices {
     }
 
     @Override
-    public <V>ScheduledFuture<V> schedule(final Callable<V> callable, final long delay, final TimeUnit unit) {
+    public <V> ScheduledFuture<V> schedule(final Callable<V> callable, final long delay, final TimeUnit unit) {
       return target.schedule(Threads.interruptAfterTimeout(callable, this.timeout, this.unit), delay, unit);
     }
 
@@ -215,11 +216,11 @@ public final class ExecutorServices {
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
-   * {@link ExecutorService} {@code executor}, returning a {@link Future} representing the aggregate status of the completion of all
-   * tasks. {@link Future#isDone} is {@code true} when all {@code tasks} are completed. Note that a <em>completed</em> task could
-   * have terminated either normally or by throwing an exception. The results of this method are undefined if the given collection
-   * is modified while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given {@link ExecutorService}
+   * {@code executor}, returning a {@link Future} representing the aggregate status of the completion of all tasks.
+   * {@link Future#isDone} is {@code true} when all {@code tasks} are completed. Note that a <em>completed</em> task could have
+   * terminated either normally or by throwing an exception. The results of this method are undefined if the given collection is
+   * modified while this operation is in progress.
    *
    * @param <T> The type parameter of the {@code tasks} to be invoked.
    * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
@@ -231,16 +232,16 @@ public final class ExecutorServices {
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final Collection<? extends T> tasks) {
+  public static <T> Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final Collection<? extends T> tasks) {
     return invokeAll(executor, (Consumer)proxy, tasks.toArray());
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
-   * {@link ExecutorService} {@code executor}, returning a {@link Future} representing the aggregate status of the completion of all
-   * tasks. {@link Future#isDone} is {@code true} when all {@code tasks} are completed. Note that a <em>completed</em> task could
-   * have terminated either normally or by throwing an exception. The results of this method are undefined if the given collection
-   * is modified while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given {@link ExecutorService}
+   * {@code executor}, returning a {@link Future} representing the aggregate status of the completion of all tasks.
+   * {@link Future#isDone} is {@code true} when all {@code tasks} are completed. Note that a <em>completed</em> task could have
+   * terminated either normally or by throwing an exception. The results of this method are undefined if the given collection is
+   * modified while this operation is in progress.
    *
    * @param <T> The type parameter of the {@code tasks} to be invoked.
    * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
@@ -252,7 +253,7 @@ public final class ExecutorServices {
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SafeVarargs
-  public static <T>Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final T ... tasks) {
+  public static <T> Future<Boolean> invokeAll(final ExecutorService executor, final Consumer<T> proxy, final T ... tasks) {
     Objects.requireNonNull(executor);
     final AtomicBoolean started = new AtomicBoolean(false);
     final AtomicBoolean canceled = new AtomicBoolean(false);
@@ -360,26 +361,26 @@ public final class ExecutorServices {
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
-   * {@link ExecutorService} {@code executor}, returning a list of {@link Future}s holding their status and results when all
-   * complete. {@link Future#isDone} is {@code true} for each element of the returned list. Note that a <em>completed</em> task
-   * could have terminated either normally or by throwing an exception. The results of this method are undefined if the given
-   * collection is modified while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given {@link ExecutorService}
+   * {@code executor}, returning a list of {@link Future}s holding their status and results when all complete. {@link Future#isDone}
+   * is {@code true} for each element of the returned list. Note that a <em>completed</em> task could have terminated either normally
+   * or by throwing an exception. The results of this method are undefined if the given collection is modified while this operation is
+   * in progress.
    *
    * @param tasks the collection of tasks
    * @param <T> The type of the tasks.
    * @param <R> The type of the values returned from the tasks.
    * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
    * @param proxy The {@link Function} to proxy the invocation call of each task.
-   * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the
-   *         given task list, each of which has completed.
+   * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the given
+   *         task list, each of which has completed.
    * @throws InterruptedException If interrupted while waiting, in which case unfinished tasks are cancelled.
    * @throws NullPointerException If {@code tasks} or any member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SafeVarargs
   @SuppressWarnings("unchecked")
-  public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final T ... tasks) throws InterruptedException {
+  public static <T,R> List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final T ... tasks) throws InterruptedException {
     final Callable<R>[] callables = new Callable[tasks.length];
     for (int i = 0, i$ = tasks.length; i < i$; ++i) { // [A]
       final T task = Objects.requireNonNull(tasks[i]);
@@ -390,25 +391,25 @@ public final class ExecutorServices {
   }
 
   /**
-   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given
-   * {@link ExecutorService} {@code executor}, returning a list of {@link Future}s holding their status and results when all
-   * complete. {@link Future#isDone} is {@code true} for each element of the returned list. Note that a <em>completed</em> task
-   * could have terminated either normally or by throwing an exception. The results of this method are undefined if the given
-   * collection is modified while this operation is in progress.
+   * Executes the provided generic {@code tasks} via the specified {@link Consumer} {@code proxy} in the given {@link ExecutorService}
+   * {@code executor}, returning a list of {@link Future}s holding their status and results when all complete. {@link Future#isDone}
+   * is {@code true} for each element of the returned list. Note that a <em>completed</em> task could have terminated either normally
+   * or by throwing an exception. The results of this method are undefined if the given collection is modified while this operation is
+   * in progress.
    *
    * @param tasks the collection of tasks
    * @param <T> The type of the tasks.
    * @param <R> The type of the values returned from the tasks.
    * @param executor The {@link ExecutorService} in which to invoke the provided {@code tasks}.
    * @param proxy The {@link Function} to proxy the invocation call of each task.
-   * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the
-   *         given task list, each of which has completed.
+   * @return A list of {@link Future}s representing the tasks, in the same sequential order as produced by the iterator for the given
+   *         task list, each of which has completed.
    * @throws InterruptedException If interrupted while waiting, in which case unfinished tasks are cancelled.
    * @throws NullPointerException If {@code tasks} or any member of {@code tasks} is null.
    * @throws RejectedExecutionException If any task cannot be scheduled for execution.
    */
   @SuppressWarnings("unchecked")
-  public static <T,R>List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
+  public static <T,R> List<Future<R>> invokeAll(final ExecutorService executor, final Function<T,R> proxy, final Collection<T> tasks) throws InterruptedException {
     final int size = tasks.size();
     if (size == 0)
       return Collections.EMPTY_LIST;
@@ -416,14 +417,17 @@ public final class ExecutorServices {
     final Callable<R>[] callables = new Callable[size];
     final List<T> list;
     if (tasks instanceof List && CollectionUtil.isRandomAccess(list = (List<T>)tasks)) {
-      int i = 0; do { // [RA]
+      int i = 0;
+      do { // [RA]
         final T task = Objects.requireNonNull(list.get(i));
         callables[i] = () -> proxy.apply(task);
       }
       while (++i < size);
     }
     else {
-      int i = -1; final Iterator<T> it = tasks.iterator(); do { // [I]
+      int i = -1;
+      final Iterator<T> it = tasks.iterator();
+      do { // [I]
         final T task = Objects.requireNonNull(it.next());
         callables[++i] = () -> proxy.apply(task);
       }

@@ -66,8 +66,8 @@ public class MultiTreeMap<K,V,C extends Collection<V>> extends TreeMap<K,C> impl
   }
 
   /**
-   * Creates a new, empty map with the default initial table size (16), and the provided {@code multiSupplier} for the underlying
-   * map instance.
+   * Creates a new, empty map with the default initial table size (16), and the provided {@code multiSupplier} for the underlying map
+   * instance.
    *
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws NullPointerException If {@code multiSupplier} is null.

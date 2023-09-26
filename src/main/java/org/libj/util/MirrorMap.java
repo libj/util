@@ -72,8 +72,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
     V reflectionToValue(K key, R reflection);
 
     /**
-     * Returns the reverse representation of this {@link Mirror}, whereby the value object type {@code <V>} and reflected value
-     * object of type {@code <R>} are swapped.
+     * Returns the reverse representation of this {@link Mirror}, whereby the value object type {@code <V>} and reflected value object
+     * of type {@code <R>} are swapped.
      *
      * @return The reverse representation of this {@link Mirror}.
      */
@@ -93,8 +93,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Object to be used in the underlying maps to represent that a value is pending reflection via the methods in {@link #mirror}
-   * upon the invocation of {@link #beforeGet(Object)}.
+   * Object to be used in the underlying maps to represent that a value is pending reflection via the methods in {@link #mirror} upon
+   * the invocation of {@link #beforeGet(Object)}.
    */
   protected static final Object PENDING = new Object();
 
@@ -107,8 +107,8 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   /**
    * Creates a new {@link MirrorMap} with the specified target maps and {@link Mirror}. The specified target maps are meant to be
    * empty, as they become the underlying maps of the new {@link MirrorMap} instance. The specified {@link Mirror} provides the
-   * {@link Mirror#valueToReflection(Object,Object) V -> R} and {@link Mirror#reflectionToValue(Object,Object) R -> V} methods,
-   * which are used to reflect object values from one {@link MirrorMap} to the other.
+   * {@link Mirror#valueToReflection(Object,Object) V -> R} and {@link Mirror#reflectionToValue(Object,Object) R -> V} methods, which
+   * are used to reflect object values from one {@link MirrorMap} to the other.
    *
    * @param values The underlying map of type {@code <K,V>}.
    * @param reflections The underlying map of type {@code <K,R>}.
@@ -257,8 +257,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Returns the reverse {@link Mirror} for this {@link MirrorMap}, and caches it for subsequent retrieval, avoiding
-   * reinstantiation.
+   * Returns the reverse {@link Mirror} for this {@link MirrorMap}, and caches it for subsequent retrieval, avoiding reinstantiation.
    *
    * @return The reverse {@link Mirror} for this {@link MirrorMap}.
    */
@@ -267,12 +266,12 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
   }
 
   /**
-   * Locks the {@link #target underlying map} to detect concurrent modification. Specifically, this method calls
-   * {@link Set#iterator() target.entrySet().iterator()} and saves its reference for examination during the next method call that is
-   * made to the {@link MirrorMap}. If the call to {@link Iterator#next()} on the {@link #targetLock saved iterator} results in a
+   * Locks the {@link #target underlying map} to detect concurrent modification. Specifically, this method calls {@link Set#iterator()
+   * target.entrySet().iterator()} and saves its reference for examination during the next method call that is made to the
+   * {@link MirrorMap}. If the call to {@link Iterator#next()} on the {@link #targetLock saved iterator} results in a
    * {@link ConcurrentModificationException}, it means that the {@link #target underlying map} was modified outside of the
-   * {@link MirrorMap}. Such modifications are not allowed, because they risk compromising the data integrity of the this map and
-   * its {@link #mirrorMap}.
+   * {@link MirrorMap}. Such modifications are not allowed, because they risk compromising the data integrity of the this map and its
+   * {@link #mirrorMap}.
    *
    * @param unlocked If {@code true}, this map is unlocked and will be locked; if {@code false}, this map is already locked and will
    *          not be relocked.

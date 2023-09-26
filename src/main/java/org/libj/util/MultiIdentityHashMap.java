@@ -62,8 +62,8 @@ public class MultiIdentityHashMap<K,V,C extends Collection<V>> extends IdentityH
   }
 
   /**
-   * Creates a new, empty map with the default initial table size (16), and the provided {@code multiSupplier} for the underlying
-   * map instance.
+   * Creates a new, empty map with the default initial table size (16), and the provided {@code multiSupplier} for the underlying map
+   * instance.
    *
    * @param multiSupplier The {@link Supplier} for value {@link Collection}s of type {@code <C>}.
    * @throws NullPointerException If {@code multiSupplier} is null.
@@ -77,8 +77,8 @@ public class MultiIdentityHashMap<K,V,C extends Collection<V>> extends IdentityH
    * Creates a new, empty map with an initial table size based on the given number of elements ({@code initialCapacity}), and a null
    * {@code multiSupplier}.
    *
-   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements,
-   *          given the specified load factor.
+   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements, given
+   *          the specified load factor.
    * @throws IllegalArgumentException If the initial capacity of elements is negative.
    */
   protected MultiIdentityHashMap(final int initialCapacity) {

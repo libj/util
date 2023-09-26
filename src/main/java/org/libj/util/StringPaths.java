@@ -178,8 +178,7 @@ public final class StringPaths {
    * <p>
    * This method performs the following tests to detect whether the specified string is an absolute path:
    * <ol>
-   * <li>If the string starts with {@code "<protocol>://"}, where {@code <protocol>} is any string matching
-   * {@code [a-zA-Z0-9]+}.</li>
+   * <li>If the string starts with {@code "<protocol>://"}, where {@code <protocol>} is any string matching {@code [a-zA-Z0-9]+}.</li>
    * </ol>
    *
    * @param path The string to test.
@@ -258,8 +257,8 @@ public final class StringPaths {
    * {@code '/'} (or {@code '\'} for Windows) path separators are removed.
    * <p>
    * This implementation differs from {@link File#getCanonicalPath()} by only canonicalizing the superficial form of the specified
-   * path. This implementation does not perform filesystem interaction, for the purpose of operations such as resolving symbolic
-   * links (on UNIX platforms).
+   * path. This implementation does not perform filesystem interaction, for the purpose of operations such as resolving symbolic links
+   * (on UNIX platforms).
    *
    * @param path The path to canonicalize.
    * @return The canonical form of the specified path, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
@@ -275,8 +274,8 @@ public final class StringPaths {
    * {@code '/'} path separators are removed.
    * <p>
    * This implementation differs from {@link File#getCanonicalPath()} by only canonicalizing the superficial form of the specified
-   * path. This implementation does not perform filesystem interaction, for the purpose of operations such as resolving symbolic
-   * links (on UNIX platforms).
+   * path. This implementation does not perform filesystem interaction, for the purpose of operations such as resolving symbolic links
+   * (on UNIX platforms).
    *
    * @param path The path to canonicalize.
    * @return The canonicalized {@code path} instance, where {@code ".."} and {@code "."} path names are dereferenced, and redundant
@@ -373,7 +372,7 @@ public final class StringPaths {
           sdd += 4;
           path.delete(i, sdd);
           del += sdd - i;
-//          sdd = -1;
+          // sdd = -1;
         }
 
         return del;
@@ -396,8 +395,8 @@ public final class StringPaths {
 
   /**
    * Returns the canonical pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.
-   * In a canonical path, the {@code ".."} and {@code "."} path names are dereferenced, and redundant {@code '/'} path separators
-   * are removed.
+   * In a canonical path, the {@code ".."} and {@code "."} path names are dereferenced, and redundant {@code '/'} path separators are
+   * removed.
    *
    * @param path The path string.
    * @return The canonical pathname of the parent of {@code path}, or {@code null} if {@code path} does not name a parent directory.

@@ -151,8 +151,8 @@ public class CRC64 implements Checksum {
   /**
    * Updates the CRC-64 checksum with the specified array of bytes.
    *
-   * @throws ArrayIndexOutOfBoundsException If {@code off} is negative, or {@code len} is negative, or {@code off+len} is greater
-   *           than the length of the array {@code b}.
+   * @throws ArrayIndexOutOfBoundsException If {@code off} is negative, or {@code len} is negative, or {@code off+len} is greater than
+   *           the length of the array {@code b}.
    */
   @Override
   public void update(final byte[] b, final int off, int len) {

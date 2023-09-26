@@ -90,10 +90,11 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T>T[] toArray(final T[] a) {
+  public <T> T[] toArray(final T[] a) {
     return (T[])target.toArray(a);
   }
 
+// @formatter:off
 //  /**
 //   * Protected method providing access to the default implementation of
 //   * {@link List#toArray(IntFunction)}.
@@ -117,6 +118,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
 //  public <T>T[] toArray(final IntFunction<T[]> generator) {
 //    return (T[])target.toArray(generator);
 //  }
+//@formatter:on
 
   @Override
   public boolean add(final E e) {
@@ -220,8 +222,8 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    * Protected method providing access to the default implementation of {@link List#replaceAll(UnaryOperator)}.
    *
    * @param operator The operator to apply to each element.
-   * @throws UnsupportedOperationException If this list is unmodifiable. Implementations may throw this exception if an element
-   *           cannot be replaced or if, in general, modification is not supported.
+   * @throws UnsupportedOperationException If this list is unmodifiable. Implementations may throw this exception if an element cannot
+   *           be replaced or if, in general, modification is not supported.
    * @throws NullPointerException If the specified operator is null or if the operator result is a null value and this list does not
    *           permit null elements.
    */
@@ -239,8 +241,7 @@ public abstract class DelegateList<E,L extends List<E>> extends AbstractList<E> 
    *
    * @param c The {@code Comparator} used to compare list elements. A {@code null} value indicates that the elements'
    *          {@linkplain Comparable natural ordering} should be used.
-   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified
-   *           comparator.
+   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified comparator.
    * @throws UnsupportedOperationException If the list's list-iterator does not support the {@code set} operation.
    * @throws NullPointerException If the comparator is found to violate the {@link Comparator} contract.
    */

@@ -33,7 +33,7 @@ public abstract class PrimitiveSort {
     return idx;
   }
 
-  private static <T>void recurse(final boolean[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final boolean[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -42,7 +42,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final boolean[] data, final int[] idx) {
+  private static <T> void swap(final boolean[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -60,7 +60,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final byte[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final byte[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -69,7 +69,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final byte[] data, final int[] idx) {
+  private static <T> void swap(final byte[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -87,7 +87,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final char[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final char[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -96,7 +96,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final char[] data, final int[] idx) {
+  private static <T> void swap(final char[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -114,7 +114,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final short[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final short[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -123,7 +123,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final short[] data, final int[] idx) {
+  private static <T> void swap(final short[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -141,7 +141,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final int[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final int[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -150,7 +150,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final int[] data, final int[] idx) {
+  private static <T> void swap(final int[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -168,7 +168,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final long[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final long[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -177,7 +177,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final long[] data, final int[] idx) {
+  private static <T> void swap(final long[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -195,7 +195,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final float[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final float[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -204,7 +204,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final float[] data, final int[] idx) {
+  private static <T> void swap(final float[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -222,7 +222,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final double[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final double[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -231,7 +231,7 @@ public abstract class PrimitiveSort {
     data[i] = obj;
   }
 
-  private static <T>void swap(final double[] data, final int[] idx) {
+  private static <T> void swap(final double[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -249,7 +249,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final T[] data, final int[] idx, final int i) {
+  private static <T> void recurse(final T[] data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -259,7 +259,7 @@ public abstract class PrimitiveSort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>void swap(final T[] data, final int[] idx) {
+  private static <T> void swap(final T[] data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -277,7 +277,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final CharList data, final int[] idx, final int i) {
+  private static <T> void recurse(final CharList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -286,7 +286,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final CharList data, final int[] idx) {
+  private static <T> void swap(final CharList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -304,7 +304,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final ShortList data, final int[] idx, final int i) {
+  private static <T> void recurse(final ShortList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -313,7 +313,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final ShortList data, final int[] idx) {
+  private static <T> void swap(final ShortList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -331,7 +331,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final IntList data, final int[] idx, final int i) {
+  private static <T> void recurse(final IntList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -340,7 +340,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final IntList data, final int[] idx) {
+  private static <T> void swap(final IntList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -358,7 +358,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final LongList data, final int[] idx, final int i) {
+  private static <T> void recurse(final LongList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -367,7 +367,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final LongList data, final int[] idx) {
+  private static <T> void swap(final LongList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -385,7 +385,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final FloatList data, final int[] idx, final int i) {
+  private static <T> void recurse(final FloatList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -394,7 +394,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final FloatList data, final int[] idx) {
+  private static <T> void swap(final FloatList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -412,7 +412,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final DoubleList data, final int[] idx, final int i) {
+  private static <T> void recurse(final DoubleList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -421,7 +421,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final DoubleList data, final int[] idx) {
+  private static <T> void swap(final DoubleList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -439,7 +439,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final BooleanList data, final int[] idx, final int i) {
+  private static <T> void recurse(final BooleanList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -448,7 +448,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final BooleanList data, final int[] idx) {
+  private static <T> void swap(final BooleanList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -466,7 +466,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final ByteList data, final int[] idx, final int i) {
+  private static <T> void recurse(final ByteList data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -475,7 +475,7 @@ public abstract class PrimitiveSort {
     data.set(i, obj);
   }
 
-  private static <T>void swap(final ByteList data, final int[] idx) {
+  private static <T> void swap(final ByteList data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);
@@ -493,7 +493,7 @@ public abstract class PrimitiveSort {
     }
   }
 
-  private static <T>void recurse(final List<T> data, final int[] idx, final int i) {
+  private static <T> void recurse(final List<T> data, final int[] idx, final int i) {
     if (i == idx.length)
       return;
 
@@ -503,7 +503,7 @@ public abstract class PrimitiveSort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>void swap(final List<T> data, final int[] idx) {
+  private static <T> void swap(final List<T> data, final int[] idx) {
     final int len = idx.length;
     if (len < MAX_RECURSIONS) {
       recurse(data, idx, 0);

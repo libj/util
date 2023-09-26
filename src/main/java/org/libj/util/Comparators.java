@@ -39,7 +39,7 @@ public final class Comparators {
    * @throws NullPointerException If {@code order} is null.
    */
   @SafeVarargs
-  public static <T extends Comparable<? super T>>Comparator<T> newFixedOrderComparator(final T ... order) {
+  public static <T extends Comparable<? super T>> Comparator<T> newFixedOrderComparator(final T ... order) {
     Objects.requireNonNull(order);
     return new Comparator<T>() {
       @Override
@@ -85,7 +85,7 @@ public final class Comparators {
    * @throws NullPointerException If {@code toComparable} or {@code order} is null.
    */
   @SafeVarargs
-  public static <T,C extends Comparable<? super C>>Comparator<T> newFixedOrderComparator(final Function<T,C> toComparable, final C ... order) {
+  public static <T,C extends Comparable<? super C>> Comparator<T> newFixedOrderComparator(final Function<T,C> toComparable, final C ... order) {
     Objects.requireNonNull(toComparable);
     Objects.requireNonNull(order);
     return new Comparator<T>() {
@@ -133,7 +133,7 @@ public final class Comparators {
    * @throws NullPointerException If {@code comparator} or {@code order} is null.
    */
   @SafeVarargs
-  public static <T>Comparator<T> newFixedOrderComparator(final Comparator<T> comparator, final T ... order) {
+  public static <T> Comparator<T> newFixedOrderComparator(final Comparator<T> comparator, final T ... order) {
     Objects.requireNonNull(comparator);
     Objects.requireNonNull(order);
     return new Comparator<T>() {
@@ -181,7 +181,7 @@ public final class Comparators {
    * @throws NullPointerException If {@code toComparable}, {@code comparator}, or {@code order} is null.
    */
   @SafeVarargs
-  public static <T,C extends Comparable<? super C>>Comparator<T> newFixedOrderComparator(final Function<T,C> toComparable, final Comparator<C> comparator, final C ... order) {
+  public static <T,C extends Comparable<? super C>> Comparator<T> newFixedOrderComparator(final Function<T,C> toComparable, final Comparator<C> comparator, final C ... order) {
     Objects.requireNonNull(comparator);
     Objects.requireNonNull(toComparable);
     Objects.requireNonNull(order);

@@ -66,7 +66,7 @@ public class DiscreteTopologiesTest {
   }
 
   @SuppressWarnings("unchecked")
-  private static <N>N[] seqFromMin(final DiscreteTopology<N> t, final N min, final int len) {
+  private static <N> N[] seqFromMin(final DiscreteTopology<N> t, final N min, final int len) {
     final int len1 = len - 1;
     final N[] seq = (N[])Array.newInstance(min.getClass(), len);
 
@@ -78,7 +78,7 @@ public class DiscreteTopologiesTest {
   }
 
   @SuppressWarnings("unchecked")
-  private static <N>N[] seqFromMax(final DiscreteTopology<N> t, final N max, final int len) {
+  private static <N> N[] seqFromMax(final DiscreteTopology<N> t, final N max, final int len) {
     final int len1 = len - 1;
     final N[] seq = (N[])Array.newInstance(max.getClass(), len);
 
@@ -90,7 +90,7 @@ public class DiscreteTopologiesTest {
   }
 
   public static class MinMax<N> {
-    public static <N>void test(final DiscreteTopology<N> t, final N min, final N max) {
+    public static <N> void test(final DiscreteTopology<N> t, final N min, final N max) {
       final MinMax<N> test = new MinMax<>();
       test.testMin(t, min);
       test.testMax(t, max);

@@ -475,8 +475,8 @@ public class Diff {
   }
 
   /**
-   * Creates a {@link Diff} from a list of {@link Diff.Mod} objects, and a {@code lengthSize} (the number of bits in the length
-   * number in each {@link Diff.Mod} object).
+   * Creates a {@link Diff} from a list of {@link Diff.Mod} objects, and a {@code lengthSize} (the number of bits in the length number
+   * in each {@link Diff.Mod} object).
    *
    * @param mods The list of {@link Diff.Mod} objects.
    * @param lengthSize The number of bits in the length number.

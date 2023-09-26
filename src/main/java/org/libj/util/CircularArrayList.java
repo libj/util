@@ -269,7 +269,8 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     ensureCapacity(size + i$ + 1);
     final List<? extends E> l;
     if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<? extends E>)c)) {
-      int i = 0; do { // [RA]
+      int i = 0;
+      do { // [RA]
         elementData[tail] = l.get(i);
         tail = ++tail % elementData.length;
         ++size;
@@ -277,7 +278,8 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
       while (++i < i$);
     }
     else {
-      final Iterator<? extends E> it = c.iterator(); do { // [RA]
+      final Iterator<? extends E> it = c.iterator();
+      do { // [RA]
         elementData[tail] = it.next();
         tail = ++tail % elementData.length;
         ++size;
@@ -299,12 +301,14 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     // FIXME: This is a very inefficient algorithm!
     final List<? extends E> l;
     if (c instanceof List && CollectionUtil.isRandomAccess(l = (List<? extends E>)c)) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         add(index++, l.get(i));
       while (++i < i$);
     }
     else {
-      final Iterator<? extends E> i = c.iterator(); do // [I]
+      final Iterator<? extends E> i = c.iterator();
+      do // [I]
         add(index++, i.next());
       while (i.hasNext());
     }
@@ -556,7 +560,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T>T[] toArray(T[] a) {
+  public <T> T[] toArray(T[] a) {
     final int size = size();
     if (size > 0) {
       if (a.length < size)

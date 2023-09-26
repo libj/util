@@ -85,12 +85,12 @@ public class DelegateExecutorService implements ExecutorService, Shutdownable<Li
   }
 
   @Override
-  public <T>Future<T> submit(final Callable<T> task) {
+  public <T> Future<T> submit(final Callable<T> task) {
     return target.submit(task);
   }
 
   @Override
-  public <T>Future<T> submit(final Runnable task, final T result) {
+  public <T> Future<T> submit(final Runnable task, final T result) {
     return target.submit(task, result);
   }
 
@@ -100,22 +100,22 @@ public class DelegateExecutorService implements ExecutorService, Shutdownable<Li
   }
 
   @Override
-  public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks) throws InterruptedException {
     return target.invokeAll(tasks);
   }
 
   @Override
-  public <T>List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException {
     return target.invokeAll(tasks, timeout, unit);
   }
 
   @Override
-  public <T>T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
+  public <T> T invokeAny(final Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
     return target.invokeAny(tasks);
   }
 
   @Override
-  public <T>T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+  public <T> T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
     return target.invokeAny(tasks, timeout, unit);
   }
 }

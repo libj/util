@@ -82,10 +82,11 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T>T[] toArray(final T[] a) {
+  public <T> T[] toArray(final T[] a) {
     return (T[])target.toArray(a);
   }
 
+//@formatter:off
   // /**
 //   * Protected method providing access to the default implementation of
 //   * {@link List#toArray(IntFunction)}.
@@ -109,6 +110,7 @@ public abstract class DelegateCollection<E> extends AbstractCollection<E> {
 //  public <T>T[] toArray(final IntFunction<T[]> generator) {
 //    return (T[])target.toArray(generator);
 //  }
+//@formatter:on
 
   @Override
   public boolean add(final E e) {

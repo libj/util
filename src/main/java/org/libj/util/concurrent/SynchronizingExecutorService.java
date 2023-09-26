@@ -60,8 +60,8 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Called when this service synchronizes all executing threads to finish. When this method is called, no threads in this service
-   * are pending completion.
+   * Called when this service synchronizes all executing threads to finish. When this method is called, no threads in this service are
+   * pending completion.
    */
   public abstract void onSynchronize();
 
@@ -90,12 +90,12 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         return;
 
       try {
-        if (logger.isDebugEnabled()) logger.debug("Starting sync....");
+        if (logger.isDebugEnabled()) { logger.debug("Starting sync...."); }
 
         if (runningThreadCount.get() > 0) {
           synchronized (finishLock) {
             synchronizing = true;
-            if (logger.isDebugEnabled()) logger.debug("wait() [1] for threads to finish...");
+            if (logger.isDebugEnabled()) { logger.debug("wait() [1] for threads to finish..."); }
             finishLock.wait();
           }
         }
@@ -103,7 +103,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
           synchronizing = true;
           if (runningThreadCount.get() > 0) {
             synchronized (finishLock) {
-              if (logger.isDebugEnabled()) logger.debug("wait() [2] for threads to finish...");
+              if (logger.isDebugEnabled()) { logger.debug("wait() [2] for threads to finish..."); }
               finishLock.wait();
             }
           }
@@ -115,7 +115,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         synchronizing = false;
       }
 
-      if (logger.isDebugEnabled()) logger.debug("Sync done!");
+      if (logger.isDebugEnabled()) { logger.debug("Sync done!"); }
     }
   }
 
@@ -131,8 +131,8 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
   }
 
   /**
-   * Executes the provided {@code runnable} at some time in the future. If the {@link SynchronizingExecutorService} is
-   * synchronizing, the provided {@code runnable} will wait until {@link #onSynchronize()} returns.
+   * Executes the provided {@code runnable} at some time in the future. If the {@link SynchronizingExecutorService} is synchronizing,
+   * the provided {@code runnable} will wait until {@link #onSynchronize()} returns.
    *
    * @param runnable The runnable task.
    * @throws RejectedExecutionException If this task cannot be accepted for execution.
@@ -146,11 +146,11 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
         runnable.run();
       }
       finally {
-        if (logger.isDebugEnabled()) logger.debug("Remaining threads: " + (runningThreadCount.get() - 1));
+        if (logger.isDebugEnabled()) { logger.debug("Remaining threads: " + (runningThreadCount.get() - 1)); }
 
         if (runningThreadCount.decrementAndGet() == 0 && synchronizing) {
           synchronized (finishLock) {
-            if (logger.isDebugEnabled()) logger.debug("notify() synchronize to continue...");
+            if (logger.isDebugEnabled()) { logger.debug("notify() synchronize to continue..."); }
             finishLock.notify();
           }
         }
@@ -162,7 +162,7 @@ public abstract class SynchronizingExecutorService extends AbstractExecutorServi
       return;
     }
 
-    if (logger.isDebugEnabled()) logger.debug("Waiting for unlock to exec new threads...");
+    if (logger.isDebugEnabled()) { logger.debug("Waiting for unlock to exec new threads..."); }
 
     synchronized (startLock) {
       doExecute(wrapper);

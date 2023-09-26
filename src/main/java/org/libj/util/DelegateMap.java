@@ -144,8 +144,8 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @param key Key with which the specified value is to be associated.
    * @param value Value to be associated with the specified key.
    * @return The previous value associated with the specified key, or {@code null} if there was no mapping for the key. (A
-   *         {@code null} return can also indicate that the map previously associated {@code null} with the key, if the
-   *         implementation supports null values.)
+   *         {@code null} return can also indicate that the map previously associated {@code null} with the key, if the implementation
+   *         supports null values.)
    * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
    * @throws ClassCastException If the key or value is of an inappropriate type for this map.
    * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
@@ -208,8 +208,8 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @param key Key with which the specified value is associated.
    * @param value Value to be associated with the specified key.
    * @return The previous value associated with the specified key, or {@code null} if there was no mapping for the key. (A
-   *         {@code null} return can also indicate that the map previously associated {@code null} with the key, if the
-   *         implementation supports null values).
+   *         {@code null} return can also indicate that the map previously associated {@code null} with the key, if the implementation
+   *         supports null values).
    * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
    * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
    * @throws NullPointerException If the specified key or value is null, and this map does not permit null keys or values.
@@ -231,8 +231,7 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @param key Key with which the specified value is to be associated.
    * @param mappingFunction The mapping function to compute a value.
    * @return The current (existing or computed) value associated with the specified key, or null if the computed value is null.
-   * @throws NullPointerException If the specified key is null and this map does not support null keys, or the mappingFunction is
-   *           null
+   * @throws NullPointerException If the specified key is null and this map does not support null keys, or the mappingFunction is null
    * @throws UnsupportedOperationException If the {@code put} operation is not supported by this map.
    * @throws ClassCastException If the class of the specified key or value prevents it from being stored in this map.
    * @throws IllegalArgumentException If some property of the specified key or value prevents it from being stored in this map.
@@ -337,8 +336,8 @@ public abstract class DelegateMap<K,V> extends AbstractMap<K,V> {
    * @param function The function to apply to each entry.
    * @throws UnsupportedOperationException If the {@code set} operation is not supported by this map's entry set iterator.
    * @throws ClassCastException If the class of a replacement value prevents it from being stored in this map.
-   * @throws NullPointerException If the specified function is null, or the specified replacement value is null, and this map does
-   *           not permit null values.
+   * @throws NullPointerException If the specified function is null, or the specified replacement value is null, and this map does not
+   *           permit null values.
    * @throws ClassCastException If a replacement value is of an inappropriate type for this map.
    * @throws NullPointerException If function or a replacement value is null, and this map does not permit null keys or values.
    * @throws IllegalArgumentException If some property of a replacement value prevents it from being stored in this map.

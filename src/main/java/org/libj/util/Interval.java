@@ -42,8 +42,7 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    * @param max The max value, or {@code null} to represent positive infinity.
    * @param c The {@link Comparator} for the argument type, or {@code null} if the argument type extends {@link Comparable}.
    * @throws IllegalArgumentException If a non-null {@code min} is greater than or equal to a non-null {@code max}.
-   * @throws ClassCastException If the provided {@link Comparator} is null, and the provided values do not extend
-   *           {@link Comparable}.
+   * @throws ClassCastException If the provided {@link Comparator} is null, and the provided values do not extend {@link Comparable}.
    */
   public Interval(final T min, final T max, final Comparator<T> c) {
     this.min = min;
@@ -177,10 +176,9 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
   /**
    * Compares this {@link Interval} with the provided {@link Interval} for order, and returns an integer value of {@code -2},
    * {@code -1}, {@code 0}, {@code 1} or {@code 2}, based on the following logic:
-   *
    * <ul>
-   * <li>
-   * No intersect: {@code -2}
+   * <li>No intersect: {@code -2}
+   *
    * <pre>
    *                ___________
    *                |   that  |
@@ -189,9 +187,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   |   this  |
    *   -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code -1}
+   * <li>Yes intersect: {@code -1}
+   *
    * <pre>
    *            ___________
    *            |   that  |
@@ -200,9 +199,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   |   this  |
    *   -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code 0}
+   * <li>Yes intersect: {@code 0}
+   *
    * <pre>
    *   ___________
    *   |   that  |
@@ -211,9 +211,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   | this |
    *   --------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code 0}
+   * <li>Yes intersect: {@code 0}
+   *
    * <pre>
    *   ________
    *   | that |
@@ -222,9 +223,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   |   this  |
    *   -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code 1}
+   * <li>Yes intersect: {@code 1}
+   *
    * <pre>
    *   ___________
    *   |   that  |
@@ -233,9 +235,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *            |   this  |
    *            -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * No intersect: {@code 2}
+   * <li>No intersect: {@code 2}
+   *
    * <pre>
    *   ___________
    *   |   that  |
@@ -244,6 +247,7 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *                |   this  |
    *                -----------
    * </pre>
+   *
    * </li>
    * </ul>
    *
@@ -259,10 +263,9 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
   /**
    * Compares this {@link Interval} with the provided {@code min} and {@code max} values for order, and returns an integer value of
    * {@code -2}, {@code -1}, {@code 0}, {@code 1} or {@code 2}, based on the following logic:
-   *
    * <ul>
-   * <li>
-   * No intersect: {@code -2}
+   * <li>No intersect: {@code -2}
+   *
    * <pre>
    *                ___________
    *                |   that  |
@@ -271,9 +274,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   |   this  |
    *   -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code -1}
+   * <li>Yes intersect: {@code -1}
+   *
    * <pre>
    *            ___________
    *            |   that  |
@@ -282,9 +286,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   |   this  |
    *   -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code 0}
+   * <li>Yes intersect: {@code 0}
+   *
    * <pre>
    *   ___________
    *   |   that  |
@@ -293,9 +298,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   | this |
    *   --------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code 0}
+   * <li>Yes intersect: {@code 0}
+   *
    * <pre>
    *   ________
    *   | that |
@@ -304,9 +310,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *   |   this  |
    *   -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * Yes intersect: {@code 1}
+   * <li>Yes intersect: {@code 1}
+   *
    * <pre>
    *   ___________
    *   |   that  |
@@ -315,9 +322,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *            |   this  |
    *            -----------
    * </pre>
+   *
    * </li>
-   * <li>
-   * No intersect: {@code 2}
+   * <li>No intersect: {@code 2}
+   *
    * <pre>
    *   ___________
    *   |   that  |
@@ -326,8 +334,10 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    *                |   this  |
    *                -----------
    * </pre>
+   *
    * </li>
    * </ul>
+   *
    * @param min The min value to compare with.
    * @param max The max value to compare with.
    * @return The value as described above.
@@ -366,13 +376,13 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
   }
 
   /**
-   * Returns {@code true} if the provided {@code min} value equals the {@link #getMin() min} value, and the provided {@code max}
-   * value equals the {@link #getMax() max} value of this {@link Interval}, otherwise {@code false}.
+   * Returns {@code true} if the provided {@code min} value equals the {@link #getMin() min} value, and the provided {@code max} value
+   * equals the {@link #getMax() max} value of this {@link Interval}, otherwise {@code false}.
    *
    * @param min The min value to test for equality.
    * @param max The max value to test for equality.
-   * @return {@code true} if the provided {@code min} value equals the {@link #getMin() min} value, and the provided {@code max}
-   *         value equals the {@link #getMax() max} value of this {@link Interval}, otherwise {@code false}.
+   * @return {@code true} if the provided {@code min} value equals the {@link #getMin() min} value, and the provided {@code max} value
+   *         equals the {@link #getMax() max} value of this {@link Interval}, otherwise {@code false}.
    */
   public boolean equals(final T min, final T max) {
     return Objects.equals(this.getMin(), min) && Objects.equals(this.getMax(), max);

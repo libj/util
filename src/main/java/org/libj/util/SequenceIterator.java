@@ -30,7 +30,6 @@ public class SequenceIterator implements Iterable<BigDecimal> {
   protected final BigDecimal step;
   protected BigDecimal cur;
 
-
   /**
    * Creates a new {@link SequenceIterator} with the provided {@code start}, {@code end}, and {@code step} parameters.
    *

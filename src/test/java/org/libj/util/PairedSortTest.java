@@ -29,7 +29,7 @@ import org.libj.util.primitive.IntComparator;
 public class PairedSortTest {
   private static final int ITERATIONS = 100;
 
-  private static <T>void randomize(final List<T> a, final int[] b) {
+  private static <T> void randomize(final List<T> a, final int[] b) {
     for (int c = 0, c$ = b.length; c < c$; ++c) { // [A]
       final int i1 = (int)(Math.random() * b.length);
       final T a1 = a.get(i1);
@@ -46,27 +46,27 @@ public class PairedSortTest {
     }
   }
 
-  private static <T>void test(final List<T> data) {
+  private static <T> void test(final List<T> data) {
     for (int i = 0; i < ITERATIONS; ++i) { // [N]
       testForward(data);
       testReverse(data);
     }
   }
 
-  private static <T>void testForward(final List<T> data) {
+  private static <T> void testForward(final List<T> data) {
     final List<T> expected = new ArrayList<>(data);
     test(data, IntComparator.NATURAL);
     assertEquals(expected, data);
   }
 
-  private static <T>void testReverse(final List<T> data) {
+  private static <T> void testReverse(final List<T> data) {
     final List<T> expected = new ArrayList<>(data);
     Collections.reverse(expected);
-    test(data, (i1,i2) -> -Integer.compare(i1, i2));
+    test(data, (i1, i2) -> -Integer.compare(i1, i2));
     assertEquals(expected, data);
   }
 
-  private static <T>void test(final List<T> data, final IntComparator c) {
+  private static <T> void test(final List<T> data, final IntComparator c) {
     final int[] order = new int[data.size()];
     ArrayUtil.fillSequence(order, 0);
     randomize(data, order);

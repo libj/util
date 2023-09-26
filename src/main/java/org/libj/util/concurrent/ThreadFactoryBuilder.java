@@ -58,8 +58,8 @@ public class ThreadFactoryBuilder {
   private int stackSize;
 
   /**
-   * Sets the stack size to be provided to the {@link ThreadFactory} produced by {@link #build()}, which is thereafter provided to
-   * the {@link Thread} instances produced by {@link ThreadFactory#newThread(Runnable)}.
+   * Sets the stack size to be provided to the {@link ThreadFactory} produced by {@link #build()}, which is thereafter provided to the
+   * {@link Thread} instances produced by {@link ThreadFactory#newThread(Runnable)}.
    *
    * @param stackSize The stack size.
    * @return {@code this} {@link ThreadFactoryBuilder}.
@@ -73,8 +73,8 @@ public class ThreadFactoryBuilder {
   private boolean daemon;
 
   /**
-   * Sets the daemon boolean to be provided to the {@link ThreadFactory} produced by {@link #build()}, which is thereafter provided
-   * to the {@link Thread} instances produced by {@link ThreadFactory#newThread(Runnable)}.
+   * Sets the daemon boolean to be provided to the {@link ThreadFactory} produced by {@link #build()}, which is thereafter provided to
+   * the {@link Thread} instances produced by {@link ThreadFactory#newThread(Runnable)}.
    *
    * @param daemon The daemon boolean.
    * @return {@code this} {@link ThreadFactoryBuilder}.

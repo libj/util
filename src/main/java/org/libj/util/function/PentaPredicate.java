@@ -47,12 +47,11 @@ public interface PentaPredicate<T,U,V,W,X> {
    * Returns a composed predicate that represents a short-circuiting logical AND of this predicate and another. When evaluating the
    * composed predicate, if this predicate is {@code false}, then the {@code other} predicate is not evaluated.
    * <p>
-   * Any exceptions thrown during evaluation of either predicate are relayed to the caller; if evaluation of this predicate throws
-   * an exception, the {@code other} predicate will not be evaluated.
+   * Any exceptions thrown during evaluation of either predicate are relayed to the caller; if evaluation of this predicate throws an
+   * exception, the {@code other} predicate will not be evaluated.
    *
    * @param other A predicate that will be logically-ANDed with this predicate.
-   * @return A composed predicate that represents the short-circuiting logical AND of this predicate and the {@code other}
-   *         predicate.
+   * @return A composed predicate that represents the short-circuiting logical AND of this predicate and the {@code other} predicate.
    * @throws NullPointerException If {@code other} is null.
    */
   default PentaPredicate<T,U,V,W,X> and(final PentaPredicate<? super T,? super U,? super V,? super W,? super X> other) {
@@ -73,8 +72,8 @@ public interface PentaPredicate<T,U,V,W,X> {
    * Returns a composed predicate that represents a short-circuiting logical OR of this predicate and another. When evaluating the
    * composed predicate, if this predicate is {@code true}, then the {@code other} predicate is not evaluated.
    * <p>
-   * Any exceptions thrown during evaluation of either predicate are relayed to the caller; if evaluation of this predicate throws
-   * an exception, the {@code other} predicate will not be evaluated.
+   * Any exceptions thrown during evaluation of either predicate are relayed to the caller; if evaluation of this predicate throws an
+   * exception, the {@code other} predicate will not be evaluated.
    *
    * @param other A predicate that will be logically-ORed with this predicate.
    * @return A composed predicate that represents the short-circuiting logical OR of this predicate and the {@code other} predicate.

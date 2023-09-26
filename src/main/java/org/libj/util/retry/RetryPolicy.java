@@ -45,8 +45,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
   /**
    * A builder for {@link RetryPolicy RetryPolicy&lt;E&gt;} instances.
    *
-   * @param <E> The type parameter of the {@link Exception} instance signifying terminal failure of the {@link RetryPolicy}
-   *          execution.
+   * @param <E> The type parameter of the {@link Exception} instance signifying terminal failure of the {@link RetryPolicy} execution.
    */
   public static class Builder<E extends Exception> implements Cloneable {
     private final OnRetryFailure<E> onRetryFailure;
@@ -54,8 +53,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     /**
      * Creates a new {@link Builder Builder&lt;E&gt;} with the provided {@link OnRetryFailure OnRetryFailure&lt;E&gt;}.
      *
-     * @param onRetryFailure The {@link OnRetryFailure} specifying the {@link Exception} instance of type {@code <E>} to be thrown
-     *          in the event of terminal failure of the {@link RetryPolicy} execution.
+     * @param onRetryFailure The {@link OnRetryFailure} specifying the {@link Exception} instance of type {@code <E>} to be thrown in
+     *          the event of terminal failure of the {@link RetryPolicy} execution.
      * @throws NullPointerException If {@code onRetryFailure} is null.
      */
     public Builder(final OnRetryFailure<E> onRetryFailure) {
@@ -82,8 +81,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     /**
      * @param maxRetries A positive value representing the number of retry attempts allowed by the {@link RetryPolicy}.
      * @return {@code this} builder.
-     *          <p>
-     *          Default: 2147483647.
+     *         <p>
+     *         Default: 2147483647.
      * @throws IllegalArgumentException If {@code maxRetries} is negative.
      */
     public Builder<E> withMaxRetries(final int maxRetries) {
@@ -94,8 +93,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     private double jitter = 0;
 
     /**
-     * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
-     *          delay for each retry.
+     * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the delay
+     *          for each retry.
      *          <p>
      *          Default: 0.
      * @return {@code this} builder.
@@ -109,8 +108,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     private boolean delayOnFirstRetry = true;
 
     /**
-     * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false}
-     *          for the first retry to be attempted immediately.
+     * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false} for
+     *          the first retry to be attempted immediately.
      *          <p>
      *          Default: true.
      * @return {@code this} builder.
@@ -171,8 +170,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
      * @param retryOn The {@link RetryOn} specifying the conditions under which a retry should occur given the provided non-null
      *          {@link Exception}, returning {@code true} if a retry should occur, and {@code false} otherwise.
      * @param onRetry {@link IntConsumer} providing the {@code attemptNo} that is called before each execution of
-     *          {@link Retryable#retry(RetryPolicy,int)}. Runtime exceptions thrown from this method will result in the termination
-     *          of the {@link RetryPolicy}'s execution.
+     *          {@link Retryable#retry(RetryPolicy,int)}. Runtime exceptions thrown from this method will result in the termination of
+     *          the {@link RetryPolicy}'s execution.
      * @return A new {@link RetryPolicy} with the parameters in this {@link Builder}.
      * @throws NullPointerException If {@code retryOn} is null.
      */
@@ -217,16 +216,16 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param maxRetries A positive value representing the number of retry attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first retry, in milliseconds, which is also used as the
    *          multiplicative factor for subsequent backed-off delays.
-   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
-   *          delay for each retry.
-   * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false}
-   *          for the first retry to be attempted immediately.
+   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the delay
+   *          for each retry.
+   * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false} for
+   *          the first retry to be attempted immediately.
    * @param backoffFactor The base of the backoff exponential function, i.e. a value of {@code 2} represents a backoff function of
    *          {@code 2^a}, where {@code a} is the attempt number.
    * @param maxDelayMs The maximum delay, in milliseconds, which takes effect if the delay computed by the backoff function is a
    *          greater value.
-   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, {@code jitter}, or {@code maxDelayMs} is
-   *           negative, or if {@code backoffFactor} is less than {@code 1}.
+   * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, {@code jitter}, or {@code maxDelayMs} is negative,
+   *           or if {@code backoffFactor} is less than {@code 1}.
    * @throws NullPointerException If {@code retryOn} or {@code onRetryFailure} is null, or if {@code onRetryFailure} returns a null
    *           value.
    */
@@ -260,10 +259,10 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param maxRetries A positive value representing the number of retry attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first retry, in milliseconds, which is also used as the
    *          multiplicative factor for subsequent backed-off delays.
-   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
-   *          delay for each retry.
-   * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false}
-   *          for the first retry to be attempted immediately.
+   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the delay
+   *          for each retry.
+   * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false} for
+   *          the first retry to be attempted immediately.
    * @param backoffFactor The base of the backoff exponential function, i.e. a value of {@code 2} represents a backoff function of
    *          {@code 2^a}, where {@code a} is the attempt number.
    * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, or {@code jitter} is negative, or if
@@ -288,10 +287,10 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param maxRetries A positive value representing the number of retry attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first retry, in milliseconds, which is also used as the
    *          multiplicative factor for subsequent backed-off delays.
-   * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false}
-   *          for the first retry to be attempted immediately.
-   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
-   *          delay for each retry.
+   * @param delayOnFirstRetry {@code true} for the first retry to be attempted after {@code startDelayMs}, otherwise {@code false} for
+   *          the first retry to be attempted immediately.
+   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the delay
+   *          for each retry.
    * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, or {@code jitter} is negative.
    * @throws NullPointerException If {@code retryOn} or {@code onRetryFailure} is null, or if {@code onRetryFailure} returns a null
    *           value.
@@ -313,8 +312,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @param maxRetries A positive value representing the number of retry attempts allowed by the {@link RetryPolicy}.
    * @param startDelayMs A positive value representing the delay for the first retry, in milliseconds, which is also used as the
    *          multiplicative factor for subsequent backed-off delays.
-   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the
-   *          delay for each retry.
+   * @param jitter The maximum value of a random factor multiplier to be applied to {@link #getDelayMs(int)} to be added to the delay
+   *          for each retry.
    * @throws IllegalArgumentException If {@code maxRetries}, {@code startDelayMs}, or {@code jitter} is negative.
    * @throws NullPointerException If {@code retryOn} or {@code onRetryFailure} is null, or if {@code onRetryFailure} returns a null
    *           value.
@@ -371,7 +370,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns {@code null} when invoked in the event of a terminal
    *           failure, or if the retry attempts have met {@link #maxRetries}, or {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final Callable<T> callable) throws E, RetryFailureRuntimeException {
+  public final <T> T run(final Callable<T> callable) throws E, RetryFailureRuntimeException {
     Objects.requireNonNull(callable);
     return run0((r, a) -> callable.call(), 0);
   }
@@ -389,7 +388,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns {@code null} when invoked in the event of a terminal
    *           failure, or if the retry attempts have met {@link #maxRetries}, or {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureRuntimeException {
+  public final <T> T run(final ThrowingRunnable<?> runnable) throws E, RetryFailureRuntimeException {
     Objects.requireNonNull(runnable);
     return run0((r, a) -> {
       runnable.run();
@@ -410,7 +409,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns {@code null} when invoked in the event of a terminal
    *           failure, or if the retry attempts have met {@link #maxRetries}, or {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final Retryable<T,E> retryable) throws E, RetryFailureRuntimeException {
+  public final <T> T run(final Retryable<T,E> retryable) throws E, RetryFailureRuntimeException {
     return run0(Objects.requireNonNull(retryable), 0);
   }
 
@@ -430,12 +429,12 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @throws RetryFailureRuntimeException If {@link #onRetryFailure} returns {@code null} when invoked in the event of a terminal
    *           failure, or if the retry attempts have met {@link #maxRetries}, or {@link #retryOn} returns {@code false}.
    */
-  public final <T>T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureRuntimeException {
+  public final <T> T run(final Retryable<T,E> retryable, final long timeout, final TimeUnit unit) throws E, RetryFailureRuntimeException {
     assertPositive(timeout, () -> "timeout value (" + timeout + ") must be a positive value");
     return run0(retryable, TimeUnit.MILLISECONDS.convert(timeout, unit));
   }
 
-  private final <T>T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureRuntimeException {
+  private final <T> T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureRuntimeException {
     final List<Exception> exceptions = new ArrayList<>();
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
@@ -477,7 +476,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
         }
       }
 
-      if (logger.isDebugEnabled()) logger.debug("Retrying attemptNo = " + attemptNo + ", runTime = " + runTime);
+      if (logger.isDebugEnabled()) { logger.debug("Retrying attemptNo = " + attemptNo + ", runTime = " + runTime); }
     }
   }
 

@@ -186,9 +186,9 @@ public abstract class PrimitiveArrayList<T> implements PrimitiveCollection {
   }
 
   /**
-   * Creates and returns a copy of this list, containing the same value data in this list. The underlying array for the copy will
-   * not the same as this list, meaning that changes made to the copy will not be reflected in this list, and vice-versa. If this
-   * list has sub-lists, or is itself a sub-list of another list, neither the parent nor the children or siblings will be cloned.
+   * Creates and returns a copy of this list, containing the same value data in this list. The underlying array for the copy will not
+   * the same as this list, meaning that changes made to the copy will not be reflected in this list, and vice-versa. If this list has
+   * sub-lists, or is itself a sub-list of another list, neither the parent nor the children or siblings will be cloned.
    *
    * @return A copy of this list.
    */

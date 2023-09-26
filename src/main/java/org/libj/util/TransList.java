@@ -78,7 +78,8 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
       return false;
 
     if (isRandomAccess()) {
-      int i = 0; do { // [RA]
+      int i = 0;
+      do { // [RA]
         final S e = (S)target.get(i);
         if (o.equals(sourceToTarget.apply(i, e)))
           return true;
@@ -86,7 +87,9 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
       while (++i < i$);
     }
     else {
-      int i = -1; final Iterator<S> it = target.iterator(); do // [I]
+      int i = -1;
+      final Iterator<S> it = target.iterator();
+      do // [I]
         if (o.equals(sourceToTarget.apply(++i, it.next())))
           return true;
       while (it.hasNext());
@@ -138,7 +141,7 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
 
   @Override
   @SuppressWarnings("unchecked")
-  public <E>E[] toArray(E[] a) {
+  public <E> E[] toArray(E[] a) {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
@@ -159,12 +162,15 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
   @SuppressWarnings("unchecked")
   private void toArray(final Object[] a, final int i$) {
     if (isRandomAccess()) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         a[i] = sourceToTarget.apply(i, (S)target.get(i));
       while (++i < i$);
     }
     else {
-      int i = -1; final Iterator<S> it = target.iterator(); do // [I]
+      int i = -1;
+      final Iterator<S> it = target.iterator();
+      do // [I]
         a[++i] = sourceToTarget.apply(i, it.next());
       while (it.hasNext());
     }
@@ -189,7 +195,8 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
       return false;
 
     if (isRandomAccess()) {
-      int i = 0; do { // [RA]
+      int i = 0;
+      do { // [RA]
         if (Objects.equals(o, sourceToTarget.apply(i, (S)target.get(i)))) {
           target.remove(i);
           return true;
@@ -198,7 +205,9 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
       while (++i < i$);
     }
     else {
-      int i = -1; final Iterator<S> it = target.iterator(); do { // [I]
+      int i = -1;
+      final Iterator<S> it = target.iterator();
+      do { // [I]
         if (Objects.equals(o, sourceToTarget.apply(++i, it.next()))) {
           it.remove();
           return true;
@@ -233,13 +242,16 @@ public class TransList<S,LS extends List<S>,T,LT extends List<T>> extends Delega
 
     if (c.size() > 0) {
       if (isRandomAccess()) {
-        int i = i$; do // [RA]
+        int i = i$;
+        do // [RA]
           if (!c.contains(target.get(--i)))
             remove(i);
         while (i > 0);
       }
       else {
-        int i = -1; final Iterator<S> it = target.iterator(); do // [I]
+        int i = -1;
+        final Iterator<S> it = target.iterator();
+        do // [I]
           if (!c.contains(sourceToTarget.apply(++i, it.next())))
             it.remove();
         while (it.hasNext());

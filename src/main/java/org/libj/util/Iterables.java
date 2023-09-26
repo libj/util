@@ -30,7 +30,7 @@ public final class Iterables {
    * @param obj The object.
    * @return An {@link Iterable} with the specified object.
    */
-  public static final <T>Iterable<T> singleton(final T obj) {
+  public static final <T> Iterable<T> singleton(final T obj) {
     return new Iterable<T>() {
       @Override
       public Iterator<T> iterator() {

@@ -34,7 +34,7 @@ public class CompositeListTest {
 
   private static void assertElementCount(final String description, final List expected, final int expectedLength, final CompositeList.ComponentList elements) {
     if (description != null) {
-      if (logger.isInfoEnabled()) logger.info(description + " " + Strings.repeat('=', 34 - description.length()));
+      if (logger.isInfoEnabled()) { logger.info(description + " " + Strings.repeat('=', 34 - description.length())); }
       elements.getCompositeList().print(logger);
     }
 

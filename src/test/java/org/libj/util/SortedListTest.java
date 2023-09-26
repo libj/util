@@ -41,7 +41,8 @@ public class SortedListTest {
   @Test
   public void testConstructorSignature() {
     for (final Function<List,List> factory : factories) { // [L]
-      // final SortedList<Object> bad = new SortedList<Object>(new ArrayList<Object>()); // Should not be allowed cause Object is not Comparable
+      // final SortedList<Object> bad = new SortedList<Object>(new ArrayList<Object>()); // Should not be allowed cause Object is not
+      // Comparable
       final SortedList<Object,?> good = new SortedList<>(factory.apply(Collections.EMPTY_LIST), (o1, o2) -> 0);
       good.add(new Object());
       good.add(new Object());

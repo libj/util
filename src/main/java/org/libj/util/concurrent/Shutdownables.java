@@ -41,16 +41,14 @@ public final class Shutdownables {
    *          termination}.
    * @return {@code true} if all provided {@link Shutdownable shutdownables} have successfully
    *         {@linkplain Shutdownable#awaitTermination(long,TimeUnit) terminated}, and {@code false} if any of the provided
-   *         {@link Shutdownable shutdownables} have failed to {@linkplain Shutdownable#awaitTermination(long,TimeUnit) terminate}
-   *         or the timeout elapsed before termination.
+   *         {@link Shutdownable shutdownables} have failed to {@linkplain Shutdownable#awaitTermination(long,TimeUnit) terminate} or
+   *         the timeout elapsed before termination.
    * @throws InterruptedException If the current thread is interrupted while waiting, an {@link InterruptedException} is raised
    *           immediately. If any thread of {@code shutdownables} is interrupted while waiting, an {@link InterruptedException} is
    *           raised after the call to {@link Shutdownable#awaitTermination(long,TimeUnit)} of all {@code shutdownables} has
    *           returned. If multiple {@link InterruptedException}s occur, they are added as
-   *           {@linkplain Throwable#addSuppressed(Throwable) suppressed} exceptions on the {@link InterruptedException} to be
-   *           thrown.
-   * @throws NullPointerException If {@code unit} or {@code shutdownables} is null, or if any member of {@code shutdownables} is
-   *           null.
+   *           {@linkplain Throwable#addSuppressed(Throwable) suppressed} exceptions on the {@link InterruptedException} to be thrown.
+   * @throws NullPointerException If {@code unit} or {@code shutdownables} is null, or if any member of {@code shutdownables} is null.
    */
   public static boolean awaitTermination(final long timeout, final TimeUnit unit, final Shutdownable<?> ... shutdownables) throws InterruptedException {
     if (shutdownables.length == 0)

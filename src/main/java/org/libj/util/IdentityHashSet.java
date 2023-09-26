@@ -188,7 +188,7 @@ public class IdentityHashSet<E> extends HashSet<E> {
   }
 
   @Override
-  public <T>T[] toArray(final T[] a) {
+  public <T> T[] toArray(final T[] a) {
     return map.keySet().toArray(a);
   }
 

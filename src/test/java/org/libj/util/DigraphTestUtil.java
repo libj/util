@@ -25,8 +25,8 @@ import org.libj.lang.Strings;
 
 final class DigraphTestUtil {
   /**
-   * Create a {@code Digraph<T>} of the type {@code type} with the specified number of vertices and edges in (v, w) sequential
-   * linear order.
+   * Create a {@code Digraph<T>} of the type {@code type} with the specified number of vertices and edges in (v, w) sequential linear
+   * order.
    *
    * @param <T> The type of elements in the digraph.
    * @param edges The (v, w) pairs of edges in sequential order.
@@ -35,7 +35,7 @@ final class DigraphTestUtil {
    * @return The {@code Digraph<T>}.
    */
   @SafeVarargs
-  static <T extends Serializable>Digraph<T> createDigraph(final T ... edges) {
+  static <T extends Serializable> Digraph<T> createDigraph(final T ... edges) {
     final Digraph<T> digraph = new Digraph<>();
     if (edges.length % 2 != 0)
       throw new IllegalArgumentException("edges array must be (v, w) vertex pairs");
@@ -108,7 +108,7 @@ final class DigraphTestUtil {
     assertEquals(expected, actual);
   }
 
-  static <T>void assertCloneData(final AbstractDigraph<?,?> expected, final AbstractDigraph<?,?> actual) {
+  static <T> void assertCloneData(final AbstractDigraph<?,?> expected, final AbstractDigraph<?,?> actual) {
     assertEqualClone(expected, actual);
     assertEqualClone(expected.objectToIndex, actual.objectToIndex);
     assertEqualClone(expected.indexToObject, actual.indexToObject);
@@ -117,7 +117,7 @@ final class DigraphTestUtil {
     assertEqualClone(expected.inDegree, actual.inDegree);
   }
 
-  static <T>void assertCloneEquals(final Digraph<T> expected, final Digraph<T> actual) {
+  static <T> void assertCloneEquals(final Digraph<T> expected, final Digraph<T> actual) {
     assertEqualClone(expected, actual);
     assertCloneData(expected.transverse, actual.transverse);
   }

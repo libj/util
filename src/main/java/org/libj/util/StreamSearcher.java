@@ -57,10 +57,10 @@ public final class StreamSearcher {
     }
 
     /**
-     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the
-     * position of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the
-     * pattern. Else, the stream is entirely consumed. The latter is because {@link Reader} semantics make it difficult to have
-     * another reasonable default, i.e. leave the stream unchanged.
+     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the position
+     * of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the pattern.
+     * Else, the stream is entirely consumed. The latter is because {@link Reader} semantics make it difficult to have another
+     * reasonable default, i.e. leave the stream unchanged.
      *
      * @param in The {@link Reader}.
      * @return Number of bytes the stream is advanced.
@@ -71,13 +71,13 @@ public final class StreamSearcher {
     }
 
     /**
-     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the
-     * position of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the
-     * pattern. Else, the stream is entirely consumed. The latter is because {@link Reader} semantics make it difficult to have
-     * another reasonable default, i.e. leave the stream unchanged.
+     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the position
+     * of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the pattern.
+     * Else, the stream is entirely consumed. The latter is because {@link Reader} semantics make it difficult to have another
+     * reasonable default, i.e. leave the stream unchanged.
      * <p>
-     * If {@code buffer} is not null, each {@code char} read from the specified {@link Reader} is set into the provided
-     * {@code buffer}, starting at the given {@code offset}.
+     * If {@code buffer} is not null, each {@code char} read from the specified {@link Reader} is set into the provided {@code buffer},
+     * starting at the given {@code offset}.
      *
      * @param in The {@link Reader}.
      * @param buffer Buffer into which read bytes are written.
@@ -147,10 +147,10 @@ public final class StreamSearcher {
     }
 
     /**
-     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the
-     * position of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the
-     * pattern. Else, the stream is entirely consumed. The latter is because {@link InputStream} semantics make it difficult to have
-     * another reasonable default, i.e. leave the stream unchanged.
+     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the position
+     * of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the pattern.
+     * Else, the stream is entirely consumed. The latter is because {@link InputStream} semantics make it difficult to have another
+     * reasonable default, i.e. leave the stream unchanged.
      *
      * @param in The {@link Reader}.
      * @return Number of bytes the stream is advanced.
@@ -161,10 +161,10 @@ public final class StreamSearcher {
     }
 
     /**
-     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the
-     * position of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the
-     * pattern. Else, the stream is entirely consumed. The latter is because {@link InputStream} semantics make it difficult to have
-     * another reasonable default, i.e. leave the stream unchanged.
+     * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the position
+     * of the stream is changed. If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the pattern.
+     * Else, the stream is entirely consumed. The latter is because {@link InputStream} semantics make it difficult to have another
+     * reasonable default, i.e. leave the stream unchanged.
      *
      * @param in The {@link InputStream}.
      * @param buffer Buffer into which read bytes are written.

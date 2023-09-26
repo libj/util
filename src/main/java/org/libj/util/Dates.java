@@ -71,9 +71,9 @@ public final class Dates {
   public static final int MILLISECONDS_IN_WEEK = MILLISECONDS_IN_SECOND * SECONDS_IN_WEEK;
 
   /**
-   * Returns a name in the "short" style of the TimeZone specified by {@code id}. If the specified {@code date} is in Daylight
-   * Saving Time in the TimeZone, a Daylight Saving Time name is returned (even if the TimeZone doesn't observe Daylight Saving
-   * Time). Otherwise, a Standard Time name is returned.
+   * Returns a name in the "short" style of the TimeZone specified by {@code id}. If the specified {@code date} is in Daylight Saving
+   * Time in the TimeZone, a Daylight Saving Time name is returned (even if the TimeZone doesn't observe Daylight Saving Time).
+   * Otherwise, a Standard Time name is returned.
    *
    * @param id The id of the TimeZone.
    * @param date The given date.
@@ -343,8 +343,7 @@ public final class Dates {
   }
 
   /**
-   * Returns a new {@link Date} object with its time part removed. The new {@link Date} will have its "sub 1 day" time part set to
-   * 0.
+   * Returns a new {@link Date} object with its time part removed. The new {@link Date} will have its "sub 1 day" time part set to 0.
    *
    * @param dateTime The {@link Date}.
    * @return A new {@link Date} object with its time part removed.
@@ -564,13 +563,13 @@ public final class Dates {
   }
 
   /**
-   * Converts the provided epoch millis to a <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time
-   * string representation.
+   * Converts the provided epoch millis to a <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time string
+   * representation.
    *
    * @param epochMilli The epoch millis to convert to <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted
    *          date-time string representation.
-   * @return A <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time string representation of the
-   *         provided epoch millis.
+   * @return A <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a> formatted date-time string representation of the provided
+   *         epoch millis.
    */
   public static String epochMilliToIso8601(final long epochMilli) {
     final String iso8601 = SimpleDateFormats.ISO_8601.get().format(epochMilli);
@@ -602,8 +601,7 @@ public final class Dates {
    * Returns the current time in hours as the difference, measured in hours, between the current time and midnight, January 1, 1970
    * UTC.
    *
-   * @return The current time in hours the difference, measured in hours, between the current time and midnight, January 1, 1970
-   *         UTC.
+   * @return The current time in hours the difference, measured in hours, between the current time and midnight, January 1, 1970 UTC.
    * @see System#currentTimeMillis()
    */
   public static int currentTimeHours() {
@@ -611,8 +609,7 @@ public final class Dates {
   }
 
   /**
-   * Returns the current time in days as the difference, measured in days, between the current time and midnight, January 1, 1970
-   * UTC.
+   * Returns the current time in days as the difference, measured in days, between the current time and midnight, January 1, 1970 UTC.
    *
    * @return The current time in days the difference, measured in days, between the current time and midnight, January 1, 1970 UTC.
    * @see System#currentTimeMillis()
@@ -630,6 +627,7 @@ public final class Dates {
    * </pre>
    * With the following key for units:
    * <p>
+   * @formatter:off
    * <table>
    * <caption>Unit Key</caption>
    * <tr><td><b>Unit</b></td><td><b>Description</b></td></tr>
@@ -639,6 +637,7 @@ public final class Dates {
    * <tr><td><code><b>m</b></code></td><td>Minute</td></tr>
    * <tr><td><code><b>s</b></code></td><td>Second</td></tr>
    * </table>
+   * @formatter:on
    *
    * @implSpec The second unit duration supports 3 fractional decimal digits.
    * @param str The duration string.
@@ -735,6 +734,7 @@ public final class Dates {
    * </pre>
    * With the following key for units:
    * <p>
+   * @formatter:off
    * <table>
    * <caption>Unit Key</caption>
    * <tr><td><b>Unit</b></td><td><b>Description</b></td></tr>
@@ -744,6 +744,7 @@ public final class Dates {
    * <tr><td><code><b>m</b></code></td><td>Minute</td></tr>
    * <tr><td><code><b>s</b></code></td><td>Second</td></tr>
    * </table>
+   * @formatter:on
    *
    * @implSpec The second unit duration supports 3 fractional decimal digits.
    * @param duration The duration in milliseconds.

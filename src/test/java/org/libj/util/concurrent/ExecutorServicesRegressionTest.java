@@ -166,7 +166,7 @@ public class ExecutorServicesRegressionTest {
     latch.await();
   }
 
-  private static <V>Callable<V> newCallable(final CountDownLatch latch, final long sleep, final long timeout) {
+  private static <V> Callable<V> newCallable(final CountDownLatch latch, final long sleep, final long timeout) {
     final Runnable r = ThreadsTest.newRunnable(latch, sleep, timeout);
     return () -> {
       r.run();
@@ -174,7 +174,7 @@ public class ExecutorServicesRegressionTest {
     };
   }
 
-  private static <V>Collection<Callable<V>> newCallables(final CountDownLatch latch, final long sleep, final long timeout, final int len) {
+  private static <V> Collection<Callable<V>> newCallables(final CountDownLatch latch, final long sleep, final long timeout, final int len) {
     final ArrayList<Callable<V>> c = new ArrayList<>(len);
     for (int i = 0; i < len; ++i) // [N]
       c.add(newCallable(latch, sleep, timeout));

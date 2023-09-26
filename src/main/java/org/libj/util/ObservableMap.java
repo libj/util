@@ -143,8 +143,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * Callback method that is invoked immediately before an entry is removed from the enclosed {@link Map}.
    *
    * @param key The key of the entry to be removed from the enclosed {@link Map}.
-   * @param value The value for the key to be removed in the enclosed {@link Map}, or {@code null} if there was no existing value
-   *          for the key.
+   * @param value The value for the key to be removed in the enclosed {@link Map}, or {@code null} if there was no existing value for
+   *          the key.
    * @return If this method returns {@code false}, the subsequent {@code remove} operation will not be performed; otherwise, the
    *         operation will be performed.
    */
@@ -156,8 +156,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * Callback method that is invoked immediately after an entry is removed from the enclosed {@link Map}.
    *
    * @param key The key of the entry to be removed from the enclosed {@link Map}.
-   * @param value The value for the key to be removed in the enclosed {@link Map}, or {@code null} if there was no existing value
-   *          for the key.
+   * @param value The value for the key to be removed in the enclosed {@link Map}, or {@code null} if there was no existing value for
+   *          the key.
    * @param e A {@link RuntimeException} that occurred during the remove operation, or {@code null} if no exception occurred.
    */
   protected void afterRemove(final Object key, final V value, final RuntimeException e) {
@@ -290,8 +290,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   }
 
   /**
-   * An {@link ObservableSet ObservableSet&lt;K&gt;} that delegates callback methods to the parent {@link ObservableMap} instance
-   * for the retrieval and removal of keys.
+   * An {@link ObservableSet ObservableSet&lt;K&gt;} that delegates callback methods to the parent {@link ObservableMap} instance for
+   * the retrieval and removal of keys.
    */
   protected class ObservableKeySet extends ObservableSet<K> {
     /**
@@ -327,8 +327,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   }
 
   /**
-   * Factory method that returns a new instance of an {@link ObservableKeySet}. This method is intended to be overridden by
-   * subclasses in order to provide instances of the subclass.
+   * Factory method that returns a new instance of an {@link ObservableKeySet}. This method is intended to be overridden by subclasses
+   * in order to provide instances of the subclass.
    *
    * @return A new instance of an {@link ObservableKeySet}.
    */
@@ -339,8 +339,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeContainsKey(Object)} and {@link #afterContainsKey(Object,boolean,RuntimeException)} are
-   * called immediately before and after the get operation on the enclosed {@link Map}.
+   * The callback methods {@link #beforeContainsKey(Object)} and {@link #afterContainsKey(Object,boolean,RuntimeException)} are called
+   * immediately before and after the get operation on the enclosed {@link Map}.
    */
   @Override
   public boolean containsKey(final Object key) {
@@ -415,8 +415,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforeContainsKey(Object)} and {@link #afterContainsKey(Object,boolean,RuntimeException)} are
-   * called immediately before and after the get operation on the enclosed {@link Map}.
+   * The callback methods {@link #beforeContainsKey(Object)} and {@link #afterContainsKey(Object,boolean,RuntimeException)} are called
+   * immediately before and after the get operation on the enclosed {@link Map}.
    * <p>
    * The callback methods {@link #beforeGet(Object)} and {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
@@ -431,9 +431,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * {@link #put(Object,Object)}, {@link #putIfAbsent(Object,Object)}, {@link #replace(Object,Object)}, and
    * {@link #replace(Object,Object,Object)} for the final "put" operation into the underlying {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the enclosed collection is
-   * modified.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the enclosed collection is modified.
    *
    * @param key Key with which the specified value is to be associated.
    * @param oldValue Value currently associated with the specified key, or {@code null} if there was no association.
@@ -468,9 +467,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeGet(Object)} and {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the enclosed collection is
-   * modified.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the enclosed collection is modified.
    */
   @Override
   public V put(final K key, final V value) {
@@ -484,9 +482,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeGet(Object)} and {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the enclosed collection is
-   * modified.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the enclosed collection is modified.
    */
   @Override
   public V putIfAbsent(final K key, final V value) {
@@ -496,9 +493,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the enclosed collection is
-   * modified for the addition of each entry in the argument map.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the enclosed collection is modified for the addition of each entry in the argument map.
    */
   @Override
   public void putAll(final Map<? extends K,? extends V> m) {
@@ -557,9 +553,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeGet(Object)} and {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the enclosed collection is
-   * modified.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the enclosed collection is modified.
    */
   @Override
   public boolean replace(final K key, final V oldValue, final V newValue) {
@@ -572,9 +567,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeGet(Object)} and {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the enclosed collection is
-   * modified.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the enclosed collection is modified.
    */
   @Override
   public V replace(final K key, final V value) {
@@ -617,9 +611,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeRemove(Object,Object)} and {@link #afterRemove(Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is removed in the enclosed collection.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the an entry is put in the
-   * enclosed collection.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the an entry is put in the enclosed collection.
    */
   @Override
   public V compute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
@@ -632,9 +625,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeGet(Object)} and {@link #afterGet(Object,Object,RuntimeException)} are called immediately
    * before and after the get operation on the enclosed {@link Map}.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the an entry is put in the
-   * enclosed collection.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the an entry is put in the enclosed collection.
    */
   @Override
   public V computeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
@@ -650,9 +642,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeRemove(Object,Object)} and {@link #afterRemove(Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is removed in the enclosed collection.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the an entry is put in the
-   * enclosed collection.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the an entry is put in the enclosed collection.
    */
   @Override
   public V computeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
@@ -668,9 +659,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
    * The callback methods {@link #beforeRemove(Object,Object)} and {@link #afterRemove(Object,Object,RuntimeException)} are called
    * immediately before and after the an entry is removed in the enclosed collection.
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the an entry is put in the
-   * enclosed collection.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the an entry is put in the enclosed collection.
    */
   @Override
   public V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
@@ -680,9 +670,8 @@ public abstract class ObservableMap<K,V> extends DelegateMap<K,V> {
   /**
    * {@inheritDoc}
    * <p>
-   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and
-   * {@link #afterPut(Object,Object,Object,RuntimeException)} are called immediately before and after the an entry is put in the
-   * enclosed collection.
+   * The callback methods {@link #beforePut(Object,Object,Object,Object)} and {@link #afterPut(Object,Object,Object,RuntimeException)}
+   * are called immediately before and after the an entry is put in the enclosed collection.
    */
   @Override
   @SuppressWarnings("unchecked")

@@ -27,8 +27,7 @@ package org.libj.util.retry;
 @FunctionalInterface
 public interface Retryable<T,E extends Exception> {
   /**
-   * Main run method of the {@link Retryable} that is invoked by a {@link RetryPolicy}, which defines the rules of retry
-   * invocations.
+   * Main run method of the {@link Retryable} that is invoked by a {@link RetryPolicy}, which defines the rules of retry invocations.
    *
    * @param retryPolicy The invoking {@link RetryPolicy}.
    * @param attemptNo The incremental sequence number of the retry attempt.

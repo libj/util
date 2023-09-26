@@ -105,8 +105,8 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
 
   /**
    * Delegate method that is invoked for all {@link Object#equals(Object)} operations. This method is intended to be overridden to
-   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
-   * determination of object equality by this {@link ObservableSet}.
+   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the determination
+   * of object equality by this {@link ObservableSet}.
    *
    * @param o1 An object.
    * @param o2 An object to be compared with a for equality.
@@ -214,8 +214,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeAdd(Object,Object)} and {@link #afterAdd(Object,RuntimeException)} are called immediately
-   * before and after the enclosed set is modified. If {@link #beforeAdd(Object,Object)} returns false, the element will not be
-   * added.
+   * before and after the enclosed set is modified. If {@link #beforeAdd(Object,Object)} returns false, the element will not be added.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -245,8 +244,8 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeAdd(Object,Object)} and {@link #afterAdd(Object,RuntimeException)} are called immediately
-   * before and after the enclosed set is modified for the addition of each element in the argument Collection. All elements for
-   * which {@link #beforeAdd(Object,Object)} returns false will not be added to this collection.
+   * before and after the enclosed set is modified for the addition of each element in the argument Collection. All elements for which
+   * {@link #beforeAdd(Object,Object)} returns false will not be added to this collection.
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -284,8 +283,8 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and {@link #afterRemove(Object,RuntimeException)} are called immediately
-   * before and after the enclosed set is modified for the removal of each element in the argument Collection. All elements for
-   * which {@link #beforeRemove(Object)} returns false will not be removed from this set.
+   * before and after the enclosed set is modified for the removal of each element in the argument Collection. All elements for which
+   * {@link #beforeRemove(Object)} returns false will not be removed from this set.
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
@@ -374,7 +373,7 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public <T>T[] toArray(T[] a) {
+  public <T> T[] toArray(T[] a) {
     final int size = size();
     int i = 0;
     if (size > 0) {

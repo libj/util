@@ -28,7 +28,7 @@ import java.util.function.Predicate;
  * Utility functions for operations pertaining to {@link Iterator}.
  */
 public final class Iterators {
-  private static <E>void recurseNext(final Iterator<E> iterator, final Consumer<? super E> consumer) {
+  private static <E> void recurseNext(final Iterator<E> iterator, final Consumer<? super E> consumer) {
     if (iterator.hasNext()) {
       final E value = iterator.next();
       recurseNext(iterator, consumer);
@@ -47,7 +47,7 @@ public final class Iterators {
    * @param consumer The {@link Consumer} to execute on each element.
    * @throws NullPointerException If {@code iterator} or {@code consumer} is null.
    */
-  public static <E>void forEachRemainingReverse(final Iterator<E> iterator, final Consumer<? super E> consumer) {
+  public static <E> void forEachRemainingReverse(final Iterator<E> iterator, final Consumer<? super E> consumer) {
     recurseNext(iterator, consumer);
   }
 
@@ -75,7 +75,7 @@ public final class Iterators {
    * @return The last element from the given iterator, or {@code null} if the iterator does not have any elements.
    * @throws NullPointerException If {@code iterator} is null.
    */
-  public static <E>E lastElement(final Iterator<E> iterator) {
+  public static <E> E lastElement(final Iterator<E> iterator) {
     E element = null;
     while (iterator.hasNext())
       element = iterator.next();
@@ -92,7 +92,7 @@ public final class Iterators {
    * @return An {@link Iterator} that iterates over the elements of {@code iterator} satisfying the {@code filter} predicate.
    * @throws NullPointerException If {@code iterator} or {@code filter} is null.
    */
-  public static <E>Iterator<E> filter(final Iterator<? extends E> iterator, final Predicate<? super E> filter) {
+  public static <E> Iterator<E> filter(final Iterator<? extends E> iterator, final Predicate<? super E> filter) {
     Objects.requireNonNull(iterator);
     Objects.requireNonNull(filter);
     return new Iterator<E>() {
@@ -133,8 +133,8 @@ public final class Iterators {
   }
 
   /**
-   * Returns a "flat" {@link Iterator} for the specified N-dimensional array of type {@code <T>}, whereby all nested array members
-   * are flattened at every depth.
+   * Returns a "flat" {@link Iterator} for the specified N-dimensional array of type {@code <T>}, whereby all nested array members are
+   * flattened at every depth.
    *
    * @param <T> The type of the array.
    * @param <E> The type of the array members.
@@ -142,7 +142,7 @@ public final class Iterators {
    * @return A "flat" {@link Iterator} for the specified N-dimensional array of type {@code <T>}.
    * @throws NullPointerException If the specified array is null.
    */
-  public static <T,E>Iterator<E> flatIterator(final T[] array) {
+  public static <T,E> Iterator<E> flatIterator(final T[] array) {
     return new FlatArrayIterator<>(array);
   }
 
@@ -156,7 +156,7 @@ public final class Iterators {
    * @return A "flat" {@link Iterator} for the specified N-dimensional array of type {@code <T>}.
    * @throws NullPointerException If the specified list is null.
    */
-  public static <T,E>Iterator<E> flatIterator(final List<T> list) {
+  public static <T,E> Iterator<E> flatIterator(final List<T> list) {
     return new FlatListIterator<>(list);
   }
 
@@ -168,7 +168,7 @@ public final class Iterators {
    * @return An {@link Enumeration} wrapping the provided {@link Iterator}.
    * @throws NullPointerException If {@code i} is null.
    */
-  public static <T>Enumeration<T> toEnumeration(final Iterator<T> i) {
+  public static <T> Enumeration<T> toEnumeration(final Iterator<T> i) {
     Objects.requireNonNull(i);
     return new Enumeration<T>() {
       @Override
@@ -189,7 +189,7 @@ public final class Iterators {
    * @param <T> The type parameter of the {@link Iterator}.
    * @return A new empty {@link Iterator} (i.e. with no values to iterate).
    */
-  public static <T>Iterator<T> empty() {
+  public static <T> Iterator<T> empty() {
     return new Iterator<T>() {
       @Override
       public boolean hasNext() {

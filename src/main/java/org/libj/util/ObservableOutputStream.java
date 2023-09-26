@@ -32,8 +32,8 @@ public abstract class ObservableOutputStream extends DelegateOutputStream {
    *          {@link #write(byte[],int,int) write(byte[],off,len)}.
    * @param bs The {@code byte[]} if invoked before {@link #write(byte[])} and {@link #write(byte[],int,int) write(byte[],off,len)},
    *          or {@code null} if invoked before {@link #write(int)}.
-   * @param off The {@code off} if invoked before {@link #write(byte[],int,int) write(byte[],off,len)}, or {@code 0} if invoked
-   *          before {@link #write(byte[])}, or {@code -1} if invoked before {@link #write(int)}.
+   * @param off The {@code off} if invoked before {@link #write(byte[],int,int) write(byte[],off,len)}, or {@code 0} if invoked before
+   *          {@link #write(byte[])}, or {@code -1} if invoked before {@link #write(int)}.
    * @param len The {@code len} if invoked before {@link #write(byte[],int,int) write(byte[],off,len)}, or {@code -1} if invoked
    *          before {@link #write(int)} or {@link #write(byte[])}.
    * @return {@code true} for the data to be written to the {@link DelegateOutputStream#target} stream, and {@code false} to prevent
@@ -49,12 +49,12 @@ public abstract class ObservableOutputStream extends DelegateOutputStream {
    *
    * @param b The {@code int} if invoked after {@link #write(int)}, or {@code -1} if invoked after {@link #write(byte[])} and
    *          {@link #write(byte[],int,int) write(byte[],off,len)}.
-   * @param bs The {@code byte[]} if invoked after {@link #write(byte[])} and {@link #write(byte[],int,int) write(byte[],off,len)},
-   *          or {@code null} if invoked after {@link #write(int)}.
+   * @param bs The {@code byte[]} if invoked after {@link #write(byte[])} and {@link #write(byte[],int,int) write(byte[],off,len)}, or
+   *          {@code null} if invoked after {@link #write(int)}.
    * @param off The {@code off} if invoked after {@link #write(byte[],int,int) write(byte[],off,len)}, or {@code 0} if invoked after
    *          {@link #write(byte[])}, or {@code -1} if invoked after {@link #write(int)}.
-   * @param len The {@code len} if invoked after {@link #write(byte[],int,int) write(byte[],off,len)}, or {@code -1} if invoked
-   *          after {@link #write(int)} or {@link #write(byte[])}.
+   * @param len The {@code len} if invoked after {@link #write(byte[],int,int) write(byte[],off,len)}, or {@code -1} if invoked after
+   *          {@link #write(int)} or {@link #write(byte[])}.
    * @throws IOException If an I/O error has occurred.
    */
   protected abstract void afterWrite(int b, byte[] bs, int off, int len) throws IOException;

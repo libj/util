@@ -50,8 +50,7 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
   }
 
   /**
-   * Creates a new {@link SortedList} with the provided {@link List list} and {@link Comparator comparator} as the underlying
-   * target.
+   * Creates a new {@link SortedList} with the provided {@link List list} and {@link Comparator comparator} as the underlying target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List}.
@@ -191,7 +190,8 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
       boolean removed = false;
       if (isRandomAccess()) {
         final int end = i$ - 1;
-        int i = end; do { // [RA]
+        int i = end;
+        do { // [RA]
           elem = getFast(i);
           final boolean isSameAsPrev = i != end && Objects.equals(prev, elem);
           if (!isSameAsPrev) {
@@ -208,7 +208,9 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
         while (--i >= 0);
       }
       else {
-        int i = -1; final Iterator<E> it = iterator(); do { // [I]
+        int i = -1;
+        final Iterator<E> it = iterator();
+        do { // [I]
           elem = it.next();
           final boolean isSameAsPrev = ++i > 0 && Objects.equals(prev, elem);
           if (!isSameAsPrev) {

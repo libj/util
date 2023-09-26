@@ -41,8 +41,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   /**
    * Return a non-null list of values for a given key. The returned list may be empty.
    * <p>
-   * If there is no entry for the key in the map, a new empty {@link List} instance is created, registered within the map to hold
-   * the values of the key and returned from the method.
+   * If there is no entry for the key in the map, a new empty {@link List} instance is created, registered within the map to hold the
+   * values of the key and returned from the method.
    *
    * @param key The key.
    * @return value The value {@link Collection} registered with the key. The method is guaranteed to never return {@code null}.
@@ -133,8 +133,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   }
 
   /**
-   * Add a value to the first position in the current list of values for the provided key. If the type of the value
-   * {@link Collection} does not extend {@link List}, an {@link UnsupportedOperationException} is thrown.
+   * Add a value to the first position in the current list of values for the provided key. If the type of the value {@link Collection}
+   * does not extend {@link List}, an {@link UnsupportedOperationException} is thrown.
    *
    * @param key The key
    * @param value The value to be added.
@@ -185,7 +185,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
     if (values instanceof List && values instanceof RandomAccess) {
       @SuppressWarnings("unchecked")
       final List<V> l = (List<V>)values;
-      int i = 0; do { // [RA]
+      int i = 0;
+      do { // [RA]
         if (test.test(l.get(i))) {
           values.remove(i);
           return true;
@@ -194,7 +195,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
       while (++i < i$);
     }
     else {
-      final Iterator<V> i = values.iterator(); do { // [I]
+      final Iterator<V> i = values.iterator();
+      do { // [I]
         if (test.test(i.next())) {
           i.remove();
           return true;
@@ -227,7 +229,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
     if (values instanceof List && values instanceof RandomAccess) {
       @SuppressWarnings("unchecked")
       final List<V> l = (List<V>)values;
-      int i = 0; do { // [RA]
+      int i = 0;
+      do { // [RA]
         if (test.test(l.get(i))) {
           changed |= values.remove(i);
         }
@@ -235,7 +238,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
       while (++i < i$);
     }
     else {
-      final Iterator<V> i = values.iterator(); do { // [I]
+      final Iterator<V> i = values.iterator();
+      do { // [I]
         if (test.test(i.next())) {
           i.remove();
           changed = true;
@@ -248,8 +252,8 @@ public interface MultiMap<K,V,C extends Collection<V>> extends Map<K,C> {
   }
 
   /**
-   * Compare the specified map with this map for equality modulo the order of values for each key. Specifically, the values
-   * associated with each key are compared as if they were ordered lists.
+   * Compare the specified map with this map for equality modulo the order of values for each key. Specifically, the values associated
+   * with each key are compared as if they were ordered lists.
    *
    * @param otherMap Map to be compared to this one.
    * @return {@code true} if the maps are equal modulo value ordering.

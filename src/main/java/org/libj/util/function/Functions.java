@@ -37,7 +37,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1) {
+  public static <T,R> Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     return new Function<T,Stream<R>>() {
@@ -64,7 +64,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2) {
+  public static <T,R> Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -94,7 +94,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3) {
+  public static <T,R> Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -128,7 +128,7 @@ public class Functions {
    * @throws NullPointerException If any provided function is null.
    */
   @SafeVarargs
-  public static <T,R>Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3, final Function<T,? extends R> ... fN) {
+  public static <T,R> Function<T,Stream<R>> and(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3, final Function<T,? extends R> ... fN) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -164,7 +164,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1) {
+  public static <T,R> Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     return new Function<T,R>() {
@@ -195,7 +195,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2) {
+  public static <T,R> Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -231,7 +231,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3) {
+  public static <T,R> Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -273,7 +273,7 @@ public class Functions {
    * @throws NullPointerException If any provided function is null.
    */
   @SafeVarargs
-  public static <T,R>Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3, final Function<T,? extends R> ... fN) {
+  public static <T,R> Function<T,R> or(final Function<T,? extends R> f0, final Function<T,? extends R> f1, final Function<T,? extends R> f2, final Function<T,? extends R> f3, final Function<T,? extends R> ... fN) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -321,7 +321,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1) {
+  public static <T,U,R> BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     return new BiFunction<T,U,Stream<R>>() {
@@ -349,7 +349,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2) {
+  public static <T,U,R> BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -380,7 +380,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3) {
+  public static <T,U,R> BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -415,7 +415,7 @@ public class Functions {
    * @throws NullPointerException If any provided function is null.
    */
   @SafeVarargs
-  public static <T,U,R>BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3, final BiFunction<T,U,? extends R> ... fN) {
+  public static <T,U,R> BiFunction<T,U,Stream<R>> and(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3, final BiFunction<T,U,? extends R> ... fN) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -452,7 +452,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1) {
+  public static <T,U,R> BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     return new BiFunction<T,U,R>() {
@@ -484,7 +484,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2) {
+  public static <T,U,R> BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -521,7 +521,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3) {
+  public static <T,U,R> BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -564,7 +564,7 @@ public class Functions {
    * @throws NullPointerException If any provided function is null.
    */
   @SafeVarargs
-  public static <T,U,R>BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3, final BiFunction<T,U,? extends R> ... fN) {
+  public static <T,U,R> BiFunction<T,U,R> or(final BiFunction<T,U,? extends R> f0, final BiFunction<T,U,? extends R> f1, final BiFunction<T,U,? extends R> f2, final BiFunction<T,U,? extends R> f3, final BiFunction<T,U,? extends R> ... fN) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -613,7 +613,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1) {
+  public static <T,U,V,R> TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     return new TriFunction<T,U,V,Stream<R>>() {
@@ -642,7 +642,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2) {
+  public static <T,U,V,R> TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -674,7 +674,7 @@ public class Functions {
    * @return An "and"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3) {
+  public static <T,U,V,R> TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -710,7 +710,7 @@ public class Functions {
    * @throws NullPointerException If any provided function is null.
    */
   @SafeVarargs
-  public static <T,U,V,R>TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3, final TriFunction<T,U,V,? extends R> ... fN) {
+  public static <T,U,V,R> TriFunction<T,U,V,Stream<R>> and(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3, final TriFunction<T,U,V,? extends R> ... fN) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -748,7 +748,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1) {
+  public static <T,U,V,R> TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     return new TriFunction<T,U,V,R>() {
@@ -781,7 +781,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2) {
+  public static <T,U,V,R> TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -819,7 +819,7 @@ public class Functions {
    * @return An "or"-composed function that applies its output to the the inputs of the given functions in the provided order.
    * @throws NullPointerException If any provided function is null.
    */
-  public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3) {
+  public static <T,U,V,R> TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);
@@ -863,7 +863,7 @@ public class Functions {
    * @throws NullPointerException If any provided function is null.
    */
   @SafeVarargs
-  public static <T,U,V,R>TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3, final TriFunction<T,U,V,? extends R> ... fN) {
+  public static <T,U,V,R> TriFunction<T,U,V,R> or(final TriFunction<T,U,V,? extends R> f0, final TriFunction<T,U,V,? extends R> f1, final TriFunction<T,U,V,? extends R> f2, final TriFunction<T,U,V,? extends R> f3, final TriFunction<T,U,V,? extends R> ... fN) {
     Objects.requireNonNull(f0);
     Objects.requireNonNull(f1);
     Objects.requireNonNull(f2);

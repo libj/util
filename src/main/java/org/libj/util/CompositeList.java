@@ -32,7 +32,9 @@ import org.slf4j.Logger;
  * conforming to a particular type {@code <T>}. For instance, consider:
  *
  * <pre>
- * {@code new CompositeList<Number,Class<? extends Number>>(Integer.class, Long.class, Double.class)}
+ * {@code
+ * new CompositeList<Number,Class<? extends Number>>(Integer.class, Long.class, Double.class)
+ * }
  * </pre>
  *
  * This {@link CompositeList} is comprised of {@code ComponentList<Number>} lists that each maintains elements specific to the
@@ -86,7 +88,7 @@ public abstract class CompositeList<E,T> extends ObservableRandomAccessList<E,Ar
      * @param type The type this {@link ComponentList} will maintain.
      */
     protected ComponentList(final T type) {
-      super(new ArrayList<E>());
+      super(new ArrayList<>());
       this.type = type;
       this.indexes = new ArrayIntList();
     }
@@ -270,8 +272,8 @@ public abstract class CompositeList<E,T> extends ObservableRandomAccessList<E,Ar
   }
 
   /**
-   * Returns {@code true} if this {@link CompositeList} contains the specified type registered for {@link ComponentList}s,
-   * regardless of whether the {@link ComponentList} has been instantiated or not.
+   * Returns {@code true} if this {@link CompositeList} contains the specified type registered for {@link ComponentList}s, regardless
+   * of whether the {@link ComponentList} has been instantiated or not.
    *
    * @param type The type.
    * @return {@code true} if this {@link CompositeList} contains the specified type registered for {@link ComponentList}s.

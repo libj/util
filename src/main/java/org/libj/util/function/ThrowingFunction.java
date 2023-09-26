@@ -31,8 +31,7 @@ import java.util.function.Function;
  *   if (i == 0)
  *     throw new IOException("i=" + i);
  *   return String.valueOf(i);
- * })).forEach(f -> {
- * });
+ * })).forEach(f -> {});
  * }
  * </pre>
  *

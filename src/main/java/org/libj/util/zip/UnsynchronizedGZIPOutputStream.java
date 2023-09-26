@@ -68,9 +68,9 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
    *
    * @param out The output stream.
    * @param size The output buffer size.
-   * @param syncFlush If {@code true} invocation of the inherited {@link DeflaterOutputStream#flush() flush()} method of this
-   *          instance flushes the compressor with flush mode {@link Deflater#SYNC_FLUSH} before flushing the output stream,
-   *          otherwise only flushes the output stream.
+   * @param syncFlush If {@code true} invocation of the inherited {@link DeflaterOutputStream#flush() flush()} method of this instance
+   *          flushes the compressor with flush mode {@link Deflater#SYNC_FLUSH} before flushing the output stream, otherwise only
+   *          flushes the output stream.
    * @throws IllegalArgumentException If {@code size <= 0}
    */
   public UnsynchronizedGZIPOutputStream(final OutputStream out, final int size, final boolean syncFlush) {
@@ -94,9 +94,9 @@ public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
    * Creates a new output stream with a default buffer size and the specified flush mode.
    *
    * @param out the output stream
-   * @param syncFlush if {@code true} invocation of the inherited {@link DeflaterOutputStream#flush() flush()} method of this
-   *          instance flushes the compressor with flush mode {@link Deflater#SYNC_FLUSH} before flushing the output stream,
-   *          otherwise only flushes the output stream.
+   * @param syncFlush if {@code true} invocation of the inherited {@link DeflaterOutputStream#flush() flush()} method of this instance
+   *          flushes the compressor with flush mode {@link Deflater#SYNC_FLUSH} before flushing the output stream, otherwise only
+   *          flushes the output stream.
    * @throws IOException If an I/O error has occurred.
    */
   public UnsynchronizedGZIPOutputStream(final OutputStream out, final boolean syncFlush) throws IOException {

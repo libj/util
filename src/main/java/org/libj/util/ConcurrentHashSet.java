@@ -150,8 +150,8 @@ public class ConcurrentHashSet<E> extends HashSet<E> {
   /**
    * Save the state of this {@link ConcurrentHashSet} instance to a stream (that is, serialize it).
    *
-   * @serialData The capacity of the backing {@link ConcurrentHashMap} instance (int), followed by the size of the set (the number
-   *             of elements it contains) (int), followed by all of its elements (each an Object) in no particular order.
+   * @serialData The capacity of the backing {@link ConcurrentHashMap} instance (int), followed by the size of the set (the number of
+   *             elements it contains) (int), followed by all of its elements (each an Object) in no particular order.
    * @param s The {@link ObjectInputStream}.
    * @throws IOException If an I/O error has occurred.
    */

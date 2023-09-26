@@ -72,7 +72,7 @@ public final class Throwing {
    * @param supplier The {@link ThrowingSupplier}.
    * @return The specified {@link Supplier} instance.
    */
-  public static <T>Supplier<T> rethrow(final ThrowingSupplier<T,?> supplier) {
+  public static <T> Supplier<T> rethrow(final ThrowingSupplier<T,?> supplier) {
     return supplier;
   }
 
@@ -94,7 +94,7 @@ public final class Throwing {
    * @param consumer The {@link ThrowingConsumer}.
    * @return The specified {@link Consumer} instance.
    */
-  public static <T>Consumer<T> rethrow(final ThrowingConsumer<T,?> consumer) {
+  public static <T> Consumer<T> rethrow(final ThrowingConsumer<T,?> consumer) {
     return consumer;
   }
 
@@ -119,7 +119,7 @@ public final class Throwing {
    * @param consumer The {@link ThrowingBiConsumer}.
    * @return The specified {@link BiConsumer} instance.
    */
-  public static <T,U>BiConsumer<T,U> rethrow(final ThrowingBiConsumer<T,U,?> consumer) {
+  public static <T,U> BiConsumer<T,U> rethrow(final ThrowingBiConsumer<T,U,?> consumer) {
     return consumer;
   }
 
@@ -143,7 +143,7 @@ public final class Throwing {
    * @param consumer The {@link ThrowingObjIntConsumer}.
    * @return The specified {@link ObjIntConsumer} instance.
    */
-  public static <T>ObjIntConsumer<T> rethrow(final ThrowingObjIntConsumer<T,?> consumer) {
+  public static <T> ObjIntConsumer<T> rethrow(final ThrowingObjIntConsumer<T,?> consumer) {
     return consumer;
   }
 
@@ -167,7 +167,7 @@ public final class Throwing {
    * @param consumer The {@link ThrowingObjBiIntConsumer}.
    * @return The specified {@link ObjBiIntConsumer} instance.
    */
-  public static <T>ObjBiIntConsumer<T> rethrow(final ThrowingObjBiIntConsumer<T,?> consumer) {
+  public static <T> ObjBiIntConsumer<T> rethrow(final ThrowingObjBiIntConsumer<T,?> consumer) {
     return consumer;
   }
 
@@ -191,7 +191,7 @@ public final class Throwing {
    * @param predicate The {@link ThrowingObjBiIntPredicate}.
    * @return The specified {@link ObjBiIntPredicate} instance.
    */
-  public static <T>ObjBiIntPredicate<T> rethrow(final ThrowingObjBiIntPredicate<T,?> predicate) {
+  public static <T> ObjBiIntPredicate<T> rethrow(final ThrowingObjBiIntPredicate<T,?> predicate) {
     return predicate;
   }
 
@@ -216,7 +216,7 @@ public final class Throwing {
    * @param predicate The {@link ThrowingBiObjBiIntPredicate}.
    * @return The specified {@link BiObjBiIntPredicate} instance.
    */
-  public static <T,U>BiObjBiIntPredicate<T,U> rethrow(final ThrowingBiObjBiIntPredicate<T,U,?> predicate) {
+  public static <T,U> BiObjBiIntPredicate<T,U> rethrow(final ThrowingBiObjBiIntPredicate<T,U,?> predicate) {
     return predicate;
   }
 
@@ -242,7 +242,7 @@ public final class Throwing {
    * @param consumer The {@link ThrowingTriConsumer}.
    * @return The specified {@link TriConsumer} instance.
    */
-  public static <T,U,V>TriConsumer<T,U,V> rethrow(final ThrowingTriConsumer<T,U,V,?> consumer) {
+  public static <T,U,V> TriConsumer<T,U,V> rethrow(final ThrowingTriConsumer<T,U,V,?> consumer) {
     return consumer;
   }
 
@@ -265,7 +265,7 @@ public final class Throwing {
    * @param predicate The {@link ThrowingConsumer}.
    * @return The specified {@link Consumer} instance.
    */
-  public static <T>Predicate<T> rethrow(final ThrowingPredicate<T,?> predicate) {
+  public static <T> Predicate<T> rethrow(final ThrowingPredicate<T,?> predicate) {
     return predicate;
   }
 
@@ -291,7 +291,7 @@ public final class Throwing {
    * @param predicate The {@link ThrowingBiPredicate}.
    * @return The specified {@link BiPredicate} instance.
    */
-  public static <T,U>BiPredicate<T,U> rethrow(final ThrowingBiPredicate<T,U,?> predicate) {
+  public static <T,U> BiPredicate<T,U> rethrow(final ThrowingBiPredicate<T,U,?> predicate) {
     return predicate;
   }
 
@@ -306,8 +306,7 @@ public final class Throwing {
    *   if (i == 0)
    *     throw new IOException("i=" + i);
    *   return String.valueOf(i);
-   * })).forEach(f -> {
-   * });
+   * })).forEach(f -> {});
    * }
    * </pre>
    *
@@ -316,7 +315,7 @@ public final class Throwing {
    * @param function The {@link ThrowingFunction}.
    * @return The specified {@link Function} instance.
    */
-  public static <T,R>Function<T,R> rethrow(final ThrowingFunction<T,R,?> function) {
+  public static <T,R> Function<T,R> rethrow(final ThrowingFunction<T,R,?> function) {
     return function;
   }
 
@@ -343,7 +342,7 @@ public final class Throwing {
    * @param function The {@link ThrowingFunction}.
    * @return The specified {@link Function} instance.
    */
-  public static <T,U,R>BiFunction<T,U,R> rethrow(final ThrowingBiFunction<T,U,R,?> function) {
+  public static <T,U,R> BiFunction<T,U,R> rethrow(final ThrowingBiFunction<T,U,R,?> function) {
     return function;
   }
 

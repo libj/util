@@ -1809,8 +1809,8 @@ public final class DiscreteTopologies {
         if (Date.class.equals(cls))
           return DiscreteTopologies.DATES;
 
-//        if (String.class.equals(cls))
-//          return DiscreteTopology.STRINGS;
+        // if (String.class.equals(cls))
+        // return DiscreteTopology.STRINGS;
       }
     }
     else {
@@ -1850,8 +1850,8 @@ public final class DiscreteTopologies {
       if (BigInteger.class.equals(cls))
         return DiscreteTopologies.BIG_INTEGER;
 
-//      if (BigDecimal.class.equals(cls))
-//        return DiscreteTopology.BIG_DECIMAL;
+      // if (BigDecimal.class.equals(cls))
+      // return DiscreteTopology.BIG_DECIMAL;
     }
 
     throw new IllegalArgumentException("Class " + cls.getName() + " is not supported");

@@ -49,8 +49,8 @@ import org.libj.util.primitive.ShortComparator;
  */
 public final class CollectionUtil extends PrimitiveSort {
   /**
-   * Adds all of the elements in the {@code b} collection to the {@code a} collection. The behavior of this operation is undefined
-   * if the specified collection is modified while the operation is in progress.
+   * Adds all of the elements in the {@code b} collection to the {@code a} collection. The behavior of this operation is undefined if
+   * the specified collection is modified while the operation is in progress.
    *
    * @param <E> The type of elements in {@code a}.
    * @param a Collection to which elements from {@code b} are to be added.
@@ -58,7 +58,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return {@code true} if {@code a} changed as a result of the call.
    * @throws NullPointerException If {@code a} or {@code b} is null.
    */
-  public static <E>boolean addAll(final Collection<E> a, final Collection<? extends E> b) {
+  public static <E> boolean addAll(final Collection<E> a, final Collection<? extends E> b) {
     final int i$ = b.size();
     if (i$ == 0)
       return false;
@@ -66,12 +66,14 @@ public final class CollectionUtil extends PrimitiveSort {
     boolean changed = false;
     final List<? extends E> l;
     if (b instanceof List && isRandomAccess(l = (List<? extends E>)b)) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         changed |= a.add(l.get(i));
       while (++i < i$);
     }
     else {
-      final Iterator<? extends E> it = b.iterator(); do // [I]
+      final Iterator<? extends E> it = b.iterator();
+      do // [I]
         changed |= a.add(it.next());
       while (it.hasNext());
     }
@@ -80,8 +82,8 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Adds all of the elements in the {@code b} collection at the specified position to the {@code a} collection. The behavior of
-   * this operation is undefined if the specified collection is modified while the operation is in progress.
+   * Adds all of the elements in the {@code b} collection at the specified position to the {@code a} collection. The behavior of this
+   * operation is undefined if the specified collection is modified while the operation is in progress.
    *
    * @param <E> The type of elements in {@code a}.
    * @param index Index in {@code a} at which to insert the first element of {@code b}.
@@ -90,19 +92,21 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The position of {@code index} after having added all of the elements in the {@code b} collection.
    * @throws NullPointerException If {@code a} or {@code b} is null.
    */
-  public static <E>int addAll(int index, final List<E> a, final Collection<? extends E> b) {
+  public static <E> int addAll(int index, final List<E> a, final Collection<? extends E> b) {
     final int i$ = b.size();
     if (i$ == 0)
       return index;
 
     final List<? extends E> l;
     if (b instanceof List && isRandomAccess(l = (List<? extends E>)b)) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         a.add(index++, l.get(i));
       while (++i < i$);
     }
     else {
-      final Iterator<? extends E> it = b.iterator(); do // [I]
+      final Iterator<? extends E> it = b.iterator();
+      do // [I]
         a.add(index++, it.next());
       while (it.hasNext());
     }
@@ -130,7 +134,8 @@ public final class CollectionUtil extends PrimitiveSort {
     final List<?> la, lb;
     if (a instanceof List && isRandomAccess(la = (List<?>)a)) {
       if (b instanceof List && isRandomAccess(lb = (List<?>)b)) {
-        int i = 0; do { // [RA]
+        int i = 0;
+        do { // [RA]
           if (!Objects.equals(la.get(i), lb.get(i)))
             return false;
         }
@@ -138,7 +143,8 @@ public final class CollectionUtil extends PrimitiveSort {
       }
       else {
         final Iterator<?> ib = b.iterator();
-        int i = 0; do { // [RA]
+        int i = 0;
+        do { // [RA]
           if (!Objects.equals(la.get(i), ib.next()))
             return false;
         }
@@ -148,7 +154,8 @@ public final class CollectionUtil extends PrimitiveSort {
     else {
       final Iterator<?> ia = a.iterator();
       if (b instanceof List && isRandomAccess(lb = (List<?>)b)) {
-        int i = 0; do { // [RA]
+        int i = 0;
+        do { // [RA]
           if (!Objects.equals(ia.next(), lb.get(i)))
             return false;
         }
@@ -156,7 +163,8 @@ public final class CollectionUtil extends PrimitiveSort {
       }
       else {
         final Iterator<?> ib = b.iterator();
-        int i = 0; do { // [I]
+        int i = 0;
+        do { // [I]
           if (!Objects.equals(ia.next(), ib.next()))
             return false;
         }
@@ -182,13 +190,15 @@ public final class CollectionUtil extends PrimitiveSort {
 
     final List<?> l;
     if (b instanceof List && isRandomAccess(l = (List<?>)b)) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         if (!a.contains(l.get(i)))
           return false;
       while (++i < size);
     }
     else {
-      final Iterator<?> it = b.iterator(); do // [I]
+      final Iterator<?> it = b.iterator();
+      do // [I]
         if (!a.contains(it.next()))
           return false;
       while (it.hasNext());
@@ -214,12 +224,14 @@ public final class CollectionUtil extends PrimitiveSort {
     final int size = a.size();
     final List<?> l;
     if (b instanceof List && isRandomAccess(l = (List<?>)b)) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         a.remove(l.get(i));
       while (++i < i$);
     }
     else {
-      final Iterator<?> it = b.iterator(); do // [I]
+      final Iterator<?> it = b.iterator();
+      do // [I]
         a.remove(it.next());
       while (it.hasNext());
     }
@@ -249,13 +261,15 @@ public final class CollectionUtil extends PrimitiveSort {
 
     final List<?> l;
     if (a instanceof List && isRandomAccess(l = (List<?>)a)) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         if (!b.contains(l.get(i)))
           l.remove(i);
       while (++i < i$);
     }
     else {
-      final Iterator<?> it = a.iterator(); do // [I]
+      final Iterator<?> it = a.iterator();
+      do // [I]
         if (!b.contains(it.next()))
           it.remove();
       while (it.hasNext());
@@ -291,7 +305,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified output collection, filled with the one-dimensional representation of the input collection.
    * @throws NullPointerException If {@code in} or {@code out} is null.
    */
-  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out) {
+  public static <C extends Collection<T>,T> C flatten(final Collection<T> in, final C out) {
     return flatten(in, out, null, false);
   }
 
@@ -308,30 +322,30 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified output collection, filled with the one-dimensional representation of the input collection.
    * @throws NullPointerException If {@code in} or {@code out} is null.
    */
-  public static <C extends Collection<T>,T>C flatten(final Collection<T> in, final C out, final boolean retainCollectionReferences) {
+  public static <C extends Collection<T>,T> C flatten(final Collection<T> in, final C out, final boolean retainCollectionReferences) {
     return flatten(in, out, null, retainCollectionReferences);
   }
 
   /**
    * Inserts the one-dimensional representation of the input collection into the specified output collection, whereby all nested
-   * {@link Collection} members are flattened at every depth. The specified resolver {@link Function} provides a layer of
-   * indirection between a member, and a higher-layer value. This is useful in the situation where the collection contains symbolic
-   * references to other collections. The {@code resolver} parameter is provided to dereference such a symbolic references.
+   * {@link Collection} members are flattened at every depth. The specified resolver {@link Function} provides a layer of indirection
+   * between a member, and a higher-layer value. This is useful in the situation where the collection contains symbolic references to
+   * other collections. The {@code resolver} parameter is provided to dereference such a symbolic references.
    *
    * @param <C> The type of the output collection.
    * @param <T> The type of collection elements.
    * @param in The input collection.
    * @param out The output collection.
    * @param resolver A {@link Function} to provide a layer of indirection between a member, and a higher-layer value. If
-   *          {@code resolver} is null, {@code member instanceof Collection} is used to determine whether the member value
-   *          represents a collection.
+   *          {@code resolver} is null, {@code member instanceof Collection} is used to determine whether the member value represents
+   *          a collection.
    * @param retainCollectionReferences If {@code true}, members that reference a {@link Collection} are included in the output
    *          collection; if {@code false}, they are not included in the output collection.
    * @return The specified output collection, filled with the one-dimensional representation of the input collection.
    * @throws NullPointerException If {@code in} or {@code out} is null.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C flatten(final Collection<? extends T> in, final C out, final Function<T,? extends Collection<T>> resolver, final boolean retainCollectionReferences) {
+  public static <C extends Collection<T>,T> C flatten(final Collection<? extends T> in, final C out, final Function<T,? extends Collection<T>> resolver, final boolean retainCollectionReferences) {
     if (in.size() > 0) {
       for (final T member : in) { // [C]
         final Collection inner = resolver != null ? resolver.apply(member) : member instanceof Collection ? (Collection)member : null;
@@ -351,9 +365,9 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Flattens the specified list into a one-dimensional representation, in-place, replacing all nested {@link List} members with
-   * their expanded form, at every depth. The value of {@code member instanceof List} is used to determine whether a member
-   * represents a {@link List} for further recursion.
+   * Flattens the specified list into a one-dimensional representation, in-place, replacing all nested {@link List} members with their
+   * expanded form, at every depth. The value of {@code member instanceof List} is used to determine whether a member represents a
+   * {@link List} for further recursion.
    * <p>
    * List members that reference a {@link List} are <i>not included</i> in the resulting array. This is the equivalent of calling
    * {@code flatten(List,false)}.
@@ -364,14 +378,14 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified list.
    * @throws NullPointerException If {@code list} is null.
    */
-  public static <L extends List<E>,E>L flatten(final L list) {
+  public static <L extends List<E>,E> L flatten(final L list) {
     flatten(list, (Function<E,List<E>>)null, false);
     return list;
   }
 
   /**
-   * Flattens the specified list into a one-dimensional representation, in-place, replacing all nested {@link List} members with
-   * their expanded form, at every depth.
+   * Flattens the specified list into a one-dimensional representation, in-place, replacing all nested {@link List} members with their
+   * expanded form, at every depth.
    *
    * @param <L> The type of the list.
    * @param <E> The type of list elements.
@@ -381,15 +395,15 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified list.
    * @throws NullPointerException If {@code list} is null.
    */
-  public static <L extends List<E>,E>L flatten(final L list, final boolean retainListReferences) {
+  public static <L extends List<E>,E> L flatten(final L list, final boolean retainListReferences) {
     flatten(list, (Function<E,List<E>>)null, retainListReferences);
     return list;
   }
 
   /**
-   * Flattens the specified list into a one-dimensional representation, in-place, replacing all nested {@link List} members with
-   * their expanded form, at every depth. The specified resolver {@link Function} provides a layer of indirection between a member,
-   * and a higher-layer value. This is useful in the situation where the collection contains symbolic references to other list. The
+   * Flattens the specified list into a one-dimensional representation, in-place, replacing all nested {@link List} members with their
+   * expanded form, at every depth. The specified resolver {@link Function} provides a layer of indirection between a member, and a
+   * higher-layer value. This is useful in the situation where the collection contains symbolic references to other list. The
    * {@code resolver} parameter is provided to dereference such a symbolic references.
    *
    * @param <L> The type of the list.
@@ -404,7 +418,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code list} is null.
    */
   @SuppressWarnings("unchecked")
-  public static <L extends List<E>,E>L flatten(final L list, final Function<E,? extends List<E>> resolver, final boolean retainListReferences) {
+  public static <L extends List<E>,E> L flatten(final L list, final Function<E,? extends List<E>> resolver, final boolean retainListReferences) {
     final ListIterator<E> iterator = list.listIterator();
     for (int i = 0; iterator.hasNext();) { // [I]
       final E member = iterator.next();
@@ -418,12 +432,14 @@ public final class CollectionUtil extends PrimitiveSort {
         final int j$ = inner.size();
         if (j$ > 0) {
           if (CollectionUtil.isRandomAccess(inner)) {
-            int j = 0; do // [RA]
+            int j = 0;
+            do // [RA]
               iterator.add(inner.get(j));
             while (++j < j$);
           }
           else {
-            final Iterator<E> it = inner.iterator(); do // [I]
+            final Iterator<E> it = inner.iterator();
+            do // [I]
               iterator.add(it.next());
             while (it.hasNext());
           }
@@ -472,13 +488,13 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Returns {@code true} if the specified class is instance-assignable for each member object of the specified collection,
-   * otherwise {@code false}.
+   * Returns {@code true} if the specified class is instance-assignable for each member object of the specified collection, otherwise
+   * {@code false}.
    *
    * @param c The collection.
    * @param type The class.
-   * @return {@code true} if the specified class is instance-assignable for each member object of the specified collection,
-   *         otherwise {@code false}.
+   * @return {@code true} if the specified class is instance-assignable for each member object of the specified collection, otherwise
+   *         {@code false}.
    * @throws NullPointerException If {@code c} or {@code type} is null.
    */
   public static boolean isComponentType(final Collection<?> c, final Class<?> type) {
@@ -492,8 +508,8 @@ public final class CollectionUtil extends PrimitiveSort {
 
   /**
    * Returns a string representation of the specified collection, using the specified delimiter between the string representation of
-   * each element. If the specified collection is null, this method returns the string {@code "null"}. If the specified collection
-   * is empty, this method returns {@code ""}.
+   * each element. If the specified collection is null, this method returns the string {@code "null"}. If the specified collection is
+   * empty, this method returns {@code ""}.
    *
    * @param c The collection.
    * @param del The delimiter.
@@ -532,8 +548,8 @@ public final class CollectionUtil extends PrimitiveSort {
 
   /**
    * Returns a string representation of the specified collection, using the specified delimiter between the string representation of
-   * each element. If the specified collection is null, this method returns the string {@code "null"}. If the specified collection
-   * is empty, this method returns {@code ""}.
+   * each element. If the specified collection is null, this method returns the string {@code "null"}. If the specified collection is
+   * empty, this method returns {@code ""}.
    *
    * @param c The collection.
    * @param del The delimiter.
@@ -593,7 +609,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E extends Comparable<? super E>>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
+  public static <E extends Comparable<? super E>> int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key);
   }
@@ -623,40 +639,40 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E,K extends Comparable<? super K>>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
+  public static <E,K extends Comparable<? super K>> int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, elementToKey);
   }
 
   /**
    * Searches the specified list for the specified object using the binary search algorithm. The list must be sorted in ascending
-   * order according to the {@linkplain Comparable natural ordering} of its elements (as by the {@link List#sort(Comparator)}
-   * method) prior to making this call. If it is not sorted, the results are undefined. (If the list contains elements that are not
-   * mutually comparable (for example, strings and integers), it <i>cannot</i> be sorted according to the natural ordering of its
-   * elements, hence results are undefined.) If the list contains multiple elements equal to the specified object, there is no
-   * guarantee which one will be found.
+   * order according to the {@linkplain Comparable natural ordering} of its elements (as by the {@link List#sort(Comparator)} method)
+   * prior to making this call. If it is not sorted, the results are undefined. (If the list contains elements that are not mutually
+   * comparable (for example, strings and integers), it <i>cannot</i> be sorted according to the natural ordering of its elements,
+   * hence results are undefined.) If the list contains multiple elements equal to the specified object, there is no guarantee which
+   * one will be found.
    *
    * @param <E> Type parameter of Comparable key object.
    * @param a The list to be searched.
    * @param key The value to be searched for.
    * @return Index of the search key if it is contained in the list, otherwise {@code (-(<i>insertion point</i>) - 1)}. The
    *         <i>insertion point</i> is defined as the point at which the key would be inserted into the list: the index of the first
-   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note
-   *         that this guarantees that the return value will be {@code >= 0} if and only if the key is found.
+   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note that
+   *         this guarantees that the return value will be {@code >= 0} if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the elements of the array.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E extends Comparable<? super E>>int binarySearch(final List<? extends E> a, final E key) {
+  public static <E extends Comparable<? super E>> int binarySearch(final List<? extends E> a, final E key) {
     return binarySearch0(a, 0, a.size(), key);
   }
 
   /**
    * Searches the specified list for the specified object using the binary search algorithm. The list must be sorted in ascending
-   * order according to the {@linkplain Comparable natural ordering} of its elements (as by the {@link List#sort(Comparator)}
-   * method) prior to making this call. If it is not sorted, the results are undefined. (If the list contains elements that are not
-   * mutually comparable (for example, strings and integers), it <i>cannot</i> be sorted according to the natural ordering of its
-   * elements, hence results are undefined.) If the list contains multiple elements equal to the specified object, there is no
-   * guarantee which one will be found.
+   * order according to the {@linkplain Comparable natural ordering} of its elements (as by the {@link List#sort(Comparator)} method)
+   * prior to making this call. If it is not sorted, the results are undefined. (If the list contains elements that are not mutually
+   * comparable (for example, strings and integers), it <i>cannot</i> be sorted according to the natural ordering of its elements,
+   * hence results are undefined.) If the list contains multiple elements equal to the specified object, there is no guarantee which
+   * one will be found.
    *
    * @param <E> The type parameter of the list elements.
    * @param <K> The type parameter of Comparable key object.
@@ -665,20 +681,20 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
    * @return Index of the search key if it is contained in the list, otherwise {@code (-(<i>insertion point</i>) - 1)}. The
    *         <i>insertion point</i> is defined as the point at which the key would be inserted into the list: the index of the first
-   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note
-   *         that this guarantees that the return value will be {@code >= 0} if and only if the key is found.
+   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note that
+   *         this guarantees that the return value will be {@code >= 0} if and only if the key is found.
    * @throws ClassCastException If the search key is not comparable to the elements of the array.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E,K extends Comparable<? super K>>int binarySearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey) {
+  public static <E,K extends Comparable<? super K>> int binarySearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey) {
     return binarySearch0(a, 0, a.size(), key, elementToKey);
   }
 
   /**
    * Searches a range of the specified list for the specified object using the binary search algorithm. The range must be sorted in
-   * ascending order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this
-   * call. If it is not sorted, the results are undefined. If the range contains multiple elements equal to the specified object,
-   * there is no guarantee which one will be found.
+   * ascending order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this call.
+   * If it is not sorted, the results are undefined. If the range contains multiple elements equal to the specified object, there is
+   * no guarantee which one will be found.
    *
    * @param <E> The type parameter of the list element and key object.
    * @param a The list to be searched.
@@ -692,22 +708,22 @@ public final class CollectionUtil extends PrimitiveSort {
    *         inserted into the list: the index of the first element in the range greater than the key, or {@code toIndex} if all
    *         elements in the range are less than the specified key. Note that this guarantees that the return value will be
    *         {@code >= 0} if and only if the key is found.
-   * @throws ClassCastException If the range contains elements that are not <i>mutually comparable</i> using the specified
-   *           comparator, or the search key is not comparable to the elements in the range using this comparator.
+   * @throws ClassCastException If the range contains elements that are not <i>mutually comparable</i> using the specified comparator,
+   *           or the search key is not comparable to the elements in the range using this comparator.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <E>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
+  public static <E> int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, c);
   }
 
   /**
    * Searches a range of the specified list for the specified object using the binary search algorithm. The range must be sorted in
-   * ascending order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this
-   * call. If it is not sorted, the results are undefined. If the range contains multiple elements equal to the specified object,
-   * there is no guarantee which one will be found.
+   * ascending order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this call.
+   * If it is not sorted, the results are undefined. If the range contains multiple elements equal to the specified object, there is
+   * no guarantee which one will be found.
    *
    * @param <E> The type parameter of the list elements.
    * @param <K> The type parameter of the key object.
@@ -723,21 +739,21 @@ public final class CollectionUtil extends PrimitiveSort {
    *         inserted into the list: the index of the first element in the range greater than the key, or {@code toIndex} if all
    *         elements in the range are less than the specified key. Note that this guarantees that the return value will be
    *         {@code >= 0} if and only if the key is found.
-   * @throws ClassCastException If the range contains elements that are not <i>mutually comparable</i> using the specified
-   *           comparator, or the search key is not comparable to the elements in the range using this comparator.
+   * @throws ClassCastException If the range contains elements that are not <i>mutually comparable</i> using the specified comparator,
+   *           or the search key is not comparable to the elements in the range using this comparator.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
    */
-  public static <E,K>int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+  public static <E,K> int binarySearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binarySearch0(a, fromIndex, toIndex, key, elementToKey, c);
   }
 
   /**
    * Searches the specified list for the specified object using the binary search algorithm. The list must be sorted in ascending
-   * order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this call. If it
-   * is not sorted, the results are undefined. If the list contains multiple elements equal to the specified object, there is no
+   * order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this call. If it is
+   * not sorted, the results are undefined. If the list contains multiple elements equal to the specified object, there is no
    * guarantee which one will be found.
    *
    * @param <E> The type parameter of the list element and key object.
@@ -747,20 +763,20 @@ public final class CollectionUtil extends PrimitiveSort {
    *          natural ordering} should be used.
    * @return Index of the search key if it is contained in the list, otherwise {@code (-(<i>insertion point</i>) - 1)}. The
    *         <i>insertion point</i> is defined as the point at which the key would be inserted into the list: the index of the first
-   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note
-   *         that this guarantees that the return value will be {@code >= 0} if and only if the key is found.
-   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified
-   *           comparator, or the search key is not comparable to the elements of the list using this comparator.
+   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note that
+   *         this guarantees that the return value will be {@code >= 0} if and only if the key is found.
+   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified comparator,
+   *           or the search key is not comparable to the elements of the list using this comparator.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <E>int binarySearch(final List<? extends E> a, final E key, final Comparator<? super E> c) {
+  public static <E> int binarySearch(final List<? extends E> a, final E key, final Comparator<? super E> c) {
     return binarySearch0(a, 0, a.size(), key, c);
   }
 
   /**
    * Searches the specified list for the specified object using the binary search algorithm. The list must be sorted in ascending
-   * order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this call. If it
-   * is not sorted, the results are undefined. If the list contains multiple elements equal to the specified object, there is no
+   * order according to the specified comparator (as by the {@link List#sort(Comparator)} method) prior to making this call. If it is
+   * not sorted, the results are undefined. If the list contains multiple elements equal to the specified object, there is no
    * guarantee which one will be found.
    *
    * @param <E> The type parameter of the list elements.
@@ -772,17 +788,17 @@ public final class CollectionUtil extends PrimitiveSort {
    *          natural ordering} should be used.
    * @return Index of the search key if it is contained in the list, otherwise {@code (-(<i>insertion point</i>) - 1)}. The
    *         <i>insertion point</i> is defined as the point at which the key would be inserted into the list: the index of the first
-   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note
-   *         that this guarantees that the return value will be {@code >= 0} if and only if the key is found.
-   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified
-   *           comparator, or the search key is not comparable to the elements of the list using this comparator.
+   *         element greater than the key, or {@code a.length} if all elements in the list are less than the specified key. Note that
+   *         this guarantees that the return value will be {@code >= 0} if and only if the key is found.
+   * @throws ClassCastException If the list contains elements that are not <i>mutually comparable</i> using the specified comparator,
+   *           or the search key is not comparable to the elements of the list using this comparator.
    * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
    */
-  public static <E,K>int binarySearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+  public static <E,K> int binarySearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
     return binarySearch0(a, 0, a.size(), key, elementToKey, c);
   }
 
-  private static <E extends Comparable<? super E>>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
+  private static <E extends Comparable<? super E>> int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
@@ -800,7 +816,7 @@ public final class CollectionUtil extends PrimitiveSort {
     return -(low + 1);
   }
 
-  private static <E,K extends Comparable<? super K>>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
+  private static <E,K extends Comparable<? super K>> int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
@@ -818,7 +834,7 @@ public final class CollectionUtil extends PrimitiveSort {
     return -(low + 1);
   }
 
-  private static <E>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
+  private static <E> int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
@@ -836,7 +852,7 @@ public final class CollectionUtil extends PrimitiveSort {
     return -(low + 1);
   }
 
-  private static <E,K>int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+  private static <E,K> int binarySearch0(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
     int low = fromIndex;
     int high = toIndex - 1;
     while (low <= high) {
@@ -859,8 +875,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list element and key object.
@@ -869,7 +885,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link List} matching the desired value.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E extends Comparable<? super E>>int binaryClosestSearch(final List<? extends E> a, final E key) {
+  public static <E extends Comparable<? super E>> int binaryClosestSearch(final List<? extends E> a, final E key) {
     return binaryClosestSearch0(a, 0, a.size(), key);
   }
 
@@ -878,8 +894,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -890,7 +906,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link List} matching the desired value.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E,K extends Comparable<? super K>>int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey) {
+  public static <E,K extends Comparable<? super K>> int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey) {
     return binaryClosestSearch0(a, 0, a.size(), key, elementToKey);
   }
 
@@ -899,8 +915,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list element and key object.
@@ -913,7 +929,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E extends Comparable<? super E>>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
+  public static <E extends Comparable<? super E>> int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
@@ -923,8 +939,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -939,7 +955,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <E,K extends Comparable<? super K>>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
+  public static <E,K extends Comparable<? super K>> int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, elementToKey);
   }
@@ -949,8 +965,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements and key object.
@@ -960,7 +976,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link List} matching the desired value.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <E>int binaryClosestSearch(final List<? extends E> a, final E key, final Comparator<? super E> c) {
+  public static <E> int binaryClosestSearch(final List<? extends E> a, final E key, final Comparator<? super E> c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
@@ -969,8 +985,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -982,7 +998,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The closest index of the sorted {@link List} matching the desired value.
    * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
    */
-  public static <E,K>int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+  public static <E,K> int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
     return binaryClosestSearch0(a, 0, a.size(), key, elementToKey, c);
   }
 
@@ -991,8 +1007,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements and key object.
@@ -1006,7 +1022,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
-  public static <E>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
+  public static <E> int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final E key, final Comparator<? super E> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
@@ -1016,8 +1032,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list
-   * is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
+   * less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -1033,12 +1049,12 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
    */
-  public static <E,K>int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
+  public static <E,K> int binaryClosestSearch(final List<? extends E> a, final int fromIndex, final int toIndex, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
     assertRangeArray(fromIndex, toIndex, a.size());
     return binaryClosestSearch0(a, fromIndex, toIndex, key, elementToKey, c);
   }
 
-  private static <E extends Comparable<? super E>>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final E key) {
+  private static <E extends Comparable<? super E>> int binaryClosestSearch0(final List<? extends E> a, int from, int to, final E key) {
     for (int mid; from < to;) { // [N]
       mid = (from + to) / 2;
       final int c = key.compareTo(a.get(mid));
@@ -1053,7 +1069,7 @@ public final class CollectionUtil extends PrimitiveSort {
     return (from + to) / 2;
   }
 
-  private static <E,K extends Comparable<? super K>>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final K key, final Function<E,K> elementToKey) {
+  private static <E,K extends Comparable<? super K>> int binaryClosestSearch0(final List<? extends E> a, int from, int to, final K key, final Function<E,K> elementToKey) {
     for (int mid; from < to;) { // [N]
       mid = (from + to) / 2;
       final int c = key.compareTo(elementToKey.apply(a.get(mid)));
@@ -1068,7 +1084,7 @@ public final class CollectionUtil extends PrimitiveSort {
     return (from + to) / 2;
   }
 
-  private static <E>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final E key, final Comparator<? super E> comparator) {
+  private static <E> int binaryClosestSearch0(final List<? extends E> a, int from, int to, final E key, final Comparator<? super E> comparator) {
     for (int mid; from < to;) { // [N]
       mid = (from + to) / 2;
       final int c = comparator.compare(key, a.get(mid));
@@ -1083,7 +1099,7 @@ public final class CollectionUtil extends PrimitiveSort {
     return (from + to) / 2;
   }
 
-  private static <E,K>int binaryClosestSearch0(final List<? extends E> a, int from, int to, final K key, final Function<E,K> elementToKey, final Comparator<? super K> comparator) {
+  private static <E,K> int binaryClosestSearch0(final List<? extends E> a, int from, int to, final K key, final Function<E,K> elementToKey, final Comparator<? super K> comparator) {
     for (int mid; from < to;) { // [N]
       mid = (from + to) / 2;
       final int c = comparator.compare(key, elementToKey.apply(a.get(mid)));
@@ -1301,8 +1317,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
+   * in the list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
@@ -1319,8 +1335,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
+   * in the list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
@@ -1338,8 +1354,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
+   * in the list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
@@ -1361,8 +1377,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
+   * in the list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
@@ -1598,8 +1614,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the
-   * list contains no value less than or equal to {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
+   * contains no value less than or equal to {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
@@ -1616,8 +1632,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the
-   * list contains no value less than or equal to {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
+   * contains no value less than or equal to {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
@@ -1635,8 +1651,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the
-   * list contains no value less than or equal to {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
+   * contains no value less than or equal to {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
@@ -1658,8 +1674,8 @@ public final class CollectionUtil extends PrimitiveSort {
    * <ol>
    * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
    * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the
-   * list contains no value less than or equal to {@code key}.</li>
+   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
+   * contains no value less than or equal to {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
@@ -1702,7 +1718,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @return The specified collection with the specified vararg parameters added as members to the collection.
    * @throws NullPointerException If {@code c} or {@code a} is null.
    */
-  public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a) {
+  public static <C extends Collection<T>,T> C asCollection(final C c, final T[] a) {
     for (int i = 0, i$ = a.length; i < i$; ++i) // [A]
       c.add(a[i]);
 
@@ -1721,7 +1737,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code c}, {@code a0}, or {@code aN} is null.
    */
   @SafeVarargs
-  public static <C extends Collection<T>,T>C asCollection(final C c, final T a0, final T ... aN) {
+  public static <C extends Collection<T>,T> C asCollection(final C c, final T a0, final T ... aN) {
     c.add(a0);
     Collections.addAll(c, aN);
     return c;
@@ -1743,7 +1759,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
    */
-  public static <C extends Collection<T>,T>C asCollection(final C c, final T[] a, final int fromIndex, final int toIndex) {
+  public static <C extends Collection<T>,T> C asCollection(final C c, final T[] a, final int fromIndex, final int toIndex) {
     assertRangeArray(fromIndex, toIndex, a.length);
     for (int i = fromIndex; i < toIndex; ++i) // [A]
       c.add(a[i]);
@@ -1764,7 +1780,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code target} or {@code collections} is null.
    */
   @SafeVarargs
-  public static <C extends Collection<T>,T>C concat(final C target, final Collection<? extends T> ... collections) {
+  public static <C extends Collection<T>,T> C concat(final C target, final Collection<? extends T> ... collections) {
     for (final Collection<? extends T> collection : collections) // [A]
       target.addAll(collection);
 
@@ -1783,7 +1799,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code size} is less than or equal to 0.
    */
   @SuppressWarnings("unchecked")
-  public static <E>List<E>[] partition(final List<E> list, final int size) {
+  public static <E> List<E>[] partition(final List<E> list, final int size) {
     if (size <= 0)
       throw new IllegalArgumentException("Size must be positive: " + size);
 
@@ -2222,7 +2238,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data}, {@code order} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
-  public static <T extends Comparable<? super T>>void sort(final List<?> data, final T[] order) {
+  public static <T extends Comparable<? super T>> void sort(final List<?> data, final T[] order) {
     sort(data, order, (o1, o2) -> o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2));
   }
 
@@ -2250,7 +2266,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
-  public static <T>void sort(final List<?> data, final T[] order, final Comparator<? super T> comparator) {
+  public static <T> void sort(final List<?> data, final T[] order, final Comparator<? super T> comparator) {
     if (data.size() != order.length)
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
 
@@ -2281,7 +2297,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data}, {@code order} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.size()}.
    */
-  public static <E extends Comparable<? super E>>void sort(final List<?> data, final List<E> order) {
+  public static <E extends Comparable<? super E>> void sort(final List<?> data, final List<E> order) {
     sort(data, order, (o1, o2) -> o1 == null ? o2 == null ? 0 : -1 : o2 == null ? 1 : o1.compareTo(o2));
   }
 
@@ -2309,7 +2325,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data}, {@code order} is null.
    * @throws IllegalArgumentException If {@code data.size() != order.size()}.
    */
-  public static <T>void sort(final List<?> data, final List<? extends T> order, final Comparator<? super T> comparator) {
+  public static <T> void sort(final List<?> data, final List<? extends T> order, final Comparator<? super T> comparator) {
     if (data.size() != order.size())
       throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.size() [" + order.size() + "] must be equal");
 
@@ -2317,7 +2333,7 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   // FIXME: This is not good if not RandomAccess
-  private static final <E>int dedupeRandomAccess(final List<E> l, final Comparator<? super E> c, final int length, final int index, final int depth) {
+  private static final <E> int dedupeRandomAccess(final List<E> l, final Comparator<? super E> c, final int length, final int index, final int depth) {
     if (index == length)
       return depth;
 
@@ -2341,7 +2357,7 @@ public final class CollectionUtil extends PrimitiveSort {
    *         {@link Comparator}.
    * @throws NullPointerException If the provided {@link List} or {@link Comparator} is null.
    */
-  public static final <E>int dedupe(final List<E> l, final Comparator<? super E> c) {
+  public static final <E> int dedupe(final List<E> l, final Comparator<? super E> c) {
     return l.size() <= 1 ? l.size() : dedupeRandomAccess(l, c, l.size(), 1, 1);
   }
 

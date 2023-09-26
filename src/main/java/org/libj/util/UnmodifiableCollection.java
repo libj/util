@@ -182,7 +182,7 @@ public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
   }
 
   @Override
-  public <T>T[] toArray(final T[] a) {
+  public <T> T[] toArray(final T[] a) {
     return getTarget().toArray(a);
   }
 

@@ -43,8 +43,8 @@ import java.util.RandomAccess;
  */
 public class MirrorRandomAccessList<V,LV extends List<V> & RandomAccess,R,LR extends List<R> & RandomAccess> extends MirrorList<V,LV,R,LR> implements RandomAccess {
   /**
-   * Creates a new {@link MirrorRandomAccessList} with the specified target lists and {@link MirrorList.Mirror}. The specified
-   * target lists are meant to be empty, as they become the underlying lists of the new {@link MirrorRandomAccessList} instance.
+   * Creates a new {@link MirrorRandomAccessList} with the specified target lists and {@link MirrorList.Mirror}. The specified target
+   * lists are meant to be empty, as they become the underlying lists of the new {@link MirrorRandomAccessList} instance.
    * <p>
    * The specified {@link MirrorList.Mirror} provides the {@link MirrorList.Mirror#valueToReflection(Object) V -> R} and
    * {@link MirrorList.Mirror#reflectionToValue(Object) R -> V} methods, which are used to reflect object values from one
@@ -61,8 +61,8 @@ public class MirrorRandomAccessList<V,LV extends List<V> & RandomAccess,R,LR ext
   }
 
   /**
-   * Creates a new {@link MirrorRandomAccessList} with the specified lists and mirror. This method is specific for the construction
-   * of a reflected {@link MirrorRandomAccessList} instance.
+   * Creates a new {@link MirrorRandomAccessList} with the specified lists and mirror. This method is specific for the construction of
+   * a reflected {@link MirrorRandomAccessList} instance.
    *
    * @param mirrorList The {@link MirrorRandomAccessList} for which {@code this} list will be a reflection. Likewise, {@code this}
    *          list will be a reflection for {@code mirrorList}.

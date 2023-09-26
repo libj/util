@@ -71,8 +71,8 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
     V reflectionToValue(R reflection);
 
     /**
-     * Returns the reverse representation of this {@link Mirror}, whereby the value object type {@code <V>} and reflected value
-     * object of type {@code <R>} are swapped.
+     * Returns the reverse representation of this {@link Mirror}, whereby the value object type {@code <V>} and reflected value object
+     * of type {@code <R>} are swapped.
      *
      * @return The reverse representation of this {@link Mirror}.
      */
@@ -92,8 +92,8 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
   }
 
   /**
-   * Object to be used in the underlying lists to represent that a value is pending reflection via the methods in {@link #mirror}
-   * upon the invocation of {@link #beforeGet(int,ListIterator)}.
+   * Object to be used in the underlying lists to represent that a value is pending reflection via the methods in {@link #mirror} upon
+   * the invocation of {@link #beforeGet(int,ListIterator)}.
    */
   protected static final Object PENDING = new Object();
 
@@ -130,11 +130,11 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
   }
 
   /**
-   * Creates a new {@link MirrorList} with the specified lists and mirror. This method is specific for the construction of a
-   * reflected {@link MirrorList} instance.
+   * Creates a new {@link MirrorList} with the specified lists and mirror. This method is specific for the construction of a reflected
+   * {@link MirrorList} instance.
    *
-   * @param mirrorList The {@link MirrorList} for which {@code this} list will be a reflection. Likewise, {@code this} list will be
-   *          a reflection for {@code mirrorList}.
+   * @param mirrorList The {@link MirrorList} for which {@code this} list will be a reflection. Likewise, {@code this} list will be a
+   *          reflection for {@code mirrorList}.
    * @param values The underlying list of type {@code <V>}.
    * @param mirror The {@link Mirror} specifying the {@link Mirror#valueToReflection(Object) V -> R} and
    *          {@link Mirror#reflectionToValue(Object) R -> V} methods.
@@ -146,8 +146,8 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
   }
 
   /**
-   * Factory method that returns a new instance of a {@link MirrorList} with the specified target lists. This method is intended to
-   * be overridden by subclasses in order to provide instances of the subclass.
+   * Factory method that returns a new instance of a {@link MirrorList} with the specified target lists. This method is intended to be
+   * overridden by subclasses in order to provide instances of the subclass.
    *
    * @param values The underlying list of type {@code <V>}.
    * @param reflections The underlying list of type {@code <R>}.
@@ -279,14 +279,14 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
 
   /**
    * Locks the {@link #target underlying list} to detect concurrent modification. Specifically, this method calls {@link #iterator()
-   * target.iterator()} and saves its reference for examination during the next method call that is made to the {@link MirrorList}.
-   * If the call to {@link Iterator#next()} on the {@link #targetLock saved iterator} results in a
+   * target.iterator()} and saves its reference for examination during the next method call that is made to the {@link MirrorList}. If
+   * the call to {@link Iterator#next()} on the {@link #targetLock saved iterator} results in a
    * {@link ConcurrentModificationException}, it means that the {@link #target underlying list} was modified outside of the
    * {@link MirrorList}. Such modifications are not allowed, because they risk compromising the data integrity of the this list and
    * its {@link #mirrorList}.
    *
-   * @param unlocked If {@code true}, this list is unlocked and will be locked; if {@code false}, this list is already locked and
-   *          will not be relocked.
+   * @param unlocked If {@code true}, this list is unlocked and will be locked; if {@code false}, this list is already locked and will
+   *          not be relocked.
    */
   protected void lock(final boolean unlocked) {
     if (unlocked) {

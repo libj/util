@@ -152,14 +152,15 @@ public final class Locales {
   }
 
   private static final Locale[] EMPTY_LOCALES = {};
+
   /**
-   * Returns an array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
-   * form {@code "{language}_{country}_{variant}"}. Examples: {@code "en"}, {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"},
+   * Returns an array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the form
+   * {@code "{language}_{country}_{variant}"}. Examples: {@code "en"}, {@code "de_DE"}, {@code "_GB"}, {@code "en_US_WIN"},
    * {@code "de__POSIX"}, {@code "fr_MAC"}.
    *
    * @param strings The {@link Collection} of strings.
-   * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
-   *         form {@code "{language}_{country}_{variant}"}.
+   * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the form
+   *         {@code "{language}_{country}_{variant}"}.
    * @throws NullPointerException If {@code strings} is null.
    */
   public static Locale[] parse(final Collection<String> strings) {
@@ -170,12 +171,15 @@ public final class Locales {
     final Locale[] locales = new Locale[i$];
     final List<String> list;
     if (strings instanceof List && CollectionUtil.isRandomAccess(list = (List<String>)strings)) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         locales[i] = parse(list.get(i));
       while (++i < i$);
     }
     else {
-      int i = -1; final Iterator<String> it = strings.iterator(); do // [I]
+      int i = -1;
+      final Iterator<String> it = strings.iterator();
+      do // [I]
         locales[++i] = parse(it.next());
       while (it.hasNext());
     }
@@ -189,8 +193,8 @@ public final class Locales {
    * {@code "de__POSIX"}, {@code "fr_MAC"}.
    *
    * @param enumeration The {@link Enumeration} of strings.
-   * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the
-   *         form {@code "{language}_{country}_{variant}"}.
+   * @return An array of {@link Locale} objects that represent the string based locale elements in {@code strings} that have the form
+   *         {@code "{language}_{country}_{variant}"}.
    * @throws NullPointerException If {@code enumeration} is null.
    */
   public static Locale[] parse(final Enumeration<String> enumeration) {

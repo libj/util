@@ -21,24 +21,24 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class IntervalTest {
-  private static <T extends Comparable<? super T>>void assertCompareTo(final int expected, final T a, final T b) {
+  private static <T extends Comparable<? super T>> void assertCompareTo(final int expected, final T a, final T b) {
     assertEquals(expected, a.compareTo(b));
     assertEquals(-expected, b.compareTo(a));
   }
 
-  private static <T extends Comparable<? super T>>void assertIntersects(final boolean expected, final Interval<T> a, final Interval<T> b) {
+  private static <T extends Comparable<? super T>> void assertIntersects(final boolean expected, final Interval<T> a, final Interval<T> b) {
     assertEquals(expected, a.intersects(b));
     assertEquals(expected, b.intersects(a));
     assertEquals(expected, a.intersects(b.getMin(), b.getMax()));
     assertEquals(expected, b.intersects(a.getMin(), a.getMax()));
   }
 
-  private static <T extends Comparable<? super T>>void assertEqual(final Interval<T> a, final Interval<T> b) {
+  private static <T extends Comparable<? super T>> void assertEqual(final Interval<T> a, final Interval<T> b) {
     assertEquals(a, b);
     assertEquals(b, a);
   }
 
-  private static <T extends Comparable<? super T>>void assertNotEqual(final Interval<T> a, final Interval<T> b) {
+  private static <T extends Comparable<? super T>> void assertNotEqual(final Interval<T> a, final Interval<T> b) {
     assertNotEquals(a, b);
     assertNotEquals(b, a);
   }

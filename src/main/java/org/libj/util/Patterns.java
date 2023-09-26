@@ -158,8 +158,8 @@ public final class Patterns {
   }
 
   /**
-   * Unescapes the provided regex into a form that does not contain any regular expression syntax. For a regex to be "unescapable",
-   * it must satisfy the following conditions:
+   * Unescapes the provided regex into a form that does not contain any regular expression syntax. For a regex to be "unescapable", it
+   * must satisfy the following conditions:
    * <ol>
    * <li>Have valid regular expression syntax. If this is not satisfied, a {@link PatternSyntaxException} will be thrown.</li>
    * <li>Be able to match no more than 1 string (i.e. "abc" is technically a regular expression, however it can only match a single
@@ -170,20 +170,41 @@ public final class Patterns {
    * <blockquote>
    * <table>
    * <caption>Examples</caption>
-   * <tr><td><b>Input</b></td><td><b>Output</b></td></tr>
-   * <tr><td><code>\|</code></td><td><code>|</code></td></tr>
-   * <tr><td><code>abc</code></td><td><code>abc</code></td></tr>
-   * <tr><td><code>(abc)</code></td><td><code>abc</code></td></tr>
-   * <tr><td><code>[aa][bb][cc]</code></td><td><code>abc</code></td></tr>
-   * <tr><td><code>(a|a)(b|b)(c|c)</code></td><td><code>abc</code></td></tr>
-   * <tr><td><code>(a|a)(b|b)(c|d)</code></td><td><code>null</code></td></tr>
+   * <tr>
+   * <td><b>Input</b></td>
+   * <td><b>Output</b></td>
+   * </tr>
+   * <tr>
+   * <td><code>\|</code></td>
+   * <td><code>|</code></td>
+   * </tr>
+   * <tr>
+   * <td><code>abc</code></td>
+   * <td><code>abc</code></td>
+   * </tr>
+   * <tr>
+   * <td><code>(abc)</code></td>
+   * <td><code>abc</code></td>
+   * </tr>
+   * <tr>
+   * <td><code>[aa][bb][cc]</code></td>
+   * <td><code>abc</code></td>
+   * </tr>
+   * <tr>
+   * <td><code>(a|a)(b|b)(c|c)</code></td>
+   * <td><code>abc</code></td>
+   * </tr>
+   * <tr>
+   * <td><code>(a|a)(b|b)(c|d)</code></td>
+   * <td><code>null</code></td>
+   * </tr>
    * </table>
    * </blockquote>
    *
    * @param regex The {@link String} to unescape.
-   * @return The unescaped form of the regex if and only if the pattern is a valid regular expression, and if it <u>cannot match
-   *         more than 1 string</u>, or {@code null} if the specified string cannot be parsed as a regular expression, or if it
-   *         represents a regular expression that can match multiple strings.
+   * @return The unescaped form of the regex if and only if the pattern is a valid regular expression, and if it <u>cannot match more
+   *         than 1 string</u>, or {@code null} if the specified string cannot be parsed as a regular expression, or if it represents
+   *         a regular expression that can match multiple strings.
    * @throws PatternSyntaxException If the expression's syntax is invalid.
    */
   public static String unescape(final String regex) {
@@ -323,8 +344,8 @@ public final class Patterns {
    * @param builder The {@link StringBuilder}.
    * @param start The starting index.
    * @param end The ending index.
-   * @return The index in the {@link StringBuilder} representing the next group, or {@code -1} if the specified
-   *         {@link StringBuilder} cannot be parsed.
+   * @return The index in the {@link StringBuilder} representing the next group, or {@code -1} if the specified {@link StringBuilder}
+   *         cannot be parsed.
    */
   static int reduceGroups(final StringBuilder builder, final int start, int end) {
     return reduceGroups(builder, false, start, end);

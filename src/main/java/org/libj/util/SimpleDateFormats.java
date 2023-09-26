@@ -63,14 +63,14 @@ public final class SimpleDateFormats {
         final String tzPart = text.substring(text.lastIndexOf(' ') + 1);
         final int i = tzPart.charAt(0) != '+' && tzPart.charAt(0) != '-' ? 1 : 0;
         // FIXME: Need to finish this...
-//        for (int i = 0, i$ = formats.length; i < i$; ++i) { // [A]
-          final IsoDateFormat format = formats[i];
+        // for (int i = 0, i$ = formats.length; i < i$; ++i) { // [A]
+        final IsoDateFormat format = formats[i];
 
-          format.setTimeZone(fetchTimeZone(tzPart));
-          final Date date = format.parse(text, pos);
-          if (date != null)
-            return date;
-//        }
+        format.setTimeZone(fetchTimeZone(tzPart));
+        final Date date = format.parse(text, pos);
+        if (date != null)
+          return date;
+        // }
 
         return null;
       }
@@ -139,7 +139,7 @@ public final class SimpleDateFormats {
     private SimpleDateFormat getFormat() {
       SimpleDateFormat format = this.format.get();
       if (format instanceof IsoDateFormatLocal.IsoDateFormats)
-       format = ((IsoDateFormatLocal.IsoDateFormats)format).formats[index];
+        format = ((IsoDateFormatLocal.IsoDateFormats)format).formats[index];
 
       format.setTimeZone(timeZone);
       return format;
@@ -171,8 +171,8 @@ public final class SimpleDateFormats {
   }
 
   /**
-   * Returns a new {@link Date} object representing the {@code time} with the provided {@link SimpleDateFormat} that is to be used
-   * by the {@link Date#toString()} of the returned date.
+   * Returns a new {@link Date} object representing the {@code time} with the provided {@link SimpleDateFormat} that is to be used by
+   * the {@link Date#toString()} of the returned date.
    *
    * @param time The milliseconds since January 1, 1970, 00:00:00 GMT.
    * @param format The {@link SimpleDateFormat} that is to be used by the {@link Date#toString()} of the returned date.

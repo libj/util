@@ -33,7 +33,7 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   private static final Object NULL = new Object();
 
   @SuppressWarnings("unchecked")
-  private static <T>T notNull(final T key) {
+  private static <T> T notNull(final T key) {
     return key == null ? (T)NULL : key;
   }
 
@@ -62,8 +62,8 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
    * Creates a new, empty map with an initial table size based on the given number of elements ({@code initialCapacity}) and initial
    * table density ({@code loadFactor}).
    *
-   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements,
-   *          given the specified load factor.
+   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements, given
+   *          the specified load factor.
    * @param loadFactor The load factor (table density) for establishing the initial table size.
    * @throws IllegalArgumentException If the initial capacity of elements is negative or the load factor is nonpositive.
    */
@@ -75,11 +75,11 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
    * Creates a new, empty map with an initial table size based on the given number of elements ({@code initialCapacity}), table
    * density ({@code loadFactor}), and number of concurrently updating threads ({@code concurrencyLevel}).
    *
-   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements,
-   *          given the specified load factor.
+   * @param initialCapacity The initial capacity. The implementation performs internal sizing to accommodate this many elements, given
+   *          the specified load factor.
    * @param loadFactor The load factor (table density) for establishing the initial table size.
-   * @param concurrencyLevel The estimated number of concurrently updating threads. The implementation may use this value as a
-   *          sizing hint.
+   * @param concurrencyLevel The estimated number of concurrently updating threads. The implementation may use this value as a sizing
+   *          hint.
    * @throws IllegalArgumentException If the initial capacity is negative or the load factor or concurrencyLevel are nonpositive.
    */
   public ConcurrentNullHashMap(final int initialCapacity, final float loadFactor, final int concurrencyLevel) {
@@ -122,8 +122,8 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   }
 
   /**
-   * If the specified key is not already associated with a value, associates it with the given value. This is equivalent to, for
-   * this {@code map}:
+   * If the specified key is not already associated with a value, associates it with the given value. This is equivalent to, for this
+   * {@code map}:
    *
    * <pre> {@code
    * if (!map.containsKey(key))

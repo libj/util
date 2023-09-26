@@ -45,7 +45,8 @@ public class DatesTest {
     TimeZone.setDefault(defaultTimeZone);
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void testDatePart() {
     for (long i = -50; i <= 50; ++i) // [N]
       for (long j = 0; j < Dates.MILLISECONDS_IN_DAY; j += 997) // [N]
@@ -98,7 +99,8 @@ public class DatesTest {
     return instant.getEpochSecond() * 1000;
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void testIso8601ToEpochMilli() throws ParseException {
     long time = Dates.iso8601ToEpochMilli("2020-05-24T09:20:55.5Z");
     testTime(time, "2020-05-24T09:20:55.5Z");
@@ -121,7 +123,7 @@ public class DatesTest {
   }
 
   @Test
-  public void testDur()  {
+  public void testDur() {
     for (int i = 0; i < 1000000; ++i) { // [N]
       final long d = r.nextLong();
       final String s = Dates.durationToString(d);

@@ -28,8 +28,7 @@ import java.util.RandomAccess;
  */
 public class SortedRandomAccessList<E,L extends List<E> & RandomAccess> extends SortedList<E,L> implements RandomAccess {
   /**
-   * Creates a new {@link SortedRandomAccessList} with the provided {@link List list} of comparable elements as the underlying
-   * target.
+   * Creates a new {@link SortedRandomAccessList} with the provided {@link List list} of comparable elements as the underlying target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List} of comparable elements.

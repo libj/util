@@ -31,8 +31,8 @@ import java.util.Set;
  */
 public class IdentityHashBiMap<K,V> extends BiMap<K,V> implements Cloneable, Serializable {
   /**
-   * Constructs a new, empty map with the specified expected maximum size. Putting more than the expected number of key-value
-   * mappings into the map may cause the internal data structure to grow, which may be somewhat time-consuming.
+   * Constructs a new, empty map with the specified expected maximum size. Putting more than the expected number of key-value mappings
+   * into the map may cause the internal data structure to grow, which may be somewhat time-consuming.
    *
    * @param expectedMaxSize The expected maximum size of the map.
    * @throws IllegalArgumentException If {@code expectedMaxSize} is negative.

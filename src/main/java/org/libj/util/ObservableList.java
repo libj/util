@@ -141,8 +141,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   /**
    * Callback method that is invoked immediately after an element is removed from the enclosed {@link List}.
    *
-   * @param element The element removed from the enclosed {@link List}, or attempted to be removed from the {@link List} in case of
-   *          a {@link RuntimeException}.
+   * @param element The element removed from the enclosed {@link List}, or attempted to be removed from the {@link List} in case of a
+   *          {@link RuntimeException}.
    * @param e A {@link RuntimeException} that occurred during the remove operation, or {@code null} if no exception occurred.
    */
   protected void afterRemove(final Object element, final RuntimeException e) {
@@ -175,8 +175,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
 
   /**
    * Delegate method that is invoked for all {@link Object#equals(Object)} operations. This method is intended to be overridden to
-   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
-   * determination of object equality by this {@link ObservableList}.
+   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the determination
+   * of object equality by this {@link ObservableList}.
    *
    * @param o1 An object.
    * @param o2 An object to be compared with a for equality.
@@ -240,8 +240,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * <p>
    * The callback methods {@link #beforeAdd(int,Object,Object)} and {@link #afterAdd(int,Object,RuntimeException)} are called
    * immediately before and after the enclosed {@link List} is modified for the addition of each element in the specified
-   * {@link Collection}. All elements for which {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be added to
-   * this {@link List}.
+   * {@link Collection}. All elements for which {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be added to this
+   * {@link List}.
    */
   @Override
   public boolean addAll(final Collection<? extends E> c) {
@@ -253,8 +253,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * <p>
    * The callback methods {@link #beforeAdd(int,Object,Object)} and {@link #afterAdd(int,Object,RuntimeException)} are called
    * immediately before and after the enclosed {@link List} is modified for the addition of each element in the specified
-   * {@link Collection}. All elements for which {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be added to
-   * this {@link List}.
+   * {@link Collection}. All elements for which {@link #beforeAdd(int,Object,Object)} returns {@code false} will not be added to this
+   * {@link List}.
    */
   @Override
   public boolean addAll(int index, final Collection<? extends E> c) {
@@ -299,7 +299,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       return false;
 
     if (isRandomAccess()) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         if (equals(o, get(i)))
           return true;
       while (++i < i$);
@@ -368,13 +369,16 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       return -1;
 
     if (isRandomAccess()) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         if (equals(o, get(i)))
           return i;
       while (++i < i$);
     }
     else {
-      int i = -1; final Iterator<?> it = iterator(); do { // [I]
+      int i = -1;
+      final Iterator<?> it = iterator();
+      do { // [I]
         ++i;
         if (equals(o, it.next()))
           return i;
@@ -398,13 +402,16 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       return -1;
 
     if (isRandomAccess()) {
-      int i = i$; do // [RA]
+      int i = i$;
+      do // [RA]
         if (equals(o, get(--i)))
           return i;
       while (i > 0);
     }
     else {
-      int i = i$; final ListIterator<?> it = listIterator(i$); do { // [I]
+      int i = i$;
+      final ListIterator<?> it = listIterator(i$);
+      do { // [I]
         --i;
         if (equals(o, it.previous()))
           return i;
@@ -673,8 +680,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeSet(int,Object)} and {@link #afterSet(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified. If {@link #beforeSet(int,Object)} returns {@code false}, the element
-   * will not be set, and this method will return {@code null}.
+   * before and after the enclosed {@link List} is modified. If {@link #beforeSet(int,Object)} returns {@code false}, the element will
+   * not be set, and this method will return {@code null}.
    */
   @Override
   public E set(final int index, final E element) {
@@ -702,8 +709,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(int)} and {@link #afterRemove(Object,RuntimeException)} are called immediately before
-   * and after the enclosed {@link List} is modified for the removal of each element in the specified {@link Collection}. All
-   * elements for which {@link #beforeRemove(int)} returns {@code false} will not be removed from this {@link List}.
+   * and after the enclosed {@link List} is modified for the removal of each element in the specified {@link Collection}. All elements
+   * for which {@link #beforeRemove(int)} returns {@code false} will not be removed from this {@link List}.
    *
    * @see Collection#removeAll(Collection)
    */
@@ -726,13 +733,15 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       return false;
 
     if (isRandomAccess()) {
-      int i = i$; do // [RA]
+      int i = i$;
+      do // [RA]
         if (filter.test(getFast(--i)))
           removeFast(i);
       while (i > 0);
     }
     else {
-      final Iterator<E> it = iterator(); do // [I]
+      final Iterator<E> it = iterator();
+      do // [I]
         if (filter.test(it.next()))
           it.remove();
       while (it.hasNext());
@@ -756,13 +765,15 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
 
     if (c.size() > 0) {
       if (isRandomAccess()) {
-        int i = i$; do // [RA]
+        int i = i$;
+        do // [RA]
           if (!c.contains(getFast(--i)))
             remove(i);
         while (i > 0);
       }
       else {
-        final Iterator<E> it = iterator(); do // [I]
+        final Iterator<E> it = iterator();
+        do // [I]
           if (!c.contains(it.next()))
             it.remove();
         while (it.hasNext());
@@ -782,8 +793,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    * called immediately before and after each element of the enclosed list is retrieved.
    * <p>
    * The callback methods {@link #beforeSet(int,Object)} and {@link #afterSet(int,Object,RuntimeException)} are called immediately
-   * before and after the enclosed {@link List} is modified. If {@link #beforeSet(int,Object)} returns {@code false}, the element
-   * will not be set.
+   * before and after the enclosed {@link List} is modified. If {@link #beforeSet(int,Object)} returns {@code false}, the element will
+   * not be set.
    */
   @Override
   public void replaceAll(final UnaryOperator<E> operator) {
@@ -907,7 +918,7 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
    */
   @Override
   @SuppressWarnings("unchecked")
-  public <T>T[] toArray(T[] a) {
+  public <T> T[] toArray(T[] a) {
     final int size = size();
     if (size > 0) {
       if (a.length < size)
@@ -927,12 +938,15 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       return;
 
     if (isRandomAccess()) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         a[i] = get(i);
       while (++i < i$);
     }
     else {
-      int i = -1; final Iterator<E> it = iterator(); do // [I]
+      int i = -1;
+      final Iterator<E> it = iterator();
+      do // [I]
         a[++i] = it.next();
       while (it.hasNext());
     }
@@ -1001,12 +1015,14 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       return;
 
     if (isRandomAccess()) {
-      int i = 0; do // [RA]
+      int i = 0;
+      do // [RA]
         get(i);
       while (++i < i$);
     }
     else {
-      final Iterator<E> it = iterator(); do // [I]
+      final Iterator<E> it = iterator();
+      do // [I]
         it.next();
       while (it.hasNext());
     }
@@ -1036,7 +1052,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
 
     if (isRandomAccess()) {
       if (CollectionUtil.isRandomAccess(that)) {
-        int i = 0; do { // [RA]
+        int i = 0;
+        do { // [RA]
           final Object e1 = get(i);
           final Object e2 = that.get(i);
           if (!equals(e1, e2))
@@ -1046,7 +1063,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
       }
       else {
         final Iterator<?> thatIt = that.iterator();
-        int i = 0; do { // [I]
+        int i = 0;
+        do { // [I]
           final Object e1 = get(i);
           final Object e2 = thatIt.next();
           if (!equals(e1, e2))
@@ -1057,7 +1075,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
     }
     else if (CollectionUtil.isRandomAccess(that)) {
       final Iterator<?> thisIt = that.iterator();
-      int i = 0; do { // [RA]
+      int i = 0;
+      do { // [RA]
         final Object e1 = thisIt.next();
         final Object e2 = that.get(i);
         if (!equals(e1, e2))
@@ -1068,7 +1087,8 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
     else {
       final Iterator<?> thisIt = that.iterator();
       final Iterator<?> thatIt = that.iterator();
-      int i = 0; do { // [I]
+      int i = 0;
+      do { // [I]
         final Object e1 = thisIt.next();
         final Object e2 = thatIt.next();
         if (!equals(e1, e2))

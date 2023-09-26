@@ -103,8 +103,8 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
 
   /**
    * Delegate method that is invoked for all {@link Object#equals(Object)} operations. This method is intended to be overridden to
-   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
-   * determination of object equality by this {@link ObservableCollection}.
+   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the determination
+   * of object equality by this {@link ObservableCollection}.
    *
    * @param o1 An object.
    * @param o2 An object to be compared with a for equality.
@@ -115,8 +115,8 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
   }
 
   /**
-   * A {@link DelegateIterator} that delegates callback methods to the parent {@link ObservableCollection} instance for the
-   * retrieval and removal of elements.
+   * A {@link DelegateIterator} that delegates callback methods to the parent {@link ObservableCollection} instance for the retrieval
+   * and removal of elements.
    */
   protected class ObservableIterator extends DelegateIterator<E> {
     private E current;
@@ -213,8 +213,8 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeAdd(Object,Object)} and {@link ObservableCollection#afterAdd(Object, RuntimeException)} are
-   * called immediately before and after the enclosed collection is modified. If {@link #beforeAdd(Object,Object)} returns false,
-   * the element will not be added.
+   * called immediately before and after the enclosed collection is modified. If {@link #beforeAdd(Object,Object)} returns false, the
+   * element will not be added.
    */
   @Override
   @SuppressWarnings("unchecked")
@@ -284,8 +284,8 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    * {@inheritDoc}
    * <p>
    * The callback methods {@link #beforeRemove(Object)} and {@link #afterRemove(Object,RuntimeException)} are called immediately
-   * before and after the enclosed collection is modified for the removal of each element in the argument Collection. All elements
-   * for which {@link #beforeRemove(Object)} returns false will not be removed from this collection.
+   * before and after the enclosed collection is modified for the removal of each element in the argument Collection. All elements for
+   * which {@link #beforeRemove(Object)} returns false will not be removed from this collection.
    */
   @Override
   public boolean removeAll(final Collection<?> c) {
@@ -370,7 +370,7 @@ public abstract class ObservableCollection<E> extends DelegateCollection<E> {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public <T>T[] toArray(T[] a) {
+  public <T> T[] toArray(T[] a) {
     final int size = size();
     int i = 0;
     if (size > 0) {

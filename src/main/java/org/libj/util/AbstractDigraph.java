@@ -90,7 +90,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
     this.transverse.transverse = this;
   }
 
-  protected static <K,V>void init(final AbstractDigraph<K,V> digraph) {
+  protected static <K,V> void init(final AbstractDigraph<K,V> digraph) {
     digraph.adj = new ArrayList<>(digraph.initialCapacity);
     digraph.inDegree = new ArrayIntList(digraph.initialCapacity);
     digraph.objectToIndex = new HashBiMap<>(digraph.initialCapacity);
@@ -204,9 +204,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
    *
    * @implSpec This method is not thread safe.
    * @param vertex The vertex.
-   * @return {@code true} if this digraph has been modified, and {@code false} if the specified vertex already existed in the
-   *         digraph.
-   *
+   * @return {@code true} if this digraph has been modified, and {@code false} if the specified vertex already existed in the digraph.
    */
   public boolean add(final K vertex) {
     return getIndexCreate(vertex) >= size();
@@ -235,8 +233,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
 
   /**
    * Copies all of the mappings from the specified map to this digraph. The effect of this call is equivalent to that of calling
-   * {@link AbstractDigraph#put(Object,Set)} on this map once for each mapping from {@code key} to {@code value} in the specified
-   * map. The behavior of this operation is undefined if the specified map is modified while the operation is in progress.
+   * {@link AbstractDigraph#put(Object,Set)} on this map once for each mapping from {@code key} to {@code value} in the specified map.
+   * The behavior of this operation is undefined if the specified map is modified while the operation is in progress.
    *
    * @implSpec This method is not thread safe.
    * @throws NullPointerException If {@code m} is null.
@@ -312,8 +310,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   /**
    * Returns the set of edges mapped to the specified {@code vertex}.
    * <p>
-   * If {@code withObserver == true}, an instance of {@link ObservableSet} is returned, whereby modifications made to this digraph
-   * are reflected in the set, and modifications made to the set are reflected in this digraph.
+   * If {@code withObserver == true}, an instance of {@link ObservableSet} is returned, whereby modifications made to this digraph are
+   * reflected in the set, and modifications made to the set are reflected in this digraph.
    * <p>
    * If {@code withObserver == false}, an instance of {@link TransSet} is returned, whereby modifications made to this digraph are
    * reflected in the set.
@@ -367,8 +365,8 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   /**
-   * Returns the set of edges mapped to the specified {@code vertex}. Modifications made to this digraph are reflected in the set,
-   * and modifications made to the set are reflected in this digraph.
+   * Returns the set of edges mapped to the specified {@code vertex}. Modifications made to this digraph are reflected in the set, and
+   * modifications made to the set are reflected in this digraph.
    *
    * @param vertex The vertex.
    * @return The set of edges mapped to the specified {@code vertex}.
@@ -379,11 +377,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   /**
-   * Returns an {@link ObservableMap} of {@link #objectToIndex}, whereby modifications made to this digraph are reflected in the
-   * set, and modifications made to the set are reflected in this digraph.
+   * Returns an {@link ObservableMap} of {@link #objectToIndex}, whereby modifications made to this digraph are reflected in the set,
+   * and modifications made to the set are reflected in this digraph.
    *
-   * @return An {@link ObservableMap} of {@link #objectToIndex}, whereby modifications made to this digraph are reflected in the
-   *         set, and modifications made to the set are reflected in this digraph.
+   * @return An {@link ObservableMap} of {@link #objectToIndex}, whereby modifications made to this digraph are reflected in the set,
+   *         and modifications made to the set are reflected in this digraph.
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   private ObservableMap<K,Integer> getObservableObjectToIndex() {
@@ -433,11 +431,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   /**
-   * Returns the set of vertices in this digraph. Modifications made to this digraph are reflected in the set, and modifications
-   * made to the set are reflected in this digraph.
+   * Returns the set of vertices in this digraph. Modifications made to this digraph are reflected in the set, and modifications made
+   * to the set are reflected in this digraph.
    *
-   * @return The set of vertices in this digraph. Modifications made to this digraph are reflected in the set, and modifications
-   *         made to the set are reflected in this digraph.
+   * @return The set of vertices in this digraph. Modifications made to this digraph are reflected in the set, and modifications made
+   *         to the set are reflected in this digraph.
    */
   @Override
   public Set<K> keySet() {
@@ -742,12 +740,12 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   /**
-   * Returns the reverse post order of a depth first search analysis of the digraph, or {@code null} if no such order exists due to
-   * a cycle.
+   * Returns the reverse post order of a depth first search analysis of the digraph, or {@code null} if no such order exists due to a
+   * cycle.
    *
    * @implSpec This method is not thread safe.
-   * @return The reverse post order of a depth first search analysis of the digraph, or {@code null} if no such order exists due to
-   *         a cycle.
+   * @return The reverse post order of a depth first search analysis of the digraph, or {@code null} if no such order exists due to a
+   *         cycle.
    */
   public ArrayList<K> getTopologicalOrder() {
     dfs();
@@ -856,11 +854,11 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   }
 
   /**
-   * Returns a string representation of this digraph, containing: the number of vertices, followed by the number of edges, followed
-   * by the adjacency lists.
+   * Returns a string representation of this digraph, containing: the number of vertices, followed by the number of edges, followed by
+   * the adjacency lists.
    *
-   * @return A string representation of this digraph, containing: the number of vertices, followed by the number of edges, followed
-   *         by the adjacency lists.
+   * @return A string representation of this digraph, containing: the number of vertices, followed by the number of edges, followed by
+   *         the adjacency lists.
    */
   @Override
   public String toString() {

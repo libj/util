@@ -416,15 +416,15 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The length of the specified array, summed with the lengths of all nested arrays at every depth.
    * @throws NullPointerException If the provided array is null.
    */
-  public static <T>int lengthDeep(final T[] a, final boolean countArrayReferences) {
+  public static <T> int lengthDeep(final T[] a, final boolean countArrayReferences) {
     return lengthDeep(a, null, countArrayReferences);
   }
 
   /**
    * Returns the length of the specified array, summed with the lengths of all nested arrays at every depth. The specified resolver
    * {@link Function} provides a layer of indirection between an array member, and a higher-layer value. This is useful in the
-   * situation where the array contains symbolic references to other arrays. The {@code resolver} parameter is provided to
-   * dereference such a symbolic references.
+   * situation where the array contains symbolic references to other arrays. The {@code resolver} parameter is provided to dereference
+   * such a symbolic references.
    *
    * @param <T> The component type of the specified array.
    * @param a The array.
@@ -437,7 +437,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If the provided array is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T>int lengthDeep(final T[] a, final Function<? super T,T[]> resolver, final boolean countArrayReferences) {
+  public static <T> int lengthDeep(final T[] a, final Function<? super T,T[]> resolver, final boolean countArrayReferences) {
     int size = 0;
     for (int i = 0, i$ = a.length; i < i$; ++i) { // [A]
       final T member = a[i];
@@ -456,8 +456,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Returns a one-dimensional array with the members of the specified array, and the members of all nested arrays at every depth.
-   * The value of {@code member.getClass().isArray()} is used to determine whether an array member represents an array for further
+   * Returns a one-dimensional array with the members of the specified array, and the members of all nested arrays at every depth. The
+   * value of {@code member.getClass().isArray()} is used to determine whether an array member represents an array for further
    * recursion.
    * <p>
    * Array members that reference an array are <i>not included</i> in the resulting array. This is the equivalent of calling
@@ -472,8 +472,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Returns a one-dimensional array with the members of the specified array, and the members of all nested arrays at every depth.
-   * The value of {@code member.getClass().isArray()} is used to determine whether an array member represents an array for further
+   * Returns a one-dimensional array with the members of the specified array, and the members of all nested arrays at every depth. The
+   * value of {@code member.getClass().isArray()} is used to determine whether an array member represents an array for further
    * recursion.
    *
    * @param a The array.
@@ -487,10 +487,10 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Returns a one-dimensional array with the members of the specified array, and the members of all nested arrays at every depth.
-   * The specified resolver {@link Function} provides a layer of indirection between an array member, and a higher-layer value. This
-   * is useful in the situation where the array contains symbolic references to other arrays. The {@code resolver} parameter is
-   * provided to dereference such a symbolic references.
+   * Returns a one-dimensional array with the members of the specified array, and the members of all nested arrays at every depth. The
+   * specified resolver {@link Function} provides a layer of indirection between an array member, and a higher-layer value. This is
+   * useful in the situation where the array contains symbolic references to other arrays. The {@code resolver} parameter is provided
+   * to dereference such a symbolic references.
    *
    * @param <T> The component type of the specified array.
    * @param a The array.
@@ -503,14 +503,14 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If the provided array is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] flatten(final T[] a, final Function<? super T,T[]> resolver, final boolean retainArrayReferences) {
+  public static <T> T[] flatten(final T[] a, final Function<? super T,T[]> resolver, final boolean retainArrayReferences) {
     final T[] out = (T[])Array.newInstance(a.getClass().getComponentType(), lengthDeep(a, resolver, retainArrayReferences));
     flatten0(a, out, resolver, retainArrayReferences, -1);
     return out;
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>int flatten0(final T[] in, final Object[] out, final Function<? super T,T[]> resolver, final boolean retainArrayReferences, int index) {
+  private static <T> int flatten0(final T[] in, final Object[] out, final Function<? super T,T[]> resolver, final boolean retainArrayReferences, int index) {
     for (int i = 0, i$ = in.length; i < i$; ++i) { // [A]
       final T member = in[i];
       final T[] inner = member == null ? null : resolver != null ? resolver.apply(member) : member.getClass().isArray() ? (T[])member : null;
@@ -539,7 +539,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         equal to an exact match.
    * @throws NullPointerException If the provided array is null.
    */
-  public static <T extends Comparable<? super T>>int binaryClosestSearch(final T[] a, final T key) {
+  public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final T key) {
     return binaryClosestSearch0(a, 0, a.length, key);
   }
 
@@ -557,12 +557,12 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
-  public static <T extends Comparable<? super T>>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
+  public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key) {
     assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key);
   }
 
-  private static <T extends Comparable<? super T>>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key) {
+  private static <T extends Comparable<? super T>> int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key) {
     for (int mid, com; fromIndex < toIndex;) { // [A]
       mid = (fromIndex + toIndex) / 2;
       com = key.compareTo(a[mid]);
@@ -590,7 +590,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         equal to an exact match.
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
-  public static <T,K extends Comparable<? super K>>int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey) {
+  public static <T,K extends Comparable<? super K>> int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey) {
     return binaryClosestSearch0(a, 0, a.length, key, objectToKey);
   }
 
@@ -610,12 +610,12 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
-  public static <T,K extends Comparable<? super K>>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey) {
+  public static <T,K extends Comparable<? super K>> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey) {
     assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, objectToKey);
   }
 
-  private static <T,K extends Comparable<? super K>>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final K key, final Function<T,K> objectToKey) {
+  private static <T,K extends Comparable<? super K>> int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final K key, final Function<T,K> objectToKey) {
     for (int mid, com; fromIndex < toIndex;) { // [A]
       mid = (fromIndex + toIndex) / 2;
       com = key.compareTo(objectToKey.apply(a[mid]));
@@ -642,7 +642,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         equal to an exact match.
    * @throws NullPointerException If the provided array is null.
    */
-  public static <T>int binaryClosestSearch(final T[] a, final T key, final Comparator<? super T> c) {
+  public static <T> int binaryClosestSearch(final T[] a, final T key, final Comparator<? super T> c) {
     return binaryClosestSearch0(a, 0, a.length, key, c);
   }
 
@@ -661,12 +661,12 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
-  public static <T>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
+  public static <T> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final T key, final Comparator<? super T> c) {
     assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, c);
   }
 
-  private static <T>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key, final Comparator<? super T> c) {
+  private static <T> int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final T key, final Comparator<? super T> c) {
     for (int mid, com; fromIndex < toIndex;) { // [A]
       mid = (fromIndex + toIndex) / 2;
       com = c.compare(key, a[mid]);
@@ -695,7 +695,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         equal to an exact match.
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
-  public static <T,K>int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
+  public static <T,K> int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
     return binaryClosestSearch0(a, 0, a.length, key, objectToKey, c);
   }
 
@@ -716,12 +716,12 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
-  public static <T,K>int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
+  public static <T,K> int binaryClosestSearch(final T[] a, final int fromIndex, final int toIndex, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
     assertRangeArray(fromIndex, toIndex, a.length);
     return binaryClosestSearch0(a, fromIndex, toIndex, key, objectToKey, c);
   }
 
-  private static <T,K>int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
+  private static <T,K> int binaryClosestSearch0(final T[] a, int fromIndex, int toIndex, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
     for (int mid, com; fromIndex < toIndex;) { // [A]
       mid = (fromIndex + toIndex) / 2;
       com = c.compare(key, objectToKey.apply(a[mid]));
@@ -1142,7 +1142,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code operator} or {@code array} is null.
    */
   @SafeVarargs
-  public static <T>T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
+  public static <T> T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
     for (int i = 0, i$ = array.length; i < i$; ++i) // [A]
       array[i] = operator.apply(array[i]);
 
@@ -1159,12 +1159,12 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code predicate} or {@code array} is null.
    */
   @SafeVarargs
-  public static <T>T[] filter(final Predicate<? super T> predicate, final T ... array) {
+  public static <T> T[] filter(final Predicate<? super T> predicate, final T ... array) {
     return filter0(predicate, array, array.length, 0, 0);
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>T[] filter0(final Predicate<? super T> predicate, final T[] array, final int length, final int index, final int depth) {
+  private static <T> T[] filter0(final Predicate<? super T> predicate, final T[] array, final int length, final int index, final int depth) {
     if (index == length)
       return (T[])Array.newInstance(array.getClass().getComponentType(), depth);
 
@@ -1177,7 +1177,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return filtered;
   }
 
-  private static <T>T[] concat0(final T[] array1, final T[] array2, final T[][] arrays) {
+  private static <T> T[] concat0(final T[] array1, final T[] array2, final T[][] arrays) {
     int length = array1.length + array2.length;
     for (int i = 0, i$ = arrays.length; i < i$; ++i) // [A]
       length += arrays[i].length;
@@ -1199,7 +1199,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code arrays} is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] concat(final T[][] arrays) {
+  public static <T> T[] concat(final T[][] arrays) {
     int length = 0;
     for (int i = 0, i$ = arrays.length; i < i$; ++i) // [A]
       length += arrays[i].length;
@@ -1220,7 +1220,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array containing the members of the given arrays concatenated in the provided order.
    * @throws NullPointerException If {@code array1} or {code array2} is null.
    */
-  public static <T>T[] concat(final T[] array1, final T[] array2) {
+  public static <T> T[] concat(final T[] array1, final T[] array2) {
     final int length = array1.length + array2.length;
     final T[] concat = Arrays.copyOf(array1, length);
     System.arraycopy(array2, 0, concat, array1.length, array2.length);
@@ -1238,7 +1238,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code array1}, {code array2} or {@code arrays} is null.
    */
   @SafeVarargs
-  public static <T>T[] concat(final T[] array1, final T[] array2, final T[] ... arrays) {
+  public static <T> T[] concat(final T[] array1, final T[] array2, final T[] ... arrays) {
     return concat0(array1, array2, arrays);
   }
 
@@ -1253,7 +1253,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code array} or {@code elements} is null.
    */
   @SafeVarargs
-  public static <T>T[] concat(final T[] array, final T element1, final T ... elements) {
+  public static <T> T[] concat(final T[] array, final T element1, final T ... elements) {
     Arrays.copyOf(array, array.length + 1 + elements.length);
     final T[] concat = Arrays.copyOf(array, array.length + 1 + elements.length);
     concat[array.length] = element1;
@@ -1271,7 +1271,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code array} is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] concat(final T element1, final T[] array) {
+  public static <T> T[] concat(final T element1, final T[] array) {
     final T[] concat = (T[])Array.newInstance(array.getClass().getComponentType(), array.length + 1);
     concat[0] = element1;
     System.arraycopy(array, 0, concat, 1, array.length);
@@ -1290,7 +1290,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SafeVarargs
   @SuppressWarnings("unchecked")
-  public static <T>T[] concat(final T element1, final T element2, final T ... elements) {
+  public static <T> T[] concat(final T element1, final T element2, final T ... elements) {
     final T[] concat = (T[])Array.newInstance(elements.getClass().getComponentType(), elements.length + 2);
     concat[0] = element1;
     concat[1] = element2;
@@ -1303,12 +1303,12 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param <T> Type parameter of object.
    * @param array The array to be spliced.
-   * @param start Index at the greater of which to remove all elements in the array (with origin 0). If negative, index will be set
-   *          to its calculated value from the end of the array (with origin 1).
+   * @param start Index at the greater of which to remove all elements in the array (with origin 0). If negative, index will be set to
+   *          its calculated value from the end of the array (with origin 1).
    * @return A new array with elements removed from the provided array.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static <T>T[] splice(final T[] array, int start) {
+  public static <T> T[] splice(final T[] array, int start) {
     if (start < 0)
       start += array.length;
 
@@ -1328,7 +1328,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code array} is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] splice(final T[] array, int start, final int deleteCount) {
+  public static <T> T[] splice(final T[] array, int start, final int deleteCount) {
     if (deleteCount == 0)
       return array.clone();
 
@@ -1360,7 +1360,7 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SafeVarargs
   @SuppressWarnings("unchecked")
-  public static <T>T[] splice(final T[] array, int start, final int deleteCount, final T ... items) {
+  public static <T> T[] splice(final T[] array, int start, final int deleteCount, final T ... items) {
     if (items.length == 0)
       return splice(array, start, deleteCount);
 
@@ -1404,7 +1404,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final byte[] array, final int off, final int len, final byte value) {
+  private static <T> int indexOf0(final byte[] array, final int off, final int len, final byte value) {
     for (int i = off; i < len; ++i) // [A]
       if (value == array[i])
         return i;
@@ -1438,7 +1438,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final char[] array, final int off, final int len, final char value) {
+  private static <T> int indexOf0(final char[] array, final int off, final int len, final char value) {
     for (int i = off; i < len; ++i) // [A]
       if (value == array[i])
         return i;
@@ -1472,7 +1472,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final short[] array, final int off, final int len, final short value) {
+  private static <T> int indexOf0(final short[] array, final int off, final int len, final short value) {
     for (int i = off; i < len; ++i) // [A]
       if (value == array[i])
         return i;
@@ -1506,7 +1506,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final int[] array, final int off, final int len, final int value) {
+  private static <T> int indexOf0(final int[] array, final int off, final int len, final int value) {
     for (int i = off; i < len; ++i) // [A]
       if (value == array[i])
         return i;
@@ -1540,7 +1540,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final long[] array, final int off, final int len, final long value) {
+  private static <T> int indexOf0(final long[] array, final int off, final int len, final long value) {
     for (int i = off; i < len; ++i) // [A]
       if (value == array[i])
         return i;
@@ -1574,7 +1574,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final float[] array, final int off, final int len, final float value) {
+  private static <T> int indexOf0(final float[] array, final int off, final int len, final float value) {
     for (int i = off; i < len; ++i) // [A]
       if (value == array[i])
         return i;
@@ -1608,7 +1608,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final double[] array, final int off, final int len, final double value) {
+  private static <T> int indexOf0(final double[] array, final int off, final int len, final double value) {
     for (int i = off; i < len; ++i) // [A]
       if (value == array[i])
         return i;
@@ -1625,7 +1625,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The index of the value if it is found, otherwise {@code -1}.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static <T>int indexOf(final T[] array, final T value) {
+  public static <T> int indexOf(final T[] array, final T value) {
     return indexOf0(array, 0, array.length, value);
   }
 
@@ -1640,11 +1640,11 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The index of the value if it is found, otherwise {@code -1}.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static <T>int indexOf(final T[] array, final int off, int len, final T value) {
+  public static <T> int indexOf(final T[] array, final int off, int len, final T value) {
     return indexOf0(array, off, Math.min(len, array.length), value);
   }
 
-  private static <T>int indexOf0(final T[] array, final int off, final int len, final T value) {
+  private static <T> int indexOf0(final T[] array, final int off, final int len, final T value) {
     for (int i = off; i < len; ++i) // [A]
       if (value.equals(array[i]))
         return i;
@@ -1843,7 +1843,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return {@code true} if the value exists, {@code false} otherwise.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static <T>boolean contains(final T[] array, final T value) {
+  public static <T> boolean contains(final T[] array, final T value) {
     return indexOf(array, value) >= 0;
   }
 
@@ -1858,7 +1858,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return {@code true} if the value exists, {@code false} otherwise.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static <T>boolean contains(final T[] array, final int off, final int len, final T value) {
+  public static <T> boolean contains(final T[] array, final int off, final int len, final T value) {
     return indexOf(array, off, len, value) >= 0;
   }
 
@@ -2723,8 +2723,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a string representation of the specified array by calling the provided function on each member, delimited by the
-   * provided delimiter {@code char}.
+   * Create a string representation of the specified array by calling the provided function on each member, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param <T> The component type of the specified array.
    * @param array The array.
@@ -2733,7 +2733,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
    * @throws NullPointerException If the provided array is not null and the function is null.
    */
-  public static <T>String toString(final T[] array, final char delimiter, final Function<? super T,String> function) {
+  public static <T> String toString(final T[] array, final char delimiter, final Function<? super T,String> function) {
     return array == null ? null : toString(array, delimiter, 0, array.length, function);
   }
 
@@ -2751,8 +2751,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a string representation of the specified array by calling the provided function on each member, delimited by the
-   * provided delimiter {@code char}.
+   * Create a string representation of the specified array by calling the provided function on each member, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param <T> The component type of the specified array.
    * @param array The array.
@@ -2762,7 +2762,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
    * @throws NullPointerException If the provided array is not null and the function is null.
    */
-  public static <T>String toString(final T[] array, final char delimiter, final int offset, final Function<? super T,String> function) {
+  public static <T> String toString(final T[] array, final char delimiter, final int offset, final Function<? super T,String> function) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset, function);
   }
 
@@ -2795,8 +2795,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a string representation of the specified array by calling the provided function on each member, delimited by the
-   * provided delimiter {@code char}.
+   * Create a string representation of the specified array by calling the provided function on each member, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param <T> The component type of the specified array.
    * @param array The array.
@@ -2807,7 +2807,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
    * @throws NullPointerException If the provided array is not null and the function is null.
    */
-  public static <T>String toString(final T[] array, final char delimiter, final int offset, int length, final Function<? super T,String> function) {
+  public static <T> String toString(final T[] array, final char delimiter, final int offset, int length, final Function<? super T,String> function) {
     if (array == null)
       return "null";
 
@@ -2838,8 +2838,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a string representation of the specified array by calling the provided function on each member, delimited by the
-   * provided delimiter {@code char}.
+   * Create a string representation of the specified array by calling the provided function on each member, delimited by the provided
+   * delimiter {@code char}.
    *
    * @param <T> The component type of the specified array.
    * @param array The array.
@@ -2848,7 +2848,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
    * @throws NullPointerException If the provided array is not null and the function is null.
    */
-  public static <T>String toString(final T[] array, final String delimiter, final Function<? super T,String> function) {
+  public static <T> String toString(final T[] array, final String delimiter, final Function<? super T,String> function) {
     return array == null ? null : toString(array, delimiter, 0, array.length, function);
   }
 
@@ -2866,8 +2866,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a string representation of the specified array by calling the provided function on each member, delimited by the
-   * provided delimiter string.
+   * Create a string representation of the specified array by calling the provided function on each member, delimited by the provided
+   * delimiter string.
    *
    * @param <T> The component type of the specified array.
    * @param array The array.
@@ -2877,7 +2877,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
    * @throws NullPointerException If the provided array is not null and the function is null.
    */
-  public static <T>String toString(final T[] array, final String delimiter, final int offset, final Function<? super T,String> function) {
+  public static <T> String toString(final T[] array, final String delimiter, final int offset, final Function<? super T,String> function) {
     return array == null ? null : toString(array, delimiter, offset, array.length - offset, function);
   }
 
@@ -2910,8 +2910,8 @@ public final class ArrayUtil extends PrimitiveSort {
   }
 
   /**
-   * Create a string representation of the specified array by calling the provided function on each member, delimited by the
-   * provided delimiter string.
+   * Create a string representation of the specified array by calling the provided function on each member, delimited by the provided
+   * delimiter string.
    *
    * @param <T> The component type of the specified array.
    * @param array The array.
@@ -2922,7 +2922,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The delimiter delimited {@link #toString()} representation of the array, or {@code null} If the provided array is null.
    * @throws NullPointerException If the provided array is not null and the function is null.
    */
-  public static <T>String toString(final T[] array, final String delimiter, final int offset, int length, final Function<? super T,String> function) {
+  public static <T> String toString(final T[] array, final String delimiter, final int offset, int length, final Function<? super T,String> function) {
     if (array == null)
       return "null";
 
@@ -3367,7 +3367,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return A new array with {@code length} number of repeated {@code value} members.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] createRepeat(final T value, final int length) {
+  public static <T> T[] createRepeat(final T value, final int length) {
     final T[] array = (T[])Array.newInstance(value.getClass(), length);
     Arrays.fill(array, value);
     return array;
@@ -3647,7 +3647,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The subArray of the provided {@code array}.
    * @throws NullPointerException If {@code array} is null.
    */
-  public static <T>T[] subArray(final T[] array, final int offset) {
+  public static <T> T[] subArray(final T[] array, final int offset) {
     return subArray(array, offset, Math.max(0, array.length - offset));
   }
 
@@ -3663,7 +3663,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws ArrayIndexOutOfBoundsException If {@code length} is negative.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T[] subArray(final T[] array, final int offset, final int length) {
+  public static <T> T[] subArray(final T[] array, final int offset, final int length) {
     assertOffsetLength("offset", offset, "length", length);
     final Class<?> componentType = array.getClass().getComponentType();
     final T[] subArray = (T[])Array.newInstance(componentType, length);
@@ -4516,7 +4516,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data} or {@code order} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
-  public static <T extends Comparable<? super T>>void sort(final Object[] data, final T[] order) {
+  public static <T extends Comparable<? super T>> void sort(final Object[] data, final T[] order) {
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4552,7 +4552,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.length}.
    */
-  public static <T>void sort(final Object[] data, final T[] order, final Comparator<? super T> comparator) {
+  public static <T> void sort(final Object[] data, final T[] order, final Comparator<? super T> comparator) {
     if (data.length != order.length)
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.length [" + order.length + "] must be equal");
 
@@ -4584,7 +4584,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data} or {@code order} is null.
    * @throws IllegalArgumentException If {@code data.length != order.size()}.
    */
-  public static <T extends Comparable<? super T>>void sort(final Object[] data, final List<T> order) {
+  public static <T extends Comparable<? super T>> void sort(final Object[] data, final List<T> order) {
     if (data.length != order.size())
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
 
@@ -4620,7 +4620,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @throws NullPointerException If {@code data}, {@code order}, or {@code comparator} is null.
    * @throws IllegalArgumentException If {@code data.length != order.size()}.
    */
-  public static <T>void sort(final Object[] data, final List<? extends T> order, final Comparator<? super T> comparator) {
+  public static <T> void sort(final Object[] data, final List<? extends T> order, final Comparator<? super T> comparator) {
     if (data.length != order.size())
       throw new IllegalArgumentException("data.length [" + data.length + "] and order.size() [" + order.size() + "] must be equal");
 
@@ -5120,7 +5120,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @return The provided array with its members reversed.
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    */
-  public static <T>T[] reverse(final T[] array, final int fromIndex, final int toIndex) {
+  public static <T> T[] reverse(final T[] array, final int fromIndex, final int toIndex) {
     if (array == null || array.length < 2)
       return array;
 
@@ -5142,7 +5142,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param array The array of members to be reversed.
    * @return The provided array with its members reversed.
    */
-  public static <T>T[] reverse(final T[] array) {
+  public static <T> T[] reverse(final T[] array) {
     return array == null ? null : reverse(array, 0, array.length);
   }
 
@@ -5755,7 +5755,7 @@ public final class ArrayUtil extends PrimitiveSort {
     return a.length <= 1 ? a.length : dedupe(a, a.length, 1, 1);
   }
 
-  private static <T>int dedupe(final T[] a, final Comparator<? super T> c, final int length, final int index, final int depth) {
+  private static <T> int dedupe(final T[] a, final Comparator<? super T> c, final int length, final int index, final int depth) {
     if (index == length)
       return depth;
 
@@ -5779,7 +5779,7 @@ public final class ArrayUtil extends PrimitiveSort {
    *         {@link Comparator}.
    * @throws NullPointerException If the provided array or {@link Comparator} is null.
    */
-  public static <T>int dedupe(final T[] a, final Comparator<? super T> c) {
+  public static <T> int dedupe(final T[] a, final Comparator<? super T> c) {
     return a.length <= 1 ? a.length : dedupe(a, c, a.length, 1, 1);
   }
 
@@ -5797,12 +5797,12 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param b The second array to compare.
    * @param cmp The comparator to compare array elements.
    * @param <T> The type of array elements.
-   * @return The value {@code 0} if the first and second array are equal and contain the same elements in the same order; a value
-   *         less than {@code 0} if the first array is lexicographically less than the second array; and a value greater than
-   *         {@code 0} if the first array is lexicographically greater than the second array.
+   * @return The value {@code 0} if the first and second array are equal and contain the same elements in the same order; a value less
+   *         than {@code 0} if the first array is lexicographically less than the second array; and a value greater than {@code 0} if
+   *         the first array is lexicographically greater than the second array.
    * @throws NullPointerException If the comparator is null.
    */
-  public static <T>int compare(final T[] a, final T[] b, final Comparator<? super T> cmp) {
+  public static <T> int compare(final T[] a, final T[] b, final Comparator<? super T> cmp) {
     if (a == b)
       return 0;
 

@@ -57,8 +57,8 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
 
   /**
    * Delegate method that is invoked for all {@link Object#equals(Object)} operations. This method is intended to be overridden to
-   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the
-   * determination of object equality by this {@link ObservableSet}.
+   * support behavior that is not inherently possible with the default reliance on {@link Object#equals(Object)} for the determination
+   * of object equality by this {@link ObservableSet}.
    *
    * @param o1 An object.
    * @param o2 An object to be compared with a for equality.
@@ -122,7 +122,7 @@ public class TransCollection<S,T> extends DelegateCollection<T> {
 
   @Override
   @SuppressWarnings("unchecked")
-  public <E>E[] toArray(E[] a) {
+  public <E> E[] toArray(E[] a) {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 

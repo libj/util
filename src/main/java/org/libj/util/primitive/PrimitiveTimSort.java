@@ -18,13 +18,13 @@ package org.libj.util.primitive;
 
 abstract class PrimitiveTimSort {
   /**
-   * This is the minimum sized sequence that will be merged. Shorter sequences will be lengthened by calling binarySort. If the
-   * entire array is less than this length, no merges will be performed. This constant should be a power of two. It was 64 in Tim
-   * Peter's C implementation, but 32 was empirically determined to work better in this implementation. In the unlikely event that
-   * you set this constant to be a number that's not a power of two, you'll need to change the {@link #minRunLength} computation. If
-   * you decrease this constant, you must change the stackLen computation in the IntTrimSort constructor, or you risk an
-   * ArrayOutOfBounds exception. See listsort.txt for a discussion of the minimum stack length required as a function of the length
-   * of the array being sorted and the minimum merge sequence length.
+   * This is the minimum sized sequence that will be merged. Shorter sequences will be lengthened by calling binarySort. If the entire
+   * array is less than this length, no merges will be performed. This constant should be a power of two. It was 64 in Tim Peter's C
+   * implementation, but 32 was empirically determined to work better in this implementation. In the unlikely event that you set this
+   * constant to be a number that's not a power of two, you'll need to change the {@link #minRunLength} computation. If you decrease
+   * this constant, you must change the stackLen computation in the IntTrimSort constructor, or you risk an ArrayOutOfBounds
+   * exception. See listsort.txt for a discussion of the minimum stack length required as a function of the length of the array being
+   * sorted and the minimum merge sequence length.
    */
   static final int MIN_MERGE = 32;
 
@@ -44,8 +44,8 @@ abstract class PrimitiveTimSort {
 
   /**
    * A stack of pending runs yet to be merged. Run i starts at address base[i] and extends for len[i] elements. It's always true (so
-   * long as the indices are in bounds) that: runBase[i] + runLen[i] == runBase[i + 1] so we could cut the storage for this, but
-   * it's a minor amount, and keeping all the info explicit simplifies the code.
+   * long as the indices are in bounds) that: runBase[i] + runLen[i] == runBase[i + 1] so we could cut the storage for this, but it's
+   * a minor amount, and keeping all the info explicit simplifies the code.
    */
   int stackSize; // Number of pending runs on stack
   int[] runBase;
@@ -53,9 +53,9 @@ abstract class PrimitiveTimSort {
 
   /**
    * Returns the minimum acceptable run length for an array of the specified length. Natural runs shorter than this will be extended
-   * with {@code binarySort()}. Roughly speaking, the computation is: If n < MIN_MERGE, return n (it's too small to bother with
-   * fancy stuff). Else if n is an exact power of 2, return MIN_MERGE/2. Else return an int k, MIN_MERGE/2 <= k <= MIN_MERGE, such
-   * that n/k is close to, but strictly less than, an exact power of 2. For the rationale, see listsort.txt.
+   * with {@code binarySort()}. Roughly speaking, the computation is: If n < MIN_MERGE, return n (it's too small to bother with fancy
+   * stuff). Else if n is an exact power of 2, return MIN_MERGE/2. Else return an int k, MIN_MERGE/2 <= k <= MIN_MERGE, such that n/k
+   * is close to, but strictly less than, an exact power of 2. For the rationale, see listsort.txt.
    *
    * @param n the length of the array to be sorted
    * @return the length of the minimum run to be merged
