@@ -39,7 +39,7 @@ public class CollectionUtilTest {
   private static final Random random = new Random();
 
   private static List<Object> createRandomNestedList() {
-    final List<Object> list = new ArrayList<>(4);
+    final ArrayList<Object> list = new ArrayList<>(4);
     for (int i = 0; i < 4; ++i) // [N]
       list.add(Math.random() < 0.2 ? createRandomNestedList() : Strings.getRandomAlpha(4));
 

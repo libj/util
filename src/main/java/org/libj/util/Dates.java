@@ -598,6 +598,18 @@ public final class Dates {
   }
 
   /**
+   * Returns the current time in minutes as the difference, measured in minutes, between the current time and midnight, January 1,
+   * 1970 UTC.
+   *
+   * @return The current time in minutes the difference, measured in minutes, between the current time and midnight, January 1, 1970
+   *         UTC.
+   * @see System#currentTimeMillis()
+   */
+  public static int currentTimeMins() {
+    return (int)(System.currentTimeMillis() / Dates.MILLISECONDS_IN_MINUTE);
+  }
+
+  /**
    * Returns the current time in hours as the difference, measured in hours, between the current time and midnight, January 1, 1970
    * UTC.
    *

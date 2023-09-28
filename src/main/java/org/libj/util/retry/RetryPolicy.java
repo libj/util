@@ -20,14 +20,13 @@ import static org.libj.lang.Assertions.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.function.IntConsumer;
 
 import org.libj.lang.Throwables;
+import org.libj.lang.WrappedArrayList;
 import org.libj.util.function.ThrowingRunnable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -191,7 +190,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     }
   }
 
-  private static final List<Exception> testExceptions = Arrays.asList(new Exception());
+  private static final ArrayList<Exception> testExceptions = new WrappedArrayList<>(new Exception());
 
   private final int maxRetries;
   private final long maxDelayMs;
@@ -343,7 +342,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     this(retryOn, onRetry, onRetryFailure, maxRetries, startDelayMs, 0, false, 1, Long.MAX_VALUE);
   }
 
-  private void retryFailed(final List<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureRuntimeException {
+  private void retryFailed(final ArrayList<Exception> exceptions, final int attemptNo, final long delayMs) throws E, RetryFailureRuntimeException {
     int size = exceptions.size();
     final Exception lastException = size == 0 ? null : exceptions.remove(--size);
     final E e = onRetryFailure.onRetryFailure(lastException, exceptions, attemptNo, delayMs);
@@ -435,7 +434,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
   }
 
   private final <T> T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureRuntimeException {
-    final List<Exception> exceptions = new ArrayList<>();
+    final ArrayList<Exception> exceptions = new ArrayList<>();
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
     Exception previousException = null;

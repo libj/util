@@ -116,7 +116,7 @@ public class Diff {
     final byte lengthSize = getLengthSize(bytes[0]);
     final int limit = bytes.length * 8 - lengthSize - 2;
 
-    final List<Mod> mods = new ArrayList<>();
+    final ArrayList<Mod> mods = new ArrayList<>();
     final Diff diff = new Diff(mods, lengthSize);
     for (int offset = lengthSizeSize; offset < limit;) { // [N]
       final byte ordinal = Bytes.readBitsFromByte(bytes, offset, (byte)2);

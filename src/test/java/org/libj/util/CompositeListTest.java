@@ -94,7 +94,7 @@ public class CompositeListTest {
   public void testElementLists() {
     final TestCompositeList compositeList = new TestCompositeList(String.class, Integer.class, Double.class, Boolean.class);
 
-    final List<Object> expected = new ArrayList<>();
+    final ArrayList<Object> expected = new ArrayList<>();
 
     final String p1 = Strings.getRandomAlpha(6);
     expected.add(p1);

@@ -54,7 +54,7 @@ public final class Shutdownables {
     if (shutdownables.length == 0)
       return true;
 
-    final List<Callable<Boolean>> callables = new ArrayList<>(shutdownables.length);
+    final ArrayList<Callable<Boolean>> callables = new ArrayList<>(shutdownables.length);
     final AtomicReference<InterruptedException> exception = new AtomicReference<>();
     for (final Shutdownable<?> shutdownable : shutdownables) { // [A]
       Objects.requireNonNull(shutdownable);

@@ -19,17 +19,16 @@ package org.libj.util;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.Test;
+import org.libj.lang.WrappedArrayList;
 import org.libj.util.primitive.IntComparator;
 
 public class PairedSortTest {
   private static final int ITERATIONS = 100;
 
-  private static <T> void randomize(final List<T> a, final int[] b) {
+  private static <T> void randomize(final ArrayList<T> a, final int[] b) {
     for (int c = 0, c$ = b.length; c < c$; ++c) { // [A]
       final int i1 = (int)(Math.random() * b.length);
       final T a1 = a.get(i1);
@@ -46,27 +45,27 @@ public class PairedSortTest {
     }
   }
 
-  private static <T> void test(final List<T> data) {
+  private static <T> void test(final ArrayList<T> data) {
     for (int i = 0; i < ITERATIONS; ++i) { // [N]
       testForward(data);
       testReverse(data);
     }
   }
 
-  private static <T> void testForward(final List<T> data) {
-    final List<T> expected = new ArrayList<>(data);
+  private static <T> void testForward(final ArrayList<T> data) {
+    final ArrayList<T> expected = new ArrayList<>(data);
     test(data, IntComparator.NATURAL);
     assertEquals(expected, data);
   }
 
-  private static <T> void testReverse(final List<T> data) {
-    final List<T> expected = new ArrayList<>(data);
+  private static <T> void testReverse(final ArrayList<T> data) {
+    final ArrayList<T> expected = new ArrayList<>(data);
     Collections.reverse(expected);
     test(data, (i1, i2) -> -Integer.compare(i1, i2));
     assertEquals(expected, data);
   }
 
-  private static <T> void test(final List<T> data, final IntComparator c) {
+  private static <T> void test(final ArrayList<T> data, final IntComparator c) {
     final int[] order = new int[data.size()];
     ArrayUtil.fillSequence(order, 0);
     randomize(data, order);
@@ -76,7 +75,7 @@ public class PairedSortTest {
   @Test
   public void testExceptions() {
     try {
-      test(Arrays.asList("a", "b", "c"), null);
+      test(new WrappedArrayList<>("a", "b", "c"), null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
@@ -85,7 +84,7 @@ public class PairedSortTest {
 
   @Test
   public void test26() {
-    test(Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"));
+    test(new WrappedArrayList<>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"));
   }
 
   private static void testN(final int n) {

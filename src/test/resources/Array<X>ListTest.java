@@ -700,13 +700,13 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
 
 //  @Test
 //  public void shouldForEachOrderedInt() {
-//    final List<<XX>> expected = new ArrayList<>();
+//    final ArrayList<<XX>> expected = new ArrayList<>();
 //    for (int i = 0; i < 20; ++i) // [RA]
 //      expected.add((<x>)i);
 //
 //    list.addAll(expected);
 //
-//    final List<<XX>> actual = new ArrayList<>();
+//    final ArrayList<<XX>> actual = new ArrayList<>();
 //    list.stream().forEach(actual::add);
 //
 //    Assert.assertEquals(expected, actual);
@@ -715,7 +715,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
 //  @Test
 //  public void shouldCreateObjectRefArray() {
 //    final int count = 20;
-//    final List<<XX>> expected = new ArrayList<>();
+//    final ArrayList<<XX>> expected = new ArrayList<>();
 //    for (int i = 0; i < count; ++i) // [RA]
 //      expected.add((<x>)i);
 //
