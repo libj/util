@@ -25,6 +25,26 @@ import java.util.function.Function;
  */
 public final class Comparators {
   /**
+   * A {@link Comparator} that compares two objects based on their {@link System#identityHashCode(Object)}.
+   */
+  public static final Comparator<Object> HASHCODE_COMPARATOR = new Comparator<Object>() {
+    @Override
+    public int compare(final Object o1, final Object o2) {
+      return o1 == null ? (o2 == null ? 0 : -1) : (o2 == null ? 1 : Integer.compare(o1.hashCode(), o2.hashCode()));
+    }
+  };
+
+  /**
+   * A {@link Comparator} that compares two objects based on their {@link System#identityHashCode(Object)}.
+   */
+  public static final Comparator<Object> IDENTITY_HASHCODE_COMPARATOR = new Comparator<Object>() {
+    @Override
+    public int compare(final Object o1, final Object o2) {
+      return o1 == null ? (o2 == null ? 0 : -1) : (o2 == null ? 1 : Integer.compare(System.identityHashCode(o1), System.identityHashCode(o2)));
+    }
+  };
+
+  /**
    * Creates a new {@link Comparator} that accepts a fixed declaration of terms defining an order.
    * <p>
    * When {@link Comparator#compare(Object,Object)} is invoked, the comparator first attempts to equate each argument to the order

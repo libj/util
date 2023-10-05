@@ -18,6 +18,7 @@ package org.libj.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Function;
 
@@ -111,5 +112,14 @@ public class ComparatorsTest {
     assertEquals(1, comparator.compare("Z", "t"));
     assertEquals(1, comparator.compare("0", "b"));
     assertEquals(1, comparator.compare("~", "a"));
+  }
+
+  @Test
+  public void testHashCodeComparator() {
+    final Object[] a1 = {new Object(), new Object(), null, new Object(), null, new Object()};
+    final Object[] a2 = a1.clone();
+    Arrays.sort(a1, Comparators.HASHCODE_COMPARATOR);
+    Arrays.sort(a2, Comparators.IDENTITY_HASHCODE_COMPARATOR);
+    assertArrayEquals(a1, a2);
   }
 }
