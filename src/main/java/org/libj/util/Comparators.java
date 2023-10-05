@@ -25,7 +25,7 @@ import java.util.function.Function;
  */
 public final class Comparators {
   /**
-   * A {@link Comparator} that compares two objects based on their {@link System#identityHashCode(Object)}.
+   * A {@link Comparator} that compares two objects based on their {@link Object#hashCode()}.
    */
   public static final Comparator<Object> HASHCODE_COMPARATOR = new Comparator<Object>() {
     @Override
