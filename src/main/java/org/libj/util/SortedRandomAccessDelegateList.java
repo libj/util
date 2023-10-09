@@ -26,7 +26,7 @@ import java.util.RandomAccess;
  * @param <E> The type of elements in this list.
  * @param <L> The type of underlying list.
  */
-public class SortedRandomAccessList<E,L extends List<E> & RandomAccess> extends SortedList<E,L> implements RandomAccess {
+public class SortedRandomAccessList<E,L extends List<E> & RandomAccess> extends SortedDelegateList<E,L> implements RandomAccess {
   /**
    * Creates a new {@link SortedRandomAccessList} with the provided {@link List list} of comparable elements as the underlying target.
    *

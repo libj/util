@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -28,22 +29,33 @@ import java.util.function.Function;
 
 import org.junit.Test;
 
-@SuppressWarnings("rawtypes")
-public class SortedListTest {
-  @SuppressWarnings("unchecked")
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class SortedDelegateListTest {
   static final List<Function<List,List>> factories = Arrays.asList(ArrayList::new, LinkedList::new);
 
+  <E> List<E> newList(final List<E> list, final Comparator<E> comparator) {
+    return new SortedDelegateList<>(list, comparator);
+  }
+
+  <E> List<E> newList(final List<E> list) {
+    return new SortedDelegateList<>(list);
+  }
+
+  List<Function<List,List>> factories() {
+    return factories;
+  }
+
   @SafeVarargs
-  private static <T> void assertListEquals(final List<T> actual, final T ... expected) {
+  static <T> void assertListEquals(final List<T> actual, final T ... expected) {
     assertArrayEquals(actual.toString(), expected, actual.toArray());
   }
 
   @Test
   public void testConstructorSignature() {
-    for (final Function<List,List> factory : factories) { // [L]
-      // final SortedList<Object> bad = new SortedList<Object>(new ArrayList<Object>()); // Should not be allowed cause Object is not
-      // Comparable
-      final SortedList<Object,?> good = new SortedList<>(factory.apply(Collections.EMPTY_LIST), (o1, o2) -> 0);
+    for (final Function<List,List> factory : factories()) { // [L]
+      // final SortedList<Object> bad = new SortedList<Object>(new ArrayList<Object>());
+      // Should not be allowed cause Object is not Comparable
+      final List<Object> good = newList(factory.apply(Collections.EMPTY_LIST), (final Object o1, final Object o2) -> 0);
       good.add(new Object());
       good.add(new Object());
       good.add(new Object());
@@ -52,16 +64,16 @@ public class SortedListTest {
 
   @Test
   public void testConstructor() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
     }
   }
 
   @Test
   public void testAddAll() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Collections.EMPTY_LIST));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Collections.EMPTY_LIST));
       list.addAll(Arrays.asList("e", "b", "c", "f", "a", "g", "d"));
       assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
     }
@@ -69,8 +81,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorRemove() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator();
       assertEquals("a", iterator.next());
       iterator.remove();
@@ -80,8 +92,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorSetStartExact() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator();
       assertEquals("a", iterator.next());
       assertEquals(0, iterator.previousIndex());
@@ -95,8 +107,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorSetEndExact() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator(list.size());
       assertEquals("g", iterator.previous());
       assertEquals(5, iterator.previousIndex());
@@ -110,8 +122,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorSetStartCorrected() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator();
       assertEquals("a", iterator.next());
       assertEquals("b", iterator.next());
@@ -127,8 +139,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorSetEndCorrected() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator(list.size());
       assertEquals("g", iterator.previous());
       assertEquals("f", iterator.previous());
@@ -144,8 +156,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorAddStartExact() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator();
       assertEquals(-1, iterator.previousIndex());
       assertEquals(0, iterator.nextIndex());
@@ -159,8 +171,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorAddEndExact() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator(list.size());
       assertFalse(iterator.hasNext());
       assertEquals(6, iterator.previousIndex());
@@ -175,8 +187,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorAddStartCorrected() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator();
       assertEquals("a", iterator.next());
       assertEquals("b", iterator.next());
@@ -192,8 +204,8 @@ public class SortedListTest {
 
   @Test
   public void testIteratorAddEndCorrected() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Arrays.asList("e", "b", "c", "f", "a", "g", "d")));
       final ListIterator<String> iterator = list.listIterator(list.size());
       assertEquals("g", iterator.previous());
       assertEquals("f", iterator.previous());
@@ -209,8 +221,8 @@ public class SortedListTest {
 
   @Test
   public void testStory() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<String,?> list = new SortedList<>(factory.apply(Collections.EMPTY_LIST));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<String> list = newList(factory.apply(Collections.EMPTY_LIST));
       list.add(0, "f");
       assertListEquals(list, "f");
       list.add(1, "b");
@@ -269,8 +281,8 @@ public class SortedListTest {
 
   @Test
   public void testComparable() {
-    for (final Function<List,List> factory : factories) { // [L]
-      final SortedList<Foo,?> list = new SortedList<>(factory.apply(Collections.EMPTY_LIST));
+    for (final Function<List,List> factory : factories()) { // [L]
+      final List<Foo> list = newList(factory.apply(Collections.EMPTY_LIST));
       list.add(new Foo(1));
       list.add(new Foo(0));
       list.add(new Foo(2));
