@@ -21,25 +21,26 @@ import java.util.List;
 import java.util.RandomAccess;
 
 /**
- * A {@link List} that also implements {@link RandomAccess} that guarantees sorted order of its elements.
+ * A {@link DelegateList} that also implements {@link RandomAccess} that guarantees sorted order of its elements.
  *
  * @param <E> The type of elements in this list.
  * @param <L> The type of underlying list.
  */
-public class SortedRandomAccessList<E,L extends List<E> & RandomAccess> extends SortedDelegateList<E,L> implements RandomAccess {
+public class SortedRandomAccessDelegateList<E,L extends List<E> & RandomAccess> extends SortedDelegateList<E,L> implements RandomAccess {
   /**
-   * Creates a new {@link SortedRandomAccessList} with the provided {@link List list} of comparable elements as the underlying target.
+   * Creates a new {@link SortedRandomAccessDelegateList} with the provided {@link List list} of comparable elements as the underlying
+   * target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List} of comparable elements.
    * @throws NullPointerException If the provided {@link List list} is null.
    */
-  public SortedRandomAccessList(final L list) {
+  public SortedRandomAccessDelegateList(final L list) {
     super(list);
   }
 
   /**
-   * Creates a new {@link SortedRandomAccessList} with the provided {@link List list} and {@link Comparator comparator} as the
+   * Creates a new {@link SortedRandomAccessDelegateList} with the provided {@link List list} and {@link Comparator comparator} as the
    * underlying target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
@@ -47,7 +48,7 @@ public class SortedRandomAccessList<E,L extends List<E> & RandomAccess> extends 
    * @param comparator The {@link Comparator}.
    * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
-  public SortedRandomAccessList(final L list, final Comparator<E> comparator) {
+  public SortedRandomAccessDelegateList(final L list, final Comparator<E> comparator) {
     super(list, comparator);
   }
 }

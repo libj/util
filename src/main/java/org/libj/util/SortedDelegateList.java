@@ -27,7 +27,7 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * A {@link List} that guarantees sorted order of its elements.
+ * A {@link DelegateList} that guarantees sorted order of its elements.
  *
  * @param <E> The type of elements in this list.
  * @param <L> The type of underlying list.
@@ -51,7 +51,8 @@ public class SortedDelegateList<E,L extends List<E>> extends ObservableList<E,L>
   }
 
   /**
-   * Creates a new {@link SortedDelegateList} with the provided {@link List list} and {@link Comparator comparator} as the underlying target.
+   * Creates a new {@link SortedDelegateList} with the provided {@link List list} and {@link Comparator comparator} as the underlying
+   * target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List}.

@@ -83,8 +83,16 @@ public class TransSet<S,T> extends DelegateSet<T> {
     return false;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @throws UnsupportedOperationException If {@code sourceToTarget} of this {@link TransSet} is null.
+   */
   @Override
   public Iterator<T> iterator() {
+    if (sourceToTarget == null)
+      throw new UnsupportedOperationException();
+
     return new Iterator<T>() {
       private final Iterator<S> iterator = target.iterator();
 
@@ -95,9 +103,6 @@ public class TransSet<S,T> extends DelegateSet<T> {
 
       @Override
       public T next() {
-        if (sourceToTarget == null)
-          throw new UnsupportedOperationException();
-
         return sourceToTarget.apply(iterator.next());
       }
 

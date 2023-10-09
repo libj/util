@@ -44,11 +44,17 @@ public abstract class ObservableSet<E> extends DelegateSet<E> {
   /**
    * Creates a new {@link ObservableSet} with the specified target {@code set}.
    *
-   * @param set The target {@link Set}.
+   * @param target The target {@link Set}.
    * @throws NullPointerException If {@code set} is null.
    */
-  public ObservableSet(final Set<E> set) {
-    super(set);
+  public ObservableSet(final Set<E> target) {
+    super(target);
+  }
+
+  /**
+   * Creates a new {@link ObservableSet} with a null target.
+   */
+  protected ObservableSet() {
   }
 
   /**
