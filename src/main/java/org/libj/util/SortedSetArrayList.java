@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -38,18 +37,18 @@ public class SortedSetArrayList<E> extends ArrayList<E> implements SortedSet<E> 
   @SuppressWarnings("rawtypes")
   private static final Comparator DEFAULT_COMPARATOR = Comparator.nullsFirst(Comparator.naturalOrder());
 
-  private final Comparator<E> comparator;
+  private final Comparator<? super E> comparator;
 
   /**
-   * Constructs a list containing the elements of the specified {@link Collection collection}, sorted in the order specified by the
-   * provided {@link Comparator comparator}.
+   * Constructs a list containing the elements of the specified {@link Collection}, sorted in the order specified by the provided
+   * {@link Comparator}.
    *
-   * @param c The {@link Collection collection} whose elements are to be placed into this list.
+   * @param c The {@link Collection} whose elements are to be placed into this list.
    * @param comparator The {@link Comparator} used to compare list elements. A {@code null} value indicates that the elements'
    *          {@linkplain Comparable natural ordering} should be used.
-   * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
+   * @throws NullPointerException If the provided {@link Collection} is null.
    */
-  public SortedSetArrayList(final Collection<? extends E> c, final Comparator<E> comparator) {
+  public SortedSetArrayList(final Collection<? extends E> c, final Comparator<? super E> comparator) {
     super();
     this.comparator = comparator != null ? comparator : DEFAULT_COMPARATOR;
     addAll(c);
@@ -57,11 +56,11 @@ public class SortedSetArrayList<E> extends ArrayList<E> implements SortedSet<E> 
   }
 
   /**
-   * Constructs a list containing the elements of the specified {@link Collection collection}, and a {@link Comparator comparator}
-   * specifying the {@linkplain Comparable natural ordering} of elements.
+   * Constructs a list containing the elements of the specified {@link Collection}, and a {@link Comparator} specifying the
+   * {@linkplain Comparable natural ordering} of elements.
    *
-   * @param c The {@link Collection collection} whose elements are to be placed into this list.
-   * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
+   * @param c The {@link Collection} whose elements are to be placed into this list.
+   * @throws NullPointerException If the provided {@link Collection} is null.
    */
   public SortedSetArrayList(final Collection<? extends E> c) {
     super();
@@ -71,14 +70,39 @@ public class SortedSetArrayList<E> extends ArrayList<E> implements SortedSet<E> 
   }
 
   /**
-   * Constructs an empty list with the specified initial capacity and a {@link Comparator comparator} specifying the
-   * {@linkplain Comparable natural ordering} of elements.
+   * Constructs an empty list with the specified initial capacity, and with sorting in the order specified by the provided
+   * {@link Comparator}.
+   *
+   * @param initialCapacity The initial capacity of the list.
+   * @param comparator The {@link Comparator} used to compare list elements. A {@code null} value indicates that the elements'
+   *          {@linkplain Comparable natural ordering} should be used.
+   */
+  public SortedSetArrayList(final int initialCapacity, final Comparator<? super E> comparator) {
+    super(initialCapacity);
+    this.comparator = DEFAULT_COMPARATOR;
+  }
+
+  /**
+   * Constructs an empty list with the specified initial capacity, and a {@link Comparator} specifying the {@linkplain Comparable
+   * natural ordering} of elements.
    *
    * @param initialCapacity The initial capacity of the list.
    */
   public SortedSetArrayList(final int initialCapacity) {
     super(initialCapacity);
     this.comparator = DEFAULT_COMPARATOR;
+  }
+
+  /**
+   * Constructs an empty list with an initial capacity of ten, with sorting in the order specified by the provided {@link Comparator
+   * comparator}.
+   *
+   * @param comparator The {@link Comparator} used to compare list elements. A {@code null} value indicates that the elements'
+   *          {@linkplain Comparable natural ordering} should be used.
+   */
+  public SortedSetArrayList(final Comparator<? super E> comparator) {
+    super();
+    this.comparator = comparator != null ? comparator : DEFAULT_COMPARATOR;
   }
 
   /**
