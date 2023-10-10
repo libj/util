@@ -61,7 +61,7 @@ public class TransListTest {
 
   @Test
   public void test() {
-    for (final Function<List,List> factory : SortedDelegateListTest.factories) { // [L]
+    for (final Function<List,List> factory : SortedListTest.factories) { // [L]
       final List<Integer> source = factory.apply(Collections.EMPTY_LIST);
       for (int i = 0; i < 10; ++i) // [N]
         source.add(i);
@@ -73,7 +73,7 @@ public class TransListTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testList() {
-    for (final Function<List,List> factory : SortedDelegateListTest.factories) { // [L]
+    for (final Function<List,List> factory : SortedListTest.factories) { // [L]
       final List<Integer> source = factory.apply(Collections.EMPTY_LIST);
       for (int i = 0; i < 10; ++i) // [N]
         source.add(i);

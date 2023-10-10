@@ -27,31 +27,31 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * A {@link DelegateList} that guarantees sorted order of its elements.
+ * A {@link List} that guarantees sorted order of its elements.
  *
  * @param <E> The type of elements in this list.
  * @param <L> The type of underlying list.
  */
-public class SortedDelegateList<E,L extends List<E>> extends ObservableList<E,L> {
+public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
   @SuppressWarnings("rawtypes")
   private static final Comparator DEFAULT_COMPARATOR = Comparator.nullsFirst(Comparator.naturalOrder());
 
   private final Comparator<E> comparator;
 
   /**
-   * Creates a new {@link SortedDelegateList} with the provided {@link List list} of elements as the underlying target, and the
+   * Creates a new {@link SortedList} with the provided {@link List list} of elements as the underlying target, and the
    * {@link Comparator comparator} specifying the elements' {@linkplain Comparable natural ordering}.
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List} of comparable elements.
    * @throws NullPointerException If the provided {@link List list} is null.
    */
-  public SortedDelegateList(final L list) {
+  public SortedList(final L list) {
     this(list, DEFAULT_COMPARATOR, true);
   }
 
   /**
-   * Creates a new {@link SortedDelegateList} with the provided {@link List list} and {@link Comparator comparator} as the underlying
+   * Creates a new {@link SortedList} with the provided {@link List list} and {@link Comparator comparator} as the underlying
    * target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
@@ -60,11 +60,11 @@ public class SortedDelegateList<E,L extends List<E>> extends ObservableList<E,L>
    *          {@linkplain Comparable natural ordering} should be used.
    * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
-  public SortedDelegateList(final L list, final Comparator<E> comparator) {
+  public SortedList(final L list, final Comparator<E> comparator) {
     this(list, Objects.requireNonNull(comparator), true);
   }
 
-  private SortedDelegateList(final L list, final Comparator<E> comparator, final boolean sort) {
+  private SortedList(final L list, final Comparator<E> comparator, final boolean sort) {
     super(list);
     this.comparator = comparator;
     if (sort)
@@ -158,7 +158,7 @@ public class SortedDelegateList<E,L extends List<E>> extends ObservableList<E,L>
   /**
    * {@inheritDoc}
    * <p>
-   * <b>Runtime performance</b>: {@code O(log2(n) * m)} if the provided collection is a {@link SortedDelegateList}; otherwise
+   * <b>Runtime performance</b>: {@code O(log2(n) * m)} if the provided collection is a {@link SortedList}; otherwise
    * {@code O(n * m)}.
    */
   @Override
@@ -167,7 +167,7 @@ public class SortedDelegateList<E,L extends List<E>> extends ObservableList<E,L>
       return true;
 
     final Iterator<?> iterator = c.iterator();
-    if (c instanceof SortedDelegateList) {
+    if (c instanceof SortedList) {
       for (int i = 0; iterator.hasNext();) // [I]
         if ((i = indexOf(iterator.next(), i, size())) < 0)
           return false;
@@ -349,8 +349,8 @@ public class SortedDelegateList<E,L extends List<E>> extends ObservableList<E,L>
   }
 
   @Override
-  public SortedDelegateList<E,L> subList(final int fromIndex, final int toIndex) {
+  public SortedList<E,L> subList(final int fromIndex, final int toIndex) {
     assertRange("fromIndex", fromIndex, "toIndex", toIndex, "size()", size());
-    return new SortedDelegateList<>((L)target.subList(fromIndex, toIndex), comparator, false);
+    return new SortedList<>((L)target.subList(fromIndex, toIndex), comparator, false);
   }
 }

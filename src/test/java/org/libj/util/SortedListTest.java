@@ -30,15 +30,15 @@ import java.util.function.Function;
 import org.junit.Test;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class SortedDelegateListTest {
+public class SortedListTest {
   static final List<Function<List,List>> factories = Arrays.asList(ArrayList::new, LinkedList::new);
 
   <E> List<E> newList(final List<E> list, final Comparator<E> comparator) {
-    return new SortedDelegateList<>(list, comparator);
+    return new SortedList<>(list, comparator);
   }
 
   <E> List<E> newList(final List<E> list) {
-    return new SortedDelegateList<>(list);
+    return new SortedList<>(list);
   }
 
   List<Function<List,List>> factories() {

@@ -61,7 +61,7 @@ public class SortedSetArrayListTest {
   public void testConstructor() {
     final Collection<String> collection = Arrays.asList("e", "b", "a", "c", "b", "f", "a", "g", "g", "d", "e");
     final SortedSetArrayList<String> list = new SortedSetArrayList<>(collection);
-    SortedDelegateListTest.assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
+    SortedListTest.assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
     assertIndexOf(list);
     assertTrue(list.containsAll(collection));
   }
@@ -71,7 +71,7 @@ public class SortedSetArrayListTest {
     final Collection<String> collection = Arrays.asList("e", "b", "a", "c", "b", "f", "a", "g", "g", "d", "e");
     final SortedSetArrayList<String> list = new SortedSetArrayList<>();
     list.addAll(collection);
-    SortedDelegateListTest.assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
+    SortedListTest.assertListEquals(list, "a", "b", "c", "d", "e", "f", "g");
     assertIndexOf(list);
     assertTrue(list.containsAll(collection));
   }
@@ -97,22 +97,22 @@ public class SortedSetArrayListTest {
   private static void testIteratorRemove(final SortedSetArrayList<String> list, final Iterator<String> iterator) {
     iterator.next();
     iterator.remove();
-    SortedDelegateListTest.assertListEquals(list, "b", "c", "d", "e", "f", "g");
+    SortedListTest.assertListEquals(list, "b", "c", "d", "e", "f", "g");
 
     iterator.next();
     iterator.next();
     iterator.remove();
-    SortedDelegateListTest.assertListEquals(list, "b", "d", "e", "f", "g");
+    SortedListTest.assertListEquals(list, "b", "d", "e", "f", "g");
 
     iterator.next();
     iterator.next();
     iterator.next();
     iterator.remove();
-    SortedDelegateListTest.assertListEquals(list, "b", "d", "e", "g");
+    SortedListTest.assertListEquals(list, "b", "d", "e", "g");
 
     iterator.next();
     iterator.remove();
-    SortedDelegateListTest.assertListEquals(list, "b", "d", "e");
+    SortedListTest.assertListEquals(list, "b", "d", "e");
   }
 
   @Test
