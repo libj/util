@@ -78,6 +78,7 @@ public final class Dates {
    * @param id The id of the TimeZone.
    * @param date The given date.
    * @return A name in the "short" style of the TimeZone specified by {@code id}.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static String getTimeZoneShortName(final String id, final Date date) {
     final TimeZone timezone = TimeZone.getTimeZone(id);
@@ -90,6 +91,7 @@ public final class Dates {
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date setTimeInPlace(final Date date, final int hours) {
     return setTimeInPlace(date, hours, 0, 0, 0);
@@ -102,6 +104,7 @@ public final class Dates {
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes) {
     return setTimeInPlace(date, hours, minutes, 0, 0);
@@ -115,6 +118,7 @@ public final class Dates {
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes, final int seconds) {
     return setTimeInPlace(date, hours, minutes, seconds, 0);
@@ -129,6 +133,7 @@ public final class Dates {
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   @SuppressWarnings("deprecation")
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
@@ -147,6 +152,7 @@ public final class Dates {
    * @param date The {@link Date} specifying the time.
    * @param hours Hours value to set.
    * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date setTime(final Date date, final int hours) {
     return setTime(date, hours, 0, 0, 0);
@@ -159,6 +165,7 @@ public final class Dates {
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date setTime(final Date date, final int hours, final int minutes) {
     return setTime(date, hours, minutes, 0, 0);
@@ -172,6 +179,7 @@ public final class Dates {
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date setTime(final Date date, final int hours, final int minutes, final int seconds) {
     return setTime(date, hours, minutes, seconds, 0);
@@ -186,6 +194,7 @@ public final class Dates {
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
    * @return A new {@link Date} object with its time set by {@code date} and the specified temporal parameters.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date setTime(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final Date update = new Date(date.getTime());
@@ -199,6 +208,7 @@ public final class Dates {
    * @param date The {@link Date} to mutate.
    * @param hours Hours value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date addTimeInPlace(final Date date, final int hours) {
     return addTimeInPlace(date, hours, 0, 0, 0);
@@ -211,6 +221,7 @@ public final class Dates {
    * @param hours Hours value to set.
    * @param minutes Minutes value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes) {
     return addTimeInPlace(date, hours, minutes, 0, 0);
@@ -224,6 +235,7 @@ public final class Dates {
    * @param minutes Minutes value to set.
    * @param seconds Seconds value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes, final int seconds) {
     return addTimeInPlace(date, hours, minutes, seconds, 0);
@@ -238,6 +250,7 @@ public final class Dates {
    * @param seconds Seconds value to set.
    * @param milliseconds Milliseconds value to set.
    * @return {@code date} with its time mutated by setting the specified temporal parameters to its current value.
+   * @throws NullPointerException If {@code date} is null.
    */
   @SuppressWarnings("deprecation")
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
@@ -255,6 +268,7 @@ public final class Dates {
    * @param hours Hours value to set.
    * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
    *         value.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date addTime(final Date date, final int hours) {
     return addTime(date, hours, 0, 0, 0);
@@ -269,6 +283,7 @@ public final class Dates {
    * @param minutes Minutes value to set.
    * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
    *         value.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date addTime(final Date date, final int hours, final int minutes) {
     return addTime(date, hours, minutes, 0, 0);
@@ -284,6 +299,7 @@ public final class Dates {
    * @param seconds Seconds value to set.
    * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
    *         value.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date addTime(final Date date, final int hours, final int minutes, final int seconds) {
     return addTime(date, hours, minutes, seconds, 0);
@@ -300,6 +316,7 @@ public final class Dates {
    * @param milliseconds Milliseconds value to set.
    * @return A new {@link Date} object with its time set by {@code date}, and the specified temporal parameters added each current
    *         value.
+   * @throws NullPointerException If {@code date} is null.
    */
   public static Date addTime(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final Date update = new Date(date.getTime());
