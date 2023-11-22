@@ -29,7 +29,7 @@ public class SortedSetArrayListTest {
   private static void assertIndexOf(final SortedSetArrayList<String> list) {
     final Iterator<String> iterator = list.iterator();
     final ListIterator<String> listIterator = list.listIterator();
-    for (int i = 0, i$ = list.size(); i < i$; ++i) {
+    for (int i = 0, i$ = list.size(); i < i$; ++i) { // [ST]
       final String str = String.valueOf((char)('a' + i));
       assertEquals(i, list.indexOf(str));
       assertEquals(i, list.lastIndexOf(str));

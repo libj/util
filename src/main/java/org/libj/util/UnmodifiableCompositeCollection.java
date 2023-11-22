@@ -47,7 +47,7 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
 
   @Override
   public boolean contains(final Object o) {
-    for (final Collection<? extends E> target : targets)
+    for (final Collection<? extends E> target : targets) // [A]
       if (target.contains(o))
         return true;
 
@@ -56,9 +56,10 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
 
   @Override
   public boolean containsAll(final Collection<?> c) {
-    for (final Object o : c)
-      if (!contains(o))
-        return false;
+    if (c.size() > 0)
+      for (final Object o : c) // [C]
+        if (!contains(o))
+          return false;
 
     return true;
   }
@@ -86,7 +87,7 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
   @Override
   public int size() {
     int size = 0;
-    for (final Collection<? extends E> target : targets)
+    for (final Collection<? extends E> target : targets) // [A]
       size += target.size();
 
     return size;
@@ -94,7 +95,7 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
 
   @Override
   public boolean isEmpty() {
-    for (final Collection<? extends E> target : targets)
+    for (final Collection<? extends E> target : targets) // [A]
       if (!target.isEmpty())
         return false;
 
@@ -137,7 +138,7 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
   public Object[] toArray() {
     int pos = size();
     final Object[] a = new Object[pos];
-    for (int i = targets.length - 1; i >= 0; --i) {
+    for (int i = targets.length - 1; i >= 0; --i) { // [A]
       final Collection<? extends E> target = targets[i];
       final int size = target.size();
       if (size == 0)
@@ -153,8 +154,9 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
         target.toArray(a);
         a[size] = last;
       }
-      else
+      else {
         target.toArray(a);
+      }
     }
 
     return a;
@@ -170,7 +172,7 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
     else if (length >= pos)
       a[pos] = null;
 
-    for (int i = targets.length - 1; i >= 0; --i) {
+    for (int i = targets.length - 1; i >= 0; --i) { // [A]
       final Collection<? extends E> target = targets[i];
       final int size = target.size();
       if (size == 0)
@@ -186,8 +188,9 @@ public class UnmodifiableCompositeCollection<E> implements Collection<E> {
         target.toArray(a);
         a[size] = last;
       }
-      else
+      else {
         target.toArray(a);
+      }
     }
 
     return a;

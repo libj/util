@@ -108,7 +108,7 @@ public class DiffTest {
     if (logger.isInfoEnabled()) { logger.info("LengthSize: " + bits); }
     final List<Mod> mods = diff.getMods();
     if (logger.isInfoEnabled())
-      for (final Mod mod : mods)
-        logger.info(mod.toString()); // [L]
+      for (final Mod mod : mods) // [L]
+        logger.info(mod.toString());
   }
 }
