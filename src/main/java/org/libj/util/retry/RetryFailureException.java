@@ -52,7 +52,7 @@ public class RetryFailureException extends Exception {
    * @return The attempt number on which the exception was thrown.
    */
   public int getAttemptNo() {
-    return this.attemptNo;
+    return attemptNo;
   }
 
   /**
@@ -61,6 +61,6 @@ public class RetryFailureException extends Exception {
    * @return The delay (in milliseconds) from the previous invocation attempt.
    */
   public long getDelayMs() {
-    return this.delayMs;
+    return delayMs;
   }
 }

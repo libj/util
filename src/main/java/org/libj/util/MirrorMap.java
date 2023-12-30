@@ -253,7 +253,7 @@ public class MirrorMap<K,V,R> extends ObservableMap<K,V> {
    * @return The {@link Mirror} for this {@link MirrorMap}.
    */
   public Mirror<K,V,R> getMirror() {
-    return this.mirror;
+    return mirror;
   }
 
   /**

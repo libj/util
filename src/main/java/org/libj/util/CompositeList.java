@@ -94,7 +94,7 @@ public abstract class CompositeList<E,T> extends ObservableRandomAccessList<E,Ar
     }
 
     private ArrayIntList getIndexes() {
-      return this.indexes;
+      return indexes;
     }
 
     private void addUnsafe(final E element) {

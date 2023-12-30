@@ -485,7 +485,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
    * @return The number of retry attempts allowed by this {@link RetryPolicy}.
    */
   public int getMaxRetries() {
-    return this.maxRetries;
+    return maxRetries;
   }
 
   private boolean isMaxDelay;

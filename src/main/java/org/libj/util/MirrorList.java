@@ -265,7 +265,7 @@ public class MirrorList<V,LV extends List<V>,R,LR extends List<R>> extends Obser
    * @return The {@link Mirror}.
    */
   public Mirror<V,R> getMirror() {
-    return this.mirror;
+    return mirror;
   }
 
   /**
