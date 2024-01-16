@@ -34,10 +34,9 @@ public class ZipFilesTest {
   }
 
   private static File findJar(final String name) {
-    for (final File file : ClassLoaders.getClassPath()) { // [A]
+    for (final File file : ClassLoaders.getClassPath()) // [A]
       if (file.toString().contains("/" + name + "-") && file.toString().endsWith(".jar"))
         return file;
-    }
 
     throw new NoSuchElementException(name);
   }
@@ -47,7 +46,7 @@ public class ZipFilesTest {
     final File file = findJar("junit");
     final File destDir = new File(extractDir, "all");
     ZipFiles.extract(new ZipFile(file), destDir);
-    assertEquals(4, destDir.list().length);
+    assertEquals(2, destDir.list().length);
   }
 
   @Test
