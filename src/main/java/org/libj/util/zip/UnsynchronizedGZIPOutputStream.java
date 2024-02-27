@@ -29,10 +29,11 @@ import java.util.zip.DeflaterOutputStream;
  * <p>
  * This class implements a stream filter for writing compressed data in the GZIP file format.
  *
- * @implNote This class relies on the synchronized {@link DeflaterOutputStream}.
+ * @implSpec This class relies on the synchronized {@link DeflaterOutputStream}.
+ * @implNote This class is not thread safe.
  */
 public class UnsynchronizedGZIPOutputStream extends DeflaterOutputStream {
-  /** RC-32 of uncompressed data. */
+  /** CRC-32 of uncompressed data. */
   protected final CRC32 crc = new CRC32();
 
   /* GZIP header magic number. */
