@@ -1,38 +1,46 @@
 # Changes by Version
 
-## [v0.9.1-SNAPSHOT](https://github.com/libj/util/compare/d593a84124808733f13036e96f551e2fb8cf6088..HEAD)
+## [v0.9.2-SNAPSHOT](https://github.com/libj/util/compare/e21ce2f6212dd52e9dbaf133c4226e7d859a2dac..HEAD)
+
+## [v0.9.1](https://github.com/libj/util/compare/d593a84124808733f13036e96f551e2fb8cf6088..e21ce2f6212dd52e9dbaf133c4226e7d859a2dac) (2024-02-27)
+* #53 Remove `CRC32` in favor of `java.util.zip.CRC32`
+* #52 Transition to JUnit 5
+* #51 Add `UnmodifiableCompositeCollection` and `UnmodifiableCompositeSet`
+* #50 Implement `SortedSetArrayList`
+* #49 Implement `Comparators.HASHCODE_COMPARATOR` and `Comparators.IDENTITY_HASHCODE_COMPARATOR`
+* #48 Implement `Dates.currentTimeMins()`
 
 ## [v0.9.0](https://github.com/libj/util/compare/d8bc651739ee7c7a945c8ffad2a1dc6c6c0af904..d593a84124808733f13036e96f551e2fb8cf6088) (2023-09-20)
-* #47 Implement DiscreteTopology
+* #47 Implement `DiscreteTopology`
 * #46 Support boolean in primitive collections
-* #45 Add Dates.MIN_VALUE and Dates.MAX_VALUE
-* #43 Add ObjBi<X>Predicate
-* #42 Implement Unmodifiable* alternatives to Collections.unmodifiable*
-* #41 Add UnsynchronizedGZIPOutputStream
-* #40 Add DelegateOutputStream and ObservableOutputStream
-* #39 Implement Dates.durationToString() and Dates.stringToDuration()
-* #38 Implement MultiMap
-* #37 StringPaths.canonicalize(...) mishandles '^../../'
-* #36 Implement ArrayUtil.dedupe(...) and CollectionUtil.dedupe(...)
-* #35 Externalize RetryOn as FunctionalInterface in RetryPolicy.run(...)
-* #34 Implement Shutdownable and Shutdownables
-* #33 Implement ExecutorServices.interruptAfterTimeout(...)
-* #32 Implement ExecutorServices.invokeAll(...)
-* #31 Support RetryPolicy.run(Runnable) and RetryPolicy.run(Callable)
-* #30 RetryFailureException.addSuppressed for all unique exceptions in Retry
-* #29 Implement fast CRC32 and CRC64
-* #28 ISO_8601 and ISO_1123 in SimpleDateFormats
-* #27 Support override of equals(Object,Object) test
-* #26 Implement Zip enum
-* #25 Implement ArrayUtil.shift(...)
-* #24 Add ArrayUtil.subArray(...) overloads
-* #22 Add BiObj<X>Function and BiObjBi<X>Function templates
-* #21 Implement Functions utility with and(Function...) and or(Function...)
-* #20 Make RetryFailureException a checked exception
-* #19 Implement ConcurrentNullHashMap
+* #45 Add `Dates.MIN_VALUE` and `Dates.MAX_VALUE`
+* #43 Add `ObjBi<X>Predicate`
+* #42 Implement `Unmodifiable*` alternatives to `Collections.unmodifiable*`
+* #41 Add `UnsynchronizedGZIPOutputStream`
+* #40 Add `DelegateOutputStream` and `ObservableOutputStream`
+* #39 Implement `Dates.durationToString()` and `Dates.stringToDuration()`
+* #38 Implement `MultiMap`
+* #37 `StringPaths.canonicalize(...)` mishandles '^../../'
+* #36 Implement `ArrayUtil.dedupe(...)` and `CollectionUtil.dedupe(...)`
+* #35 Externalize `RetryOn` as `FunctionalInterface` in `RetryPolicy.run(...)`
+* #34 Implement `Shutdownable` and `Shutdownables`
+* #33 Implement `ExecutorServices.interruptAfterTimeout(...)`
+* #32 Implement `ExecutorServices.invokeAll(...)`
+* #31 Support `RetryPolicy.run(Runnable)` and `RetryPolicy.run(Callable)`
+* #30 `RetryFailureException.addSuppressed` for all unique exceptions in `Retry`
+* #29 Implement fast `CRC32` and `CRC64`
+* #28 `ISO_8601` and `ISO_1123` in `SimpleDateFormats`
+* #27 Support override of `equals(Object,Object)` test
+* #26 Implement `Zip` enum
+* #25 Implement `ArrayUtil.shift(...)`
+* #24 Add `ArrayUtil.subArray(...)` overloads
+* #22 Add `BiObj<X>Function` and `BiObjBi<X>Function` templates
+* #21 Implement `Functions` utility with `and(Function...)` and `or(Function...)`
+* #20 Make `RetryFailureException` a checked exception
+* #19 Implement `ConcurrentNullHashMap`
 * #18 Transition to GitHub Actions
-* #17 StringPaths.getParent(path) should return null in case of bare scheme
-* #16 Add Iterators.toEnumeration()
+* #17 `StringPaths.getParent(path)` should return null in case of bare scheme
+* #16 Add `Iterators.toEnumeration()`
 
 ## [v0.8.1](https://github.com/libj/util/compare/a806523104ea3762033fc1a0de12daf9176ee5d0..d8bc651739ee7c7a945c8ffad2a1dc6c6c0af904) (2020-05-23)
 * Add template generated rules for classes in `org.libj.util.function` and `org.libj.util.primitive` packages.
