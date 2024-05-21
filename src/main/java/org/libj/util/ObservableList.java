@@ -1050,50 +1050,35 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
     if (i$ == 0)
       return true;
 
+    int i = 0;
     if (isRandomAccess()) {
       if (CollectionUtil.isRandomAccess(that)) {
-        int i = 0;
-        do { // [RA]
-          final Object e1 = get(i);
-          final Object e2 = that.get(i);
-          if (!equals(e1, e2))
+        do // [RA]
+          if (!equals(get(i), that.get(i)))
             return false;
-        }
         while (++i < i$);
       }
       else {
         final Iterator<?> thatIt = that.iterator();
-        int i = 0;
-        do { // [I]
-          final Object e1 = get(i);
-          final Object e2 = thatIt.next();
-          if (!equals(e1, e2))
+        do // [I]
+          if (!equals(get(i), thatIt.next()))
             return false;
-        }
         while (++i < i$);
       }
     }
     else if (CollectionUtil.isRandomAccess(that)) {
       final Iterator<?> thisIt = that.iterator();
-      int i = 0;
-      do { // [RA]
-        final Object e1 = thisIt.next();
-        final Object e2 = that.get(i);
-        if (!equals(e1, e2))
+      do // [RA]
+        if (!equals(thisIt.next(), that.get(i)))
           return false;
-      }
       while (++i < i$);
     }
     else {
       final Iterator<?> thisIt = that.iterator();
       final Iterator<?> thatIt = that.iterator();
-      int i = 0;
-      do { // [I]
-        final Object e1 = thisIt.next();
-        final Object e2 = thatIt.next();
-        if (!equals(e1, e2))
+      do // [I]
+        if (!equals(thisIt.next(), thatIt.next()))
           return false;
-      }
       while (++i < i$);
     }
 

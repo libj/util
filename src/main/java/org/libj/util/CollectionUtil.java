@@ -133,8 +133,8 @@ public final class CollectionUtil extends PrimitiveSort {
 
     final List<?> la, lb;
     if (a instanceof List && isRandomAccess(la = (List<?>)a)) {
+      int i = 0;
       if (b instanceof List && isRandomAccess(lb = (List<?>)b)) {
-        int i = 0;
         do { // [RA]
           if (!Objects.equals(la.get(i), lb.get(i)))
             return false;
@@ -143,8 +143,7 @@ public final class CollectionUtil extends PrimitiveSort {
       }
       else {
         final Iterator<?> ib = b.iterator();
-        int i = 0;
-        do { // [RA]
+        do { // [I]
           if (!Objects.equals(la.get(i), ib.next()))
             return false;
         }
@@ -153,8 +152,8 @@ public final class CollectionUtil extends PrimitiveSort {
     }
     else {
       final Iterator<?> ia = a.iterator();
+      int i = 0;
       if (b instanceof List && isRandomAccess(lb = (List<?>)b)) {
-        int i = 0;
         do { // [RA]
           if (!Objects.equals(ia.next(), lb.get(i)))
             return false;
@@ -163,7 +162,6 @@ public final class CollectionUtil extends PrimitiveSort {
       }
       else {
         final Iterator<?> ib = b.iterator();
-        int i = 0;
         do { // [I]
           if (!Objects.equals(ia.next(), ib.next()))
             return false;

@@ -168,19 +168,18 @@ public final class Locales {
     if (i$ == 0)
       return EMPTY_LOCALES;
 
+    int i = 0;
     final Locale[] locales = new Locale[i$];
     final List<String> list;
     if (strings instanceof List && CollectionUtil.isRandomAccess(list = (List<String>)strings)) {
-      int i = 0;
       do // [RA]
         locales[i] = parse(list.get(i));
       while (++i < i$);
     }
     else {
-      int i = -1;
       final Iterator<String> it = strings.iterator();
       do // [I]
-        locales[++i] = parse(it.next());
+        locales[i++] = parse(it.next());
       while (it.hasNext());
     }
 

@@ -414,10 +414,10 @@ public final class ExecutorServices {
     if (size == 0)
       return Collections.EMPTY_LIST;
 
+    int i = 0;
     final Callable<R>[] callables = new Callable[size];
     final List<T> list;
     if (tasks instanceof List && CollectionUtil.isRandomAccess(list = (List<T>)tasks)) {
-      int i = 0;
       do { // [RA]
         final T task = Objects.requireNonNull(list.get(i));
         callables[i] = () -> proxy.apply(task);
@@ -425,11 +425,10 @@ public final class ExecutorServices {
       while (++i < size);
     }
     else {
-      int i = -1;
       final Iterator<T> it = tasks.iterator();
       do { // [I]
         final T task = Objects.requireNonNull(it.next());
-        callables[++i] = () -> proxy.apply(task);
+        callables[i++] = () -> proxy.apply(task);
       }
       while (it.hasNext());
     }

@@ -279,7 +279,7 @@ public class CircularArrayList<E> extends AbstractList<E> implements Deque<E>, R
     }
     else {
       final Iterator<? extends E> it = c.iterator();
-      do { // [RA]
+      do { // [I]
         elementData[tail] = it.next();
         tail = ++tail % elementData.length;
         ++size;
