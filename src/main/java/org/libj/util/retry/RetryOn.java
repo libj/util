@@ -25,7 +25,9 @@ public interface RetryOn {
    * Specifies the conditions under which a retry should occur given the provided {@link Exception}.
    *
    * @param e The non-null exception that occurred during execution of a {@link Retryable} object.
+   * @param attemptNo The attempt number on which the exception was thrown.
+   * @param delayMs The delay (in milliseconds) from the previous invocation attempt.
    * @return {@code true} if a retry should occur, otherwise {@code false}.
    */
-  boolean retryOn(Exception e);
+  boolean retryOn(Exception e, int attemptNo, long delayMs);
 }

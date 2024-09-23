@@ -438,6 +438,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     final long startTime = System.currentTimeMillis();
     long runTime = 0;
     Exception previousException = null;
+    long delayMs = 0;
     for (int attemptNo = 1;; ++attemptNo) { // [N]
       if (onRetry != null)
         onRetry.accept(attemptNo);
@@ -449,10 +450,10 @@ public class RetryPolicy<E extends Exception> implements Serializable {
         if (previousException == null || e.getClass() != previousException.getClass() || !Objects.equals(e.getMessage(), previousException.getMessage()))
           exceptions.add(previousException = e);
 
-        if (attemptNo > maxRetries || !retryOn.retryOn(e))
-          retryFailed(exceptions, attemptNo, getDelayMs(attemptNo - 1));
+        if (attemptNo > maxRetries || !retryOn.retryOn(e, attemptNo, delayMs))
+          retryFailed(exceptions, attemptNo, delayMs);
 
-        long delayMs = getDelayMs(attemptNo);
+        delayMs = getDelayMs(attemptNo);
         if (jitter > 0)
           delayMs *= jitter * Math.random() + 1;
 

@@ -28,7 +28,7 @@ public class RetryPolicyTest {
   @Test
   public void testNonNullOnRetryFailure() throws RetryFailureRuntimeException, Exception {
     try {
-      new RetryPolicy<>(e -> true, null, (e, se, a, d) -> null, 100, 100).run((p, a) -> null);
+      new RetryPolicy<>((e, a, d) -> true, null, (e, se, a, d) -> null, 100, 100).run((p, a) -> null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
@@ -50,7 +50,7 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i) // [N]
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RuntimeException(), attempts, delayMs).run((p, a) -> {
+    assertEquals("PASS", new RetryPolicy<>((e, a, d) -> true, null, (e, se, a, d) -> new RuntimeException(), attempts, delayMs).run((p, a) -> {
       if (index[0] < attempts) {
         final long delayMs1 = p.getDelayMs(a);
         assertEquals(delays[index[0]++], delayMs1);
@@ -83,7 +83,7 @@ public class RetryPolicyTest {
     for (int i = 0; i < attempts - 1; ++i) // [N]
       timings[i + 1] = timings[i] + delays[i];
 
-    assertEquals("PASS", new RetryPolicy<>(e -> true, null, (e, se, a, d) -> new RetryFailureException(a, d), attempts, startDelay, 0, false, factor, maxDelay).run((p, a) -> {
+    assertEquals("PASS", new RetryPolicy<>((e, a, d) -> true, null, (e, se, a, d) -> new RetryFailureException(a, d), attempts, startDelay, 0, false, factor, maxDelay).run((p, a) -> {
       if (index[0] < attempts) {
         final long delayMs = p.getDelayMs(a);
         assertEquals(delays[index[0]++], delayMs);
