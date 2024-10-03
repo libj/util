@@ -26,7 +26,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Utility enum pertaining to {@code java.util.zip} package.
+ * Utility enum pertaining to {@link java.util.zip} package.
  */
 public enum Zip {
   ZIP {

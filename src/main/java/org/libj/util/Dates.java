@@ -71,14 +71,15 @@ public final class Dates {
   public static final int MILLISECONDS_IN_WEEK = MILLISECONDS_IN_SECOND * SECONDS_IN_WEEK;
 
   /**
-   * Returns a name in the "short" style of the TimeZone specified by {@code id}. If the specified {@code date} is in Daylight Saving
-   * Time in the TimeZone, a Daylight Saving Time name is returned (even if the TimeZone doesn't observe Daylight Saving Time).
-   * Otherwise, a Standard Time name is returned.
+   * Returns a name in the "short" style of the {@link TimeZone} specified by {@code id}. If the specified {@code date} is in Daylight
+   * Saving Time in the {@link TimeZone}, a Daylight Saving Time name is returned (even if the {@link TimeZone} doesn't observe
+   * Daylight Saving Time). Otherwise, a Standard Time name is returned.
    *
-   * @param id The id of the TimeZone.
+   * @param id The id of the {@link TimeZone}.
    * @param date The given date.
    * @return A name in the "short" style of the TimeZone specified by {@code id}.
-   * @throws NullPointerException If {@code date} is null.
+   * @throws NullPointerException If {@code id} or {@code date} is null.
+   * @see TimeZone#getTimeZone(String)
    */
   public static String getTimeZoneShortName(final String id, final Date date) {
     final TimeZone timezone = TimeZone.getTimeZone(id);

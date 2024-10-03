@@ -28,7 +28,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- * Utility functions for operations pertaining to the {@code java.time} package.
+ * Utility functions for operations pertaining to the {@link java.time} package.
  */
 public final class Temporals {
   /**

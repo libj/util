@@ -5795,14 +5795,14 @@ public final class ArrayUtil extends PrimitiveSort {
    *
    * @param a The first array to compare.
    * @param b The second array to compare.
-   * @param cmp The comparator to compare array elements.
+   * @param c The comparator to compare array elements.
    * @param <T> The type of array elements.
    * @return The value {@code 0} if the first and second array are equal and contain the same elements in the same order; a value less
    *         than {@code 0} if the first array is lexicographically less than the second array; and a value greater than {@code 0} if
    *         the first array is lexicographically greater than the second array.
    * @throws NullPointerException If the comparator is null.
    */
-  public static <T> int compare(final T[] a, final T[] b, final Comparator<? super T> cmp) {
+  public static <T> int compare(final T[] a, final T[] b, final Comparator<? super T> c) {
     if (a == b)
       return 0;
 
@@ -5812,17 +5812,19 @@ public final class ArrayUtil extends PrimitiveSort {
     if (b == null)
       return 1;
 
-    for (int i = 0, i$ = Math.min(a.length, b.length); i < i$; ++i) { // [A]
+    final int aLen = a.length;
+    final int bLen = b.length;
+    for (int i = 0, i$ = Math.min(aLen, bLen); i < i$; ++i) { // [A]
       final T oa = a[i];
       final T ob = b[i];
       if (oa != ob) {
-        final int v = cmp.compare(oa, ob);
+        final int v = c.compare(oa, ob);
         if (v != 0)
           return v;
       }
     }
 
-    return a.length - b.length;
+    return aLen - bLen;
   }
 
   private ArrayUtil() {

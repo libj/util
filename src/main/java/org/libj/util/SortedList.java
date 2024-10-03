@@ -71,15 +71,9 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
       list.sort(comparator);
   }
 
-  private Class<?> comparatorType;
-
-  private Class<?> comparatorType() {
-    return comparatorType == null ? comparatorType = (Class<?>)((ParameterizedType)comparator.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0] : comparatorType;
-  }
-
   @SuppressWarnings({"rawtypes", "unchecked"})
   private int indexOf(final Object o, final int fromIndex, final int toIndex) {
-    if (comparator != DEFAULT_COMPARATOR && comparatorType().isInstance(o))
+    if (comparator != DEFAULT_COMPARATOR)
       return CollectionUtil.binarySearch(target, fromIndex, toIndex, o, (Comparator)comparator);
 
     if (o == null)
