@@ -202,12 +202,12 @@ public final class Throwing {
    *
    * <pre>
    * {@code
-   * BiObjIntConsumer<Integer> predicate = Throwing.rethrow((Integer s, Integer t, int i, int j) -> {
+   * BiObjIntPredicate<Integer,Integer> predicate = Throwing.rethrow((Integer s, Integer t, int i, int j) -> {
    *   if (i == 0)
    *     throw new IOException("i=" + i);
    * });
    * for (int i = 3; i >= 0; --i)
-   *   predicate.accept(i, -i, i / 2, i * 2);
+   *   predicate.test(i, -i, i / 2, i * 2);
    * }
    * </pre>
    *
@@ -217,6 +217,31 @@ public final class Throwing {
    * @return The specified {@link BiObjBiIntPredicate} instance.
    */
   public static <T,U> BiObjBiIntPredicate<T,U> rethrow(final ThrowingBiObjBiIntPredicate<T,U,?> predicate) {
+    return predicate;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified {@link ThrowingBiObjBiIntPredicate}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * BiObjBooleanConsumer<Integer,Integer> consumer = Throwing.rethrow((Integer s, Integer t, int i, int j) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   consumer.accept(i, -i, i / 2, i * 2);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the predicate's operation.
+   * @param <U> The type of the second input to the predicate's operation.
+   * @param predicate The {@link ThrowingBiObjBooleanConsumer}.
+   * @return The specified {@link BiObjBooleanConsumer} instance.
+   */
+  public static <T,U> BiObjBooleanConsumer<T,U> rethrow(final ThrowingBiObjBooleanConsumer<T,U,?> predicate) {
     return predicate;
   }
 

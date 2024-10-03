@@ -1,4 +1,4 @@
-/* Copyright (c) 2019 LibJ
+/* Copyright (c) 2024 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,60 +19,56 @@ package org.libj.util.function;
 import java.util.function.BiPredicate;
 
 /**
- * Represents a predicate (boolean-valued function) that accepts two object-valued and two {@code int}-valued arguments.
+ * Represents a consumer (boolean-valued function) that accepts two object-valued and a {@code boolean}-valued argument.
  * <p>
- * The {@link ThrowingBiObjBiIntPredicate} distinguishes itself from {@link ObjBiIntPredicate} by allowing the functional interface
+ * The {@link ThrowingBiObjBooleanConsumer} distinguishes itself from {@link ObjBiIntPredicate} by allowing the functional interface
  * to throw any {@link Throwable}. This can be used to allow lambda expressions to propagate checked exceptions up the expression's
  * call stack. An example of this pattern:
  *
  * <pre>
  * {@code
- * BiObjBiIntPredicate<Integer,Integer> predicate = Throwing.rethrow((Integer s, Integer t, int i, int j) -> {
- *   if (i == 0)
+ * BiObjBooleanConsumer<Integer,Integer> consumer = Throwing.rethrow((Integer s, Integer t, boolean b) -> {
+ *   if (!b)
  *     throw new IOException("i=" + i);
  *   return false;
  * });
- * for (int i = 3; i >= 0; --i)
- *   predicate.test(i, -i, i / 2, i * 2);
+ * consumer.accept(i, -i, true);
+ * consumer.accept(i, -i, false);
  * }
  * </pre>
  *
- * @param <T> The type of the first argument to the predicate.
- * @param <U> The type of the second argument to the predicate.
+ * @param <T> The type of the first argument to the consumer.
+ * @param <U> The type of the second argument to the consumer.
  * @param <E> The type of {@link Throwable} that can be thrown.
- * @see Throwing#rethrow(ThrowingBiObjBiIntPredicate)
+ * @see Throwing#rethrow(ThrowingBiObjBooleanConsumer)
  */
 @FunctionalInterface
-public interface ThrowingBiObjBiIntPredicate<T,U,E extends Throwable> extends BiObjBiIntPredicate<T,U> {
+public interface ThrowingBiObjBooleanConsumer<T,U,E extends Throwable> extends BiObjBooleanConsumer<T,U> {
   /**
-   * Evaluates this predicate on the given arguments.
+   * Evaluates this consumer on the given arguments.
    *
    * @param t The first input argument.
    * @param u The second input argument.
-   * @param v1 The third input argument.
-   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}.
+   * @param b The third input argument.
    */
   @Override
-  default boolean test(final T t, final U u, final int v1, final int v2) {
+  default void accept(final T t, final U u, final boolean b) {
     try {
-      return testThrows(t, u, v1, v2);
+      acceptThrows(t, u, b);
     }
     catch (final Throwable e) {
       Throwing.rethrow(e);
-      return false;
     }
   }
 
   /**
-   * Evaluates this predicate on the given arguments, allowing a checked exception to be thrown.
+   * Evaluates this consumer on the given arguments, allowing a checked exception to be thrown.
    *
    * @param t The first input argument.
    * @param u The second input argument.
-   * @param v1 The third input argument.
-   * @param v2 The fourth input argument.
-   * @return The predicate result.
+   * @param b The third input argument.
    * @throws E If an exception has occurred.
    * @see BiPredicate#test(Object,Object)
    */
-  boolean testThrows(T t, U u, int v1, int v2) throws E;
+  void acceptThrows(T t, U u, boolean b) throws E;
 }
