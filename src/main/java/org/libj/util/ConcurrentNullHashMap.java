@@ -17,6 +17,7 @@
 package org.libj.util;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
@@ -99,11 +100,75 @@ public class ConcurrentNullHashMap<K,V> extends ConcurrentHashMap<K,V> {
   }
 
   @Override
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public void putAll(final Map<? extends K,? extends V> m) {
-    // tryPresize(m.size()); // FIXME: How to call this in the super method?
-    if (m.size() > 0)
-      for (final Map.Entry<? extends K,? extends V> e : m.entrySet()) // [S]
-        put(e.getKey(), e.getValue());
+    final int size = m.size();
+    if (size == 0)
+      return;
+
+    // Just to invoke super.tryPresize(size)
+    super.putAll(new Map() {
+      @Override
+      public int size() {
+        return size;
+      }
+
+      @Override
+      public boolean isEmpty() {
+        return false;
+      }
+
+      @Override
+      public boolean containsKey(final Object key) {
+        return false;
+      }
+
+      @Override
+      public boolean containsValue(final Object value) {
+        return false;
+      }
+
+      @Override
+      public Object get(final Object key) {
+        return null;
+      }
+
+      @Override
+      public Object put(final Object key, final Object value) {
+        return null;
+      }
+
+      @Override
+      public Object remove(final Object key) {
+        return null;
+      }
+
+      @Override
+      public void putAll(final Map m) {
+      }
+
+      @Override
+      public void clear() {
+      }
+
+      @Override
+      public Set keySet() {
+        return null;
+      }
+
+      @Override
+      public Collection values() {
+        return null;
+      }
+
+      @Override
+      public Set entrySet() {
+        return Collections.EMPTY_SET;
+      }
+    });
+
+    for (final Map.Entry<? extends K,? extends V> e : m.entrySet()) // [S]
+      put(e.getKey(), e.getValue());
   }
 
   /**
