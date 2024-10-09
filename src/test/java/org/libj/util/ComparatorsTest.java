@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 import org.junit.Test;
@@ -42,7 +43,7 @@ public class ComparatorsTest {
     }
 
     try {
-      Comparators.newFixedOrderComparator(Comparator.comparingInt(i -> i), (Integer[])null);
+      Comparators.newFixedOrderComparator(Comparator.comparingInt((final Integer i) -> i), (Integer[])null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
@@ -56,7 +57,7 @@ public class ComparatorsTest {
     }
 
     try {
-      Comparators.newFixedOrderComparator((Function<Integer,Integer>)null, Comparator.comparingInt((Integer i) -> i), 1, 2, 3);
+      Comparators.newFixedOrderComparator((BiPredicate<Integer,Integer>)null, Comparator.comparingInt((final Integer i) -> i), 1, 2, 3);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
@@ -70,20 +71,20 @@ public class ComparatorsTest {
 
   @Test
   public void testFixedOrderComparatorComparator() {
-    testFixedOrderComparator((o1, o2) -> o1.compareTo(o2), null);
+    testFixedOrderComparator((final String o1, final String o2) -> o1.compareTo(o2), null);
   }
 
   @Test
   public void testFixedOrderComparatorComparableToCompare() {
-    testFixedOrderComparator(null, s -> s);
+    testFixedOrderComparator(null, (final String t, final String c) -> t.equals(c));
   }
 
   @Test
   public void testFixedOrderComparatorComparatorToCompare() {
-    testFixedOrderComparator((o1, o2) -> o1.compareTo(o2), s -> s);
+    testFixedOrderComparator((final String o1, final String o2) -> o1.compareTo(o2), (final String t, final String c) -> t.equals(c));
   }
 
-  private static void testFixedOrderComparator(final Comparator<String> c, final Function<String,String> toCompare) {
+  private static void testFixedOrderComparator(final Comparator<String> c, final BiPredicate<String,String> orderMatchPredicate) {
     try {
       Comparators.newFixedOrderComparator((String[])null);
       fail("Expected NullPointerException");
@@ -92,7 +93,7 @@ public class ComparatorsTest {
     }
 
     final String[] order = {"z", "a", "t", "r", "q", "b"};
-    final Comparator<String> comparator = c != null ? (toCompare != null ? Comparators.newFixedOrderComparator(toCompare, c, order) : Comparators.newFixedOrderComparator(c, order)) : (toCompare != null ? Comparators.newFixedOrderComparator(toCompare, order) : Comparators.newFixedOrderComparator(order));
+    final Comparator<String> comparator = c != null ? (orderMatchPredicate != null ? Comparators.newFixedOrderComparator(orderMatchPredicate, c, order) : Comparators.newFixedOrderComparator(c, order)) : (orderMatchPredicate != null ? Comparators.newFixedOrderComparator(orderMatchPredicate, (final String o1, final String o2) -> o1.compareTo(o2), order) : Comparators.newFixedOrderComparator(order));
     assertEquals(-1, comparator.compare("z", "a"));
     assertEquals(-1, comparator.compare("z", "t"));
     assertEquals(-1, comparator.compare("z", "r"));
