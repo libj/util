@@ -123,14 +123,13 @@ public class Interval<T> implements Comparable<Interval<T>>, Comparator<T> {
    * Returns {@code true} if an {@link Interval} with the provided {@code min} and {@code max} values intersects this
    * {@link Interval}, otherwise {@code false}.
    *
-   * @param min The min value to intersect with.
-   * @param max The max value to intersect with.
+   * @param min The min value to intersect with. {@code null} represents a lack of min value.
+   * @param max The max value to intersect with. {@code null} represents a lack of max value.
    * @return {@code true} if an {@link Interval} with the provided {@code min} and {@code max} values intersects this
    *         {@link Interval}, otherwise {@code false}.
    */
   public boolean intersects(final T min, final T max) {
     return intersect(min, this.getMax()) && intersect(this.getMin(), max);
-    // FIXME:... min == null ||
   }
 
   private boolean intersect(final T min, final T max) {

@@ -125,7 +125,7 @@ public class ObservableMapTest {
     for (int i = 9; i < 100; i += 23) { // [N]
       final int index = i;
       expectedValue = String.valueOf(index);
-      keys.removeIf(s -> (expectedKey = index).equals(s));
+      keys.removeIf((final Integer s) -> (expectedKey = index).equals(s));
       assertRemoved();
     }
 

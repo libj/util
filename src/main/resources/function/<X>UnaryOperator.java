@@ -47,9 +47,9 @@ public interface <X>UnaryOperator {
    * @throws NullPointerException If {@code before} is null.
    * @see #andThen(<X>UnaryOperator)
    */
-  default <X>UnaryOperator compose(<X>UnaryOperator before) {
+  default <X>UnaryOperator compose(final <X>UnaryOperator before) {
     Objects.requireNonNull(before);
-    return (<x> v) -> applyAs<X>(before.applyAs<X>(v));
+    return (final <x> v) -> applyAs<X>(before.applyAs<X>(v));
   }
 
   /**
@@ -64,9 +64,9 @@ public interface <X>UnaryOperator {
    * @throws NullPointerException If {@code after} is null.
    * @see #compose(<X>UnaryOperator)
    */
-  default <X>UnaryOperator andThen(<X>UnaryOperator after) {
+  default <X>UnaryOperator andThen(final <X>UnaryOperator after) {
     Objects.requireNonNull(after);
-    return (<x> t) -> after.applyAs<X>(applyAs<X>(t));
+    return (final <x> t) -> after.applyAs<X>(applyAs<X>(t));
   }
 
   /**
@@ -75,6 +75,6 @@ public interface <X>UnaryOperator {
    * @return A unary operator that always returns its input argument.
    */
   static <X>UnaryOperator identity() {
-    return t -> t;
+    return (final <x> t) -> t;
   }
 }

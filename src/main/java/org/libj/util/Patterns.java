@@ -216,7 +216,7 @@ public final class Patterns {
       return regex;
 
     char ch = regex.charAt(0);
-    if (ch == '^' && regex.length() == 1)
+    if (ch == '^' && len == 1)
       return "";
 
     final StringBuilder builder = new StringBuilder();

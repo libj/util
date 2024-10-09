@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class ZipFilesTest {
   public void testExtractSome() throws IOException {
     final File file = findJar("junit");
     final File destDir = new File(extractDir, "meta");
-    ZipFiles.extract(new ZipFile(file), destDir, t -> t.getName().startsWith("META-INF/"));
+    ZipFiles.extract(new ZipFile(file), destDir, (final ZipEntry e) -> e.getName().startsWith("META-INF/"));
 
     assertEquals(1, destDir.list().length);
     assertTrue(new File(destDir, "META-INF/MANIFEST.MF").exists());

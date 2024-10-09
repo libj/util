@@ -232,7 +232,7 @@ public class UnmodifiableMap<K,V> implements Map<K,V>, Serializable {
 
     protected static <K,V> Consumer<Map.Entry<K,V>> entryConsumer(final Consumer<? super Map.Entry<K,V>> action) {
       Objects.requireNonNull(action);
-      return e -> action.accept(new UnmodifiableEntry<>(e));
+      return (final Map.Entry<K,V> e) -> action.accept(new UnmodifiableEntry<>(e));
     }
 
     @Override

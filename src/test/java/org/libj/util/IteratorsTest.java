@@ -72,15 +72,15 @@ public class IteratorsTest {
   public void testFilter() {
     final List<Number> list = Arrays.asList(0, 0d, 1, 1d, 2, BigInteger.ZERO, 3.4f, BigDecimal.ONE, 3, 2d, BigInteger.ONE, 10L, 4f, (short)8, (byte)62, 4, BigInteger.valueOf(2L));
 
-    final Iterator<? super Integer> integerIterator = Iterators.filter(list.iterator(), m -> m instanceof Integer);
+    final Iterator<? super Integer> integerIterator = Iterators.filter(list.iterator(), (final Number m) -> m instanceof Integer);
     for (int i = 0; integerIterator.hasNext(); ++i) // [I]
       assertEquals(i, integerIterator.next());
 
-    final Iterator<? super BigInteger> bigIntegerIterator = Iterators.filter(list.iterator(), m -> m instanceof BigInteger);
+    final Iterator<? super BigInteger> bigIntegerIterator = Iterators.filter(list.iterator(), (final Number m) -> m instanceof BigInteger);
     for (int i = 0; bigIntegerIterator.hasNext(); ++i) // [I]
       assertEquals(BigInteger.valueOf(i), bigIntegerIterator.next());
 
-    final Iterator<? super Double> doubleIterator = Iterators.filter(list.iterator(), m -> m instanceof Double);
+    final Iterator<? super Double> doubleIterator = Iterators.filter(list.iterator(), (final Number m) -> m instanceof Double);
     for (int i = 0; doubleIterator.hasNext(); ++i) // [I]
       assertEquals((double)i, doubleIterator.next());
   }

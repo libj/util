@@ -215,6 +215,6 @@ public class TransSet<S,T> extends DelegateSet<T> {
     if (sourceToTarget == null)
       throw new UnsupportedOperationException();
 
-    return target.removeIf((Predicate<S>)t -> filter.test(sourceToTarget.apply(t)));
+    return target.removeIf((Predicate<S>)(final S t) -> filter.test(sourceToTarget.apply(t)));
   }
 }

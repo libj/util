@@ -259,7 +259,7 @@ public class ObservableListTest {
     // removeIf()
     for (int i = 9; i < 100; i += 23) { // [N]
       final int index = i;
-      list.removeIf(s -> (expectedString = String.valueOf(index)).equals(s));
+      list.removeIf((final String s) -> (expectedString = String.valueOf(index)).equals(s));
       assertRemoved();
     }
 

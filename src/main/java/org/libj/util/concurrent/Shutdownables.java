@@ -63,7 +63,7 @@ public final class Shutdownables {
           return shutdownable.awaitTermination(timeout, unit);
         }
         catch (final InterruptedException e) {
-          exception.getAndUpdate(ie -> {
+          exception.getAndUpdate((final InterruptedException ie) -> {
             if (ie == null)
               return e;
 
@@ -79,7 +79,7 @@ public final class Shutdownables {
     final List<Future<Boolean>> futures = shutdownExecutor.invokeAll(callables, timeout, unit);
     shutdownExecutor.shutdown();
     final AtomicReference<ExecutionException> ee = new AtomicReference<>();
-    final boolean success = futures.stream().allMatch(f -> {
+    final boolean success = futures.stream().allMatch((final Future<Boolean> f) -> {
       try {
         return f.get();
       }

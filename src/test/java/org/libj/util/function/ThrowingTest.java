@@ -71,7 +71,7 @@ public class ThrowingTest {
     try {
       Arrays
         .asList(2, 1, 0)
-        .forEach(rethrow(i -> {
+        .forEach(rethrow((final Integer i) -> {
           if (i == 0)
             throw new IOException("i=" + i);
         }));
@@ -87,7 +87,7 @@ public class ThrowingTest {
   @Test
   public void testBiConsumer() {
     try {
-      final BiConsumer<Integer,Integer> consumer = rethrow((Integer i, Integer j) -> {
+      final BiConsumer<Integer,Integer> consumer = rethrow((final Integer i, final Integer j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });
@@ -106,7 +106,7 @@ public class ThrowingTest {
   @Test
   public void testObjIntConsumer() {
     try {
-      final ObjIntConsumer<String> consumer = rethrow((String s, int i) -> {
+      final ObjIntConsumer<String> consumer = rethrow((final String s, final int i) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });
@@ -125,7 +125,7 @@ public class ThrowingTest {
   @Test
   public void testTriConsumer() {
     try {
-      final TriConsumer<Integer,Integer,Integer> consumer = rethrow((Integer i, Integer j, Integer k) -> {
+      final TriConsumer<Integer,Integer,Integer> consumer = rethrow((final Integer i, final Integer j, final Integer k) -> {
         if (i == 0)
           throw new IOException("i=" + i);
       });
@@ -147,7 +147,7 @@ public class ThrowingTest {
       Arrays
         .asList(2, 1, 0)
         .stream()
-        .filter(Throwing.<Integer>rethrow(i -> {
+        .filter(Throwing.<Integer>rethrow((final Integer i) -> {
           if (i == 0)
             throw new IOException("i=" + i);
 
@@ -166,7 +166,7 @@ public class ThrowingTest {
   @Test
   public void testBiPredicate() {
     try {
-      final BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((Integer i, Integer j) -> {
+      final BiPredicate<Integer,Integer> predicate = Throwing.<Integer,Integer>rethrow((final Integer i, final Integer j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
 
@@ -190,13 +190,13 @@ public class ThrowingTest {
       Arrays
         .asList(2, 1, 0)
         .stream()
-        .map(rethrow((Integer i) -> {
+        .map(rethrow((final Integer i) -> {
           if (i == 0)
             throw new IOException("i=" + i);
 
           return String.valueOf(i);
         }))
-        .forEach(f -> {});
+        .forEach((final String s) -> {});
 
       fail("Expected IOException");
     }
@@ -209,7 +209,7 @@ public class ThrowingTest {
   @Test
   public void testBiFunction() {
     try {
-      final BiFunction<Integer,Integer,String> function = rethrow((Integer i, Integer j) -> {
+      final BiFunction<Integer,Integer,String> function = rethrow((final Integer i, final Integer j) -> {
         if (i == 0)
           throw new IOException("i=" + i);
 

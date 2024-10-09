@@ -128,7 +128,7 @@ public final class Locales {
     // Extract language
     final int languageIndex = string.indexOf('_');
     if (languageIndex < 0) { // No further "_" so is "{language}" only
-      string.chars().forEach(c -> {
+      string.chars().forEach((final int c) -> {
         if (!Character.isLetterOrDigit(c))
           throw new IllegalArgumentException(string);
       });
@@ -137,7 +137,7 @@ public final class Locales {
     }
 
     final String language = string.substring(0, languageIndex);
-    language.chars().forEach(c -> {
+    language.chars().forEach((final int c) -> {
       if (!Character.isLetterOrDigit(c))
         throw new IllegalArgumentException(string);
     });

@@ -257,7 +257,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       return adjEdges;
 
     final ArrayList<TransSet<Integer,V>> transEdges = new ArrayList<>(initialCapacity);
-    return adjEdges = new TransRandomAccessList<>(adj, (v, ws) -> {
+    return adjEdges = new TransRandomAccessList<>(adj, (final Integer v, final LinkedHashSet<Integer> ws) -> {
       if (ws == null)
         return null;
 
@@ -274,7 +274,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
       }
 
       if (edges == null)
-        transEdges.set(v, edges = new TransSet<>(ws, this::indexToValue, o -> objectToIndex.get(o)));
+        transEdges.set(v, edges = new TransSet<>(ws, this::indexToValue, (final V o) -> objectToIndex.get(o)));
 
       return edges;
     }, null);
@@ -452,7 +452,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   @Override
   public Collection<Set<V>> values() {
     final ThreadLocal<Integer> localVertex = new ThreadLocal<>();
-    return new ObservableCollection<Set<V>>(new TransSet<>(indexToObject.keySet(), v -> {
+    return new ObservableCollection<Set<V>>(new TransSet<>(indexToObject.keySet(), (final Integer v) -> {
       localVertex.set(v);
       return get(indexToObject.get(v));
     }, null)) {
@@ -482,7 +482,7 @@ abstract class AbstractDigraph<K,V> implements Map<K,Set<V>>, Cloneable {
   @Override
   @SuppressWarnings({"rawtypes", "unchecked"})
   public Set<Map.Entry<K,Set<V>>> entrySet() {
-    return new ObservableSet<Map.Entry<K,Set<V>>>(new TransSet<>(indexToObject.keySet(), i -> new AbstractMap.SimpleEntry(indexToObject.get(i), getEdgesAtIndex(i, true)), null)) {
+    return new ObservableSet<Map.Entry<K,Set<V>>>(new TransSet<>(indexToObject.keySet(), (final Integer i) -> new AbstractMap.SimpleEntry(indexToObject.get(i), getEdgesAtIndex(i, true)), null)) {
       @Override
       protected Object beforeAdd(final Map.Entry<K,Set<V>> element, final Object preventDefault) {
         throw new UnsupportedOperationException();

@@ -68,7 +68,7 @@ public class Array<X>ListTest extends PrimitiveCollectionTest {
       assertEquals(list.modCount, slx3.modCount);
     };
 
-    final Consumer<Array<X>List> consumer = list1 -> {
+    final Consumer<Array<X>List> consumer = (final Array<X>List list1) -> {
       list1.add((<x>)10);
       test.run();
 

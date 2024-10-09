@@ -115,7 +115,7 @@ public class ObservableCollectionTest {
     // removeIf()
     for (int i = 9; i < 100; i += 23) { // [N]
       final int index = i;
-      collection.removeIf(s -> (expectedString = String.valueOf(index)).equals(s));
+      collection.removeIf((final String s) -> (expectedString = String.valueOf(index)).equals(s));
       assertRemoved();
     }
 

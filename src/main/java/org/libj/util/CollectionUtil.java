@@ -1863,10 +1863,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final byte[] order, final ByteComparator comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    final int[] idx = PrimitiveSort.buildIndex(len);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
@@ -1920,10 +1921,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final char[] order, final CharComparator comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    final int[] idx = PrimitiveSort.buildIndex(len);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
@@ -1977,10 +1979,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final short[] order, final ShortComparator comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    final int[] idx = PrimitiveSort.buildIndex(len);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
@@ -2034,10 +2037,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final int[] order, final IntComparator comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    final int[] idx = PrimitiveSort.buildIndex(len);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
@@ -2091,10 +2095,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final long[] order, final LongComparator comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    final int[] idx = PrimitiveSort.buildIndex(len);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
@@ -2148,10 +2153,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final float[] order, final FloatComparator comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    final int[] idx = PrimitiveSort.buildIndex(len);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
@@ -2205,10 +2211,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static void sort(final List<?> data, final double[] order, final DoubleComparator comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    final int[] idx = PrimitiveSort.buildIndex(order.length);
+    final int[] idx = PrimitiveSort.buildIndex(len);
     PrimitiveSort.sortIndexed(data, order, idx, (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
@@ -2265,10 +2272,11 @@ public final class CollectionUtil extends PrimitiveSort {
    * @throws IllegalArgumentException If {@code data.size() != order.length}.
    */
   public static <T> void sort(final List<?> data, final T[] order, final Comparator<? super T> comparator) {
-    if (data.size() != order.length)
-      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + order.length + "] must be equal");
+    final int len = order.length;
+    if (data.size() != len)
+      throw new IllegalArgumentException("data.size() [" + data.size() + "] and order.length [" + len + "] must be equal");
 
-    sortIndexed(data, order, buildIndex(order.length), (o1, o2) -> comparator.compare(order[o1], order[o2]));
+    sortIndexed(data, order, buildIndex(len), (o1, o2) -> comparator.compare(order[o1], order[o2]));
   }
 
   /**
