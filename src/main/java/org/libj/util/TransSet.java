@@ -135,8 +135,11 @@ public class TransSet<S,T> extends DelegateSet<T> {
 
     final int size = size();
     if (size > 0) {
-      if (a.length < size)
+      if (a.length < size) {
         a = (E[])Array.newInstance(a.getClass().getComponentType(), size);
+        toArray(a, size);
+        return a;
+      }
 
       toArray(a, size);
     }

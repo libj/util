@@ -921,8 +921,11 @@ public abstract class ObservableList<E,L extends List<E>> extends DelegateList<E
   public <T> T[] toArray(T[] a) {
     final int size = size();
     if (size > 0) {
-      if (a.length < size)
+      if (a.length < size) {
         a = (T[])Array.newInstance(a.getClass().getComponentType(), size);
+        toArray(a, size);
+        return a;
+      }
 
       toArray(a, size);
     }
