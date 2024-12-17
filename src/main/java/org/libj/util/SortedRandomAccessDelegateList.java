@@ -48,7 +48,7 @@ public class SortedRandomAccessDelegateList<E,L extends List<E> & RandomAccess> 
    * @param comparator The {@link Comparator}.
    * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
-  public SortedRandomAccessDelegateList(final L list, final Comparator<E> comparator) {
+  public SortedRandomAccessDelegateList(final L list, final Comparator<? super E> comparator) {
     super(list, comparator);
   }
 }

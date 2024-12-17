@@ -18,7 +18,6 @@ package org.libj.util;
 
 import static org.libj.lang.Assertions.*;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -36,7 +35,7 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
   @SuppressWarnings("rawtypes")
   private static final Comparator DEFAULT_COMPARATOR = Comparator.nullsFirst(Comparator.naturalOrder());
 
-  private final Comparator<E> comparator;
+  private final Comparator<? super E> comparator;
 
   /**
    * Creates a new {@link SortedList} with the provided {@link List list} of elements as the underlying target, and the
@@ -60,11 +59,11 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
    *          {@linkplain Comparable natural ordering} should be used.
    * @throws NullPointerException If the provided {@link List list} or {@link Comparator comparator} is null.
    */
-  public SortedList(final L list, final Comparator<E> comparator) {
+  public SortedList(final L list, final Comparator<? super E> comparator) {
     this(list, Objects.requireNonNull(comparator), true);
   }
 
-  private SortedList(final L list, final Comparator<E> comparator, final boolean sort) {
+  private SortedList(final L list, final Comparator<? super E> comparator, final boolean sort) {
     super(list);
     this.comparator = comparator;
     if (sort)
