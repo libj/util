@@ -157,27 +157,27 @@ public class ExecutorServicesRegressionTest {
 
   private static void test(final int numTests, final BiObjBiLongConsumer<ExecutorService,CountDownLatch> consumer) throws InterruptedException {
     final CountDownLatch latch = new CountDownLatch(numTests);
-    final long timeout = 200;
-    final long sleepTime = timeout + (r.nextBoolean() ? 1 : -1) * 50;
-    final ExecutorService executor = ExecutorServices.interruptAfterTimeout(Executors.newCachedThreadPool(), timeout, TimeUnit.MILLISECONDS);
+    final long timeoutMs = 200;
+    final long sleepTimeMs = timeoutMs + (r.nextBoolean() ? 1 : -1) * 50;
+    final ExecutorService executor = ExecutorServices.interruptAfterTimeout(Executors.newCachedThreadPool(), timeoutMs, TimeUnit.MILLISECONDS);
     for (int i = 0; i < numTests; ++i) // [N]
-      consumer.accept(executor, latch, sleepTime, timeout);
+      consumer.accept(executor, latch, sleepTimeMs, timeoutMs);
 
     latch.await();
   }
 
-  private static <V> Callable<V> newCallable(final CountDownLatch latch, final long sleep, final long timeout) {
-    final Runnable r = ThreadsTest.newRunnable(latch, sleep, timeout);
+  private static <V> Callable<V> newCallable(final CountDownLatch latch, final long sleep, final long timeoutMs) {
+    final Runnable r = ThreadsTest.newRunnable(latch, sleep, timeoutMs);
     return () -> {
       r.run();
       return null;
     };
   }
 
-  private static <V> Collection<Callable<V>> newCallables(final CountDownLatch latch, final long sleep, final long timeout, final int len) {
+  private static <V> Collection<Callable<V>> newCallables(final CountDownLatch latch, final long sleep, final long timeoutMs, final int len) {
     final ArrayList<Callable<V>> c = new ArrayList<>(len);
     for (int i = 0; i < len; ++i) // [N]
-      c.add(newCallable(latch, sleep, timeout));
+      c.add(newCallable(latch, sleep, timeoutMs));
 
     return c;
   }

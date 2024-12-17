@@ -27,26 +27,26 @@ public final class CalendarUtil {
   /**
    * Creates a new {@link Calendar} at the specified {@link TimeZone}, with its current time set to {@code time}.
    *
-   * @param time The milliseconds value to which the time of the returned {@link Calendar} should be set.
+   * @param timeMs The milliseconds value to which the time of the returned {@link Calendar} should be set.
    * @param timeZone The {@link TimeZone} to be used by the returned {@link Calendar}.
    * @return A new {@link Calendar} at the specified {@link TimeZone}, with its current time set to {@code time}.
    * @throws NullPointerException If {@code timeZone} is null.
    */
-  public static Calendar newCalendar(final long time, final TimeZone timeZone) {
+  public static Calendar newCalendar(final long timeMs, final TimeZone timeZone) {
     final Calendar calendar = Calendar.getInstance(Objects.requireNonNull(timeZone, "timeZone == null"));
-    calendar.setTimeInMillis(time);
+    calendar.setTimeInMillis(timeMs);
     return calendar;
   }
 
   /**
    * Creates a new {@link Calendar} at the default time zone, with its current time set to {@code time}.
    *
-   * @param time The milliseconds value to which the time of the returned {@link Calendar} should be set.
+   * @param timeMs The milliseconds value to which the time of the returned {@link Calendar} should be set.
    * @return A new {@link Calendar} at the default time zone, with its current time set to {@code time}.
    */
-  public static Calendar newCalendar(final long time) {
+  public static Calendar newCalendar(final long timeMs) {
     final Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(time);
+    calendar.setTimeInMillis(timeMs);
     return calendar;
   }
 

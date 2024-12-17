@@ -435,8 +435,8 @@ public class RetryPolicy<E extends Exception> implements Serializable {
 
   private final <T> T run0(final Retryable<T,E> retryable, final long timeout) throws E, RetryFailureRuntimeException {
     final ArrayList<Exception> exceptions = new ArrayList<>();
-    final long startTime = System.currentTimeMillis();
-    long runTime = 0;
+    final long startTimeMs = System.currentTimeMillis();
+    long runTimeMs = 0;
     Exception previousException = null;
     long delayMs = 0;
     for (int attemptNo = 1;; ++attemptNo) { // [N]
@@ -458,7 +458,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
           delayMs *= jitter * Math.random() + 1;
 
         if (timeout > 0) {
-          final long remaining = timeout - runTime;
+          final long remaining = timeout - runTimeMs;
           if (remaining <= 0)
             retryFailed(exceptions, attemptNo, delayMs);
 
@@ -468,7 +468,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
 
         try {
           Thread.sleep(delayMs);
-          runTime = System.currentTimeMillis() - startTime;
+          runTimeMs = System.currentTimeMillis() - startTimeMs;
         }
         catch (final InterruptedException ie) {
           exceptions.add(ie);
@@ -476,7 +476,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
         }
       }
 
-      if (logger.isDebugEnabled()) { logger.debug("Retrying attemptNo = " + attemptNo + ", runTime = " + runTime); }
+      if (logger.isDebugEnabled()) { logger.debug("Retrying attemptNo = " + attemptNo + ", runTime = " + runTimeMs); }
     }
   }
 

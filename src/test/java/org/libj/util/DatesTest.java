@@ -100,25 +100,24 @@ public class DatesTest {
   }
 
   @Test
-  @Ignore
   public void testIso8601ToEpochMilli() throws ParseException {
-    long time = Dates.iso8601ToEpochMilli("2020-05-24T09:20:55.5Z");
-    testTime(time, "2020-05-24T09:20:55.5Z");
-    testTime(time, "2020-05-24T09:20:55.50Z");
-    testTime(time, "2020-05-24T09:20:55.500Z");
-    testTime(time, "2020-05-24T09:20:55.5002Z");
-    testTime(time, "2020-05-24T09:20:55.50021Z");
-    testTime(time, "2020-05-24T09:20:55.500210Z");
-    testTime(time, "2020-05-24T09:20:55.5002101Z");
-    testTime(time, "2020-05-24T09:20:55.50021012Z");
-    testTime(time, "2020-05-24T09:20:55.500210123Z");
-    testTime(time, "2020-05-24T09:20:55.5002101234Z");
-    testTime(time, "2020-05-24T09:20:55.50021012345Z");
+    long timeMs = Dates.iso8601ToEpochMilli("2020-05-24T09:20:55.5Z");
+    testTime(timeMs, "2020-05-24T09:20:55.5Z");
+    testTime(timeMs, "2020-05-24T09:20:55.50Z");
+    testTime(timeMs, "2020-05-24T09:20:55.500Z");
+    testTime(timeMs, "2020-05-24T09:20:55.5002Z");
+    testTime(timeMs, "2020-05-24T09:20:55.50021Z");
+    testTime(timeMs, "2020-05-24T09:20:55.500210Z");
+    testTime(timeMs, "2020-05-24T09:20:55.5002101Z");
+    testTime(timeMs, "2020-05-24T09:20:55.50021012Z");
+    testTime(timeMs, "2020-05-24T09:20:55.500210123Z");
+    testTime(timeMs, "2020-05-24T09:20:55.5002101234Z");
+    testTime(timeMs, "2020-05-24T09:20:55.50021012345Z");
 
     for (int i = 0; i < 100; ++i) { // [N]
-      time = System.currentTimeMillis();
-      final String iso8601 = Dates.epochMilliToIso8601(time);
-      testTime(time, iso8601);
+      timeMs = System.currentTimeMillis();
+      final String iso8601 = Dates.epochMilliToIso8601(timeMs);
+      testTime(timeMs, iso8601);
     }
   }
 
