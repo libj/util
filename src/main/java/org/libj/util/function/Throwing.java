@@ -321,6 +321,33 @@ public final class Throwing {
   }
 
   /**
+   * Rethrows the checked exception from the specified {@link ThrowingTriPredicate}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * TriPredicate<Integer,Integer,Integer> predicate = Throwing.rethrow((Integer i, Integer j, Integer k) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   *   return false;
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   predicate.accept(i, -i, i);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the predicate's operation.
+   * @param <U> The type of the second input to the predicate's operation.
+   * @param <V> The type of the third input to the predicate's operation.
+   * @param predicate The {@link ThrowingTriPredicate}.
+   * @return The specified {@link TriPredicate} instance.
+   */
+  public static <T,U,V> TriPredicate<T,U,V> rethrow(final ThrowingTriPredicate<T,U,V,?> predicate) {
+    return predicate;
+  }
+
+  /**
    * Rethrows the checked exception from the specified {@link ThrowingFunction}.
    * <p>
    * An example of this pattern:
