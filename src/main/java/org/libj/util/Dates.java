@@ -434,6 +434,23 @@ public final class Dates {
    * @throws ParseException If a parsing error has occurred.
    */
   public static long iso8601ToEpochMilli(final String iso8601) throws ParseException {
+    return iso8601ToEpochMilli(iso8601, 'T');
+  }
+
+  /**
+   * Converts a <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC-3339</a> formatted date-time string to epoch millis.
+   *
+   * @param rfc3339 The <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC-3339</a> formatted date-time string to convert.
+   * @return The millis representation of the <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC-3339</a> formatted date-time
+   *         string.
+   * @throws NullPointerException If {@code rfc3339} is null.
+   * @throws ParseException If a parsing error has occurred.
+   */
+  public static long rfc3339ToEpochMilli(final String rfc3339) throws ParseException {
+    return iso8601ToEpochMilli(rfc3339, ' ');
+  }
+
+  private static long iso8601ToEpochMilli(final String iso8601, final char del) throws ParseException {
     final int len = iso8601.length();
     // The minimum length of a iso8601 dateTime is 14
     if (len < 14)
@@ -458,7 +475,7 @@ public final class Dates {
     if (date == -1)
       throw new ParseException("Unparseable date: \"" + iso8601 + "\"", i - 2);
 
-    if (iso8601.charAt(i) == 'T')
+    if (iso8601.charAt(i) == del)
       ++i;
 
     if (len < i + 2)
@@ -571,8 +588,7 @@ public final class Dates {
     calendar.set(Calendar.HOUR_OF_DAY, hour);
     calendar.set(Calendar.MINUTE, minute);
     calendar.set(Calendar.SECOND, second);
-    if (millis > 0)
-      calendar.set(Calendar.MILLISECOND, millis);
+    calendar.set(Calendar.MILLISECOND, millis);
 
     if (offset != 0)
       calendar.add(Calendar.MINUTE, offset);
@@ -591,6 +607,31 @@ public final class Dates {
    */
   public static String epochMilliToIso8601(final long epochMilli) {
     final String iso8601 = SimpleDateFormats.ISO_8601.get().format(epochMilli);
+
+    if ((epochMilli / 1000) * 1000 == epochMilli)
+      return iso8601.substring(0, iso8601.length() - 4) + "Z";
+
+    if ((epochMilli / 100) * 100 == epochMilli)
+      return iso8601.substring(0, iso8601.length() - 2) + "Z";
+
+    if ((epochMilli / 10) * 10 == epochMilli)
+      return iso8601.substring(0, iso8601.length() - 1) + "Z";
+
+    return iso8601 + "Z";
+  }
+
+  /**
+   * Converts the provided epoch millis to a <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC-3339</a> formatted date-time
+   * string representation.
+   *
+   * @param epochMilli The epoch millis to convert to <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC-3339</a> formatted
+   *          date-time string representation.
+   * @return A <a href="https://datatracker.ietf.org/doc/html/rfc3339">RFC-3339</a> formatted date-time string representation of the
+   *         provided epoch millis.
+   */
+  public static String epochMilliToRfc3339(final long epochMilli) {
+    final String iso8601 = SimpleDateFormats.RFC_3339.get().format(epochMilli);
+
     if ((epochMilli / 1000) * 1000 == epochMilli)
       return iso8601.substring(0, iso8601.length() - 4) + "Z";
 

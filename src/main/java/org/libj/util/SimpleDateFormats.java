@@ -129,8 +129,8 @@ public final class SimpleDateFormats {
     private final ThreadLocal<SimpleDateFormat> format;
     private final int index;
 
-    private IsoDate(final long time, final TimeZone timeZone, final ThreadLocal<SimpleDateFormat> format, final int index) {
-      super(time);
+    private IsoDate(final long timeMs, final TimeZone timeZone, final ThreadLocal<SimpleDateFormat> format, final int index) {
+      super(timeMs);
       this.timeZone = timeZone;
       this.format = format;
       this.index = index;
@@ -174,15 +174,16 @@ public final class SimpleDateFormats {
    * Returns a new {@link Date} object representing the {@code time} with the provided {@link SimpleDateFormat} that is to be used by
    * the {@link Date#toString()} of the returned date.
    *
-   * @param time The milliseconds since January 1, 1970, 00:00:00 GMT.
+   * @param timeMs The milliseconds since January 1, 1970, 00:00:00 GMT.
    * @param format The {@link SimpleDateFormat} that is to be used by the {@link Date#toString()} of the returned date.
    * @return A new {@link Date} object representing the {@code time}.
    */
-  public static Date newDate(final long time, final ThreadLocal<SimpleDateFormat> format) {
-    return new IsoDate(time, TimeZone.getDefault(), format, 0);
+  public static Date newDate(final long timeMs, final ThreadLocal<SimpleDateFormat> format) {
+    return new IsoDate(timeMs, TimeZone.getDefault(), format, 0);
   }
 
-  public static final ThreadLocal<SimpleDateFormat> ISO_8601 = SimpleDateFormats.newSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+  public static final ThreadLocal<SimpleDateFormat> ISO_8601 = SimpleDateFormats.newSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSS");
+  public static final ThreadLocal<SimpleDateFormat> RFC_3339 = SimpleDateFormats.newSimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss", "yyyy-MM-dd' 'HH:mm:ss.SSS");
   public static final ThreadLocal<SimpleDateFormat> RFC_1123 = SimpleDateFormats.newSimpleDateFormat(Locale.US, "EEE, dd MMM yyyy HH:mm:ss Z", "EEE, dd MMM yyyy HH:mm:ss zz");
 
   public static ThreadLocal<SimpleDateFormat> newSimpleDateFormat(final Locale locale, final String ... patterns) {
