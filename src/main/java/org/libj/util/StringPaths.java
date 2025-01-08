@@ -433,17 +433,17 @@ public final class StringPaths {
   }
 
   /**
-   * Returns the simple name of the file or directory denoted by the specified pathname. This is just the last name in the name
-   * sequence of {@code path}, with its dot-extension removed, if present. If the name sequence of {@code path} is empty, then the
-   * empty string is returned.
+   * Returns the last name in the {@code '/'}-delimited sequence of path segments of the given {@code path} with its dot-prefixed
+   * extension removed. The unmodified {@linkplain StringPaths#getName(String) name of the path} is returned if no dot-prefixed
+   * extension is present.
    *
    * @param path The path string.
-   * @return The simple name of the file or directory denoted by the specified pathname, or the empty string if the name sequence of
-   *         {@code path} is empty.
+   * @return The the last name in the {@code '/'}-delimited sequence of path segments of the given {@code path} with its dot-prefixed
+   *         extension removed.
    * @throws NullPointerException If {@code path} is null.
    * @throws IllegalArgumentException If {@code path} is an empty string.
    */
-  public static String getSimpleName(String path) {
+  public static String getNameWithoutExtension(String path) {
     if (path.length() == 0)
       throw new IllegalArgumentException("Empty path");
 

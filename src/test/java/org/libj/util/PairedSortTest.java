@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.junit.Test;
-import org.libj.lang.WrappedArrayList;
+import org.libj.lang.ToArrayList;
 import org.libj.util.primitive.IntComparator;
 
 public class PairedSortTest {
@@ -75,7 +75,7 @@ public class PairedSortTest {
   @Test
   public void testExceptions() {
     try {
-      test(new WrappedArrayList<>("a", "b", "c"), null);
+      test(new ToArrayList<>("a", "b", "c"), null);
       fail("Expected NullPointerException");
     }
     catch (final NullPointerException e) {
@@ -84,7 +84,7 @@ public class PairedSortTest {
 
   @Test
   public void test26() {
-    test(new WrappedArrayList<>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"));
+    test(new ToArrayList<>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"));
   }
 
   private static void testN(final int n) {

@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.Comparator;
@@ -219,13 +221,42 @@ public final class Temporals {
    * Returns a new {@link LocalDateTime} of the instant specified by the {@code long} value representing milliseconds from the epoch,
    * in the default time-zone.
    *
-   * @param time Value representing milliseconds from the epoch.
+   * @param epochTimeMs Value representing milliseconds from the epoch.
    * @return A new {@link LocalDateTime} of the instant specified by the {@code long} value representing milliseconds from the epoch,
    *         in the default time-zone.
    * @throws DateTimeException If the result exceeds the supported range.
    */
-  public static LocalDateTime toLocalDateTime(final long time) {
-    return LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
+  public static LocalDateTime toLocalDateTime(final long epochTimeMs) {
+    return LocalDateTime.ofInstant(Instant.ofEpochMilli(epochTimeMs), ZoneId.systemDefault());
+  }
+
+  /**
+   * Returns a new {@link ZonedDateTime} of the instant specified by the {@code long} value representing milliseconds from the epoch,
+   * in the provided {@link ZoneId}.
+   *
+   * @param epochTimeMs Value representing milliseconds from the epoch.
+   * @param zoneId The time zone.
+   * @return A new {@link ZonedDateTime} of the instant specified by the {@code long} value representing milliseconds from the epoch,
+   *         in the provided {@link ZoneId}.
+   * @throws DateTimeException If the result exceeds the supported range.
+   * @throws NullPointerException If {@code zoneId} is null.
+   */
+  public static ZonedDateTime toZonedDateTime(final long epochTimeMs, final ZoneId zoneId) {
+    return ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochTimeMs), zoneId);
+  }
+
+  /**
+   * Returns a new {@link ZonedDateTime} of the instant specified by the {@code long} value representing milliseconds from the epoch,
+   * in the UTC time-zone.
+   *
+   * @param epochTimeMs Value representing milliseconds from the epoch.
+   * @return A new {@link ZonedDateTime} of the instant specified by the {@code long} value representing milliseconds from the epoch,
+   *         in the UTC time-zone.
+   * @throws DateTimeException If the result exceeds the supported range.
+   * @throws NullPointerException If {@code zoneId} is null.
+   */
+  public static ZonedDateTime toZonedDateTimeUTC(final long epochTimeMs) {
+    return ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochTimeMs), ZoneOffset.UTC);
   }
 
   /**

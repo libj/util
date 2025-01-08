@@ -461,7 +461,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param c The collection.
    * @return A class representing the component type of the specified collection, or {@code null} if the collection has no member
    *         objects.
-   * @throws NullPointerException If the specified collection is null.
+   * @throws NullPointerException If {@code c} is null.
    */
   public static Class<?> getComponentType(final Collection<?> c) {
     if (c.size() == 0)
@@ -871,16 +871,21 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list element and key object.
    * @param a The sorted {@link List}.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws NullPointerException If {@code a} is null.
    */
   public static <E extends Comparable<? super E>> int binaryClosestSearch(final List<? extends E> a, final E key) {
@@ -890,10 +895,15 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -901,7 +911,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param a The sorted {@link List}.
    * @param key The key to match.
    * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws NullPointerException If {@code a} is null.
    */
   public static <E,K extends Comparable<? super K>> int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey) {
@@ -911,10 +921,15 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list element and key object.
@@ -922,7 +937,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param fromIndex The starting index of the sorted {@link List} to search from.
    * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -935,10 +950,15 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -948,7 +968,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The key to match.
    * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -961,17 +981,22 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements and key object.
    * @param a The sorted {@link List}.
    * @param key The key to match.
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws NullPointerException If {@code a} or {@code c} is null.
    */
   public static <E> int binaryClosestSearch(final List<? extends E> a, final E key, final Comparator<? super E> c) {
@@ -981,10 +1006,15 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -993,7 +1023,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param key The key to match.
    * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
    */
   public static <E,K> int binaryClosestSearch(final List<? extends E> a, final K key, final Function<E,K> elementToKey, final Comparator<? super K> c) {
@@ -1003,10 +1033,15 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements and key object.
@@ -1015,7 +1050,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the sorted {@link List} to search to.
    * @param key The key to match.
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} or {@code c} is null.
@@ -1028,10 +1063,15 @@ public final class CollectionUtil extends PrimitiveSort {
   /**
    * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the list is
-   * less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param <E> The type parameter of the list elements.
@@ -1042,7 +1082,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param key The key to match.
    * @param elementToKey The {@link Function} to map elements of type {@code <E>} to keys of type {@code <K>}.
    * @param c The {@link Comparator} for {@code key} of type {@code <T>}.
-   * @return The closest index of the sorted {@link List} matching the desired value.
+   * @return The closest {@code index} of the sorted {@link List} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a}, {@code elementToKey}, or {@code c} is null.
@@ -1113,56 +1153,71 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayByteList#size()} of the provided sorted {@link ArrayByteList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayByteList}.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link ArrayByteList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayByteList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayByteList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayByteList a, final byte key) {
     return binaryClosestSearch0(a, 0, a.size(), key, Byte::compare);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayByteList#size()} of the provided sorted {@link ArrayByteList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayByteList}.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayByteList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayByteList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayByteList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayByteList a, final byte key, final ByteComparator c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayByteList#size()} of the provided sorted {@link ArrayByteList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayByteList}.
    * @param fromIndex The starting index of the {@link ArrayByteList} to search from.
    * @param toIndex The ending index of the {@link ArrayByteList} to search to.
    * @param key The key to match.
-   * @return The closest index of the {@link ArrayByteList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayByteList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1173,12 +1228,17 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayByteList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayByteList#size()} of the provided sorted {@link ArrayByteList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayByteList}.
@@ -1186,7 +1246,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the {@link ArrayByteList} to search to.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayByteList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayByteList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1212,56 +1272,71 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayShortList#size()} of the provided sorted {@link ArrayShortList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayShortList}.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link ArrayShortList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayShortList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayShortList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayShortList a, final short key) {
     return binaryClosestSearch0(a, 0, a.size(), key, Short::compare);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayShortList#size()} of the provided sorted {@link ArrayShortList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayShortList}.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayShortList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayShortList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayShortList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayShortList a, final short key, final ShortComparator c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayShortList#size()} of the provided sorted {@link ArrayShortList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayShortList}.
    * @param fromIndex The starting index of the {@link ArrayShortList} to search from.
    * @param toIndex The ending index of the {@link ArrayShortList} to search to.
    * @param key The key to match.
-   * @return The closest index of the {@link ArrayShortList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayShortList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1272,12 +1347,17 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayShortList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayShortList#size()} of the provided sorted {@link ArrayShortList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayShortList}.
@@ -1285,7 +1365,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the {@link ArrayShortList} to search to.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayShortList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayShortList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1311,56 +1391,71 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
-   * in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link ArrayIntList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayIntList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayIntList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int key) {
     return binaryClosestSearch0(a, 0, a.size(), key, Integer::compare);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
-   * in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayIntList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayIntList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayIntList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayIntList a, final int key, final IntComparator c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
-   * in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
    * @param fromIndex The starting index of the {@link ArrayIntList} to search from.
    * @param toIndex The ending index of the {@link ArrayIntList} to search to.
    * @param key The key to match.
-   * @return The closest index of the {@link ArrayIntList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayIntList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1371,12 +1466,17 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayIntList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayIntList#size()} of the provided sorted {@link ArrayIntList}, if the last value
-   * in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayIntList}.
@@ -1384,7 +1484,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the {@link ArrayIntList} to search to.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayIntList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayIntList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1410,56 +1510,71 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayLongList#size()} of the provided sorted {@link ArrayLongList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayLongList}.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link ArrayLongList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayLongList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayLongList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final long key) {
     return binaryClosestSearch0(a, 0, a.size(), key, Long::compare);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayLongList#size()} of the provided sorted {@link ArrayLongList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayLongList}.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayLongList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayLongList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayLongList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayLongList a, final long key, final LongComparator c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayLongList#size()} of the provided sorted {@link ArrayLongList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayLongList}.
    * @param fromIndex The starting index of the {@link ArrayLongList} to search from.
    * @param toIndex The ending index of the {@link ArrayLongList} to search to.
    * @param key The key to match.
-   * @return The closest index of the {@link ArrayLongList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayLongList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1470,12 +1585,17 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayLongList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayLongList#size()} of the provided sorted {@link ArrayLongList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayLongList}.
@@ -1483,7 +1603,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the {@link ArrayLongList} to search to.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayLongList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayLongList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1509,56 +1629,71 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayFloatList#size()} of the provided sorted {@link ArrayFloatList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link ArrayFloatList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayFloatList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayFloatList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final float key) {
     return binaryClosestSearch0(a, 0, a.size(), key, Float::compare);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayFloatList#size()} of the provided sorted {@link ArrayFloatList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayFloatList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayFloatList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayFloatList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayFloatList a, final float key, final FloatComparator c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayFloatList#size()} of the provided sorted {@link ArrayFloatList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayFloatList}.
    * @param fromIndex The starting index of the {@link ArrayFloatList} to search from.
    * @param toIndex The ending index of the {@link ArrayFloatList} to search to.
    * @param key The key to match.
-   * @return The closest index of the {@link ArrayFloatList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayFloatList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1569,12 +1704,17 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayFloatList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayFloatList#size()} of the provided sorted {@link ArrayFloatList}, if the last
-   * value in the list is less that {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayFloatList}.
@@ -1582,7 +1722,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the {@link ArrayFloatList} to search to.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayFloatList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayFloatList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1608,56 +1748,71 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
-   * contains no value less than or equal to {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
    * @param key The key to match.
-   * @return The closest index of the sorted {@link ArrayDoubleList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayDoubleList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayDoubleList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final double key) {
     return binaryClosestSearch0(a, 0, a.size(), key, Double::compare);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
-   * contains no value less than or equal to {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the sorted {@link ArrayDoubleList} matching the desired value.
-   * @throws NullPointerException If the specified {@link ArrayDoubleList} is null.
+   * @return The closest {@code index} of the sorted {@link ArrayDoubleList} matching the desired {@code key}.
+   * @throws NullPointerException If the {@code a} is null.
    */
   public static int binaryClosestSearch(final ArrayDoubleList a, final double key, final DoubleComparator c) {
     return binaryClosestSearch0(a, 0, a.size(), key, c);
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
-   * contains no value less than or equal to {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
    * @param fromIndex The starting index of the {@link ArrayDoubleList} to search from.
    * @param toIndex The ending index of the {@link ArrayDoubleList} to search to.
    * @param key The key to match.
-   * @return The closest index of the {@link ArrayDoubleList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayDoubleList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.
@@ -1668,12 +1823,17 @@ public final class CollectionUtil extends PrimitiveSort {
   }
 
   /**
-   * Find the index of the sorted {@link ArrayDoubleList} whose value most closely matches the provided {@code key}.
+   * Find the index of the sorted {@link List} whose value most closely matches the provided {@code key}.
    * <ol>
-   * <li>The value at the returned index will be greater than or equal to {@code key}.</li>
-   * <li>The returned index will never be negative.</li>
-   * <li>The returned index may be equal to {@link ArrayDoubleList#size()} of the provided sorted {@link ArrayDoubleList}, if the list
-   * contains no value less than or equal to {@code key}.</li>
+   * <li>If the provided {@code list} contains a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, the {@code index} of such value will be returned.</li>
+   * <li>If the provided {@code list} does not contain a value {@linkplain Comparator#compare(Object,Object) comparatively} equal to
+   * {@code key}, then the value at the returned {@code index} will be {@linkplain Comparator#compare(Object,Object) comparatively}
+   * greater than {@code key}, and if the returned {@code index} is not {@code 0}, the value at the returned {@code index - 1} will be
+   * {@linkplain Comparator#compare(Object,Object) comparatively} less than {@code key}.</li>
+   * <li>The returned {@code index} will never be negative.</li>
+   * <li>The returned {@code index} may be equal to {@link List#size()} of the provided sorted {@link List}, if the last value in the
+   * list is less that {@code key}.</li>
    * </ol>
    *
    * @param a The sorted {@link ArrayDoubleList}.
@@ -1681,7 +1841,7 @@ public final class CollectionUtil extends PrimitiveSort {
    * @param toIndex The ending index of the {@link ArrayDoubleList} to search to.
    * @param key The key to match.
    * @param c The comparator to use.
-   * @return The closest index of the {@link ArrayDoubleList} matching the desired value.
+   * @return The closest {@code index} of the {@link ArrayDoubleList} matching the desired {@code key}.
    * @throws ArrayIndexOutOfBoundsException If the given {@code fromIndex} or {@code toIndex} is out of range.
    * @throws IllegalArgumentException If {@code fromIndex} is greater than {@code toIndex}.
    * @throws NullPointerException If {@code a} is null.

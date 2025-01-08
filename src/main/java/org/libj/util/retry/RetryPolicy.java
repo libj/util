@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.IntConsumer;
 
 import org.libj.lang.Throwables;
-import org.libj.lang.WrappedArrayList;
+import org.libj.lang.ToArrayList;
 import org.libj.util.function.ThrowingRunnable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -190,7 +190,7 @@ public class RetryPolicy<E extends Exception> implements Serializable {
     }
   }
 
-  private static final ArrayList<Exception> testExceptions = new WrappedArrayList<>(new Exception());
+  private static final ArrayList<Exception> testExceptions = new ToArrayList<>(new Exception());
 
   private final int maxRetries;
   private final long maxDelayMs;

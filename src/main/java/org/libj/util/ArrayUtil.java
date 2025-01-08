@@ -530,13 +530,13 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of {@link Comparable} object.
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static <T extends Comparable<? super T>> int binaryClosestSearch(final T[] a, final T key) {
@@ -545,7 +545,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of {@link Comparable} object.
    * @param a The sorted array.
@@ -553,7 +553,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -579,7 +579,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of {@link Comparable} object.
    * @param <K> Type parameter of key.
@@ -587,7 +587,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param objectToKey {@link Function} to dereference the key of an object.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
   public static <T,K extends Comparable<? super K>> int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey) {
@@ -596,7 +596,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of {@link Comparable} object.
    * @param <K> Type parameter of key.
@@ -606,7 +606,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param objectToKey {@link Function} to dereference the key of an object.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
@@ -632,14 +632,14 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of object.
    * @param a The sorted array.
    * @param key The value to match.
    * @param c The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static <T> int binaryClosestSearch(final T[] a, final T key, final Comparator<? super T> c) {
@@ -648,7 +648,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of object.
    * @param a The sorted array.
@@ -657,7 +657,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -683,7 +683,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of object.
    * @param <K> Type parameter of key.
@@ -692,7 +692,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param objectToKey {@link Function} to dereference the key of an object.
    * @param c The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
   public static <T,K> int binaryClosestSearch(final T[] a, final K key, final Function<T,K> objectToKey, final Comparator<K> c) {
@@ -701,7 +701,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param <T> Type parameter of object.
    * @param <K> Type parameter of key.
@@ -712,7 +712,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param objectToKey {@link Function} to dereference the key of an object.
    * @param c The {@link Comparator} for objects of type {@code <T>}.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array or {@code objectToKey} is null.
    */
@@ -738,12 +738,12 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static int binaryClosestSearch(final byte[] a, final byte key) {
@@ -752,14 +752,14 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
    * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -770,7 +770,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
@@ -778,7 +778,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -804,12 +804,12 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static int binaryClosestSearch(final short[] a, final short key) {
@@ -818,14 +818,14 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
    * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -836,7 +836,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
@@ -844,7 +844,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -870,12 +870,12 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static int binaryClosestSearch(final int[] a, final int key) {
@@ -884,14 +884,14 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
    * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -902,7 +902,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
@@ -910,7 +910,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -936,12 +936,12 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static int binaryClosestSearch(final float[] a, final float key) {
@@ -950,14 +950,14 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
    * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -968,7 +968,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
@@ -976,7 +976,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -1002,12 +1002,12 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static int binaryClosestSearch(final double[] a, final double key) {
@@ -1016,14 +1016,14 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
    * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -1034,7 +1034,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
@@ -1042,7 +1042,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -1068,12 +1068,12 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws NullPointerException If the provided array is null.
    */
   public static int binaryClosestSearch(final long[] a, final long key) {
@@ -1082,14 +1082,14 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
    * @param toIndex The ending index of the sorted array to search to.
    * @param key The value to match.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -1100,7 +1100,7 @@ public final class ArrayUtil extends PrimitiveSort {
 
   /**
    * Find the index of the sorted array whose value most closely matches the value provided. The value at the returned index will be
-   * less than or equal to an exact match.
+   * less than or equal to an exact match, and never less than {@code 0} (even for empty arrays).
    *
    * @param a The sorted array.
    * @param fromIndex The starting index of the sorted array to search from.
@@ -1108,7 +1108,7 @@ public final class ArrayUtil extends PrimitiveSort {
    * @param key The value to match.
    * @param c The comparator to use.
    * @return The closest index of the sorted array matching the desired value. The value at the returned index will be less than or
-   *         equal to an exact match.
+   *         equal to an exact match, and never less than {@code 0} (even for empty arrays).
    * @throws ArrayIndexOutOfBoundsException If {@code fromIndex < 0 or toIndex > a.length}.
    * @throws NullPointerException If the provided array is null.
    */
@@ -1245,6 +1245,350 @@ public final class ArrayUtil extends PrimitiveSort {
   /**
    * Returns a new array containing the members of the given arrays concatenated in the provided order.
    *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static boolean[] concat(final boolean[] array1, final boolean[] array2) {
+    final boolean[] concat = new boolean[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static boolean[] concat(final boolean[] array1, final boolean[] array2, final boolean[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final boolean[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final boolean[] concat = new boolean[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+    i += array2.length;
+
+    for (final boolean[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static byte[] concat(final byte[] array1, final byte[] array2) {
+    final byte[] concat = new byte[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static byte[] concat(final byte[] array1, final byte[] array2, final byte[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final byte[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final byte[] concat = new byte[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+    i += array2.length;
+
+    for (final byte[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static char[] concat(final char[] array1, final char[] array2) {
+    final char[] concat = new char[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static char[] concat(final char[] array1, final char[] array2, final char[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final char[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final char[] concat = new char[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+
+    i += array2.length;
+    for (final char[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static short[] concat(final short[] array1, final short[] array2) {
+    final short[] concat = new short[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static short[] concat(final short[] array1, final short[] array2, final short[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final short[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final short[] concat = new short[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+    i += array2.length;
+
+    for (final short[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static int[] concat(final int[] array1, final int[] array2) {
+    final int[] concat = new int[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static int[] concat(final int[] array1, final int[] array2, final int[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final int[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final int[] concat = new int[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+    i += array2.length;
+
+    for (final int[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static long[] concat(final long[] array1, final long[] array2) {
+    final long[] concat = new long[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static long[] concat(final long[] array1, final long[] array2, final long[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final long[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final long[] concat = new long[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+    i += array2.length;
+
+    for (final long[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static float[] concat(final float[] array1, final float[] array2) {
+    final float[] concat = new float[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static float[] concat(final float[] array1, final float[] array2, final float[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final float[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final float[] concat = new float[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+    i += array2.length;
+
+    for (final float[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static double[] concat(final double[] array1, final double[] array2) {
+    final double[] concat = new double[array1.length + array2.length];
+    System.arraycopy(array1, 0, concat, 0, array1.length);
+    System.arraycopy(array2, 0, concat, array1.length, array2.length);
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
+   * @param array1 The first array to be concatenated.
+   * @param array2 The second array to be concatenated.
+   * @param arrays The remaining arrays to be concatenated.
+   * @return A new array containing the members of the given arrays concatenated in the provided order.
+   * @throws NullPointerException If {@code array1} or {code array2} is null.
+   */
+  public static double[] concat(final double[] array1, final double[] array2, final double[] ... arrays) {
+    int length = array1.length + array2.length;
+    for (final double[] array : arrays) // [A]
+      length += array.length;
+
+    int i = array1.length;
+    final double[] concat = new double[length];
+    System.arraycopy(array1, 0, concat, 0, i);
+    System.arraycopy(array2, 0, concat, i, array2.length);
+    i += array2.length;
+
+    for (final double[] array : arrays) { // [A]
+      System.arraycopy(array, 0, concat, i, array.length);
+      i += array.length;
+    }
+
+    return concat;
+  }
+
+  /**
+   * Returns a new array containing the members of the given arrays concatenated in the provided order.
+   *
    * @param <T> Type parameter of object.
    * @param array The array of first elements to be concatenated.
    * @param element1 The next element to be concatenated.
@@ -1254,7 +1598,6 @@ public final class ArrayUtil extends PrimitiveSort {
    */
   @SafeVarargs
   public static <T> T[] concat(final T[] array, final T element1, final T ... elements) {
-    Arrays.copyOf(array, array.length + 1 + elements.length);
     final T[] concat = Arrays.copyOf(array, array.length + 1 + elements.length);
     concat[array.length] = element1;
     System.arraycopy(elements, 0, concat, array.length + 1, elements.length);

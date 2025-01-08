@@ -38,7 +38,7 @@ public class ArrayUtilTest {
   public void testFlattenArrayRetainingReferences() {
     final Object[] array = {"a", "b", new Object[] {"c", "d"}, "e", new Object[] {"f", new Object[] {"g", "h"}}, "i"};
     final Object[] result = ArrayUtil.flatten(array);
-    assertEquals("[" + java.util.Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", java.util.Arrays.deepToString(result));
+    assertEquals("[" + Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", Arrays.deepToString(result));
 
     final Object[] expected = {array[0], array[1], array[2], ((Object[])array[2])[0], ((Object[])array[2])[1], array[3], array[4], ((Object[])array[4])[0], ((Object[])array[4])[1], ((Object[])((Object[])array[4])[1])[0], ((Object[])((Object[])array[4])[1])[1], array[5]};
     final Object[] resultRetainingReferences = ArrayUtil.flatten(array, true);
@@ -50,7 +50,7 @@ public class ArrayUtilTest {
     for (int i = 0; i < 100; ++i) { // [N]
       final Object[] array = createRandomNestedArray();
       final Object[] result = ArrayUtil.flatten(array);
-      assertEquals("[" + java.util.Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", java.util.Arrays.deepToString(result));
+      assertEquals("[" + Arrays.deepToString(array).replace("[", "").replace("]", "") + "]", Arrays.deepToString(result));
     }
   }
 
@@ -62,6 +62,8 @@ public class ArrayUtilTest {
     }
     catch (final NullPointerException e) {
     }
+
+    assertEquals(0, ArrayUtil.binaryClosestSearch(new int[0], 0));
 
     final int[] sorted = {1, 3, 5, 9, 19};
     try {
@@ -97,6 +99,158 @@ public class ArrayUtilTest {
     final String[] expected = {"ONE", "TWO", "THREE"};
     final String[] filtered = ArrayUtil.filter(Objects::nonNull, new String[] {"ONE", null, "TWO", null, "THREE"});
     assertArrayEquals(expected, filtered);
+  }
+
+  @Test
+  public void testConcatBooleans() {
+    final boolean[] a0 = {true, false};
+    final boolean[] a1 = {false, true};
+    final boolean[] a2 = {false};
+    final boolean[] a3 = {};
+    final boolean[] a4 = {true};
+    final boolean[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new boolean[] {true, false, false, true, false, true}, concat);
+  }
+
+  @Test
+  public void testConcatBytes() {
+    final byte[] a0 = {'a', 'b'};
+    final byte[] a1 = {'c', 'd'};
+    final byte[] a2 = {'e'};
+    final byte[] a3 = {};
+    final byte[] a4 = {'f'};
+    final byte[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new byte[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatChars() {
+    final char[] a0 = {'a', 'b'};
+    final char[] a1 = {'c', 'd'};
+    final char[] a2 = {'e'};
+    final char[] a3 = {};
+    final char[] a4 = {'f'};
+    final char[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new char[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatShorts() {
+    final short[] a0 = {'a', 'b'};
+    final short[] a1 = {'c', 'd'};
+    final short[] a2 = {'e'};
+    final short[] a3 = {};
+    final short[] a4 = {'f'};
+    final short[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new short[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatInts() {
+    final int[] a0 = {'a', 'b'};
+    final int[] a1 = {'c', 'd'};
+    final int[] a2 = {'e'};
+    final int[] a3 = {};
+    final int[] a4 = {'f'};
+    final int[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new int[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatLongs() {
+    final long[] a0 = {'a', 'b'};
+    final long[] a1 = {'c', 'd'};
+    final long[] a2 = {'e'};
+    final long[] a3 = {};
+    final long[] a4 = {'f'};
+    final long[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new long[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatFloats() {
+    final float[] a0 = {'a', 'b'};
+    final float[] a1 = {'c', 'd'};
+    final float[] a2 = {'e'};
+    final float[] a3 = {};
+    final float[] a4 = {'f'};
+    final float[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new float[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat, 0);
+  }
+
+  @Test
+  public void testConcatDoubles() {
+    final double[] a0 = {'a', 'b'};
+    final double[] a1 = {'c', 'd'};
+    final double[] a2 = {'e'};
+    final double[] a3 = {};
+    final double[] a4 = {'f'};
+    final double[] concat = ArrayUtil.concat(a0, a1, a2, a3, a4);
+    assertArrayEquals(new double[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat, 0);
+  }
+
+  @Test
+  public void testConcatBoolean() {
+    final boolean[] one = {false, true, false};
+    final boolean[] two = {true, true, false};
+    final boolean[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new boolean[] {false, true, false, true, true, false}, concat);
+  }
+
+  @Test
+  public void testConcatByte() {
+    final byte[] one = {'a', 'b', 'c'};
+    final byte[] two = {'d', 'e', 'f'};
+    final byte[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new byte[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatChar() {
+    final char[] one = {'a', 'b', 'c'};
+    final char[] two = {'d', 'e', 'f'};
+    final char[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new char[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatShort() {
+    final short[] one = {'a', 'b', 'c'};
+    final short[] two = {'d', 'e', 'f'};
+    final short[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new short[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatInt() {
+    final int[] one = {'a', 'b', 'c'};
+    final int[] two = {'d', 'e', 'f'};
+    final int[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new int[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatLong() {
+    final long[] one = {'a', 'b', 'c'};
+    final long[] two = {'d', 'e', 'f'};
+    final long[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new long[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat);
+  }
+
+  @Test
+  public void testConcatFloat() {
+    final float[] one = {'a', 'b', 'c'};
+    final float[] two = {'d', 'e', 'f'};
+    final float[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new float[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat, 0);
+  }
+
+  @Test
+  public void testConcatDouble() {
+    final double[] one = {'a', 'b', 'c'};
+    final double[] two = {'d', 'e', 'f'};
+    final double[] concat = ArrayUtil.concat(one, two);
+    assertArrayEquals(new double[] {'a', 'b', 'c', 'd', 'e', 'f'}, concat, 0);
   }
 
   @Test
