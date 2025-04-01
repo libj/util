@@ -50,8 +50,7 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
   }
 
   /**
-   * Creates a new {@link SortedList} with the provided {@link List list} and {@link Comparator comparator} as the underlying
-   * target.
+   * Creates a new {@link SortedList} with the provided {@link List list} and {@link Comparator comparator} as the underlying target.
    *
    * @implNote This constructor sorts the provided {@link List list}.
    * @param list The {@link List}.
@@ -72,41 +71,35 @@ public class SortedList<E,L extends List<E>> extends ObservableList<E,L> {
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   private int indexOf(final Object o, final int fromIndex, final int toIndex) {
+    final int i;
     if (comparator != DEFAULT_COMPARATOR)
-      return CollectionUtil.binarySearch(target, fromIndex, toIndex, o, (Comparator)comparator);
+      i = CollectionUtil.binarySearch(target, fromIndex, toIndex, o, (Comparator)comparator);
+    else if (o instanceof Comparable || o == null)
+      i = CollectionUtil.binarySearch(target, fromIndex, toIndex, o, DEFAULT_COMPARATOR);
+    else
+      return -1;
 
-    if (o == null)
-      return CollectionUtil.binarySearch(target, fromIndex, toIndex, o, DEFAULT_COMPARATOR);
+    if (i < 0)
+      return i;
 
-    if (o instanceof Comparable) {
-      final int i = CollectionUtil.binarySearch(target, fromIndex, toIndex, o, DEFAULT_COMPARATOR);
-      if (i < 0)
-        return i;
+    Object a = target.get(i);
+    if (o.equals(a))
+      return i;
 
-      Object a = target.get(i);
-      if (o.equals(a))
-        return i;
+    for (int sign = -1;; sign = 1) { // [N]
+      for (int offset = 1, j;; ++offset) { // [N]
+        j = i + sign * offset;
+        if (sign == -1 ? j < fromIndex : toIndex <= j)
+          break;
 
-      for (int sign = -1;; sign = 1) { // [N]
-        for (int offset = 1, j;; ++offset) { // [N]
-          j = i + sign * offset;
-          if (sign == -1 ? j < fromIndex : toIndex <= j)
-            break;
-
-          a = target.get(j);
-          if (((Comparable)o).compareTo(a) != 0)
-            break;
-
-          if (o.equals(a))
-            return j;
-        }
-
-        if (sign == 1)
-          return -1;
+        a = target.get(j);
+        if (o.equals(a))
+          return j;
       }
-    }
 
-    return -1;
+      if (sign == 1)
+        return -1;
+    }
   }
 
   @SuppressWarnings("unchecked")
