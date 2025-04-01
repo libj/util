@@ -119,7 +119,7 @@ public class DiscreteTopologiesTest {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testMinMax() {
     final DiscreteTopology[] ts = {DiscreteTopologies.BYTE, DiscreteTopologies.SHORT, DiscreteTopologies.INTEGER, DiscreteTopologies.LONG, DiscreteTopologies.FLOAT, DiscreteTopologies.DOUBLE, DiscreteTopologies.CHARACTER, DiscreteTopologies.LOCAL_DATE, DiscreteTopologies.DATE};
-    final Object[] mins = {Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE, Float.MIN_VALUE, Double.MIN_VALUE, Character.MIN_VALUE, LocalDate.MIN, Dates.MIN_VALUE};
+    final Object[] mins = {Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE, Character.MIN_VALUE, LocalDate.MIN, Dates.MIN_VALUE};
     final Object[] maxs = {Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE, Character.MAX_VALUE, LocalDate.MAX, Dates.MAX_VALUE};
     for (int i = 0, i$ = ts.length; i < i$; ++i) // [A]
       MinMax.test(ts[i], mins[i], maxs[i]);
@@ -129,7 +129,7 @@ public class DiscreteTopologiesTest {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testMinMaxArrayPrimitive() {
     final DiscreteTopology[] ts = {DiscreteTopologies.BYTES, DiscreteTopologies.SHORTS, DiscreteTopologies.INTS, DiscreteTopologies.LONGS, DiscreteTopologies.FLOATS, DiscreteTopologies.DOUBLES, DiscreteTopologies.CHARS};
-    final Object[] mins = {Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE, Float.MIN_VALUE, Double.MIN_VALUE, Character.MIN_VALUE};
+    final Object[] mins = {Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE, Character.MIN_VALUE};
     final Object[] maxs = {Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE, Character.MAX_VALUE};
     for (int i = 0, i$ = ts.length; i < i$; ++i) { // [A]
       for (int j = 0; j < 100; j = j * 2 + 1) { // [A]
@@ -152,7 +152,7 @@ public class DiscreteTopologiesTest {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testMinMaxArrayObject() {
     final DiscreteTopology[] ts = {DiscreteTopologies.BYTE_OBJS, DiscreteTopologies.SHORT_OBJS, DiscreteTopologies.INTEGERS, DiscreteTopologies.LONG_OBJS, DiscreteTopologies.FLOAT_OBJS, DiscreteTopologies.DOUBLE_OBJS, DiscreteTopologies.CHARACTERS};
-    final Object[] mins = {Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE, Float.MIN_VALUE, Double.MIN_VALUE, Character.MIN_VALUE};
+    final Object[] mins = {Byte.MIN_VALUE, Short.MIN_VALUE, Integer.MIN_VALUE, Long.MIN_VALUE, -Float.MAX_VALUE, -Double.MAX_VALUE, Character.MIN_VALUE};
     final Object[] maxs = {Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE, Float.MAX_VALUE, Double.MAX_VALUE, Character.MAX_VALUE};
     for (int i = 0, i$ = ts.length; i < i$; ++i) { // [A]
       for (int j = 0; j < 100; j = j * 2 + 1) { // [A]
@@ -193,7 +193,7 @@ public class DiscreteTopologiesTest {
   @Test
   public void testString() {
     for (int i = 0; i < 100; i = i * 2 + 1) // [N]
-      MinMax.test(DiscreteTopologies.STRING, Strings.repeat(Character.MIN_VALUE, i), Strings.repeat(Character.MAX_VALUE, i));
+      MinMax.test(DiscreteTopologies.STRING, Strings.repeat(Character.MIN_VALUE, i).toString(), Strings.repeat(Character.MAX_VALUE, i).toString());
   }
 
   @Test

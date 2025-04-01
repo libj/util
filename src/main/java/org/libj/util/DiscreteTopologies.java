@@ -956,7 +956,7 @@ public final class DiscreteTopologies {
   public static final DiscreteTopology<Float> FLOAT = new DiscreteTopology<Float>() {
     @Override
     public boolean isMinValue(final Float v) {
-      return Float.MIN_VALUE == v;
+      return -Float.MAX_VALUE == v;
     }
 
     @Override
@@ -984,7 +984,7 @@ public final class DiscreteTopologies {
     @Override
     public boolean isMinValue(final float[] v) {
       for (int i = 0, i$ = v.length; i < i$; ++i) // [A]
-        if (v[i] != Float.MIN_VALUE)
+        if (v[i] != -Float.MAX_VALUE)
           return false;
 
       return true;
@@ -1005,7 +1005,7 @@ public final class DiscreteTopologies {
       int i = v.length - 1;
       for (float a; i >= 0; --i) { // [A]
         a = p[i];
-        if (Float.MIN_VALUE != a) {
+        if (-Float.MAX_VALUE != a) {
           p[i] = Math.nextDown(a);
           break;
         }
@@ -1052,7 +1052,7 @@ public final class DiscreteTopologies {
     @Override
     public boolean isMinValue(final Float[] v) {
       for (int i = 0, i$ = v.length; i < i$; ++i) // [A]
-        if (v[i] != Float.MIN_VALUE)
+        if (v[i] != -Float.MAX_VALUE)
           return false;
 
       return true;
@@ -1073,7 +1073,7 @@ public final class DiscreteTopologies {
       int i = v.length - 1;
       for (Float a; i >= 0; --i) { // [A]
         a = p[i];
-        if (Float.MIN_VALUE != a) {
+        if (-Float.MAX_VALUE != a) {
           p[i] = Math.nextDown(a);
           break;
         }
@@ -1119,7 +1119,7 @@ public final class DiscreteTopologies {
   public static final DiscreteTopology<Double> DOUBLE = new DiscreteTopology<Double>() {
     @Override
     public boolean isMinValue(final Double v) {
-      return Double.MIN_VALUE == v;
+      return -Double.MAX_VALUE == v;
     }
 
     @Override
@@ -1147,7 +1147,7 @@ public final class DiscreteTopologies {
     @Override
     public boolean isMinValue(final double[] v) {
       for (int i = 0, i$ = v.length; i < i$; ++i) // [A]
-        if (v[i] != Double.MIN_VALUE)
+        if (v[i] != -Double.MAX_VALUE)
           return false;
 
       return true;
@@ -1168,7 +1168,7 @@ public final class DiscreteTopologies {
       int i = v.length - 1;
       for (double a; i >= 0; --i) { // [A]
         a = p[i];
-        if (Double.MIN_VALUE != a) {
+        if (-Double.MAX_VALUE != a) {
           p[i] = Math.nextDown(a);
           break;
         }
@@ -1215,7 +1215,7 @@ public final class DiscreteTopologies {
     @Override
     public boolean isMinValue(final Double[] v) {
       for (int i = 0, i$ = v.length; i < i$; ++i) // [A]
-        if (v[i] != Double.MIN_VALUE)
+        if (v[i] != -Double.MAX_VALUE)
           return false;
 
       return true;
@@ -1236,7 +1236,7 @@ public final class DiscreteTopologies {
       int i = v.length - 1;
       for (Double a; i >= 0; --i) { // [A]
         a = p[i];
-        if (Double.MIN_VALUE != a) {
+        if (-Double.MAX_VALUE != a) {
           p[i] = Math.nextDown(a);
           break;
         }
