@@ -28,7 +28,7 @@ public class CircularArrayListTest {
   private static final Logger logger = LoggerFactory.getLogger(CircularArrayListTest.class);
 
   @Test
-  public void test() {
+  public void test5() {
     final List<Integer> c = new CircularArrayList<>(5);
     for (int i = 8; i >= 0; --i) { // [RA]
       c.add(0, i);
