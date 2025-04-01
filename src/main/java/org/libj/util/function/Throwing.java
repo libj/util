@@ -22,6 +22,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
+import java.util.function.ObjLongConsumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -148,6 +149,30 @@ public final class Throwing {
   }
 
   /**
+   * Rethrows the checked exception from the specified {@link ThrowingObjLongConsumer}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * ObjLongConsumer<Integer> consumer = Throwing.rethrow((Integer s, long i) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   consumer.accept(i, -(long)i);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the consumer's operation.
+   * @param consumer The {@link ThrowingObjLongConsumer}.
+   * @return The specified {@link ObjLongConsumer} instance.
+   */
+  public static <T> ObjLongConsumer<T> rethrow(final ThrowingObjLongConsumer<T,?> consumer) {
+    return consumer;
+  }
+
+  /**
    * Rethrows the checked exception from the specified {@link ThrowingObjBiIntConsumer}.
    * <p>
    * An example of this pattern:
@@ -242,6 +267,31 @@ public final class Throwing {
    * @return The specified {@link BiObjBooleanConsumer} instance.
    */
   public static <T,U> BiObjBooleanConsumer<T,U> rethrow(final ThrowingBiObjBooleanConsumer<T,U,?> predicate) {
+    return predicate;
+  }
+
+  /**
+   * Rethrows the checked exception from the specified {@link ThrowingBiObjBiIntPredicate}.
+   * <p>
+   * An example of this pattern:
+   *
+   * <pre>
+   * {@code
+   * BiObjLongConsumer<Integer,Integer> consumer = Throwing.rethrow((Integer s, Integer t, int i, int j) -> {
+   *   if (i == 0)
+   *     throw new IOException("i=" + i);
+   * });
+   * for (int i = 3; i >= 0; --i)
+   *   consumer.accept(i, -i, i / 2, i * 2);
+   * }
+   * </pre>
+   *
+   * @param <T> The type of the first input to the predicate's operation.
+   * @param <U> The type of the second input to the predicate's operation.
+   * @param predicate The {@link ThrowingBiObjLongConsumer}.
+   * @return The specified {@link BiObjLongConsumer} instance.
+   */
+  public static <T,U> BiObjLongConsumer<T,U> rethrow(final ThrowingBiObjLongConsumer<T,U,?> predicate) {
     return predicate;
   }
 
