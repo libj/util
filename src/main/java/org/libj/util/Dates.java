@@ -689,6 +689,138 @@ public final class Dates {
     return (int)(System.currentTimeMillis() / Dates.MILLISECONDS_IN_DAY);
   }
 
+  private static long stringToDuration(final String str, final long defaultValue, final boolean hasDefaultValue) {
+    long dur = 0;
+
+    long v = 0;
+    int d = 0;
+    boolean dot = false, isNegative;
+
+    char ch;
+    int i = 0;
+    if (isNegative = ((ch = str.charAt(0)) == '-')) {
+      ch = str.charAt(++i);
+    }
+
+    for (final int end = str.length() - 1;; ch = str.charAt(++i)) { // [N]
+      if (ch == 's') {
+        int a;
+        if (!dot || d == 0)
+          a = 1000;
+        else if (d == 1)
+          a = 100;
+        else if (d == 2)
+          a = 10;
+        else if (d == 3)
+          a = 1;
+        else if (hasDefaultValue)
+          return defaultValue;
+        else
+          throw new IllegalArgumentException("Fractional values are only supported for 3 digits of second precision: " + str);
+
+        dur += v * a;
+        v = 0;
+        d = 0;
+      }
+      else if (ch == 'm') {
+        dur += v * MILLISECONDS_IN_MINUTE;
+        v = 0;
+        d = 0;
+        if (dot) {
+          if (hasDefaultValue)
+            return defaultValue;
+
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+        }
+      }
+      else if (ch == 'h') {
+        dur += v * MILLISECONDS_IN_HOUR;
+        v = 0;
+        d = 0;
+        if (dot) {
+          if (hasDefaultValue)
+            return defaultValue;
+
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+        }
+      }
+      else if (ch == 'd') {
+        dur += v * MILLISECONDS_IN_DAY;
+        v = 0;
+        d = 0;
+        if (dot) {
+          if (hasDefaultValue)
+            return defaultValue;
+
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+        }
+      }
+      else if (ch == 'w') {
+        dur += v * MILLISECONDS_IN_WEEK;
+        v = 0;
+        d = 0;
+        if (dot) {
+          if (hasDefaultValue)
+            return defaultValue;
+
+          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
+        }
+      }
+      else if ('0' <= ch && ch <= '9') {
+        v *= 10;
+        v += ch - '0';
+        ++d;
+      }
+      else if (ch == '.') {
+        dot = true;
+        d = 0;
+      }
+      else if (hasDefaultValue) {
+        return defaultValue;
+      }
+      else {
+        throw new IllegalArgumentException("Unsupported character " + ch + " at position " + i + ": " + str);
+      }
+
+      if (i == end)
+        break;
+    }
+
+    return isNegative ? -dur : dur;
+  }
+
+  /**
+   * Returns the milliseconds duration representation of the specified string duration.
+   * <p>
+   * The duration format is expressed with the regular expression:
+   * <pre>
+   * -?(\d+w)?(\d+d)?(\d+h)?(\d+m)?(\d*(.\d{1,3})s)?
+   * </pre>
+   * With the following key for units:
+   * <p>
+   * @formatter:off
+   * <table>
+   * <caption>Unit Key</caption>
+   * <tr><td><b>Unit</b></td><td><b>Description</b></td></tr>
+   * <tr><td><code><b>w</b></code></td><td>Week</td></tr>
+   * <tr><td><code><b>d</b></code></td><td>Day</td></tr>
+   * <tr><td><code><b>h</b></code></td><td>Hour</td></tr>
+   * <tr><td><code><b>m</b></code></td><td>Minute</td></tr>
+   * <tr><td><code><b>s</b></code></td><td>Second</td></tr>
+   * </table>
+   * @formatter:on
+   *
+   * @implSpec The second unit duration supports 3 fractional decimal digits.
+   * @param str The duration string.
+   * @param defaultValue The value to return if {@code str} cannot be parsed as a duration.
+   * @return The milliseconds duration representation of the specified string duration.
+   * @throws NullPointerException If {@code str} is null.
+   * @see #durationToString(long)
+   */
+  public static long stringToDuration(final String str, final long defaultValue) {
+    return stringToDuration(str, defaultValue, true);
+  }
+
   /**
    * Returns the milliseconds duration representation of the specified string duration.
    * <p>
@@ -718,82 +850,7 @@ public final class Dates {
    * @see #durationToString(long)
    */
   public static long stringToDuration(final String str) {
-    long dur = 0;
-
-    long v = 0;
-    int d = 0;
-    boolean dot = false, isNegative;
-
-    char ch;
-    int i = 0;
-    if (isNegative = ((ch = str.charAt(0)) == '-')) {
-      ch = str.charAt(++i);
-    }
-
-    for (final int end = str.length() - 1;; ch = str.charAt(++i)) { // [N]
-      if (ch == 's') {
-        int a;
-        if (!dot || d == 0)
-          a = 1000;
-        else if (d == 1)
-          a = 100;
-        else if (d == 2)
-          a = 10;
-        else if (d == 3)
-          a = 1;
-        else
-          throw new IllegalArgumentException("Fractional values are only supported for 3 digits of second precision: " + str);
-
-        dur += v * a;
-        v = 0;
-        d = 0;
-      }
-      else if (ch == 'm') {
-        dur += v * MILLISECONDS_IN_MINUTE;
-        v = 0;
-        d = 0;
-        if (dot)
-          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
-      }
-      else if (ch == 'h') {
-        dur += v * MILLISECONDS_IN_HOUR;
-        v = 0;
-        d = 0;
-        if (dot)
-          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
-      }
-      else if (ch == 'd') {
-        dur += v * MILLISECONDS_IN_DAY;
-        v = 0;
-        d = 0;
-        if (dot)
-          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
-      }
-      else if (ch == 'w') {
-        dur += v * MILLISECONDS_IN_WEEK;
-        v = 0;
-        d = 0;
-        if (dot)
-          throw new IllegalArgumentException("Fractional values are only supported for second precision: " + str);
-      }
-      else if ('0' <= ch && ch <= '9') {
-        v *= 10;
-        v += ch - '0';
-        ++d;
-      }
-      else if (ch == '.') {
-        dot = true;
-        d = 0;
-      }
-      else {
-        throw new IllegalArgumentException("Unsupported character " + ch + " at position " + i + ": " + str);
-      }
-
-      if (i == end)
-        break;
-    }
-
-    return isNegative ? -dur : dur;
+    return stringToDuration(str, 0, false);
   }
 
   /**
